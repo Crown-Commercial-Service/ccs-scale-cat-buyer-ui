@@ -152,8 +152,10 @@
                               <dd>
                                 <p class="govuk-body"></p>
                                 <p class="govuk-body">
-                                  <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
-                                    <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                                  <a rel="noopener noreferrer" href="/fca/supplier/list?agreement={{agreement.number}}&lot={{lot.number | replace("Lot ", "")}}" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                                  {# <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                    <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a> #}
                                 </p>
                               </dd>
                               {% endif %}

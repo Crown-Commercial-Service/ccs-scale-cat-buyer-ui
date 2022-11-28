@@ -20,11 +20,11 @@
         }
     ],
 
-    "title": "Your timeline",
+    "title": "Set your timeline",
     "subtitle": "A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.",
     "subtitle1": "There are:",
     "subtitle2": "The clarification period is when the suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.",
-    "subtitle3":"You can change the length of time for each section to more suitable times for you. It is recommended you set your times no later than 4pm on a weekday in case you need to contact CCS about your project",
+    "subtitle3":"You can change the length of time for each section to more suitable times for you. It is recommended you set your times no later than 4pm on a weekday in case you need to contact CCS about your project. Shorter timescales come with an increased risk of suppliers not responding.",
     "subtitleDA": "The dates and times form a suggested timeline for a simple procurement. You can amend them to suit your own requirements.",
     "subtitleDA1": "It's recommended that you set your times no later than 4pm on weekday. This is in case you need to contact CCS about your project.Shorter timescales come with an increased risk of not reaching an adequate number of suppliers.",
     "backJump": {

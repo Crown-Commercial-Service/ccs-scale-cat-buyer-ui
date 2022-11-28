@@ -11367,7 +11367,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
-                term_box = document.getElementById("rfp_term_" + acronym_fieldset);
+                term_box = document.getElementById("rfp_term_" + acronym_fieldset); 
             // document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
             if( agreementID == 'RM6187') {
                 document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.remove("ccs-dynaform-hidden");
@@ -11558,12 +11558,37 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
-
+let rfp_term_text = document.querySelectorAll('.rfpterm');
+let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
+let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+rfp_term_text.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+rfp_term_definition.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+messagesendcountEle.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
 const emptyFieldCheckdos = () => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
+    
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
+        fieldMsg = 'You must enter term or acronym'
+        descMsg = 'You must enter definition for the term or acronym';
+    }else{
+        fieldMsg = 'You must add information in all fields.';
+        descMsg = 'You must add information in all fields.';
+    }
     for (var x = 1; x < 21; x++) {
         let term_field = document.getElementById('rfp_term_' + x);
         let definition_field = document.getElementById("rfp_term_definition_" + x);
@@ -11574,13 +11599,13 @@ const emptyFieldCheckdos = () => {
             if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
                 checkFieldsRfp1();
                      if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, 'You must add information in all fields.'];
-                        ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                        fieldCheck = [term_field.id, fieldMsg];
+                        ccsZaddErrorMessage(term_field, fieldMsg);
                         errorStore.push(fieldCheck);
                     } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+                        fieldCheck = [definition_field.id, descMsg];
                         //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+                        ccsZaddErrorMessage(definition_field, descMsg);
                         errorStore.push(fieldCheck);                        
                     } 
             }
@@ -14546,7 +14571,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rootEl.querySelector('.order_1')) {
                         let element = rootEl.querySelector('.order_1');
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes("Write your social value questions (Optional)")) {
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 'You must enter valid question';
@@ -14695,15 +14720,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         if((($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == false )) || 
                         ($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == true ))
-                        )){
+                        ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter your question", /\w+/);
                             errorStore.push(fieldCheck)
                         } 
                         if((($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false )) ||
                         ($('#fc_question_precenate_'+i).val() == '' && ( error_classes == false && additional_classes == true ))
-                        )) {
+                        ) && !pageHeading.includes('Write your social value questions (Optional)')) {
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter a weighting for this question", /\w+/);
                         errorStore.push(percentageCheck)
+                        }
+                        if($('#fc_question_precenate_'+i).val() == '' && !pageHeading.includes('Write your social value questions (Optional)')){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
+                        }
+                        if($('#fc_question_precenate_'+i).val() != '' && pageHeading.includes('Write your social value questions (Optional)')){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
                         }
                     }
                     if((urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
@@ -14711,9 +14742,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorStore.push(percentageCheck)
         
                     }
-                    else{
-                    errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
-                    }
+                    // else{
+                        // console.log('com')
+                        // console.log(i)
+                        // console.log($('#fc_question_precenate_'+i).val());
+                        // console.log(pageHeading.includes('Write your social value questions (Optional)'));
+                        
+                        
+                    // }
 
                 }
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
@@ -18038,7 +18074,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
-  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187") {
+  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187" && agreement_id != "RM1557.13") {
     if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
       if ($('#rfp_prob_statement_s').val().length === 0) {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
@@ -18146,16 +18182,18 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
+
    
     if(myclass){
       $("input[type='checkbox']").prop("checked", true);
       $(this).removeClass("uncheck");
       $(this).addClass("check");
-
+      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
     }else{
+      $('.otherTextArea').addClass('ccs-dynaform-hidden');
       $("input[type='checkbox']").prop("checked", false);
       $(this).addClass("uncheck");
-      $(this).removeClass("check");
+      $(this).removeClass("check");      
     } 
 
   
