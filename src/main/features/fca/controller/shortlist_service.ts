@@ -136,8 +136,8 @@ var { Parser } = require("json2csv");
       
       //Pagination concept
       let lotid=req.session.lotId;
-      lotid = lotid.replace('Lot ','');
-      let lot_id = lotid;
+      let lot_id = lotid.replace('Lot ','');
+      // let lot_id = lotid;
       res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid, eventId, projectId };
 
       const { previous, next } = req.query
@@ -331,18 +331,24 @@ var { Parser } = require("json2csv");
           let contactData:any = [];
 
           // if(contact.lotContacts != undefined) {
-            contactData['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-            contactData['email'] = contact?.lotContacts?.contact?.email == undefined?'-': contact?.lotContacts?.contact?.email;
-            contactData['telephone'] = contact?.lotContacts?.contact?.telephone == undefined?'-': contact?.lotContacts?.contact?.telephone;
+            // contactData['SupplierID '] = contact.organization?.id == undefined?'-': contact.organization.id;
+            contactData['Name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            if(contact.lotContacts != undefined) {
+            contactData['Email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
+            contactData['Telephone'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
+            }else{
+              contactData['Email'] = '-';
+              contactData['Telephone'] = '-';
+            }
             // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-            contactData['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-            contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactData['Address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
             contactData['Contact number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
              contactSupplierDetails = contactData;
             JsonData.push(contactSupplierDetails)
         }
-        let fields = ["name","email","telephone","address","url","Contact name","Contact number"];
+        let fields = ["Name","Email","Telephone","Address","Url","Contact name","Contact number"];
         const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
         res.header('Content-Type', 'text/csv');
@@ -353,6 +359,7 @@ var { Parser } = require("json2csv");
       }
     
     } catch (error) {
+      console.log('catcherr',error);
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, TokenDecoder.decoder(SESSION_ID), 'Shortlist services - FCA task list page', true);
     }
   }

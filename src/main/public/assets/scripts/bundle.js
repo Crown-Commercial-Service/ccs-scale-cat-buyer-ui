@@ -3750,8 +3750,9 @@ const showPopup = (event) => {
     debugger;
     event.preventDefault();
     //const inputId=event.srcElement.id;
-    const element = document.getElementById("rfi_next_steps-2");
-    if(element.checked){
+    //const element = document.getElementById("rfi_next_steps-2");
+    const radioValue = document.querySelector('input[type="radio"]:checked').value;
+    if(radioValue == 'Close this event and the whole project'){
         if ($(this).hasClass('selected')) {
             deselect($(this));
             $(".backdrop-nextsteps").fadeOut(200);
@@ -16649,8 +16650,20 @@ const ccsZvalidateAward = (event) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
-        else ccsZPresentErrorSummary(errorStore);
+      const openpopsupplier = document.querySelector('.backdrop-award')
+        openpopsupplier.classList.add('showpopup');
+        $(".dialog-close-award").on('click', function(){
+          openpopsupplier.classList.remove('showpopup');
+          ccsZremoveErrorMessage(preAwardSupplierConfm);
+        });
+        stnewsupplier = document.getElementById('btn_pre_award_supplier');
+        stnewsupplier.addEventListener('click', ev => {
+          if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
+          else ccsZPresentErrorSummary(errorStore);
+          openpopsupplier.classList.remove('showpopup');
+        })
+    
+
     }
 };
 const ccsZvalidateStandStillPeriod = (event) => {
@@ -16696,7 +16709,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ccsZPresentErrorSummary([errorStore]);
     }
     return false;
-  });  
+  });
+  
+  $(".popupbutton").on('click', function(){ 
+    ccsZvalidateAward();  
+  });
   
   $('.event_managment_award').on('click', function (event) {
         event.preventDefault();
@@ -16749,7 +16766,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           return false;
         }
-      });  
+      });
+
 })
 const ccsZvalidateCreateOrChoose = (event) => {
   event.preventDefault();

@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/nextsteps.json';
+import * as cmsDosData from '../../../resources/content/RFI/dosnextsteps.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
@@ -14,8 +15,17 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
     const agreementId_session = agreement_id;
     const { isJaggaerError } = req.session;
     req.session['isJaggaerError'] = false;
+
+
+    let cmsDatas;
+    if (agreement_id == 'RM1043.8') {
+      cmsDatas = cmsDosData;
+    }else{
+      cmsDatas = cmsData;
+    }
+
     const appendData = {
-          data: cmsData,
+          data: cmsDatas,
           projPersistID: req.session['project_name'],
           eventId : req.session.eventId,
           releatedContent,

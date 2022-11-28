@@ -158,7 +158,8 @@ export class QuestionHelper {
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
         
-        if (response.status == HttpStatusCode.OK) {
+        if (response.status == HttpStatusCode.OK && status=="Completed") {
+         
           let flag=await ShouldEventStatusBeUpdated(event_id,11,req);
         if(flag)
         {
