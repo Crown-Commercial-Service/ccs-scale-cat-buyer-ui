@@ -295,7 +295,15 @@
                             <strong>Where the research will take place</strong>
                           </h3>
                       </dt>
-                      <dd class="govuk-summary-list__value"><p>{{ businessProbAns }}</p></dd>
+                      <dd class="govuk-summary-list__value">
+                        <ul class="govuk-list govuk-list--none">
+                                {% for businessProbAnsd in businessProbAns %}
+                                  <li>
+                                    <p>{{ businessProbAnsd }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                        </dd>
                       <dd class="govuk-summary-list__actions">
                         {% if eventStatus != "published" %}
                           <a
@@ -873,7 +881,15 @@
                             <strong>Evening or weekend research (Optional)</strong>
                           </h3>
                       </dt>
-                      <dd class="govuk-summary-list__value"><p>{{ weekendresearchDate }}</p></dd>
+                      <dd class="govuk-summary-list__value">
+                        <ul class="govuk-list govuk-list--none">
+                                {% for weekendresearchDates in weekendresearchDate %}
+                                  <li>
+                                    <p>{{ weekendresearchDates }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                        </dd>
                       <dd class="govuk-summary-list__actions">
                         {% if eventStatus != "published" %}
                           <a
