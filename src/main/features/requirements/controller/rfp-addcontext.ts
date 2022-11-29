@@ -4,6 +4,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import fileData from '../../../resources/content/requirements/rfpAddContext.json';
 import * as fileDataMCF from '../../../resources/content/MCF3/requirements/rfpAddContext.json';
 import * as fileDataDOS from '../../../resources/content/MCF3/requirements/dos_rfpAddContext.json';
+import * as fileDataGCLOUD from '../../../resources/content/requirements/gcloud_rfpAddContext.json';
 import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -17,7 +18,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { projectId,eventId } = req.session;
+  const { projectId,eventId,lotId } = req.session;
 
   let cmsData;
   if(req.session.agreement_id == 'RM6187') {
@@ -29,6 +30,10 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
   } else if(req.session.agreement_id == 'RM1043.8') {
     //DOS
     cmsData = fileDataDOS;
+  }
+  if(req.session.agreement_id == 'RM1557.13' && lotId=='4') {
+    //GCLOUD
+    cmsData = fileDataGCLOUD;
   }
 
   if (
@@ -170,7 +175,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         }
 
       }
-
+      
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
         data: excludingIR35andSkills,

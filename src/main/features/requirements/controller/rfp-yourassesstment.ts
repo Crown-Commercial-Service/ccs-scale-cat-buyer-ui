@@ -36,10 +36,16 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
+      if(agreement_id==='RM1557.13'){
+        const index = extracted_criterion_based.indexOf('Criterion 4');
+        if (index > -1) { // only splice array when item is found
+          extracted_criterion_based.splice(index, 1); // 2nd parameter means remove one item only
+        }
+       }
+      
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
         const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-       
         const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
