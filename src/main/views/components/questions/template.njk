@@ -427,7 +427,7 @@
       label: {
         text: requirement.OCDS.title | striptags(true) | escape | nl2br
       },
-      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
+      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit rfp_term_definition_new",
       id: "fc_question_precenate_"+index,
       value: requirement.nonOCDS.options[index-1].value,
       name: requirement.OCDS.id,
@@ -445,7 +445,7 @@
       label: {
         text: requirement.OCDS.title
       },
-      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
+      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage rfp_term_definition_new",
       id: "fc_question_precenate_"+index,
       value: requirement.nonOCDS.options[index-1].value,
       name: requirement.OCDS.id,
@@ -887,7 +887,7 @@
                         label: {
                           text: ""
                         },
-                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_definition_new",
                         id: requirement.OCDS.id,
                         value: requirement.nonOCDS.options[0].value,
                         name: "percentage",
@@ -1951,7 +1951,7 @@
                                 hint: {
                                   text: "For example, ‘98%’"
                                 },
-                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage",
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage rfp_term_definition_new",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
                                 name: "percentage",
@@ -1989,7 +1989,7 @@
                                 hint: {
                                   text: "For example, ‘98%’"
                                 },
-                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage",
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage rfp_term_definition_new",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
                                 name: "percentage",
@@ -2014,7 +2014,7 @@
                           ' fifth',
                           ' sixth',
                           ' seventh',
-                          ' eight',
+                          ' eighth',
                           ' ninth',
                           ' tenth'
                         ] %}
@@ -2062,7 +2062,7 @@
                                     text: "Your success target",
                                     classes: "govuk-!-font-weight-bold"
                                   },
-                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage",
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage rfp_term_definition_new",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
                                   name: "percentage",
@@ -2090,7 +2090,7 @@
                                     text: "Your success target",
                                     classes: "govuk-!-font-weight-bold"
                                   },
-                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage",
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage rfp_term_definition_new",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
                                   name: "percentage",
