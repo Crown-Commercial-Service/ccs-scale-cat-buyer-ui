@@ -10,6 +10,7 @@ import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/addcollaborator.json';
 import * as doscmsData from '../../../resources/content/MCF3/requirements/dosaddcollaborator.json';
+import * as gcloudcmsData from '../../../resources/content/requirements/gcloudAddCollaborator.json';
 
 // RFI ADD_Collaborator
 /**
@@ -69,7 +70,9 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
     } else if(agreementId_session == 'RM1043.8') { //DOS
-      forceChangeDataJson = doscmsData;
+      forceChangeDataJson = doscmsData; 
+    }else if(agreementId_session == 'RM1557.13') { //G-Cloud
+      forceChangeDataJson = gcloudcmsData; 
     }else { //DSP
       forceChangeDataJson = cmsData;
     }

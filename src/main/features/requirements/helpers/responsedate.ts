@@ -9,6 +9,7 @@ import * as cmsData from '../../../resources/content/requirements/rfp-response-d
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-response-date.json';
 import * as DOScmsData from '../../../resources/content/MCF3/requirements/DOSrfp-response-date.json';
 import * as DOS2cmsData from '../../../resources/content/MCF3/requirements/DOSstage2-response-date.json';
+import * as GCloudData from '../../../resources/content/requirements/Gcloudrfp-response-date.json';
 
 import config from 'config';
 
@@ -76,7 +77,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   } 
   else if(req.session.agreement_id == 'RM1043.8') {  //DOS
     predefinedDays = DOS_Days;
-  }else {  //DSP
+  }else if(req.session.agreement_id == 'RM1557.13') {  //Gcloud
+    predefinedDays = MCF3_Days;
+  }
+  else {  //DSP
     predefinedDays = DSP_Days;
   }
   
@@ -188,7 +192,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
        evaluation_process_start_date = moment(EvaluationProcessStartDate, 'DD-MM-YYYY').businessAdd(
         predefinedDays.closing_date,
        )._d;
-      } else if(req.session.agreement_id == 'RM6187') {
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
          evaluation_process_start_date = moment(EvaluationProcessStartDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_persentation,
         )._d;
@@ -211,7 +215,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_deadline,
         )._d;
-      } else if(req.session.agreement_id == 'RM6187') {
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
           bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_persentation,
         )._d;
@@ -234,7 +238,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
          standstill_period_starts_date = moment(StandstillPeriodStartsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.clarification_period_end,
         )._d;
-      } else if(req.session.agreement_id == 'RM6187') {
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
          standstill_period_starts_date = moment(StandstillPeriodStartsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_award_date,
         )._d;
@@ -257,7 +261,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
          proposed_award_date = moment(ProposedAwardDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.stand_stils_date,
         )._d;
-      } else if(req.session.agreement_id == 'RM6187') {
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
          proposed_award_date = moment(ProposedAwardDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_award_date,
         )._d;
@@ -280,7 +284,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
          expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.closing_date,
         )._d;
-      } else if(req.session.agreement_id == 'RM6187') {
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
          expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_persentation,
         )._d;
@@ -407,7 +411,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
-    } else if(agreementId_session == 'RM1043.8') {  //DOS
+    }
+    else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
+    }
+    else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = DOS2cmsData;
@@ -555,7 +563,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
-    } else if(agreementId_session == 'RM1043.8') {  //DOS
+    } else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
+    }else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = DOS2cmsData;
@@ -661,6 +671,8 @@ res.locals.agreement_header = { agreementName, project_name, agreementId_session
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -768,6 +780,8 @@ res.locals.agreement_header = { agreementName, project_name, agreementId_session
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
     }else { 
@@ -872,6 +886,8 @@ res.locals.agreement_header = { agreementName, project_name, agreementId_session
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -976,6 +992,8 @@ res.render('rfp-responsedate.njk', appendData);
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1082,6 +1100,8 @@ let appendData = {
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1187,6 +1207,8 @@ let appendData = {
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1293,6 +1315,8 @@ let appendData = {
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1401,6 +1425,8 @@ let appendData = {
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1515,6 +1541,8 @@ let appendData = {
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
     } else if(agreementId_session == 'RM1043.8') {  //DOS
       forceChangeDataJson = DOScmsData;
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -1630,7 +1658,9 @@ let appendData = {
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
-     } else if(agreementId_session == 'RM1043.8') {  //DOS
+     }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
+    } else if(agreementId_session == 'RM1043.8') {  //DOS
        forceChangeDataJson = DOScmsData;
        if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = DOS2cmsData;
@@ -1742,7 +1772,9 @@ let appendData = {
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
-     } else if(agreementId_session == 'RM1043.8') {  //DOS
+     }else if(agreementId_session == 'RM1557.13') { //Gcloud
+      forceChangeDataJson = GCloudData;
+    } else if(agreementId_session == 'RM1043.8') {  //DOS
        forceChangeDataJson = DOScmsData;
        if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = DOS2cmsData;
