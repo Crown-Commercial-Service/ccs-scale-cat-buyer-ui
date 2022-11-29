@@ -544,13 +544,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
                         for (let index = 0; index < inputElements.length; index++) {
                             const element = inputElements[index];
+                            var labelElement = element.previousElementSibling.previousElementSibling;
+                            var labelText = labelElement.innerHTML;
+                            var msg = '';
+                            var desmsg = '';
+                            if(labelText.trim() == 'Name of the requirement'){
+                                msg = 'You must enter your name of the requirement';
+                            }else{
+                                msg = 'You must enter your name of the group';
+                            }
+                            if(labelText.trim() == 'Describe the requirement'){
+                                desmsg = 'You must enter your description of the requirement';
+                            }else{
+                                desmsg = 'You must enter your name of the requirement';
+                            }
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
-                                    errorStore.push([element.id, "You must enter your name of the group"])
+                                    errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                                 if (element.value == '' || element.value === undefined || element.value === null) {
-                                    errorStore.push([element.id, "You must enter your name of the requirement"])
+                                    errorStore.push([element.id, desmsg])
                                 }
                             }else {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
