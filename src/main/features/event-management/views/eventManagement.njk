@@ -42,8 +42,11 @@
 <div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
     <p>
-      {{data.subtitle}}<br><br>
+      {{data.subtitle}}<br>
+       {% if (status!="CLOSED") %}
+      <br>
       {{data.subtitle1}}
+      {% endif %}
     </p>
     <div>
       <h2 class="govuk-heading-m">
@@ -128,9 +131,9 @@
       <span class="proc-task-list__section-number">2.</span>
       {{data.subsection4_title2_1}}
       <p class="app-task-list__tag">
-        {% if (projectStatus==2) %}
+       
         <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-        {% endif %}
+       
       </p>
     </h2>
     <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -143,16 +146,16 @@
     {% if eventType == 'EOI' %}
     <h2 class="govuk-heading-m">
       <span class="proc-task-list__section-number">2.</span>
-      {{data.subsection4_title2_2}}
+      {{data.subsection4_title2_2}} 
       <p class="app-task-list__tag">
         {% if agreementId_session == 'RM6263' %}
         {% if (projectStatus==2) %}
         <a class="govuk-link" href="{{data.subsection4_title2_2_task[0].line_1_link}}">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
         {% endif %}
         {% else %}
-        {% if (projectStatus==2) %}
+        
         <a class="govuk-link" href="/eoi/review">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
-        {% endif %}
+        
         {% endif %}
       </p>
     </h2>
@@ -167,9 +170,9 @@
       <span class="proc-task-list__section-number">2.</span>
       {{data.subsection4_title2_1}}
       <p class="app-task-list__tag">
-        {% if (projectStatus==2) %}
+        
         <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-        {% endif %}
+       
       </p>
     </h2>
     <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -188,9 +191,9 @@
     <span class="proc-task-list__section-number">2.</span>
     {{data.subsection4_title2_1}}
     <p class="app-task-list__tag">
-      {% if (projectStatus==2) %}
+    
       <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-      {% endif %}
+     
     </p>
   </h2>
   <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -204,9 +207,9 @@
     <span class="proc-task-list__section-number">2.</span>
     {{data.subsection4_title2_1}}
     <p class="app-task-list__tag">
-      {% if (projectStatus==2) %}
+     
       <a class="govuk-link" href="/da/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-      {% endif %}
+     
     </p>
   </h2>
   <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -343,7 +346,7 @@
                             <tr class="govuk-table__row">
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
 
-                              {% if agreementId_session != 'RM6187' %}
+                              {% if agreementId_session != 'RM6187' and  agreementId_session != 'RM1557.13' %}
 
                               {% if status.toUpperCase() ==='TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATING' %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
@@ -358,7 +361,7 @@
 
                               {% if status.toUpperCase() === 'EVALUATED'  %}
                               {% if (eventType != 'RFI' and eventType != 'EOI') %}
-                              {% if agreementId_session != 'RM6187' %}
+                              {% if agreementId_session != 'RM6187' and  agreementId_session != 'RM1557.13' %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
                               {% endif %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
@@ -390,7 +393,7 @@
 
                               </th>
 
-                              {% if agreementId_session == 'RM6187' %}
+                              {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13' %}
                               <td class="govuk-text-align govuk-!-text-align-left">
                                 {{ supplier.responseDate }}
                               </td>
@@ -792,7 +795,7 @@
 
           </form>
 
-          {% elseif status.toUpperCase() == 'EVALUATED' and agreementId_session ==='RM6187'  %}
+          {% elseif status.toUpperCase() == 'EVALUATED' and (agreementId_session ==='RM6187' or  agreementId_session == 'RM1557.13')  %}
           <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">5.</span> Evaluate Suppliers</h2>
           <p>You have completed your supplier evaluation.</p>
 

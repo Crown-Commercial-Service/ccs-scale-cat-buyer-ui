@@ -37,10 +37,10 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
   try {
     
-    let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
     }
     
     //supplierList = await GetLotSuppliers(req);
@@ -305,12 +305,12 @@ export const POST_DA_SUPPLIER = async (req: express.Request, res: express.Respon
     //     }
     // }
     
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
 
     
-    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
     if(flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
     }
     
      res.redirect('/da/response-date');

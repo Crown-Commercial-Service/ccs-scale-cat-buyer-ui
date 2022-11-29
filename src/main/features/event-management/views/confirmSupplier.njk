@@ -40,7 +40,7 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
-            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            <a class="govuk-link" href="/rfi/nextsteps">Close your event</a>
           </p>
         </div>
       </div>
@@ -48,10 +48,20 @@
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        {% if stage2_value == 'Stage 2'%}
+        <h1 class="govuk-heading-xl">
+          <strong>Supplier to be awarded</strong>
+        </h1>
+        {%else%}
         <h1 class="govuk-heading-xl">
           <strong>Your chosen supplier</strong>
         </h1>
+        {%endif%}
+        {% if stage2_value == 'Stage 2'%}
+        <p>Please review the information below. You will not be awarding at this time if you click the ‘Confirm supplier’ button. You can go back and change the supplier to be awarded if necessary.</p>
+        {%else%}
         <p>Please review the information below. You will not be awarding at this time if you click the Confirm Supplier button. You can go back and edit your chosen supplier if necessary.</p>
+        {%endif%}
         <br>
         <h3> <strong>Supplier name</strong></h3>
 
@@ -87,9 +97,9 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
                 </tr>
               </thead>

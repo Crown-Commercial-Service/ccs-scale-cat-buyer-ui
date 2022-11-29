@@ -41,7 +41,7 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
-            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            <a class="govuk-link" href="/rfi/nextsteps">Close your event</a>
           </p>
         </div>
       </div>
@@ -51,12 +51,20 @@
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-l">
           <b><strong>Download and complete award documents </strong></b>
+          {% if agreementId == 'RM1043.8' %}
+          <p class="govuk-!-margin-top-4">You will need to complete your award documents. You may wish to use the templates provided below.</p>
+          {% endif %}
         </h1>
       
+      {% if agreementId == 'RM1043.8' %}
+        <h2> <strong>Successful supplier templates</strong></h2>
+       <p>If you have not already completed the order form and call off schedules template, please do so before continuing.</p>
+       <p>You can use the templates provided on this page to inform the successful supplier that you intend to award them the contract.</p>
+        {% else %}
        <h2> <strong>Awarded supplier contract templates </strong></h2>
        <p> If you have not already completed the order form and call off schedules template, you must download and complete it before continuing.</p>
-       <p> You can use the templates provided on this page to inform your supplier that you intend to award them. This should be done via your organisation’s email account.
-       </p>
+       <p> You can use the templates provided on this page to inform your supplier that you intend to award them. This should be done via your organisation’s email account.</p>
+        {% endif %}
   
 
 <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -65,7 +73,7 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Supplier's name</th>
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align ">Documents Template</th>
                   <th scope="col" class="govuk-table__header govuk-text-align ">Order form and call off schedules template</th>
                 </tr>
@@ -86,7 +94,8 @@
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align ">
-                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.templatesOrder}}">Download template</a>
+                      {# <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.templatesOrder}}">Download template</a> #}
+                      <a class="govuk-link" target="_blank" href="{{orderTemplateUrl}}">Visit Documents section of agreements page</a>
                     </td>
                     
                   </tr>
@@ -100,7 +109,11 @@
 
        <h2> <strong>Unsuccessful supplier templates </strong></h2>
         </br>
+        {% if agreementId == 'RM1043.8' %}
+        <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below. Please make a copy of the supplier names and contact emails below, because you will need to notify all unsuccessful suppliers using your organisation’s email account. You will do this on the next page.</p>
+        {% else %}
        <p>You can notify unsuccessful bidders of the outcome using the templates provided on this page. You will need to notify all unsuccessful suppliers via your organisation’s email account. </p>
+        {% endif %}
 </br> 
 {%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
  <a class="govuk-link govuk-body" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>

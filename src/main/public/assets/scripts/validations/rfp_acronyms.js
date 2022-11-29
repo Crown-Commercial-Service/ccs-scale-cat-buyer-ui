@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
-                term_box = document.getElementById("rfp_term_" + acronym_fieldset);
+                term_box = document.getElementById("rfp_term_" + acronym_fieldset); 
             // document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
             // if( agreementID == 'RM6187') {
                 document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.remove("ccs-dynaform-hidden");
@@ -278,12 +278,37 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
-
+let rfp_term_text = document.querySelectorAll('.rfpterm');
+let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
+let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+rfp_term_text.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+rfp_term_definition.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+messagesendcountEle.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
 const emptyFieldCheckdos = () => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
+    
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
+        fieldMsg = 'You must enter term or acronym'
+        descMsg = 'You must enter definition for the term or acronym';
+    }else{
+        fieldMsg = 'You must add information in all fields.';
+        descMsg = 'You must add information in all fields.';
+    }
     for (var x = 1; x < 21; x++) {
         let term_field = document.getElementById('rfp_term_' + x);
         let definition_field = document.getElementById("rfp_term_definition_" + x);
@@ -294,13 +319,13 @@ const emptyFieldCheckdos = () => {
             if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
                 checkFieldsRfp1();
                      if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, 'You must add information in all fields.'];
-                        ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                        fieldCheck = [term_field.id, fieldMsg];
+                        ccsZaddErrorMessage(term_field, fieldMsg);
                         errorStore.push(fieldCheck);
                     } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+                        fieldCheck = [definition_field.id, descMsg];
                         //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+                        ccsZaddErrorMessage(definition_field, descMsg);
                         errorStore.push(fieldCheck);                        
                     } 
             }
@@ -508,6 +533,32 @@ $('.percentage_limit').keyup(function(e) {
     $(this).text(remain);
 
 });
+
+    $('.percentage_limit_dos6').keypress(function (e) {
+        var character = String.fromCharCode(e.keyCode)
+          var strlen = this.value.length;
+        if(strlen == 4) {
+            if(character !== '.') {
+              if(this.value[2] !== '.') {
+                if(character !== undefined) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+          }
+        }
+          
+          var newValue = this.value + character;
+          if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+              e.preventDefault();
+              return false;
+          }
+      });
+      
+      function hasDecimalPlace(value, x) {
+          var pointIndex = value.indexOf('.');
+          return  pointIndex >= 0 && pointIndex < value.length - x;
+      }
 
 
 var maxless = 500;

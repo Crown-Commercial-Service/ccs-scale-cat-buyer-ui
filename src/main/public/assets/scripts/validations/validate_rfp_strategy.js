@@ -1,19 +1,16 @@
-//const console = require("console");
-
 var errorStore = [];
 let words = '';
 let char = '';
 const textPattern = /^[a-zA-Z ]+$/;
 const condLength = (text) => {
-  //words = text?.trim().split(/\s+/)?.length > 500;
-  char = text?.trim()?.length > 10000;
-  //if (words) return words;
+  char = text.trim().length > 10000;
+
   return char;
 }
 
 const wordLength = (text) => {
-  words = text?.trim().split(/\s+/)?.length > 25;
-  char = text?.trim()?.length > 250;
+  words = text.trim().split(/\s+/).length > 25;
+  char = text.trim().length > 250;
   if (words) return words;
   return char;
 }
@@ -244,7 +241,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
-  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187") {
+  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187" && agreement_id != "RM1557.13") {
     if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
       if ($('#rfp_prob_statement_s').val().length === 0) {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');

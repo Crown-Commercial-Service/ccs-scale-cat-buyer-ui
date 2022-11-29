@@ -21,15 +21,15 @@
 {% block content %}
  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   
-  {% if (agreement_id=='RM1043.8')%}
-    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+  {% if (agreement_id =='RM1043.8')%}
+    {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.' | safe %}
    {% elseif agreement_id == 'RM6187' %}
    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
   {%else%}
     {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
   {%endif%}
   {{ CCSDialog({
-    title:'Confirm your wish to award this supplier',
+    title:'Confirm your wish to award to this supplier',
     description:s_name | safe,
     redirect:'#',
     type:'vetting'
@@ -70,7 +70,7 @@
           </h2>
           <p class="govuk-body">
             {% if(showCloseProject) %}
-            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            <a class="govuk-link" href="/rfi/nextsteps">Close your event</a>
             {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
             {% endif %}

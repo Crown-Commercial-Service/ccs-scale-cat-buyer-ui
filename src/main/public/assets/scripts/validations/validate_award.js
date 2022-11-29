@@ -9,8 +9,20 @@ const ccsZvalidateAward = (event) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
-        else ccsZPresentErrorSummary(errorStore);
+      const openpopsupplier = document.querySelector('.backdrop-award')
+        openpopsupplier.classList.add('showpopup');
+        $(".dialog-close-award").on('click', function(){
+          openpopsupplier.classList.remove('showpopup');
+          ccsZremoveErrorMessage(preAwardSupplierConfm);
+        });
+        stnewsupplier = document.getElementById('btn_pre_award_supplier');
+        stnewsupplier.addEventListener('click', ev => {
+          if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
+          else ccsZPresentErrorSummary(errorStore);
+          openpopsupplier.classList.remove('showpopup');
+        })
+    
+
     }
 };
 const ccsZvalidateStandStillPeriod = (event) => {
@@ -28,7 +40,41 @@ const ccsZvalidateStandStillPeriod = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    $('.event_managment_award').on('click', function (event) {
+  $('.btn_event_managment_award').on('click', function (event) {
+    console.log("!!!")
+    event.preventDefault();
+    const radioButtonYes = "";
+    const radioButtonNo = "no";
+    if (radioButtonYes || radioButtonNo) {
+        if ($(this).hasClass('selected')) {
+            deselect($(this));
+            $(".backdrop-vetting").fadeOut(200);
+          } else {
+            $(".backdrop-vetting").fadeTo(200, 1);
+            let btnSend = document.querySelector('#redirect-button-vetting');
+            if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+              btnSend.setAttribute('name', 'Continue');
+              $('#redirect-button-vetting').text('Continue')
+            } else {
+              //btnSend.setAttribute('name', 'CCS website');
+              document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
+            // $(this).addClass('selected');
+            $('.pop').slideFadeToggle();
+          }
+    }
+    else {
+        errorStore = ['There is a problem', 'Please select an option']
+        ccsZPresentErrorSummary([errorStore]);
+    }
+    return false;
+  });
+  
+  $(".popupbutton").on('click', function(){ 
+    ccsZvalidateAward();  
+  });
+  
+  $('.event_managment_award').on('click', function (event) {
         event.preventDefault();
         const radioButtonYes = document.getElementById("standstill_period_yes").checked;
         const radioButtonNo = document.getElementById("standstill_period_no").checked;
@@ -79,5 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           return false;
         }
-      });  
+      });
+
 })

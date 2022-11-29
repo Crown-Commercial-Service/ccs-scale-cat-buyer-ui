@@ -102,7 +102,7 @@ text: bcTitleText
                 {{ CCSInsetText({
                     html: prompt
                 }) }}
-                    {% if (agreement_id === 'RM1043.8') or (agreement_id === 'RM6187') %} {# XBN00121 #}
+                    {% if (agreement_id === 'RM1043.8') or (agreement_id === 'RM6187') or (agreement_id === 'RM1557.13') %} {# XBN00121 #}
                        
                       {%else%}
                         <h2>Create your first requirement group</h2>
@@ -225,16 +225,29 @@ text: bcTitleText
                             class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X
                         </a>
                     </label>
+                    </br>
                  {% else %}
+                 {% if (group_id == 'Group 19') and (lotId == '1') or (group_id == 'Group 17') and (lotId == '3') %}
+                        <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
+                        {{numberWord[i]}}
+                       {{shortTitle}} special term or condition <a href="{{i}}" id="del_dos_question_{{i}}"
+                            class='del govuk-link govuk-link--no-visited-state' title='delete'> X
+                        </a>
+                    </label>
+
+                 {% else %}
+
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}
                        {{shortTitle}} requirement <a href="{{i}}" id="del_dos_question_{{i}}"
                             class='del govuk-link govuk-link--no-visited-state' title='delete'> X
                         </a>
                     </label>
+                    </br>
+                {%endif%}
                 {%endif%}
                     
-                    </br>
+                    
                     {% for requirement in data %}
                     {{recurseRequirements(requirement,form_name,i)}}
                     {% endfor %}

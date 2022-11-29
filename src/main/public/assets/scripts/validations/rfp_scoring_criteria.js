@@ -46,22 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
     //GET DATA FROM OWN TIER
     let rowsAndHead = {}
     tierDataList.forEach(e => {
-      if (e.attributes?.[2]?.textContent?.toLowerCase() === 'Create your own scoring criteria'.toLowerCase()) {
-        rowsAndHead = e.attributes?.[4]?.value != null ? JSON.parse(e.attributes?.[4]?.value) : null;
-
+      if (e.attributes != undefined && e.attributes[2] != undefined && e.attributes[2].textContent != undefined && e.attributes != null && e.attributes[2] != null && e.attributes[2].textContent != null) {
+        if (e.attributes[2].textContent.toLowerCase() === 'Create your own scoring criteria'.toLowerCase()) {
+          if (e.attributes != undefined && e.attributes[4] != undefined && e.attributes != null && e.attributes[4] != null) {
+            rowsAndHead = e.attributes[4].value != null ? JSON.parse(e.attributes[4].value) : null;
+          }
+        }
       }
     })
 
     //fill data on page reaload
     let activateField9thAreFilledReload = false;
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
-      if (score_criteria_fieldset == 1) {
-        rowsAndHead?.rows?.unshift([{ text: 'ignore' }]);
-      }
+      if (rowsAndHead != null && rowsAndHead != undefined && rowsAndHead.rows != undefined && rowsAndHead.rows != null) {
+        if (score_criteria_fieldset == 1) {
+          rowsAndHead.rows.unshift([{ text: 'ignore' }]);
+        }
 
-      document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
-      document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
-      document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
+        if (rowsAndHead.rows[score_criteria_fieldset] != null && rowsAndHead.rows[score_criteria_fieldset] != undefined) {
+          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(0).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(0).text : '';
+          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(1).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(1).text : '';
+          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(2).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(2).text : '';
+        }
+      }
 
       let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
         name_box = document.getElementById('rfp_score_criteria_name_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
@@ -76,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
       } else if (score_criteria_fieldset !== 1) {
-        this_fieldset?.classList.add('ccs-dynaform-hidden');
+        if (this_fieldset != null && this_fieldset != undefined) {
+          this_fieldset.classList.add('ccs-dynaform-hidden');
+        }
         with_value_count = score_criteria_fieldset;
       }
       else if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
@@ -263,25 +272,25 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
 
           let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
-          this_fieldset?.classList.add('ccs-dynaform-hidden');
 
+          if (this_fieldset != null && this_fieldset != undefined) {
+            this_fieldset.classList.add('ccs-dynaform-hidden');
+          }
         }
 
         for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
           if (score_criteria_fieldset == 1) {
-            document.getElementById('rfp_score_criteria_name_' + 1).value = resetTierData[0]?.name != undefined ? resetTierData[0]?.name : '';
-            document.getElementById('rfp_score_criteria_point_' + 1).value = resetTierData[0]?.point != undefined ? resetTierData[0]?.point : '';
-            document.getElementById('rfp_score_criteria_desc_' + 1).value = resetTierData[0]?.desc != undefined ? resetTierData[0]?.desc : '';
+            document.getElementById('rfp_score_criteria_name_' + 1).value = resetTierData[0] != undefined && resetTierData[0].name != undefined ? resetTierData[0].name : '';
+            document.getElementById('rfp_score_criteria_point_' + 1).value = resetTierData[0] != undefined && resetTierData[0].point != undefined ? resetTierData[0].point : '';
+            document.getElementById('rfp_score_criteria_desc_' + 1).value = resetTierData[0] != undefined && resetTierData[0].desc != undefined ? resetTierData[0].desc : '';
           } else {
-            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.name != undefined ? resetTierData[score_criteria_fieldset - 1]?.name : '';
-            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.point != undefined ? resetTierData[score_criteria_fieldset - 1]?.point : '';
-            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.desc != undefined ? resetTierData[score_criteria_fieldset - 1]?.desc : '';
+            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].name != undefined ? resetTierData[score_criteria_fieldset - 1].name : '';
+            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].point != undefined ? resetTierData[score_criteria_fieldset - 1].point : '';
+            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].desc != undefined ? resetTierData[score_criteria_fieldset - 1].desc : '';
           }
 
           let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
             name_box = document.getElementById('rfp_score_criteria_name_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
-          //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
-          //element.classList.add("ccs-dynaform-hidden");
 
           if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
             this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -290,11 +299,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
           } else if (score_criteria_fieldset !== 0) {
-            this_fieldset?.classList.add('ccs-dynaform-hidden');
+            if (this_fieldset != null && this_fieldset != undefined) {
+              this_fieldset.classList.add('ccs-dynaform-hidden');
+            }
             with_value_count = score_criteria_fieldset;
           }
           if (score_criteria_fieldset === 1) {
-            this_fieldset?.classList.remove('ccs-dynaform-hidden');
+            if (this_fieldset != null && this_fieldset != undefined) {
+              this_fieldset.classList.remove('ccs-dynaform-hidden');
+            }
             with_value_count = 1;
           }
         }

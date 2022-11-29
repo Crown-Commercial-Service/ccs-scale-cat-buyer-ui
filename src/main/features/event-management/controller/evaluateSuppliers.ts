@@ -118,24 +118,19 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       }
       //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
-        if(supData!=undefined){
-          var completion = "No"
-          if(ScoresAndFeedbackURLdata.data[i].comment == 'No comment found')
-    {
-      completion = "No"
-    }
-    else
-     {
-     completion = "Yes"
-     }
-    
-     
+      if(supData!=undefined) {
+        var completion = "No"
+        if(ScoresAndFeedbackURLdata.data[i].score === undefined) {
+          completion = "No"
+        } else if(ScoresAndFeedbackURLdata.data[i].score > 0) {
+          completion = "Yes"
+        } else {
+          completion = "No"
+        }
+          
        let dataPrepared = {
-
         "id": supData[i].supplier.id,
-
         "name": supData[i].supplier.name,
-
         "responseState": supData[i].responseState,
         "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
@@ -246,16 +241,17 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
 
   try{
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
-    const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
+    const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
     for(var i=0;i<ScoresAndFeedbackURLdata.data.length;i++)
     {
-      if(ScoresAndFeedbackURLdata.data[i].comment != 'No comment found')
+      if(ScoresAndFeedbackURLdata.data[i].score !== undefined)
       {
         ScoresAndFeedbackURLdata_.push(ScoresAndFeedbackURLdata.data[i])
         //ScoresAndFeedbackURLdata_=ScoresAndFeedbackURLdata.data[i]
       }
     }
     let body=ScoresAndFeedbackURLdata_
+    
     await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
     if(agreement_id != 'RM1043.8'){
       res.redirect('/dashboard');
@@ -265,6 +261,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     
 //publisheddoc?download=1
 }catch (error) {
+  console.log(error)
   LoggTracer.errorLogger(
     res,
     error,
