@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/nextsteps.json';
-import * as cmsDosData from '../../../resources/content/RFI/dosnextsteps.json';
+import * as cmsmcf3DosData from '../../../resources/content/RFI/mcf3dosnextsteps.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
@@ -18,8 +18,8 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
 
 
     let cmsDatas;
-    if (agreement_id == 'RM1043.8') {
-      cmsDatas = cmsDosData;
+    if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187')) {
+      cmsDatas = cmsmcf3DosData;
     }else{
       cmsDatas = cmsData;
     }
@@ -43,7 +43,11 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
       };
 
 try {
-    res.render('nextsteps.njk', appendData)
+  if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187')) {
+      res.render('closeyourproject.njk', appendData)
+    }else{
+      res.render('nextsteps.njk', appendData)
+    }
   }catch (error) {
     LoggTracer.errorLogger(
       res,

@@ -3797,6 +3797,22 @@ const showPopup = (event) => {
     // }
   };
 
+  
+  const loseyouprojectShowPopup = (event) => {
+    event.preventDefault();
+    $(".backdrop-nextsteps").fadeTo(200, 1);
+    document.getElementById("nextstepspopup").style.paddingTop="1000";
+    let btnSend = document.querySelector('#redirect-button-nextsteps');
+    if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+      btnSend.setAttribute('name', 'Next Step');
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    } else {
+      btnSend.setAttribute('name', 'CCS website');
+    }
+    $('.pop').slideFadeToggle();
+  };
+
+
 
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
@@ -11369,9 +11385,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
                 term_box = document.getElementById("rfp_term_" + acronym_fieldset); 
             // document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
-            if( agreementID == 'RM6187') {
+            // if( agreementID == 'RM6187') {
                 document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.remove("ccs-dynaform-hidden");
-            }
+            // }
 
             if (term_box.value !== "") {
                 this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -11406,12 +11422,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     removeErrorFieldsRfp1();
                     document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
                     $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
-                    if(agreementID == 'RM1043.8' && q_mandatory != true) {
-                        prev_input = with_value_count - 1;
-                        if(document.querySelector(".acronym_" + prev_input + " a.del")){
-                            document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
-                        }
-                    }
+                    // if(agreementID == 'RM1043.8' && q_mandatory != true) {
+                    //     prev_input = with_value_count - 1;
+                    //     if(document.querySelector(".acronym_" + prev_input + " a.del")){
+                    //         document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+                    //     }
+                    // }
                     with_value_count++;
                     // let hideBtnCount = agreementID == 'RM1043.8' && lID == '1' ? 17 : 21 ;
                     if (with_value_count === 21 ) {
@@ -11424,24 +11440,93 @@ document.addEventListener('DOMContentLoaded', () => {
         // delete buttons
         deleteButtons.forEach((db) => {
             //db.classList.remove('ccs-dynaform-hidden')
+            
+            // db.addEventListener('click', (e) => {
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_coll = Number(target) - 1,
+            //         target_fieldset = db.closest("fieldset");
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     document.getElementById('rfp_term_' + target).value = "";
+            //     document.getElementById('rfp_term_definition_' + target).value = "";
+            //     if (prev_coll > 1) {
+            //         document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     }
+            //     document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+            //     with_value_count--;
+            // });
+
             db.addEventListener('click', (e) => {
                 e.preventDefault();
-
+        
                 let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
                     prev_coll = Number(target) - 1,
                     target_fieldset = db.closest("fieldset");
-
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-
-                document.getElementById('rfp_term_' + target).value = "";
-                document.getElementById('rfp_term_definition_' + target).value = "";
-
-
-                if (prev_coll > 1) {
-                    document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                console.log(`target: ${target}`)
+                if(target != 20) {
+                    let ml = 1;
+                    
+                    let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                            nextLevel_coll = (nextLevel_coll + 1);
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                target_fieldset.querySelector("[name='term']").value = first.value;
+                                target_fieldset.querySelector("[name='value']").value = last.value;
+                            } else {
+                                next_coll = next_coll + 1;
+                                console.log(`Usual: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                document.getElementById('rfp_term_' + next_coll).value = first.value;
+                                document.getElementById('rfp_term_definition_' + next_coll).value = last.value;
+                            }
+        
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('rfp_term_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_definition_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        target_fieldset.classList.add("ccs-dynaform-hidden");
+                        document.getElementById('rfp_term_' + target).value = "";
+                        document.getElementById('rfp_term_definition_' + target).value = "";
+                        if (prev_coll > 1) {
+                            document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    target_fieldset.classList.add("ccs-dynaform-hidden");
+                    document.getElementById('rfp_term_' + target).value = "";
+                    document.getElementById('rfp_term_definition_' + target).value = "";
+                    if (prev_coll > 1) {
+                        document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    }
+                    document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                 }
-
-                document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                 with_value_count--;
             });
         });
@@ -11973,6 +12058,7 @@ $('.rfp_term_definition_new').on('keypress', function (evt) {
     return true;
     
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rfp_budget_for') !== null) {
     let allInputfield = document.querySelectorAll('.govuk-input');
@@ -18340,6 +18426,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
+  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+  document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
