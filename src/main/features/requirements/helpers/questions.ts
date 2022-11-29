@@ -517,7 +517,7 @@ export class QuestionHelper {
         let next_cursor_object = heading_fetch_dynamic_api_data[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = id; //next_cursor_object['criterianId'];
-        let base_url = `/rfp/assessment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
+        let base_url = `/rfp/assessment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}&step=${res.req?.query?.step}`;
         res.redirect(base_url);
       } else {
         res.redirect('/rfp/task-list');
