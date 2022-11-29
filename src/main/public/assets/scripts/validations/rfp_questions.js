@@ -165,7 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var total_countva=20;
         var withValue=21;
     }
-    else{
+    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
+        var total_countva=5;
+        var withValue=6;
+    }else{
         if($('.question_count').hasClass("question_count")) {      
                
             var total_countva=50;

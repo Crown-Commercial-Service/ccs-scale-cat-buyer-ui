@@ -281,6 +281,12 @@ const removeErrorFieldsRfp1 = () => {
 let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+let removeErr = document.querySelectorAll('.removeErr');
+removeErr.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
 rfp_term_text.forEach(ele => {
     ele.addEventListener('keydown', (event) => {
         removeErrorFieldsRfp1();
