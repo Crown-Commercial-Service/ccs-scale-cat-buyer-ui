@@ -3750,8 +3750,9 @@ const showPopup = (event) => {
     debugger;
     event.preventDefault();
     //const inputId=event.srcElement.id;
-    const element = document.getElementById("rfi_next_steps-2");
-    if(element.checked){
+    //const element = document.getElementById("rfi_next_steps-2");
+    const radioValue = document.querySelector('input[type="radio"]:checked').value;
+    if(radioValue == 'Close this event and the whole project'){
         if ($(this).hasClass('selected')) {
             deselect($(this));
             $(".backdrop-nextsteps").fadeOut(200);
@@ -14711,7 +14712,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
-        
+               
+
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                     for (var i = 1; i < withValue; i++) {
                         let error_classes = $('#fc_question_'+i).hasClass('ccs-dynaform-hidden');
@@ -14729,15 +14731,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter a weighting for this question", /\w+/);
                         errorStore.push(percentageCheck)
                         }
-                        if($('#fc_question_precenate_'+i).val() == '' && !pageHeading.includes('Write your social value questions (Optional)')){
-                            errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
+                        
+                       if(urlParams.get('agreement_id') == 'RM1557.13'){
+                      
+                        if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                         }
-                        if($('#fc_question_precenate_'+i).val() != '' && pageHeading.includes('Write your social value questions (Optional)')){
+                        if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
                         }
                     }
+                   
+                    }
                     if((urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
-                        var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+                        var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100% ",Number($('#totalPercentage').text()), /\w+/);
                         errorStore.push(percentageCheck)
         
                     }
@@ -16649,8 +16656,20 @@ const ccsZvalidateAward = (event) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
-        else ccsZPresentErrorSummary(errorStore);
+      const openpopsupplier = document.querySelector('.backdrop-award')
+        openpopsupplier.classList.add('showpopup');
+        $(".dialog-close-award").on('click', function(){
+          openpopsupplier.classList.remove('showpopup');
+          ccsZremoveErrorMessage(preAwardSupplierConfm);
+        });
+        stnewsupplier = document.getElementById('btn_pre_award_supplier');
+        stnewsupplier.addEventListener('click', ev => {
+          if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
+          else ccsZPresentErrorSummary(errorStore);
+          openpopsupplier.classList.remove('showpopup');
+        })
+    
+
     }
 };
 const ccsZvalidateStandStillPeriod = (event) => {
@@ -16696,7 +16715,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ccsZPresentErrorSummary([errorStore]);
     }
     return false;
-  });  
+  });
+  
+  $(".popupbutton").on('click', function(){ 
+    ccsZvalidateAward();  
+  });
   
   $('.event_managment_award').on('click', function (event) {
         event.preventDefault();
@@ -16749,7 +16772,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           return false;
         }
-      });  
+      });
+
 })
 const ccsZvalidateCreateOrChoose = (event) => {
   event.preventDefault();

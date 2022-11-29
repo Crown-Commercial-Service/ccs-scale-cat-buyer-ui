@@ -27,6 +27,8 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
   req.session['isEmptySelectedServicesError'] = false;
   const procurements = req.session.procurements;
   const lotId = req.session.lotId;
+  const agreement_id = req.session.agreement_id;
+  const agreementId_session = req.session.agreement_id;
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
@@ -34,6 +36,22 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
   let checkCheckbox = [];
   let other_text = '';
   let isDisable = false;
+  let eptObj = [];
+
+if(agreement_id ==='RM1557.13'){
+
+  const baseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/criteria/Criterion 4/groups/Group 1/questions`;
+    const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+  let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+  const services=fetch_dynamic_api_data[0].nonOCDS.options;
+  if(services.length > 0){
+    for (let j = 0; j < services.length; j++) { 
+      eptObj.push({ 'requirement-id': services[j]['value'], name: services[j]['value'] }); }
+  }
+
+   checkCheckbox = fetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(data => data.selected == true)?.map(data => data.value);
+
+}else{
   try {
     const { data: getEventsData } = await TenderApi.Instance(SESSION_ID).get(
       `tenders/projects/${req.session.projectId}/events`,
@@ -80,7 +98,7 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
   const assessmentURL = `assessments/${assessmentId}`;
   const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
   const externalID = assessmentData.data['external-tool-id'];
-  const agreementId_session = req.session.agreement_id;
+
 
   //Checkbox Direct FC
   let selectedServiceCheck;
@@ -118,11 +136,10 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
     }
     return 0;
   });
-  let eptObj = [];
-  for (let j = 0; j < loop.length; j++) {
-    eptObj.push({ 'requirement-id': loop[j]['requirement-id'], name: loop[j].name });
-  }
+  
+  for (let j = 0; j < loop.length; j++) { eptObj.push({ 'requirement-id': loop[j]['requirement-id'], name: loop[j].name }); }
 
+}
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -247,6 +264,49 @@ if (flag) {
 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
 }
 }*/
+      
+if(agreement_id ==='RM1557.13'){
+
+  const services=rfp_selected_services.selected_services_name;
+  const selectedServices=rfp_selected_services.selected_services;
+  const TAStorage = [];
+  let answerValueBody = {};
+
+  for (let index = 0; index < services.length; index++) {
+    let termObject={};
+    const element = services[index].split('-')[0];
+    if(selectedServices.indexOf(element) != -1)
+    {  
+      termObject = { value: element, selected: true };
+    }else{
+      termObject = { value: element, selected: false };
+    }
+    TAStorage.push(termObject);
+  }
+
+      answerValueBody = {
+        nonOCDS: {
+          answered: true,
+          options: [...TAStorage],
+        },
+      };
+
+    const baseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/criteria/Criterion 4/groups/Group 1/questions/Question 1`;
+    await TenderApi.Instance(SESSION_ID).put(baseURL, answerValueBody);
+
+  let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+    }
+
+    let flag2 = await ShouldEventStatusBeUpdated(eventId, 31, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    }
+
+    res.redirect('/rfp/task-list');
+
+}else{
 
   if (rfp_selected_services.selected_services == undefined) {
     if (req.body.isDisable != true) {
@@ -383,7 +443,9 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
 
     res.redirect('/rfp/task-list');
   }
-};
+}
+
+}
 
 const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
   const baseUrl = `assessments/tools/${toolId}/dimensions`;

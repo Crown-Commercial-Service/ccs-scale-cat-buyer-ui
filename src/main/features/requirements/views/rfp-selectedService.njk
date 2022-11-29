@@ -58,12 +58,12 @@
                     <div class="govuk-grid-column-full">
                         <p class="govuk-body">{{data.line5}}</p>
 
-                        {% if agreementId_session == 'RM6187' %}
+                        {# {% if agreementId_session == 'RM6187' %}
                         <div class="govuk-button-group">
                             <a class="govuk-link govuk-!-margin-right-9" href="#1212" id="getId">Select all that apply.</a>
                             <a class="govuk-link" id="getUnselectId" href="#212">Select / unselect all</a>
                         </div>
-                        {% endif %}
+                        {% endif %} #}
 
                         <p>
                             {# <a href="#">{{data.line6_1}}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">{{data.line6_2}}</a> #}
@@ -108,6 +108,7 @@
                                     }}
                                     
                             {% endfor %}
+                               {% if agreementId_session !== 'RM1557.13' %}
                                 {% set isOtherChecked = '' %}
                                 {% set selectedServices = '' %}
                                 {% set selectedServicesDisabledOther = '' %}
@@ -125,6 +126,8 @@
                                     {% endif %}
                                 {% endif %}
                                 {% set servicesArray = (servicesArray.push({value: 'other', text: 'Other service', isChecked: selectedServices, isDisabled: selectedServicesDisabledOther}), servicesArray) %}
+                               {% endif %}
+
 
                             {% if(error) %}
                                 {{ 
@@ -147,7 +150,7 @@
                                     }) 
                                 }}
                             {% endif %}
-
+                {% if agreementId_session !== 'RM1557.13' %}
                 <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
                     <div class="govuk-form-group">
                         <textarea class="govuk-textarea govuk-js-character-count otherTextArea rfpterm" id="label-as-page-heading" name="other_text" rows="5" aria-describedby="label-as-page-heading-info" placeholder="Enter the service">{{other_text}}</textarea>
@@ -158,7 +161,7 @@
                     </div>
 
                 </div>
-                        
+                  {% endif %}      
                 
                             <br>
 

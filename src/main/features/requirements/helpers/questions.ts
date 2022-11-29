@@ -43,7 +43,7 @@ export class QuestionHelper {
       }
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
-
+      
       let mandatoryNum = 0;
       for (let i = 0; i < mandatoryGroupList.length; i++) {
         let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
@@ -51,8 +51,6 @@ export class QuestionHelper {
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
           
-
-
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
@@ -188,6 +186,7 @@ export class QuestionHelper {
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) {  mandatoryNum += 1; }
         }
       }
+      
       if(agreement_id == 'RM1043.8'){      
         // dos
         // let lotmandatoryQues = 10;
@@ -230,8 +229,6 @@ export class QuestionHelper {
           }
         }
       }
-
-
 
       //update section 3 status end
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -276,8 +273,13 @@ export class QuestionHelper {
         let next_cursor_object = sorted_ascendingly[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
-        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=''`;
-        res.redirect(base_url);
+        if(agreement_id=='RM1557.13' && next_criterian_id=='Criterion 4' && req.session.lotId == 4){
+          res.redirect('/rfp/task-list');
+        }else{
+          let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=''`;
+          res.redirect(base_url);
+        }
+        
       } else {
         res.redirect('/rfp/task-list');
       }
@@ -334,6 +336,7 @@ export class QuestionHelper {
         if (isMandatory) {
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
+
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
@@ -341,8 +344,18 @@ export class QuestionHelper {
           //let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
           //let mandatoryNumberinGroup = question_api_data.length;
           question_api_data = question_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
-          question_api_data = gid === 'Group 3' && question_api_data.length > 3 ? question_api_data.slice(0, question_api_data.length - 1) : question_api_data;
-          let mandatoryNumberinGroup = question_api_data.length;
+          let mandatoryNumberinGroupStage = question_api_data.filter((el: any) => el.nonOCDS.mandatory);
+
+          let mandatoryNumberinGroup;
+          if(agreement_id != 'RM1043.8'){
+            //question_api_data = gid === 'Group 3' && question_api_data.length > 3 ? question_api_data.slice(0, question_api_data.length - 1) : question_api_data;
+            mandatoryNumberinGroup = mandatoryNumberinGroupStage.length;
+          }else{
+            mandatoryNumberinGroup = mandatoryNumberinGroupStage.length;
+          }
+          
+
+          //let mandatoryNumberinGroup = question_api_data.length;  --> Need to check feature
           //if (mandatoryNumberinGroup != null && mandatoryNumberinGroup.length > 0) {
           for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
             //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
@@ -355,9 +368,11 @@ export class QuestionHelper {
               let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
               let textNum = 0;
               if (textMandatoryNum != null && textMandatoryNum > 0) {
-                for (let j = 0; j < textMandatoryNum; j++) {
-                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (answer != '' && answer != undefined) { textNum += 1; }
+                if(question_api_data?.[k]?.nonOCDS?.mandatory) {  //Patch SCAT-7762
+                  for (let j = 0; j < textMandatoryNum; j++) {
+                    answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                    if (answer != '' && answer != undefined) { textNum += 1; }
+                  }
                 }
                 if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
               }
@@ -424,13 +439,15 @@ export class QuestionHelper {
 
             }
           }
+
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
 
       if(agreement_id == 'RM1043.8'){ // dos
+
 	//if (mandatoryGroupList != null && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 && (mandatoryGroupList.length == mandatoryNum))) {
-        if (mandatoryGroupList != null && (req.session.lotId == 1 && mandatoryNum >= 4) || (req.session.lotId == 3 && mandatoryNum >= 4)) {
+        if (mandatoryGroupList != null && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 && (mandatoryGroupList.length == mandatoryNum))) {
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
             let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
@@ -467,6 +484,8 @@ export class QuestionHelper {
 
 
       }else{
+      
+       
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
