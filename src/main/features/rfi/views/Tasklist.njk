@@ -63,24 +63,22 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
     {% include "includes/project_header.njk" %} 
-{% if(agreement_id=="RM6187") %}
 
-  <p class="govuk-body">{{data.line1}}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{data.line2}} </li>
-      <li>{{data.line3}}</li>
-      <li>{{data.line4}}</li>
-      <li style="list-style: none">{{data.line5}}</li>
-   </ul>
+  {% if(agreementId_session=="RM6187") %}
+    <p class="govuk-body">{{data.line1}}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{data.line2}} </li>
+        <li>{{data.line3}}</li>
+        <li>{{data.line4}}</li>
+      </ul>
   {% else %}
     <p class="govuk-body">{{data.line1}}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{data.line2}} </li>
-      <li>{{data.line3}}</li>
-      <li>{{data.line4}}</li>
-      <li>{{data.line5}}</li>
-    </ul>
-
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{data.line2}}</li>
+        <li>{{data.line3}}</li>
+        <li>{{data.line4}}</li>
+        <li>{{data.line5}}</li>
+      </ul>
   {% endif %}
     <br>
     <ol class="app-task-list">
