@@ -3797,6 +3797,22 @@ const showPopup = (event) => {
     // }
   };
 
+  
+  const loseyouprojectShowPopup = (event) => {
+    event.preventDefault();
+    $(".backdrop-nextsteps").fadeTo(200, 1);
+    document.getElementById("nextstepspopup").style.paddingTop="1000";
+    let btnSend = document.querySelector('#redirect-button-nextsteps');
+    if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+      btnSend.setAttribute('name', 'Next Step');
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    } else {
+      btnSend.setAttribute('name', 'CCS website');
+    }
+    $('.pop').slideFadeToggle();
+  };
+
+
 
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
@@ -18146,6 +18162,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
+  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+  document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
