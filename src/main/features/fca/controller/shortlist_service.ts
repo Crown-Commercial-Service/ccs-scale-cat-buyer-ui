@@ -343,7 +343,7 @@ var { Parser } = require("json2csv");
               }
 
               contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
-            contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
             const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
             const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
             
@@ -352,7 +352,7 @@ var { Parser } = require("json2csv");
             const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
             
             contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
-            contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+            // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
             contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
             contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
@@ -394,7 +394,7 @@ var { Parser } = require("json2csv");
             JsonData.push(contactSupplierDetails)
         }
        // let fields = ["Name","Email","Telephone","Address","Url","Contact name","Contact number"];
-       let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Legal name","Trading name","Registered company address","Url","Status"]; 
+       let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
        const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
         res.header('Content-Type', 'text/csv');
