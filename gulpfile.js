@@ -116,3 +116,5 @@ gulp.task('pack-styles', () => {
 });
 
 gulp.task('default', gulp.series(['clean', 'styles']));
+
+gulp.watch(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'], gulp.series('pack-scripts'));
