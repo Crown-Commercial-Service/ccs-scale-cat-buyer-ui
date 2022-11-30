@@ -25,6 +25,25 @@ const ccsZvalidateAward = (event) => {
 
     }
 };
+
+const removeErrorFieldssdsd = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-error-summary').remove();
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  $('#award_supplier_confirmation').on('change', function (event) {
+    const checkboxIscheked = document.getElementById("award_supplier_confirmation").checked;
+    if (checkboxIscheked) {
+      removeErrorFieldssdsd();
+    }
+  });
+});
+
 const ccsZvalidateStandStillPeriod = (event) => {
     event.preventDefault();
 
@@ -43,9 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
   $('.btn_event_managment_award').on('click', function (event) {
     console.log("!!!")
     event.preventDefault();
-    const radioButtonYes = "";
-    const radioButtonNo = "no";
-    if (radioButtonYes || radioButtonNo) {
+    const checkboxIscheked = document.getElementById("award_supplier_confirmation").checked;
+    if (checkboxIscheked) {
         if ($(this).hasClass('selected')) {
             deselect($(this));
             $(".backdrop-vetting").fadeOut(200);
@@ -64,8 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
     }
     else {
-        errorStore = ['There is a problem', 'Please select an option']
-        ccsZPresentErrorSummary([errorStore]);
+      ccsZisOptionChecked("award_supplier_confirmation", "Please confirm that you are ready to award this contract.");
+      errorStore = ['award_supplier_confirmation', 'Confirmation checkbox must be checked before progressing']
+      ccsZPresentErrorSummary([errorStore]);
+      document.getElementById("error-summary-title").innerText = "There has been an error awarding your FC";
     }
     return false;
   });
