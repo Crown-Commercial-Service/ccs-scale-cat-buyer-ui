@@ -855,8 +855,10 @@
           {% block Percentage%}
             {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
             {% set qhint = "" %}
-            {% if(requirement.OCDS.title === 'Social value criteria') %}
-            {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting)." %}
+            {% if(requirement.OCDS.title === 'Social value criteria' and agreement_id == 'RM6187') %}
+            {% set qhint = "If you are buying on behalf of a central government department, this must be a minimum of 10% of your overall weighting. For example, if you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). For all other buyers, this weighting is discretionary and in some cases can be 0%." %}
+            {% elseif(requirement.OCDS.title === 'Social value criteria') %}
+            {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). -test" %}
             {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
             {% set qhint = "Enter a value of 0% if you are not in scope of PPN 06/20, or the value of the procurement is below threshold, or the application of social value is not reasonable or proportionate to what you are buying." %}
             {%endif%}
@@ -869,7 +871,7 @@
                {% if (requirement.OCDS.title === 'Technical Criteria' or requirement.OCDS.title === 'Social value criteria') %}
                <p class="govuk-body">{{qhint}}</p>
                 <p class="govuk-!-display-none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
-               {% elif (requirement.OCDS.title === 'Technical questions' or requirement.OCDS.title === 'Essential skills and experience' or requirement.OCDS.title === 'Nice-to-have skills and experience (optional)') %}
+               {% elseif (requirement.OCDS.title === 'Technical questions' or requirement.OCDS.title === 'Essential skills and experience' or requirement.OCDS.title === 'Nice-to-have skills and experience (optional)') %}
                 <p class="govuk-body">{{qhint}}</p>
                   <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
               {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
