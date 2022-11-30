@@ -35,7 +35,7 @@
         {
             "eventno": 2,
             "eventTitle": "Build your RfI",
-            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and ask for more detailed information about what suppliers can offer.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfi/choose-build-your-rfi",
