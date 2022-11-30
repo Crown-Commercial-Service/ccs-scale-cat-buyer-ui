@@ -77,66 +77,182 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
+            
                 e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-                if(Number(target) == 20){
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+
+          console.log("prev_coll",prev_coll);
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               //console.log(`target: ${target}`)
+               //console.log("Sibling.classList",Sibling.classList)
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   let eptArr = [];
+                   while (Sibling) {
+                   
+                       console.log(Sibling.querySelectorAll('textarea')[0].name);
+                       console.log(Sibling.querySelectorAll('textarea')[1].name);
+                       console.log(Sibling.querySelectorAll('textarea')[2].name);
+
+                       let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         //let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               var first = Sibling.querySelectorAll('textarea')[0];
+                               var last  = Sibling.querySelectorAll('textarea')[1];
+                               var percentage  = Sibling.querySelectorAll('textarea')[2];
+                               
+                               console.log(first.value)
+                               console.log(last.value)
+                               console.log(percentage.value)
+                               
+                            //    document.getElementById('rfp_term_service_levels_KPI_' + current_col).value = first.value;
+                            //    document.getElementById('rfp_term_definition_service_levels_KPI_' + current_col).value = last.value;
+                            //    document.getElementById('rfp_term_percentage_KPI_' + current_col).value = percentage.value;
+                               target_fieldset.querySelectorAll('textarea')[0].value = first.value;
+                               target_fieldset.querySelectorAll('textarea')[1].value = last.value;
+                               target_fieldset.querySelectorAll('textarea')[2].value = percentage.value;
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                               var first = Sibling.querySelectorAll('textarea')[0];
+                               var last  = Sibling.querySelectorAll('textarea')[1];
+                               var percentage  = Sibling.querySelectorAll('textarea')[2];
+                               
+                               console.log(first.value)
+                               console.log(last.value)
+                               console.log(percentage.percentage)
+                               target_fieldset.querySelectorAll('textarea')[0].value = first.value;
+                               target_fieldset.querySelectorAll('textarea')[1].value = last.value;
+                               target_fieldset.querySelectorAll('textarea')[2].value = percentage.value;
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   console.log("eptArr.length",eptArr.length);
+                   if(eptArr.length > 0) {
+                    console.log("IIII")
+                       console.log("eptArr",eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                    //    document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                    //    document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                    //    document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
+                    //    document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+                    target_fieldset.querySelectorAll('textarea')[0].value = "";
+                    target_fieldset.querySelectorAll('textarea')[1].value = "";
+                    target_fieldset.querySelectorAll('textarea')[2].value = "";
+                    target_fieldset.querySelectorAll('textarea')[0].closest("div").classList.add("ccs-dynaform-hidden")
+
+                    } else {
+                    console.log("11",target);
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                    //    document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                    //    document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                    //    document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                    target_fieldset.querySelectorAll('textarea')[0].value = "";
+                    target_fieldset.querySelectorAll('textarea')[1].value = "";
+                    target_fieldset.querySelectorAll('textarea')[2].value = "";
+
+                       if (prev_coll > 1) {
+                       // document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               } else {
+                console.log("22",target);
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                   document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                   document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                   document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                   if (prev_coll > 1) {
+                      // document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                      document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    }
                     $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+           });
+            
+            
+            // db.addEventListener('click', (e) => {
+            //     if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+            //     if(Number(target) == 20){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
 
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
 
-                }
+            //     }
 
 
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-                }
+            //     }
 
-                $('.class_question_remove_' + target).val("");
+            //     $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
 
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
 
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                } else {
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
 
-                }
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
-                    with_value_count = 21
-                }
-                with_value_count--;
-            });
+            //     }
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
+            //         with_value_count = 21
+            //     }
+            //     with_value_count--;
+            // });
         });
 
       
@@ -237,6 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            
+            
             errorStore = [];
             let textboxCount =  0;
             if($('.order_1').length > 0){
@@ -402,11 +520,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 //Added this condation section 5 (step 43/44/45)
 
                 if (with_value_count > 2) {
-                    if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    }else {
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    }
+                    
+                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                    // }else {
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                    // }
                 }
                 if (document.getElementById("questionsCount") != undefined) {
                     document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
@@ -635,6 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log("1111")
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
