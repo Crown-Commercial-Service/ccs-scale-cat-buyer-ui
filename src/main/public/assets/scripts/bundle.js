@@ -14025,6 +14025,7 @@ document.addEventListener('DOMContentLoaded', () => {
        }else{
            var total_countva=10;
            var withValue=11;
+           with_value_count = 10;
        }
     }
 
@@ -14098,6 +14099,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+            if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
@@ -14358,12 +14362,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
                 $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
-            if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
         }
