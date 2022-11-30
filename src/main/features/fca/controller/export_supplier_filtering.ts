@@ -53,18 +53,39 @@ import { GetLotSuppliers } from '../../shared/supplierService';
         
         for(let i=0;i<supplierListDwn.length;i++){
           const contact = supplierListDwn[i];
-          if(contact.lotContacts != undefined) {
-            contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-            contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-            contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-            contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-            contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-            contactSupplierDetails = contact.lotContacts[0].contact;
-          }
+          let contactData:any = [];
+          // if(contact.lotContacts != undefined) {
+          //   contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+          //   contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+          //   contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+          //   contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+          //   contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+          //   contactSupplierDetails = contact.lotContacts[0].contact;
+          // }
+          contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
+            contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
+            contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
+            contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
+            
+            const postalCode = contact?.organization?.address?.postalCode == undefined?' ': contact?.organization?.address?.postalCode;
+            const countryName = contact?.organization?.address?.countryName == undefined?' ': contact?.organization?.address?.countryName;
+            const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
+            
+            contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
+            contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+            contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
+            contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            contactSupplierDetails = contactData;
+
           JsonData.push(contactSupplierDetails)
         }
     
-        let fields = ["name","email","telephone","address","url","Contact Point name"];
+        // let fields = ["name","email","telephone","address","url","Contact Point name"];
+        let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Legal name","Trading name","Registered company address","Url","Status"];
         const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
         res.header('Content-Type', 'text/csv');
