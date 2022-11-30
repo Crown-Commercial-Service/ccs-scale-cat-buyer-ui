@@ -268,7 +268,7 @@ for(let i=0;i<suppliersList.length;i++){
             contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
             contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
             contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
-            contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
             const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
             const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
             
@@ -277,7 +277,7 @@ for(let i=0;i<suppliersList.length;i++){
             const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
             
             contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
-            contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+            // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
             contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
             contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
@@ -293,7 +293,7 @@ for(let i=0;i<suppliersList.length;i++){
         }
     
        // let fields = ["Supplier name","email","telephone","address","url","Contact Point name"];
-        let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Legal name","Trading name","Registered company address","Url","Status"];
+        let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"];
        
        const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
