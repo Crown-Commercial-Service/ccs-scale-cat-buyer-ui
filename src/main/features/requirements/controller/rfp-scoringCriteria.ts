@@ -264,6 +264,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       }
     }
     //res.render('rfp-question-assessment', data);
+    console.log("data",JSON.stringify(data));
     
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
@@ -393,10 +394,17 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             
             let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
             const TAStorage = [];
+            console.log("score_criteria_level",score_criteria_level);
+            console.log("score_criteria_points",score_criteria_points);
+            console.log("score_criteria_desc",score_criteria_desc);
             score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
             score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
             score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
             //Balwinder
+            console.log("score_criteria_level",score_criteria_level);
+            console.log("score_criteria_points",score_criteria_points);
+            console.log("score_criteria_desc",score_criteria_desc);
+            
 
             let rows = [];
             let tableData = [];
@@ -412,6 +420,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                 row: index + 1, cols: cols
               });
             }
+            console.log("tableData",tableData);
+            
             answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -477,10 +487,17 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
               }
-            }else{
-             
+            }
+            else if(agreement_id == 'RM1557.13'){
               await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
-              let flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+              if (flag) {
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+              }
+            }
+            else{
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
+              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
             }
@@ -1096,7 +1113,7 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
     let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
     dataRowsList.push(innerArrObj);
   });
-console.log('Agreementid',Agreementid)
+
   if(Agreementid == 'RM1043.8'){
     return dataRowsList;
   }else{
