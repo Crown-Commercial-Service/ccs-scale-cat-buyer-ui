@@ -131,7 +131,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Change who is going to lead the procurement
+              Change who will lead the project
             </dt>
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--none">
@@ -194,7 +194,7 @@
             </dd>
           </div>
         </dl>
-        <h2 class="govuk-heading-m">2. Build your Expression of Interest (EoI)
+        <h2 class="govuk-heading-m">2. Build your EOI
         </h2>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
@@ -320,7 +320,11 @@
                   </div>
                   <div class="govuk-summary-list__row no-borders">
                     <dt class="govuk-summary-list__key">
-                    See the suppliers who will receive your EOI
+                      {% if agreement_id == "RM6187" %}
+                          View suppliers
+                      {% else %}
+                          See the suppliers who will receive your EOI
+                      {% endif %}
                     </dt>
 
                     <dd class="govuk-summary-list__value">
@@ -365,12 +369,22 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                   <h2 class="govuk-heading-xl focus-data">
                     Publish your EoI</h2>
                 </p>
+
+              {% if agreement_id != "RM6187" %}
                 <div class="govuk-inset-text">
                 <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
                 </div>
                 <p class="govuk-body">
                   After publishing this EoI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
                 </p>
+              {% else %}  
+                <div class="govuk-inset-text">
+                <p class="govuk-body">Your EoI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+                </div>
+                <p class="govuk-body">
+                  If you need to make any significant changes – including changes to scope or timelines – after publishing this EoI, you will need to cancel and start a new project.
+                </p>
+              {% endif %}  
                 <p class="govuk-body">
                 {% if agreement_id != "RM6187" %}
                   The document sent to suppliers will also include a number of best practice statements from your organisation.
@@ -378,10 +392,18 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                 </p>
                 <br>
                   <br>
+
+  {% if agreement_id == "RM6187" %}
+                  {{ CCSWarningText({
+    text: "By publishing this EoI you are stating that, to the best of your knowledge, the information you have provided is correct.",
+    iconFallbackText: "Warning"
+    }) }}
+  {% else %}
                     {{ CCSWarningText({
     text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
     iconFallbackText: "Warning"
     }) }}
+  {% endif %}
                     <div class="ccs-link-group">
                       <span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -418,7 +440,7 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      html: "<label><strong>By checking this box, I confirm the statements above</strong></label>",
       Checked: ""
       }
       ]
