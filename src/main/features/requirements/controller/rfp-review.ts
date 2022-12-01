@@ -1810,7 +1810,14 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       forceChangeDataJson = cmsData;
     }
    
-    let appendData = {
+   let appendData;
+   if(agreementId_session == 'RM1043.8') { //DOS
+
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
+    appendData = {
       lotId:req.session.lotId,
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -1829,7 +1836,118 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       proc_id,
       event_id,
       supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
-      //rfp_clarification_date,
+      //rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
+      rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? moment(rfp_clarification_date,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY') : null,
+     // rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
+      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? moment(rfp_clarification_period_end,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ?moment(deadline_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ?moment(supplier_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ?moment(supplier_dealine_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ?moment(supplier_dealine_evaluation_to_start,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ?moment(supplier_dealine_expect_the_bidders,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ?moment(supplier_dealine_for_pre_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ?moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ?moment(supplier_dealine_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ?moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
+      supplier_sign_contract: supplier_sign_contract != undefined && supplier_sign_contract != null ? moment(supplier_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_start: supplier_start != undefined && supplier_start != null ? moment(supplier_start,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      resourceQuntityCount: resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
+      resourceQuantity: resourceQuantity != undefined && resourceQuantity != null ? resourceQuantity : null,
+      StorageForSortedItems: StorageForSortedItems != undefined && StorageForSortedItems != null ? StorageForSortedItems : null,
+      StorageForServiceCapability: StorageForServiceCapability != undefined && StorageForServiceCapability != null ? StorageForServiceCapability : null,
+      checkboxerror: checkboxerror != undefined && checkboxerror != null ? checkboxerror : null,
+      highestSecurityCount: highestSecurityCount != undefined && highestSecurityCount != null ? highestSecurityCount : null,
+      highestSecuritySelected: highestSecuritySelected != undefined && highestSecuritySelected != null ? highestSecuritySelected : null,
+      serviceCapabilitesCount: serviceCapabilitesCount != undefined && serviceCapabilitesCount != null ? serviceCapabilitesCount : null,
+      whereWorkDone: whereWorkDone != undefined && whereWorkDone != null ? whereWorkDone : null,
+      overallratioQuestion1: overallratioQuestion1 != undefined && overallratioQuestion1 != null ? overallratioQuestion1 : null,
+      overallratioQuestion2: overallratioQuestion2 != undefined && overallratioQuestion2 != null ? overallratioQuestion2 : null,
+      technicalgroupquestion1: technicalgroupquestion1 != undefined && technicalgroupquestion1 != null ? technicalgroupquestion1 : null,
+      culturalgroupquestion1: culturalgroupquestion1 != undefined && culturalgroupquestion1 != null ? culturalgroupquestion1 : null,
+      pricegroupquestion1: pricegroupquestion1 != undefined && pricegroupquestion1 != null ? pricegroupquestion1 : null,
+      socialvaluegroupquestion1: socialvaluegroupquestion1 != undefined && socialvaluegroupquestion1 != null ? socialvaluegroupquestion1 : null,
+      pricingModel: pricingModel != undefined && pricingModel != null ? pricingModel : null,
+      culModel: culModel != undefined && culModel != null ? culModel : null,
+      socialModel: socialModel != undefined && socialModel != null ? socialModel : null,
+      priModel: priModel != undefined && priModel != null ? priModel : null,
+      assessModel: assessModel != undefined && assessModel != null ? assessModel : null,
+      questionModel: questionModel != undefined && questionModel != null ? questionModel : null,
+      techGroup: techGroup != undefined && techGroup != null ? techGroup : null,
+      culGroup: culGroup != undefined && culGroup != null ? culGroup : null,
+      socialGroup: socialGroup != undefined && socialGroup != null ? socialGroup : null,
+      tierData: tierData != undefined && tierData != null ? tierData : null,
+      termAndAcr: termAndAcr != undefined && termAndAcr != null ? termAndAcr : null,
+      backgroundArr: backgroundArr != undefined && backgroundArr != null ? backgroundArr : null,
+      businessProbAns: businessProbAns != undefined && businessProbAns != null ? businessProbAns : null,
+      keyUser: keyUser != undefined && keyUser != null ? keyUser : null,
+      scoringData: scoringData != undefined && scoringData != null ? scoringData : null,
+      researchDate: researchDate != undefined && researchDate != null ? researchDate : null,
+      oftenresearchDate: oftenresearchDate != undefined && oftenresearchDate != null ? oftenresearchDate : null,
+      weekendresearchDate: weekendresearchDate != undefined && weekendresearchDate != null ? weekendresearchDate : null,
+      researchLoc: researchLoc != undefined && researchLoc != null ? researchLoc : null,
+      restrictLoc: restrictLoc != undefined && restrictLoc != null ? restrictLoc : null,
+      descPart: descPart != undefined && descPart != null ? descPart : null,
+      digiaccess: digiaccess != undefined && digiaccess != null ? digiaccess : null,
+      securityRequirements: securityRequirements != undefined && securityRequirements != null ? securityRequirements : null,
+      researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
+      spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
+      budget: budget != undefined && budget != null ? budget : null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ?pounds.format(budgetMaximum): null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ?pounds.format(budgetMinimum): null,
+      furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
+      contracted: contracted != undefined && contracted != null ? contracted : null,
+      workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
+      currentphaseofproject: currentphaseofproject != undefined && currentphaseofproject != null ? currentphaseofproject : null,
+      phaseResource: phaseResource != undefined && phaseResource != null ? phaseResource : null,
+      indicativedurationYear: indicativedurationYear != undefined && indicativedurationYear != null ? indicativedurationYear : null,
+      indicativedurationMonth: indicativedurationMonth != undefined && indicativedurationMonth != null ? indicativedurationMonth : null,
+      indicativedurationDay: indicativedurationDay != undefined && indicativedurationDay != null ? indicativedurationDay : null,
+      
+      extentionindicativedurationYear: extentionindicativedurationYear != undefined && extentionindicativedurationYear != null ? extentionindicativedurationYear : null,
+      extentionindicativedurationMonth: extentionindicativedurationMonth != undefined && extentionindicativedurationMonth != null ? extentionindicativedurationMonth : null,
+      extentionindicativedurationDay: extentionindicativedurationDay != undefined && extentionindicativedurationDay != null ? extentionindicativedurationDay : null,
+      
+      startdate: startdate != undefined && startdate != null ? moment(startdate,'YYYY-MM-DD ',).format('DD MMMM YYYY') : null,
+      buyingorg1: buyingorg1 != undefined && buyingorg1 != null ? buyingorg1 : null,
+      buyingorg2: buyingorg2 != undefined && buyingorg2 != null ? buyingorg2 : null,
+      summarize: summarize != undefined && summarize != null ? summarize : null,
+      newreplace: newreplace != undefined && newreplace != null ? newreplace : null,
+      incumbentoption: incumbentoption != undefined && incumbentoption != null ? incumbentoption : null,
+      suppliername: suppliername != undefined && suppliername != null ? suppliername : null,
+      managementinfo: managementinfo != undefined && managementinfo != null ? managementinfo : null,
+      serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
+      incentive1: incentive1 != undefined && incentive1 != null ? incentive1 : null,
+      incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
+      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
+      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
+      //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
+      selectedeventtype,
+      agreementId_session
+    };
+   }
+   else{
+    appendData = {
+      lotId:req.session.lotId,
+      selectedServices:selectedServices,
+      //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
+      //eoi_keydates: EOI_DATA_TIMELINE_DATES[0],
+      data: forceChangeDataJson,
+      project_name: project_name,
+      procurementLead,
+      procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
+      //document: FileNameStorage[FileNameStorage.length - 1],
+      //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
+      document: fileNameStoragePrice,
+      documents: fileNameStorageMandatory,
+
+      ir35: IR35selected,
+      agreement_id,
+      proc_id,
+      event_id,
+      supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
       rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
       rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
       deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
@@ -1919,6 +2037,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       selectedeventtype,
       agreementId_session
     };
+  }
     
     
     req.session['checkboxerror'] = 0;
@@ -1933,9 +2052,9 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
     if(agreementId_session == 'RM1043.8') { //DOS
-
       res.render('rfp-dos-review', appendData);
     } else { 
+
       res.render('rfp-review', appendData);
     }
     
@@ -3039,6 +3158,7 @@ const IR35selected='';
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+
     res.render('rfp-review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];

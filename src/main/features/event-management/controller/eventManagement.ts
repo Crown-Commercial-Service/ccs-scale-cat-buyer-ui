@@ -250,7 +250,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
               }
             });
-            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+
+            if(agreementId_session=='RM1043.8'){
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+            }else{
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+            }
           }
           
 
@@ -283,7 +288,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         if (status.toLowerCase() == "complete") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          
+          if(agreementId_session=='RM1043.8'){
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+          }else{
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          }
         }
     }
     //Get Q&A Count
@@ -788,7 +798,12 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
               }
             });
-            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+
+            if(agreementId_session=='RM1043.8'){
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+            }else{
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+            }
           }
         }
          
@@ -822,7 +837,11 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          if(agreementId_session=='RM1043.8'){
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+          }else{
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          }
         }
       }
      

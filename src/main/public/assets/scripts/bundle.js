@@ -11405,7 +11405,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 $("#deleteButton_acronym_" + deleteButtonCount[deleteButtonCount.sort((a, b) => a - b).length - 1]).removeClass("ccs-dynaform-hidden");
             }
         }
-
         if (deleteButtonCount.length != 19) {
             document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
         }
@@ -11475,7 +11474,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         let siblingClassList = Sibling.classList;
                         if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
                             nextLevel_coll = (nextLevel_coll + 1);
+
                             eptArr.push(nextLevel_coll)
                             if(ml == 1) {
                                 console.log(`First: ${ml} - ${next_coll}`)
@@ -11483,8 +11484,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 var last  = Sibling.querySelector("[name='value']");
                                 console.log(first.value)
                                 console.log(last.value)
-                                target_fieldset.querySelector("[name='term']").value = first.value;
-                                target_fieldset.querySelector("[name='value']").value = last.value;
+                                document.getElementById('rfp_term_' + current_col).value = first.value;
+                                document.getElementById('rfp_term_definition_' + current_col).value = last.value;
+                                // target_fieldset.querySelector("[name='term']").value = first.value;
+                                // target_fieldset.querySelector("[name='value']").value = last.value;
                             } else {
                                 next_coll = next_coll + 1;
                                 console.log(`Usual: ${ml} - ${next_coll}`)
@@ -11528,20 +11531,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                 }
                 with_value_count--;
+                if (with_value_count != 21) {
+                    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+                }
             });
         });
         clearFieldsButtons.forEach((db) => {
             db.addEventListener('click', (e) => {
 
                 e.preventDefault();
-
                 let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
                     target_fieldset = db.closest("fieldset");
+                    console.log('inside clear field target',target)
 
                 target_fieldset.classList.add("ccs-dynaform");
 
-                document.getElementById('rfp_term_' + target).value = "";
-                document.getElementById('rfp_term_definition_' + target).value = "";
+                //document.getElementById('rfp_term_' + target).value = "";
+                //document.getElementById('rfp_term_definition_' + target).value = "";
                 removeErrorFieldsRfp1();
             });
 
@@ -14128,6 +14134,8 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteButtons = document.querySelectorAll('a.del');
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
+        let textboxelements = document.querySelectorAll('.order_1');
+        console.log('textboxelements',textboxelements)
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -14150,9 +14158,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             $('#totalPercentage').html(weightageSum);
         };
+        
+        textboxelements.forEach(ele => {
+            // ele.addEventListener('focusout', totalPercentage);
+            ele.addEventListener('keydown', (event) => {
+                console.log('inside keydown1')
+                removeErrorFieldsRfpScoreQuestion();
+                // if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
+                console.log('inside keydown')
+                removeErrorFieldsRfpScoreQuestion();
                 if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
             });
         });
@@ -14164,6 +14183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).length,
             );
         };
+        
 
              
         totalAnswerd();
@@ -14277,7 +14297,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
-           
+            console.log('this_box',this_box)
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
@@ -14302,6 +14322,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else {
                 with_value_count = box_num;
+                console.log('with_value_count',with_value_count)
+
             }
             if (box_num === 2 && deleteButtonCount.length > 0) {
 
@@ -14334,7 +14356,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-            
+             
+             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
@@ -14711,6 +14736,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log('sepical terms')
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
@@ -16462,6 +16488,7 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     ccsZPresentErrorSummary(errorStore);
   }
 });
+
 const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -16477,7 +16504,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let this_fieldset = document.querySelector(".acronym_service_" + acronym_fieldset),
                 term_box = document.getElementById("rfp_term_service_group_" + acronym_fieldset);
-
+               document.getElementById("deleteButton_service_useer_type_" + acronym_fieldset).classList.remove("ccs-dynaform-hidden");
+              
             if (term_box != undefined && term_box != null && term_box.value !== "") {
                 this_fieldset.classList.remove('ccs-dynaform-hidden');
                 deleteButtonCount.push(acronym_fieldset);
@@ -16533,13 +16561,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // }
 
            
-
+            // console.log('with_value_count',with_value_count)
             if (with_value_count === 10) {
                 document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
             }
             if(errorStore.length == 0){
                 if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).addClass("ccs-dynaform-hidden");
+                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
                 }
                 with_value_count++;
             }
@@ -16555,18 +16583,106 @@ document.addEventListener('DOMContentLoaded', () => {
                     prev_coll = Number(target) - 1,
                     target_fieldset = db.closest("fieldset");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
+                // target_fieldset.classList.add("ccs-dynaform-hidden");
 
-                document.getElementById('rfp_term_service_group_' + target).value = "";
-                document.getElementById('rfp_term_more_details_' + target).value = "";
+                // document.getElementById('rfp_term_service_group_' + target).value = "";
+                // document.getElementById('rfp_term_more_details_' + target).value = "";
 
 
-                if (prev_coll > 1) {
-                    document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                // if (prev_coll > 1) {
+                //     document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                // }
+
+                // document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                console.log(`target: ${target}`)
+
+                if(target != 10) {
+                    let ml = 1;
+                    
+                    let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
+                            nextLevel_coll = (nextLevel_coll + 1);
+
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                document.getElementById('rfp_term_service_group_' + current_col).value = first.value;
+                                document.getElementById('rfp_term_more_details_' + current_col).value = last.value;
+                                // target_fieldset.querySelector("[name='term']").value = first.value;
+                                // target_fieldset.querySelector("[name='value']").value = last.value;
+                            } else {
+                                next_coll = next_coll + 1;
+                                console.log(`Usual: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                document.getElementById('rfp_term_service_group_' + next_coll).value = first.value;
+                                document.getElementById('rfp_term_more_details_' + next_coll).value = last.value;
+                            }
+        
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('rfp_term_service_group_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_more_details_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_service_group_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        // target_fieldset.classList.add("ccs-dynaform-hidden");
+                        // document.getElementById('rfp_term_' + target).value = "";
+                        // document.getElementById('rfp_term_definition_' + target).value = "";
+                        // if (prev_coll > 1) {
+                        //     document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        // }
+                        // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+                         target_fieldset.classList.add("ccs-dynaform-hidden");
+                         document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).value = "";
+                        if (prev_coll > 1) {
+                            document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    // target_fieldset.classList.add("ccs-dynaform-hidden");
+                    // document.getElementById('rfp_term_' + target).value = "";
+                    // document.getElementById('rfp_term_definition_' + target).value = "";
+                    // if (prev_coll > 1) {
+                    //     document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    // }
+                    // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+                         target_fieldset.classList.add("ccs-dynaform-hidden");
+                         document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).value = "";
+                        if (prev_coll > 1) {
+                            document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
                 }
 
-                document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
                 with_value_count--;
+                if (with_value_count != 11) {
+                    document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+
+                }
             });
         });
         clearFieldsButtons.forEach((db) => {
@@ -16579,8 +16695,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 target_fieldset.classList.add("ccs-dynaform");
 
-                document.getElementById('rfp_term_service_group_' + target).value = "";
-                document.getElementById('rfp_term_more_details_' + target).value = "";
+               // document.getElementById('rfp_term_service_group_' + target).value = "";
+                //document.getElementById('rfp_term_more_details_' + target).value = "";
                 // removeErrorFieldsRfp();
             });
 
