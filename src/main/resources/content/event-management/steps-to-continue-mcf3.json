@@ -15,6 +15,7 @@
     ],
 
     "title": "Choose your next event",
+    "text":"Selecting an event on this page will not close your current event or start a new event. Instead, you will be redirected to the Procurement overview page. From there, you can navigate to and choose the relevant event. Only then will the current event close.",
     "subtitle": "",
     "form": [
         {

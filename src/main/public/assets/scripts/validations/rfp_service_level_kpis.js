@@ -1,4 +1,4 @@
-const countWordskpi = (str) => { return str?.trim().split(/\s+/).length };
+const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -187,8 +187,8 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
     let target_field = document.getElementById("rfp_term_percentage_KPI_" + x);
 
     if (term_field !== undefined && term_field !== null && definition_field !== undefined && definition_field !== null && target_field !== undefined && target_field !== null) {
-      const field1 = countWordskpi(term_field?.value) > 500;
-      const field2 = countWordskpi(definition_field?.value) > 10000;
+      const field1 = countWordskpi(term_field.value) > 500;
+      const field2 = countWordskpi(definition_field.value) > 10000;
 
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         //checkFieldsRfpKPI()
@@ -200,7 +200,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if (term_field.value.trim() == '' && definition_field.value.trim() == '' && target_field.value.trim() == '') {
          
         }else{
-          if (type_base != 'add_more' && pageHeading.includes("(Optional)") && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
+          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
             let isErrorSingle = false;
             if (term_field.value.trim() == ''){
                isErrorSingle = true;
@@ -222,13 +222,17 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         }
        
       
-        if (!pageHeading.includes("(Optional)") || type_base=='add_more') {
+        if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
             ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
             ccsZaddErrorMessage(target_field, 'You must enter your success target.');
-
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+            errorStore.push(fieldCheck);
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+            errorStore.push(fieldCheck);
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
             errorStore.push(fieldCheck);
           }
           else {
@@ -236,15 +240,21 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() === '') {
               ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
               isError = true;
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+              errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
               ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
               isError = true;
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+              errorStore.push(fieldCheck);
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
               ccsZaddErrorMessage(target_field, 'You must enter your success target.');
               isError = true;
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+              errorStore.push(fieldCheck);
             }
             if (field1) {
               ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
@@ -255,8 +265,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
               isError = true;
             }
             if (isError) {
-              fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-              errorStore.push(fieldCheck);
+              
             }
           }
         }

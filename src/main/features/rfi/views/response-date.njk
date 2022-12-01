@@ -4,9 +4,36 @@
 {% set title = 'RfI - response date | Crown Commercial Service' %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+        items: [
+            {
+        "text": "Dashboard",
+        "href": "/dashboard"
+        },
+        {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+        },
+        {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+        },
+        {
+        "text": "Request for Information",
+        "href": "/rfi/rfi-tasklist"
+        },
+        {
+        "text": "Your RfI timeline"
+        }
+           
+        ]
+      }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+{% endif %}      
 {% endblock %}
 
 {% block content %}
@@ -93,7 +120,8 @@
                         </div>
                         <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form_{{loop.index}}">
                         {{ csrfProtection(csrf) }}
-    
+                        <input type="hidden" value="{{agreementId_session}}" id="agreementID">
+
                         <fieldset class="govuk-fieldset govuk-!-margin-bottom-6" role="group" aria-describedby="clarification_end_date">
     
                             <div class="govuk-date-input" id="clarification_date">
@@ -255,7 +283,11 @@
   <button class="govuk-button govuk-button-dark" id="hideMeWhileDateChange" data-module="govuk-button">
     Save and continue
   </button>
+  {% if agreementId_session == "RM6187" %}
+  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+  {% else %}
   <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+  {% endif %}
   </form>
                   
               </div>

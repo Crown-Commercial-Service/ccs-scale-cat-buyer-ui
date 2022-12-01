@@ -111,11 +111,11 @@
                                                     <div class="govuk-grid-row">
                                                         <div class="govuk-grid-column-one-third text-overflow ">
                                                             {# <span class="app-task-list__task-name"> #}
-                                                            <span>
-                                                                <a href="/rfp/upload-attachment?file_id={{file.id}}">
+                                                            <p class="govuk-body">
+                                                                <a href="/rfp/upload-attachment?file_id={{file.id}}" class="govuk-link">
                                                                     <strong>{{file.fileName}}</strong>
                                                                 </a>    
-                                                            </span>
+                                                            </p>
                                                         </div>
                                                         <div class="govuk-grid-column-one-third">
                                                             <p>{{file.fileSize | KbtoMb}} MB</p>
@@ -164,8 +164,8 @@
                                     </form>        
                                 {%endif%}
 
-                        {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
-                            {% if agreementId_session=='RM1043.8' and stage2_value != 'Stage 2' %}
+                        {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' or agreementId_session == 'RM1043.8' %}
+                            {% if (agreementId_session=='RM1043.8' and stage2_value != 'Stage 2') or (agreementId_session == 'RM1557.13')  %}
                                 {{ CCSWarningText({
                                     text: "By uploading this document for all the suppliers in your list you are stating that, to the best of your knowledge, the information you have provided is correct.",
                                     iconFallbackText: "Warning"

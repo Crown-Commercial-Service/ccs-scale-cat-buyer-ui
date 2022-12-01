@@ -14,6 +14,32 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+          "text": "Request for Information",
+          "href": "/rfi/rfi-tasklist"
+        },
+        {
+          "text": "Name your project",
+          "href": "#"
+        }
+    ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
     items: [
         {
@@ -38,6 +64,7 @@
         }
     ]
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -80,9 +107,17 @@
         <p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
        {% endif %}
-
+       {% if agreementId_session == "RM1557.13" %}
+<p class="govuk-body">{{data.caption}}</p>
+{% else %}
       <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can 
-        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a></p>
+      {% if agreementId_session == "RM6187" %}
+        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to Request for Information</a>
+      {% else %}
+      <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a>
+      {% endif %}
+      </p>
+      {% endif %}
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSCharacterCount({           

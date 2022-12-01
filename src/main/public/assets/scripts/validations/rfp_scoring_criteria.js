@@ -46,22 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
     //GET DATA FROM OWN TIER
     let rowsAndHead = {}
     tierDataList.forEach(e => {
-      if (e.attributes?.[2]?.textContent?.toLowerCase() === 'Create your own scoring criteria'.toLowerCase()) {
-        rowsAndHead = e.attributes?.[4]?.value != null ? JSON.parse(e.attributes?.[4]?.value) : null;
-
+      if (e.attributes != undefined && e.attributes[2] != undefined && e.attributes[2].textContent != undefined && e.attributes != null && e.attributes[2] != null && e.attributes[2].textContent != null) {
+        if (e.attributes[2].textContent.toLowerCase() === 'Create your own scoring criteria'.toLowerCase()) {
+          if (e.attributes != undefined && e.attributes[4] != undefined && e.attributes != null && e.attributes[4] != null) {
+            rowsAndHead = e.attributes[4].value != null ? JSON.parse(e.attributes[4].value) : null;
+          }
+        }
       }
     })
 
     //fill data on page reaload
     let activateField9thAreFilledReload = false;
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
-      if (score_criteria_fieldset == 1) {
-        rowsAndHead?.rows?.unshift([{ text: 'ignore' }]);
-      }
+      if (rowsAndHead != null && rowsAndHead != undefined && rowsAndHead.rows != undefined && rowsAndHead.rows != null) {
+        if (score_criteria_fieldset == 1) {
+          rowsAndHead.rows.unshift([{ text: 'ignore' }]);
+        }
 
-      document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
-      document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
-      document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
+        if (rowsAndHead.rows[score_criteria_fieldset] != null && rowsAndHead.rows[score_criteria_fieldset] != undefined) {
+          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(0).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(0).text : '';
+          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(1).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(1).text : '';
+          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead.rows[score_criteria_fieldset].at(2).text != undefined ? rowsAndHead.rows[score_criteria_fieldset].at(2).text : '';
+        }
+      }
 
       let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
         name_box = document.getElementById('rfp_score_criteria_name_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
@@ -76,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
       } else if (score_criteria_fieldset !== 1) {
-        this_fieldset?.classList.add('ccs-dynaform-hidden');
+        if (this_fieldset != null && this_fieldset != undefined) {
+          this_fieldset.classList.add('ccs-dynaform-hidden');
+        }
         with_value_count = score_criteria_fieldset;
       }
       else if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
@@ -263,25 +272,25 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
 
           let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
-          this_fieldset?.classList.add('ccs-dynaform-hidden');
 
+          if (this_fieldset != null && this_fieldset != undefined) {
+            this_fieldset.classList.add('ccs-dynaform-hidden');
+          }
         }
 
         for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
           if (score_criteria_fieldset == 1) {
-            document.getElementById('rfp_score_criteria_name_' + 1).value = resetTierData[0]?.name != undefined ? resetTierData[0]?.name : '';
-            document.getElementById('rfp_score_criteria_point_' + 1).value = resetTierData[0]?.point != undefined ? resetTierData[0]?.point : '';
-            document.getElementById('rfp_score_criteria_desc_' + 1).value = resetTierData[0]?.desc != undefined ? resetTierData[0]?.desc : '';
+            document.getElementById('rfp_score_criteria_name_' + 1).value = resetTierData[0] != undefined && resetTierData[0].name != undefined ? resetTierData[0].name : '';
+            document.getElementById('rfp_score_criteria_point_' + 1).value = resetTierData[0] != undefined && resetTierData[0].point != undefined ? resetTierData[0].point : '';
+            document.getElementById('rfp_score_criteria_desc_' + 1).value = resetTierData[0] != undefined && resetTierData[0].desc != undefined ? resetTierData[0].desc : '';
           } else {
-            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.name != undefined ? resetTierData[score_criteria_fieldset - 1]?.name : '';
-            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.point != undefined ? resetTierData[score_criteria_fieldset - 1]?.point : '';
-            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.desc != undefined ? resetTierData[score_criteria_fieldset - 1]?.desc : '';
+            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].name != undefined ? resetTierData[score_criteria_fieldset - 1].name : '';
+            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].point != undefined ? resetTierData[score_criteria_fieldset - 1].point : '';
+            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1] != undefined && resetTierData[score_criteria_fieldset - 1].desc != undefined ? resetTierData[score_criteria_fieldset - 1].desc : '';
           }
 
           let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
             name_box = document.getElementById('rfp_score_criteria_name_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
-          //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
-          //element.classList.add("ccs-dynaform-hidden");
 
           if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
             this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -290,11 +299,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
           } else if (score_criteria_fieldset !== 0) {
-            this_fieldset?.classList.add('ccs-dynaform-hidden');
+            if (this_fieldset != null && this_fieldset != undefined) {
+              this_fieldset.classList.add('ccs-dynaform-hidden');
+            }
             with_value_count = score_criteria_fieldset;
           }
           if (score_criteria_fieldset === 1) {
-            this_fieldset?.classList.remove('ccs-dynaform-hidden');
+            if (this_fieldset != null && this_fieldset != undefined) {
+              this_fieldset.classList.remove('ccs-dynaform-hidden');
+            }
             with_value_count = 1;
           }
         }
@@ -407,17 +420,21 @@ function preventNumberInput(e){
   //     preventNumberInput(e);
   // });
 
-$(".maxValueValidate").keyup(function(e) {
-  let maxLen = parseInt($(this).val());
-  console.log("maxLen",maxLen);
-if(maxLen > 100){
-  $(this).val('')
-  
-}else{
-  
-}
- 
+// $(".maxValueValidate").keyup(function(e) {
+//   let maxLen = parseInt($(this).val());
+//   console.log("maxLen",maxLen);
+// if(maxLen > 100){
+//   $(this).val('')
+// }else{
+// }
+// });
 
+$(".maxValueValidate").keyup(function(e) {
+  let maxLen = $(this).val();
+  if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
+    let inputVal = $(this).val();
+    $(this).val(inputVal.slice(0,2));
+  }
 });
 
 
@@ -504,12 +521,12 @@ const emptyFieldCheckRfpScore = () => {
           field: point_field,
           isError: false,
         };
-        fieldCheck = [point_field.id, 'Enter Valid score.'];
-        ccsZaddErrorMessage(point_field, 'Enter Valid score.');
+        fieldCheck = [point_field.id, 'Enter valid score.'];
+        ccsZaddErrorMessage(point_field, 'Enter valid score.');
         errorObj.isError = true;
         errorObj.field = point_field;
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'Enter Valid score.'];
+          fieldCheck = [errorObj.field.id, 'Enter valid score.'];
           errorStore.push(fieldCheck);
         }
       }else {
@@ -550,7 +567,7 @@ const emptyFieldCheckRfpScore = () => {
         }
         
         if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
-            ccsZaddErrorMessage(point_field,'Enter Valid score.');
+            ccsZaddErrorMessage(point_field,'Enter valid score.');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
@@ -576,7 +593,7 @@ const emptyFieldCheckRfpScore = () => {
           errMsg = 'you must add score for this level';
         }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
           errorObj.field = point_field;
-          errMsg = 'Enter Valid score.';
+          errMsg = 'Enter valid score.';
         }else if (desc_field.value.trim() === '') {
           errorObj.field = desc_field;
           errMsg = 'you must add description for this level';
@@ -650,8 +667,13 @@ const removeErrorFieldsRfpScore2 = () => {
 
 const emptyFieldCheckRfpScore2 = () => {
   let fieldCheck = '',
+  fieldCheck1 = '',
     errorStore = [];
   removeErrorFieldsRfpScore2();
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_term_service_group_' + x);
     let desc_field = document.getElementById('rfp_term_more_details_' + x);
@@ -659,24 +681,50 @@ const emptyFieldCheckRfpScore2 = () => {
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
+        if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+        fieldCheck = [name_field.id, 'Enter a user type.'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type.');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        errorStore.push(fieldCheck);
+        errorStore.push(fieldCheck1);
+        }
+        else{
         fieldCheck = [name_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
+
+        }
       } else {
         let errorObj = {
           field: name_field,
           isError: false,
         };
         if (name_field.value.trim() === '') {
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+            fieldCheck = [name_field.id, 'Enter a user type.'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+           errorStore.push(fieldCheck);
+          }
+          else{
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
           errorObj.isError = true;
           errorObj.field = name_field;
-        }
+          }
+                  }
         if (desc_field.value.trim() === '') {
-          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
-          errorObj.isError = true;
-          errorObj.field = desc_field;
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+             fieldCheck = [desc_field.id, 'Enter details about your users.'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+            errorStore.push(fieldCheck);
+           }
+           else{
+            ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+            errorObj.isError = true;
+            errorObj.field = desc_field;
+           }
+          
         }
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];

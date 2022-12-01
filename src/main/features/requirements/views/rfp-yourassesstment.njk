@@ -24,7 +24,16 @@
                 <div class="govuk-!-margin-bottom-6">
                     {% include "includes/project_header.njk" %}
                 </div>
+                {% if agreement_id == 'RM1043.8' %}
+                <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text1}}</p>
+                <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text2}}</p>
+                <p class="govuk-body govuk-!-margin-bottom-0">Stage 1: shortlisting</p>
+                <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text3}}</p>
+                <p class="govuk-body govuk-!-margin-bottom-0">Stage 2: further assessment</p>
+                <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text4}}</p>
+                {% else %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question1}}</p>
+                {% endif %}
                 {% if agreement_id == 'RM6263' %}
                     <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question2}}</p>
                 {% endif %}

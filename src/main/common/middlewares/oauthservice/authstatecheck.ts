@@ -50,6 +50,7 @@ export const AUTH: express.Handler = async (
             session: req.session['isAuthenticated'],
           };
           res.locals.Session = isAuthicated;
+          res.locals.accountUrl = process.env['AUTH_IDENTITY_BASE_URL'];
           // get the decoded payload ignoring signature, no secretOrPrivateKey needed
 
           const rolesOfUser = decoded?.payload?.roles;

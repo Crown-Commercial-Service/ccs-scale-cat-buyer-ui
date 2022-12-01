@@ -27,7 +27,8 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
 export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
-
+  const { eventManagement_eventType } = req.session;
+  const model_eventType = req.session.selectedRoute;
   try {
     if(agreement_id == 'RM1043.8'){
       let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
@@ -238,6 +239,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       releatedContent: releatedContent,
       section: section,
       step: step,
+      eventManagement_eventType:model_eventType,
       CurrentLotSupplierCount: (CurrentLotSupplierCount !== null) ? CurrentLotSupplierCount : '',
       socialRelated: socialRelated
     };
@@ -263,6 +265,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+    console.log('data for assessment',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -934,7 +937,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
     case 'Group 5':
       if(agreement_id == 'RM1043.8') {
-        title = 'essential skills and experience';
+        title = 'essential skill or experience';
       } else {
         title = 'cultural';
       }
@@ -962,7 +965,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
       case 'Group 9':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = ''; } else { title = 'social value questions'; }
+        if(lotId == 3) { title = ''; } else { title = 'social value question'; }
       } else {
         title = '';
       }

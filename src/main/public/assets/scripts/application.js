@@ -64,16 +64,18 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
+
    
     if(myclass){
       $("input[type='checkbox']").prop("checked", true);
       $(this).removeClass("uncheck");
       $(this).addClass("check");
-
+      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
     }else{
+      $('.otherTextArea').addClass('ccs-dynaform-hidden');
       $("input[type='checkbox']").prop("checked", false);
       $(this).addClass("uncheck");
-      $(this).removeClass("check");
+      $(this).removeClass("check");      
     } 
 
   
@@ -215,6 +217,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
+  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+  document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
+
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
@@ -228,8 +233,8 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 //if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
 
@@ -267,8 +272,12 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 
 //if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+
+  if (document.getElementById('ccs_eoi_about_proj') !== null)
+  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+
 
 if (document.getElementById('ccs_eoi_new_form') !== null)
   document.getElementById('ccs_eoi_new_form').addEventListener('submit', ccsZvalidateEoiServiceType);
@@ -313,6 +322,8 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
+  if (document.getElementById('fca_select_services_form') !== null)
+  document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
@@ -360,7 +371,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('eoi_duration-years'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 4),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 100),
 );
 setInputFilter(
   document.getElementById('clarification_date-minute_2'),
@@ -627,6 +638,32 @@ setInputFilter(
   value => /^\d*$/.test(value),
 );
 
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question12'),
+  value => /^\d*$/.test(value),
+);
+
+
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question13'),
+  value => /^\d*$/.test(value),
+);
 //g13Check Script
 
 function parseQueryG13(query) {

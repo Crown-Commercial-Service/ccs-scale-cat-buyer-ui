@@ -26,6 +26,31 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+       items: [
+        {
+        text: "Dashboard",
+        href: "/dashboard"
+        },
+        {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+        },
+        {
+        text: "Procurement overview",
+        href: url
+        },
+        {
+        text: "Expression of Interest",
+        href: "/eoi/eoi-tasklist"
+        },
+        {
+        text: "Add colleagues to your Project"
+        }
+        ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
        items: [
         {
@@ -49,7 +74,7 @@
         }
         ]
       }) }}
-
+{% endif %}
 {% endblock %}
 
 {% block content %} 
@@ -181,7 +206,11 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
+      {% if agreementId_session == "RM6187" %}
+        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
+      {% else %}  
         <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+      {% endif %}
       </div>
 
 

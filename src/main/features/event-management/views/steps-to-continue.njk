@@ -52,7 +52,7 @@
    {#  </div>
     </div> #}
 
-<p><strong>[Please choose your next step]</strong></p>
+<p>{{data.text}}</p>
 <form method="post" action="/steps-to-continue" > 
 {{ csrfProtection(csrf) }}
  {% for form in data.form %}

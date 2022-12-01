@@ -80,24 +80,28 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
       const supplierScore = awardsTemplatesData != null ? await TenderApi.Instance(SESSION_ID).get(supplierScoreURL) : null
       
-      
-      for (let i = 0; i < supplierdata.data.responders.length; i++) {
-        let id = supplierdata.data.responders[i].supplier.id;
-        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-        if (supplierdata.data.responders[i].responseState == 'Submitted') {
-          showallDownload = true;
-        }
-        
+      let supplierList = supplierdata.data.responders;
+      console.log('log200',supplierList.length);
+      supplierList = supplierList.sort((a: any, b: any) => a.supplier.name.replace("-"," ").toLowerCase() < b.supplier.name.replace("-"," ").toLowerCase() ? -1 : a.supplier.name.replace("-"," ").toLowerCase() > b.supplier.name.replace("-"," ").toLowerCase() ? 1 : 0);
 
-       if (supplierdata.data.responders[i].supplier.id != supplierId) {
+      // let sId = 0;
+      for (let i = 0; i < supplierList.length; i++) {
+        let id = supplierList[i].supplier.id;
+        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
+        if (supplierList[i].responseState == 'Submitted') {
+          showallDownload = true;
+          // sId = id;
+        }
+
+       if (supplierList[i].supplier.id != supplierId && supplierList[i].responseState == 'Submitted') {
           let supplierDetailsObj = {} as SupplierDetails;
 
           
           var supplierFiltedData = supplierDataList.filter((a: any) => { return a.organization.id == id });
 
-          supplierDetailsObj.supplierName = supplierdata.data.responders[i]?.supplier?.name;
-          supplierDetailsObj.responseState = supplierdata.data.responders[i]?.responseState;
-          supplierDetailsObj.responseDate = supplierdata.data.responders[i]?.responseDate;
+          supplierDetailsObj.supplierName = supplierList[i]?.supplier?.name;
+          supplierDetailsObj.responseState = supplierList[i]?.responseState;
+          supplierDetailsObj.responseDate = supplierList[i]?.responseDate;
           supplierDetailsObj.score = (score != undefined) ? score : 0;
           supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
           supplierDetailsObj.supplierAddress = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0? supplierFiltedData.address : {} as SupplierAddress;
@@ -117,7 +121,17 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+      const agreementId = req.session.agreement_id;
       let status = selectedEventData[0].dashboardStatus
+      let orderTemplateUrl = '';
+      if(agreement_id == 'RM1043.8'){
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1043.8';
+      }
+      else if(agreement_id == 'RM1557.13'){
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1557.13';
+      }else{
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM6187';
+      }
 
       //Final Object
       let eventManagementData = {
@@ -130,12 +144,11 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         documentTemplateDataList,
         supplierDetailsList
       };
-      const appendData = { eventManagementData, projectName };
+      const appendData = { eventManagementData, projectName, agreementId,orderTemplateUrl };
       res.render('awardDocumentComplete', appendData)
     }
 
   } catch (error) {
-
     LoggTracer.errorLogger(
       res,
       error,

@@ -1,4 +1,4 @@
-{% macro CCSReleatedContent(releatedContent, socialRelated) %}
+{% macro CCSReleatedContent(releatedContent, socialRelated,agreement_id,group_id,lotId,criterian_id) %}
     <div class="ccs-callout-panel">
         <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
         <p class="govuk-body">
@@ -6,6 +6,17 @@
             {%  if socialRelated.social_link != 'undefined' %}
                 <br><br><a target="_blank" href={{socialRelated.social_link}}>{{socialRelated.social_label}}</a>
             {% endif %}
+            
+            {%  if (agreement_id == 'RM1043.8') and (group_id == 'Group 12') and (lotId == '1') and (criterian_id == 'Criterion 3') %} 
+                <a target="_blank" href="https://www.gov.uk/service-manual/agile-delivery">Service design phases</a>
+            {% endif %}
+
+
+            {%  if (agreement_id == 'RM1043.8') and (group_id == 'Group 21') and (lotId == '1') and (criterian_id == 'Criterion 3') %} 
+                <a target="_blank" href="https://www.gov.uk/guidance/understanding-off-payroll-working-ir35">Understanding off-payroll working (IR35) on GOV.UK </a>
+            {% endif %}
+            
+
             {#
              <a href="https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts" target="_blank">Social value in the award of central government contracts (PPN 06/20)</a>
             #}

@@ -324,20 +324,20 @@ export class QuestionHelper {
       }
     
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Completed');
      
         
         if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);
+          let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
           if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
           }
         }
       }
       else {
-        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'In progress');
         }
       }
 

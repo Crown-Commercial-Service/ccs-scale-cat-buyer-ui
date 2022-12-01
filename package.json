@@ -7,7 +7,7 @@
         "node": ">=16.13.1"
     },
     "scripts": {
-        "setup": "gulp sass copy-files sass-govuk-frontend",
+        "setup": "gulp styles copy-files sass-ccs-frontend pack-scripts pack-styles",
         "configure": "gulp",
         "start": "NODE_ENV=production ./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
         "start:win": "SET NODE_ENV=development & nodemon -e js,ts,njk,json -x ts-node -r tsconfig-paths/register  src/main/server.ts",
@@ -24,7 +24,8 @@
         "test:smoke": "echo 'TODO add smoke tests' && exit 1",
         "test:functional": "echo 'TODO add functional tests' && exit 1",
         "cichecks": "yarn && yarn build && yarn lint  && yarn test && yarn test:routes &&  yarn test:a11y",
-        "compile": "assets/styles"
+        "compile": "assets/styles",
+        "build-assets": "gulp pack-scripts pack-styles"
     },
     "dependencies": {
         "@hmcts/info-provider": "^1.0.0",
@@ -117,7 +118,10 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^4.0.0",
         "gulp": "^4.0.2",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-concat": "^2.6.1",
         "gulp-livereload": "^4.0.2",
+        "gulp-minify": "^3.1.0",
         "gulp-nodemon": "^2.5.0",
         "gulp-plumber": "^1.2.1",
         "gulp-rename": "^2.0.0",

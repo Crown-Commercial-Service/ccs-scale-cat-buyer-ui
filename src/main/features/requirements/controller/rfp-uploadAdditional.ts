@@ -249,8 +249,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
   const agreementId_session = req.session.agreement_id;
   let { selectedRoute, stage2_value } = req.session;
   try {
+    
     if (req.session['isAssessUploaded']) {
-
 
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
       if (selectedRoute === 'dos') selectedRoute = 'RFP';
@@ -261,7 +261,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         DefaultJID = 32;
       }
       let step = selectedRoute.toLowerCase() === 'rfp' ? DefaultJID : 71;
-
+      
       const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
       const FETCH_FILEDATA = FetchDocuments?.data;
@@ -285,10 +285,15 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         if (fileNameStorageTermsnCond.length > 0 && fileNameStoragePricing.length > 0) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
           let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
-          //if(flag) {
+          if(flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
-          //} 
-          res.redirect(`/rfp/IR35`);
+          } 
+          if(agreementId_session == 'RM1557.13' || agreementId_session == 'RM6187') {
+            res.redirect(`/rfp/task-list`);
+          }else{
+            res.redirect(`/rfp/IR35`);
+          }
+          
         } else {
           res.redirect(`/rfp/upload`);
         }
@@ -310,6 +315,9 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         req.session["assessDocument"] = { "IsDocumentError": true, "IsFile": req.session['isAssessUploaded'] ? true : false };
         res.redirect(`/rfp/upload-additional`);
       }else{
+        if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 1"){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
+        }
         res.redirect(`/rfp/task-list`); 
       }
     }

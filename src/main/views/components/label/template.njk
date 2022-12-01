@@ -18,5 +18,8 @@
 {% else %}
 {{ labelHtml | safe }}
 {% endif %}
+{% if params.text=='For example &#163; 40,000' or params.text=='For example &#163; 20,000' %}
+  <p class="govuk-!-margin-bottom-2">{{params.text | safe }}</p>
+{% endif %}
 {% endif %}
 {% endif %}

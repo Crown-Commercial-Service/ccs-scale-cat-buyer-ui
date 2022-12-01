@@ -2,12 +2,15 @@
 import * as express from 'express';
 import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json';
 import * as chooseRouteDataMCF from '../../../resources/content/MCF3/requirements/rfpTaskList.json';
+import * as chooseRouteDataGCLOUD from '../../../resources/content/requirements/rfpGCLOUDTaskList.json';
 import * as chooseRouteDataDOSMCF from '../../../resources/content/MCF3/requirements/DOSrfpTaskList.json';
 import * as stage2DataDOS from '../../../resources/content/MCF3/requirements/DOSsatge2TaskList.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 /**
  *
  * @Rediect
@@ -63,12 +66,15 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     if(stage2_value !== undefined && stage2_value === "Stage 2"){
     cmsData = stage2DataDOS
     }
+  }else if(agreementId_session == 'RM1557.13' && lotid=='4') {
+    //MCF3
+    cmsData = chooseRouteDataGCLOUD;
   }
 
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype;
-  if(agreementId_session == 'RM1043.8'){
+  if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid=='4')){
     selectedeventtype = 'FC'; 
     
   }else{
@@ -77,7 +83,36 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,projectId,eventId,stage2_value };
 
   try {
-    if(agreementId_session != 'RM1043.8') {
+
+    if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
+      // name your project for dos
+      let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
+      if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
+      let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+
+      let nameJourneysts = journeySteps.filter((el: any) => {
+        if(el.step == 27 && el.state == 'Completed') return true;
+        return false;
+      });
+
+      if(nameJourneysts.length > 0){
+
+        let addcontsts = journeySteps.filter((el: any) => { 
+          if(el.step == 30) return true;
+          return false;
+        });
+
+        if(addcontsts[0].state == 'Cannot start yet'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+        }
+
+      }else{
+        let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+        if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+      }
+    }
+
+    if(agreementId_session != 'RM1043.8' && agreementId_session != 'RM1557.13') {
       if(agreementId_session != 'RM6187') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
       }
@@ -104,7 +139,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
-    else{
+    else{      
       statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
     }
 
@@ -194,6 +229,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
     
   } catch (error) {
+
+console.log("error",error);
     LoggTracer.errorLogger(
       res,
       error,

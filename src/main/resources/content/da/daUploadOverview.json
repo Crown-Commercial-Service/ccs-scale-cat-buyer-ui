@@ -29,17 +29,23 @@
     "taskList": [{
             "title": "Upload your pricing schedule (attachment 4)",
             "hreftitle": "Add or change upload",
-            "href": "/da/upload-attachment"
+            "href": "/da/upload-attachment",
+            "mandatory":true,
+            "taskStatus":"To do"
         },
         {
             "title": "Upload your terms and conditions",
             "hreftitle": "Add or change upload",
-            "href": "/da/upload-doc"
+            "href": "/da/upload-doc",
+            "mandatory":true,
+            "taskStatus":"Cannot start yet"
         },
         {
             "title": "Upload any additional documents (optional)",
             "hreftitle": "Add or change upload",
-            "href": "/da/upload-additional"
+            "href": "/da/upload-additional",
+            "mandatory":false,
+            "taskStatus":"Optional"
         }
     ],
     "backJump": {

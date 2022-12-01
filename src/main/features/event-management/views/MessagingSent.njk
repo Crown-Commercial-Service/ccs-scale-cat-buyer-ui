@@ -5,6 +5,24 @@
 {% set title = 'Message Sent ' %}
 
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+{{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Inbox",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -21,6 +39,7 @@
     }
   ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -62,6 +81,9 @@
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
+        {% if agreementId != 'RM1043.8' %}
+      <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+        {% endif %}
         {% if messages.length > 5 %}
           <table class="govuk-table" id="sent-message">
           {% else %}

@@ -8,6 +8,32 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Request for Information",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
     items: [
       {
@@ -32,6 +58,7 @@
       }
     ]
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% set sortedMembers = [{value: "", text: "Current user name and surname", disabled: true}] %}
@@ -73,7 +100,11 @@
          </div>
 
          <div class="form ccs_procurement_lead">
+            {% if agreementId_session == "RM1557.13" %}
+            <p class="govuk-body">Select the project lead:</p>
+            {% else %}
             <p class="govuk-body">Select the procurement lead for this project:</p>
+            {% endif %}
             <form method="GET" id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead"  action="/rfi/procurement-lead">
              <div class="govuk-button-group">
                {{ CCSSelect({
@@ -111,7 +142,11 @@
               {{ CCSButton({
                text: "Save and continue"
               }) }}
-              <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              {% if agreementId_session == "RM6187" %}
+                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+              {% else %}
+                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              {% endif %}
             </div>
 
          </form>

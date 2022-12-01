@@ -25,7 +25,9 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
+                {% if agreementId_session != 'RM1557.13' %}
                 <p class="govuk-body">Find more information on each supplier on the main <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website.</a> <span class='govuk-visually-hidden'> opens in a new window</span> The page will open on a new tab.</p>
+                {% endif %}	
               <form id="ccs-rfp-suppliers-form" class="ccs-rfp-suppliers-form" action="/rfp/suppliers" method="POST">
                 {{ csrfProtection(csrf) }}
                     <br>
@@ -59,7 +61,7 @@
                                             <p>{{supplier.organization.identifier.legalName}}</p>
                                              
                                              {% if(enablebtn) %}
-                                            <p><a href="/fca/supplier/ratecard?supplierId={{supplier.organization.id}}&supplierName={{supplier.organization.name}}">View rate card and contact details</a></p>
+                                            <p><a href="/rfp/supplier/ratecard?supplierId={{supplier.organization.id}}&supplierName={{supplier.organization.name}}">View rate card and contact details</a></p>
                                             {% endif %}
 
                                         {% endif %}

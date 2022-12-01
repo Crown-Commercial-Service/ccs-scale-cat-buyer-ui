@@ -207,6 +207,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
+   console.log("req.body",req.body);
    
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
@@ -376,12 +377,21 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             let splTermvalue = req.body.value;
             const TAStorage = [];
             splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
+
+            if(splTermvalue != undefined && splTermvalue != ""){
             splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
 
             for (let item = 0; item < splterm.length; item++) {
               const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
               TAStorage.push(spltermObject);
             }
+          }
+            else{
+              for (let item = 0; item < splterm.length; item++) {
+                const spltermObject = { value: splterm[item], selected: true };
+                TAStorage.push(spltermObject);
+              }
+            }  
             answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -500,6 +510,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           res.send();

@@ -26,11 +26,14 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
+  const { eventManagement_eventType } = req.session;
+  const model_eventType = req.session.selectedRoute;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -174,7 +177,8 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       errorText: errorText,
       releatedContent: releatedContent,
       section: section,
-      step: step
+      step: step,
+      eventManagement_eventType:model_eventType
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;

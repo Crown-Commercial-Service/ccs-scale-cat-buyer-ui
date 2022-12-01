@@ -27,6 +27,31 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+       items: [
+        {
+        text: "Dashboard",
+        href: "/dashboard"
+        },
+        {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+        },
+        {
+        text: "Procurement overview",
+        href: url
+        },
+        {
+        text: "Request for Information",
+        href: "/rfi/rfi-tasklist"
+        },
+        {
+        text: "Add colleagues to your Project"
+        }
+        ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
        items: [
         {
@@ -50,7 +75,7 @@
         }
         ]
       }) }}
-
+{% endif %}
 {% endblock %}
 
 {% block content %} 
@@ -72,7 +97,11 @@
 
 <div class="govuk-grid-row">
   <h1 class="govuk-heading-xl">
+    {% if agreementId_session == "RM1557.13" %}
+   <strong> Add colleagues to your project (Optional) </strong>
+   {% else %}
    <strong> {{data.title}} </strong>
+   {% endif %}
   </h1>
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   <div class="govuk-grid-row">
@@ -81,6 +110,15 @@
       {% include "includes/project_header.njk" %}
     </div>
   </div>
+  {% if agreementId_session == "RM1557.13" %}
+  <div class="ccs-page-section govuk-!-padding-bottom-7">
+    <p class="govuk-body">You’re advised to add additional colleagues to this procurement in case you’re unavailable at any time.</p>
+    <p class="govuk-body">Additional colleagues can help you write your requirements and review and evaluate suppliers.</p>
+    <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">registered with CCS.</a></p>
+    <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to the pre-tender market engagement section, or continue to the next step. </p>
+    <p class="govuk-body">You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step. </p>
+  </div>
+  {% else %}
   {% if agreementId_session == 'RM1043.8' %}
   <div class="ccs-page-section govuk-!-padding-bottom-7">
     <p class="govuk-body">{{data.content.pdos1}}</p>
@@ -107,6 +145,7 @@
     <p class="govuk-body">{{data.content.p4}} </p>
     <br><br>
     </div>
+    {% endif %}
     {% endif %}
       <div class="ccs-page-section">
         <p class="govuk-body">Add colleagues:</p>
@@ -192,7 +231,11 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
-        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+        {% if agreementId_session == "RM6187" %}
+          <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+        {% else %}
+          <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+        {% endif %}
       </div>
 
 

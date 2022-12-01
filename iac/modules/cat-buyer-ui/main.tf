@@ -60,6 +60,10 @@ data "aws_ssm_parameter" "env_auth_server_base_url" {
   name = "/cat/${var.environment}/auth-server-base-url"
 }
 
+data "aws_ssm_parameter" "env_auth_identity_base_url" {
+  name = "/cat/${var.environment}/auth_identity_base_url"
+}
+
 data "aws_ssm_parameter" "env_logit_api_key" {
   name = "/cat/${var.environment}/logit-api-key"
 }
@@ -82,6 +86,14 @@ data "aws_ssm_parameter" "google_tag_manager_id" {
 
 data "aws_ssm_parameter" "gcloud_token" {
   name = "/cat/${var.environment}/gcloud_token"
+}
+
+data "aws_ssm_parameter" "gcloud_search_api_token" {
+  name = "/cat/${var.environment}/gcloud_search_api_token"
+}
+
+data "aws_ssm_parameter" "gcloud_index" {
+  name = "/cat/${var.environment}/gcloud_index"
 }
 
 data "aws_ssm_parameter" "gcloud_search_api_url" {
@@ -119,6 +131,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
+    AUTH_IDENTITY_BASE_URL : data.aws_ssm_parameter.env_auth_identity_base_url.value
     CAT_URL : "https://${format("%s%s", var.buyer_ui_domain_prefix, data.aws_ssm_parameter.buyer_ui_domain.value)}"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
@@ -129,6 +142,8 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     ROLLBAR_HOST : var.environment
     ROLLBAR_ACCESS_TOKEN : data.aws_ssm_parameter.rollbar_access_token.value
     GCLOUD_TOKEN : data.aws_ssm_parameter.gcloud_token.value
+    GCLOUD_INDEX : data.aws_ssm_parameter.gcloud_index.value
+    GCLOUD_SEARCH_API_TOKEN : data.aws_ssm_parameter.gcloud_search_api_token.value
     GCLOUD_SEARCH_API_URL : data.aws_ssm_parameter.gcloud_search_api_url.value
     GCLOUD_SERVICES_API_URL : data.aws_ssm_parameter.gcloud_services_api_url.value
     GCLOUD_SUPPLIER_API_URL : data.aws_ssm_parameter.gcloud_supplier_api_url.value

@@ -53,6 +53,19 @@ Running the unit test case:
 ```bash
 $ npm run test:routes
 ```
+
+### Making CSS / JS Changes
+
+We use packed and minified scripts and stylesheets in the web application.
+
+When you have made changes to scripts/styles and want to promote them to the packed files you will need to run the following command:
+
+```bash
+$ npm run build-assets
+```
+
+This is also run as part of the npm setup task.
+
 ### Running the tests
 
 This template app uses [Mocha](https://mochajs.org/) as the test engine. You can run unit tests by executing

@@ -50,17 +50,17 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_5}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
               {% for event in events %}
                 <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell">
+                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                     <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
                             <input type="hidden" value="{{event.projectId}}">	
@@ -70,12 +70,12 @@
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
                   {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell"> N/A </td>
+                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
                    {% else %}    
-                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }} </td> 
+                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
                      {% endif %}
 
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
@@ -84,7 +84,7 @@
                       {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY')}}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-!-text-align-right">
                     {{ event.activeEvent.status }}
                   </td>
                 </tr>
@@ -96,17 +96,17 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_5}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
               {% for event in events %}
                 <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell">
+                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                       <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
                        <input type="hidden" value="{{event.projectId}}">	
@@ -116,12 +116,12 @@
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
                   {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell"> N/A </td>
+                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
                    {% else %}    
-                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }} </td> 
+                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
                      {% endif %}
 
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
@@ -130,7 +130,7 @@
                       {{ event.activeEvent.tenderPeriod.endDate|dateddmmyyyy }}	
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-!-text-align-right">
                     {{ event.activeEvent.status }}
                   </td>
                 </tr>
@@ -142,11 +142,11 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} (0)</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_5}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -177,18 +177,18 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">Status</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection4_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection4_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection4_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_table_th_4}}</th>
+                {#<th scope="col" class="govuk-table__header">Status</th>#}
               </tr>
             </thead>
             <tbody class="govuk-table__body">
               {% for event in historicalEvents %}
                {% if event.activeEvent.eventType !='PA' %}
                 <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell">
+                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                     <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
                        <input type="hidden" value="{{event.projectId}}">	
@@ -199,23 +199,23 @@
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
                   {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell"> N/A </td>
+                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
                    {% else %}    
-                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }} </td> 
+                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
                      {% endif %}
 
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-!-text-align-centre">
                     {% if event.activeEvent.tenderPeriod.endDate %}
                       {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-capitalise">
+                  {#<td class="govuk-table__cell govuk-capitalise">
                     {{event.activeEvent.dashboardStatus}}
-                  </td>
+                  </td>#}
                 </tr>
                 {% endif %}
               {% endfor %}
@@ -229,18 +229,18 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">Status</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection4_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection4_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection4_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_table_th_4}}</th>
+                {#<th scope="col" class="govuk-table__header">Status</th>#}
               </tr>
             </thead>
             <tbody class="govuk-table__body">
               {% for event in historicalEvents %}
                 {% if event.activeEvent.eventType !='PA' %}
                 <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell">
+                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                      <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
                                 <input type="hidden" value="{{event.projectId}}">	
@@ -250,23 +250,23 @@
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
                   {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell"> N/A </td>
+                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
                    {% else %}    
-                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }} </td> 
+                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
                      {% endif %}
 
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-!-text-align-centre">
                     {% if event.activeEvent.tenderPeriod.endDate %}
                       {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-capitalise">
+                  {#<td class="govuk-table__cell govuk-capitalise">
                     {{event.activeEvent.dashboardStatus}}
-                  </td>
+                  </td>#}
                 </tr>
                  {% endif %}
               {% endfor %}
@@ -280,11 +280,11 @@
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (0)</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-                <th scope="col" class="govuk-table__header">Status</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection4_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection4_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection4_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_table_th_4}}</th>
+                {#<th scope="col" class="govuk-table__header">Status</th>#}
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -297,7 +297,7 @@
                 <td class="govuk-table__cell"></td>
                 <td class="govuk-table__cell"></td>
                 <td class="govuk-table__cell"></td>
-                <td class="govuk-table__cell"></td>
+                {#<td class="govuk-table__cell"></td>#}
               </tr>
             </tbody>
           </table>

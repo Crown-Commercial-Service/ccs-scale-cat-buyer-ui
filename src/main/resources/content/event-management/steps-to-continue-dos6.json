@@ -1,0 +1,43 @@
+
+{
+  "breadCrumbs": [
+      {
+          "text": "Dashboard",
+          "href": "/dashboard"
+        },
+        {
+          "text": "Event Management",
+          "href": "/event/management?id="
+        },
+        {
+          "text": "Close/archive"
+        }
+  ],
+
+  "title": "Choose your next event",
+  "text":"Selecting an event on this page will not close your current event or start a new event. Instead, you will be redirected to the Procurement overview page. From there, you can navigate to and choose the relevant event. Only then will the current event close.",
+  "subtitle": "",
+  "form": [
+      {
+        "id": "rfi_next_steps_to_continue",
+        "question": "Choose your next event",
+        "radioOptions": {
+          "name": "rfi_next_steps_to_continue",
+          "items": [
+            {
+              "value": "[1-stage FC]",
+              "text": "Further competition",
+              "hint": {
+                "text": "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "backJump": {
+      "title": "Return to Your project",
+      "href": "/event/management?id="
+    }
+
+} 

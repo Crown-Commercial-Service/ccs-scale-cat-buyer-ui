@@ -99,7 +99,7 @@
         {% block Project_And_colleagues %}
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-              <h2 class="govuk-heading-m">1. Project and colleagues</h2>
+              <h2 class="govuk-heading-l">1. Project and colleagues</h2>
               <dl class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key"></dt>
@@ -210,7 +210,7 @@
               <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                  
-                    <h2 class="govuk-heading-m">2. Add context to your further competition
+                    <h2 class="govuk-heading-l">2. Add context and requirements 
                               </h2>
                  
                   {% if (agreement_id == "RM1043.8" and lotId == 3 or lotId == 1) %}
@@ -295,7 +295,15 @@
                             <strong>Where the research will take place</strong>
                           </h3>
                       </dt>
-                      <dd class="govuk-summary-list__value"><p>{{ businessProbAns }}</p></dd>
+                      <dd class="govuk-summary-list__value">
+                        <ul class="govuk-list govuk-list--none">
+                                {% for businessProbAnsd in businessProbAns %}
+                                  <li>
+                                    <p>{{ businessProbAnsd }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                        </dd>
                       <dd class="govuk-summary-list__actions">
                         {% if eventStatus != "published" %}
                           <a
@@ -402,7 +410,7 @@
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>The people who will use your product or service (optional)</strong>
+                            <strong>The people who will use your product or service </strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value"><p>&nbsp;</p></dd>
@@ -441,7 +449,7 @@
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Any pre-market engagement done (optional)</strong>
+                            <strong>Pre-market engagement (optional)</strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value"><p>
@@ -510,7 +518,7 @@
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Existing team (optional)</strong>
+                            <strong>Existing team </strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value"><p>{{ researchLoc }}</p></dd>
@@ -564,7 +572,7 @@
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Security and vetting requirements (Optional)</strong>
+                            <strong>Security and vetting requirements</strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value">
@@ -586,6 +594,18 @@
                         {% endif %}
                       </dd>
                     </div>
+                    
+                    {% if securityRequirements != ''  %}
+                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__value">
+                          <p>More information about your Security requirements</p>
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                          <p>{{ securityRequirements }} </p>
+                        </dd>
+                      </div>
+                    {% endif %}
+
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         
@@ -623,7 +643,8 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Proposed start date</p>
+                      {# <p>Proposed start date</p> #}
+                      <p>Contract length</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       <p>{{ indicativedurationYear }}
@@ -634,7 +655,8 @@
 
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Proposed duration</p>
+                      {# <p>Proposed duration</p> #}
+                      <p>Optional extension</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       <p>{{ extentionindicativedurationYear }}
@@ -659,31 +681,56 @@
                         {% endif %}
                       </dd>
                     </div>
+                    {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eighth',
+                ' ninth',
+                ' tenth',
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
+                ] %}
                     {% if (spltermAndAcr != undefined and spltermAndAcr != null and spltermAndAcr | length > 0) %}
+                    {% set rows = 1 %}
                       {% for data in spltermAndAcr %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
-                            <p>Special term or condition</p>
+                            <p>Your {{numberWord[rows]}} special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.value }}</p>
                           </dd>
                         </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        {# <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <p>Explanation of the special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.text }}</p>
                           </dd>
-                        </div>
+                        </div> #}
+                        {% set rows = rows+1 %}
                       {% endfor %}
                     {% endif %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Set your budget (Optional)</strong>
+                            <strong>Set your budget</strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value"><p>{{ budget if agreement_id !== "RM1043.8" }}</p></dd>
@@ -700,21 +747,49 @@
                     {% if budget  %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Indicative minimum</p>
+                      <p>Indicative minimum </p>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{ budgetMinimum }}</p>
+                      {% if budget[0] != 'No'  %}
+                        {% if budgetMinimum != ''  %}
+                        {% if (agreement_id == "RM1043.8") %}
+                               <p>{{ budgetMinimum }}</p>
+                          {% else %}
+                               <p>£{{ budgetMinimum }}</p>
+                          {% endif %}
+                        {% endif %}
+                      {% else %}
+                          <p>{{ budgetMinimum }}</p>
+                      {% endif %}
                     </dd>
                   </div>
-
+                  
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
                       <p>Indicative maximum</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{ budgetMaximum }}</p>
+                      {% if budget[0] != 'No'  %}
+                          {% if (agreement_id == "RM1043.8") %}
+                               <p>{{ budgetMaximum }}</p>
+                          {% else %}
+                               <p>£{{ budgetMaximum }}</p>
+                          {% endif %}
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
                     </dd>
                   </div>
+                    {% if furtherInfo != ''  %}
+                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__value">
+                          <p>Further information</p>
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                          <p>{{ furtherInfo }} </p>
+                        </dd>
+                      </div>
+                    {% endif %}
                    {% endif %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
@@ -814,7 +889,15 @@
                             <strong>Evening or weekend research (Optional)</strong>
                           </h3>
                       </dt>
-                      <dd class="govuk-summary-list__value"><p>{{ weekendresearchDate }}</p></dd>
+                      <dd class="govuk-summary-list__value">
+                        <ul class="govuk-list govuk-list--none">
+                                {% for weekendresearchDates in weekendresearchDate %}
+                                  <li>
+                                    <p>{{ weekendresearchDates }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                        </dd>
                       <dd class="govuk-summary-list__actions">
                         {% if eventStatus != "published" %}
                           <a
@@ -882,7 +965,7 @@
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Assisted digital and accessibility requirements</strong>
+                            <strong>Assisted digital and accessibility requirements (optional)</strong>
                         </h3>
                       </dt>
                       <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -900,7 +983,7 @@
                       {% for data in digiaccess %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
-                            <p>Value</p>
+                            <p>Describe accessibility requirements</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.value }}</p>
@@ -943,31 +1026,56 @@
                         {% endif %}
                       </dd>
                     </div>
+                    {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eighth',
+                ' ninth',
+                ' tenth',
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
+                ] %}
                     {% if (spltermAndAcr != undefined and spltermAndAcr != null and spltermAndAcr | length > 0) %}
+                    {% set rows = 1 %}
                       {% for data in spltermAndAcr %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
-                            <p>Term or acronym</p>
+                            <p>Your {{numberWord[rows]}} special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.value }}</p>
                           </dd>
                         </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        {# <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <p>Definition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.text }}</p>
                           </dd>
-                        </div>
+                        </div> #}
+                        {% set rows = rows+1 %}
                       {% endfor %}
                     {% endif %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Set your budget (Optional)</strong>
+                            <strong>Set your budget</strong>
                           </h3>
                       </dt>
                       <dd class="govuk-summary-list__value"><p>{{ budget if agreement_id !== "RM1043.8" }}</p></dd>
@@ -987,7 +1095,14 @@
                       <p>Indicative minimum</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{ budgetMinimum }}</p>
+                      {% if budget[0] != 'No'  %}
+                      {% if budgetMinimum != ''  %}
+                          <p>£{{ budgetMinimum }}</p>
+                        {% endif %}
+                      {% else %}
+                          <p>{{ budgetMinimum }}</p>
+                      {% endif %}
+
                     </dd>
                   </div>
 
@@ -996,9 +1111,25 @@
                       <p>Indicative maximum</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{ budgetMaximum }}</p>
+                      {% if budget[0] != 'No'  %}
+                      <p>£{{ budgetMaximum }}</p>
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
                     </dd>
                   </div>
+
+                      {% if furtherInfo != ''  %}
+                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__value">
+                          <p>Further information</p>
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                          <p>{{ furtherInfo }} </p>
+                        </dd>
+                      </div>
+                    {% endif %}
+
                    {% endif %}
                     {% endif %}
                     
@@ -1007,7 +1138,9 @@
                     
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
+                            <h3 class="govuk-!-margin-bottom-0">
                             <strong>Upload more documents (optional)</strong>
+                          </h3>
                           </dt>
                           <dd class="govuk-summary-list__value"></dd>
                           
@@ -1619,7 +1752,7 @@
                 {% if agreementId_session == 'RM6263' %}
                   {# ----START-----People, skills, security and location #}
                   {% block People_skills_security_and_location %}
-                    <h2 class="govuk-heading-m">4. People, skills, security and location
+                    <h2 class="govuk-heading-l">4. People, skills, security and location
                       </h2>
                     <dl class="govuk-summary-list">
                       <div class="govuk-summary-list__row">
@@ -1754,7 +1887,7 @@
                   {# START----------------------Upload pricing schedules and any other supporting documents-2 #}
                   {% if (agreement_id != "RM1043.8") %}
                     {% block Upload_pricing_schedules2 %}
-                      <h2 class="govuk-heading-m">4. Upload pricing schedules and any other supporting documents
+                      <h2 class="govuk-heading-l">4. Upload pricing schedules and any other supporting documents
                       </h2>
                       <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row">
@@ -1859,10 +1992,10 @@
                 {# START----------------------Your assessment criteria #}
                 {% block Your_assessment_criteria %}
                   {% if (agreement_id == "RM1043.8") and (lotId == 1)or(lotId == 3) %}
-<h2 class="govuk-heading-m">3. Your assessment criteria
+<h2 class="govuk-heading-l">3. Your assessment criteria
                     </h2>
                   {% else %}
-<h2 class="govuk-heading-m">5. Your assessment criteria
+<h2 class="govuk-heading-l">5. Your assessment criteria
                     </h2>
                   {% endif %}
                   
@@ -1912,7 +2045,7 @@
                           <p>Technical Competence</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <p>{{ technicalgroupquestion1 }}</p>
+                          <p>{{ technicalgroupquestion1 }}%</p>
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -1920,7 +2053,7 @@
                           <p>Cultural fit</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <p>{{ culturalgroupquestion1 }}</p>
+                          <p>{{ culturalgroupquestion1 }}%</p>
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -1928,7 +2061,7 @@
                           <p>Social values</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <p>{{ socialvaluegroupquestion1 }}</p>
+                          <p>{{ socialvaluegroupquestion1 }}%</p>
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -1936,8 +2069,13 @@
                           <p>Price</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <p>{{ pricegroupquestion1 }}</p>
+                          <p>{{ pricegroupquestion1 }}%</p>
                         </dd>
+                      </div>
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__key">
@@ -1963,7 +2101,7 @@
                               <p>Essential skills and experience</p>
                             </dt>
                             <dd class="govuk-summary-list__value">
-                              <p>{{ data.tech }}</p>
+                              <p>{{ data.tech }}%</p>
                             </dd>
                           </div>
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -1971,7 +2109,7 @@
                               <p>Nice-to-have skills and experience</p>
                             </dt>
                             <dd class="govuk-summary-list__value">
-                              <p>{{ data.add }}</p>
+                              <p>{{ data.add }}{% if data.add %} % {% endif %}</p>
                             </dd>
                           </div>
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -1979,167 +2117,141 @@
                               <p>Technical questions</p>
                             </dt>
                             <dd class="govuk-summary-list__value">
-                              <p>{{ data.good }}</p>
+                              <p>{{ data.good }}%</p>
                             </dd>
                           </div>
                         {% endfor %}
                       {% endif %}
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value">
-                          <h3>
-                            <strong>Essential skills and experience</strong>
-                          </h3><br/>
-                          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
-                            {% for data in culGroup %}
-                              <p>Describe the essential skill or experience</p><br/>
-                              <p>weighting </p><br/><br/>
 
-                            {% endfor %}
-                          {% endif %}
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                          <br/>
-                          <br/><br/><br/>
-                          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
-                            {% for data in culGroup %}
-                              <p>{{ data.tech }}</p><br/>
-                              <p>{{ data.add }}%</p><br/><br/>
-                            {% endfor %}
-                          {% endif %}
-                        </dd>
-                        <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+               <h3 class="govuk-!-margin-bottom-0">
+                            <strong>Essential skills and experience</strong>
+                          </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
                             <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 5">
                         Change<span class="govuk-visually-hidden">project name</span>
                             </a>
                           {% endif %}
-                        </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Nice-to-have skills</strong>
-                            </h3><br/>
-                            {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
-                              {% for data in socialGroup %}
-                                <p>Describe the essential skill or experience</p><br/>
-                                <p>weighting </p><br/><br/>
+            </dd>
+          </div>
+          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
+            {% for data in culGroup %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Describe the essential skill or experience</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.tech }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+            </div>
 
-                              {% endfor %}
-                            {% endif %}
-                          </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
-                              {% for data in socialGroup %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
-                          </dd>
-                          <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" %}
+            {% endfor %}
+          {% endif %}
+          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+              <h3 class="govuk-!-margin-bottom-0">
+                <strong>Nice-to-have skills and experience (Optional)</strong>
+              </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
                               <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 6">
                         Change<span class="govuk-visually-hidden">project name</span>
                               </a>
                             {% endif %}
-                          </dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Technical questions</strong>
-                            </h3><br/>
-                            {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
-                              {% for data in pricingModel %}
-                                <p>Explain the technical question</p><br/>
-                                <p>weighting </p><br/><br/>
+            </dd>
+          </div>
+          {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
+            {% for data in socialGroup %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Describe the essential skill or experience</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}{% if data.add %} % {% endif %}</p></dd>
+            </div>
+            {% endfor %}
+          {% endif %}
 
-                              {% endfor %}
-                            {% endif %}
+          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+              <h3 class="govuk-!-margin-bottom-0">
+                <strong>Technical questions</strong>
+              </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
+                  <a
+            class="govuk-link"
+            href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 7">
+            Change<span class="govuk-visually-hidden">project name</span>
+                  </a>
+                {% endif %}
+            </dd>
+          </div>
+          {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
+            {% for data in pricingModel %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Explain the technical question</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+            </div>
+
+            {% endfor %}
+          {% endif %}
+                        {% if (lotId == "1") %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                          <dt class="govuk-summary-list__key">
+                            <h3 class="govuk-!-margin-bottom-0">
+                              <strong>Write your cultural fit questions</strong>
+                            </h3>
                           </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
-                              {% for data in pricingModel %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
-                          </dd>
+                          <dd class="govuk-summary-list__value">&nbsp;</dd>
                           <dd class="govuk-summary-list__actions">
                             {% if eventStatus != "published" %}
-                              <a
-                        class="govuk-link"
-                        href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 7">
-                        Change<span class="govuk-visually-hidden">project name</span>
-                              </a>
-                            {% endif %}
-                          </dd>
-                        </div>
-                        {% if (lotId == "1") %}
-                          <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__value">
-                              <h3>
-                                <strong>Write your cultural fit questions</strong>
-                              </h3><br/>
-                              {% if culModel != undefined and culModel != null and culModel | length > 0 %}
-                                {% for data in culModel %}
-                                  <p>Your question</p><br/>
-                                  <p>weighting </p><br/><br/>
-
-                                {% endfor %}
-                              {% endif %}
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                              <br/>
-                              <br/><br/><br/>
-                              {% if culModel != undefined and culModel != null and culModel | length > 0 %}
-                                {% for data in culModel %}
-                                  <p>{{ data.weight }}</p><br/>
-                                  <p>{{ data.add }}%</p><br/><br/>
-                                {% endfor %}
-                              {% endif %}
-                            </dd>
-                            <dd class="govuk-summary-list__actions">
-                              {% if eventStatus != "published" %}
                                 <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 8">
                         Change<span class="govuk-visually-hidden">project name</span>
                                 </a>
                               {% endif %}
-                            </dd>
-                          </div>
-                        {% endif %}
-                        <div class="govuk-summary-list__row">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Write your social value questions</strong>
-                            </h3><br/>
-                            {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
-                              {% for data in socialModel %}
-                                <p>Your question</p><br/>
-                                <p>weighting </p><br/><br/>
-
-                              {% endfor %}
-                            {% endif %}
-                          </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
-                              {% for data in socialModel %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
                           </dd>
+                        </div>
+                        {% if culModel != undefined and culModel != null and culModel | length > 0 %}
+                                {% for data in culModel %}
+                                <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                  <dt class="govuk-summary-list__value"><p>Your question</p></dt>
+                                  <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+                                </div>
+                                <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                  <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+                                  <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+                                </div>
+
+                                {% endfor %}
+                              {% endif %}
+                        {% endif %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                          <dt class="govuk-summary-list__key">
+                            <h3 class="govuk-!-margin-bottom-0">
+                              <strong>Write your social value questions (Optional)</strong>
+                            </h3>
+                          </dt>
+                          <dd class="govuk-summary-list__value">&nbsp;</dd>
                           <dd class="govuk-summary-list__actions">
                             {% if eventStatus != "published" and(lotId == 1) %}
                               <a
@@ -2157,6 +2269,18 @@
                             {% endif %}
                           </dd>
                         </div>
+                        {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
+                              {% for data in socialModel %}
+                              <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                <dt class="govuk-summary-list__value"><p>Your question</p></dt>
+                                <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+                              </div>
+                              <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+                                <dd class="govuk-summary-list__value"><p>{{ data.add }}{% if data.add %} % {% endif %}</p></dd>
+                              </div>
+                              {% endfor %}
+                            {% endif %}
                         {% if (lotId == "1") %}
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                             <dt class="govuk-summary-list__key">
@@ -2179,10 +2303,20 @@
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__key">
                             <h3 class="govuk-!-margin-bottom-0">
-                              <strong>How you will assess suppliers</strong>
+                              {# <strong>How you will assess suppliers</strong> #}
+                              <strong>Additional assessment methods</strong>
                             </h3>
                           </dt>
-                          <dd class="govuk-summary-list__value"><p>{{ assessModel }}</p></dd>
+                          <dd class="govuk-summary-list__value">
+                            {# <p>{{ assessModel }}</p> #}
+                               <ul class="govuk-list govuk-list--none">
+                                {% for assessM in assessModel %}
+                                  <li>
+                                    <p>{{ assessM.value }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                          </dd>
                           <dd class="govuk-summary-list__actions">
                             {% if eventStatus != "published" and(lotId == 1) %}
                               <a
@@ -2203,7 +2337,7 @@
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__key">
                             <h3 class="govuk-!-margin-bottom-0">
-                              <strong>Describe the question and answer session</strong>
+                              <strong>Describe the question and answer session (Optional)</strong>
                             </h3>
                           </dt>
                           <dd class="govuk-summary-list__value"><p>{{ questionModel }}</p></dd>
@@ -2232,7 +2366,7 @@
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Set your scoring criteria</strong>
+                            <strong>How you will score suppliers</strong>
                         </h3>
                       </dt>
                       <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -2567,7 +2701,7 @@
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__key">
                             <h3 class="govuk-!-margin-bottom-0">
-                              <strong>Set your scoring criteria</strong>
+                              <strong>How you will score suppliers</strong>
                             </h3>
                           </dt>
                           <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -2621,7 +2755,7 @@
                    
                       
              
-<h2 class="govuk-heading-m">4. Your timeline
+<h2 class="govuk-heading-l">4. Set your timeline
               </h2>
 
                     <dl class="govuk-summary-list">
@@ -2658,7 +2792,7 @@
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__key">
                           <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Your timeline</strong>
+                            <strong>Your further competition timeline</strong>
                           </h3>
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -2677,8 +2811,12 @@
                         <dd class="govuk-summary-list__value">
                           <p>
                             {%if rfp_clarification_date !=undefined and rfp_clarification_date !=null and rfp_clarification_date !='' and rfp_clarification_date !='Invalid dateZ'%}
-                              {{rfp_clarification_date | dateddmmyyyy}}
-                              {%endif%}
+                                {% if (agreement_id == "RM1043.8") %}
+                                       {{rfp_clarification_date}}
+                                {%else%}       
+                                       {{rfp_clarification_date | dateddmmyyyy}}
+                                {%endif%}
+                            {%endif%}
                             </p>
                           </dd>
                         </div>
@@ -2689,7 +2827,11 @@
                           <dd class="govuk-summary-list__value">
                             <p>
                               {% if rfp_clarification_period_end != undefined and rfp_clarification_period_end != null and rfp_clarification_period_end != '' %}
-                                {{ rfp_clarification_period_end | dateddmmyyyy }}
+                                {% if (agreement_id == "RM1043.8") %}
+                                      {{ rfp_clarification_period_end}}
+                                {%else%}       
+                                      {{ rfp_clarification_period_end | dateddmmyyyy }}
+                                {%endif%}
                               {% endif %}
                             </p>
                           </dd>
@@ -2701,7 +2843,11 @@
                           <dd class="govuk-summary-list__value">
                             <p>
                               {% if (deadline_period_for_clarification_period != undefined and deadline_period_for_clarification_period != null and deadline_period_for_clarification_period != '') %}
-                                {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                                    {% if (agreement_id == "RM1043.8") %}
+                                      {{ deadline_period_for_clarification_period }}
+                                    {%else%}       
+                                      {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                                    {%endif%}
                               {% endif %}
                             </p>
                           </dd>
@@ -2727,7 +2873,11 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_period_for_clarification_period != undefined and supplier_period_for_clarification_period != null and supplier_period_for_clarification_period != '' %}
-                                  {{ supplier_period_for_clarification_period | dateddmmyyyy }}
+                                  {% if (agreement_id == "RM1043.8") %}
+                                      {{ supplier_period_for_clarification_period }}
+                                  {%else%}       
+                                      {{ supplier_period_for_clarification_period | dateddmmyyyy }}
+                                  {%endif%}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2741,7 +2891,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_for_clarification_period != undefined and supplier_dealine_for_clarification_period != null and supplier_dealine_for_clarification_period != '' %}
-                                  {{ supplier_dealine_for_clarification_period | dateddmmyyyy }}
+                                     {{ supplier_dealine_for_clarification_period }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2769,7 +2919,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_evaluation_to_start != undefined and supplier_dealine_evaluation_to_start != null and supplier_dealine_evaluation_to_start != '' %}
-                                  {{ supplier_dealine_evaluation_to_start | dateddmmyyyy }}
+                                      {{ supplier_dealine_evaluation_to_start }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2796,7 +2946,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_expect_the_bidders != undefined and supplier_dealine_expect_the_bidders != null and supplier_dealine_expect_the_bidders != '' %}
-                                  {{ supplier_dealine_expect_the_bidders | dateddmmyyyy }}
+                                  {{ supplier_dealine_expect_the_bidders}}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2824,7 +2974,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_for_pre_award != undefined and supplier_dealine_for_pre_award != null and supplier_dealine_for_pre_award != '' %}
-                                  {{ supplier_dealine_for_pre_award | dateddmmyyyy }}
+                                  {{ supplier_dealine_for_pre_award }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2851,7 +3001,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_for_expect_to_award != undefined and supplier_dealine_for_expect_to_award != null and supplier_dealine_for_expect_to_award != '' %}
-                                  {{ supplier_dealine_for_expect_to_award | dateddmmyyyy }}
+                                  {{ supplier_dealine_for_expect_to_award }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2878,7 +3028,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_sign_contract != undefined and supplier_dealine_sign_contract != null and supplier_dealine_sign_contract != '' %}
-                                  {{ supplier_dealine_sign_contract | dateddmmyyyy }}
+                                  {{ supplier_dealine_sign_contract }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2905,7 +3055,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_for_work_to_commence != undefined and supplier_dealine_for_work_to_commence != null and supplier_dealine_for_work_to_commence != '' %}
-                                  {{ supplier_dealine_for_work_to_commence | dateddmmyyyy }}
+                                  {{ supplier_dealine_for_work_to_commence }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2932,7 +3082,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_start != undefined and supplier_start != null and supplier_start != '' %}
-                                  {{ supplier_start | dateddmmyyyy }}
+                                  {{ supplier_start }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2944,7 +3094,7 @@
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_sign_contract != undefined and supplier_sign_contract != null and supplier_sign_contract != '' %}
-                                  {{ supplier_sign_contract | dateddmmyyyy }}
+                                  {{ supplier_sign_contract }}
                                 {% endif %}
                               </p>
                             </dd>
@@ -2964,7 +3114,7 @@
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                     <p class="govuk-body">
-                      <h2 class="govuk-heading-m">
+                      <h2 class="govuk-heading-l">
                 {% if agreementId_session == 'RM1043.8' %}  
                   Publish your requirements for stage 1: shortlisting 
                  {% else %}     

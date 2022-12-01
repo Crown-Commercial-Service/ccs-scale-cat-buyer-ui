@@ -5,6 +5,7 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { MessageDetails } from '../model/messgeDetails'
 import * as inboxData from '../../../resources/content/event-management/event-management-message-details.json'
+import * as dos6InboxData from '../../../resources/content/event-management/event-management-message-detailsdos6.json'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 /**
@@ -48,8 +49,15 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
             const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
-            const message: MessageDetails = draftMessage.data          
-            const appendData = {type, data: inboxData, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id }
+            const message: MessageDetails = draftMessage.data
+            const agreementId = req.session.agreement_id;  
+            let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }        
+            const appendData = {type, data, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId }
             res.render('eventManagementDetails', appendData)
         }
     } catch (err) {

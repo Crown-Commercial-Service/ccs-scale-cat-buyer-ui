@@ -1,25 +1,27 @@
-
 {% extends "template.njk" %}
 {% if agreementId_session == 'RM6187' %}
-  {% set footerSupportLayer = true %}
-  {% set fcaHelperLayer = true %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
 {% endif %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
-
 {% set lead = lead.OCDS.contact.email %}
-
 
 {% set organisationUser = userdata%}
 
-{% set sortedMembers = [{value: "", text: "Select colleague"}] %}
+{% set sortedMembers = [
+  {
+    value: "",
+    text: "Select colleague"
+  }
+] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
-  {%endif %}  
+  {%endif %}
 {% endfor %}
 
 {% set title = 'Add colleagues | Contract Award Service' %}
@@ -27,7 +29,7 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
        items: [
         {
         text: "Dashboard",
@@ -53,12 +55,12 @@
 
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-{% if(error) %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
 
-{{ CCSErrorSummary({
+      {{ CCSErrorSummary({
   titleText: "There is a problem",
   errorList: [
     {
@@ -67,45 +69,62 @@
     }
   ]
 }) }}
-{%endif %}
+    {%endif %}
 
-
-
-
-
-<div class="govuk-grid-row">
-  <h1 class="govuk-heading-xl"><strong>
-    {{data.title}}
-  </strong></h1>
-  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">
+        <strong>
+          {{data.title}}
+        </strong>
+      </h1>
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
 
-        {% include "includes/project_header.njk" %}
-      </div>
-    </div>
-    <p class="govuk-body">{{data.content.p1}}</p>
-     {% if agreementId_session == 'RM1043.8' %}
-    <p class="govuk-body">{{data.content.p5}}</p>
-     {% endif %}
-    <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"
-        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
+            {% include "includes/project_header.njk" %}
+          </div>
+        </div>
+        {% if agreementId_session == 'RM1557.13' %}
+          <p class="govuk-body">You’re advised to add additional colleagues to this project in case you’re unavailable at any time. Additional colleagues can help you write your requirements and review and evaluate suppliers.</p>
 
-    <p class="govuk-body">{{data.content.p3}}</p>
-      
-  {% if agreementId_session == 'RM6187' %}
-  <p class="govuk-body">If you are the lead on this project you can add four colleagues.
+<p>Use the drop-down box below to change the procurement lead. They will need to be registered with the <a target="_blank" href="https://identify.crowncommercial.gov.uk/manage-org/register" class="govuk-link govuk-link--no-visited-state">Public Procurement Gateway and Contract Award Service.</a> </p>
+
+<p>If you need to wait for them to register, you can continue to the next step and come back to this later.</p>
+<p class="govuk-body">{{data.content.p4}}
+        </p>
+
+
+
+        {% else %}
+            <p class="govuk-body">{{data.content.p1}}</p>
+        {% if agreementId_session == 'RM1043.8' %}
+          <p class="govuk-body">{{data.content.p5}}</p>
+        {% endif %}
+        <p class="govuk-body">{{data.content.p2}}
+          <a class="govuk-link govuk-link--no-visited-state"
+        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a>
+        </p>
+
+        <p class="govuk-body">{{data.content.p3}}</p>
+
+        {% if agreementId_session == 'RM6187' %}
+          <p class="govuk-body">If you are the lead on this project you can add four colleagues.
           If you are not the lead you can add three colleagues.</p>
-  {% endif %}
+        {% endif %}
 
-    <p class="govuk-body">{{data.content.p4}} </p>
+        <p class="govuk-body">{{data.content.p4}}
+        </p>
 
-      <div class="ccs-page-section">
-        <p class="govuk-body">Add colleagues:</p>
-        <form method="POST" action="/rfp/get-collaborator-detail">
-        {{ csrfProtection(csrf) }}
-          <div class="govuk-button-group">
-          {{ CCSSelect({
+        {% endif %}
+
+        
+
+        <div class="ccs-page-section">
+          <p class="govuk-body">Add colleagues:</p>
+          <form method="POST" action="/rfp/get-collaborator-detail">
+            {{ csrfProtection(csrf) }}
+            <div class="govuk-button-group">
+              {{ CCSSelect({
           id: "rfp_collaborators",
           name: "rfp_collaborators",
           items: sortedMembers
@@ -120,28 +139,45 @@
           },
           type: "submit"
           }) }}
-          </div>
-        </form>
-      </div>
+            </div>
+          </form>
+        </div>
+        {% if agreementId_session == 'RM1043.8' %}
+          {% set addcolleaguedetails = "addcolleaguedetailsdos" %}
+        {% else %}
+          {% set addcolleaguedetails = "" %}
+        {% endif %}
+        <form method="POST" action="/rfp/add-collaborator-detail" >
+          {{ csrfProtection(csrf) }}
+          <div class="ccs-page-section" id="potential-collaborator">
+            <div id="potential-collaborator-detail" class={{addcolleaguedetails}}>
+              <p class="govuk-body" >
+                <strong>{{data.content.collegue.name}}
+                </strong>
+                <span id="show_collab_name" >
+                  {{collaborator['fullName']}}</span>
+              </p>
+              <p class="govuk-body">
+                <strong>{{data.content.collegue.email}}
+                </strong>
+                <span id="show_collab_email" >
+                  {{collaborator['email']}}
+                  <span></p>
+                  <p class="govuk-body">
+                    <strong>{{data.content.collegue.tel}}
+                    </strong>
+                    <span id="show_collab-phone">{{collaborator['tel']}}</span>
+                  </p>
+                </div>
 
-      <form method="POST" action="/rfp/add-collaborator-detail" >
-      {{ csrfProtection(csrf) }}
-        <div class="ccs-page-section" id="potential-collaborator">
-          <div id="potential-collaborator-detail">
-            <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
-            </p>
-            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
-            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
-          </div>
-
-          {{ CCSInput({
+                {{ CCSInput({
               id: "rfp_collaborator_append",
               name: "rfp_collaborator",
               type: "hidden",
               value: collaborator['email']
               }) }}
 
-          {{ CCSButton({
+                {{ CCSButton({
           text: "Add colleague",
           attributes: {
           id: "ccs_collab_add",
@@ -149,57 +185,75 @@
           },
           classes: "govuk-button--secondary"
           }) }}
-        </div>
+              </div>
 
-      </form>
-      <div id="collaborators-section">
-        {% for collaborator in collaborators %}
-        {% if collaborator.OCDS.contact.email !== lead %}
-        <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.OCDS.id}}">
-          <div id="collaborator-detail">
-            <a href='/rfp/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+            </form>
+            <div id="collaborators-section">
+              {% for collaborator in collaborators %}
+                {% if collaborator.OCDS.contact.email !== lead %}
+                  <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.OCDS.id}}">
+                    <div id="collaborator-detail">
+                      <a href='/rfp/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
-            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span> </strong><span
-                id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
-            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
-            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
-          </div>
-        </div>
-        {%endif%}
-        {% endfor%}
-      </div>
+                      <p class="govuk-body">
+                        <strong>{{data.content.collegue.name}}
+                          <span id="collab_no"></span>
+                        </strong>
+                        <span
+                id="collab_name">{{collaborator.OCDS.contact.name}}</span>
+                      </p>
+                      <p class="govuk-body">
+                        <strong>{{data.content.collegue.email}}
+                        </strong>
+                        <span id="collab_email">{{ collaborator.OCDS.contact.email}}</span>
+                      </p>
+                      <p class="govuk-body">
+                        <strong>{{data.content.collegue.tel}}
+                        </strong>
+                        <span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  {%endif%}
+                  {% endfor%}
+                </div>
 
+                <div class="ccs-page-section" id="lead-user-section">
+                  <p class="govuk-body">
+                    <strong>{{data.content.lead.name}}
+                    </strong>
+                    {{lead_data.OCDS.contact.name}}</p>
+                  <p class="govuk-body">
+                    <strong>{{data.content.lead.email}}
+                    </strong>{{  lead_data.OCDS.contact.email }}</p>
+                  <p class="govuk-body">
+                    <strong>{{data.content.lead.tel}}
+                    </strong>{{  lead_data.OCDS.contact.telephone }}</p>
+                </div>
+                <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
+                <br>
+                <form  class="form ccs_add_rfi_collab" method="POST" action="/rfp/proceed-collaborators" method="post">
+                  {{ csrfProtection(csrf) }}
 
-
-      <div class="ccs-page-section" id="lead-user-section">
-        <p class="govuk-body"><strong>{{data.content.lead.name}} </strong> {{lead_data.OCDS.contact.name}}</p>
-        <p class="govuk-body"><strong>{{data.content.lead.email}} </strong>{{  lead_data.OCDS.contact.email }}</p>
-        <p class="govuk-body"><strong>{{data.content.lead.tel}} </strong>{{  lead_data.OCDS.contact.telephone }}</p>
-      </div>
-      <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
-      <br>
-<form  class="form ccs_add_rfi_collab" method="POST" action="/rfp/proceed-collaborators" method="post">
-{{ csrfProtection(csrf) }}
-
-      {{ CCSInput({
+                  {{ CCSInput({
       id: "rfi_collaborators_added",
       name: "rfi_collaborators_added",
       type: "hidden",
       value: true
       }) }}
 
-      <div class="govuk-button-group">
-        {{ CCSButton({
+                  <div class="govuk-button-group">
+                    {{ CCSButton({
         text: "Save and continue"
         }) }}
-        <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
-      </div>
-    </form>
+                    <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
+                  </div>
+                </form>
 
- </div>
-      <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
-      </div>
-   </div>
-  </main>
-{% endblock %}
+              </div>
+              <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+              </div>
+            </div>
+          </main>
+        {% endblock %}

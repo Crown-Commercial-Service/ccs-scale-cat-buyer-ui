@@ -1,9 +1,9 @@
 const ccsZvalidateEoiProject = (event) => {
   event.preventDefault();
 
-  let fieldCheck = "",
-    errorStore = [];
-
+  let fieldCheck = "";
+  let errorStore = [];
+  
   // fieldCheck = ccsZvalidateWithRegex( "rfi_prog_name", "Enter the Project / Programme Name", /^.+$/ );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -11,8 +11,12 @@ const ccsZvalidateEoiProject = (event) => {
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "You must enter information here");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
+  
+  if (fieldCheck !== true) {
+    
+    errorStore.push(fieldCheck);
+  }
+  
   // fieldCheck = ccsZvalidateTextArea( "rfi_will_work_on", "Describe the areas or techologies the resource will work on" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -21,7 +25,11 @@ const ccsZvalidateEoiProject = (event) => {
 
   // fieldCheck = ccsZvalidateTextArea( "rfi_key_users_outcomes", "Describe your key outcomes" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_about_proj"].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  
+  if (errorStore.length === 0) {
+    document.forms["ccs_eoi_about_proj"].submit();
+    }else {
+      
+      ccsZPresentErrorSummary(errorStore);
+    }
 };

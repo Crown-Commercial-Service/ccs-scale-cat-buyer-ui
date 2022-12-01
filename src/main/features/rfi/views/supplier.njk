@@ -63,7 +63,11 @@
                     text: "Save and continue",
                     classes: "govuk-button-dark"
                     }) }}
+              {% if agreementId_session == 'RM6187' %}
+                <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+              {% else %}      
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              {% endif %}  
               </div>
               {% endif %}
               <div class="govuk-form-group ccs-page-section govuk-!-margin-0"></div>

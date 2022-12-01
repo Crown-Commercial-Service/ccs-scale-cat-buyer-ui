@@ -49,7 +49,8 @@
  
         <div class="govuk-inset-text">
           <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-            {% if agreement_id == 'RM6187' %}
+          
+            {% if agreement_id == 'RM6187' or agreement_id == 'RM1557.13' %}
         <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
         {% endif %}
             {% if agreement_id == 'RM1043.8' %}
@@ -73,11 +74,11 @@
 
                           <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third text-overflow ">
-                              <span class="">
-                                <a href="/rfp/upload-doc?file_id={{file.id}}">
+                              <p class="govuk-body">
+                                <a href="/rfp/upload-doc?file_id={{file.id}}" class="govuk-link">
                                   <strong>{{file.fileName}}</strong>
                                 </a>
-                              </span>
+                              </p>
                             </div>
                             <div class="govuk-grid-column-one-third">
                               <p>{{file.fileSize | KbtoMb}} MB</p>

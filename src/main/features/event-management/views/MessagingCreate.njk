@@ -11,6 +11,28 @@
   }
 ] %}
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+{{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Inbox",
+      "href": "/message/inbox?type=received"
+    },
+    {
+      "text": "Compose message",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -27,6 +49,7 @@
     }
   ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% for msg in message.create_message %}
@@ -85,12 +108,12 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
+      <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
             {{data.subtitle}}
           </h1>
-          <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">
@@ -124,7 +147,7 @@
                 items: sortedMembers,
                 label: {
                   text: data.MessageClassification,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 }
                 })
               }}
@@ -132,7 +155,7 @@
 
             {% if message.IsSubjectNotDefined %}
             <div class="govuk-form-group govuk-form-group--error">
-              <label class="govuk-label govuk-label govuk-label--m" for="create_subject_input">
+              <label class="govuk-label govuk-label govuk-label--s" for="create_subject_input">
                 Subject
               </label>
               <span id="create_subject_input-error" class="govuk-error-message">
@@ -150,7 +173,7 @@
                 value: message.create_subject_input,
                 label: {
                   text: data.Subject,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 },
                 classes: "govuk-input govuk-input-textcount rfpterm"
                 })
@@ -169,7 +192,7 @@
                 </div>
               {% else %}
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label" for="create_message_input">{{data.Message}}</label>
                   <textarea class="govuk-textarea govuk-js-character-count messagesendcount" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{message.create_message_input}}</textarea>
                 </div>
               {% endif %}

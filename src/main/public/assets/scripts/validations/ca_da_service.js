@@ -261,18 +261,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     for (var a = 0; a < allListOfHeading.length; a++) {
-
         const InputFieldSelector_partial = document.getElementsByClassName(allListOfHeading[a].whole)[a];
-        const Name = InputFieldSelector_partial?.getAttribute('class');
-        const Value = InputFieldSelector_partial?.value;
 
-        if (Value != "") {
-            $(`.${allListOfHeading[a].whole}_div`)?.fadeIn();
+        if (InputFieldSelector_partial != null && InputFieldSelector_partial != undefined) {
+            const Name = InputFieldSelector_partial.getAttribute('class');
+            const Value = InputFieldSelector_partial.value;
+
+            if (Value != "") {
+                if ($(`.${allListOfHeading[index].whole}_div`) != undefined) {
+                    $(`.${allListOfHeading[a].whole}_div`).fadeIn();
+                }
+            }
         }
-
-        // const InputFieldSelector_whole = document.getElementsByClassName(allListOfHeading[a].whole).length;
-
     }
+
     function isValidInputData(weightClassName, weightPartialClassName, value) {
         var reg = /^\d+$/;
         if (value <= 0) {         

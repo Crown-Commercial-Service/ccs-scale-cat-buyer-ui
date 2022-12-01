@@ -12,6 +12,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { GetLotSuppliersScore } from '../../shared/supplierServiceScore';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -185,7 +186,7 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
     }*/
     
     if(rfp_selected_services.selected_services == undefined) {
-      if(req.body.isDisable) {
+      if(req.body.isDisable!=true) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
         res.redirect('/da/task-list');
@@ -194,7 +195,8 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
         res.redirect('/da/selected_service');
       }
     } else {
-      if(req.body.isDisable == '') {
+      // console.log('ll',req.body.isDisable);
+      if(req.body.isDisable!=true) {
         const assessmentId = req.session.currentEvent.assessmentId;
         const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
         const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -296,8 +298,19 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
         }
       }
 
+
+      let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+    if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+    }
+
+    let flag2 = await ShouldEventStatusBeUpdated(eventId, 31, req);
+    if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    }
+
+    //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
       res.redirect('/da/task-list');
     }
      

@@ -21,17 +21,37 @@
                 <div class="govuk-!-margin-bottom-6">
                     {% include "includes/project_header.njk" %}
                 </div>
+                {% if agreementId_session == 'RM1557.13' %}
+                <b class="govuk-heading-s">Pricing schedule</b>
+                {% endif %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description2}}</p>
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description3}}</p>
+                {% if agreementId_session == 'RM1557.13' %}
+                <b class="govuk-heading-s">Core terms, call-off order form and schedules (terms and conditions)</b>
+                <p class="govuk-body govuk-!-margin-bottom-7">{{data.description4}}</p>
+                {% endif %}
+                {% if agreementId_session == 'RM1557.13' %}
+                <b class="govuk-heading-s">Additional documents (optional)</b>
+                <p class="govuk-body govuk-!-margin-bottom-7">{{data.description5}}</p>
+                {% endif %}
                 <ul class="app-task-list ccs-rfp-upload">
                     {% for items in data.taskList %}
 
                         <li class="app-task-list__item govuk-!-font-size-24 govuk-!-padding-top-3 govuk-!-padding-bottom-3">
                             <span class="app-task-list__task-name">
-                                <strong>{{items.title}}</strong>
+                                {% if (items.taskStatus =="Cannot start yet") %} 
+                               <strong>{{items.title}}</strong>
+                             {% else %}
+                         <a  class="app-task-list__tag" href="{{items.href}}"><strong>{{items.title}}</strong></a>
+                              {% endif %}
                             </span>
-                            <a class="app-task-list__tag" href="{{items.href}}" aria-describedby="rfp-upload"><strong>{{items.hreftitle}}</strong></a>
+                            
+                          {% if (items.taskStatus !="Done") %}  
+                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{items.taskStatus}}</strong>
+                    {% else %}
+                             <strong class="govuk-tag govuk-tag--green app-task-list__tag">Done</strong>
+                    {% endif %}
                         </li>
 
                     {% endfor %}

@@ -1,5 +1,3 @@
-// const { isNull } = require("util");
-
 const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
@@ -9,11 +7,15 @@ if ($('.agreement_no').attr('id')) {
     agreementData = $('.agreement_no').attr('id').split("-");
 }
 
+let expiryYears = null;
+let expiryMonth = null;
+let expiryDate = null;
 
-const expiryYears = agreementData?.length > 0 ? Number(agreementData[0]) : null;
-const expiryMonth = agreementData?.length > 0 ? Number(agreementData[1]) : null;
-const expiryDate = agreementData?.length > 0 ? Number(agreementData[2]) : null;
-
+if (agreementData != undefined && agreementData.length > 0) {
+    expiryYears = Number(agreementData[0]);
+    expiryMonth = Number(agreementData[1]);
+    expiryDate = Number(agreementData[2]);
+}
 
 const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
 const getMSOfExpiryDate = ExpiryDates.getTime()
@@ -128,8 +130,8 @@ projectYears.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-days').blur();
-            $('.eoi_duration-months').blur();
+            $('#eoi_duration-months').blur();
+            $('#eoi_duration-days').blur();
     }
 })
 
@@ -166,8 +168,8 @@ projectMonths.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-days').blur();
-            $('.eoi_duration-years').blur();
+            $('#eoi_duration-days').blur();
+            // $('#eoi_duration-years').blur();
     }
     
 })
@@ -206,8 +208,8 @@ projectDays.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-years').blur();
-            $('.eoi_duration-months').blur();
+            // $('#eoi_duration-years').blur();
+            // $('#eoi_duration-months').blur();
     }
 })
 
@@ -290,6 +292,7 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
             const durationMonth = document.getElementById('eoi_duration-months');
             const durationDay = document.getElementById('eoi_duration-days');
 
+            if(durationYear.value!='' || durationMonth.value!='' || durationDay.value!=''){
             const YearProjectRun = Number(durationYear.value);
             const MonthProjectRun = Number(durationMonth.value);
             const DaysProjectRun = Number(durationDay.value);
@@ -308,9 +311,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
             if(yrValidation){
                 e.preventDefault()
                return;
-            }else{
-                document.forms['ccs_eoi_date_form'].submit();
             }
+            }
+               
+            document.forms['ccs_eoi_date_form'].submit();
     }
 
 }
