@@ -2,19 +2,20 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your Expression of Interest is published  ",
+    "title": "Your EOI has been published  ",
     "board": {
-        "header": "Your Expression of Interest was sent to the suppliers ",
+        "header": "Your EOI has been sent to suppliers ",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "the suppliers you selected can read your EOI and ask questions if they need more information"},
-            {"li": "when the clarification period ends you will need to answer the supplier questions by the deadline you set"}
+            {"li": "The suppliers can read your EOI and ask questions if they need more information."},
+            {"li": "You will need to answer supplier questions by the deadline you set."},
+            {"li": "After receiving responses to your EOI, you will need to confirm next steps with suppliers."}
         ]
     },
         "dashboard": {
-            "title": "Go to your project dashboard",
+            "title": "Go to project dashboard",
             "href": "/dashboard"
         },
         "procurement": {
