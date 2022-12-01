@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteButtons = document.querySelectorAll('a.del');
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
+        let textboxelements = document.querySelectorAll('.order_1');
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -57,9 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             $('#totalPercentage').html(weightageSum);
         };
+        
+        textboxelements.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
                 if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
             });
         });
@@ -71,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).length,
             );
         };
+        
 
              
         totalAnswerd();
@@ -187,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
-           
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
