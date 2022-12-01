@@ -326,8 +326,9 @@ const ccsZCountRfiAcronyms = (event) => {
       document.getElementById("rfi_label_term_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
-    let count=5000-element.value.length;
-    labelElement.innerText=count + " remaining of 5000";
+    let maxlength = element.getAttribute("maxlength");
+    let count=maxlength-element.value.length;
+    labelElement.innerText=count + " remaining of "+maxlength;
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

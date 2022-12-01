@@ -30,6 +30,11 @@
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
                    {%if(table.text !=='Create your own scoring criteria')%}
                    <div class="govuk-custom-table">
+                    {% if (agreement_id == 'RM1557.13') %}
+                      {% set criteriatext = 'level' %}
+                    {% else %}
+                       {% set criteriatext = 'tier' %}
+                    {% endif %}
                     {% if agreement_id == 'RM1043.8' %}
                           {{ CCSTable({
                           caption: table.optiontableDefination.rows.length+' tier scoring criteria',
@@ -40,7 +45,7 @@
                         }) }}
                     {% else %}
                       {{ CCSTable({
-                        caption: table.optiontableDefination.rows.length+' tier scoring criteria',
+                        caption: table.optiontableDefination.rows.length+' '+criteriatext+' scoring criteria',
                         captionClasses: "govuk-table__caption--m",
                         firstCellIsHeader: true,
                         head: table.optiontableDefination.head,
@@ -82,7 +87,7 @@
                   {% endif %}
                 {% endfor %}
                   {% else %}
-                <p class="govuk-label--l"> <strong class="" id="tiersAdded"> {{tierNo}} </strong> tiers added so far </p>
+                <p class="govuk-label--l"> <strong class="" id="tiersAdded"> {{tierNo}} </strong> {{ "level" if agreement_id == 'RM1557.13'  else "tiers" }} added so far </p>
               {% endif %}
                 
             </div>
@@ -109,6 +114,13 @@
                   <p  class="govuk-body" >Select the 4 level scoring criteria below or enter the details for your own scoring criteria.</p>
                   <p  class="govuk-body" >The minimum number of scoring levels is 2 and the maximum number of scoring levels is 10.</p>
                   {% endif %}
+                  {% if (agreement_id == 'RM1557.13') %}
+                  <h2 class="govuk-heading-xl" > Create your scoring criteria </h2>
+                  <p  class="govuk-body" > Select one of the two options below or enter the details for your own scoring criteria.  </p>
+                  <p  class="govuk-body" > If you want to use the 4 or 5 level scoring criteria, select the option you want and then click ‘save and continue’.</p>
+                   <p  class="govuk-body" > The minimum number of scoring levels is 2 and the maximum number of scoring levels is 10.</p>
+                  {% endif %}
+
 
                   {% if (agreement_id == 'RM1043.8') %}
                 {% set countLength = 5000 %}
@@ -152,7 +164,7 @@
                         },
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 maxValueValidate",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 weightagelimit ",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value
@@ -224,7 +236,7 @@
                           },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 maxValueValidate",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 maxValueValidate weightagelimit",
                             type: "number",
                             inputmode:"numeric"
                           }) }}
@@ -433,7 +445,7 @@
       label: {
         text: requirement.OCDS.title
       },
-      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
+      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
       id: "fc_question_precenate_"+index,
       value: requirement.nonOCDS.options[index-1].value,
       name: requirement.OCDS.id,
@@ -881,7 +893,7 @@
                         label: {
                           text: ""
                         },
-                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightagelimit",
                         id: requirement.OCDS.id,
                         value: requirement.nonOCDS.options[0].value,
                         name: "percentage",
@@ -929,6 +941,7 @@
                {% if(word=='') %}
                  {% set word = 'te' %}
                 {% endif %}
+                
                 {% if (agreement_id == 'RM1043.8') %}
                   {% if ((group_id == "Group 20" and lotId == '1') or (lotId == '3' and group_id == "Group 18")) %}
                   <div class="main_rfp_prob_statement_m">
@@ -1036,6 +1049,68 @@
                     })
                 }}
               {% else %}
+
+              {% if (agreement_id == 'RM1557.13' and group_id == "Group 17" and lotId == '4') %}
+              
+                  <div class="main_rfp_prob_statement_m">
+                                {% set evalsupClass = 'm' %}
+                                {% set forExample = '' %}
+                                {% if (requirement.OCDS.title == 'Indicative maximum') %}
+                                  {% set evalsupClass = 'max' %}
+                                  {% set forExample = 'For example &#163; 40,000' %}
+                                {% endif %}
+                                {% if (requirement.OCDS.title == 'Indicative minimum') %}
+                                  {% set evalsupClass = 'min' %}  
+                                  {% set forExample = 'For example &#163; 20,000' %}                                
+                                {% endif %}
+                            {% if (requirement.nonOCDS.mandatory === false) %}
+                            {% set titleText = requirement.OCDS.title + " (optional)" %}
+                          {% else %}
+                            {% set titleText = requirement.OCDS.title %}
+                          {% endif %}
+                          {% if (requirement.OCDS.title !== 'Provide further information') %}
+                          
+                                {{  CCSInput({
+                                  name: "rfp_prob_statement_"+word | last,
+                                  required: requirement.nonOCDS.mandatory,
+                                  id: "rfp_prob_statement_"+evalsupClass,
+                                  value: requirement.nonOCDS.options[0].value,
+                                  type:"number",
+                                  classes:"rfp_term_definition_new govuk-input--width-5 "+evalsupClass,
+                                  label: {
+                                  html: titleText,
+                                  text:forExample,
+                                  classes: "govuk-label govuk-label--m govuk-custom-bold"
+                                    
+                                  },
+                                  prefix: {
+                                    text: "£"
+                                  },
+                                  maxlength:32
+                                })
+                            }}
+                            {% else %}
+                            {{  CCSCharacterCount({
+                              name: "rfp_prob_statement_"+word | last,
+                              required: requirement.nonOCDS.mandatory,
+                              id: "rfp_prob_statement_"+word | last,
+                              value: requirement.nonOCDS.options[0].value,
+                              type:"number",
+                              classes:"rfp_term_definition",
+                              maxlength: 5000,
+                              label: {
+                              html: titleText,
+                              classes: "govuk-label govuk-label--m govuk-custom-bold"                                
+                              }
+                            })
+                        }}
+                          {% endif %}
+                    
+
+               
+
+                </div>
+                {% else %} 
                 {{  CCSCharacterCount({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
@@ -1050,7 +1125,7 @@
                       }
                     })
                 }}
-
+              {% endif %}
               {{  CCSInput({
                       id: "question_id",
                       name: "question_id",
@@ -1271,7 +1346,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_1",
+                            classes: "closeCCS term_acronym_fieldset acronym_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
@@ -1320,7 +1395,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_"+i,
+                            classes: "closeCCS term_acronym_fieldset acronym_"+i,
                             id:"term_acronym_fieldset"
                           }) %}
 
@@ -1390,7 +1465,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "govuk-!-width-two-thirds term_acronym_fieldset acronym_1",
+                            classes: "govuk-!-width-two-thirds closeCCS term_acronym_fieldset acronym_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
@@ -1555,7 +1630,7 @@
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
-                              classes: "govuk-!-width-two-thirds term_acronym_fieldset acronym_"+i,
+                              classes: "govuk-!-width-two-thirds closeCCS term_acronym_fieldset acronym_"+i,
                               id:"term_acronym_fieldset"
                             })
                           %}
@@ -1716,7 +1791,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_service_1",
+                            classes: "closeCCS term_acronym_fieldset acronym_service_1",
                             id:"term_acronym_fieldset_acronym_service_1"
                           })
                         %}
@@ -1769,7 +1844,7 @@
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
-                              classes: "term_acronym_fieldset acronym_service_"+i,
+                              classes: "closeCCS term_acronym_fieldset acronym_service_"+i,
                               id:"term_acronym_fieldset"
                             })
                           %}
@@ -1830,7 +1905,7 @@
                         
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and KPI's added </h2> 
+                        <h2> <span id="kpiKeyLevel">1</span>  service levels and KPI's added </h2> 
                         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-top-2">
                         {% call CCSFieldset({
                             legend: {
@@ -1838,7 +1913,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_service_levels_KPI_1",
+                            classes: "closeCCS term_acronym_fieldset acronym_service_levels_KPI_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
@@ -1882,7 +1957,7 @@
                                 hint: {
                                   text: "For example, ‘98%’"
                                 },
-                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage weightagelimit",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
                                 name: "percentage",
@@ -1920,7 +1995,7 @@
                                 hint: {
                                   text: "For example, ‘98%’"
                                 },
-                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage weightagelimit",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
                                 name: "percentage",
@@ -1945,7 +2020,7 @@
                           ' fifth',
                           ' sixth',
                           ' seventh',
-                          ' eight',
+                          ' eighth',
                           ' ninth',
                           ' tenth'
                         ] %}
@@ -1957,7 +2032,7 @@
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
-                              classes: "term_acronym_fieldset acronym_service_levels_KPI_"+i,
+                              classes: "closeCCS term_acronym_fieldset acronym_service_levels_KPI_"+i,
                               id:"term_acronym_fieldset"
                             })
                           %}
@@ -1993,7 +2068,7 @@
                                     text: "Your success target",
                                     classes: "govuk-!-font-weight-bold"
                                   },
-                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage weightagelimit",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
                                   name: "percentage",
@@ -2021,7 +2096,7 @@
                                     text: "Your success target",
                                     classes: "govuk-!-font-weight-bold"
                                   },
-                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage weightagelimit",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
                                   name: "percentage",
