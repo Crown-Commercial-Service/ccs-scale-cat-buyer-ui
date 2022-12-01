@@ -79,7 +79,12 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_m') !== undefined && $('#rfp_prob_statement_m').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_m').val().length === 0) {
+        if(agreement_id == "RM1043.8" && group_id == "Group 13"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the details of your existing team');
+        }
+        else{
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
@@ -207,7 +212,11 @@ const ccsZvalidateRfPStrategy = event => {
     
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        var error_msg = 'You must enter information here'
+        if(pageHeading.includes("Address where the work will be done")){
+          error_msg = 'Enter the address where the work will be done.'
+        }
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', error_msg);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
@@ -241,7 +250,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
-  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187") {
+  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187" && agreement_id != "RM1557.13") {
     if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
       if ($('#rfp_prob_statement_s').val().length === 0) {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
