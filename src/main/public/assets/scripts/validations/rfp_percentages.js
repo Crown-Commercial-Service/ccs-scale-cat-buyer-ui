@@ -172,7 +172,8 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    var fieldCheck = ccsZvalidateWithRegex('Question 3-hint', "Your total percentage must be 100%", /\w+/);
+    errorStore.push(fieldCheck);
     ccsZPresentErrorSummary(errorStore)
   }
   
@@ -192,3 +193,15 @@ const removeErrorFieldsRfpPercentage = () => {
   $('.govuk-input').removeClass('govuk-input--error');
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 };
+
+$('.questionweightagelimit').on('keypress', function (evt) {
+  let value = $(this).val();
+  evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57) || value.length >=3) {
+          return false;
+      }
+      return true;
+   
+   });
+  
