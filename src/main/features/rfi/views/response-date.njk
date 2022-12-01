@@ -120,7 +120,8 @@
                         </div>
                         <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form_{{loop.index}}">
                         {{ csrfProtection(csrf) }}
-    
+                        <input type="hidden" value="{{agreementId_session}}" id="agreementID">
+
                         <fieldset class="govuk-fieldset govuk-!-margin-bottom-6" role="group" aria-describedby="clarification_end_date">
     
                             <div class="govuk-date-input" id="clarification_date">

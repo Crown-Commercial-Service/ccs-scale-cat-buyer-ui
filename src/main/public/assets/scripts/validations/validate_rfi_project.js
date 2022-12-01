@@ -20,8 +20,9 @@ const ccsZCountRfiProject = (event) => {
   // {
     
     let labelElement=document.getElementById("rfi_label_prob_statement");
-    let count=5000-element.value.length;
-    labelElement.innerText=count + " remaining of 5000";
+    let maxlength = element.getAttribute("maxlength");
+    let count=maxlength-element.value.length;
+    labelElement.innerText=count + " remaining of "+maxlength;
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

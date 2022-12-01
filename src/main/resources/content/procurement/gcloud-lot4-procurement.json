@@ -41,20 +41,20 @@
         {
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
-            "buttonText": "Start pre-market engagement",
+            "buttonText": "Start pre-tender market engagement",
             "note": "",
             "buttonDisable": true,
 
             "href": "/projects/events/choose-route",
             "sections": [
-                "You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-market engagement in the following way:"
+                "You can refine your needs by asking questions before formally publishing your requirements. You cannot run a Request for Information and Further Competition at the same time, in the same project.",
+                "You can do pre-tender market engagement in the following way:"
             ],
             "subsections": [
                 [
                     "<b>Request for Information (RfI)</b>",
-                    "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
-                    "This section is optional, if you’re ready to write and publish your requirements you can go straight to the next step. ",
-                    "You cannot run steps 2 and 3 at the same time. "
+                    "Gather information from suppliers about the products and services they offer.",
+                    "If you are ready to write and publish your requirements you can go straight to the next step."
                 ]
             ],
             "list": [
@@ -70,8 +70,8 @@
             "buttonDisable": true,
             "href": "#",
             "sections": [
-                "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.",
-                "You’ll need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
+                "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements.",
+                "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
                 "For the lot you selected, you can run your procurement in the following way:"
             ],
             "subsections": [
@@ -92,8 +92,7 @@
             "eventTitle": "Do evaluation",
             "sections": [
                 "You must evaluate suppliers to find the one that best meets your requirements.",
-                "You should use the methods and criteria you published with your requirements to assess and score suppliers.",
-                "You can then award a contract to the successful supplier."
+                "You should use the methods and criteria you published with your requirements to assess and score suppliers."
             ],
             "required": "optional",
             "status": "cannot start yet"
@@ -102,8 +101,8 @@
             "eventno": 5,
             "eventTitle": "Award your contract",
             "sections": [
-                "When you have completed your evaluation and found a successful supplier, you can award your contract.",
-                "You’ll need to give feedback to any unsuccessful suppliers."
+                "You can now award a contract to the successful supplier.",
+                "You will need to give feedback to the successful supplier as well as all unsuccessful suppliers."
             ],
             "required": "optional",
             "status": "cannot start yet"
@@ -113,10 +112,10 @@
             "eventTitle": "Publish your contract",
             "sections": [
                 "There is a legal requirement to publish certain contracts. You may need to publish the contract on:",
-                ".Contracts Finder",
-                ".Public Contracts Scotland",
-                ".Sell2Wales",
-                ".eSourcing NI and eTendersNI"
+                "<ul class = 'govuk-list govuk-list--bullet'><li><a class = 'govuk-link' href='https://www.gov.uk/contracts-finder'>Contracts Finder</a></li>",
+                "<li><a class = 'govuk-link' href='http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx'>Public Contracts Scotland</a></li>",
+                "<li><a class = 'govuk-link' href='http://www.sell2wales.gov.uk/'>Sell2Wales</a></li>",
+                "<li><a class = 'govuk-link' href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml'>eSourcing NI</a> and <a class = 'govuk-link' href='https://etendersni.gov.uk/epps/home.do'>eTendersNI</a></li></ul>"
             ],
             "required": "optional",
             "status": "cannot start yet"

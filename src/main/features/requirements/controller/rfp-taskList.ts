@@ -84,7 +84,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
 
   try {
 
-    if(agreementId_session == 'RM1043.8') {
+    if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
       // name your project for dos
       let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
       if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
@@ -139,7 +139,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
-    else{
+    else{      
       statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
     }
 
@@ -229,6 +229,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
     
   } catch (error) {
+
+console.log("error",error);
     LoggTracer.errorLogger(
       res,
       error,
