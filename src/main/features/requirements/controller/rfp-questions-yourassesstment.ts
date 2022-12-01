@@ -265,6 +265,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+    console.log('data for assessment',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -964,7 +965,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
       case 'Group 9':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = ''; } else { title = 'social value questions'; }
+        if(lotId == 3) { title = ''; } else { title = 'social value question'; }
       } else {
         title = '';
       }

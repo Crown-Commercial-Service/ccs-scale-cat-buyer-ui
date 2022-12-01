@@ -869,16 +869,22 @@
                {% if (requirement.OCDS.title === 'Technical Criteria' or requirement.OCDS.title === 'Social value criteria') %}
                <p class="govuk-body">{{qhint}}</p>
                 <p class="govuk-!-display-none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
-               {% elif (requirement.OCDS.title === 'Technical questions' or requirement.OCDS.title === 'Essential skills and experience' or requirement.OCDS.title === 'Nice-to-have skills and experience (optional)') %}
+               {% elseif (requirement.OCDS.title === 'Technical questions' or requirement.OCDS.title === 'Essential skills and experience' or requirement.OCDS.title === 'Nice-to-have skills and experience (optional)') %}
                 <p class="govuk-body">{{qhint}}</p>
                   <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
               {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
                 <p class="govuk-body">{{qhint}}</p>
-                <p range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">[ Range : 0%, or {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
-                <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">[ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                <p range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : 0%, or {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                {% else %}
                   <p class="govuk-body">{{qhint}}</p>
-                  <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                  {%if(agreement_id == 'RM1043.8') %}
+                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                  {% else%}
+                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                  {%endif%}
+
+                  
                   
                {%endif%}
 

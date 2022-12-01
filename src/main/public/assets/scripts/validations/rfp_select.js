@@ -199,6 +199,10 @@ $('#rfp_singleselect').on('submit', event => {
     document.forms['rfp_singleselect'].submit();
   }else{
   removeErrorFieldsRfpSelect();
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id");
   const textPattern = /^[a-zA-Z ]+$/;
   var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
   let ischecked = false;
@@ -238,11 +242,21 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-      ccsZPresentErrorSummary([['ccs_vetting_type-error', 'You must choose one option from list before proceeding']]);
-
+      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
+        ccsZPresentErrorSummary([['There is a problem', 'Select a pricing model']]);
+      }
+      else{
+        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+      } 
     }
     if (ccs_vetting_type) {
-      ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
+      }
+      else{
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+
+      }
     }
   }
 }
