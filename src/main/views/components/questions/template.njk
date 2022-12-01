@@ -1811,7 +1811,7 @@
                               id: "rfp_term_service_group_1",
                               maxlength:500,
                               name: "term",
-                              classes: "rfp_term_service_user_type_1 govuk-!-width-two-thirds rfpterm govuk-input",
+                              classes: "closeCCS rfp_term_service_user_type_1 govuk-!-width-two-thirds rfpterm govuk-input",
                               value: requirement.nonOCDS.options[0].value
                             })
                           }}
@@ -1822,7 +1822,7 @@
                                 text: 'Enter details about your service users'
                               },
                               maxlength:5000,
-                              classes: "govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
+                              classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
                               value: requirement.nonOCDS.options[0].text
                             })
                           }}
@@ -1871,10 +1871,10 @@
                                 id: "rfp_term_service_group_"+i,
                                 maxlength:500,
                                 name: "term",
-                                classes: "govuk-input govuk-!-width-two-thirds rfpterm rfp_term__Service_user_type_"+i,
+                                classes: "closeCCS govuk-input govuk-!-width-two-thirds rfpterm rfp_term__Service_user_type_"+i,
                                 value: requirement.nonOCDS.options[i-1].value
                               })
-                            }}
+                            }} 
 
                           {{ CCSCharacterCount({
                                 name: "value",
@@ -1883,7 +1883,7 @@
                                   text: 'Enter details about your service users'
                                 },
                                 maxlength:5000,
-                                classes: "govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
+                                classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
