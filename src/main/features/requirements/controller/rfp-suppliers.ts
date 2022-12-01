@@ -62,7 +62,9 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     supplierList = await GetLotSuppliers(req);
     }
     const rowCount=10;let showPrevious=false,showNext=false;
+    const agreementId_session = req.session.agreement_id;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+    const supplierListDwn = supplierList;
     const supplierLength=supplierList.length;
     let enablebtn=true	
     
@@ -76,7 +78,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       suppliers_list: supplierList,
       releatedContent: releatedContent,
       lotSuppliers: lotSuppliers,
-      supplierLength,enablebtn
+      supplierLength,enablebtn,
+      agreementId_session
     };
     
     if(download!=undefined)
@@ -85,18 +88,46 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     let contactSupplierDetails;
     for(let i=0;i<appendData.suppliers_list.length;i++){
       const contact = appendData.suppliers_list[i];
+      let contactData:any = [];
+      contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
       if(contact.lotContacts != undefined) {
-        contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-        contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-        contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-        contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-        contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-        contactSupplierDetails = contact.lotContacts[0].contact;
-      }
+        contactData['Contact email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
+        contactData['Contact phone number'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
+        }else{
+          contactData['Contact email'] = '-';
+          contactData['Contact phone number'] = '-';
+        }
+
+        contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
+      contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
+      const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+      const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
+      
+      const postalCode = contact?.organization?.address?.postalCode == undefined?' ': contact?.organization?.address?.postalCode;
+      const countryName = contact?.organization?.address?.countryName == undefined?' ': contact?.organization?.address?.countryName;
+      const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
+      
+      contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
+      // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+      contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
+      contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+      contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+      
+
+      // if(contact.lotContacts != undefined) {
+      //   contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+      //   contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+      //   contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+      //   contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+      //   contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+      //   contactSupplierDetails = contact.lotContacts[0].contact;
+      // }
+      contactSupplierDetails = contactData;
       JsonData.push(contactSupplierDetails)
     }
-    // let fields = ["name","email","telephone","address","url","Contact Point name","status"];
-    let fields = ["name","email","telephone","address","url","Contact Point name"];
+   
+    //let fields = ["name","email","telephone","address","url","Contact Point name"];
+    let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
     const json2csv = new Parser({fields});
     const csv = json2csv.parse(JsonData);
     res.header('Content-Type', 'text/csv');
@@ -120,7 +151,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           releatedContent: releatedContent,
           showPrevious,
           showNext,
-          supplierLength,enablebtn
+          supplierLength,enablebtn,
+          agreementId_session
         };
       }
       else
@@ -138,7 +170,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:1,
-          noOfPages,enablebtn
+          noOfPages,enablebtn,
+          agreementId_session
         };
       }
     }
@@ -169,7 +202,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
             showNext,
             supplierLength,
             currentpagenumber:previouspagenumber,
-            noOfPages,enablebtn
+            noOfPages,enablebtn,
+            agreementId_session
           };
       }
       else{//next is undefined
@@ -207,7 +241,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:nextpagenumber,
-          noOfPages,enablebtn
+          noOfPages,enablebtn,
+          agreementId_session
         };
       }
     }

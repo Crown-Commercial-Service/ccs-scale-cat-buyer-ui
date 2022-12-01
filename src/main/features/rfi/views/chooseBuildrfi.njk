@@ -108,7 +108,12 @@
 					<div class="govuk-grid-row govuk-!-margin-bottom-9">
 						<div class="govuk-grid-column-full">
 							{% include "includes/project_header.njk" %}
+							{% if agreementId_session == "RM1557.13" %}
+							<p class="govuk-body govuk-!-margin-top-9">You can build your RfI by entering the necessary information online. You will also have the option to upload documents as part of this journey.</p>
+							<p class="govuk-body govuk-!-margin-top-9">In future, you will have the option to prepare your RfI offline and then upload it.</p>
+							{% else %}
 							<p class="govuk-body govuk-!-margin-top-9">{{line2}}</p>
+							{% endif %}
 						</div>
 					</div>
 					
