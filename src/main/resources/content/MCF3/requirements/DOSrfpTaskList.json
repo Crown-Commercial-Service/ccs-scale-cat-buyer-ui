@@ -155,18 +155,24 @@
                 },
                 {
                     "Task": 5,
+                    "title": "Upload assessment documents",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 6,
                     "title": "Set your timeline",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"
-                }
-                ,
+                },
                 {
-                    "Task": 6,
+                    "Task": 7,
                     "title": "Review and publish stage 2",
                     "required": "optional",
                     "link": "/rfp/IR35",
-                    "status": "Todo"
+                    "status": "Cannot start yet"
                 }
             ]
         }
