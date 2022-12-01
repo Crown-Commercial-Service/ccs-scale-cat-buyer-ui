@@ -107,7 +107,9 @@
         <p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
        {% endif %}
-
+       {% if agreementId_session == "RM1557.13" %}
+<p class="govuk-body">{{data.caption}}</p>
+{% else %}
       <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can 
       {% if agreementId_session == "RM6187" %}
         <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to Request for Information</a>
@@ -115,6 +117,7 @@
       <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a>
       {% endif %}
       </p>
+      {% endif %}
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSCharacterCount({           

@@ -1,0 +1,78 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% set title = 'RFI Next Steps | Crown Commercial Service' %}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Your Project",
+            "href": "/event/management?id="+eventId
+          },
+          {
+            "text": "Close your project"
+          }
+        ]
+    }) }}
+{% endblock %}
+
+
+{% block content %} 
+
+<div class="backdrop-nextsteps" id="nextstepspopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-nextsteps govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-nextsteps nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">Confirm you want to close this event and the whole project.<p></p>
+      <p id="dialog-description"><b>You will not be able to reopen it.</b></p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-nextsteps" class="button dialog-button govuk-button" name="Next Step">Continue</button>
+        <a href="#" class="dialog-close-nextsteps govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h2 class="govuk-heading-xl">{{data.title}}</h2>
+      </div>  
+  </div>
+  <br>
+   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    {% include "includes/project_header.njk" %}
+        <p>{{data.subtitle}}</p>
+        <br><br><br>
+      <form id="ccs_rfi_closeyouproject" name="ccs_rfi_closeyouproject" class="form ccs_ca_next_steps" action="/rfi/nextsteps" method="POST">
+      {{ csrfProtection(csrf) }} 
+        <p>{{data.text1}}</p>
+        <p>{{data.text2}}</p>
+          <br><br><br><br><br><br>
+          <div class="govuk-button-group">
+          {{ CCSButton({
+                  text: "Save and continue"
+                  }) }}
+          {% set returnLink = "/event/management?id="+eventId %}
+          <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+          </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">{{ CCSReleatedContent(releatedContent) }}</div>
+  </div>
+</main>
+{% endblock %}

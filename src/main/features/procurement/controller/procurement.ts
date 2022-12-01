@@ -5,6 +5,7 @@ import * as express from 'express';
 import * as dataDSP from '../../../resources/content/procurement/ccs-procurement.json';
 import * as dataMCF3 from '../../../resources/content/procurement/mcf3_procurement.json';
 import * as dataGCloud from '../../../resources/content/procurement/gcloud-procurement.json';
+import * as dataGCloudLot4 from '../../../resources/content/procurement/gcloud-lot4-procurement.json';
 import * as dataDOS from '../../../resources/content/procurement/mcf3Dos_procurement.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -43,7 +44,6 @@ const journeyOverwrite = async (SESSION_ID, eventId) => {
 }
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
-  
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
@@ -56,18 +56,23 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   } else if(agreementId_session == 'RM1043.8'){ //DOS
     forceChangeDataJson = dataDOS;
   } else if(agreementId_session == 'RM1557.13') { //G-cloud 13
-    forceChangeDataJson = dataGCloud;
-  }else{
-    //DSP
+    if(lotId=='All'){
+      forceChangeDataJson = dataGCloud;
+    }else{
+      forceChangeDataJson = dataGCloudLot4;
+    }
+  }else{//DSP
     forceChangeDataJson = dataDSP;
   }
   const data = forceChangeDataJson;
   let appendData: any = { ...data, SESSION_ID };
   try {
     let types;
-    if(agreementId_session != 'RM1557.13') {
-    const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
-     types = typesRaw.map((typeRaw: any) => typeRaw.type);
+    if(agreementId_session == 'RM1557.13' && lotId=='All') {
+      types='';
+    }else{
+      const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
+      types = typesRaw.map((typeRaw: any) => typeRaw.type);
     }
     appendData = { types,lotId, ...appendData };
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
@@ -76,7 +81,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if (!elementCached) {
       const _body = {
         agreementId: agreementId_session,
-        lotId: (agreementId_session != 'RM1557.13')?lotId:'All',
+        lotId: (agreementId_session == 'RM1557.13' && lotId=='All')?'All':lotId,
       };
       const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
       procurement = procurementRaw;
@@ -113,7 +118,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }
-    if(agreementId_session == 'RM1557.13') { //G-cloud 13
+    if(agreementId_session == 'RM1557.13' && lotId=='All') { //G-cloud 13
       await ccsStatusOverride(appendData, SESSION_ID, agreementId_session, req.session.projectId, req.session.eventId);
     } else {
       const {data: getEventsData} = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${req.session.projectId}/events`);
@@ -182,7 +187,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     }
 
-    if(agreementId_session == 'RM1043.8'){
+    if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotId=='4')){
       req.session.caSelectedRoute = 'FC';
       req.session.selectedRoute = 'FC';
     }
@@ -199,7 +204,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       //ADDED CONDATION FOR  choosenViewPath ===NULL
       if (path == undefined || req.session.choosenViewPath === null) {
 
-        if(agreementId_session == 'RM1043.8'){
+        if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotId=='4')){
           appendData.events[objIndex].href = "/rfp/task-list";
         }else{
           appendData.events[objIndex].href = "/requirements/choose-route";
@@ -209,7 +214,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     } else if (appendData.events[objIndex].href !== '/requirements/choose-route') {//BALWINDER IF CONDATION IS NOT TRUE THEN WE SET HREF VALUE REPLACE TO AS A CHOOSE-ROUTE
       appendData.events[objIndex].href = "/requirements/choose-route";
-    }else if (agreementId_session == 'RM1043.8' && appendData.events[objIndex].href !== '/rfp/task-list') {//BALWINDER IF CONDATION IS NOT TRUE THEN WE SET HREF VALUE REPLACE TO AS A CHOOSE-ROUTE
+    }else if (agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotId=='4') && appendData.events[objIndex].href !== '/rfp/task-list') {//BALWINDER IF CONDATION IS NOT TRUE THEN WE SET HREF VALUE REPLACE TO AS A CHOOSE-ROUTE
       appendData.events[objIndex].href = "/requirements/choose-route";
     } 
   }
@@ -224,11 +229,14 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if(showWritePublish==true){ScrollTo="WritePublish"}
     
     appendData = { ...appendData, agreementName, releatedContent, agreementId_session, stepstocontinueDAA,ScrollTo };
-   // if (agreementName.toLowerCase() === "G-Cloud 12".toLowerCase()) {
-      //res.render('procurement-g-cloud', appendData);
-    // } else
+   if (agreementId_session == 'RM1557.13' && lotId=='4') {
+      res.render('gcloud_lot4-procurement', appendData);
+    } else{
       res.render('procurement', appendData);
+    }
+      
   } catch (error) {
+    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

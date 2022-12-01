@@ -821,6 +821,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
       agreementId_session,
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       customStatus
     };
     req.session['checkboxerror'] = 0;
