@@ -271,13 +271,19 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
 export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   try{
-        const { eventId } = req.session;
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
+        const { eventId,agreement_id } = req.session;
+        let steps = 12;
+        let nextStep = 13;
+        if(agreement_id == 'RM1557.13'){
+          steps = 13;
+          nextStep = 14;
+        }
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${steps}`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag=await ShouldEventStatusBeUpdated(eventId,13,req);
+          let flag=await ShouldEventStatusBeUpdated(eventId,nextStep,req);
           if(flag)
           {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
           }
         }
         res.redirect('/rfi/response-date');
