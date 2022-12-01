@@ -207,8 +207,9 @@ const ccsZCountRfiQuestions = (event) => {
       document.getElementById("rfi_label_question_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
-    let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    let maxlength = element.getAttribute("maxlength");
+    let count=maxlength-element.value.length;
+    labelElement.innerText=count + " remaining of "+maxlength;
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
