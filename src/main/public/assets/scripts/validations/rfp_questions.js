@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteButtons = document.querySelectorAll('a.del');
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
+        let textboxelements = document.querySelectorAll('.order_1');
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -57,9 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             $('#totalPercentage').html(weightageSum);
         };
+        
+        textboxelements.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
                 if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
             });
         });
@@ -71,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).length,
             );
         };
+        
 
              
         totalAnswerd();
@@ -165,7 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var total_countva=20;
         var withValue=21;
     }
-    else{
+    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
+        var total_countva=5;
+        var withValue=6;
+    }else{
         if($('.question_count').hasClass("question_count")) {      
                
             var total_countva=50;
@@ -184,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
-           
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
@@ -279,8 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 let percentageval = $('#fc_question_precenate_'+textboxCount).val();
                 if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
                     if((textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
-
-                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
+                        let msgWeightageContent = 'You must enter percentage';
+ 
+                        if(urlParams.get('group_id') == 'Group 5') {
+                            msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                        }
+                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
                    else{
@@ -518,9 +533,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
+    $('.weightagelimit , .dos_question_count').on('keyup', function (evt) {
+        emptyQuestionFieldCheckRfp();
+    });
+
     const emptyQuestionFieldCheckRfp = () => {
         removeErrorFieldsRfpScoreQuestion();
         const countWords = str => str.trim().split(/\s+/).length;
+        let LOTID_VAR;
+        if(document.getElementById('lID') !== null) {
+            LOTID_VAR = document.getElementById('lID').value;
+        }
         let fieldCheck = '',
             errorStore = [],
             noOfRequirement_Group = 0;
@@ -544,13 +567,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
                         for (let index = 0; index < inputElements.length; index++) {
                             const element = inputElements[index];
+                            var labelElement = element.previousElementSibling.previousElementSibling;
+                            var labelText = labelElement.innerHTML;
+                            var msg = '';
+                            var desmsg = '';
+                            if(labelText.trim() == 'Name of the requirement'){
+                                msg = 'You must enter your name of the requirement';
+                            }else{
+                                msg = 'You must enter your name of the group';
+                            }
+                            if(labelText.trim() == 'Describe the requirement'){
+                                desmsg = 'You must enter your description of the requirement';
+                            }else{
+                                desmsg = 'You must enter your name of the requirement';
+                            }
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
-                                    errorStore.push([element.id, "You must enter your name of the group"])
+                                    errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                                 if (element.value == '' || element.value === undefined || element.value === null) {
-                                    errorStore.push([element.id, "You must enter your name of the requirement"])
+                                    errorStore.push([element.id, desmsg])
                                 }
                             }else {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
@@ -565,11 +602,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
                         if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                            let msgContent = 'You must enter valid question';
+                            let msgWeightageContent = 'You must enter percentage';
+
+                            if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
+                                msgContent = 'Enter an essential skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                            }
+
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
-                                'You must enter valid question';
+                                msgContent;
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/);
-                            let percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter percentage", /\w+/);
+                            let percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
                             if (fieldCheck !== true){
                                 errorStore.push(fieldCheck);
                             }
@@ -705,7 +750,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
-        
+               
+
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                     for (var i = 1; i < withValue; i++) {
                         let error_classes = $('#fc_question_'+i).hasClass('ccs-dynaform-hidden');
@@ -713,25 +759,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         if((($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == false )) || 
                         ($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == true ))
+
                         )){
-                            var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter your question", /\w+/);
+                            let msgContent = 'You must enter your question';
+
+                            if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
+                                msgContent = 'Enter an essential skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                            }
+
+                            var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msgContent, /\w+/);
+
                             errorStore.push(fieldCheck)
                         } 
                         if((($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false )) ||
                         ($('#fc_question_precenate_'+i).val() == '' && ( error_classes == false && additional_classes == true ))
+
                         )) {
-                        var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter a weighting for this question", /\w+/);
+                             let msgWeightageContent = 'You must enter a weighting for this question';
+ 
+                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
+                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                             }
+                        var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
+
                         errorStore.push(percentageCheck)
                         }
+                        
+                       if(urlParams.get('agreement_id') == 'RM1557.13'){
+                      
+                        if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        }
+                        if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
+                        }
+                    }
+                   
                     }
                     if((urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
+
+                        if($('#fc_question_'+1+ '_1').val() != '' && $('#fc_question_precenate_' + 1).val() != ''){
                         var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+
                         errorStore.push(percentageCheck)
+                        }
         
                     }
-                    else{
-                    errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
-                    }
+                    // else{
+                        // console.log('com')
+                        // console.log(i)
+                        // console.log($('#fc_question_precenate_'+i).val());
+                        // console.log(pageHeading.includes('Write your social value questions (Optional)'));
+                        
+                        
+                    // }
 
                 }
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
@@ -752,10 +834,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 6')  && urlParams.get('section') == 5) {
-
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
+                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != ''){
+
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
                 errorStore.push(percentageCheck)
+                }
                 }
                 else{
                      errorStore.push(["There is a problem", "The total weighting is less than 100% "]);

@@ -2,6 +2,7 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/nameYourProject.json';
 import * as MCF3cmsData from '../../../resources/content/MCF3/RFI/nameYourProject.json';
+import * as gcloudcmsData from '../../../resources/content/MCF3/RFI/gcloudnameYourProject.json';
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -30,6 +31,10 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     forceChangeDataJson = MCF3cmsData;
   } else { //DSP
     forceChangeDataJson = cmsData;
+  }
+  
+  if(agreementId_session == 'RM1557.13'){
+    forceChangeDataJson = gcloudcmsData;
   }
 
   const viewData: any = {
