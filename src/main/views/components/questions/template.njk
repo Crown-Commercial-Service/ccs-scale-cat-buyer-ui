@@ -1795,9 +1795,16 @@
                             id:"term_acronym_fieldset_acronym_service_1"
                           })
                         %}
+
+                        {% if (agreement_id == 'RM1043.8') %}
+                          {% set labelText = 'Give this user type a name' %}
+                        {% else %}
+                          {% set labelText = 'Give this group a name' %}
+                        {% endif %}
+
                         {{ CCSCharacterCount({
                               label: {
-                                text: 'Give this group a name'
+                                text: labelText
                               },
                               id: "rfp_term_service_group_1",
                               maxlength:500,
@@ -1849,9 +1856,15 @@
                             })
                           %}
 
+                         {% if (agreement_id == 'RM1043.8') %}
+                          {% set labelText = 'Give this user type a name' %}
+                        {% else %}
+                          {% set labelText = 'Give this group a name' %}
+                        {% endif %}
+                        
                           {{ CCSCharacterCount({
                                 label: {
-                                  text: 'Give this group a name'
+                                  text: labelText
                                 },
                                 id: "rfp_term_service_group_"+i,
                                 maxlength:500,
