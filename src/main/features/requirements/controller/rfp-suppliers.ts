@@ -125,13 +125,9 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       contactSupplierDetails = contactData;
       JsonData.push(contactSupplierDetails)
     }
-    // let fields = ["name","email","telephone","address","url","Contact Point name","status"];
+   
     //let fields = ["name","email","telephone","address","url","Contact Point name"];
     let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
-
-      JsonData.push(contactSupplierDetails)
-    }  
-
     const json2csv = new Parser({fields});
     const csv = json2csv.parse(JsonData);
     res.header('Content-Type', 'text/csv');
