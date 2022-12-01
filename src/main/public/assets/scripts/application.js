@@ -64,16 +64,18 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
+
    
     if(myclass){
       $("input[type='checkbox']").prop("checked", true);
       $(this).removeClass("uncheck");
       $(this).addClass("check");
-
+      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
     }else{
+      $('.otherTextArea').addClass('ccs-dynaform-hidden');
       $("input[type='checkbox']").prop("checked", false);
       $(this).addClass("uncheck");
-      $(this).removeClass("check");
+      $(this).removeClass("check");      
     } 
 
   
@@ -214,6 +216,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
+  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+  document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);

@@ -136,8 +136,8 @@ var { Parser } = require("json2csv");
       
       //Pagination concept
       let lotid=req.session.lotId;
-      lotid = lotid.replace('Lot ','');
-      let lot_id = lotid;
+      let lot_id = lotid.replace('Lot ','');
+      // let lot_id = lotid;
       res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid, eventId, projectId };
 
       const { previous, next } = req.query
@@ -331,17 +331,71 @@ var { Parser } = require("json2csv");
           let contactData:any = [];
 
           // if(contact.lotContacts != undefined) {
-             contactData['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-             // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-             contactData['status'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-             contactData['address'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-             contactData['Contact Point name'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
-             contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-              contactSupplierDetails = contactData;
-             JsonData.push(contactSupplierDetails)
+            // contactData['SupplierID '] = contact.organization?.id == undefined?'-': contact.organization.id;
+            
+            contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            if(contact.lotContacts != undefined) {
+              contactData['Contact email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
+              contactData['Contact phone number'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
+              }else{
+                contactData['Contact email'] = '-';
+                contactData['Contact phone number'] = '-';
+              }
+
+              contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
+            contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
+            
+            const postalCode = contact?.organization?.address?.postalCode == undefined?' ': contact?.organization?.address?.postalCode;
+            const countryName = contact?.organization?.address?.countryName == undefined?' ': contact?.organization?.address?.countryName;
+            const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
+            
+            contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
+            // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+            contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
+            contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            
+
+
+
+
+            // contactData['Name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            // if(contact.lotContacts != undefined) {
+            // contactData['Email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
+            // contactData['Telephone'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
+            // }else{
+            //   contactData['Email'] = '-';
+            //   contactData['Telephone'] = '-';
+            // }
+            // // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            // contactData['Address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            // contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            // contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            // contactData['Contact number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
+            
+            
+            // contactData['Name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            // if(contact.lotContacts != undefined) {
+            // contactData['Email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
+            // contactData['Telephone'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
+            // }else{
+            //   contactData['Email'] = '-';
+            //   contactData['Telephone'] = '-';
+            // }
+            // // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            // contactData['Address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            // contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            // contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            // contactData['Contact number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
+            
+            contactSupplierDetails = contactData;
+            JsonData.push(contactSupplierDetails)
         }
-        let fields = ["name","email","telephone","address","url","Contact name","Contact number"];
-        const json2csv = new Parser({fields});
+       // let fields = ["Name","Email","Telephone","Address","Url","Contact name","Contact number"];
+       let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
+       const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
         res.header('Content-Type', 'text/csv');
         res.attachment("PA_Suppliers_List.csv");         
@@ -351,6 +405,7 @@ var { Parser } = require("json2csv");
       }
     
     } catch (error) {
+      console.log('catcherr',error);
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, TokenDecoder.decoder(SESSION_ID), 'Shortlist services - FCA task list page', true);
     }
   }
