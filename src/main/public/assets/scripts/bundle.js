@@ -17162,7 +17162,8 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region, or the “No specific location...");
+  //fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region, or the “No specific location...");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region.");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -17171,7 +17172,8 @@ const ccsZvalidateEoiLocation = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   // console.log('va from eoi onload>>>>');
-  if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("eoi_location")!==null ) {
+ // if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("eoi_location")!==null ) {
+  if (document.getElementById("ccs_select_location") !== null) {
     nospeclocationCheckboxeseoi = document.querySelectorAll("input[name='required_locations']");
     nospeclocationCheckboxeseoi.forEach((cl) => {
       
@@ -17392,7 +17394,8 @@ noLocationTag = "No specific location, for example they can work remotely";
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("rfi_location")!==null ) {
+  //if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("rfi_location")!==null ) {
+    if (document.getElementById("ccs_select_location") !== null) {
     // console.log('va from rfi onload>>>>');
     nospeclocationCheckboxes = document.querySelectorAll("input[name='required_locations']");
     nospeclocationCheckboxes.forEach((cl) => {
@@ -18252,7 +18255,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region, or the “No specific location...',
+    'You must select at least one region.',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
