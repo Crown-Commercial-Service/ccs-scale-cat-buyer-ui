@@ -112,29 +112,77 @@ document.addEventListener('DOMContentLoaded', () => {
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
                                console.log(`First: ${ml} - ${next_coll}`)
+                               let first;
+                               let last;
+                               let percentage;
+
+                               var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                               if(fc_question_precenate_fir){
+                                first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                               }
+                               var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                               if(fc_question_precenate_sec){
+                                var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                               }
+                               var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                               if(fc_question_precenate_third){
+                                 percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                               }
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 document.getElementById('fc_question_precenate_'+current_col).value=last;
+                               }
+                              
                            
-                            var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
-                            var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
-                            var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
                             
-                               document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
-                               document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
-                               document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
 
                               
                            } else {
                                next_coll = next_coll + 1;
                                console.log(`Usual: ${ml} - ${next_coll}`)
                            
-                            var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
-                            var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
-                            var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
                            
                                
-                               document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
-                               document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
-                               document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
-                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            let first;
+                            let last;
+                            let percentage;
+
+                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                            if(fc_question_precenate_fir){
+                             first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            }
+                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                            if(fc_question_precenate_sec){
+                             var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                            }
+                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                            if(fc_question_precenate_third){
+                              percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            }
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                              document.getElementById('fc_question_precenate_'+current_col).value=last;
+                            }
                             
                            }
        
@@ -148,18 +196,55 @@ document.addEventListener('DOMContentLoaded', () => {
                        console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
                        console.log(`removeLogic: ${removeLogic}`);
-                       document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
-                       document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
-                       document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                      
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
                     
                     document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
                    
                        target_fieldset.classList.add("ccs-dynaform-hidden");
                        
-                       document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
-                       document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
-                       document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
                     
                        if (prev_coll > 1) {
                         document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
@@ -169,9 +254,27 @@ document.addEventListener('DOMContentLoaded', () => {
                } else {
                
                    target_fieldset.classList.add("ccs-dynaform-hidden");
-                   document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
-                   document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
-                   document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
              
                    if (prev_coll > 1) {
                     document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
