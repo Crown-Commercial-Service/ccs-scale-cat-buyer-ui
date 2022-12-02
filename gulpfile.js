@@ -101,6 +101,8 @@ gulp.task('clean', () => {
   ]);
 });
 
+
+
 gulp.task('pack-scripts', () => {
   return gulp.src(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/all.js', 'src/main/public/assets/scripts/cookies/*.js', 'src/main/public/assets/scripts/dialog/*.js', 'src/main/public/assets/scripts/pagination/*.js', 'src/main/public/assets/scripts/session/*.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'])
         .pipe(concat('bundle.js'))
@@ -109,10 +111,12 @@ gulp.task('pack-scripts', () => {
 });
 
 gulp.task('pack-styles', () => {
-  return gulp.src(['src/main/public/assets/styles/application.css', 'src/main/public/assets/styles/custom.css', 'src/main/public/assets/styles/additional.css', 'src/main/public/assets/styles/govuk_fac_style.css'])
+  return gulp.src(['src/main/public/assets/styles/application.css', 'src/main/public/assets/styles/custom.css', 'src/main/public/assets/styles/govuk_fac_style.css'])
         .pipe(concat('bundle.min.css'))
         .pipe(minifyCSS())
         .pipe(gulp.dest('src/main/public/assets/styles'));
 });
 
 gulp.task('default', gulp.series(['clean', 'styles']));
+
+gulp.watch(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'], gulp.series('pack-scripts'));
