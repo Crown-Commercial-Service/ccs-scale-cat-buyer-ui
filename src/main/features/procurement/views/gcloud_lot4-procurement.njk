@@ -28,7 +28,7 @@
                <p class="govuk-body">{{line1| safe}}</p>
                <p class="govuk-body">{{line2| safe}}</p>
 
-                  <p class="govuk-body">Check the terms and conditions for this lot in <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='//www.crowncommercial.gov.uk/agreements/RM6187'>the lot detail page.</a> </p>
+                  <p class="govuk-body">Check the terms and conditions for this lot in <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='/agreement/lot?agreement_id=RM1557.13&lotNum=4'>the lot detail page.</a> </p>
                
             </div>
             </div>
@@ -54,7 +54,6 @@
                      </h2>
                      {% for section in event.sections %}
                         <p class="govuk-body">{{section | safe }}</p>
-                       
                      {% endfor %}
 
                      {% for subSections in event.subsections %}
@@ -77,7 +76,7 @@
                      {% endif %}
                      {% if event.buttonText %}
                         {% if event.buttonDisable === true %}
-                            <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                            <a hidden={{event.buttonText}} href="/fca/supplier/list" aria-disabled="false" class="govuk-button" data-module="govuk-button">
                                  {{event.buttonText}}
                               </a>
                         {% else %}
