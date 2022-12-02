@@ -20,6 +20,8 @@ export const GET_CHOOSE_ROUTE = async (req: express.Request, res: express.Respon
 
    const { SESSION_ID } = req.cookies;
    var activeProjectID = req.session.projectId;
+   var agreement_id = req.session.agreement_id;
+   var eventId = req.session.eventId;
    const {data: dataActiveRecord } = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${activeProjectID}/events`);
    let activeProjectEventType;
    if(req.session.showPreMarket == true) {
@@ -27,20 +29,27 @@ export const GET_CHOOSE_ROUTE = async (req: express.Request, res: express.Respon
    } else {
       activeProjectEventType = dataActiveRecord[0].eventType;
    }
-
-   const releatedContent = req.session.releatedContent
-   const { isJaggaerError } = req.session;
-   req.session['isJaggaerError'] = false;
-   const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError,activeProjectEventType }
-   if(req.session.showPreMarket == true || req.session['isRFIComplete']) {
-      res.render('chooseRoute', windowAppendData);
-   } else {
-      if(activeProjectEventType == 'RFI') {
-         res.redirect(RFI_PATHS.GET_TASKLIST);
-      } else if(activeProjectEventType === 'EOI') {
-         res.redirect(EOI_PATHS.GET_TASKLIST);
-      } else {
+   if(agreement_id == 'RM1557.13'){
+      const newAddress = RFI_PATHS.GET_TASKLIST;
+      req.session.selectedRoute = 'RFI'
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'In progress');
+      logger.info("RFI Route selected");
+      res.redirect(newAddress);
+   }else{
+      const releatedContent = req.session.releatedContent
+      const { isJaggaerError } = req.session;
+      req.session['isJaggaerError'] = false;
+      const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError,activeProjectEventType }
+      if(req.session.showPreMarket == true || req.session['isRFIComplete']) {
          res.render('chooseRoute', windowAppendData);
+      } else {
+         if(activeProjectEventType == 'RFI') {
+            res.redirect(RFI_PATHS.GET_TASKLIST);
+         } else if(activeProjectEventType === 'EOI') {
+            res.redirect(EOI_PATHS.GET_TASKLIST);
+         } else {
+            res.render('chooseRoute', windowAppendData);
+         }
       }
    }
    

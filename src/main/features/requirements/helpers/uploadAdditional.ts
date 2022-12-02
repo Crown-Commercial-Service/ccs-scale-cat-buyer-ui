@@ -6,6 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additional.json';
+import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-upload-additional.json';
 import * as dosData from '../../../resources/content/requirements/dos-rfp-upload-attachment.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-upload-assessment.json';
 
@@ -118,7 +119,10 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = dosStage2Data;
       }
-    } else { 
+    }else if(agreementId_session == 'RM1557.13') { //GCloud
+      forceChangeDataJson = GCloudcmsData;
+    } 
+    else { 
       forceChangeDataJson = cmsData;
     }
       let windowAppendData = {
