@@ -32,7 +32,7 @@
                 ' tenth'
               ] %}
 {% block breadCrumb %}
-{% if eventStatus != "published" and closeStatus!="CLOSED"%}
+{% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
@@ -136,7 +136,7 @@
                                 </dd>
                               {% endif %}
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                   <a class="govuk-link" href="/rfp/name-your-project">
                                     Change<span class="govuk-visually-hidden">project name</span>
                                   </a>
@@ -165,7 +165,7 @@
                                 </ul>
                               </dd>
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                   <a class="govuk-link" href="/rfp/procurement-lead">
                                     Change<span class="govuk-visually-hidden">
                                       procurement lead</span>
@@ -209,7 +209,7 @@
                                 </dd>
                               {% endif %}
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                   <a class="govuk-link" href="/rfp/add-collaborators">
                                     Change<span class="govuk-visually-hidden">
                                       eoi team members</span>
@@ -245,7 +245,7 @@
                                   <dd class="govuk-summary-list__value"></dd>
                                 {% endif %}
                                 <dd class="govuk-summary-list__actions">
-                                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                     <a class="govuk-link" href="/rfp/upload-attachment">
                                       Change<span class="govuk-visually-hidden">project name</span>
                                     </a>
@@ -272,7 +272,7 @@
                                 {% endif %}
                                 {# </dd> #}
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a class="govuk-link" href="/rfp/upload-doc">
                                       Change<span class="govuk-visually-hidden">
                                         procurement lead</span>
@@ -294,7 +294,7 @@
                                   <dd class="govuk-summary-list__value"></dd>
                                 {% endif %}
                                 <dd class="govuk-summary-list__actions">
-                                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                     <a class="govuk-link" href="/rfp/IR35">
                                       Change<span class="govuk-visually-hidden">
                                         eoi team members</span>
@@ -355,7 +355,7 @@
                                   </dt>
                                   <dd class="govuk-summary-list__value">&nbsp;</dd>
                                   <dd class="govuk-summary-list__actions">
-                                    {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                    {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                       <a
                                         class="govuk-link"
                                         href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 3">
@@ -387,7 +387,7 @@
                                   </dt>
                                   <dd class="govuk-summary-list__value">&nbsp;</dd>
                                   <dd class="govuk-summary-list__actions">
-                                    {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                    {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                       <a
                                         class="govuk-link"
                                         href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 4">
@@ -424,7 +424,7 @@
                                   </p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 5">
@@ -461,7 +461,7 @@
                                     {#<p> Key user answer</p><p>definition answer</p><br />#}
                                   </dd>
                                   <dd class="govuk-summary-list__actions">
-                                    {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                    {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                       <a
                                         class="govuk-link"
                                         href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 6">
@@ -479,7 +479,7 @@
                                   <p>{{ workcompletedsofar }}</p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 7">
@@ -518,7 +518,7 @@
                                     {% endif %}
                                   </dd>
                                   <dd class="govuk-summary-list__actions">
-                                    {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                    {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                       <a
                                         class="govuk-link"
                                         href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 9">
@@ -534,7 +534,7 @@
                                 </dt>
                                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 10">
@@ -568,7 +568,7 @@
                                 </dt>
                                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 11">
@@ -600,7 +600,7 @@
                                     {{ summarize }}</p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 14">
@@ -618,7 +618,7 @@
                                     {{ newreplace }}</p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 15">
@@ -637,7 +637,7 @@
                                   <p>{{ suppliername }}</p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 16">
@@ -655,7 +655,7 @@
                                     {{ managementinfo }}</p>
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 17">
@@ -670,7 +670,7 @@
                                 </dt>
                                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                                 <dd class="govuk-summary-list__actions">
-                                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                                     <a
                                       class="govuk-link"
                                       href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 19">
@@ -725,7 +725,7 @@
                             <p>{{ incentive2 }}</p><br/>
                           </dd>
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a
                                 class="govuk-link"
                                 href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 20">
@@ -741,7 +741,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
                         <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                          {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                             <a
                               class="govuk-link"
                               href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 21">
@@ -769,7 +769,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
                         <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                          {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                             <a
                               class="govuk-link"
                               href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 24">
@@ -843,7 +843,7 @@
                             {% endif %}
                           </dd>
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/vetting-weighting">
                                 Change<span class="govuk-visually-hidden">project name</span>
                               </a>
@@ -865,7 +865,7 @@
                             <p>{{ highestSecurityCount }}</p>
                           </dd>
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/choose-security-requirements">
                                 Change<span class="govuk-visually-hidden">project name</span>
                               </a>
@@ -893,7 +893,7 @@
                             {% endif %}
                           </dd>
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/service-capabilities">
                                 Change<span class="govuk-visually-hidden">project name</span>
                               </a>
@@ -916,7 +916,7 @@
                                       No specific location, for example they can work remotely #}
                           </dd>
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/where-work-done">
                                 Change<span class="govuk-visually-hidden">project name</span>
                               </a>
@@ -957,7 +957,7 @@
         </dd>
             {% endif %}
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/upload-attachment">
                                 Change<span class="govuk-visually-hidden">project name</span>
                               </a>
@@ -984,7 +984,7 @@
                           {% endif %}
                           {# </dd> #}
                           <dd class="govuk-summary-list__actions">
-                            {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED") %}
+                            {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                               <a class="govuk-link" href="/rfp/upload-doc">
                                 Change<span class="govuk-visually-hidden">
                                   procurement lead</span>
@@ -1006,7 +1006,7 @@
                             <dd class="govuk-summary-list__value"></dd>
                           {% endif %}
                           <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                            {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                               <a class="govuk-link" href="/rfp/IR35">
                                 Change<span class="govuk-visually-hidden">
                                   eoi team members</span>
@@ -1034,7 +1034,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
                         <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                          {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                              <a
                               class="govuk-link"
                               href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 2">
@@ -1062,7 +1062,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
                         <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                          {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                             <a
                               class="govuk-link"
                               href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 3">
@@ -1096,7 +1096,7 @@
                 </dt>
                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                 <dd class="govuk-summary-list__actions">
-                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                     <a
                       class="govuk-link"
                       href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 4">
@@ -1175,7 +1175,7 @@
                               <p>XX%</p><br/><br/>#}
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                    {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                    {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                       <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 5">
@@ -1191,7 +1191,7 @@
                 </dt>
                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                 <dd class="govuk-summary-list__actions">
-                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                     <a
                       class="govuk-link"
                       href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 6">
@@ -1249,7 +1249,7 @@
                 </dt>
                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                 <dd class="govuk-summary-list__actions">
-                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                     <a class="govuk-link" href="/rfp/set-scoring-criteria">
                       Change<span class="govuk-visually-hidden">project name</span>
                     </a>
@@ -1308,7 +1308,7 @@
                   {% endif %}
                 </dd>
                 <dd class="govuk-summary-list__actions">
-                  {% if(eventStatus != "published" and closeStatus!="CLOSED") %}
+                  {% if(eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                     <a class="govuk-link" href="/rfp/suppliers">
                       View<span class="govuk-visually-hidden">project name</span>
                     </a>
@@ -1321,7 +1321,7 @@
                 </dt>
                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                 <dd class="govuk-summary-list__actions">
-                  {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                  {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                     <a class="govuk-link" href="/rfp/response-date">
                       Change<span class="govuk-visually-hidden">project name</span>
                     </a>
@@ -1500,7 +1500,7 @@
                 method="post">
                 {{ csrfProtection(csrf) }}
 
-      {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED"  %}
+      {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
       {{ CCSCheckboxes({
       idPrefix: "rfp_publish_confirmation",
       name: "rfp_publish_confirmation",
