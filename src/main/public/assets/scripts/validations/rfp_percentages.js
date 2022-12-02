@@ -169,7 +169,7 @@ const ccsZvalidateRfpPercentages = (event) => {
     errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
-  if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && agrement_id == 'RM6187') {
+  if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
