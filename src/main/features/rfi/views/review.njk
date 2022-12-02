@@ -484,12 +484,22 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                               <p class="govuk-body">
                                 <h2 class="govuk-heading-m"> Publish your RfI</h2>
                               </p>
-                              <div class="govuk-inset-text">
-                              <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
-                              </div>
-                              <p class="govuk-body">
-                                After publishing this RfI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
-                              </p>
+
+                              {% if agreementId_session == 'RM6187' %}
+                                  <div class="govuk-inset-text">
+                                    <p class="govuk-body">Your RfI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+                                  </div>
+                                  <p class="govuk-body">
+                                    If you need to make any significant changes – including changes to scope or timelines – after publishing this RfI, you will need to cancel and start a new project.
+                                  </p>
+                              {% else %}
+                                  <div class="govuk-inset-text">
+                                    <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
+                                  </div>
+                                  <p class="govuk-body">
+                                    After publishing this RfI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
+                                  </p>
+                              {% endif %}
  
                               <p class="govuk-body">
                                 {% if agreementId_session != 'RM6187' %}
@@ -499,10 +509,17 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                               </p>
                               <br><br>
 
+                          {% if agreementId_session == 'RM6187' %}
                               {{ CCSWarningText({
-text: "By publishing this Request for Information (RfI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
-iconFallbackText: "Warning"
-}) }}
+                                text: "By publishing this RfI you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                                iconFallbackText: "Warning"
+                              }) }}
+                          {% else %}
+                              {{ CCSWarningText({
+                                text: "By publishing this Request for Information (RfI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                                iconFallbackText: "Warning"
+                              }) }}
+                          {% endif %}
 
                               <br><br>
                             </div>
@@ -518,7 +535,7 @@ action="/rfi/review" method="post">
                                       items: [
                                       {
                                       "value": 1,
-                                      html: "<label><strong>By checking this box I confirm the statements above.</strong></label>",
+                                      html: "<label><strong>By checking this box, I confirm the statements above.</strong></label>",
                                       Checked: ""
                                       }
                                       ]

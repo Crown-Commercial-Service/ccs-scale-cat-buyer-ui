@@ -63,7 +63,7 @@ const checkPercentagesCond = () => {
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
-        if (subTitle!= 'Social value'){
+        if (subTitle!= 'Social value'){ 
 
           if(agrement_id == 'RM6187'){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
@@ -80,7 +80,7 @@ const checkPercentagesCond = () => {
           
         }
         else {
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for"+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       } else if (Number(allTextBox[k].value) >= 0 && subTitle!= 'Social value') {
@@ -161,7 +161,7 @@ const ccsZvalidateRfpPercentages = (event) => {
  
   errorStore = errorStore == null || errorStore.length <= 0 ? checkPercentagesCond() : errorStore;
   checkPercentagesCond()
-  if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
+  if ((pageHeading.includes('Set the overall weighting between quality and price') || pageHeading.includes('Set the quality weightings')) && (percentage > 100 || percentage < 100)) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
