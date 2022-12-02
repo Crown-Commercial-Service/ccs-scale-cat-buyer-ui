@@ -145,8 +145,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         for (const Relation of RelationsShip) {
           const { dependentOnId } = Relation;
           const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+          // console.log('log12',findElementInData);
+          if(findElementInData!=undefined && findElementInData!=''){
           findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
           TemporaryObjStorage.push(findElementInData);
+          }
         }
       } else {
         TemporaryObjStorage.push(ITEM);
@@ -398,6 +401,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     
     res.render('rfp-question', data);
   } catch (error) {
+    console.log('catcherr',error);
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),

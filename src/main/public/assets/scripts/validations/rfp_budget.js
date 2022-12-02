@@ -31,7 +31,7 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
     console.log("maxBudget",maxBudget);
@@ -75,7 +75,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 

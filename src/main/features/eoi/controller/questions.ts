@@ -207,7 +207,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
-   console.log("req.body",req.body);
    
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
@@ -486,6 +485,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
 
               await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
             } catch (error) {
+              console.log('catcherr',error);
+              
               if (error.response?.status < 500) {
                 logger.info(error.response.data.errors[0].detail)
               } else {

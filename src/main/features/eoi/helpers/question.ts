@@ -113,18 +113,25 @@ export class QuestionHelper {
                  answeredMandatory += 1;
                  }
               }
+              
                    if (questionType === 'SingleSelect') {
                     fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
-                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
-                        mandatoryqstnNum -= 1;
+                      if(anItem?.text){
+                        if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                          mandatoryqstnNum -= 1;
+                        }
                       }
                     });
-                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
-                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
-                      );
-                     if (SingleSelectedData.length>0) {
-                           answeredMandatory += 1;
+                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
+                  if(anItem?.text){
+                        if(anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                        ){
+                        if (SingleSelectedData.length>0) {
+                              answeredMandatory += 1;
+                          }
+                        }
                       }
+                    });
               }
 
               if (questionType === 'MultiSelect') {
@@ -186,6 +193,7 @@ export class QuestionHelper {
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
+      console.log('catcherr',error);
       logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
