@@ -14167,6 +14167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.forEach(el => {
                 weightageSum += isNaN(el.value) ? 0 : Number(el.value);
             });
+            
             if (weightageSum > 100) {
                 errorStore = emptyQuestionFieldCheckRfp();
                 if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7')  && urlParamsData.get('section') == 5) {
@@ -14284,7 +14285,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('lID') !== null) {
         lotid_Default = document.getElementById('lID').value;
     }
-   
+
         var total_countva=10;
         var withValue=11;
     if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 46 )) {
@@ -14309,9 +14310,10 @@ document.addEventListener('DOMContentLoaded', () => {
        }else{
            var total_countva=10;
            var withValue=11;
+           with_value_count = 10;
        }
     }
-
+   
     let deleteButtonClicked = false
         
      
@@ -14360,7 +14362,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         }
-
     
 
 
@@ -14389,6 +14390,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
+
+
+            if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
             
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
 
@@ -14396,6 +14402,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-error-summary').remove();
         $('.govuk-form-group--error').remove();
         removeErrorFieldsRfpScoreQuestion();
+        
             errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -14521,6 +14528,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('.govuk-error-summary').remove();
             $('.govuk-form-group--error').remove();
             removeErrorFieldsRfpScoreQuestion();
+           
                 errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
             }
             else {
@@ -14655,6 +14663,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
+                if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
         }
         } 
     }
@@ -14719,6 +14730,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 errorStore.push(percentageCheck);
                             }
                         }
+
                     }
                     if (rootEl.querySelector('.order_2')) {
                         if (rootEl.querySelector('.order_2').value == '') {
