@@ -215,6 +215,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
+  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+  document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
+
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
