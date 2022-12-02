@@ -249,21 +249,17 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-
-      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
-        ccsZPresentErrorSummary([['There is a problem', 'Select a pricing model']]);
-      }
-      else{
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+      }else{
         ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
-      } 
+      }
     }
     if (ccs_vetting_type) {
-      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
-      }
-      else{
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
-
       }
 
     }
