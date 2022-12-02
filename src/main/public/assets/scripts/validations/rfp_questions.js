@@ -848,7 +848,6 @@ document.addEventListener('DOMContentLoaded', () => {
            
     
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
-                alert();
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 6')  && urlParams.get('section') == 5) {
