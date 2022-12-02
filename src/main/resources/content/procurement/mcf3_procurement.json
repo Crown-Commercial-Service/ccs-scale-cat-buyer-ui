@@ -128,6 +128,15 @@
             "sections": [
                 "You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement."
             ],
+            "mcf_sections": [
+                "There is a legal requirement to publish certain contracts. You may need to publish the contract on:"
+            ],
+            "ul": [
+                {"li": "<a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder</a>"},
+                {"li": "<a href='http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx' target='_blank'>Public Contracts Scotland</a>"},
+                {"li": "<a href='http://www.sell2wales.gov.uk/' target='_blank'>Sell2Wales</a>"},
+                {"li": "<a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a>"}
+            ],
             "required": "optional",
             "status": "cannot start yet"
         }

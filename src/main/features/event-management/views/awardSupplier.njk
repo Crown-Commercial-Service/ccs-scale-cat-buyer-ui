@@ -70,9 +70,9 @@
           <strong>Details of the supplier to be awarded </strong>
         </h1>
         
-        <h3> <strong>Supplier organisation A Name </strong></h3>
+        <h3> <strong>{{supplierDetails.supplierName}}</strong></h3>
 
-       <p> {{supplierDetails.supplierName}}</p>
+       <p> {{supplierDetails.supplierId}}</p>
 
        <p> <strong>Address:</strong></p>
        <p> {{supplierDetails.supplierAddress}}</p>
@@ -209,7 +209,7 @@
           {% if agreement_header['agreementId_session'] == 'RM6187' %}
 {% set s_classes = "del btn_event_managment_award" %}
         {% else %}
-        {% set s_classes = "" %}
+        {% set s_classes = "del btn_event_managment_award" %}
         {% endif %}
 
         {{ CCSButton({
