@@ -39,18 +39,13 @@
     </div>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
-        {% if agreementId_session == 'RM1043.8' %}
-          <br>
-          <br>
-          {% endif %}
-          {% if agreementId_session != 'RM1043.8' %}
-            <p>You can close this project using the link under the project name below.</p>
-          </br>
-        </br>
-      {% endif %}
-      <div>
-        <h2 class="govuk-heading-m">
+
+      <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
+        {%if status.toLowerCase() == "pre-award" %}
+          <p>You can close this project using the link under the project name below.</p></br></br>
+        {% endif %}
+        <div>
+          <h2 class="govuk-heading-m">
           {{projectName}}
           <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
         </h2>
