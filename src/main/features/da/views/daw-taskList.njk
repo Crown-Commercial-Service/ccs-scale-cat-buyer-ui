@@ -32,9 +32,13 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-        <p class="govuk-body">{{ data.form.question1 }}</p>
-        <br>
-         {#<p class="govuk-body">{{ data.form.question2 }}</p>#}
+          {% if agreementId_session == "RM6187" %}
+              <br><p class="govuk-body">{{ data.form.question_mcf }}</p><br>
+              <p class="govuk-body">{{ data.form.question2 }}</p>
+          {% else %}
+              <p class="govuk-body">{{ data.form.question1 }}</p>
+              <br>
+          {% endif %}
 
          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 

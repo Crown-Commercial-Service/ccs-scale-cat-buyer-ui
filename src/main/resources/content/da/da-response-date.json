@@ -25,12 +25,12 @@
     "subtitle1": "There are:",
     "subtitle2": "The clarification period is when the suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.",
     "subtitle3": "You can change the length of time for each section to more suitable times for you. It is recommended you set your times no later than 4pm on a weekday in case you need to contact CCS about your project",
-    "subtitleDA": "A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.",
-    "subtitleDA1": "The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.",
+    "subtitleDA": "A suggested timeline of 10 working days is already entered below. This takes the process up to when the supplier has submitted their response, and allows a further 6 working days for you to decide what to do next and confirm that to the supplier.",
+    "subtitleDA1": "The clarification period is when the supplier can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.",
     "subtitleDA2": "You can change the length of time for each section to more suitable times for you. It is recommended you set your times no later than 4pm on a weekday in case you need to contact CCS about your project.",
-    "subtitleDAOption1": "2 working days from publishing your requirements until the clarification period closes",
-    "subtitleDAOption2": "1 working days from the clarification period closing to publishing your responses to the clarification questions.",
-    "subtitleDAOption3": "2 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response.",
+    "subtitleDAOption1": "4 working days from publishing until the clarification period closes",
+    "subtitleDAOption2": "2 working days from the clarification period closing to publishing your responses to the clarification questions",
+    "subtitleDAOption3": "4 working days from publishing responses to the clarification questions to the deadline for the supplier to submit their response",
 
     
     "backJump": {
