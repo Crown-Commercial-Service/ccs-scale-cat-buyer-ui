@@ -26,7 +26,11 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
-    fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'You must enter information here');
+    if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Enter your project summary ');
+    }else{
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'You must enter information here');
+    }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
 
