@@ -11405,7 +11405,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 $("#deleteButton_acronym_" + deleteButtonCount[deleteButtonCount.sort((a, b) => a - b).length - 1]).removeClass("ccs-dynaform-hidden");
             }
         }
-
         if (deleteButtonCount.length != 19) {
             document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
         }
@@ -11475,7 +11474,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         let siblingClassList = Sibling.classList;
                         if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
                             nextLevel_coll = (nextLevel_coll + 1);
+
                             eptArr.push(nextLevel_coll)
                             if(ml == 1) {
                                 console.log(`First: ${ml} - ${next_coll}`)
@@ -11483,8 +11484,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 var last  = Sibling.querySelector("[name='value']");
                                 console.log(first.value)
                                 console.log(last.value)
-                                target_fieldset.querySelector("[name='term']").value = first.value;
-                                target_fieldset.querySelector("[name='value']").value = last.value;
+                                document.getElementById('rfp_term_' + current_col).value = first.value;
+                                document.getElementById('rfp_term_definition_' + current_col).value = last.value;
+                                // target_fieldset.querySelector("[name='term']").value = first.value;
+                                // target_fieldset.querySelector("[name='value']").value = last.value;
                             } else {
                                 next_coll = next_coll + 1;
                                 console.log(`Usual: ${ml} - ${next_coll}`)
@@ -11528,20 +11531,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                 }
                 with_value_count--;
+                if (with_value_count != 21) {
+                    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+                }
             });
         });
         clearFieldsButtons.forEach((db) => {
             db.addEventListener('click', (e) => {
 
                 e.preventDefault();
-
                 let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
                     target_fieldset = db.closest("fieldset");
+                    console.log('inside clear field target',target)
 
                 target_fieldset.classList.add("ccs-dynaform");
 
-                document.getElementById('rfp_term_' + target).value = "";
-                document.getElementById('rfp_term_definition_' + target).value = "";
+                //document.getElementById('rfp_term_' + target).value = "";
+                //document.getElementById('rfp_term_definition_' + target).value = "";
                 removeErrorFieldsRfp1();
             });
 
@@ -12272,7 +12278,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -12285,7 +12290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
                  event.preventDefault(); });
 
-      rfpResourceStartDay.on('keydown', () => {
+      rfpResourceStartDay.on('keyup', () => {
          if(DateCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -12293,7 +12298,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartMonth.on('keydown', () => {
+      rfpResourceStartMonth.on('keyup', () => {
          if(MonthCheckResourceStart())
          {
             if( DateCheckResourceStart())
@@ -12301,7 +12306,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartYear.on('keydown', () => {
+      rfpResourceStartYear.on('keyup', () => {
          if(YearCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -12353,6 +12358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
@@ -12363,9 +12369,19 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else{
             removeErrorFieldsdates();
-
             return true;
-          }
+            // if(document.getElementById('agreementID').value !== 'RM1043.8') {
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
+            // }else{
+            //    removeErrorFieldsdates();
+
+            //    return true;
+            // }
          }
          
       }
@@ -12387,6 +12403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
@@ -12398,7 +12415,18 @@ document.addEventListener('DOMContentLoaded', () => {
          else{
             removeErrorFieldsdates();
             return true;
-         }
+         //    if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         //    let isValid = isProjectStartDateValid();
+         //    if(isValid){
+         //       return true;
+         //    }else{
+         //       return false;
+         //    }
+         // }
+         // else{
+         //    removeErrorFieldsdates();
+         //    return true;
+         // }
          }
       }
       }
@@ -12436,13 +12464,14 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+            return true;
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
+
           
          }
         }
@@ -12888,7 +12917,9 @@ function daysInYear(year) {
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
+   $('#rfp_resource_start_date-error').html('');
    $('.resource_start_date').html('');
+
    if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
        if(checkResourceStartDate())
       {
@@ -12997,21 +13028,21 @@ function checkResourceStartDate()
 {
    let flag = true;
    let fieldCheck = "", errorStore = [];
-   
       let rfpResourceStartDay = $('.rfp_resource_start_day');
       let rfpResourceStartMonth = $('.rfp_resource_start_month');
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
       {
-         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
 
+         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
          flag =false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
+         // fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
@@ -13020,9 +13051,9 @@ function checkResourceStartDate()
       }
        else if(rfpResourceStartDay.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
          flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
@@ -13056,9 +13087,9 @@ function checkResourceStartDate()
 
       else if(rfpResourceStartMonth.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
 
          flag =false;
          rfpResourceStartMonth.addClass('govuk-form-group--error');
@@ -13090,9 +13121,9 @@ function checkResourceStartDate()
       }
       else if(rfpResourceStartYear.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
          flag =false;
          rfpResourceStartYear.addClass('govuk-form-group--error');
          rfpResourceStartDay.removeClass('govuk-form-group--error');
@@ -13134,6 +13165,7 @@ function checkResourceStartDate()
             flag =false;
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid date'); 
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a valid date", /^\d{1,}$/);
             if (fieldCheck !== true){ errorStore.push(fieldCheck)
             }else{
                  fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
@@ -13148,6 +13180,7 @@ function checkResourceStartDate()
       }
 
       if(errorStore.length>0){
+         $('#rfp_resource_start_date-hint-error').html('');
          ccsZPresentErrorSummary(errorStore);
          return false;
         }
@@ -13208,12 +13241,10 @@ function isProjectExtensionValid() {
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     console.log('month',month)
      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
       }
      }
      else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
@@ -13435,42 +13466,40 @@ function isProjectStartDateValid()
          rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
       }
       if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
-         const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
-         const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-         const expiryMonth=expiryMonthTot-1;
-         const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+         // const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+         // const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+         // const expiryMonth=expiryMonthTot-1;
+         // const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
-         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
-         const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+         // const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         // const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
          const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-         
-        
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
-          // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
-            Day.addClass('govuk-form-group--error');
-            Month.addClass('govuk-form-group--error');
-            Year.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         }
-         if(errorStore.length>0){
-            ccsZPresentErrorSummary(errorStore);
-            return false;
-           }
-                        return false;
-         }else{
-            $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
-            $('.rfp_resource_start_day').removeClass('govuk-input--error');
-            $('.rfp_resource_start_month').removeClass('govuk-input--error');
-            $('.rfp_resource_start_year').removeClass('govuk-input--error');
-            ccsZPresentErrorSummary();
-         }
+         // if (getTimeOfFormDate > getMSOfExpiryDate) {
+         //  // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+         //    Day.addClass('govuk-form-group--error');
+         //    Month.addClass('govuk-form-group--error');
+         //    Year.addClass('govuk-form-group--error');
+         //    $('.durations').addClass('govuk-form-group--error');
+         //    fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         // }else{
+         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // }
+         // if(errorStore.length>0){
+         //    ccsZPresentErrorSummary(errorStore);
+         //    return false;
+         //   }
+         //                return false;
+         // }else{
+         //    $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
+         //    $('.rfp_resource_start_day').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_month').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_year').removeClass('govuk-input--error');
+         //    ccsZPresentErrorSummary();
+         // }
          if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
 
            // $('#event-name-error-date').html('Start date must be a valid future date');
@@ -13507,11 +13536,11 @@ function isProjectStartDateValid()
          $('.resource_start_date').html('Enter a valid project start date');
          return false;
       } 
-      else if (startDate>new Date(2025,07,23)) {
-         $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Project cannot start after: 23 August 2025');
-          return false;
-      }
+      // else if (startDate>new Date(2025,07,23)) {
+      //    $('.durations').addClass('govuk-form-group--error');
+      //    $('.resource_start_date').html('Project cannot start after: 23 August 2025');
+      //     return false;
+      // }
       else {
          $('.durations').removeClass('govuk-form-group--error');
          $('.resource_start_date').html('');
@@ -13520,7 +13549,7 @@ function isProjectStartDateValid()
    }
    else  {
       if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM6187') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
@@ -14128,6 +14157,8 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteButtons = document.querySelectorAll('a.del');
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
+        let textboxelements = document.querySelectorAll('.order_1');
+        console.log('textboxelements',textboxelements)
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -14151,9 +14182,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             $('#totalPercentage').html(weightageSum);
         };
+        
+        textboxelements.forEach(ele => {
+            // ele.addEventListener('focusout', totalPercentage);
+            ele.addEventListener('keydown', (event) => {
+                console.log('inside keydown1')
+                removeErrorFieldsRfpScoreQuestion();
+                // if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
+                console.log('inside keydown')
+                removeErrorFieldsRfpScoreQuestion();
                 if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
             });
         });
@@ -14165,6 +14207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).length,
             );
         };
+        
 
              
         totalAnswerd();
@@ -14279,7 +14322,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
-           
+            console.log('this_box',this_box)
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
@@ -14304,6 +14347,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else {
                 with_value_count = box_num;
+                console.log('with_value_count',with_value_count)
+
             }
             if (box_num === 2 && deleteButtonCount.length > 0) {
 
@@ -14335,7 +14380,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-            
+             
+             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
@@ -14723,6 +14771,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log('sepical terms')
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
@@ -16120,11 +16169,19 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-      ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
-
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+      }else{
+        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+      }
     }
     if (ccs_vetting_type) {
-      ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else{
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      }
+      
     }
   }
 }
@@ -16474,6 +16531,7 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     ccsZPresentErrorSummary(errorStore);
   }
 });
+
 const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -16489,7 +16547,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let this_fieldset = document.querySelector(".acronym_service_" + acronym_fieldset),
                 term_box = document.getElementById("rfp_term_service_group_" + acronym_fieldset);
-
+               document.getElementById("deleteButton_service_useer_type_" + acronym_fieldset).classList.remove("ccs-dynaform-hidden");
+              
             if (term_box != undefined && term_box != null && term_box.value !== "") {
                 this_fieldset.classList.remove('ccs-dynaform-hidden');
                 deleteButtonCount.push(acronym_fieldset);
@@ -16545,13 +16604,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // }
 
            
-
+            // console.log('with_value_count',with_value_count)
             if (with_value_count === 10) {
                 document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
             }
             if(errorStore.length == 0){
                 if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).addClass("ccs-dynaform-hidden");
+                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
                 }
                 with_value_count++;
             }
@@ -16567,18 +16626,106 @@ document.addEventListener('DOMContentLoaded', () => {
                     prev_coll = Number(target) - 1,
                     target_fieldset = db.closest("fieldset");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
+                // target_fieldset.classList.add("ccs-dynaform-hidden");
 
-                document.getElementById('rfp_term_service_group_' + target).value = "";
-                document.getElementById('rfp_term_more_details_' + target).value = "";
+                // document.getElementById('rfp_term_service_group_' + target).value = "";
+                // document.getElementById('rfp_term_more_details_' + target).value = "";
 
 
-                if (prev_coll > 1) {
-                    document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                // if (prev_coll > 1) {
+                //     document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                // }
+
+                // document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                console.log(`target: ${target}`)
+
+                if(target != 10) {
+                    let ml = 1;
+                    
+                    let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
+                            nextLevel_coll = (nextLevel_coll + 1);
+
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                document.getElementById('rfp_term_service_group_' + current_col).value = first.value;
+                                document.getElementById('rfp_term_more_details_' + current_col).value = last.value;
+                                // target_fieldset.querySelector("[name='term']").value = first.value;
+                                // target_fieldset.querySelector("[name='value']").value = last.value;
+                            } else {
+                                next_coll = next_coll + 1;
+                                console.log(`Usual: ${ml} - ${next_coll}`)
+                                var first = Sibling.querySelector("[name='term']");
+                                var last  = Sibling.querySelector("[name='value']");
+                                console.log(first.value)
+                                console.log(last.value)
+                                document.getElementById('rfp_term_service_group_' + next_coll).value = first.value;
+                                document.getElementById('rfp_term_more_details_' + next_coll).value = last.value;
+                            }
+        
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('rfp_term_service_group_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_more_details_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_service_group_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        // target_fieldset.classList.add("ccs-dynaform-hidden");
+                        // document.getElementById('rfp_term_' + target).value = "";
+                        // document.getElementById('rfp_term_definition_' + target).value = "";
+                        // if (prev_coll > 1) {
+                        //     document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        // }
+                        // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+                         target_fieldset.classList.add("ccs-dynaform-hidden");
+                         document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).value = "";
+                        if (prev_coll > 1) {
+                            document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    // target_fieldset.classList.add("ccs-dynaform-hidden");
+                    // document.getElementById('rfp_term_' + target).value = "";
+                    // document.getElementById('rfp_term_definition_' + target).value = "";
+                    // if (prev_coll > 1) {
+                    //     document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    // }
+                    // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+                         target_fieldset.classList.add("ccs-dynaform-hidden");
+                         document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).value = "";
+                        if (prev_coll > 1) {
+                            document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
                 }
 
-                document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
                 with_value_count--;
+                if (with_value_count != 11) {
+                    document.getElementById("ccs_rfpService_use_type_add").classList.remove('ccs-dynaform-hidden');
+
+                }
             });
         });
         clearFieldsButtons.forEach((db) => {
@@ -16591,8 +16738,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 target_fieldset.classList.add("ccs-dynaform");
 
-                document.getElementById('rfp_term_service_group_' + target).value = "";
-                document.getElementById('rfp_term_more_details_' + target).value = "";
+               // document.getElementById('rfp_term_service_group_' + target).value = "";
+                //document.getElementById('rfp_term_more_details_' + target).value = "";
                 // removeErrorFieldsRfp();
             });
 
@@ -17633,7 +17780,11 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
-    fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'You must enter information here');
+    if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Enter your project summary ');
+    }else{
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'You must enter information here');
+    }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
 
@@ -17842,11 +17993,11 @@ console.log("group_id",group_id);
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
           errMsg = "You must select at least one region where your staff will be working, or  the “No specific location”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
-          errMsg = "You must select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
           errMsg = "You must select at least one level of security clearance, or  “No security clearance needed”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
-          errMsg = "You must select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
           errMsg = "You must select at least one region where the research will be taking place, or  “International (outside the UK)”";
         }
@@ -18044,7 +18195,11 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_g') !== undefined && $('#rfp_prob_statement_g').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_g').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          if(pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter the business problem you need to solve');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -18144,7 +18299,11 @@ const ccsZvalidateRfPStrategy = event => {
     
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
+        }else{
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }

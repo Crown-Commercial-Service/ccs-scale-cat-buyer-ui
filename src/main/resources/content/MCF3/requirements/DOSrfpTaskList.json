@@ -22,7 +22,7 @@
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfp/name-your-project",
@@ -80,7 +80,7 @@
         {
             "eventno": 4,
             "eventTitle": "Set assessment criteria ",
-            "eventDescription1": "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
+            "eventDescription1": "You will need to establish clear criteria that suppliers must meet in order to be evaluated, as well as how you will score their responses.",
             "eventDescription2": "When you enter all your assessment criteria online you’ll be able to define your requirements and evaluation weightings as well.",
             "eventDescription3": "When you enter all your assessment criteria online you'll be able to define your requirements and evaluation weightings as well.",
             "eventTask": [{
@@ -106,7 +106,7 @@
             "eventTask": [
                 {
                     "Task": 1,
-                    "title": "Your timeline",
+                    "title": "Set your timeline",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/response-date"
@@ -162,12 +162,11 @@
                 },
                 {
                     "Task": 6,
-                    "title": "Your timeline",
+                    "title": "Set your timeline",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"
-                }
-                ,
+                },
                 {
                     "Task": 7,
                     "title": "Review and publish stage 2",

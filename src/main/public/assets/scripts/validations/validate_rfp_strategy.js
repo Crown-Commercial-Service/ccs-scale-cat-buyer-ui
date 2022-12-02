@@ -79,7 +79,12 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_m') !== undefined && $('#rfp_prob_statement_m').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_m').val().length === 0) {
+        if(agreement_id == "RM1043.8" && group_id == "Group 13"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the details of your existing team');
+        }
+        else{
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
@@ -107,7 +112,11 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_g') !== undefined && $('#rfp_prob_statement_g').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_g').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          if(pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter the business problem you need to solve');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -130,7 +139,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
@@ -207,7 +216,11 @@ const ccsZvalidateRfPStrategy = event => {
     
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
+        }else{
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }

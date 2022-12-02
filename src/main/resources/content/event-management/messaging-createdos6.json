@@ -17,17 +17,18 @@
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Inbox",
     "subtitle": "Write a new message",
+    "subtitle2": "Create a new message",
     "signposting": {
-        "line1": "Description to explain what happens in a broadcast",
-        "line2": "See Supplier List",
+        "line1": "Your message will be sent to all supplier on the list.",
+        "line2": "View supplier List",
         "link": "#"
     },
-    "MessageClassification": "Message Classification",
+    "MessageClassification": "Message classification",
     "Subject": "Subject",
-    "Message": "Message",
-    "btnText": "Broadcast to all suppliers",
+    "Message": "Your message",
+    "btnText": "Send to all",
     "btnTextSupplier": "Send to supplier",
     "Cancel": {
         "text": "Cancel",
@@ -40,16 +41,14 @@
         "href": "#"
     },
     "tabs": {
-        "text1": "Create Message to ALL Suppliers",
+        "text1": "Write message to all suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Create Message to Supplier",
-        "href4": "/message/create/supplier",
-        "text5": "Write message to a supplier",
-        "text6": "Write message to all suppliers"
+        "text4": "Write message to supplier",
+        "href4": "/message/create/supplier"
         
     }
 }

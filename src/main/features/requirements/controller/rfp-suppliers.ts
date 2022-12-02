@@ -86,7 +86,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   {
     const JsonData:any = [];
     let contactSupplierDetails;
-    /*for(let i=0;i<appendData.suppliers_list.length;i++){
+    for(let i=0;i<appendData.suppliers_list.length;i++){
       const contact = appendData.suppliers_list[i];
       let contactData:any = [];
       contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
@@ -99,7 +99,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
         }
 
         contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
-      contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+      contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
       const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
       const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
       
@@ -108,7 +108,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
       
       contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
-      contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+      // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
       contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
       contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
       contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
@@ -124,50 +124,10 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       // }
       contactSupplierDetails = contactData;
       JsonData.push(contactSupplierDetails)
-    }*/    
-    for(let i=0;i<supplierListDwn.length;i++){
-      const contact = supplierListDwn[i];
-      let contactData:any = [];
-      // if(contact.lotContacts != undefined) {
-        // contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-        // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-        // contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-        // contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-        // contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-        // contactData['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-        // contactData['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-        // contactData['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-        // contactData['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-        // contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-       // contactSupplierDetails = contactData;
-        contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
-        contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-        contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
-        contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
-        contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-        const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-        const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
-        
-        const postalCode = contact?.organization?.address?.postalCode == undefined?' ': contact?.organization?.address?.postalCode;
-        const countryName = contact?.organization?.address?.countryName == undefined?' ': contact?.organization?.address?.countryName;
-        const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
-        
-        contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
-        contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-        contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-        
-        // contactData['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-        // contactData['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-        // contactData['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-        // contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-         contactSupplierDetails = contactData;
-
-      // }
-      JsonData.push(contactSupplierDetails)
     }
-    // let fields = ["name","email","telephone","address","url","Contact Point name","status"];    //let fields = ["name","email","telephone","address","url","Contact Point name"];
-    let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Legal name","Trading name","Registered company address","Url","Status"]; 
-
+   
+    //let fields = ["name","email","telephone","address","url","Contact Point name"];
+    let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
     const json2csv = new Parser({fields});
     const csv = json2csv.parse(JsonData);
     res.header('Content-Type', 'text/csv');

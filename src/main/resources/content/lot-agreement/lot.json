@@ -51,10 +51,12 @@
     "line54": " this is used to assess a single supplier tender responses based on an evaluation of qualitative, commercial and social value criteria, having regard to the buyer’s internal policies for direct award as well as Public Contract Regulation.",
     "line55":"Expression of Interest (EoI)",
     "line56":"Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to an EoI sent from the buyer, they cannot bid for the opportunity later.",
-    "g_cloud_description":"About this lot",
+    "g_cloud_description":"Description",
     "g_cloud_desc1_lot1": "Platform or infrastructure services for running software, networking, or processing and storing data.",
     "g_cloud_desc1_lot2": "Applications that are accessed over the internet and hosted in the cloud, e.g. accounting tools or customer service management software.",
     "g_cloud_desc1_lot3": "Services to help you set up and maintain your cloud software or hosting services, e.g. migration services or ongoing support.",
+    "g_cloud_desc1_lot4": "Further competition for Cloud support from one, multiple or all of the following categories including cloud migration planning, set up and migration, security services, quality assurance and performance testing, training and ongoing support.",
+    "g_cloud_desc2_lot4": "Take a look and download the",
     "g_cloud_desc2": "To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.",
     "g_cloud_desc3": "The Public Procurement Gateway helps you to access the different procurement services available to the public sector."
 }

@@ -13,11 +13,11 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Your inbox",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Your inbox",
     "subsection2_table_th_1": "From",
     "subsection2_table_th_2": "Date",
     "subsection2_table_th_3": "Subject",
@@ -26,11 +26,15 @@
         "title": "Return to Event Management",
         "href": "#"
     },
+    "backJumpDashboard": {
+        "title": "Return to Dashboard",
+        "href": "/dashboard"
+    },
     "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
+        "text": "Your message was sent to all suppliers",
+        "linkText": "View message",
         "link": "/message/sent",
-        "title": "Message Sent"
+        "title": "Message successfully sent"
     },
     "notification2": {
         "text": "Your message was not delivered.  Please re-try and if the issue persists, please Contact CCS Customer Service Centre.",
@@ -39,15 +43,13 @@
         "title": "Message Not Delivered"
     },
     "tabs": {
-        "text1": "Create Message to ALL Suppliers",
+        "text1": "Write message to all suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Create Message to Supplier",
-        "href4": "/message/create/supplier?type=received",
-        "text5": "Write message to a supplier",
-        "text6": "Write message to all suppliers"
+        "text4": "Write message to a supplier",
+        "href4": "/message/create/supplier?type=received"   
     }
 }
