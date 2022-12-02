@@ -212,11 +212,11 @@ const ccsZvalidateRfPStrategy = event => {
     
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        var error_msg = 'You must enter information here'
-        if(pageHeading.includes("Address where the work will be done")){
-          error_msg = 'Enter the address where the work will be done.'
+        if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
+        }else{
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
         }
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', error_msg);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
