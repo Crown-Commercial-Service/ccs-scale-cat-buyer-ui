@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/procurement/chooseRoute.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/procurement/chooseRoute.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { RFI_PATHS } from 'main/features/rfi/model/rficonstant';
 import { EOI_PATHS } from 'main/features/eoi/model/eoiconstant';
@@ -39,7 +40,9 @@ export const GET_CHOOSE_ROUTE = async (req: express.Request, res: express.Respon
       const releatedContent = req.session.releatedContent
       const { isJaggaerError } = req.session;
       req.session['isJaggaerError'] = false;
-      const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError,activeProjectEventType }
+      let jsonData = (agreement_id == 'RM6187')?Mcf3cmsData:cmsData;
+     
+      const windowAppendData = { data: jsonData, releatedContent, error: isJaggaerError,activeProjectEventType }
       if(req.session.showPreMarket == true || req.session['isRFIComplete']) {
          res.render('chooseRoute', windowAppendData);
       } else {
