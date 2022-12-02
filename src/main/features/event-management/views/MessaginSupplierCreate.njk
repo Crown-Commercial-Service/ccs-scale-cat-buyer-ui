@@ -19,6 +19,28 @@
 ] %}
 
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+{{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Messaging Inbox",
+      "href": "/message/inbox?type=received"
+    },
+    {
+      "text": "Create Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -35,6 +57,7 @@
     }
   ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% for msg in message.create_message %}

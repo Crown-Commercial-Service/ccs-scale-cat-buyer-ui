@@ -18,13 +18,19 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
    const { SESSION_ID } = req.cookies;
    const { projectId ,eventId} = req.session;
    const { agreement_id } = req.session;
+   try {
+    let conditionForHeaderAgreement = false;
+   if(req.query.lot !== undefined) {
+    req.session.lotId = req.query.lot;
+    req.session.agreement_id = req.query.agreement;
+    conditionForHeaderAgreement = true;
+   }
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
   const downloadSuppliers=process.env['AGREEMENTS_SERVICE_API_URL']+'/agreements/'+req.session.agreement_id+'/lots/'+lotid+'/suppliers/export';
   
   const releatedContent = req.session.releatedContent;
-
   const { download,previous, next } = req.query
 
   // const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
@@ -82,10 +88,9 @@ for(let i=0;i<suppliersList.length;i++){
         return false;
       });
     }else{
-     
       supplierList = await GetLotSuppliers(req);
     }
-      
+    
   const rowCount=10;let showPrevious=false,showNext=false;
   supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
   const supplierListDwn = supplierList;
@@ -114,7 +119,8 @@ for(let i=0;i<suppliersList.length;i++){
             showPrevious,
             showNext,
             supplierLength,
-            agreementid:req.session.agreement_id
+            agreementid:req.session.agreement_id,
+            conditionForHeaderAgreement: conditionForHeaderAgreement
           };
 
 
@@ -137,7 +143,8 @@ for(let i=0;i<suppliersList.length;i++){
             supplierLength,
             currentpagenumber:1,
             noOfPages,
-            agreementid:req.session.agreement_id
+            agreementid:req.session.agreement_id,
+            conditionForHeaderAgreement: conditionForHeaderAgreement
           };
         }
 
@@ -179,7 +186,8 @@ for(let i=0;i<suppliersList.length;i++){
               supplierLength,
               currentpagenumber:previouspagenumber,
               noOfPages,
-              agreementid:req.session.agreement_id
+              agreementid:req.session.agreement_id,
+              conditionForHeaderAgreement: conditionForHeaderAgreement
             };
         } else {  //next is undefined
           
@@ -228,7 +236,8 @@ for(let i=0;i<suppliersList.length;i++){
             supplierLength,
             currentpagenumber:nextpagenumber,
             noOfPages,
-            agreementid:req.session.agreement_id
+            agreementid:req.session.agreement_id,
+            conditionForHeaderAgreement: conditionForHeaderAgreement
           };
         }
       }
@@ -258,7 +267,8 @@ for(let i=0;i<suppliersList.length;i++){
             contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
             contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
             contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
-            contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
+            contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
             const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
             const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
             
@@ -267,6 +277,8 @@ for(let i=0;i<suppliersList.length;i++){
             const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
             
             contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
+            // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+            contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
             contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
             
@@ -281,7 +293,7 @@ for(let i=0;i<suppliersList.length;i++){
         }
     
        // let fields = ["Supplier name","email","telephone","address","url","Contact Point name"];
-        let fields = ["Contact name","Contact email","Contact phone number","Registered company name","Registered company address","Url","Status"];
+        let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"];
        
        const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
@@ -292,5 +304,9 @@ for(let i=0;i<suppliersList.length;i++){
       }else{
         res.render('fca_supplier_list',appendData );
       }
+
+    } catch(err) {
+      console.log(err)
+    }
 
  }

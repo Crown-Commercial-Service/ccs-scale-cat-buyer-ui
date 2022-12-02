@@ -13,7 +13,7 @@
     /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
 {% if agreementId_session == "RM6187" %}  
-{% if eventStatus != "published"%}
+{% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
           items: [
                 {"text": "Dashboard","href": "/dashboard"},
@@ -31,7 +31,7 @@
 
   {% endif %}
 {% else %}
-{% if eventStatus != "published"%}
+{% if eventStatus != "published" and closeStatus!="CLOSED" %}
   {{ CCSBreadcrumbs({
           items: [
                 {"text": "Dashboard","href": "/dashboard"},
@@ -139,7 +139,7 @@ Name your project
             </dt>
             {% if project_name | length > 0 %}
               <dd class="govuk-summary-list__value">
-                <p class="govuk-body-s">
+                <p class="govuk-body">
                   {{ project_name | safe }}
                 </p>
               </dd>
@@ -150,7 +150,7 @@ You have not given a custom name to your project
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/name-your-project">
 Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -169,15 +169,15 @@ Change who is going to lead the procurement
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--none">
                 <li>
-                  <span class="govuk-body-s">{{procurementLead.name }}</span></li>
+                  <p class="govuk-body">{{procurementLead.name }}</p></li>
                 <li>
-                  <span class="govuk-body-s">{{procurementLead.email }}</span></li>
+                  <p class="govuk-body">{{procurementLead.email }}</p></li>
                 <li>
-                  <span class="govuk-body-s">{{procurementLead.telephone }}</span></li>
+                  <p class="govuk-body">{{procurementLead.telephone }}</p></li>
               </ul>
             </dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/procurement-lead">
 Change<span class="govuk-visually-hidden"> procurement lead</span>
                 </a>
@@ -200,11 +200,11 @@ Add colleagues to your project
                     <li>
                       <ul class="govuk-list govuk-list--none">
                         <li>
-                          <span class="govuk-body-s">{{collaborator.name}}</span></li>
+                          <p class="govuk-body">{{collaborator.name}}</p></li>
                         <li>
-                          <span class="govuk-body-s">{{collaborator.email}}</span></li>
+                          <p class="govuk-body">{{collaborator.email}}</p></li>
                         <li>
-                          <span class="govuk-body-s">{{collaborator.telephone}}</span></li>
+                          <p class="govuk-body">{{collaborator.telephone}}</p></li>
                       </ul>
                     </li>
                   {%- endfor %}
@@ -216,7 +216,7 @@ You have not added anyone so far in your team
 </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/add-collaborators">
 Change<span class="govuk-visually-hidden"> rfi team members</span>
                 </a>
@@ -291,27 +291,27 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                 
 
                 {% if data['rfi_offline_document'] | length > 0 %}
-                <p class="govuk-body-s">data['rfi_offline_document']</p>
+                <p class="govuk-body">data['rfi_offline_document']</p>
                 {% else %}
                   {% if i.values | length > 0 %}
                     {% for answer in i.values%}
                     
                    
-                      <p class="govuk-body-s">{{answer.value}}</p>
+                      <p class="govuk-body">{{answer.value}}</p>
                      
 
                     {%endfor%}
                   {%else%}
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
-                    <p class="govuk-body-s">You have not answered this question<p>
+                    <p class="govuk-body">You have not answered this question<p>
                    {%endif%}
 
                   {%endif%}
               {%endif%}
               </dd>
               <dd class="govuk-summary-list__actions">
-                {% if eventStatus != "published"%}
+                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                   {% if i.question != 'Name of the organisation doing the procurement' %}
                   <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
                     Change<span class="govuk-visually-hidden">RFI type</span>
@@ -341,20 +341,20 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                       {% if i.values | length > 0 %}
                         {% for answer in i.values%}
-                          <p class="govuk-body-s">{{answer.value}}
+                          <p class="govuk-body">{{answer.value}}
                             <p>
-                              <p class="govuk-body-s">{{answer.text | safe}}
+                              <p class="govuk-body">{{answer.text | safe}}
                               </p>
                               <br/>
                               {%endfor%}
                               {%else%}
-                              <p class="govuk-body-s">You have not answered this question<p>
+                              <p class="govuk-body">You have not answered this question<p>
                                   {%endif%}
                                   {%endfor%}
                                 </dd>
                               {% endif %}
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
 Change<span class="govuk-visually-hidden">RFI type</span>
                                   </a>
@@ -413,12 +413,12 @@ Upload documents
                                 </dd>
                                 {%else%}
                                 <dd class="govuk-summary-list__value">
-                                  <p class="govuk-body-s"> You have not uploaded any document </p>
+                                  <p class="govuk-body"> You have not uploaded any document </p>
                                 </dd>
                               {% endif %}
 
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/upload-doc">
 Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
                                   </a>
@@ -432,11 +432,11 @@ See the suppliers who will receive your RfI
 </dt>
 
                               <dd class="govuk-summary-list__value">
-                                <p class="govuk-body-s">{{suppliers_list.length}} &nbsp suppliers selected</p>
+                                <p class="govuk-body">{{suppliers_list.length}} &nbsp suppliers selected</p>
                               </dd>
 
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/suppliers">
 View<span class="govuk-visually-hidden">rfi supplier list</span>
                                   </a>
@@ -451,7 +451,7 @@ View<span class="govuk-visually-hidden">rfi supplier list</span>
                             </dt>
                             <dd class="govuk-summary-list__value no-borders"></dd>
                             <dd class="govuk-summary-list__actions no-borders">
-                              {% if eventStatus != "published"%}
+                              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                 <a class="govuk-link" href="/rfi/response-date">
 Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                 </a>
@@ -465,7 +465,7 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                 </dt>
                                 <dd class="govuk-summary-list__value no-borders">
                                   {%for value in dates.values%}
-                                    <p class="govuk-body-s">
+                                    <p class="govuk-body">
                                       {{value.value}}</p>
                                     {%endfor%}
                                   </dd>
@@ -511,7 +511,7 @@ iconFallbackText: "Warning"
                             <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
 action="/rfi/review" method="post">
                               {{ csrfProtection(csrf) }}
-          {% if eventStatus != "published" and customStatus!="complete" %}                              
+          {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}                              
                               {{ CCSCheckboxes({
                                       idPrefix: "rfi_publish_confirmation",
                                       name: "rfi_publish_confirmation",

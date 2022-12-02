@@ -3,10 +3,12 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import * as express from 'express';
 import * as cmsDSPData from '../../../resources/content/RFI/rfiTaskList.json';
 import * as mcf3RFIData from '../../../resources/content/MCF3/rfiTaskList.json';
+import * as gcloudRFIData from '../../../resources/content/MCF3/gcloudRfiTaskList.json';
 import * as ccsDOSData from '../../../resources/content/RFI/dosrfiTaskList.json';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 // RFI TaskList
 /**
  *
@@ -29,9 +31,13 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     } else if (agreement_id == 'RM1043.8') {
       //DOS
       cmsData = ccsDOSData;
+    }else if(agreement_id == 'RM1557.13'){//gcloud
+      cmsData = gcloudRFIData;
     }
+    
+    
 
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    // const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // if(journeySteps[9].state=="Cannot start yet")
     // {
     //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started');
@@ -41,13 +47,44 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     //   if(element.step==9) journeyrfi.splice(index,1);
     // });
     let agreementId_session = agreement_id;
+    
+    
+    if((agreementId_session == 'RM1557.13' && lotId == '4')) {
+      // name your project for dos
+      let flag = await ShouldEventStatusBeUpdated(eventId, 7, req);
+      
+      if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Not started'); }
+      let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      
+      let nameJourneysts = journeySteps.filter((el: any) => {
+        if(el.step == 7 && el.state == 'Completed') return true;
+        return false;
+      });
+      
+      if(nameJourneysts.length > 0){
+
+        let addcontsts = journeySteps.filter((el: any) => { 
+          if(el.step == 10) return true;
+          return false;
+        });
+
+        if(addcontsts[0].state == 'Cannot start yet' || addcontsts[0].state == 'Not started'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started'); 
+        }
+
+      }else{
+        let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 10, req);        
+        if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet'); 
+      }
+    }
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
 
     const releatedContent = req.session.releatedContent;
     const windowAppendData = { data: cmsData, lotId, agreementLotName, releatedContent, agreementId_session };
     
     res.render('Tasklist', windowAppendData);
-  } catch (error) {
+  } catch (error) {    
     LoggTracer.errorLogger(
       res,
       error,
