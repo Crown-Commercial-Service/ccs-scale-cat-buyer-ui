@@ -5,7 +5,7 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { MessageDetails } from '../model/messgeDetails'
 import * as inboxData from '../../../resources/content/event-management/event-management-message-details.json'
-import * as dos6InboxData from '../../../resources/content/event-management/event-management-message-details dos6.json'
+import * as dos6InboxData from '../../../resources/content/event-management/event-management-message-detailsdos6.json'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 /**
