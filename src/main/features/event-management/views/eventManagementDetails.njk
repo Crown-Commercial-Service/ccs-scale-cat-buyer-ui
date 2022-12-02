@@ -4,6 +4,7 @@
 
 {% set title = 'Supplier message ' %}
 {% block breadCrumb %}
+{% if type != 'sent' %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -24,6 +25,24 @@
     }
   ]
     }) }}
+    {% else %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+    {% endif %}
 {% endblock %}
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
@@ -40,9 +59,15 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        {% if type != 'sent' %}
         <h1 class="govuk-heading-xl">
           <strong>{{data.title}}</strong>
         </h1>
+        {% else %}
+        <h1 class="govuk-heading-xl">
+          <strong>{{data.title2}}</strong>
+        </h1>
+        {%endif %}
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>

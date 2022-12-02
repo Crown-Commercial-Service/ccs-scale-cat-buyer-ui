@@ -1,0 +1,91 @@
+{
+    "line1": "A Request for Information (RfI) can help you to:",
+    "line2": "better understand what you need",
+    "line3": "write clearer needs to publish for suppliers",
+    "line4": "understand how much this work could cost",
+    "line5": "better understand how long this work could take",
+    "title": "Request for Information (RfI)",
+    "subtitle": null,
+    "events": [{
+            "eventno": 1,
+            "eventTitle": "Project and colleagues",
+            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventTask": [{
+                    "Task": 1,
+                    "link": "/rfi/name-your-project",
+                    "title": "Name your project",
+                    "required": "mandatory",
+                    "status": "optional"
+                },
+                {
+                    "Task": 2,
+                    "link": "/rfi/procurement-lead",
+                    "title": "Change who will lead the procurement",
+                    "required": "optional",
+                    "status": "optional"
+                },
+                {
+                    "Task": 3,
+                    "link": "/rfi/add-collaborators",
+                    "title": "Add colleagues to your project",
+                    "required": "optional",
+                    "status": "optional"
+                }
+            ]
+        },
+        {
+            "eventno": 2,
+            "eventTitle": "Build your RfI",
+            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+            "eventTask": [{
+                    "Task": 1,
+                    "link": "/rfi/type",
+                    "title": "Choose how to build your RfI",
+                    "required": "mandatory",
+                    "status": "To do"
+                },
+                {
+                    "Task": 2,
+                    "link": "/rfi/online-task-list",
+                    "title": "Build your RfI",
+                    "required": "mandatory",
+                    "status": "Cannot start yet"
+                }
+            ]
+        },
+        {
+            "eventno": 3,
+            "eventTitle": "Review and publish your RfI",
+            "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your RfI.",
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "Upload documents ",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfi/upload-doc"
+                },
+                {
+                    "Task": 2,
+                    "title": "See the suppliers who will receive your RfI",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfi/suppliers"
+                },
+                {
+                    "Task": 3,
+                    "title": "Your RfI timeline",
+                    "required": "mandatory",
+                    "status": "Cannot start yet",
+                    "link": "/rfi/response-date"
+                },
+                {
+                    "Task": 4,
+                    "title": "Review and publish your RfI",
+                    "required": "mandatory",
+                    "status": "Cannot start yet",
+                    "link": "/rfi/review"
+                }
+            ]
+        }
+    ]
+}

@@ -111,6 +111,7 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     error = 'You can not set a date in weekend';
   }
   
+  console.log("questionId",questionId);
   
   switch (questionId) {
     case 'Question 1':

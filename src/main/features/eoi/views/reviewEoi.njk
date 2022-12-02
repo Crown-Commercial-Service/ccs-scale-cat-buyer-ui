@@ -9,7 +9,8 @@
 {% set title = 'EOI review | Crown Commercial Service' %}
 {% block breadCrumb %}
 {% if agreementId_session == "RM6187" %}
-  {% if eventStatus != "published"%}
+
+  {% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
         items: [
         {
@@ -40,8 +41,9 @@
                 {"text": "Review and publish"}    ] 
   }) }}
     {% endif %}
+
     {% else %}
-      {% if eventStatus != "published"%}
+      {% if eventStatus != "published" and closeStatus!="CLOSED" %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
@@ -120,7 +122,7 @@
               </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published" %}
+              {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                 <a class="govuk-link" href="/eoi/name-your-project">
                   Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -145,7 +147,7 @@
               </ul>
             </dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published" %}
+              {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                 <a class="govuk-link" href="/eoi/procurement-lead">
                   Change<span class="govuk-visually-hidden">
                     procurement lead</span>
@@ -183,7 +185,7 @@
               </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published" %}
+              {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                 <a class="govuk-link" href="/eoi/add-collaborators">
                   Change<span class="govuk-visually-hidden">
                     eoi team members</span>
@@ -209,7 +211,7 @@
               </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published" %}
+              {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                 <a class="govuk-link" href="/eoi/type">
                   Change<span class="govuk-visually-hidden">EoI type</span>
                 </a>
@@ -268,7 +270,7 @@
                         </dd>
                       {% endif %}
                       <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" %}
+                        {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                           <a
                             class="govuk-link"
                             href="/eoi/questions?agreement_id={{ agreement_id }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id={{ item.criterian }}&group_id={{ item.id }}">
@@ -308,7 +310,7 @@
                       </dd>
                     {% endif %}
                     <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published" %}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                         <a class="govuk-link" href="/eoi/upload-doc">
                           Change<span class="govuk-visually-hidden">eoi additional link and documents</span>
                         </a>
@@ -325,7 +327,7 @@
                       <p class="govuk-body-s">{{supplierLength}} &nbsp suppliers selected</p>
                     </dd>
                     <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                                   <a class="govuk-link" href="/eoi/suppliers">
 View<span class="govuk-visually-hidden">eoi supplier list</span>
                                   </a>
@@ -344,7 +346,7 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                         {% endfor %}
                       </dd>
                       <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" %}
+                        {% if eventStatus != "published" and closeStatus!="CLOSED" %}
                           <a class="govuk-link" href="/eoi/response-date">
                             Change
                             <span class="govuk-visually-hidden">
@@ -409,7 +411,7 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                         action="/eoi/review"
                         method="post">
                         {{ csrfProtection(csrf) }}
-                        {% if eventStatus != "published" and customStatus!="complete" %}
+                        {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}
                           {{ CCSCheckboxes({
       idPrefix: "eoi_publish_confirmation",
       name: "eoi_publish_confirmation",

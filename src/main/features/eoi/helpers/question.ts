@@ -82,97 +82,78 @@ export class QuestionHelper {
       }
      
       
-      //let mandatoryqstnNum = 0;
-        let answeredMandatory = 0;
+      let mandatoryqstnNum = 0;
+      let answeredMandatory = 0;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
-           // mandatoryqstnNum += 1;
-            const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
-            const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-            const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-          //console.log("JSON",JSON.stringify(fetch_dynamic_api_data));
             let answered;
-            const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
-           
-            let selectedLocation;
-             
-            if (
+            const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
+               const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+               const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+              
+               if(fetch_dynamic_api_data.length>0){
+                for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+                const questionType = fetch_dynamic_api_data[j].nonOCDS['questionType'];
+                const manda = fetch_dynamic_api_data[j].nonOCDS['mandatory'];
+                  if(manda){ 
+                    mandatoryqstnNum += 1;
+                  if (
                 questionType === 'Value' ||
                 questionType === 'Text' ||
                 questionType === 'Monetary' ||
                 questionType === 'Duration' ||
                 questionType === 'Date'
               ) {
-
-               // console.log("JSON",JSON.stringifyfetch_dynamic_api_data);
-                  if(fetch_dynamic_api_data.length>0){
-                    for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-                      
-                      if(fetch_dynamic_api_data[j].nonOCDS.mandatory){
-                        answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
-                        
-                        if (answered !== '' && answered!=undefined) {
-                          
-                          answeredMandatory += 1;
-                        }
-                      }
-                    }
-                  }
+               
+               answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
+                if (answered !== '' && answered!=undefined) {
+                 answeredMandatory += 1;
+                 }
               }
-              
+                   if (questionType === 'SingleSelect') {
+                    fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
+                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                        mandatoryqstnNum -= 1;
+                      }
+                    });
+                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
+                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                      );
+                     if (SingleSelectedData.length>0) {
+                           answeredMandatory += 1;
+                      }
+              }
 
               if (questionType === 'MultiSelect') {
-                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
-                  selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                 if(j==0){
-                      if (selectedLocation) {
-                        answeredMandatory += 1;
-                      }
-                    }
-                }
+                      const MultiSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
+                      if (MultiSelectedData.length>0) {
+                                 answeredMandatory += 1;
+                               }
               }
 
-              if (questionType === 'SingleSelect') {
-                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
-                 selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                
-                 if (selectedLocation) {
-                      answeredMandatory += 1;
-                    }
-                }
-              }
-              
-            
-            if(questionType === 'KeyValuePair')
+                if(questionType === 'KeyValuePair')
               {
-                if(fetch_dynamic_api_data[1].nonOCDS?.options?.length>0){
-                for (let j = 0; j < fetch_dynamic_api_data[1].nonOCDS.options.length; j++) {
-                  
-                  selectedLocation = fetch_dynamic_api_data[1].nonOCDS.options[j]['selected'];
-                 
-                    
-                  if (selectedLocation){
-                    
-                    answeredMandatory += 1;
-                  } 
-                  
-                }
-              }
-              }
+                const KeyValuePair = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
+                if (KeyValuePair.length>0) {
+                          answeredMandatory += 1;
+                         } 
+            }
+            
+            }
 
-              // === changed to >=
-              //answeredMandatory >= maxNum ? (status = 'Completed') : (status = 'In progress');
+              }
+            }
 
 
           }
+          
         }
 
-        6 <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
+        mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');        
         
-
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         // const PreUpdate = journeySteps.filter((el: any) => {
         //   if(el.step == '19') {
@@ -185,7 +166,8 @@ export class QuestionHelper {
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
         
-        if (response.status == HttpStatusCode.OK) {
+        if (response.status == HttpStatusCode.OK && status=="Completed") {
+          
           let flag = await ShouldEventStatusBeUpdated(event_id, 21, req);
             if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
