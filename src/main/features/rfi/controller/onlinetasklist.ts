@@ -32,7 +32,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          if(agreement_id == 'RM6263') {   //DSP
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             fetch_dynamic_api_data = fetch_dynamic_api?.data;
-         } else if(agreement_id == 'RM6187') {  //MCF3
+         } else if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {  //MCF3
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);//new Object([{"offlineNonOCDS":false,"id":"Criterion 1","title":"Buyer Details","description":"For Information Only"}]);
             fetch_dynamic_api_data = fetch_dynamic_api?.data;
          }else if(agreement_id == 'RM1043.8') {  //DOS
@@ -166,6 +166,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
           }
       } catch (error) {
+         console.log("error",error);
          
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "RFI Online Task List - Tenders Service Api cannot be connected", true)

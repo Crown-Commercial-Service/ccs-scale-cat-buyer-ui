@@ -64,7 +64,17 @@
                         {% endif %}
                      </h2>
                      {% for section in event.sections %}
+                        
+                        {% if agreementId_session == 'RM6187' and event.eventno == 6 %}
+                        <p class="govuk-body">{{event.mcf_sections | safe }}</p>
+                           <ul class="govuk-list govuk-list--bullet">
+                           {% for uli in event.ul %}
+                              <li>{{uli.li | safe }}</li>
+                           {% endfor %}
+                           </ul>
+                        {% else %}
                         <p class="govuk-body">{{section | safe }}</p>
+                        {% endif %}
                         {% if event.eventno == 1 %}
                            {% if agreementId_session == 'RM6263' %}
                               <p class="govuk-body">This section is optional</p>

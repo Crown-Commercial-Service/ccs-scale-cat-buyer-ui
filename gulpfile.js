@@ -111,7 +111,7 @@ gulp.task('pack-scripts', () => {
 });
 
 gulp.task('pack-styles', () => {
-  return gulp.src(['src/main/public/assets/styles/application.css', 'src/main/public/assets/styles/custom.css', 'src/main/public/assets/styles/additional.css', 'src/main/public/assets/styles/govuk_fac_style.css'])
+  return gulp.src(['src/main/public/assets/styles/application.css', 'src/main/public/assets/styles/custom.css', 'src/main/public/assets/styles/govuk_fac_style.css'])
         .pipe(concat('bundle.min.css'))
         .pipe(minifyCSS())
         .pipe(gulp.dest('src/main/public/assets/styles'));

@@ -4,7 +4,7 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% if agreementId_session != 'RM6187' %} 
-{% set title = 'Enter your supplier evaluation' %}
+{% set title = 'Enter the supplier’s final score' %}
 {% else %}
 {% set title = 'Add your supplier evaluation' %}
 {% endif %} 
@@ -72,7 +72,7 @@
       <div>  
         {% if agreementId_session != 'RM1043.8' %}  
             {% if agreementId_session == 'RM6187' %}
-              <p class="govuk-body">Enter your final evalution score for this supplier. </p>
+              <p class="govuk-body">Enter your final evalution score for this supplier.</p>
               <p class="govuk-body">The final score incorporates all the individual and category weightings.</p> 
               <p class="govuk-body">You add the shortlisting and further assessment scores together to give the final score.</p>
             {% else %}     
@@ -81,9 +81,9 @@
             {% endif %} 
         {%else%}
         {% if stage2_value == 'Stage 2' %}
-          <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
+          <p class="govuk-body">Enter your final evalution score for this supplier.</p>
         {%else%}
-          <p class="govuk-body">Enter your shortlisting score and feedback for this supplier.</p>
+          <p class="govuk-body">Enter your shortlisting score for this supplier.</p>
           {% endif %}
           {% if stage2_value == 'Stage 2' %}
             <p class="govuk-body">The final score incorporates all the individual and category weightings.</p>  
@@ -191,12 +191,12 @@
                      <div class="govuk-button-group">
                        {% if stage2_value == 'Stage 2' %}
                         {{ CCSButton({
-                            text: "Save supplier Score",
+                            text: "Save supplier score",
                             action:"submit"
                         }) }}
                       {%else%}
                         {{ CCSButton({
-                            text: "Save supplier Score",
+                            text: "Save supplier score",
                             action:"submit"
                         }) }}
                       {% endif %}
