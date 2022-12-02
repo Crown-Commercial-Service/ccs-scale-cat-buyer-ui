@@ -1,0 +1,9 @@
+{
+    "title": "Close your project",
+    "text1":"Click ‘Save and continue’ to close your project without competing it. You can view your closed project, but you will not be able to reopen it.",
+    "text2":"Suppliers will be notified by email confirming that the project has closed. You will still be able to communicate with suppliers using the messaging feature.",
+    "backJump": {
+        "title": "Return to Your project",
+        "href": "/event/management?id="
+    }
+}
