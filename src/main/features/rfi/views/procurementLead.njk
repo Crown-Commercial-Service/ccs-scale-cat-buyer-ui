@@ -100,7 +100,11 @@
          </div>
 
          <div class="form ccs_procurement_lead">
+            {% if agreementId_session == "RM1557.13" %}
+            <p class="govuk-body">Select the project lead:</p>
+            {% else %}
             <p class="govuk-body">Select the procurement lead for this project:</p>
+            {% endif %}
             <form method="GET" id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead"  action="/rfi/procurement-lead">
              <div class="govuk-button-group">
                {{ CCSSelect({

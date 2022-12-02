@@ -45,17 +45,29 @@
             <ul class="govuk-list govuk-list--bullet">
                 {% if agreementId_session == 'RM6187' %}
                     <li>4 working days from publishing your further competition until the clarification period closes</li>
+                    {% else %}
+                    {% if agreementId_session == 'RM1557.13' %}
+                    <li>4 working days from publishing the RfI until the clarification period closes</li>
+                    {% else %}
                 <li><b>four</b> working days from publishing your one stage further competition until the clarification period closes</li>
+                {% endif %}
                 {% endif %}
                 {% if agreementId_session == 'RM6187' %}
                 <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
                 <li>4 working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
                 {% else %}
+                {% if agreementId_session == 'RM1557.13' %}
+                    <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
+                    {% else %}
                 <li><b>four</b> working days from publishing your further competition until the clarification period closes</li>
                 <li><b>two</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
                 
                 <li><b>four</b> working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
                 {% endif %}
+                {% endif %}
+                {% if agreementId_session == 'RM1557.13' %}
+                <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
+                {% endif %}	
             </ul>
             {% endif %}
             <p class="govuk-body">{{data.subtitle2}}</p>
@@ -184,7 +196,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
                             Date
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
                             inputmode="numeric"
                             value="{{ data['clarification_date-day'] }}" >
@@ -195,7 +207,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
                             Month
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-month'] }}" >
@@ -206,7 +218,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
                             Year
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-4"
                             id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
                                  maxlength="4"
                                 inputmode="numeric"
@@ -222,7 +234,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
                             Hour
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-hour'] }}" >
@@ -233,7 +245,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
                             Minutes
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-minute'] }}">
