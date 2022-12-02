@@ -992,6 +992,8 @@
                             {% endif %}
                           </dd>
                         </div>
+
+                      {% if agreement_id != "RM6187" %}                       
                         <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__key">
                             <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
@@ -1014,6 +1016,7 @@
                             {% endif %}
                           </dd>
                         </div>
+                      {% endif %}
                       </dl>
                     {% endblock %}
                     {# END----------------------Upload pricing schedules and any other supporting documents-2 #}
