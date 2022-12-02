@@ -12278,7 +12278,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -12291,7 +12290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
                  event.preventDefault(); });
 
-      rfpResourceStartDay.on('keydown', () => {
+      rfpResourceStartDay.on('keyup', () => {
          if(DateCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -12299,7 +12298,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartMonth.on('keydown', () => {
+      rfpResourceStartMonth.on('keyup', () => {
          if(MonthCheckResourceStart())
          {
             if( DateCheckResourceStart())
@@ -12307,7 +12306,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartYear.on('keydown', () => {
+      rfpResourceStartYear.on('keyup', () => {
          if(YearCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -12359,6 +12358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
@@ -12369,9 +12369,19 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else{
             removeErrorFieldsdates();
-
             return true;
-          }
+            // if(document.getElementById('agreementID').value !== 'RM1043.8') {
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
+            // }else{
+            //    removeErrorFieldsdates();
+
+            //    return true;
+            // }
          }
          
       }
@@ -12393,6 +12403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
@@ -12404,7 +12415,18 @@ document.addEventListener('DOMContentLoaded', () => {
          else{
             removeErrorFieldsdates();
             return true;
-         }
+         //    if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         //    let isValid = isProjectStartDateValid();
+         //    if(isValid){
+         //       return true;
+         //    }else{
+         //       return false;
+         //    }
+         // }
+         // else{
+         //    removeErrorFieldsdates();
+         //    return true;
+         // }
          }
       }
       }
@@ -12442,13 +12464,14 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+            return true;
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
+
           
          }
         }
@@ -12894,7 +12917,9 @@ function daysInYear(year) {
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
+   $('#rfp_resource_start_date-error').html('');
    $('.resource_start_date').html('');
+
    if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
        if(checkResourceStartDate())
       {
@@ -13003,21 +13028,21 @@ function checkResourceStartDate()
 {
    let flag = true;
    let fieldCheck = "", errorStore = [];
-   
       let rfpResourceStartDay = $('.rfp_resource_start_day');
       let rfpResourceStartMonth = $('.rfp_resource_start_month');
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
       {
-         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
 
+         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
          flag =false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
+         // fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
@@ -13026,9 +13051,9 @@ function checkResourceStartDate()
       }
        else if(rfpResourceStartDay.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
          flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
@@ -13062,9 +13087,9 @@ function checkResourceStartDate()
 
       else if(rfpResourceStartMonth.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
 
          flag =false;
          rfpResourceStartMonth.addClass('govuk-form-group--error');
@@ -13096,9 +13121,9 @@ function checkResourceStartDate()
       }
       else if(rfpResourceStartYear.val() =='')
       {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         // if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-         }
+         // }
          flag =false;
          rfpResourceStartYear.addClass('govuk-form-group--error');
          rfpResourceStartDay.removeClass('govuk-form-group--error');
@@ -13140,6 +13165,7 @@ function checkResourceStartDate()
             flag =false;
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid date'); 
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a valid date", /^\d{1,}$/);
             if (fieldCheck !== true){ errorStore.push(fieldCheck)
             }else{
                  fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
@@ -13154,6 +13180,7 @@ function checkResourceStartDate()
       }
 
       if(errorStore.length>0){
+         $('#rfp_resource_start_date-hint-error').html('');
          ccsZPresentErrorSummary(errorStore);
          return false;
         }
@@ -13214,12 +13241,10 @@ function isProjectExtensionValid() {
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     console.log('month',month)
      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
       }
      }
      else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
@@ -13441,42 +13466,40 @@ function isProjectStartDateValid()
          rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
       }
       if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
-         const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
-         const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-         const expiryMonth=expiryMonthTot-1;
-         const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+         // const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+         // const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+         // const expiryMonth=expiryMonthTot-1;
+         // const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
-         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
-         const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+         // const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         // const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
          const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-         
-        
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
-          // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
-            Day.addClass('govuk-form-group--error');
-            Month.addClass('govuk-form-group--error');
-            Year.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         }
-         if(errorStore.length>0){
-            ccsZPresentErrorSummary(errorStore);
-            return false;
-           }
-                        return false;
-         }else{
-            $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
-            $('.rfp_resource_start_day').removeClass('govuk-input--error');
-            $('.rfp_resource_start_month').removeClass('govuk-input--error');
-            $('.rfp_resource_start_year').removeClass('govuk-input--error');
-            ccsZPresentErrorSummary();
-         }
+         // if (getTimeOfFormDate > getMSOfExpiryDate) {
+         //  // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+         //    Day.addClass('govuk-form-group--error');
+         //    Month.addClass('govuk-form-group--error');
+         //    Year.addClass('govuk-form-group--error');
+         //    $('.durations').addClass('govuk-form-group--error');
+         //    fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         // }else{
+         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // }
+         // if(errorStore.length>0){
+         //    ccsZPresentErrorSummary(errorStore);
+         //    return false;
+         //   }
+         //                return false;
+         // }else{
+         //    $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
+         //    $('.rfp_resource_start_day').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_month').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_year').removeClass('govuk-input--error');
+         //    ccsZPresentErrorSummary();
+         // }
          if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
 
            // $('#event-name-error-date').html('Start date must be a valid future date');
@@ -13513,11 +13536,11 @@ function isProjectStartDateValid()
          $('.resource_start_date').html('Enter a valid project start date');
          return false;
       } 
-      else if (startDate>new Date(2025,07,23)) {
-         $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Project cannot start after: 23 August 2025');
-          return false;
-      }
+      // else if (startDate>new Date(2025,07,23)) {
+      //    $('.durations').addClass('govuk-form-group--error');
+      //    $('.resource_start_date').html('Project cannot start after: 23 August 2025');
+      //     return false;
+      // }
       else {
          $('.durations').removeClass('govuk-form-group--error');
          $('.resource_start_date').html('');
@@ -13526,7 +13549,7 @@ function isProjectStartDateValid()
    }
    else  {
       if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM6187') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
