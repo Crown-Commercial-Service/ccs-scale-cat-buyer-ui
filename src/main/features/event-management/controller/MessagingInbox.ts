@@ -5,7 +5,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import moment from 'moment';
 import { Message } from '../model/messages'
 import * as inboxData from '../../../resources/content/event-management/messaging-inbox.json'
-import * as dos6InboxData from '../../../resources/content/event-management/messaging-inbox dos6.json'
+import * as dos6InboxData from '../../../resources/content/event-management/messaging-inboxdos6.json'
 
 /**
  * 

@@ -3,6 +3,7 @@ import * as cmsData from '../../../resources/content/requirements/rfp-eventpubli
 import * as Mcf3cmsData from '../../../resources/content/requirements/mcf3rfpEventpublished.json';
 import * as dosStage1Data from '../../../resources/content/requirements/dos-Stage1-eventpublished.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-Stage2-eventpublished.json';
+import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-eventpublished.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -22,7 +23,10 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
     let jsondata ;
     if(agreement_id == 'RM6187') { 
       jsondata = Mcf3cmsData;
-    } else if(agreement_id == 'RM1043.8') {
+    }else if(agreement_id == 'RM1557.13') { 
+      jsondata = GCloudcmsData;
+    } 
+    else if(agreement_id == 'RM1043.8') {
       jsondata = dosStage1Data;
       if(stage2_value === "Stage 2"){
         jsondata = dosStage2Data;
