@@ -84,6 +84,12 @@
     "subsection4_title4_descriiption_evaluate": "The suppliers below have responded to your published project. You can download individual supplier’s answers or all answers.",
     "subsection4_title4_descriiption_evaluated_text": "You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers when awarding.<br> Make sure you have documentation supporting your choice. This documentation needs to be produced offline.",
     
+    
+    "subsection4_title4_descriiption_evaluated_text_mcf": "You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers in your bid pack.<br> Make sure you have documentation supporting your decision. This documentation needs to be produced offline.",
+    "subsection4_title3_eval_mcf":"Suppliers who responded to your published project",
+    "subsection4_title3_eval_descriiption_mcf":"Find out how many suppliers responded to your project in the section below.",
+
+
     "subsection4_title4_1": "Responses received - interest to participate",
     "subsection4_table_th1_1": "Supplier Name",
     "subsection4_table_th1_2": "Date the supplier responded",
