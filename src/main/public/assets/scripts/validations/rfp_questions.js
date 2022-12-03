@@ -268,6 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
+
+            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
             
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
 
@@ -805,9 +809,13 @@ document.addEventListener('DOMContentLoaded', () => {
                       
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
-                        }else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
-                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                         }
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 0){
+                            errorStore.push(["There is a problem", "The total weighting is less than 1%"]);
+                        }
+                        // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
+                        //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        // }
                         if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
                         }
