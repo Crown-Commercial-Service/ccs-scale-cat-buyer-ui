@@ -123,7 +123,8 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
         if (FileFilterArray.length > 0) {
           ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
         } else {
-          res.redirect(`/${selRoute}/upload-doc`);
+          // res.redirect(`/${selRoute}/upload-doc`);
+          res.redirect(`/${selRoute}/upload-attachment`);
         }
       } else {
         
