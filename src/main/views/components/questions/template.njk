@@ -425,7 +425,8 @@
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title | striptags(true) | escape | nl2br
+        text: requirement.OCDS.title | striptags(true) | escape | nl2br,
+        classes: "govuk-label--m"
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
       id: "fc_question_precenate_"+index,
@@ -443,7 +444,8 @@
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title
+        text: requirement.OCDS.title,
+        classes: "govuk-label--m"
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
       id: "fc_question_precenate_"+index,
