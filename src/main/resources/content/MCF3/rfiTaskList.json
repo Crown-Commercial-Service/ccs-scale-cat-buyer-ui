@@ -8,7 +8,7 @@
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfi/name-your-project",
@@ -65,21 +65,21 @@
                 },
                 {
                     "Task": 2,
-                    "title": "See the suppliers who will receive your RfI",
+                    "title": "View suppliers",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfi/suppliers"
                 },
                 {
                     "Task": 3,
-                    "title": "Your RfI timeline",
+                    "title": "Set your RfI timeline",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfi/response-date"
                 },
                 {
                     "Task": 4,
-                    "title": "Review and publish your RfI",
+                    "title": "Review and publish ",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfi/review"
