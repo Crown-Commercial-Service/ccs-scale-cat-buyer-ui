@@ -26,15 +26,25 @@
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
                 {% if agreementId_session != 'RM1557.13' %}
-                <p class="govuk-body">Find more information on each supplier on the main <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website.</a> <span class='govuk-visually-hidden'> opens in a new window</span> The page will open on a new tab.</p>
+                    {% if agreementId_session == 'RM6187' %}
+                        <p class="govuk-body">Find more information on each supplier on the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website (opens in a new tab).</a></p>
+                    {% else %}
+                        <p class="govuk-body">Find more information on each supplier on the main <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website.</a> <span class='govuk-visually-hidden'> opens in a new window</span> The page will open on a new tab.</p>
+                    {% endif %}
                 {% endif %}	
               <form id="ccs-rfp-suppliers-form" class="ccs-rfp-suppliers-form" action="/rfp/suppliers" method="POST">
                 {{ csrfProtection(csrf) }}
                     <br>
                     <h2 class="govuk-heading-m">
+                        {% if agreementId_session == 'RM6187' %}
+                        <span id="added_suppliers_count">
+                            {{supplierLength}}
+                        </span> suppliers </h2>
+                        {% else %}
                         <span id="added_suppliers_count">
                             {{supplierLength}}
                         </span> suppliers on this lot </h2>
+                        {% endif %}
                     <br>
                      {% if(enablebtn) %}
                     <div class="govuk-button-group govuk-!-margin-bottom-7">
