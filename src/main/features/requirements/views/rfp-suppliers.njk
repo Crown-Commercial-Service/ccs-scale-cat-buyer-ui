@@ -61,7 +61,9 @@
                                             <p>{{supplier.organization.identifier.legalName}}</p>
                                              
                                              {% if(enablebtn) %}
+                                             {% if agreementId_session != 'RM1557.13' %}
                                             <p><a href="/rfp/supplier/ratecard?supplierId={{supplier.organization.id}}&supplierName={{supplier.organization.name}}">View rate card and contact details</a></p>
+                                            {% endif %}
                                             {% endif %}
 
                                         {% endif %}
