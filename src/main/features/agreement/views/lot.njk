@@ -21,9 +21,15 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
+          {% if agreement_id == 'RM1557.13' %}
+          <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
+            {{lot}}
+          </h1>
+          {% else %}
           <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
             {{lot}}: {{agreement_lot.name}}
           </h1>
+          {% endif %}	
         </div>
       </div>
       <div class="govuk-grid-row">
@@ -35,11 +41,11 @@
             </p>
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
             {% if (agreement_id == 'RM1557.13') %}
-              {% set ExpiryBefore = lot+' ' %}
+              {% set ExpiryBefore = 'Lot' %}
             {% else %}
               {% set ExpiryBefore = '' %}
             {% endif %}
-            <p class="govuk-body">{{ExpiryBefore}}{{lot}} Expiry date: <strong>{{agreementDate}}</strong>
+            <p class="govuk-body">{{ExpiryBefore}} Expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
 
@@ -59,6 +65,9 @@
                   <p class="govuk-body">{{data.g_cloud_desc1_lot1}}</p>
                 {% elif (lot == 'Lot 2') %}
                   <p class="govuk-body">{{data.g_cloud_desc1_lot2}}</p>
+                {% elif (lot == 'Lot 4') %}
+                  <p class="govuk-body">{{data.g_cloud_desc1_lot4}}</p>
+                  <p class="govuk-body">{{data.g_cloud_desc2_lot4}} <a href="/fca/supplier/list">lot supplier list ({{agreement.suppliersCount}} suppliers)</a></p>
                 {% else %}
                   <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
                 {% endif %}
@@ -180,7 +189,11 @@
             </h1>
             {% if (agreement_id == 'RM1557.13') %}
               <p class="govuk-body">
-                <strong>Before you start you should <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.106626880.2111983670.1659520755-1443536416.1659520755#requirements">write a list of requirements</a> and <a target="_blank" href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service?_ga=2.106626880.2111983670.1659520755-1443536416.1659520755">check if you need approval</a> to spend money on a service.</strong>
+                <strong>Decide the approach and stages to your procurement. These may include:</strong>
+                <ul>
+                  <li><strong>Request for Information (RfI):</strong> Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them</li>
+                  <li><strong>Further competition:</strong> You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted</li>
+                </ul>
               </p>
             {% else %}
             {% if (agreement_id != 'RM1043.8') %}
@@ -228,27 +241,46 @@
             <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-8">{{data.line18}}</h3>
             {% if (agreement_id == 'RM1557.13') %}
             <h3>
-              <ol class="govuk-list govuk-list--number">
-                <li>
-                  <h3 class="proc-task-list__section">Name your project</h3>
-                  <p class="govuk-body">You can name your project in this section. </p>
+              <ol class="govuk-list govuk-list--number-custome">
+                <li data-label="1" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">See available suppliers</h3>
+                  <p class="govuk-body">Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement.</p>
                 </li>
-                <li>
-                  <h3 class="proc-task-list__section">Save a search</h3>
-                  <p class="govuk-body">Save your search so you can export your results later. You must <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.73660369.2111983670.1659520755-1443536416.1659520755#fairness">buy fairly</a> and assess all the services that you find. Do not combine the results of more than one search.</p>
+                <li data-label="2" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">Do pre-tender market engagement</h3>
+                  <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-tender market engagement in the following way:</p>
+                  <strong>Request for Information (RfI)</strong>
+                  <p class="govuk-body">Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.</p>
                 </li>
-                <li>
-                  <h3 class="proc-task-list__section">Start assessing services</h3>
-                  <p class="govuk-body">Follow the <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.148626036.2111983670.1659520755-1443536416.1659520755#review-and-compare-services">guidance for assessing services.</a> Choose the one that best meets your budget and requirements.</p>
-                  <p class="govuk-body">Do not hold a competition to decide the winner. You can <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#what-to-do-if-you-have-a-question-for-the-suppliers">contact suppliers to ask clarification questions,</a> but you must not negotiate with them.</p>
+                <li data-label="3" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">Write and publish your requirements</h3>
+                  <p class="govuk-body">Write and publish your bid pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.</p>
+                  <p class="govuk-body">You’ll need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.</p>
+                  <p class="govuk-body">For the lot you selected, you can run your procurement in the following way:</p>
+                  <strong>Further competition</strong>
+                  <p class="govuk-body">You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.</p>
+                  <p class="govuk-body">This is also known as one-stage further competition.</p>
                 </li>
-                <li>
-                  <h3 class="proc-task-list__section">Award a contract</h3>
-                  <p class="govuk-body">Follow the guidance for <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contract">awarding a contract</a>. Check if you need to <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contracts-finder">publish the details on Contracts Finder</a>. Whether or not you award a contract, tell us the outcome. This information helps us improve.</p>
+                <li data-label="4" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">Do evaluation</h3>
+                  <p class="govuk-body">You must evaluate suppliers to find the one that best meets your requirements.</p>
+                  <p class="govuk-body">You should use the methods and criteria you published with your requirements to assess and score suppliers.</p>
+                  <p class="govuk-body">You can then award a contract to the successful supplier.</p>
                 </li>
-                <li>
-                  <h3 class="proc-task-list__section">Submit a Customer Benefits Record</h3>
-                  <p class="govuk-body">You must <a target="_blank" href="https://crowncommercial.qualtrics.com/jfe/form/SV_9YO5ox0tT0ofQ0u">submit a Customer Benefits Record</a>. The Crown Commercial Service will contact you if they find any issues with the supplier.</p>
+                <li data-label="5" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">Award your contract</h3>
+                  <p class="govuk-body">When you have completed your evaluation and found a successful supplier, you can award your contract.</p>
+                  <p class="govuk-body">You’ll need to give feedback to any unsuccessful suppliers.</p>
+                </li>
+                <li data-label="6" class="govuk-list--number-custome-list">
+                  <h3 class="proc-task-list__section">Publish your contract</h3>
+                  <p class="govuk-body">There is a legal requirement to publish certain contracts. You may need to publish the contract on:</p>
+                  <ul class="govuk-list govuk-list--bullet">
+                  <li><a href="https://www.gov.uk/contracts-finder" target='_blank'>Contracts Finder</a></li>
+                  <li><a href="http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx" target='_blank'>Public Contracts Scotland</a></li>
+                  <li><a href="http://www.sell2wales.gov.uk/" target='_blank'>Sell2Wales</a></li>
+                  <li><a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a></li>
+                </ul>
                 </li>
               </ol>
             </h3>

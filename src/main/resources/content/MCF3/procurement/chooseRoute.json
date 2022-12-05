@@ -1,0 +1,54 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Choose your pre-tender market engagement event",
+            "href": "#"
+        }
+
+    ],
+
+    "title": "Choose your pre-tender market engagement event",
+    "subtitle":null,
+    
+    "form": {
+        "question": "Choose from the options below",
+        "radioOptions": {
+            "idPrefix": "ccs_chose_route",
+            "name": "ccs_rfi_type",
+            "items": [
+              {
+                "value": "EOI",
+                "text": "Expression of Interest (EoI)",
+                "hint": {
+                  "text": "Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to your EoI, they cannot bid for the opportunity later."
+                }
+
+              },
+              {
+                "value": "RFI",
+                "text": "Request for Information (RfI)",
+                "hint": {
+                  "text": "Ask suppliers questions to help you refine your requirements."
+                }
+              }
+            ]
+          },
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+
+    }
+}

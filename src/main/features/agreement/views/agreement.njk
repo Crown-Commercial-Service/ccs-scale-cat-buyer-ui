@@ -46,8 +46,13 @@
                 <dd>
                   <p class="govuk-body"></p>
                   <p class="govuk-body">
-                   <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{item.number | replace("Lot ", "")}}/lot-suppliers" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                    {% if agreement_id == 'RM1043.8' %}
+                    <a href="/fca/supplier/list?agreement={{agreement_id}}&lot={{item.number | replace("Lot ", "")}}" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
                       <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
+                    {% else %}
+                    <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{item.number | replace("Lot ", "")}}/lot-suppliers" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                      <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
+                    {% endif %}
                   </p>
                 </dd>
               {% endfor %}
@@ -116,8 +121,13 @@
                           <dd>
                             <p class="govuk-body"></p>
                             <p class="govuk-body">
+                              {% if agreement.number == 'RM1043.8' %}
+                              <a rel="noopener noreferrer" href="/fca/supplier/list?agreement={{agreement.number}}&lot={{lot.number | replace("Lot ", "")}}" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                              {% else %}
                               <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
                                 <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                              {% endif %}
                             </p>
                           </dd>
                         {% endfor %}
@@ -142,8 +152,10 @@
                               <dd>
                                 <p class="govuk-body"></p>
                                 <p class="govuk-body">
-                                  <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
-                                    <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                                  <a rel="noopener noreferrer" href="/fca/supplier/list?agreement={{agreement.number}}&lot={{lot.number | replace("Lot ", "")}}" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                                  {# <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                    <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a> #}
                                 </p>
                               </dd>
                               {% endif %}

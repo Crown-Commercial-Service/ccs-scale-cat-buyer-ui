@@ -23,11 +23,21 @@
     "subtitle2": "You will need to agree on feedback and a score for each answer from each supplier, and an overall evaluation.",
     "subtitle4":"You will need to agree on feedback and a score for each answer from each supplier, and an overall evaluation summary and score.",
     "subtitle3": "To capture your scores and feedback for the awarded supplier, ",
+
+    "subtitle_mcf1": "Download the supplier responses to start evaluation.",
+    "subtitle_mcf2": "You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. It is good practice for up to 3 evaluators to individually score each supplier’s quality response. You will also need to evaluate price.",
+    "subtitle_mcf3": "The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.",
+    "subtitle_mcf4": "which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award. ",
+
+    "subtitle_dos": "Download the supplier responses to start evaluation.",
+    "subtitle1_dos":"You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. It is good practice for up to 3 evaluators to individually score each supplier’s quality response. You will also need to evaluate price.",
+    "subtitle2_dos": "The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.",
+    "subtitle3_dos": "You may wish to download the Award Recommendation Report, which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.",
     
     "subsection4_title4": "Suppliers who responded",
-    "subsection4_table_th_1": "Supplier Name",
-    "subsection4_table_th_2": "Response Date",
-    "subsection4_table_th_3": "Supplier's Answer",
+    "subsection4_table_th_1": "Supplier name",
+    "subsection4_table_th_2": "Response date",
+    "subsection4_table_th_3": "Supplier answer",
     "subsection4_table_th_4": "Add or edit final score",
     "subsection4_table_th_5": "Completed",
     "Downloadresponse": [

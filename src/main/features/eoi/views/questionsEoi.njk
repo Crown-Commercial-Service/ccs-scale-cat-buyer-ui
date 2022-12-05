@@ -808,9 +808,24 @@
                       ' Seventh',
                       ' Eight',
                       ' Ninth',
-                      ' Tenth'
+                      ' Tenth',
+                      ' Eleventh',
+                      ' Twelfth',
+                      ' Thirteenth',
+                      ' Fourteenth',
+                      ' Fifteenth',
+                      ' Sixteenth',
+                      ' Seventeenth',
+                      ' Eighteenth',
+                      ' Nineteenth',
+                      ' Twentieth'
                     ] %}
-                    {% for i in range(2, 11) -%}
+                    {% if agreement_id == "RM6187" %}
+                      {% set loopSet = 21 %}
+                    {%else%}
+                      {% set loopSet = 11 %}
+                    {% endif %}
+                    {% for i in range(2, loopSet) -%}
 
                       {% call CCSFieldset({
                       legend: {

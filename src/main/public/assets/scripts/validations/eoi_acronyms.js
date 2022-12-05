@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_eoi_acronyms_form") !== null) {
 
-    let with_value_count = 10,
+    let with_value_count = 20,
       prev_input = 0,
       filled_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
 
-    for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
+    for (var acronym_fieldset = 20; acronym_fieldset > 1; acronym_fieldset--) {
 
 
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
-        if (acronym_fieldset === 10) {
+        if (acronym_fieldset === 20) {
           document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         with_value_count++;
 
-        if (with_value_count === 11) {
+        if (with_value_count === 21) {
           document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 const checkFieldsEoi = () => {
   const start = 1;
-  const end = 10;
+  const end = 20;
 
   for (var a = start; a <= end; a++) {
     let input = $(`#eoi_term_${a}`)
@@ -199,7 +199,7 @@ const emptyFieldCheckEoi = (add_more='') => {
   let fieldCheck = "",
     errorStore = [];
 
-  for (var x = 1; x < 11; x++) {
+  for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
