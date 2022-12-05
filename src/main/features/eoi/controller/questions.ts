@@ -29,7 +29,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
-
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
@@ -135,7 +134,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         TemporaryObjStorage.push(ITEM);
       }
     }
-    
     const data = {
       data: fetch_dynamic_api_data,
       agreement: AgreementEndDate,
@@ -207,7 +205,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
-   console.log("req.body",req.body);
    
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
@@ -632,7 +629,7 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
         req.session.fieldLengthError = [keyErrorIndex, keyValueErrorIndex];
         const { term, value } = req.body;
         const TAStorage = [];
-        for (let item = 0; item < 10; item++) {
+        for (let item = 0; item < 20; item++) {
           const termObject = { value: term[item], text: value[item], selected: true };
           TAStorage.push(termObject);
         }

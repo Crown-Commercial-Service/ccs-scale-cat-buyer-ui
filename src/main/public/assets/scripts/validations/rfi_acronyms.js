@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let total_count_index;
     let prev_input;
     let deleteButtons;
-    if(agrement_id == 'RM1557.13'){
+    if(agrement_id == 'RM1557.13' || agrement_id == 'RM6187'){
       with_value_count = 20;
       total_count = 20;
       total_count_index = 21;
@@ -252,7 +252,7 @@ let total_count;
 let total_count_index;
 let prev_input;
 let deleteButtons;
-if(agrement_id == 'RM1557.13'){
+if(agrement_id == 'RM1557.13' || agrement_id == 'RM6187'){
   with_value_count = 20;
   total_count = 20;
   total_count_index = 21;
