@@ -41,11 +41,11 @@
             </p>
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
             {% if (agreement_id == 'RM1557.13') %}
-              {% set ExpiryBefore = lot+' ' %}
+              {% set ExpiryBefore = 'Lot' %}
             {% else %}
               {% set ExpiryBefore = '' %}
             {% endif %}
-            <p class="govuk-body">{{ExpiryBefore}}{{lot}} Expiry date: <strong>{{agreementDate}}</strong>
+            <p class="govuk-body">{{ExpiryBefore}} Expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
 

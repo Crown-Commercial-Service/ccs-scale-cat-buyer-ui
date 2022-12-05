@@ -149,19 +149,19 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {% if agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == 'RM1043.8' %}
+          {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM1043.8' %}
               <strong>Contract award</strong>
           {% else %}
               <strong>Award supplier</strong>
           {% endif %}
         </h1>
-            {% if agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == 'RM1043.8' %}
+            {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM1043.8' %}
               <p>When you award your contract, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this using your organisation’s email account.</p>
             {% else %}
               <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders.</p>
             {% endif %}  
         </br></br>
-        {% if agreement_header['agreementId_session'] == 'RM1043.8' or  agreement_header['agreementId_session'] == 'RM6187' %}
+        {% if agreement_header['agreementId_session'] == 'RM1043.8' or  agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' %}
         {{ CCSWarningText({
     text: "Please confirm that you are ready to award this contract.",
     iconFallbackText: "Warning"
@@ -178,7 +178,7 @@
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
                      {{ csrfProtection(csrf) }}  
-                     {% if agreement_header['agreementId_session'] == 'RM1043.8' or agreement_header['agreementId_session'] == 'RM6187' %}
+                     {% if agreement_header['agreementId_session'] == 'RM1043.8'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM6187' %}
                      {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
       name: "award_supplier_confirmation",
@@ -206,7 +206,7 @@
       <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
         
-          {% if agreement_header['agreementId_session'] == 'RM6187' %}
+          {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' %}
 {% set s_classes = "del btn_event_managment_award" %}
         {% else %}
         {% set s_classes = "del btn_event_managment_award" %}

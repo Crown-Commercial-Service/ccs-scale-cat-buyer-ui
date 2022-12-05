@@ -387,12 +387,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         let fetchQuestionsData = fetchQuestions?.data;
        
         
-        
 
         let standstill='';
         if(agreementId_session=='RM6187' && (eventType=='FC' || eventType=='DA')){
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-        }else{
+        }else if(agreementId_session=='RM1557.13' && eventType=='FC' && lotid=='4'){
+
+          standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
+          console.log('standstill');
+          console.log(standstill);
+       }else{
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
         }
        

@@ -36,8 +36,8 @@ export class QuestionHelper {
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      if(agreement_id == 'RM1043.8') {
-        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
+      if(agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13') {
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 2'));
       } else {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
       }
@@ -91,9 +91,7 @@ export class QuestionHelper {
                   }
                 }
               }
-              
-              
-              
+               
             }
             else if (questionType === 'MultiSelect') {
               let isMultiselect = false;
@@ -115,6 +113,11 @@ export class QuestionHelper {
                 if (agreement_id == 'RM1043.8' && (req.session.lotId == 1 || req.session.lotId == 3) && (gid === 'Group 20' || gid === 'Group 18') && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
+
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 14' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
+
               }
             }
             else if (questionType === 'Date') {
@@ -124,7 +127,7 @@ export class QuestionHelper {
                 if (dateValue != undefined && dateValue != null && dateValue != '') { dateValidation += 1; }
               }
               
-              if(agreement_id == 'RM6187'){
+              if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13'){
                 if (dateValidation >= 1) innerMandatoryNum += 1;
               }else if(agreement_id == 'RM1043.8'){
                 if (dateValidation >= 1) innerMandatoryNum += 1; 
@@ -133,7 +136,7 @@ export class QuestionHelper {
               }
             }
             else if (questionType === 'Duration') {
-              if(agreement_id == 'RM1043.8'){
+              if(agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13'){
                 if(question_api_data?.[k]?.nonOCDS?.mandatory) {
                   // let durationValue = question_api_data?.[k]?.nonOCDS.options;
                   let durationValidation = 0;
@@ -141,16 +144,14 @@ export class QuestionHelper {
                     let durationValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
                     if (durationValue != undefined && durationValue != null && durationValue != '') { durationValidation += 1; }
                   }
-                  if(agreement_id == 'RM1043.8'){
+                  if(agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13'){
                     if (durationValidation >= 1) innerMandatoryNum += 1; 
                   }
                   // if(durationValue.length > 1) {
                   //   innerMandatoryNum += 1;
                   // }
                 }
-              } else {
-                innerMandatoryNum += 1; 
-              }
+              } else { innerMandatoryNum += 1; }
             }
             else if (questionType === 'KeyValuePair') {
               let kvMandatoryNum = question_api_data?.[k]?.nonOCDS.options?.length;
@@ -182,8 +183,7 @@ export class QuestionHelper {
 
             }
           }
-          
-          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) {  mandatoryNum += 1; }
+          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
       
@@ -210,7 +210,27 @@ export class QuestionHelper {
         else {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
         }
-      }else{
+      }
+      else if(agreement_id == 'RM1557.13'){
+        console.log("mandatoryGroupList.length",mandatoryGroupList.length);
+        console.log("mandatoryNum",mandatoryNum);
+        if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum )) {//all questions answered
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
+          if (flag) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
+          }
+        }
+      }
+      else{
         console.log("mandatoryGroupList.length",mandatoryGroupList.length);
         console.log("mandatoryNum",mandatoryNum);
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum || mandatoryNum >= 6)) {//all questions answered
