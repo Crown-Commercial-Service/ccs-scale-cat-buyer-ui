@@ -165,7 +165,7 @@
                                 {%endif%}
 
                         {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' or agreementId_session == 'RM1043.8' %}
-                            {% if (agreementId_session=='RM1043.8' and stage2_value != 'Stage 2') or (agreementId_session != 'RM1557.13')  %}
+                            {% if (agreementId_session == 'RM1043.8' and stage2_value != 'Stage 2') and (agreementId_session != 'RM1557.13') %}
                                 {{ CCSWarningText({
                                     text: "By uploading this document for all the suppliers in your list you are stating that, to the best of your knowledge, the information you have provided is correct.",
                                     iconFallbackText: "Warning"
