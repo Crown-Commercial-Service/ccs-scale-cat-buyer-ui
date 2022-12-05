@@ -30,7 +30,7 @@
             "items": [
               {
                 "value": "EOI",
-                "text": "Expression of Interest (EOI)",
+                "text": "Expression of Interest (EoI)",
                 "hint": {
                   "text": "Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to your EoI, they cannot bid for the opportunity later."
                 }
@@ -38,7 +38,7 @@
               },
               {
                 "value": "RFI",
-                "text": "Request for Information (RFI)",
+                "text": "Request for Information (RfI)",
                 "hint": {
                   "text": "Ask suppliers questions to help you refine your requirements."
                 }
