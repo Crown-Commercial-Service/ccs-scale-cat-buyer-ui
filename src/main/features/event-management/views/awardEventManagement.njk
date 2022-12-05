@@ -166,7 +166,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       
-        {% if agreementId_session == "RM6187" %}
+        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval_mcf}}</h2>
@@ -210,7 +210,7 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  {% if agreementId_session == "RM6187" %}
+                  {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
@@ -305,7 +305,7 @@
     <p>Your project is now complete.</p>
   {% else %}
 
-    {% if agreementId_session == 'RM6187' %}
+    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
 
       {% if status.toLowerCase() == "awarded" %}
         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
@@ -441,7 +441,7 @@
                     }) }}
 
 {%else%}
-{%if (agreement_header['agreementId_session'] == 'RM6187') %}
+{%if (agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == "RM1557.13") %}
   {% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
   {%endif%}
   {{ CCSWarningText({

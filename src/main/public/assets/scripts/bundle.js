@@ -14806,9 +14806,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rootEl.querySelector('.order_1')) {
                         let element = rootEl.querySelector('.order_1');
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
+
+                           
 
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                 msgContent = 'Enter an essential skill or experience';
@@ -14819,15 +14821,26 @@ document.addEventListener('DOMContentLoaded', () => {
                                 'Entry is limited to 50 words' :
                                 msgContent;
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/);
-                            let percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
+                            let percentageCheck;
+                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4' && rootEl.querySelector('.weightage').value == '0'){
+                                 percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/);
+                            }else{
+                                 percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
+                            }
+                           
                             if (fieldCheck !== true){
                                 errorStore.push(fieldCheck);
                             }
 
+
+
                             if(percentageCheck){
+                                console.log('************1');
+                                console.log(percentageCheck);
                                 errorStore.push(percentageCheck);
                             }
                         }
+                        
 
                     }
                     if (rootEl.querySelector('.order_2')) {
@@ -14997,8 +15010,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                         }
-                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 0){
-                            errorStore.push(["There is a problem", "The total weighting is less than 1%"]);
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){
+                            errorStore.push(["There is a problem", "Your total weighting is must be greater than 1%"]);
                         }
                         // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
                         //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
@@ -15115,6 +15128,17 @@ evt = (evt) ? evt : window.event;
     return true;
  
  });
+
+ $('.rfp_duration').on('keypress', function (evt) {
+    let value = $(this).val();
+    evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57) || value.length >=3) {
+            return false;
+        }
+        return true;
+     
+     });
  
  
  $(document.body).on("keyup", ".weightagelimit", function (event) {
@@ -16099,7 +16123,17 @@ const emptyFieldCheckRfpScore2 = () => {
 const ccsZvalidateScoringCriteria2 = event => {
   event.preventDefault();
   errorStore = [];
-  errorStore = emptyFieldCheckRfpScore2();
+  
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
+  var lID=document.getElementById('lID').value;
+
+  if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
+    errorStore = [];
+  }else{
+    errorStore = emptyFieldCheckRfpScore2();
+  }
 
   if (errorStore.length === 0) {
     document.forms['service_user_type_form'].submit();
