@@ -304,6 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (Number($('#totalPercentage').text()) < 100) {
                     var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%", Number($('#totalPercentage').text()),/\w+/);
                     errorStore.push(percentageCheck)
+                    }
         }
         else {
           //  if(urlParamsDefault.get('group_id') == 'Group 6' && urlParamsDefault.get('section') == 5 && urlParamsDefault.get('step') == 45){
