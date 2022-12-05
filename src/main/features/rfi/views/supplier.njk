@@ -29,16 +29,16 @@
         </div>
         <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-margin-bottom-6">
           <div class="govuk-grid-column-full">
-            <p class="govuk-body">The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
-            <p class="govuk-body">Your RfI will be sent to all suppliers on this list but some may not respond.</p>
-            
-             {% if agreementId_session == 'RM6187' %}
-                <p class="govuk-body">For details of each supplier, visit the
-                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
-                  <span class="govuk-visually-hidden">opens in a new window</span> page on the CCS website.</a><br>
-                  (The page will open in a new tab)</p>
+            {% if agreementId_session == 'RM6187' %}
+                <p class="govuk-body">Your opportunity will be sent to the suppliers listed below. </p>
+                <p class="govuk-body">Find more information on each supplier on the
+                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">CCS website (opens in a new tab).
+                 </a><br>
+                  </p>
             {% else %}
-                        <p class="govuk-body">If you'd like to look at the details for each
+                <p class="govuk-body">The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
+                <p class="govuk-body">Your RfI will be sent to all suppliers on this list but some may not respond.</p>
+                <p class="govuk-body">If you'd like to look at the details for each
                   suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
                 <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</a>
                   (The page will open in a new tab)</p>
@@ -53,9 +53,16 @@
             {{ csrfProtection(csrf) }}
               <br>
               <h2 class="govuk-heading-l govuk-!-font-size-48 govuk-!-margin-bottom-9 govuk-!-font-weight-regular">
-                <span id="added_suppliers_count">
-                  {{supplierLength}}
-                </span>  suppliers will receive your RfI </h2>
+                {% if agreementId_session == 'RM6187' %}
+                  <span id="added_suppliers_count">
+                    {{supplierLength}}
+                  </span>  suppliers 
+                {% else %}
+                  <span id="added_suppliers_count">
+                    {{supplierLength}}
+                  </span>  suppliers will receive your RfI 
+                {% endif %}
+              </h2>
               <br>
               {% if(enablebtn) %}
               <div class="govuk-button-group govuk-!-margin-bottom-7">
