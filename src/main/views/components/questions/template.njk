@@ -855,8 +855,10 @@
           {% block Percentage%}
             {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
             {% set qhint = "" %}
-            {% if(requirement.OCDS.title === 'Social value criteria') %}
-            {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting)." %}
+            {% if(requirement.OCDS.title === 'Social value criteria' and agreement_id == 'RM6187') %}
+            {% set qhint = "If you are buying on behalf of a central government department, this must be a minimum of 10% of your overall weighting. For example, if you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). For all other buyers, this weighting is discretionary and in some cases can be 0%." %}
+            {% elseif(requirement.OCDS.title === 'Social value criteria') %}
+            {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). -test" %}
             {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
             {% set qhint = "Enter a value of 0% if you are not in scope of PPN 06/20, or the value of the procurement is below threshold, or the application of social value is not reasonable or proportionate to what you are buying." %}
             {%endif%}
@@ -1915,8 +1917,12 @@
   
                   
                       {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
-                        <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
-                          Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p><br>
+
+                          {% if (agreement_id != 'RM6187') %}
+                              <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
+                              Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p>
+                          {% endif %}
+                          <br>
                         
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         

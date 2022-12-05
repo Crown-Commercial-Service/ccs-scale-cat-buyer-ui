@@ -188,11 +188,11 @@ console.log("group_id",group_id);
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
           errMsg = "Select the locations where staff will work";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
-          errMsg = "You must select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
           errMsg = "Select the needed security levels or “No security clearance needed”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
-          errMsg = "You must select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
           errMsg = "You must select at least one region where the research will be taking place, or  “International (outside the UK)”";
         }

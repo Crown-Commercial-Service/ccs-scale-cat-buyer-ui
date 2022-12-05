@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
                  event.preventDefault(); });
 
-      rfpResourceStartDay.on('keydown', () => {
+      rfpResourceStartDay.on('keyup', () => {
          if(DateCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartMonth.on('keydown', () => {
+      rfpResourceStartMonth.on('keyup', () => {
          if(MonthCheckResourceStart())
          {
             if( DateCheckResourceStart())
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartYear.on('keydown', () => {
+      rfpResourceStartYear.on('keyup', () => {
          if(YearCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -1041,7 +1041,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');   
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected contract duration should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Expected contract length must be 2 years or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         
 
@@ -1051,7 +1051,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected contract duration should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Expected contract length must be 2 years or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         // return false;
       }
@@ -1124,7 +1124,7 @@ function isProjectExtensionValid() {
             isValid = false;       
             $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
             //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-            fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "This should not exceed 50% of the length of the original project",/^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
          }
          else {

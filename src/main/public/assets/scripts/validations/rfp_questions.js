@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.forEach(el => {
                 weightageSum += isNaN(el.value) ? 0 : Number(el.value);
             });
+            
             if (weightageSum > 100) {
                 errorStore = emptyQuestionFieldCheckRfp();
                 if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7')  && urlParamsData.get('section') == 5) {
@@ -360,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('lID') !== null) {
         lotid_Default = document.getElementById('lID').value;
     }
-   
+
         var total_countva=10;
         var withValue=11;
     if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 46 )) {
@@ -388,9 +389,10 @@ document.addEventListener('DOMContentLoaded', () => {
        }else{
            var total_countva=10;
            var withValue=11;
+           with_value_count = 10;
        }
     }
-
+   
     let deleteButtonClicked = false
         
      
@@ -399,7 +401,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
+            
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+                console.log("ORDER1")
                 this_box.classList.remove('ccs-dynaform-hidden');
                 document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
@@ -413,6 +417,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                console.log("ORDER23")
+                console.log("this_box",this_box)
+                document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -437,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         }
-
     
 
 
@@ -466,6 +472,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
+
+
+            if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+
+            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
             
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
 
@@ -473,6 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-error-summary').remove();
         $('.govuk-form-group--error').remove();
         removeErrorFieldsRfpScoreQuestion();
+        
             errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -602,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('.govuk-error-summary').remove();
             $('.govuk-form-group--error').remove();
             removeErrorFieldsRfpScoreQuestion();
+           
                 errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
             }
             else {
@@ -654,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 }
                 totalAnswerd();
-                $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
+               // $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
                 
             } else ccsZPresentErrorSummary(errorStore);
         });
@@ -726,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(showinputarray.length > 0){
                 let prevvaalue = lastElement -1;
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
-                $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
+              //  $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -734,6 +751,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
         }
@@ -808,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rootEl.querySelector('.order_1')) {
                         let element = rootEl.querySelector('.order_1');
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
@@ -830,6 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 errorStore.push(percentageCheck);
                             }
                         }
+
                     }
                     if (rootEl.querySelector('.order_2')) {
                         if (rootEl.querySelector('.order_2').value == '') {
@@ -968,7 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if((($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == false )) || 
                         ($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == true ))
 
-                        )){
+                        ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             let msgContent = 'You must enter your question';
 
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
@@ -983,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if((($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false )) ||
                         ($('#fc_question_precenate_'+i).val() == '' && ( error_classes == false && additional_classes == true ))
 
-                        )) {
+                        ) && !pageHeading.includes('Write your social value questions (Optional)')) {
                              let msgWeightageContent = 'You must enter a weighting for this question';
  
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
@@ -999,6 +1020,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                         }
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 0){
+                            errorStore.push(["There is a problem", "The total weighting is less than 1%"]);
+                        }
+                        // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
+                        //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        // }
                         if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
                         }

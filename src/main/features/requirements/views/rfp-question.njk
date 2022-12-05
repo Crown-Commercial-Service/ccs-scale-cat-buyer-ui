@@ -262,13 +262,23 @@ text: bcTitleText
                     })}}
                 </div>
                 {%elseif(section !=='5')%}
-                <div class="ccs-page-section">
-                    {{ CCSButton({
-                    text: "Add another question",
-                    type:"button",
-                    classes:"add-another-btn question_count govuk-button--secondary"
-                    })}}
-                </div>
+                    {% if agreement_id != "RM6187" %}
+                       <div class="ccs-page-section">
+                            {{ CCSButton({ 
+                            text: "Add another question",
+                            type:"button",
+                            classes:"add-another-btn question_count govuk-button--secondary"
+                            })}}
+                        </div>
+                    {% else %}
+                        <div class="ccs-page-section">
+                            {{ CCSButton({
+                            text: "Add another requirement",
+                            type:"button",
+                            classes:"add-another-btn question_count govuk-button--secondary"
+                            })}}
+                        </div>
+                    {% endif %}                
                 
                 {%endif%}
                 {%elif (form_name !== 'ccs_rfp_acronyms_form')%}

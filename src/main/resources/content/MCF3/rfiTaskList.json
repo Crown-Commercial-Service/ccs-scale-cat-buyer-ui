@@ -1,9 +1,8 @@
 {
-    "line1": "A Request for Information (RfI) can help you to:",
-    "line2": "better understand what you need",
-    "line3": "write clearer needs to publish for suppliers",
-    "line4": "understand how much this work could cost",
-    "line5": "better understand how long this work could take",
+    "line1": "An Rfi can help you to write clearer needs to publish for suppliers,which may include:",
+    "line2": "what you need",
+    "line3": "how much this work may cost",
+    "line4": "how long this work may take",
     "title": "Request for Information (RfI)",
     "subtitle": null,
     "events": [{
@@ -36,7 +35,7 @@
         {
             "eventno": 2,
             "eventTitle": "Build your RfI",
-            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and ask for more detailed information about what suppliers can offer.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfi/choose-build-your-rfi",

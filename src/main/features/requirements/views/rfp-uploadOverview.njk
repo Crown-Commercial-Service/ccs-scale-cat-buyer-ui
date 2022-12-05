@@ -21,6 +21,24 @@
                 <div class="govuk-!-margin-bottom-6">
                     {% include "includes/project_header.njk" %}
                 </div>
+                {% if(agreementId_session == 'RM6187') %}
+                <p class="govuk-body govuk-!-margin-bottom-7"> 
+                    <strong> {{data.description_title1}} </strong>
+                    <br><br>
+                    {{data.description1}} <br><br>
+                    {{data.description4}} <br>                    
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-7"> 
+                    <strong> {{data.description_title2}} </strong>
+                    <br><br>
+                    {{data.description2}}
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-7"> 
+                    <strong> {{data.description_title3}} </strong>
+                    <br><br>
+                    {{data.description3}} <br><br>
+                </p>
+                {% else %}
                 {% if agreementId_session == 'RM1557.13' %}
                 <b class="govuk-heading-s">Pricing schedule</b>
                 {% endif %}
@@ -35,6 +53,8 @@
                 <b class="govuk-heading-s">Additional documents (optional)</b>
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description5}}</p>
                 {% endif %}
+                 {% endif %}
+                 
                 <ul class="app-task-list ccs-rfp-upload">
                     {% for items in data.taskList %}
 
