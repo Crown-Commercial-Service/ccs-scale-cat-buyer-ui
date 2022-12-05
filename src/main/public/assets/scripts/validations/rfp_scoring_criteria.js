@@ -739,7 +739,17 @@ const emptyFieldCheckRfpScore2 = () => {
 const ccsZvalidateScoringCriteria2 = event => {
   event.preventDefault();
   errorStore = [];
-  errorStore = emptyFieldCheckRfpScore2();
+  
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
+  var lID=document.getElementById('lID').value;
+
+  if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
+    errorStore = [];
+  }else{
+    errorStore = emptyFieldCheckRfpScore2();
+  }
 
   if (errorStore.length === 0) {
     document.forms['service_user_type_form'].submit();
