@@ -4,16 +4,48 @@
 {% set title = 'Provide information online | Contract Award Service' %}
 
 {% block breadCrumb %}
+    {% if agreementId_session == "RM6187" %}
+    {{ CCSBreadcrumbs({
+        items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "/da/task-list"
+        },
+        {
+            "text": "Upload documentation",
+            "href": "#"
+        }
+        ]
+    }) }}
+
+    {% else %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl">{{ data.title }}</h1>
+                {% if agreementId_session == "RM6187" %}
+                    <h1 class="govuk-heading-xl">{{ data.title_mcf }}</h1>
+                {% else %}
+                    <h1 class="govuk-heading-xl">{{ data.title }}</h1>
+                {% endif %}
             </div>
         </div>
         <div class="govuk-grid-row">
@@ -21,9 +53,27 @@
                 <div class="govuk-!-margin-bottom-6">
                     {% include "includes/project_header.njk" %}
                 </div>
-                <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
-                <p class="govuk-body govuk-!-margin-bottom-7">{{data.description2}}</p>
-                <p class="govuk-body govuk-!-margin-bottom-7">{{data.description3}}</p>
+
+                {% if agreementId_session == "RM6187"%}
+                    <p class="govuk-body govuk-!-margin-bottom-7"> 
+                        <strong> {{data.description_mcfTitle1}} </strong> <br><br>
+                            {{data.description1_mcf}} <br><br>
+                            {{data.description2_mcf}} <br>                    
+                    </p>
+                    <p class="govuk-body govuk-!-margin-bottom-7"> 
+                        <strong> {{data.description_mcfTitle2}} </strong> <br><br>
+                            {{data.description3_mcf}}
+                    </p>
+                    <p class="govuk-body govuk-!-margin-bottom-7"> 
+                        <strong> {{data.description_mcfTitle3}} </strong> <br><br>
+                            {{data.description4_mcf}} <br><br>
+                    </p>
+                {% else %}
+                    <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-7">{{data.description2}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-7">{{data.description3}}</p>
+                {% endif %}
+                
                 <ul class="app-task-list ccs-rfp-upload">
                     {% for items in data.taskList %}
 

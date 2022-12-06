@@ -1,4 +1,5 @@
 import * as express from 'express'
+// import moment from 'moment';
 import * as dashboarData from '../../../resources/content/dashboard/ccs-dashboard.json'
 //import moment from 'moment';
 
@@ -9,6 +10,14 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   // for (const tmp of activeEvent){
   //   if(tmp.activeEvent.tenderPeriod.endDate){
   //     let utcCutoff = moment(tmp.activeEvent.tenderPeriod.endDate).utc().format('YYYY-MM-DD HH:mm');
+  //     // let localCutoff = moment.utc(cutoffString).local().format('DD MMMM YYYY');
+  //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
+  //   }
+  // }
+  // const activeEvent = req.session.openProjectActiveEvents;
+  // for (const tmp of activeEvent){
+  //   if(tmp.activeEvent.tenderPeriod.endDate){
+  //     let utcCutoff = moment(tmp.activeEvent.tenderPeriod.endDate).utc().format('HH:mm / DD/MM/YYYY');
   //     // let localCutoff = moment.utc(cutoffString).local().format('DD MMMM YYYY');
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
