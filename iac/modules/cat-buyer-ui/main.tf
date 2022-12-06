@@ -84,6 +84,10 @@ data "aws_ssm_parameter" "login_director_url" {
   name = "/cat/${var.environment}/login_director_url"
 }
 
+data "aws_ssm_parameter" "google_tag_manager_id" {
+  name = "/cat/${var.environment}/google-tag-manager-id"
+}
+
 data "aws_ssm_parameter" "gcloud_token" {
   name = "/cat/${var.environment}/gcloud_token"
 }
