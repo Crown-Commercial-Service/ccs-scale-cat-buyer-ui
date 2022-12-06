@@ -80,8 +80,12 @@ data "aws_ssm_parameter" "conclave_wrapper_api_key" {
   name = "/cat/${var.environment}/conclave-wrapper-api-key"
 }
 
-data "aws_ssm_parameter" "google_tag_manager_id" {
-  name = "/cat/${var.environment}/google-tag-manager-id"
+data "aws_ssm_parameter" "conclave_wrapper_api_key" {
+  name = "/cat/${var.environment}/conclave-wrapper-api-key"
+}
+
+data "aws_ssm_parameter" "login_director_url" {
+  name = "/cat/${var.environment}/login_director_url"
 }
 
 data "aws_ssm_parameter" "gcloud_token" {
@@ -147,6 +151,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     GCLOUD_SEARCH_API_URL : data.aws_ssm_parameter.gcloud_search_api_url.value
     GCLOUD_SERVICES_API_URL : data.aws_ssm_parameter.gcloud_services_api_url.value
     GCLOUD_SUPPLIER_API_URL : data.aws_ssm_parameter.gcloud_supplier_api_url.value
+    LOGIN_DIRECTOR_URL : data.aws_ssm_parameter.login_director_url.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
