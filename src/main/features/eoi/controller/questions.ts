@@ -650,8 +650,13 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
     if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
       errorText.push({ text: 'You must be 10000 characters or fewer' });
-      else
-      errorText.push({ text: 'You must add at least one objective' });
+      else{
+        if(req.session.agreement_id == 'RM6187'){
+          errorText.push({ text: 'Enter at least 1 project objective' });
+        }else{
+          errorText.push({ text: 'You must add at least one objective' });
+        }
+      }
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
 
     if (req.session.fieldLengthError?.length !== 1 ){
