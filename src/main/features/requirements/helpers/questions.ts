@@ -36,7 +36,7 @@ export class QuestionHelper {
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      if (agreement_id == 'RM1043.8') {
+      if (agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13') {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => a?.OCDS?.id != 'Group 2'); //exclude group 18 and 2
       } else {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter(
@@ -61,7 +61,9 @@ export class QuestionHelper {
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
           let innerMandatoryNum = 0;
-          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length; //no of questions mandatory in group
+          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;
+          
+           //no of questions mandatory in group
           // let mandatoryNumberinGroup = question_api_data.length;
           //if (mandatoryNumberinGroup != null && mandatoryNumberinGroup.length > 0) {
           for (let k = 0; k < question_api_data.length; k++) {
@@ -107,8 +109,6 @@ export class QuestionHelper {
                     }
                     if (textMandatoryNum == textNum) {
                       innerMandatoryNum += 1;
-                    }else if(agreement_id == 'RM1557.13'){
-                      innerMandatoryNum += 1;
                     }
                   }
                 }
@@ -145,6 +145,11 @@ export class QuestionHelper {
                 ) {
                   innerMandatoryNum += 1;
                 }
+
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 14' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
+
               }
             } else if (questionType === 'Date') {
               let dateValidation = 0;
@@ -164,7 +169,7 @@ export class QuestionHelper {
                 if (dateValidation >= 3) innerMandatoryNum += 1; //3 for day,month,year
               }
             } else if (questionType === 'Duration') {
-              if (agreement_id == 'RM1043.8') {
+              if (agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13') {
                 if (question_api_data?.[k]?.nonOCDS?.mandatory) {
                   // let durationValue = question_api_data?.[k]?.nonOCDS.options;
                   let durationValidation = 0;
@@ -174,18 +179,14 @@ export class QuestionHelper {
                       durationValidation += 1;
                     }
                   }
-                  if (agreement_id == 'RM1043.8') {
+                  if (agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13') {
                     if (durationValidation >= 1) innerMandatoryNum += 1;
                   }
                   // if(durationValue.length > 1) {
                   //   innerMandatoryNum += 1;
                   // }
                 }
-              } else if (agreement_id == 'RM1557.13') {
-                if(question_api_data[k]?.nonOCDS.mandatory){
-                  innerMandatoryNum += 1;
-                }
-              } else {
+              }  else {
                 innerMandatoryNum += 1;
               }
             } else if (questionType === 'KeyValuePair') {
@@ -223,7 +224,6 @@ export class QuestionHelper {
               }
             }
           }
-
           if (
             mandatoryNumberinGroup != null &&
             mandatoryNumberinGroup > 0 &&
@@ -262,7 +262,26 @@ export class QuestionHelper {
         } else {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
         }
-      } else {
+      } else if(agreement_id == 'RM1557.13'){
+        console.log("mandatoryGroupList.length",mandatoryGroupList.length);
+        console.log("mandatoryNum",mandatoryNum);
+        if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum )) {//all questions answered
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
+          if (flag) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
+          }
+        }
+      }
+      else {
         if (
           mandatoryGroupList != null &&
           mandatoryGroupList.length > 0 &&
