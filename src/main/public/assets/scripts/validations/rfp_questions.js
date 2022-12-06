@@ -94,9 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
-
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-               
+               console.log("Sibling",Sibling);
+
                if(target != 20) {
                    let ml = 1;
                    

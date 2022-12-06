@@ -73,6 +73,7 @@ export class QuestionHelper {
      
       let base_url ='';
       if(next_cursor_object !=undefined){
+       
         let next_group_id = next_cursor_object?.OCDS['id'];
         
         let next_criterian_id = next_cursor_object['criterianId'];
@@ -80,7 +81,7 @@ export class QuestionHelper {
          base_url = `/eoi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
        
       }
-     
+    
       
       let mandatoryqstnNum = 0;
       let answeredMandatory = 0;
@@ -89,14 +90,17 @@ export class QuestionHelper {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
+            
             let answered;
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
             
                const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
                const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-              
+               
                if(fetch_dynamic_api_data.length>0){
+                
                 for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+                  
                 const questionType = fetch_dynamic_api_data[j].nonOCDS['questionType'];
                 const manda = fetch_dynamic_api_data[j].nonOCDS['mandatory'];
                   if(manda){ 
@@ -108,7 +112,7 @@ export class QuestionHelper {
                 questionType === 'Duration' ||
                 questionType === 'Date'
               ) {
-               
+                
                answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
                 if (answered !== '' && answered!=undefined) {
                  answeredMandatory += 1;
@@ -116,19 +120,22 @@ export class QuestionHelper {
               }
                    if (questionType === 'SingleSelect') {
                     fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
-                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                      if (anItem?.text?.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
                         mandatoryqstnNum -= 1;
                       }
                     });
+                  
                 const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
-                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                  anItem?.text?.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
                       );
+                      
                      if (SingleSelectedData.length>0) {
                            answeredMandatory += 1;
                       }
               }
 
               if (questionType === 'MultiSelect') {
+               
                       const MultiSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
                       if (MultiSelectedData.length>0) {
                                  answeredMandatory += 1;
@@ -137,6 +144,7 @@ export class QuestionHelper {
 
                 if(questionType === 'KeyValuePair')
               {
+               
                 const KeyValuePair = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
                 if (KeyValuePair.length>0) {
                           answeredMandatory += 1;
@@ -152,9 +160,9 @@ export class QuestionHelper {
           }
           
         }
-
+       
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');        
-        
+     
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         // const PreUpdate = journeySteps.filter((el: any) => {
         //   if(el.step == '19') {
@@ -166,7 +174,7 @@ export class QuestionHelper {
         // });
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
-        
+       
         if (response.status == HttpStatusCode.OK && status=="Completed") {
           
           let flag = await ShouldEventStatusBeUpdated(event_id, 21, req);
@@ -179,11 +187,13 @@ export class QuestionHelper {
             }
         }
 
-
+       
       
       if (check_for_overflowing) {
+        
         res.redirect(base_url);
       } else {
+       
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
