@@ -657,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
