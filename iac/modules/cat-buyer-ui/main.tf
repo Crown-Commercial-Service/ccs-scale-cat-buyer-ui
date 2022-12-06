@@ -80,10 +80,6 @@ data "aws_ssm_parameter" "conclave_wrapper_api_key" {
   name = "/cat/${var.environment}/conclave-wrapper-api-key"
 }
 
-data "aws_ssm_parameter" "conclave_wrapper_api_key" {
-  name = "/cat/${var.environment}/conclave-wrapper-api-key"
-}
-
 data "aws_ssm_parameter" "login_director_url" {
   name = "/cat/${var.environment}/login_director_url"
 }
