@@ -8997,7 +8997,6 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
-                console.log(file)
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -9010,9 +9009,17 @@ $(document).ready(function () {
                     
                 }
                 else if(!checkFileValidMimeType){
-                ErrorCheckArray.push({
-                    type: "type"
-                })
+                    let fileExt = file.name.split(".").pop();
+                    fileExt = fileExt?fileExt:undefined;
+                    if(fileExt == 'kml'){
+                        ErrorCheckArray.push({
+                            type: "none"
+                        })
+                    }else{
+                        ErrorCheckArray.push({
+                            type: "type"
+                        })
+                    }
                 }
                 else{
                 ErrorCheckArray.push({
@@ -10788,6 +10795,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
 
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
@@ -10953,7 +10962,12 @@ const emptyQuestionFieldCheck = () => {
   for (var i = 1; i < 21; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM6187'){
+          errText = "You must ask at least one question";
+        }else{
+          errText = "You must add at least one question";
+        }
+        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
       fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -10968,7 +10982,12 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+    if(urlParams.get('agreement_id') == 'RM6187'){
+      errText = "You must ask at least one question";
+    }else{
+      errText = "You must add at least one question";
+    }
+  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
@@ -11464,7 +11483,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
             checkFieldsRfp1();
             e.preventDefault();
-            errorStoreforOptional = emptyFieldCheckdos();
+            errorStoreforOptional = emptyFieldCheckdos('addmore');
             if (errorStoreforOptional.length == 0) {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
@@ -11723,7 +11742,7 @@ messagesendcountEle.forEach(ele => {
         removeErrorFieldsRfp1();
     });
 });
-const emptyFieldCheckdos = () => {
+const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
@@ -11741,20 +11760,41 @@ const emptyFieldCheckdos = () => {
         let definition_field = document.getElementById("rfp_term_definition_" + x);
 
         if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
-            const field1 = countWords1(term_field.value) > 50;
-            const field2 = countWords1(definition_field.value) > 150;
-            if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-                checkFieldsRfp1();
-                     if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, fieldMsg];
-                        ccsZaddErrorMessage(term_field, fieldMsg);
-                        errorStore.push(fieldCheck);
-                    } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, descMsg];
-                        //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, descMsg);
-                        errorStore.push(fieldCheck);                        
-                    } 
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfp1();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
             }
         }
 
@@ -11873,6 +11913,9 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
     // }
 
     // return false;
+
+    errorStoreforOptional = emptyFieldCheckdos('submit');
+        if (errorStoreforOptional.length == 0) {
     
     errorStore = emptyFieldCheckRfp1();
 
@@ -11903,6 +11946,7 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
   }else {
     ccsZPresentErrorSummary(errorStore);
   }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
     //errorStore = emptyFieldCheckRfp();
 
     //if (errorStore.length === 0) {
@@ -14844,7 +14888,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
@@ -15051,9 +15095,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){
                             errorStore.push(["There is a problem", "Your total weighting is must be greater than 1%"]);
                         }
-                        // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
-                        //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
-                        // }
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        }
 
                         if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
@@ -16447,6 +16491,8 @@ $('#rfp_singleselect').on('submit', event => {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
         ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
       }
@@ -16454,6 +16500,8 @@ $('#rfp_singleselect').on('submit', event => {
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
@@ -18554,8 +18602,26 @@ const ccsZvalidateRfPStrategy = event => {
   }
   
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
+    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter research dates');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
