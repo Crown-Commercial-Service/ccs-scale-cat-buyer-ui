@@ -28,7 +28,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
   const lotId = req.session?.lotId;
 
   try {
-    if(agreement_id != "RM1043.8") {   //XBN00121
+    if(agreement_id != "RM1043.8" && agreement_id != "RM1557.13") {   //XBN00121
       //BALWINDER ADDED THIS CODE FOR SKIP DATA FOR GROUP 18
       if (group_id === 'Group 18') {
         group_id = 'Group 19';
@@ -37,7 +37,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
     //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
-    
+    console.log('*********************************baseURL');
+    console.log(baseURL);
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
 
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -162,7 +163,13 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       if(((lotId == '3' && group_id === "Group 18") || (lotId == '1'&& group_id =='Group 16') || (group_id === "Group 20" && lotId == '1'))){
         updatedObj = TemporaryObjStorage;
       }
-    }   
+    }
+    
+    if(agreement_id == "RM1557.13") {
+      if  (group_id === "Group 17" && lotId == '4' && id === 'Criterion 3') {
+        updatedObj = TemporaryObjStorage;
+      }
+    }
 
     const formNameValue = form_name.find(fn => fn !== '');
     const { isFieldError } = req.session;
@@ -199,11 +206,24 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       }
     }
 
+    
+      if (agreement_id == "RM1557.13" && group_id === "Group 14"  && id === 'Criterion 3') {
+          data?.data?.[0].nonOCDS.childern.push(TemporaryObjStorage?.[1]);
+          data?.data?.[0].nonOCDS.childern?.[0].nonOCDS.questionType = '';
+          data.form_name = 'rfp_singleselect';
+      }
+   
+
     if(agreement_id != "RM1043.8") {  //XBN00121
       if ((group_id === "Group 16" ) && id === 'Criterion 3') {
-        data?.data?.[0].nonOCDS.childern.push(TemporaryObjStorage?.[1]);
-        data?.data?.[0].nonOCDS.childern?.[0].nonOCDS.questionType = '';
-        data.form_name = 'rfp_singleselect';
+        if(agreement_id == "RM1557.13"){
+          data.form_name = 'service_levels_kpi_form';
+        }else{
+          data?.data?.[0].nonOCDS.childern.push(TemporaryObjStorage?.[1]);
+          data?.data?.[0].nonOCDS.childern?.[0].nonOCDS.questionType = '';
+          data.form_name = 'rfp_singleselect';
+        }
+        
       }
     }
 
@@ -234,7 +254,34 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         });
       
 
-    }else{
+    }else if(agreement_id == "RM1557.13"&& lotId == '4' && group_id === 'Group 10' && id === 'Criterion 3') {
+     
+      let count = 1;
+      data.data.forEach(x => {
+        if (count != 0) {
+          var optionsData = x.nonOCDS?.options != null && x.nonOCDS?.options?.length > 0 ? x.nonOCDS?.options[0].value : null;
+          if (optionsData != null) {
+            x.nonOCDS.options = [];
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[0] });
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[1].split("M")[0] });
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[1].split("M")[1].replace("D", "") });;
+          }
+          if (x.nonOCDS.childern != undefined && x.nonOCDS.childern.length > 0) {
+            var optionsData1 = x.nonOCDS?.childern[0].nonOCDS?.options != null && x.nonOCDS?.childern[0].nonOCDS?.options?.length > 0 ? x.nonOCDS?.childern[0].nonOCDS?.options[0].value : null;
+            if (optionsData1 != null) {
+              x.nonOCDS.childern[0].nonOCDS.options = [];
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[0] });
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[1].split("M")[0] });
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[1].split("M")[1].replace("D", "") });;
+            }
+          }
+        }
+        count++;
+      });
+    
+
+  }
+    else{
 
       if (group_id === 'Group 10' && id === 'Criterion 3') {
         let count = 0;
@@ -289,6 +336,31 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
       data?.data?.[0].nonOCDS?.options = kpiQustionDataList;
     }
+    if (group_id != undefined && group_id != null && group_id != '' && id != undefined && id != null && id != '' && (agreement_id == "RM1557.13" && group_id === 'Group 16' ) && id === 'Criterion 3') {
+      let count = 0;
+      let kpiQustionDataList = [];
+      if (data?.data?.[0]?.nonOCDS?.options?.length > 0 && data?.data?.[1]?.nonOCDS?.options?.length > 0 && data?.data?.[2]?.nonOCDS?.options?.length > 0) {
+        for (let index = 0; index < data?.data?.[0]?.nonOCDS?.options.length; index++) {
+          let dataList = [];
+
+          dataList.push({ value: data?.data?.[0].nonOCDS?.options[index].value, title: data?.data?.[0].OCDS?.title, text: data?.data?.[0].OCDS.description });
+          dataList.push({ value: data?.data?.[1].nonOCDS?.options[index].value, title: data?.data?.[1].OCDS?.title, text: data?.data?.[1].OCDS.description });
+          dataList.push({ value: data?.data?.[2].nonOCDS?.options[index].value, title: data?.data?.[2].OCDS?.title, text: data?.data?.[2].OCDS.description });
+
+          kpiQustionDataList.push(dataList);
+        }
+      } else {
+        let dataList = [];
+        dataList.push("");
+        dataList.push("");
+        dataList.push("");
+        kpiQustionDataList.push(dataList);
+      }
+      
+      
+
+      data?.data?.[0].nonOCDS?.options = kpiQustionDataList;
+    }
     //#endregion KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -314,6 +386,12 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     if(agreement_id == "RM1043.8") {
       if ( (group_id === "Group 20" && lotId == '1')  || (lotId == '3' && group_id === "Group 18") && id === 'Criterion 3') {
+          data.form_name = 'rfp_singleselect_Dos';
+      }
+    }
+
+    if(agreement_id == "RM1557.13") {
+      if  (group_id === "Group 17" && lotId == '4' && id === 'Criterion 3') {
           data.form_name = 'rfp_singleselect_Dos';
       }
     }
@@ -897,7 +975,62 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                     };
                   }
 
-              }else{
+              }else if(agreement_id=='RM1557.13' && id=='Criterion 3' && questionNonOCDS.groupId=='Group 17' ){
+                  
+
+                if(questionNonOCDS.questionId=='Question 2'){
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: object_values?.[1]?.[0], selected: true }],
+                    },
+                  };
+                }
+
+                if(questionNonOCDS.questionId=='Question 3'){
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: object_values?.[1]?.[1], selected: true }],
+                    },
+                  };
+                }
+
+                if(questionNonOCDS.questionId=='Question 4'){
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: object_values?.[2], selected: true }],
+                    },
+                  };
+                }
+
+            }else if(agreement_id=='RM1557.13' && id=='Criterion 3' && questionNonOCDS.groupId=='Group 4' && (questionNonOCDS.questionId=='Question 3' || questionNonOCDS.questionId=='Question 4')){
+
+              if(questionNonOCDS.questionId=='Question 3'){
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: object_values[0], selected: true }],
+                    },
+                  };
+              }
+              if(questionNonOCDS.questionId=='Question 4'){
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: object_values[1], selected: true }],
+                  },
+                };
+              }
+
+              }
+            else{
 
                   let optionsData = [];
                   for (let index = 0; index < object_values.length; index++) {

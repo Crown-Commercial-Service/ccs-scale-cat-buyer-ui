@@ -91,6 +91,7 @@ export class QuestionHelper {
           if (mandatory) {
             let answered;
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
+            
                const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
                const fetch_dynamic_api_data = fetch_dynamic_api?.data;
               
@@ -186,6 +187,7 @@ export class QuestionHelper {
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
+      
       logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,

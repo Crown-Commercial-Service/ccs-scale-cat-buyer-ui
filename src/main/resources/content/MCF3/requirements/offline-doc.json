@@ -21,12 +21,12 @@
       "href": "upload"
     },
     {
-      "text": "Upload your terms and conditions",
+      "text": "Upload your core terms, call-off order form and schedules (terms and conditions)",
       "href": "#"
     }
   ],
 
-  "title": "Upload your terms and conditions",
+  "title": "Upload your core terms, call-off order form and schedules (terms and conditions)",
   "subtitle": "You must upload relevant framework terms and conditions in support of the order form and call-off schedules. For example, relevant call-off schedules. This step is mandatory.",
   "SUBTITLE_1": "If you have several files, it is easier to compress them into a zip file and upload them all at once.",
   "subtitle1":"the background to your procurement",
@@ -38,7 +38,7 @@
     "href": "/rfp/task-list"
   },
   "subtitle4":"Use the same link (above) to upload any other supporting documents (optional).",
-  "subtitle5":"Upload terms and conditions (Mandatory)",
+  "subtitle5":"Upload core terms, call-off order form and schedules (mandatory)",
   "subtitle6":"You can upload multiple files, each no larger than 300mb, to a total of 1GB. Acceptable file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
   "template": []
 }

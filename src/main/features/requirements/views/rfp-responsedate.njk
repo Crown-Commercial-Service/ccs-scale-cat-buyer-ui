@@ -7,16 +7,49 @@
 {% set title = 'RFP - response date | Crown Commercial Service' %}
 {% from "macros/csrf.njk" import csrfProtection %}
 {% block breadCrumb %}
+
+{% if agreementId_session == 'RM6187' %}
+{{ CCSBreadcrumbs({
+        items: [
+            {
+        "text": "Dashboard",
+        "href": "/dashboard"
+        },
+        {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+        },
+        {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+        },
+        {
+        "text": "Write and publish your requirements",
+        "href": "/rfp/task-list"
+        },
+        {
+        "text": "Set your timeline"
+        }   
+                ] 
+  }) }}
+
+{% else %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
-      }) }}
+    }) }}
+{% endif %}
+
 {% endblock %}
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
+                {% if agreementId_session == 'RM6187' %}
+                    Set your timeline
+                {% else %}
                     {{data.title }} 
+                {% endif %}
                 </h1>
             </div>
         </div>
@@ -45,26 +78,40 @@
             <ul class="govuk-list govuk-list--bullet">
                 {% if agreementId_session == 'RM6187' %}
                     <li>4 working days from publishing your further competition until the clarification period closes</li>
+                    {% else %}
+                    {% if agreementId_session == 'RM1557.13' %}
+                    <li>4 working days from publishing the RfI until the clarification period closes</li>
+                    {% else %}
                 <li><b>four</b> working days from publishing your one stage further competition until the clarification period closes</li>
+                {% endif %}
                 {% endif %}
                 {% if agreementId_session == 'RM6187' %}
                 <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
                 <li>4 working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
                 {% else %}
+                {% if agreementId_session == 'RM1557.13' %}
+                    <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
+                    {% else %}
                 <li><b>four</b> working days from publishing your further competition until the clarification period closes</li>
                 <li><b>two</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
                 
                 <li><b>four</b> working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
                 {% endif %}
+                {% endif %}
+                {% if agreementId_session == 'RM1557.13' %}
+                <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
+                {% endif %}	
             </ul>
             {% endif %}
             <p class="govuk-body">{{data.subtitle2}}</p>
             {% if agreementId_session != 'RM1043.8' %}
-            <p class="govuk-body"><b>{{data.subtitle3}}</b></p>
-            {% endif %}
+                <div class="govuk-inset-text">
+                    <p class="govuk-body"><b>{{data.subtitle3}}</b></p>
+                </div>
+            {% endif %}            
             <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
                 <p class="govuk-body-l govuk-!-margin-top-3"><strong>
-                    {% if agreementId_session == 'RM6187' %}
+                    {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}
                     Timeline for your further competition
                     {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}
                     Your further competition timeline 
@@ -124,6 +171,9 @@
                                         <strong id="deadline_for_submission_of_stage_one" class="clarification_6">{{deadline_for_submission_of_stage_one }}</strong>
                                     </label> {% elif(requirement.OCDS.id == "Question 7") %}
                                     <label class="govuk-label govuk-body">
+                                        {% if(agreementId_session == 'RM6187') %}
+                                        <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                        {%endif%}
                                         <strong id="evaluation_process_start_date" class="clarification_7">{{evaluation_process_start_date}}</strong>
                                     </label> {% elif(requirement.OCDS.id == "Question 8") %}
                                     <label class="govuk-label govuk-body">
@@ -184,7 +234,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
                             Date
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
                             inputmode="numeric"
                             value="{{ data['clarification_date-day'] }}" >
@@ -195,7 +245,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
                             Month
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-month'] }}" >
@@ -206,7 +256,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
                             Year
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-4"
                             id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
                                  maxlength="4"
                                 inputmode="numeric"
@@ -222,7 +272,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
                             Hour
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-hour'] }}" >
@@ -233,7 +283,7 @@
                                                             <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
                             Minutes
                         </label>
-                                                            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"
                             id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
                                 inputmode="numeric"
                             value="{{ data['clarification_date-minute'] }}">

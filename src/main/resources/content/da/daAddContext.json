@@ -147,6 +147,7 @@
     }
   ],
   "form": {
+    "question1_mcf": "The more information you can provide about what you need, the better able the supplier will be to understand your requirements.",
     "question1": "The more detailed information you can give the more you will help suppliers understand what you need.",
     "question2":"Some sections below are optional.",
     "backJump": {

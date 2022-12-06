@@ -14,8 +14,8 @@
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "Suppliers can read your scope of requirements and other details you entered and ask questions."},
-            {"li": "You will need to answer any questions supplier submit by the clarification deadline."}
+            {"li": "The suppliers can read your requirements and ask questions if they need more information."},
+            {"li": "You will need to answer supplier questions by the deadline you set."}
         ]
     },
         "dashboard": {
