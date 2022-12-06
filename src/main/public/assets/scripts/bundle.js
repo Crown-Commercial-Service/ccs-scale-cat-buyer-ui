@@ -8997,7 +8997,6 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
-                console.log(file)
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -9010,9 +9009,17 @@ $(document).ready(function () {
                     
                 }
                 else if(!checkFileValidMimeType){
-                ErrorCheckArray.push({
-                    type: "type"
-                })
+                    let fileExt = file.name.split(".").pop();
+                    fileExt = fileExt?fileExt:undefined;
+                    if(fileExt == 'kml'){
+                        ErrorCheckArray.push({
+                            type: "none"
+                        })
+                    }else{
+                        ErrorCheckArray.push({
+                            type: "type"
+                        })
+                    }
                 }
                 else{
                 ErrorCheckArray.push({
@@ -15051,9 +15058,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){
                             errorStore.push(["There is a problem", "Your total weighting is must be greater than 1%"]);
                         }
-                        // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
-                        //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
-                        // }
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        }
 
                         if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
@@ -18554,8 +18561,26 @@ const ccsZvalidateRfPStrategy = event => {
   }
   
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
+    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter research dates');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
