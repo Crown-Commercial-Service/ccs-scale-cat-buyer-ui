@@ -49,7 +49,6 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
-                console.log(file)
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -62,9 +61,17 @@ $(document).ready(function () {
                     
                 }
                 else if(!checkFileValidMimeType){
-                ErrorCheckArray.push({
-                    type: "type"
-                })
+                    let fileExt = file.name.split(".").pop();
+                    fileExt = fileExt?fileExt:undefined;
+                    if(fileExt == 'kml'){
+                        ErrorCheckArray.push({
+                            type: "none"
+                        })
+                    }else{
+                        ErrorCheckArray.push({
+                            type: "type"
+                        })
+                    }
                 }
                 else{
                 ErrorCheckArray.push({
