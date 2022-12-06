@@ -10795,6 +10795,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
 
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
@@ -10960,7 +10962,12 @@ const emptyQuestionFieldCheck = () => {
   for (var i = 1; i < 21; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM6187'){
+          errText = "You must ask at least one question";
+        }else{
+          errText = "You must add at least one question";
+        }
+        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
       fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -10975,7 +10982,12 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+    if(urlParams.get('agreement_id') == 'RM6187'){
+      errText = "You must ask at least one question";
+    }else{
+      errText = "You must add at least one question";
+    }
+  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
@@ -11471,7 +11483,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
             checkFieldsRfp1();
             e.preventDefault();
-            errorStoreforOptional = emptyFieldCheckdos();
+            errorStoreforOptional = emptyFieldCheckdos('addmore');
             if (errorStoreforOptional.length == 0) {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
@@ -11730,7 +11742,7 @@ messagesendcountEle.forEach(ele => {
         removeErrorFieldsRfp1();
     });
 });
-const emptyFieldCheckdos = () => {
+const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
@@ -11748,20 +11760,41 @@ const emptyFieldCheckdos = () => {
         let definition_field = document.getElementById("rfp_term_definition_" + x);
 
         if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
-            const field1 = countWords1(term_field.value) > 50;
-            const field2 = countWords1(definition_field.value) > 150;
-            if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-                checkFieldsRfp1();
-                     if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, fieldMsg];
-                        ccsZaddErrorMessage(term_field, fieldMsg);
-                        errorStore.push(fieldCheck);
-                    } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, descMsg];
-                        //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, descMsg);
-                        errorStore.push(fieldCheck);                        
-                    } 
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfp1();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
             }
         }
 
@@ -11880,6 +11913,9 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
     // }
 
     // return false;
+
+    errorStoreforOptional = emptyFieldCheckdos('submit');
+        if (errorStoreforOptional.length == 0) {
     
     errorStore = emptyFieldCheckRfp1();
 
@@ -11910,6 +11946,7 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
   }else {
     ccsZPresentErrorSummary(errorStore);
   }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
     //errorStore = emptyFieldCheckRfp();
 
     //if (errorStore.length === 0) {
@@ -14851,7 +14888,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
@@ -16454,6 +16491,8 @@ $('#rfp_singleselect').on('submit', event => {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
         ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
       }
@@ -16461,6 +16500,8 @@ $('#rfp_singleselect').on('submit', event => {
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
