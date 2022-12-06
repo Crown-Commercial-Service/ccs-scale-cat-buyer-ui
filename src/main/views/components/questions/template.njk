@@ -1554,7 +1554,20 @@
                                 }}
                                 {% endif %}
                           {% else %}
+                          {% if (agreement_id == 'RM1557.13') %}
                               {{ CCSCharacterCount({
+                              name: "value",
+                              id: "rfp_term_definition_1",
+                              label: {
+                                text: 'Write a definition for the term or acronym explaining what it means'
+                              },
+                              classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                              value: requirement.nonOCDS.options[0].text,
+                               maxlength: 5000
+                            })
+                          }}
+                          {% else %}
+                          {{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_definition_1",
                               label: {
@@ -1565,6 +1578,7 @@
                                maxlength: 10000
                             })
                           }}
+                          {% endif %}
                           {% endif %}
                         
                         {# {{ CCSInput({
@@ -1819,7 +1833,20 @@
                               value: requirement.nonOCDS.options[0].value
                             })
                           }}
+                          {% if (agreement_id == 'RM1557.13') %}
                         {{ CCSCharacterCount({
+                              name: "value",
+                              id: "rfp_term_more_details_1",
+                              label: {
+                                text: 'Enter details about your service users'
+                              },
+                              maxlength:10000,
+                              classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
+                              value: requirement.nonOCDS.options[0].text
+                            })
+                          }}
+                          {% else %}
+{{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_more_details_1",
                               label: {
@@ -1830,6 +1857,7 @@
                               value: requirement.nonOCDS.options[0].text
                             })
                           }}
+                          {% endif %}
 
                         {% endcall %}
                         {% set NumberWord = [
@@ -1879,8 +1907,20 @@
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }} 
-
+                          {% if (agreement_id == 'RM1557.13') %}
                           {{ CCSCharacterCount({
+                                name: "value",
+                                id: "rfp_term_more_details_"+i,
+                                label: {
+                                  text: 'Enter details about your service users'
+                                },
+                                maxlength:10000,
+                                classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
+                                value: requirement.nonOCDS.options[i-1].text
+                              })
+                            }}
+                            {% else %}
+{{ CCSCharacterCount({
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
                                 label: {
@@ -1891,6 +1931,7 @@
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
+                            {% endif %}
                           {% endcall %}
 
                         {%- endfor %}
