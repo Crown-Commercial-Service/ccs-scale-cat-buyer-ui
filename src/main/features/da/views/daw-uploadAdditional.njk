@@ -5,7 +5,37 @@
 
 {% set title = 'Complete and upload a document | Contract Award Service' %}
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
+    {% if agreementId_session == "RM6187" %}
+        {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+          },
+          {
+            text: "Write and publish your requirements",
+            href: "/da/task-list"
+          },
+          {
+            text: "Upload documentation",
+            href: "upload"
+          },
+          {
+            text: "Upload any additional documents",
+            href: "#"
+          }
+        ]
+      }) }}
+    {% else %}
+          {{ CCSBreadcrumbs({
         items: [
           {
             text: "Dashboard",
@@ -33,6 +63,7 @@
           }
         ]
       }) }}
+    {% endif %}
 
 {% endblock %}
 
