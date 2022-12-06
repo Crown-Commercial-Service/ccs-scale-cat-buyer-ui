@@ -336,7 +336,7 @@ export class QuestionHelper {
       } else {
         res.redirect('/rfp/task-list');
       }
-    } catch (error) {
+    } catch (error) {      
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,

@@ -209,7 +209,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute === 'dos') selectedRoute = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
 
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
+      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
       if(req.session.selectedRoute == 'dos'){
         if(stage2_value !== undefined && stage2_value === "Stage 2"){
           let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
