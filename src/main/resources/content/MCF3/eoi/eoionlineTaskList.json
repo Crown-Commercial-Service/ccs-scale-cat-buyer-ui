@@ -24,8 +24,7 @@
 
   "title": "Build your EoI",
   "subtitle": null,
-  "line1": "Write your own questions covering context about your organisation, scope of the service and your procurement, and got more detailed information about what suppliers can offer.",
-  "line2": "You can add more detail in the optional sections if you think it will help the suppliers to answer your questions.",
+  "line1": "Complete the sections below to provide an overview of your project, which will help suppliers decide if they want to bid for your requirement.",
   "taskList": [
     {
       "title": "Information you are looking for",
