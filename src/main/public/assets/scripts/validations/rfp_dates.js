@@ -1436,6 +1436,28 @@ $(".startdateyearlimit").keypress(function(e) {
 
 });
 
+$(".yearlimit").keyup(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   
+   if (maxLen >= 1) {
+       return false; 
+   }
+
+});
+
+
+$(".yearlimit").keypress(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   if (maxLen >= 1) {
+      return false;
+   }
+
+});
+
 const removeErrorFieldsdates = () => {
    $('.govuk-error-message').remove();
    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
