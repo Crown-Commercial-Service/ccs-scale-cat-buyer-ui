@@ -91,16 +91,22 @@ export class QuestionHelper {
           if (mandatory) {
             let answered;
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
-            
+
                const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
                const fetch_dynamic_api_data = fetch_dynamic_api?.data;
               
                if(fetch_dynamic_api_data.length>0){
                 for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
                 const questionType = fetch_dynamic_api_data[j].nonOCDS['questionType'];
+
                 const manda = fetch_dynamic_api_data[j].nonOCDS['mandatory'];
-                  if(manda){ 
+                  if(manda){
+                  
                     mandatoryqstnNum += 1;
+                    if(groupId=='Group 7' && questionType=="SingleSelect"){
+                      mandatoryqstnNum -= 1;
+                    }
+                   
                   if (
                 questionType === 'Value' ||
                 questionType === 'Text' ||
@@ -108,24 +114,31 @@ export class QuestionHelper {
                 questionType === 'Duration' ||
                 questionType === 'Date'
               ) {
-               
+                if(groupId!='Group 7'){
                answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
                 if (answered !== '' && answered!=undefined) {
                  answeredMandatory += 1;
                  }
+                }
               }
                    if (questionType === 'SingleSelect') {
-                    fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
-                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
-                        mandatoryqstnNum -= 1;
-                      }
-                    });
+                    // fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
+                    //   if (anItem?.text?.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                    //     mandatoryqstnNum -= 1;
+                    //   }
+                    //  
+                    // });
+
+                    
+                      
                 const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
-                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                      anItem?.text?.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
                       );
                      if (SingleSelectedData.length>0) {
                            answeredMandatory += 1;
                       }
+                    
+                    
               }
 
               if (questionType === 'MultiSelect') {
@@ -154,7 +167,7 @@ export class QuestionHelper {
         }
 
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');        
-        
+
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         // const PreUpdate = journeySteps.filter((el: any) => {
         //   if(el.step == '19') {

@@ -397,6 +397,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             };
           } 
           else if (questionNonOCDS.questionType === 'SingleSelect') {
+            
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
@@ -405,8 +406,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               nonOCDS: {
                 answered: true,
                 multiAnswer: questionNonOCDS.multiAnswer,
-                options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
-                //options: [{ value: req.body["ccs_vetting_type"], selected: true }],
+                //options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                options: [{ value: req.body["ccs_vetting_type"], selected: true }],
               },
             };
           }
