@@ -83,7 +83,6 @@ const emptyQuestionFieldCheckBudget = () => {
       ccsZPresentErrorSummary(errorStore);
       return;
     }
-    }
     if (minBudget.includes('-')) {
       errorStore.push(['rfp_maximum_estimated_contract_value', 'You must enter a positive value']);
       ccsZPresentErrorSummary(errorStore);
