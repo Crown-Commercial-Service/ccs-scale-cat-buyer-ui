@@ -96,12 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let nextLevel_coll = Number(target);
         let eptArr = [];
         while (Sibling) {
-            
+          
             let siblingClassList = Sibling.classList;
             if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
                let current_col = nextLevel_coll;
                 nextLevel_coll = (nextLevel_coll + 1);
-
                 eptArr.push(nextLevel_coll)
                 if(ml == 1) {
                     console.log(`First: ${ml} - ${next_coll}`)
