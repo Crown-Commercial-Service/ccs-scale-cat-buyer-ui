@@ -116,13 +116,19 @@ export class QuestionHelper {
               }
                    if (questionType === 'SingleSelect') {
                     fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
-                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
-                        mandatoryqstnNum -= 1;
+                      if (anItem?.text){
+                        if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                          mandatoryqstnNum -= 1;
+                        }
                       }
                     });
-                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
-                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
-                      );
+                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
+                  if(anItem?.text){
+                    if(anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                      )
+                      return anItem;
+                  }
+                });
                      if (SingleSelectedData.length>0) {
                            answeredMandatory += 1;
                       }
@@ -187,7 +193,6 @@ export class QuestionHelper {
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
-      
       logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
