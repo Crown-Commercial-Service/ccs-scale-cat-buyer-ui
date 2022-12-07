@@ -235,7 +235,12 @@
                                     </ul>
                                   </dt>
                                   <dd class="govuk-summary-list__value"></dd>
-                                  <dd class="govuk-summary-list__actions"></dd>
+                                  <dd class="govuk-summary-list__actions">{% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
+                                    <a class="govuk-link" href="/rfp/selected_service">
+                                      Change<span class="govuk-visually-hidden">
+                                        eoi team members</span>
+                                    </a>
+                                  {% endif %}</dd>
                                 </div>
                               </dl>
                             </div>
