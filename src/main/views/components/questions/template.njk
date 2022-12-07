@@ -350,7 +350,9 @@
           {% set countLength = 5000 %}
           {% set classnameForCount = "rpf_5000" %}
       {% endif %}
-      
+       {% if (agreement_id == 'RM1557.13' and requirement.nonOCDS.order == 1) %}
+                      {% set rows = 1 %}
+                    {% endif %}
       {{  CCSCharacterCount({
         name:  requirement.OCDS.id,
         required: requirement.nonOCDS.mandatory,
@@ -885,7 +887,11 @@
                   {%if(agreement_id == 'RM1043.8') %}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
+                  {%if(agreement_id == 'RM1557.13') %}
+                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                  {% else%}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                  {%endif%}
                   {%endif%}
 
                   
@@ -1554,7 +1560,20 @@
                                 }}
                                 {% endif %}
                           {% else %}
+                          {% if (agreement_id == 'RM1557.13') %}
                               {{ CCSCharacterCount({
+                              name: "value",
+                              id: "rfp_term_definition_1",
+                              label: {
+                                text: 'Write a definition for the term or acronym explaining what it means'
+                              },
+                              classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                              value: requirement.nonOCDS.options[0].text,
+                               maxlength: 5000
+                            })
+                          }}
+                          {% else %}
+                          {{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_definition_1",
                               label: {
@@ -1565,6 +1584,7 @@
                                maxlength: 10000
                             })
                           }}
+                          {% endif %}
                           {% endif %}
                         
                         {# {{ CCSInput({
@@ -1819,7 +1839,20 @@
                               value: requirement.nonOCDS.options[0].value
                             })
                           }}
+                          {% if (agreement_id == 'RM1557.13') %}
                         {{ CCSCharacterCount({
+                              name: "value",
+                              id: "rfp_term_more_details_1",
+                              label: {
+                                text: 'Enter details about your service users'
+                              },
+                              maxlength:10000,
+                              classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
+                              value: requirement.nonOCDS.options[0].text
+                            })
+                          }}
+                          {% else %}
+{{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_more_details_1",
                               label: {
@@ -1830,6 +1863,7 @@
                               value: requirement.nonOCDS.options[0].text
                             })
                           }}
+                          {% endif %}
 
                         {% endcall %}
                         {% set NumberWord = [
@@ -1879,8 +1913,20 @@
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }} 
-
+                          {% if (agreement_id == 'RM1557.13') %}
                           {{ CCSCharacterCount({
+                                name: "value",
+                                id: "rfp_term_more_details_"+i,
+                                label: {
+                                  text: 'Enter details about your service users'
+                                },
+                                maxlength:10000,
+                                classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
+                                value: requirement.nonOCDS.options[i-1].text
+                              })
+                            }}
+                            {% else %}
+{{ CCSCharacterCount({
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
                                 label: {
@@ -1891,6 +1937,7 @@
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
+                            {% endif %}
                           {% endcall %}
 
                         {%- endfor %}
@@ -1928,7 +1975,7 @@
                         
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         
-                        <h2> <span id="kpiKeyLevel">1</span>  service levels and KPI's added </h2> 
+                        <h2> <span id="kpiKeyLevel">0</span>  service levels and KPI's added </h2> 
                         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-top-2">
                         {% call CCSFieldset({
                             legend: {
@@ -1940,6 +1987,11 @@
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
+                        {% if (agreement_id == 'RM1557.13') %}
+                      {% set rows = 1 %}
+                    {% else %}
+                       {% set rows = 5 %}
+                    {% endif %}
                         {{ CCSCharacterCount({
                               label: {
                                 text: "Name of requirement",
@@ -1952,7 +2004,8 @@
                               maxlength:500,
                               name: "term",
                               classes: "rfp_term_1 rfpterm",
-                              value: requirement.nonOCDS.options[0][0].value
+                              value: requirement.nonOCDS.options[0][0].value,
+                              rows:rows
                             })
                           }}
               {% if (agreement_id == 'RM1043.8') %}
@@ -2059,7 +2112,11 @@
                               id:"term_acronym_fieldset"
                             })
                           %}
-
+{% if (agreement_id == 'RM1557.13') %}
+                      {% set rows = 1 %}
+                    {% else %}
+                       {% set rows = 5 %}
+                    {% endif %}
                           {{ CCSCharacterCount({
                                 label: {
                                   text: "Name of requirement",
@@ -2069,7 +2126,8 @@
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
                                 classes: "rfpterm rfp_term rfp_term_name_requirement_KPI_"+i,
-                                value: requirement.nonOCDS.options[i-1][0].value
+                                value: requirement.nonOCDS.options[i-1][0].value,
+                                rows:rows
                               })
                             }}
                           {% if (agreement_id == 'RM1043.8') %}
