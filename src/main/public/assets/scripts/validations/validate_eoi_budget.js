@@ -25,7 +25,7 @@ const ccsZvalidateEoiBudget = event => {
 
   } 
   else if (fieldChecks !== true) errorStore.push(fieldChecks);
-  if ($('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val().trim().length > 0) {
+  if ($('#eoi_minimum_budget').val() && $('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val() && $('#eoi_maximum_budget').val().trim().length > 0) {
     fieldCheck = ccsZvalidateWithRegex(
       'eoi_minimum_budget',
       'Enter a minimum value',
@@ -38,27 +38,22 @@ const ccsZvalidateEoiBudget = event => {
     );
     
     if (fieldCheck !== true) {
-      console.log("INSIDE 2");
       errorStore.push(fieldCheck);
     }
     else if (fieldChecks !== true){
-      console.log("INSIDE 3");
       errorStore.push(fieldChecks);
     } 
     else if (Number($('#eoi_maximum_budget').val()) < Number($('#eoi_minimum_budget').val())) {
-      console.log("INSIDE 4");
       errorStore.push(
         ccsZvalidateWithRegex('eoi_minimum_budget', 'Minimum budget should be less than maximum budget', /(?=a)b/),
       );
     }
 
   }
-console.log("errorStore",errorStore);
   if (errorStore.length === 0) {
     document.forms['eoi_budget_form'].submit();
   }
   else {
-    console.log("HEREEE")
     ccsZPresentErrorSummary(errorStore);
   }
 };

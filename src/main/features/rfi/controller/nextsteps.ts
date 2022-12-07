@@ -18,7 +18,7 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
 
 
     let cmsDatas;
-    if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187')) {
+    if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187' || agreement_id == 'RM1557.13')) {
       cmsDatas = cmsmcf3DosData;
     }else{
       cmsDatas = cmsData;
@@ -43,7 +43,7 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
       };
 
 try {
-  if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187')) {
+  if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187' || agreement_id == 'RM1557.13')) {
       res.render('closeyourproject.njk', appendData)
     }else{
       res.render('nextsteps.njk', appendData)
