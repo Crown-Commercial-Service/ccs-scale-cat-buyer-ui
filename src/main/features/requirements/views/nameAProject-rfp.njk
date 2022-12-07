@@ -62,7 +62,7 @@
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           <strong>
-            {% if (agreementId_session == 'RM1043.8') %}
+            {% if (agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13') %}
               {{data.title | replace("(Optional)", "") }}
             {% else %}
               {{data.title }}
