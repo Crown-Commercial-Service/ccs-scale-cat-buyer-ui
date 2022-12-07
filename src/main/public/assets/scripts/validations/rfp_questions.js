@@ -766,6 +766,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+        else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+            Array.prototype.forEach.call(weightLoop, function(el) {
+                // Do stuff here
+                if(el.value !== "") {
+                    weightArr = weightArr + 1
+                }
+                if(!el.parentElement.parentElement.parentElement.classList.contains('ccs-dynaform-hidden')) {
+                    weightTotal = weightTotal + 1
+                }
+            });
+        }
 
         if(weightArr == 0) {
             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8')) ) {
@@ -815,7 +826,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
                 document.forms['rfp_multianswer_question_form'].submit();
-            } else {
+            }else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+                document.forms['rfp_multianswer_question_form'].submit();
+            }
+             else {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
