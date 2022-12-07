@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
+
+    // addEventListener('input', (event) => {
+    //   event.target.value = event.target.value.replace(/[^0-9\.]/g, '');
+    // });
+
     let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
      
       let percentage = 0
       let errorList = [];
-      removeErrorFieldsRfpPercentage();
+      //removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         
 
