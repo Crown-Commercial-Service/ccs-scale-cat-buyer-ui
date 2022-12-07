@@ -68,14 +68,14 @@
                 },
                 {
                     "Task": 2,
-                    "title": "See the suppliers who will receive your EoI",
+                    "title": "View suppliers",
                     "required": "Cannot start yet",
                     "status": "Cannot start yet",
                     "link": "/eoi/suppliers"
                 },
                 {
                     "Task": 3,
-                    "title": "Your EoI timeline",
+                    "title": "Set your EoI timeline",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/eoi/response-date"

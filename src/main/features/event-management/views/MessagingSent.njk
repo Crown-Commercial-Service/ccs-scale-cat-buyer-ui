@@ -129,8 +129,12 @@
                 <tr class="govuk-table__row">
                   <td scope="row" class="govuk-table__cell">
                     <strong class="govuk-tag govuk-tag--blue">
-                                        You don't have any Sent messages
-                                    </strong>
+                        {% if agreementId == 'RM6187' %}
+                            You have not send any messages
+                        {% else %}
+                            You don't have any Sent messages
+                        {% endif %}               
+                    </strong>
                   </td>
                   <td class="govuk-table__cell"></td>
                   <td class="govuk-table__cell"></td>
