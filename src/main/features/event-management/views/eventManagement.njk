@@ -288,7 +288,11 @@
                     <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
                 {% endif %}
             {% if (projectStatus==2) %}
-            <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+                {% if agreementId_session == 'RM6187' %}
+                    <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+                {% else %}
+                    <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+                {% endif %}
             {% endif %}
             <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues}}</strong>
             </p>
@@ -849,8 +853,23 @@
           </form>
 
           {% elseif status.toUpperCase() == 'EVALUATED' and (agreementId_session ==='RM6187' or  agreementId_session == 'RM1557.13')  %}
-          <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">5.</span> Evaluate Suppliers</h2>
-          <p>You have completed your supplier evaluation.</p>
+              {% if agreementId_session == 'RM1557.13' %}
+                    <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">5.</span> Evaluate Suppliers</h2>
+                    <p>You have completed your supplier evaluation.</p>
+              {% else %}
+                    <div class="govuk-grid-row ccs-page-section">
+                        <div class="govuk-grid-column-full">
+                            <h2 class="govuk-heading-m">
+                            <span class="proc-task-list__section-number">5.</span>
+                                Evaluate suppliers</h2>
+                            <p>You have completed your supplier evaluation.</p>
+                            </br>
+                            </br>
+                        </div>
+                    </div>
+                    <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">6.</span> Award</h2>
+                    <p> You now need to begin the award process. To do so, please select the supplier you wish to award within ‘Supplier responses’ above.</p>
+              {% endif %}
 
           {% else %}
 
