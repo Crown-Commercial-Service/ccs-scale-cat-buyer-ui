@@ -7759,6 +7759,24 @@ const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
 
+
+DaySelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+MonthSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });  
+YearSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+    
+let eoiDurationField = $('.eoi_duration');
+  
+    eoiDurationField.on('keydown', (event) => {
+     if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+       event.preventDefault(); });
+
+
 let agreementData;
 if ($('.agreement_no').attr('id')) {
     agreementData = $('.agreement_no').attr('id').split("-");
@@ -7774,9 +7792,8 @@ if (agreementData != undefined && agreementData.length > 0) {
     expiryDate = Number(agreementData[2]);
 }
 
-const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
+const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
 const getMSOfExpiryDate = ExpiryDates.getTime()
-
 
 
 DaySelector.on('blur', () => {
@@ -7977,9 +7994,9 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
-    const FormDate = new Date(Year, Month, Day);
+    const FormDate = new Date(Year, Month-1, Day);
     const getTimeOfFormDate = FormDate.getTime();
-
+   
     const todayDate = new Date();
 
 
@@ -8020,11 +8037,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
        // console.log("errorStore",errorStore)
         //ccsZPresentErrorSummary(errorStore);
     }
-    console.log("getTimeOfFormDate",getTimeOfFormDate);
-    console.log("getMSOfExpiryDate",getMSOfExpiryDate);
     
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
+       
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
         DaySelector.addClass('govuk-form-group--error');
         MonthSelector.addClass('govuk-form-group--error');
@@ -8115,10 +8131,25 @@ const ccsZvalidateEoiDate = (event) => {
   else
   {
     
-    var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
+    // var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
     
-    var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    // var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    let agreementData;
+    if ($('.agreement_no').attr('id')) {
+        agreementData = $('.agreement_no').attr('id').split("-");
+    }
+    let expiryYears = null;
+    let expiryMonth = null;
+    let expiryDate = null;
+    if (agreementData != undefined && agreementData.length > 0) {
+        expiryYears = Number(agreementData[0]);
+        expiryMonth = Number(agreementData[1]);
+        expiryDate = Number(agreementData[2]);
+    }
+    // const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
+    // const getMSOfExpiryDate = ExpiryDates.getTime()
     
+    var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
         ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
@@ -8154,7 +8185,6 @@ function getDate(start_day, start_month, start_year, start_date) {
 }
 
 function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
- 
     if(start_date !=undefined && start_date !=null && start_date <= new Date(agreement_expiry_date)) { // This will only work in prototype for MCF-3 lot 1 for enabling this page for other agreements need to add hidden field in the page to read lot endDate
       return true;
   }else {
@@ -8215,6 +8245,8 @@ document.addEventListener('DOMContentLoaded', () => {
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_eoi_questions_form") !== null) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     let with_value_count = 10,
       prev_input = 0,
@@ -8354,7 +8386,12 @@ const emptyObjectiveFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
   if ($("#page-heading").text().includes("Project objectives"))
+  if(urlParams.get('agreement_id') == 'RM6187'){
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "Enter at least 1 project objective", /\w+/);
+  }else{
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  }
+    
   if (fieldCheck !== true && ($("#page-heading").text().includes("Project objectives"))) errorStore.push(fieldCheck);
   return errorStore;
 };
@@ -12198,11 +12235,10 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    console.log("maxBudget",maxBudget);
-    console.log("minBudget",minBudget);
+    
     
     if(maxBudget=='0'){
       errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
@@ -12242,7 +12278,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 
@@ -17626,7 +17662,7 @@ const ccsZvalidateEoiBudget = event => {
 
   } 
   else if (fieldChecks !== true) errorStore.push(fieldChecks);
-  if ($('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val().trim().length > 0) {
+  if ($('#eoi_minimum_budget').val() && $('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val() && $('#eoi_maximum_budget').val().trim().length > 0) {
     fieldCheck = ccsZvalidateWithRegex(
       'eoi_minimum_budget',
       'Enter a minimum value',
@@ -17639,27 +17675,22 @@ const ccsZvalidateEoiBudget = event => {
     );
     
     if (fieldCheck !== true) {
-      console.log("INSIDE 2");
       errorStore.push(fieldCheck);
     }
     else if (fieldChecks !== true){
-      console.log("INSIDE 3");
       errorStore.push(fieldChecks);
     } 
     else if (Number($('#eoi_maximum_budget').val()) < Number($('#eoi_minimum_budget').val())) {
-      console.log("INSIDE 4");
       errorStore.push(
         ccsZvalidateWithRegex('eoi_minimum_budget', 'Minimum budget should be less than maximum budget', /(?=a)b/),
       );
     }
 
   }
-console.log("errorStore",errorStore);
   if (errorStore.length === 0) {
     document.forms['eoi_budget_form'].submit();
   }
   else {
-    console.log("HEREEE")
     ccsZPresentErrorSummary(errorStore);
   }
 };
