@@ -220,29 +220,30 @@ let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/eng
 //}
 const questionInputDate = new Date(year, month, day);
  
-let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
-if(bankHolidayResult){
-  isValid = false;
-  error = 'You cannot set a date in bank holiday';
-
-}
-console.log("questionNewDate",questionNewDate);
-
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
   const dayOfWeek = new Date(questionNewDate).getDay();
-  console.log("dayOfWeek",dayOfWeek);
   
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
     error = 'You cannot set a date in weekend';
     isweekendErrorFlag = true;
   }
-  console.log("questionId",questionId);
-  console.log("bankHolidayResult",bankHolidayResult);
-  console.log("isweekendErrorFlag",isweekendErrorFlag);
-  if(isweekendErrorFlag || bankHolidayResult){
+  
+ 
+  if(bankHolidayResult){
     isValid = false;
-    error = 'You cannot set a date and time that is weekend or Bank Holiday';
+    error = 'You cannot set a date in bank holiday';
   }
+
+  if(isweekendErrorFlag){
+    isValid = false;
+    error = 'You cannot set a date in weekend';
+  }
+
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
