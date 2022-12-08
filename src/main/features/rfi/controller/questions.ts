@@ -538,8 +538,13 @@ const findErrorText = (data: any, req: express.Request) => {
   let errorText = '';
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
-    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true){
+      const { agreement_id} = req.query;
+      if(agreement_id== 'RM6187')
+      errorText = 'You must ask at least one question';
+      else
       errorText = 'You must add at least one question';
+    }
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)

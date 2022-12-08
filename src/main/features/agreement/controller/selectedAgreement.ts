@@ -20,13 +20,13 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
  
   try {
     let lotRelatedName;
-    if(agreementId !='RM1557.13'){
+    if(agreementId =='RM1557.13' && lotId =='All'){
+        req.session.agreementLotName =agreementLotName;
+    }else{
       const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`;
       const { data: retrieveAgreementLot } = await AgreementAPI.Instance.get(BaseUrlAgreement);
       req.session.agreementLotName = retrieveAgreementLot.name;
       lotRelatedName = retrieveAgreementLot.name;
-    }else{
-      req.session.agreementLotName =agreementLotName;
     }
     req.session.agreement_id = agreementId;
     req.session.agreementName = agreementName;
@@ -34,8 +34,8 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
 
     const releatedContent: ReleatedContent = new ReleatedContent();
     releatedContent.name = agreementName;
-    releatedContent.lotName = (agreementId=='RM1557.13')? agreementLotName : lotRelatedName;
-    releatedContent.lotUrl = (agreementId=='RM1557.13')?'/agreement/lot?agreement_id=' + agreementId + '&lotNum=':'/agreement/lot?agreement_id=' + agreementId + '&lotNum=' + lotId.replace(/ /g, '%20');
+    releatedContent.lotName = (agreementId=='RM1557.13' && lotId =='All')? agreementLotName : lotRelatedName;
+    releatedContent.lotUrl = (agreementId=='RM1557.13' && lotId =='All')?'/agreement/lot?agreement_id=' + agreementId + '&lotNum=':'/agreement/lot?agreement_id=' + agreementId + '&lotNum=' + lotId.replace(/ /g, '%20');
     releatedContent.title = 'Related content';
     req.session.releatedContent = releatedContent;
     req.session.selectedRoute = null;

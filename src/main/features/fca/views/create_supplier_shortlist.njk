@@ -44,7 +44,9 @@
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
              {% if item.optional %}
-                <p>This step is optional.</p>
+                {% if agreementId_session != "RM6187" %}
+                    <p>This step is optional.</p>
+                {% endif %}
              {% endif %}
               <ul class="app-task-list__items govuk-!-padding-left-0">
                {% for Tasks in item.eventTask %}

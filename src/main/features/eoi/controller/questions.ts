@@ -29,7 +29,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
-
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
@@ -135,7 +134,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         TemporaryObjStorage.push(ITEM);
       }
     }
-    
     const data = {
       data: fetch_dynamic_api_data,
       agreement: AgreementEndDate,
@@ -207,7 +205,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
-   console.log("req.body",req.body);
    
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
@@ -400,6 +397,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             };
           } 
           else if (questionNonOCDS.questionType === 'SingleSelect') {
+            
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
@@ -408,8 +406,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               nonOCDS: {
                 answered: true,
                 multiAnswer: questionNonOCDS.multiAnswer,
-                options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
-                //options: [{ value: req.body["ccs_vetting_type"], selected: true }],
+                //options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                options: [{ value: req.body["ccs_vetting_type"], selected: true }],
               },
             };
           }
@@ -632,7 +630,7 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
         req.session.fieldLengthError = [keyErrorIndex, keyValueErrorIndex];
         const { term, value } = req.body;
         const TAStorage = [];
-        for (let item = 0; item < 10; item++) {
+        for (let item = 0; item < 20; item++) {
           const termObject = { value: term[item], text: value[item], selected: true };
           TAStorage.push(termObject);
         }
@@ -653,8 +651,13 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
     if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
       errorText.push({ text: 'You must be 10000 characters or fewer' });
-      else
-      errorText.push({ text: 'You must add at least one objective' });
+      else{
+        if(req.session.agreement_id == 'RM6187'){
+          errorText.push({ text: 'Enter at least 1 project objective' });
+        }else{
+          errorText.push({ text: 'You must add at least one objective' });
+        }
+      }
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
 
     if (req.session.fieldLengthError?.length !== 1 ){

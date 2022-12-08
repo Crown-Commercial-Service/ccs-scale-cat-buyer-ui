@@ -31,11 +31,10 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    console.log("maxBudget",maxBudget);
-    console.log("minBudget",minBudget);
+    
     
     if(maxBudget=='0'){
       errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
@@ -75,7 +74,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 
@@ -183,8 +182,8 @@ evaluateSupplierForm.on('submit', event => {
     var criteria = urlParamsDefault.get('id');
     var group_id = urlParamsDefault.get('group_id');
     if(agreement_id == 'RM1043.8' && criteria == 'Criterion 2' && group_id == 'Group 2'){
-      ccsZaddErrorMessage(supplierCountInput, 'Quantity must be minimum 3');
-      errorStore.push(['suppliers_to_evaluate', 'Quantity must be minimum 3']);
+      ccsZaddErrorMessage(supplierCountInput, 'Enter the quantity, minimum 3');
+      errorStore.push(['suppliers_to_evaluate', 'Enter the quantity, minimum 3']);
     }else {
       ccsZaddErrorMessage(supplierCountInput, 'Supplier must be minimum 3');
       errorStore.push(['suppliers_to_evaluate', 'Supplier must be minimum 3']);

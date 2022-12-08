@@ -27,6 +27,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
 //     cmsData = cmsDataDCP;
 //   }
 
+  const agreementId_session = req.session.agreement_id;
   const { projectId ,eventId} = req.session;
   const { download,previous,next,fromMessage } = req.query;
   const { isEmptySelectedSupplierError } = req.session;
@@ -101,6 +102,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
       supplierLength,
       radioSelected,
       enablebtn,
+      agreementId_session,
     };
     if(download!=undefined)
   {
@@ -175,6 +177,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
           supplierLength,
           radioSelected,
           enablebtn,
+          agreementId_session,
         };
       }
       else
@@ -196,6 +199,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
           noOfPages,
           radioSelected,
           enablebtn,
+          agreementId_session,
         };
       }
     }
@@ -230,6 +234,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
             noOfPages,
             radioSelected,
             enablebtn,
+            agreementId_session,
           };
       }
       else{//next is undefined
@@ -271,6 +276,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
           noOfPages,
           radioSelected,
           enablebtn,
+          agreementId_session,
         };
       }
     }

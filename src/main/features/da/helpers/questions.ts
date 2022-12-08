@@ -193,7 +193,7 @@ export class QuestionHelper {
         res.redirect('/da/task-list');
       }
     } catch (error) {
-      
+      console.log('catcherr',error);
      
 
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');

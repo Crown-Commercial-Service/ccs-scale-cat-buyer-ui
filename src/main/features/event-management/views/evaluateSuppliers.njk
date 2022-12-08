@@ -48,12 +48,21 @@
 
               <div class="ccs-page-section">
                 {% if agreementId_session != 'RM1043.8' %}
-                    <p>{{data.subtitle}}</p>
+                  {% if agreementId_session == "RM6187" %}
+                    <p>{{data.subtitle_mcf1}}</p>
+                    <p>{{data.subtitle_mcf2}}</p>
+                    <p>{{data.subtitle_mcf3}}</p>
+                    <p class="govuk-!-padding-bottom-9">
+                    You may wish to download <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">the Award Recommendation Report,</a> {{data.subtitle_mcf4}}
+                    </p>
+                  {% else %}
+                    <p>{{data.subtitle}}</p>                   
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
                          {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
                     </p>
+                  {% endif %}
                     {%else%}
                       {% if stage2_value == 'Stage 2'%}
                           <p>{{data.subtitle_dos}}</p>
@@ -92,11 +101,19 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
+                {% if agreementId_session == 'RM6187' %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header">Response date</th>
+                  <th scope="col" class="govuk-table__header">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% endif %}
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
@@ -205,7 +222,7 @@
       {%endif%}
 
       {% if agreementId_session == 'RM6187' %}
-     <p id="dialog-description">Click Continue, or click Return to further edit your scores. After this point, you will be unable to edit your evaluation.</p>
+     <p id="dialog-description">Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation.</p>
       {%else%}
       {% if stage2_value == 'Stage 2'%}
        <p id="dialog-description">Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation.</p>

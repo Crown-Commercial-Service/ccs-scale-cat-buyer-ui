@@ -23,6 +23,7 @@
   
     "title": "Select your supplier for direct award",
     
+    "subtitle1_mcf":"Find more information on each supplier on the <b><a target='blank' rel='noopener noreferrer' href='https://www.crowncommercial.gov.uk/agreements/RM6263:1/lot-suppliers'>CCS website (opens in a new tab).</a></b>",
     "subtitle1":"For details for each supplier, <b><a target='blank' rel='noopener noreferrer' href='https://www.crowncommercial.gov.uk/agreements/RM6263:1/lot-suppliers'>search suppliers</a></b> page on the main CCS website. The page will open on a new tab.",
     "data": {
       "supplier": {

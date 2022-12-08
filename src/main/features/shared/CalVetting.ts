@@ -213,7 +213,7 @@ export const CalVetting = async (req: express.Request) => {
 
     if (dimensionRequirements.length > 0) {
 
-      if(agreementId_session == 'RM6187') { //MCF3
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') { //MCF3 or Gcloud
         dimensionRequirements = dimensionRequirements?.filter(dimension => dimension.name === 'Service Offering')[0].requirements;
       } else { 
         dimensionRequirements = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')[0].requirements;

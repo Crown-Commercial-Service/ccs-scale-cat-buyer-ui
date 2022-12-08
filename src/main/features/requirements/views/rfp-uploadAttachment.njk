@@ -49,7 +49,7 @@
                                 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle3}}</p>
                             {% endif %}
 
-                            {% if agreementId_session!='RM1043.8' and stage2_value != 'Stage 2' %}
+                            {% if agreementId_session!='RM1043.8' and stage2_value != 'Stage 2' and agreementId_session!='RM1557.13' %}
                                 <div>
                                     <div class="govuk-div-inline">
                                     <img src="{{ assetPath | default('/assets') }}/images/excelicon.jpg" alt="excelicon"></img>
@@ -164,8 +164,8 @@
                                     </form>        
                                 {%endif%}
 
-                        {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
-                            {% if agreementId_session=='RM1043.8' and stage2_value != 'Stage 2' %}
+                        {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' or agreementId_session == 'RM1043.8' %}
+                            {% if (agreementId_session == 'RM1043.8' and stage2_value != 'Stage 2') and (agreementId_session != 'RM1557.13') %}
                                 {{ CCSWarningText({
                                     text: "By uploading this document for all the suppliers in your list you are stating that, to the best of your knowledge, the information you have provided is correct.",
                                     iconFallbackText: "Warning"
@@ -194,8 +194,8 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-5 govuk-!-margin-top-5">
          
- {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
-                {% if stage2_value != 'Stage 2'%}
+ {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' or (agreementId_session == 'RM1557.13') %}
+                {% if stage2_value != 'Stage 2' and (agreementId_session != 'RM1557.13')%}
                             {{ CCSCheckboxes({
                                 idPrefix: "rfp_confirm_upload",
                                 name: "rfp_confirm_upload",
