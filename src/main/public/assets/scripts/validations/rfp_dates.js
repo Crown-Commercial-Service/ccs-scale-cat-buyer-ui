@@ -1175,7 +1175,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }

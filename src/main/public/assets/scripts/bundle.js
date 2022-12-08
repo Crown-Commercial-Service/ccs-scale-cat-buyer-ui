@@ -13584,7 +13584,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -14010,15 +14010,21 @@ $('#rfp_IR35_form').on('submit', (event) => {
   
   });
 document.addEventListener('DOMContentLoaded', () => {
+
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
+
+    addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9\.]/g, '');
+    });
+
     let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
      
       let percentage = 0
       let errorList = [];
-      removeErrorFieldsRfpPercentage();
+      //removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         
 
