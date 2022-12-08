@@ -369,7 +369,7 @@
                             <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                          {% endif %}
                     {% else %}
-                         {% if agreementId_session != "RM6187" %}
+                         {% if agreementId_session != "RM6187" and agreementId_session != "RM1557.13" %}
                              <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text | safe}} </p>
                          {% else %}
                              <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text_mcf | safe}} </p>
@@ -858,7 +858,7 @@
           {% if status.toUpperCase() != 'CLOSED' and agreementId_session !=='RM1043.8' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">5.</span> Evaluate suppliers</h2>
-              {% if agreementId_session == "RM6187" %}
+              {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline. </p>
               {% else %}           
@@ -872,6 +872,7 @@
                 text: "Start supplier evaluation",
                 href:"/eventStateChange?StateChange=1"
               }) }}
+              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             </div>
             {% endif %}
 
@@ -893,9 +894,10 @@
               text: "Start supplier evaluation",
               href:"/eventStateChange?StateChange=1"
             }) }}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
           </div>
           {% elseif status.toUpperCase() === 'PUBLISHED' %}
-          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
+          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong> <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
           {% endif %}
           {% endif %}
 
@@ -916,16 +918,16 @@
             {{ CCSButton({
               text: "Start supplier evaluation",
               href:"/eventStateChange?StateChange=1"
-            }) }}
+            }) }}<a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
           </div>
           {% elseif status.toUpperCase() === 'PUBLISHED' %}
-          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
+          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong><a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
           {% endif %}
           {% endif %}
           {% endif %}
 
           <div class="govuk-!-margin-top-6">
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            
           </div>
 
           {% endif %}
