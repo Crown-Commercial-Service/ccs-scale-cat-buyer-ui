@@ -48,11 +48,11 @@
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-      {% if agreement_header['agreementId_session'] == 'RM6187' %} 
+      {% if agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == 'RM1557.13'%} 
         <h1 class="govuk-heading-xl">
           <strong>Supplier to be awarded</strong>
         </h1>
-        <p>Please review the information below. You will not be awarding at this time if you click the Confirm Supplier button. You can go back and change the supplier to be awarded if necessary.</p>
+        <p>Please review the information below. You will not be awarding at this time if you click the 'Confirm Supplier' button. You can go back and change the supplier to be awarded if necessary.</p>
         <br>
       {% else %}
         {% if stage2_value == 'Stage 2'%}
