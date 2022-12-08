@@ -101,6 +101,8 @@ gulp.task('clean', () => {
   ]);
 });
 
+
+
 gulp.task('pack-scripts', () => {
   return gulp.src(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/all.js', 'src/main/public/assets/scripts/cookies/*.js', 'src/main/public/assets/scripts/dialog/*.js', 'src/main/public/assets/scripts/pagination/*.js', 'src/main/public/assets/scripts/session/*.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'])
         .pipe(concat('bundle.js'))
@@ -116,3 +118,5 @@ gulp.task('pack-styles', () => {
 });
 
 gulp.task('default', gulp.series(['clean', 'styles']));
+
+// gulp.watch(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'], gulp.series('pack-scripts'));

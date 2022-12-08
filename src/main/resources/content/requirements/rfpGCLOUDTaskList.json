@@ -1,0 +1,157 @@
+{
+    "breadCrumbs": [{
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "#"
+        }
+    ],
+
+    "title": "Write and publish your requirements",
+    "subtitle": null,
+    "events": [{
+            "eventno": 1,
+            "eventTitle": "Project details",
+            "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
+            "eventTask": [{
+                    "Task": 1,
+                    "link": "/rfp/name-your-project",
+                    "title": "Name your project",
+                    "required": "mandatory",
+                    "status": "Optional"
+                },
+                {
+                    "Task": 2,
+                    "link": "/rfp/procurement-lead",
+                    "title": "Change who will lead the procurement",
+                    "required": "optional",
+                    "status": "Optional"
+                },
+                {
+                    "Task": 3,
+                    "link": "/rfp/add-collaborators",
+                    "title": "Add colleagues to your project",
+                    "required": "optional",
+                    "status": "Optional"
+                }
+            ]
+        },
+        {
+            "eventno": 2,
+            "eventTitle": "The services you need",
+            "eventDescription": "You'll need to select all the services you need from the list.",
+            "eventTask": [{
+                "Task": 1,
+                "title": "Select the services you need",
+                "required": "mandatory",
+                "link": "/rfp/selected_service",
+                "status": "Todo"
+            }]
+        },
+
+        {
+            "eventno": 3,
+            "eventTitle": "Add context and requirements",
+            "eventDescription": "You can include the following:",
+            "eventdescriptionlist": [{
+                "description1": "any pre-tender market engagement you’ve done",
+                "description2": "the terms and acronyms you use",
+                "description3": "your service levels and KPIs",
+                "description4": "how long you expect the contract to run",
+                "description5": "your budget"
+            }],
+            "eventTask": [{
+                "Task": 1,
+                "title": " Add context and requirements",
+                "required": "optional",
+                "status": "Todo",
+                "link": "/rfp/add-context"
+            }]
+        },
+
+
+        {
+            "eventno": 4,
+            "eventTitle": "Upload pricing schedules and other documents",
+            "eventDescription": "In this section you’ll also need to confirm if you require a contracted out service or a supply of resource. Note that resources that fall within scope of IR35 are not permitted through this agreement.",
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "Upload your pricing schedule and other documents",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                }
+                
+            ]
+        },
+
+
+        {
+            "eventno": 5,
+            "eventTitle": "Your assessment criteria ",
+            "eventDescription1": "Decide and explain how you will assess and evaluate suppliers.",
+            "eventDescription2": "When you enter all your assessment criteria online you’ll be able to define your requirements and evaluation weightings as well.",
+            
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "Set your assessment criteria and evaluation weightings",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/your-assessment"
+                },
+                {
+                    "Task": 2,
+                    "title": "How you will score suppliers",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/set-scoring-criteria"
+                }
+            ]
+        },
+        {
+            "eventno": 6,
+            "eventTitle": "Review and publish",
+            "eventDescription": "Review the information you've entered,ensuring that you have included all relevant context, requirements, evaluation criteria and weightings.",
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "View suppliers",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/suppliers"
+                },
+                {
+                    "Task": 2,
+                    "title": "Set your timeline",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/response-date"
+                },
+                {
+                    "Task": 3,
+                    "title": "Review and publish",
+                    "required": "mandatory",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/review"
+                }
+            ]
+        }
+    ],
+    "form": {
+        "question1": "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements.",
+        "question2": "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+    }
+}

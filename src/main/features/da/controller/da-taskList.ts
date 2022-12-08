@@ -59,7 +59,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype=req.session.selectedeventtype;
-  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype };
+  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype , agreementId_session };
   try {
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Optional');

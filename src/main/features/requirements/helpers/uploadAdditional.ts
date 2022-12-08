@@ -6,6 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additional.json';
+import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-upload-additional.json';
 import * as dosData from '../../../resources/content/requirements/dos-rfp-upload-attachment.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-upload-assessment.json';
 
@@ -56,6 +57,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       res.send(fileData);
     } catch (error) {
+      console.log(error);
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -118,7 +120,10 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if(stage2_value !== undefined && stage2_value === "Stage 2"){
         forceChangeDataJson = dosStage2Data;
       }
-    } else { 
+    }else if(agreementId_session == 'RM1557.13') { //GCloud
+      forceChangeDataJson = GCloudcmsData;
+    } 
+    else { 
       forceChangeDataJson = cmsData;
     }
       let windowAppendData = {
@@ -204,8 +209,8 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute === 'dos') selectedRoute = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
-
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
+      let lotid = lotId;
+      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
       if(req.session.selectedRoute == 'dos'){
         if(stage2_value !== undefined && stage2_value === "Stage 2"){
           let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
@@ -216,6 +221,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
     } catch (error) {
+      console.log(error);
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),

@@ -4,14 +4,14 @@
     "line3": "write clearer needs to publish for suppliers",
     "line4": "understand how much this work could cost",
     "line5": "better understand how long this work could take",
-    "line6": "An Expression of Interest (EoI) allows you to find out if suppliers are interested in bidding for your project, and can offer the required products or services. Include high-level requirements in your EoI so that potential suppliers can determine if they are able to provide the goods or services you need. If a supplier does not respond to your EoI, they will typically not be able to bid for the opportunity later.",
+    "line6": "An EoI allows you to find out if suppliers are interested in bidding for your project and can offer the required products or services. Include high-level requirements in your EoI so that potential suppliers can determine if they are able to provide the goods or services you need. If a supplier does not respond to your EoI, they will not be able to bid for the opportunity later.",
 
     "title": "Expression of Interest (EoI)",
     "subtitle": null,
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/eoi/name-your-project",
@@ -38,7 +38,7 @@
         {
             "eventno": 2,
             "eventTitle": "Build your EoI",
-            "eventDescription": "When you build your EoI online you can write your own questions, include context about your organisation, scope of the service and your procurement, and get more detailed information about what suppliers can offer. ",
+            "eventDescription": "When you build your EoI online you can provide an overview of your project, which will help suppliers decide if they want to bid for your requirement. ",
             "eventTask": [{
                     "Task": 1,
                     "title": "Choose how to build your EoI",
@@ -68,14 +68,14 @@
                 },
                 {
                     "Task": 2,
-                    "title": "See the suppliers who will receive your EoI",
+                    "title": "View suppliers",
                     "required": "Cannot start yet",
                     "status": "Cannot start yet",
                     "link": "/eoi/suppliers"
                 },
                 {
                     "Task": 3,
-                    "title": "Your EoI timeline",
+                    "title": "Set your EoI timeline",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/eoi/response-date"
