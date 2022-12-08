@@ -236,7 +236,10 @@ const ccsZvalidateRfPStrategy = event => {
       if ($('#rfp_prob_statement_e').val().length === 0) {
         if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
-        }else{
+        }else if(pageHeading.trim().toLowerCase() == 'Address where the work will be done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the address where the work will be done');
+        }
+        else{
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
