@@ -31,11 +31,10 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    console.log("maxBudget",maxBudget);
-    console.log("minBudget",minBudget);
+    
     
     if(maxBudget=='0'){
       errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
@@ -75,7 +74,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 

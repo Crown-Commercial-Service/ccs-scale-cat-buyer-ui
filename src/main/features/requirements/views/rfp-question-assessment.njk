@@ -4,7 +4,36 @@
 {% set title =  rfpTitle + '- Create a Request for Information (rfp)' %}
 
 {% block breadCrumb %}
+{% if agreement_id == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
+    items: [
+     {
+        text: "Dashboard",
+        href: "/dashboard"
+      },
+      {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+      },
+      {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+        },
+        {
+          text: "Write and publish your requirements",
+          href: "/rfp/task-list"
+        },
+        {
+          text: "Your assessment criteria",
+          href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+        },
+      {
+        text: bcTitleText
+      }
+    ]
+  }) }}
+ {% else %}
+  {{ CCSBreadcrumbs({
     items: [
      {
         text: "Dashboard",
@@ -31,7 +60,7 @@
       }
     ]
   }) }}
-
+{%endif %}
 {% endblock %}
 
 {% block content %}
