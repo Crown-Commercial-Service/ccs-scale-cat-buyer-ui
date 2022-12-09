@@ -105,14 +105,12 @@
       </div>
     
       
-      <p class="govuk-body">You can change the name of your project. Enter the new name below. 
-If you don’t want to change the name of your project you can 
-{% if agreementId_session == "RM6187" %}
-    <a href="/eoi/eoi-tasklist">return to Expression of Interest.</a>
-{% else %}
-    <a href="/eoi/eoi-tasklist">return to Do pre-market engagement.</a> 
-{% endif %}    
-</p>
+      <p class="govuk-body">Please name your project. This will be the name of your contract. </p>
+      {% if agreementId_session == "RM6187" %}
+        <!---<a href="/eoi/eoi-tasklist">return to Expression of Interest.</a> -->
+      {% else %}
+        <a href="/eoi/eoi-tasklist">return to Do pre-market engagement.</a> 
+      {% endif %}
       <form id="ccs_eoi_project_name_form" name="ccs_eoi_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">      
         {{ csrfProtection(csrf) }} 
           
