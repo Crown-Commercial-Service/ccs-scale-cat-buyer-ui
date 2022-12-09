@@ -1091,7 +1091,7 @@
                                   required: requirement.nonOCDS.mandatory,
                                   id: "rfp_prob_statement_"+evalsupClass,
                                   value: requirement.nonOCDS.options[0].value,
-                                  type:"number",
+                                  type:"text",
                                   classes:"rfp_term_definition_new govuk-input--width-5 "+evalsupClass,
                                   label: {
                                   html: titleText,
@@ -1102,6 +1102,7 @@
                                   prefix: {
                                     text: "£"
                                   },
+                                  min:"0",
                                   maxlength:32
                                 })
                             }}
