@@ -792,6 +792,21 @@
                       </div>
                       {% if reqGroup !=undefined  and reqGroup !=null and numberWordSmall !=undefined and numberWordSmall !=null and numberWordSmall !='' and reqGroup | length >0 %}
                           {% set i=1 %}
+                          {% if agreementId_session == 'RM6187' %}
+                            {% for data in reqGroup %}
+                            {% set text = "Name of the" +numberWordSmall[i]+" requirement" %}
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__value"><p>{{ text }}</p></dt>
+                              <dd class="govuk-summary-list__value"><p>{{ data.title }}</p></dd>
+                            </div>
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__value"><p>Description of the requirement</p></dt>
+                              <dd class="govuk-summary-list__value"><p>{{ data.group }}</p></dd>
+                            </div>
+                            
+                            {% set i=i+1 %}
+                            {% endfor %}
+                          {% else %}
                           {% for data in reqGroup %}
                             {% set text = "Name of the" +numberWordSmall[i]+" requirement group" %}
                             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -808,6 +823,7 @@
                             </div>
                             {% set i=i+1 %}
                           {% endfor %}
+                          {% endif %}
                       {% endif %}
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
@@ -1004,6 +1020,8 @@
                             {% endif %}
                           </dd>
                         </div>
+
+                      {% if agreement_id != "RM6187" %}                       
                         <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__key">
                             <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
@@ -1026,6 +1044,7 @@
                             {% endif %}
                           </dd>
                         </div>
+                      {% endif %}
                       </dl>
                     {% endblock %}
                     {# END----------------------Upload pricing schedules and any other supporting documents-2 #}
@@ -1470,17 +1489,24 @@
               {% if(selectedeventtype=='DA') %}requirements{% else %}further competition{% endif %}
             </h2>
           </p>
-          <div class="govuk-inset-text">
-            <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
-          </div>
-          <p class="govuk-body">
-            {% if agreementId_session == 'RM6187' %}           
-            After publishing this event, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
-            {% else %}
-              After publishing{% if(selectedeventtype!='DA') %}
+
+          {% if agreementId_session == 'RM6187' %} 
+            <div class="govuk-inset-text">
+                <p class="govuk-body">Your further competition will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+            </div>
+            <p class="govuk-body">          
+                If you need to make any significant changes – including changes to scope or timelines – after publishing this further competition, you will need to cancel and start a new project.
+            </p>
+          {% else %}
+            <div class="govuk-inset-text">
+                <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
+            </div>
+            <p class="govuk-body">
+                After publishing{% if(selectedeventtype!='DA') %}
                 this event{% endif %}, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.
-            {% endif %}
-          </p>
+            </p>
+          {% endif %}
+          
           <br>
             <br>
               {% if(selectedeventtype=='DA') %}
@@ -1491,7 +1517,7 @@
               {% else %}
                 {% if agreementId_session == 'RM6187' %}
                   {{ CCSWarningText({
-    text: "By publishing this further competition to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+    text: "By publishing this further competition, you are stating that, to the best of your knowledge, the information you have provided is correct.",
     iconFallbackText: "Warning"
     }) }}
                 {% else %}
@@ -1520,7 +1546,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above are true.</strong></label>",
+      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
       Checked: ""
       }
       ]

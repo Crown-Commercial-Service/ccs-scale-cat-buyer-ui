@@ -25,9 +25,11 @@
         }
     ],
 
+    "title_mcf":"Upload your core terms, call-off order form and schedules (terms and conditions)",
+    "subtitle1_mcf":"You must upload relevant framework terms and conditions in support of the order form and call-off schedules.  For example, relevant call-off schedules. This step is mandatory.",
+    "subtitle2_mcf":"If you have several files, it is easier to compress them into a zip file and upload them all at once.",
     "title": "Upload your terms and conditions",
     "subtitle": "You must upload the terms and conditions for your project. This step is mandatory.",
-    "SUBTITLE_1": "You can also upload more documents on this page to give suppliers more information about :",
     "subtitle1": "the background to your procurement",
     "subtitle2": "information about your organisation and the problem you want to solve",
     "subtitle3": "anything else you think would be useful for them to know",
@@ -38,6 +40,7 @@
     },
     "subtitle4": "Use the same link (above) to upload any other supporting documents (optional).",
     "subtitle5": "Upload terms and conditions (Mandatory)",
+    "subtitle5_mcf":"Upload core terms, call-off order form and schedules (mandatory)",
     "subtitle6": "You can upload multiple files, each no larger than 300mb, to a total of 1GB.  Acceptable file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
     "template": []
 }

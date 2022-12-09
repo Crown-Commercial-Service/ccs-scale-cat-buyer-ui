@@ -1,0 +1,29 @@
+{
+    "title": "Name your project",
+    "topHeader": {
+        "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
+        "aggrementId": "Agreement ID: ",
+        "projectName": "Project name: "
+    },
+    "subtitle": null,
+    "caption" : "Please name your project. This will be the name of your contract. ",
+    "form": {
+        "input": {            
+            "id": "rfi_projLongName",
+            "name": "rfi_projLongName",
+            "value": ""
+        },        
+        "backJump": {
+            "title": " Return to Request for Information",
+            "href": "/rfi/rfi-tasklist"
+        }
+    },    
+    "related": {
+        "title": "Related content",
+        "content": {
+            "href": "/agreement/DSP/lot?no=2",
+            "text": "Digital Specialists and Programmes, Lot 2: Specialists"
+        }
+    }
+
+}

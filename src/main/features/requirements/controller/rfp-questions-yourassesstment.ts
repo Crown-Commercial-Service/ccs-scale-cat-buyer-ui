@@ -165,6 +165,13 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
     }
+    if(ChoosenAgreement == 'RM1043.8' && req.session?.lotId == '1' && group_id == 'Group 9') {
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+    }else {
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({});
+    }
     const releatedContent = relatedOverride;
     
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
@@ -265,6 +272,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+    console.log('data for assessment',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -909,7 +917,7 @@ const findErrorText = (data: any, req: express.Request) => {
       req.session['isLocationMandatoryError'] == true
     ) {
       errorText.push({
-        text: 'You must select at least one way you will assess suppliers, or “None”',
+        text: 'select at least one way you will assess suppliers, or “None”',
       //  text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
       });
     } else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
@@ -936,7 +944,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
     case 'Group 5':
       if(agreement_id == 'RM1043.8') {
-        title = 'essential skills and experience';
+        title = 'essential skill or experience';
       } else {
         title = 'cultural';
       }
@@ -964,7 +972,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
       case 'Group 9':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = ''; } else { title = 'social value questions'; }
+        if(lotId == 3) { title = ''; } else { title = 'social value question'; }
       } else {
         title = '';
       }

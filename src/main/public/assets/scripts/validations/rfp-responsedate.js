@@ -60,7 +60,7 @@ for(const selector of rfp_totalElementSelectors){
         }
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        if(agreementID != 'RM1043.8') {
+        if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
     });
