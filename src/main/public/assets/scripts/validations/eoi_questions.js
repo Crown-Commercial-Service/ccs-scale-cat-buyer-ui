@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        console.log("nnn")
        
         document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
         //let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
