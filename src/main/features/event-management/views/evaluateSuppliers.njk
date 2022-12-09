@@ -38,6 +38,7 @@
     and agreement_header.agreementLotName != undefined)%}
     
     {% if(agreementId_session=='RM1557.13' and agreement_header['lotid']=='4') %}
+
              Lot 4
     {% else %}
              , 
@@ -57,7 +58,7 @@
 
               <div class="ccs-page-section">
                 {% if agreementId_session != 'RM1043.8' %}
-                  {% if agreementId_session == "RM6187" %}
+                  {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                     <p>{{data.subtitle_mcf1}}</p>
                     <p>{{data.subtitle_mcf2}}</p>
                     <p>{{data.subtitle_mcf3}}</p>
@@ -230,7 +231,7 @@
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       {%endif%}
 
-      {% if agreementId_session == 'RM6187' %}
+      {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
      <p id="dialog-description">Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation.</p>
       {%else%}
       {% if stage2_value == 'Stage 2'%}

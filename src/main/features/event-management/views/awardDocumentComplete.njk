@@ -34,9 +34,9 @@
         {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
     {% endif %} 
     {% endif %} 
-    
-  </strong></p>
-  {%endif %}
+
+        </strong>
+      </p>
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
    <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
         </div>
@@ -66,7 +66,7 @@
           {% endif %}
         </h1>
       
-      {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' %}
+      {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' or agreementId == 'RM1557.13' %}
         <h2> <strong>Successful supplier templates</strong></h2>
        <p>If you have not already completed the order form and call off schedules template, please do so before continuing.</p>
        <p>You can use the templates provided on this page to inform the successful supplier that you intend to award them the contract.</p>
