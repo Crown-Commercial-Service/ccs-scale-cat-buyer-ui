@@ -84,6 +84,7 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
           
           
         const appendData = { data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+        
         res.render('MessagingCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -303,6 +304,8 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
           }
           
         const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+        
+        
         res.render('MessaginSupplierCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

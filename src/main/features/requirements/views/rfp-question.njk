@@ -136,6 +136,11 @@ text: bcTitleText
 
                 </div>
                 {%endif%}
+                {% if agreement_id == 'RM6187' and  group_id == 'Group 5' and criterian_id == 'Criterion 3' %}
+                <label class="govuk-label govuk-label govuk-label--m" for="business_need"> Business need
+                    </label>
+                {%endif%}
+
                 {#<--!Condtns modified according to SCAT-5151-->#}
                 {%if (form_name === 'rfp_multianswer_question_form') %}
                 {%if (rfpTitle!='Enter your project requirements')%}
