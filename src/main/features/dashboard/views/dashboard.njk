@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Welcome to the Contract Award Service beta' %}
@@ -23,9 +23,9 @@
           <p class="govuk-body">
           To start a new project, 
           <a class="govuk-link" href="/projects/choose-agreement">
-            {{data.buttonText}}.
+              {{data.buttonText}}.
           </a>
-        </p>
+          </p>
           <p class="govuk-body">{{ data.line1 }}</p>
         </div>
       </div>
@@ -34,14 +34,48 @@
           <h2 class="govuk-heading-m">Related content</h2>
           <p class="govuk-body">
             {% for item in data.related_content %}
-             {% if item.href %}
-              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+              {% if item.href %}
+                <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
               {% endif %}
             {% endfor %}
           </p>
         </div>
       </div>
     </div>
+
+    
+        <p>
+          <strong>Find a Project</strong>
+        </p>
+        <form method="POST" action="/dashboard">
+          {{ csrfProtection(csrf) }}
+          <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-form-group">
+                <div class="govuk-input__wrapper govuk-input__wrapper_custom">
+                  <input type="text" id="search" class="govuk-input" value="{{searchText}}" name="search">
+                  {# {{ CCSInput({
+                  id: "search",
+                  name: "search",
+                  type: "text",
+                  value:searchText
+                  }) }} #}
+                  <div class="govuk-input__suffix">
+                    {{ CCSButton({
+                      text: "Search",
+                      attributes: {
+                      id: "searchBtn"
+                      },
+                      type: "submit",
+                      classes: "govuk-button d_button"
+                      }) }}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </form>
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
@@ -62,18 +96,19 @@
                 <tr class="govuk-table__row">
                   <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                            <input type="hidden" value="{{event.projectId}}">	
-                     <input type="hidden" value="{{event.activeEvent.id}}">	
-                     <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
+                      <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                      <input type="hidden" value="{{event.projectId}}">
+                      <input type="hidden" value="{{event.activeEvent.id}}">
+                      <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
-                   {% else %}    
-                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
-                     {% endif %}
+                  {% if event.activeEvent.eventType == 'TBD' %}
+                    <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
+                  {% else %}
+                    <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }}
+                    </td>
+                  {% endif %}
 
                   <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
@@ -91,7 +126,7 @@
               {% endfor %}
             </tbody>
           </table>
-          {% elseif events.length > 5 %}
+        {% elseif events.length > 5 %}
           <table class="govuk-table" id="active-data">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
             <thead class="govuk-table__head">
@@ -109,17 +144,18 @@
                   <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                       <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                       <input type="hidden" value="{{event.projectId}}">	
-                     <input type="hidden" value="{{event.activeEvent.id}}">	
-                     <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
+                      <input type="hidden" value="{{event.projectId}}">
+                      <input type="hidden" value="{{event.activeEvent.id}}">
+                      <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
-                   {% else %}    
-                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
-                     {% endif %}
+                  {% if event.activeEvent.eventType == 'TBD' %}
+                    <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
+                  {% else %}
+                    <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }}
+                    </td>
+                  {% endif %}
 
                   <td class="govuk-table__cell govuk-table__header_custom_w-3">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
@@ -127,7 +163,7 @@
                   </td>
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy }}	
+                      {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-!-text-align-right">
@@ -168,8 +204,6 @@
       </div>
     </div>
 
-    
-
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
       <div class="govuk-grid-column-full">
         {% if historicalEvents.length > 5 %}
@@ -186,45 +220,46 @@
             </thead>
             <tbody class="govuk-table__body">
               {% for event in historicalEvents %}
-               {% if event.activeEvent.eventType !='PA' %}
-                <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
-                    <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                       <input type="hidden" value="{{event.projectId}}">	
-                     <input type="hidden" value="{{event.activeEvent.id}}">	
-                     <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
-                      <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
-                    </p>
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
-                  </th>
-                  {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
-                   {% else %}    
-                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
-                     {% endif %}
+                {% if event.activeEvent.eventType != 'PA' %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                        <input type="hidden" value="{{event.projectId}}">
+                        <input type="hidden" value="{{event.activeEvent.id}}">
+                        <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
+                        <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
+                      </p>
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
+                    </th>
+                    {% if event.activeEvent.eventType == 'TBD' %}
+                      <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
+                    {% else %}
+                      <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }}
+                      </td>
+                    {% endif %}
 
-                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
-                  </td>
-                  <td class="govuk-table__cell govuk-!-text-align-centre">
-                    {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
-                    {% else %} N/A {% endif %}
-                  </td>
-                  {#<td class="govuk-table__cell govuk-capitalise">
+                    <td class="govuk-table__cell govuk-table__header_custom_w-3">
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
+                    </td>
+                    <td class="govuk-table__cell govuk-!-text-align-centre">
+                      {% if event.activeEvent.tenderPeriod.endDate %}
+                        {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
+                      {% else %} N/A {% endif %}
+                    </td>
+                    {#<td class="govuk-table__cell govuk-capitalise">
                     {{event.activeEvent.dashboardStatus}}
                   </td>#}
-                </tr>
+                  </tr>
                 {% endif %}
               {% endfor %}
             </tbody>
           </table>
-         <!-- <p>
+          <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
           </p>-->
-          {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
+        {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
             <thead class="govuk-table__head">
@@ -238,41 +273,42 @@
             </thead>
             <tbody class="govuk-table__body">
               {% for event in historicalEvents %}
-                {% if event.activeEvent.eventType !='PA' %}
-                <tr class="govuk-table__row">
-                  <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
-                    <p class="govuk-body govuk-!-margin-bottom-0">
-                     <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                                <input type="hidden" value="{{event.projectId}}">	
-                     <input type="hidden" value="{{event.activeEvent.id}}">
-                      <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
-                    </p>
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
-                  </th>
-                  {% if event.activeEvent.eventType =='TBD' %}
-                  <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
-                   {% else %}    
-                     <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }} </td> 
-                     {% endif %}
+                {% if event.activeEvent.eventType != 'PA' %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                        <input type="hidden" value="{{event.projectId}}">
+                        <input type="hidden" value="{{event.activeEvent.id}}">
+                        <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
+                      </p>
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
+                    </th>
+                    {% if event.activeEvent.eventType == 'TBD' %}
+                      <td class="govuk-table__cell govuk-table__header_custom_w-2"> N/A </td>
+                    {% else %}
+                      <td class="govuk-table__cell govuk-table__header_custom_w-2">{{ event.activeEvent.eventType }}
+                      </td>
+                    {% endif %}
 
-                  <td class="govuk-table__cell govuk-table__header_custom_w-3">
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
-                  </td>
-                  <td class="govuk-table__cell govuk-!-text-align-centre">
-                    {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
-                    {% else %} N/A {% endif %}
-                  </td>
-                  {#<td class="govuk-table__cell govuk-capitalise">
+                    <td class="govuk-table__cell govuk-table__header_custom_w-3">
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
+                      <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
+                    </td>
+                    <td class="govuk-table__cell govuk-!-text-align-centre">
+                      {% if event.activeEvent.tenderPeriod.endDate %}
+                        {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
+                      {% else %} N/A {% endif %}
+                    </td>
+                    {#<td class="govuk-table__cell govuk-capitalise">
                     {{event.activeEvent.dashboardStatus}}
                   </td>#}
-                </tr>
-                 {% endif %}
+                  </tr>
+                {% endif %}
               {% endfor %}
             </tbody>
           </table>
-         <!-- <p>
+          <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
           </p> -->
         {% else %}
