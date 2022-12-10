@@ -2,6 +2,24 @@ const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
 
+
+DaySelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+MonthSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });  
+YearSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+    
+let eoiDurationField = $('.eoi_duration');
+  
+    eoiDurationField.on('keydown', (event) => {
+     if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+       event.preventDefault(); });
+
+
 let agreementData;
 if ($('.agreement_no').attr('id')) {
     agreementData = $('.agreement_no').attr('id').split("-");
@@ -17,9 +35,8 @@ if (agreementData != undefined && agreementData.length > 0) {
     expiryDate = Number(agreementData[2]);
 }
 
-const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
+const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
 const getMSOfExpiryDate = ExpiryDates.getTime()
-
 
 
 DaySelector.on('blur', () => {
@@ -220,9 +237,9 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
-    const FormDate = new Date(Year, Month, Day);
+    const FormDate = new Date(Year, Month-1, Day);
     const getTimeOfFormDate = FormDate.getTime();
-
+   
     const todayDate = new Date();
 
 
@@ -263,11 +280,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
        // console.log("errorStore",errorStore)
         //ccsZPresentErrorSummary(errorStore);
     }
-    console.log("getTimeOfFormDate",getTimeOfFormDate);
-    console.log("getMSOfExpiryDate",getMSOfExpiryDate);
     
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
+       
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
         DaySelector.addClass('govuk-form-group--error');
         MonthSelector.addClass('govuk-form-group--error');

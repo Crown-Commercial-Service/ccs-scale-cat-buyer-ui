@@ -4,6 +4,10 @@ const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("service_levels_kpi_form") !== null) {
 
+    if(document.getElementById("kpiKeyLevel").textContent == 0) {
+      document.getElementById("kpiKeyLevel").textContent = '1';
+    }
+    
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
@@ -138,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
-        document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
+        //document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
         deleteButtonCount.push(kpi_fieldset);
         if (kpi_fieldset === 10) {
           
@@ -194,10 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        document.getElementById("kpiKeyLevel").textContent = with_value_count;
         with_value_count++;
 
 
-        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        
         if (with_value_count === 11) {
          
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -290,28 +295,39 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if (term_field.value.trim() == '' && definition_field.value.trim() == '' && target_field.value.trim() == '') {
          
         }else{
-          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
+
+          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '0' || target_field.value.trim() == '')) {
             let isErrorSingle = false;
+            let errField;
             if (term_field.value.trim() == ''){
+                errField = term_field;
                isErrorSingle = true;
               ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
           }
           if (definition_field.value.trim() == ''){
+            errField = definition_field;
              isErrorSingle = true;
             ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
           }
           if (target_field.value.trim() == ''){
+            errField = target_field;
              isErrorSingle = true;
             ccsZaddErrorMessage(target_field, 'You must enter your success target.');
           }
+
+          if (target_field.value.trim() == '0'){
+            errField = target_field;
+             isErrorSingle = true;
+            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+          }
+
           if (isErrorSingle) {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            fieldCheck = [errField.id, 'You must add information in all fields.'];
             errorStore.push(fieldCheck);
           }
         }
         }
        
-      
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
@@ -346,6 +362,14 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
               fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
               errorStore.push(fieldCheck);
             }
+
+            if (target_field.value.trim() == '0'){
+              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+              isError = true;
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1.'];
+              errorStore.push(fieldCheck);
+            }
+            
             if (field1) {
               ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
               isError = true;
@@ -401,6 +425,7 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   let errorStore = [];
   var percentageElement = document.getElementsByName("percentage");
   for (let index = 0; index < percentageElement.length; index++) {
+   
     totalPercentage += Number(percentageElement[index].value);
     
     if (Number(percentageElement[index].value) > 100) {
@@ -440,4 +465,17 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   }else {
     ccsZPresentErrorSummary(errorStore);
   }
+});
+
+
+
+for (var x = 1; x < 11; x++) {
+  termbox = document.getElementById("rfp_term_service_levels_KPI_" + x);
+  if (termbox != undefined && termbox != null && termbox.value !== "") {
+    document.getElementById("kpiKeyLevel").textContent = x;
+  }
+}
+
+$("input[name='percentage']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
 });

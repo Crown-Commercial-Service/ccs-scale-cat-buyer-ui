@@ -573,7 +573,11 @@
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                       <dt class="govuk-summary-list__value"><p>Your success target</p></dt>
-                                      <dd class="govuk-summary-list__value"><p>{{ data.percent }}% required target </p></dd>
+                                      <dd class="govuk-summary-list__value"><p>
+                                        {% if data.percent | length > 0 %}
+                                          {{ data.percent }}% required target 
+                                        {% endif %}
+                                        </p></dd>
                                     </div>
                                     {% set i=i+1 %}
                                   {% endfor %}
@@ -602,11 +606,19 @@
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value"><p>Maximum estimated contract value (optional)</p></dt>
-                        <dd class="govuk-summary-list__value"><p>&#163;{{ bc1 }}</p></dd>
+                        <dd class="govuk-summary-list__value"><p>
+                          {% if bc1 | length > 0 %}
+                            &#163;{{ bc1 }}
+                          {% endif %}
+                          </p></dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value"><p>Minimum estimated contract value (optional)</p></dt>
-                        <dd class="govuk-summary-list__value"><p>&#163;{{ bc2 }}</p></dd>
+                        <dd class="govuk-summary-list__value"><p>
+                             {% if bc2 | length > 0 %}
+                          &#163;{{ bc2 }}
+                          {% endif %}
+                          </p></dd>
                       </div>
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
@@ -873,7 +885,11 @@
                 
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                   <dt class="govuk-summary-list__value"><p>Weighting for this question</p></dt>
-                  <dd class="govuk-summary-list__value"><p>{{ data.weight }}%</p></dd>
+                  <dd class="govuk-summary-list__value"><p>
+                    {% if data.weight | length > 0 %}
+                      {{ data.weight }}%
+                    {% endif %}
+                    </p></dd>
                 </div>
                 {% endfor %}
               {% endif %}

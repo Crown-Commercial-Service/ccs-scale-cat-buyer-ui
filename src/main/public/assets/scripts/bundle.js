@@ -8052,6 +8052,24 @@ const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
 
+
+DaySelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+MonthSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });  
+YearSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+    
+let eoiDurationField = $('.eoi_duration');
+  
+    eoiDurationField.on('keydown', (event) => {
+     if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+       event.preventDefault(); });
+
+
 let agreementData;
 if ($('.agreement_no').attr('id')) {
     agreementData = $('.agreement_no').attr('id').split("-");
@@ -8067,9 +8085,8 @@ if (agreementData != undefined && agreementData.length > 0) {
     expiryDate = Number(agreementData[2]);
 }
 
-const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
+const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
 const getMSOfExpiryDate = ExpiryDates.getTime()
-
 
 
 DaySelector.on('blur', () => {
@@ -8270,9 +8287,9 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
-    const FormDate = new Date(Year, Month, Day);
+    const FormDate = new Date(Year, Month-1, Day);
     const getTimeOfFormDate = FormDate.getTime();
-
+   
     const todayDate = new Date();
 
 
@@ -8313,11 +8330,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
        // console.log("errorStore",errorStore)
         //ccsZPresentErrorSummary(errorStore);
     }
-    console.log("getTimeOfFormDate",getTimeOfFormDate);
-    console.log("getMSOfExpiryDate",getMSOfExpiryDate);
     
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
+       
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
         DaySelector.addClass('govuk-form-group--error');
         MonthSelector.addClass('govuk-form-group--error');
@@ -8408,10 +8424,25 @@ const ccsZvalidateEoiDate = (event) => {
   else
   {
     
-    var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
+    // var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
     
-    var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    // var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    let agreementData;
+    if ($('.agreement_no').attr('id')) {
+        agreementData = $('.agreement_no').attr('id').split("-");
+    }
+    let expiryYears = null;
+    let expiryMonth = null;
+    let expiryDate = null;
+    if (agreementData != undefined && agreementData.length > 0) {
+        expiryYears = Number(agreementData[0]);
+        expiryMonth = Number(agreementData[1]);
+        expiryDate = Number(agreementData[2]);
+    }
+    // const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
+    // const getMSOfExpiryDate = ExpiryDates.getTime()
     
+    var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
         ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
@@ -8447,7 +8478,6 @@ function getDate(start_day, start_month, start_year, start_date) {
 }
 
 function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
- 
     if(start_date !=undefined && start_date !=null && start_date <= new Date(agreement_expiry_date)) { // This will only work in prototype for MCF-3 lot 1 for enabling this page for other agreements need to add hidden field in the page to read lot endDate
       return true;
   }else {
@@ -8508,6 +8538,8 @@ document.addEventListener('DOMContentLoaded', () => {
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_eoi_questions_form") !== null) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     let with_value_count = 10,
       prev_input = 0,
@@ -8738,7 +8770,12 @@ const emptyObjectiveFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
   if ($("#page-heading").text().includes("Project objectives"))
+  if(urlParams.get('agreement_id') == 'RM6187'){
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "Enter at least 1 project objective", /\w+/);
+  }else{
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  }
+    
   if (fieldCheck !== true && ($("#page-heading").text().includes("Project objectives"))) errorStore.push(fieldCheck);
   return errorStore;
 };
@@ -12813,11 +12850,10 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    console.log("maxBudget",maxBudget);
-    console.log("minBudget",minBudget);
+    
     
     if(maxBudget=='0'){
       errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
@@ -12857,7 +12893,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 
@@ -13062,6 +13098,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 1;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -13084,12 +13122,12 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else{
             removeErrorFieldsdates();
-
             return true;
           }
          }
          
-      }
+         }
+        }
       }
 
       const MonthCheckResourceStart = () => {
@@ -13097,6 +13135,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) <= 0;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -13121,7 +13161,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
          }
          }
-      }
+          }
+         }
       }
       const YearCheckResourceStart = () => {
         // let fieldCheck = "", errorStore = [];
@@ -13169,6 +13210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
       else{
+
          removeErrorFieldsdates();
          return true;
       }
@@ -13744,18 +13786,33 @@ function checkResourceStartDate()
          var error_msg = 'Enter a valid date'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
+            if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
+               error_msg = 'Enter a day and month'
+               rfpResourceStartMonth.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' &&  rfpResourceStartMonth.val() != ''){
+               error_msg = 'Enter a day and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() =='') {
             error_msg = 'Enter a day'
+            rfpResourceStartMonth.removeClass('govuk-form-group--error');
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
+
+            }
+
          }
          flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
         // rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid date');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }
+         
          // else{
          //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
          // }
@@ -13782,13 +13839,21 @@ function checkResourceStartDate()
           error_msg = 'Enter a valid month'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a month'
+            if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() == ''){
+               error_msg = 'Enter a month and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+            }
+            else if(rfpResourceStartMonth.val() =='') {
+               error_msg = 'Enter a month'
+               rfpResourceStartYear.removeClass('govuk-form-group--error');
+            }
          }
 
          flag =false;
          rfpResourceStartMonth.addClass('govuk-form-group--error');
          rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid month');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11","rfp_resource_start_date",error_msg, /^\d{1,}$/);
@@ -13832,6 +13897,22 @@ function checkResourceStartDate()
          // else{
          //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
          // }  
+      }
+      else if( rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4){
+         if(document.getElementById('agreementID').value === 'RM1043.8') {
+            removeErrorFieldsdates();
+         }
+         flag =false;
+         rfpResourceStartYear.addClass('govuk-form-group--error');
+         rfpResourceStartDay.removeClass('govuk-form-group--error');
+         rfpResourceStartMonth.removeClass('govuk-form-group--error');
+         $('.durations').addClass('govuk-form-group--error');
+         $('#event-name-error-date').html('Enter a valid year');  
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter valid year", /^\d{4,}$/);
+
+         if (fieldCheck !== true){
+             errorStore.push(fieldCheck)
+         }
       }
       else if(rfpResourceStartYear.val() <= 1)
       {
@@ -14163,7 +14244,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -14424,6 +14505,28 @@ $(".startdateyearlimit").keypress(function(e) {
 
 });
 
+$(".yearlimit").keyup(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   
+   if (maxLen >= 1) {
+       return false; 
+   }
+
+});
+
+
+$(".yearlimit").keypress(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   if (maxLen >= 1) {
+      return false;
+   }
+
+});
+
 const removeErrorFieldsdates = () => {
    $('.govuk-error-message').remove();
    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
@@ -14567,15 +14670,21 @@ $('#rfp_IR35_form').on('submit', (event) => {
   
   });
 document.addEventListener('DOMContentLoaded', () => {
+
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
+
+    addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9\.]/g, '');
+    });
+
     let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
      
       let percentage = 0
       let errorList = [];
-      removeErrorFieldsRfpPercentage();
+      //removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         
 
@@ -14657,7 +14766,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -14673,7 +14782,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -15414,6 +15523,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                         }
+                        else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                        }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
@@ -15452,6 +15573,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         let msgWeightageContent = 'You must enter percentage';
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                        }
+                       else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
                         }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
@@ -15501,7 +15634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
                         if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
+                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
@@ -15763,7 +15896,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
-
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
+                                msgContent = 'Enter an nice-to-have skill and experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 9' )) ) {
+                                msgContent = 'Enter an social value question';
+                                msgWeightageContent = 'Enter a weighting for this social value question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
+                            
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 msgContent;
@@ -15864,6 +16014,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+        else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+            Array.prototype.forEach.call(weightLoop, function(el) {
+                // Do stuff here
+                if(el.value !== "") {
+                    weightArr = weightArr + 1
+                }
+                if(!el.parentElement.parentElement.parentElement.classList.contains('ccs-dynaform-hidden')) {
+                    weightTotal = weightTotal + 1
+                }
+            });
+        }
 
         if(weightArr == 0) {
             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8')) ) {
@@ -15892,7 +16053,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     var percentageval = $('#fc_question_precenate_'+1).val();
                     if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, "You must enter percentage", /\w+/);
+                           let msgContent = 'You must enter percentage';
+                           if(urlParams.get('group_id') == 'Group 6' ){
+                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                           }
+                           else if(urlParams.get('group_id') == 'Group 9' ){
+                            msgContent = 'Enter a weighting for this social value question';
+                           }
+                           
+                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, msgContent, /\w+/);
                             errorStore.push(fieldCheck)
                        }
                     }
@@ -15913,7 +16082,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
                 document.forms['rfp_multianswer_question_form'].submit();
-            } else {
+            }else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+                document.forms['rfp_multianswer_question_form'].submit();
+            }
+             else {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
@@ -15934,6 +16106,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8'))) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
 
                             var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msgContent, /\w+/);
 
@@ -15948,6 +16129,13 @@ document.addEventListener('DOMContentLoaded', () => {
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                  msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                              }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                             }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                             }
+                            
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
 
                         errorStore.push(percentageCheck)
@@ -16043,8 +16231,15 @@ document.addEventListener('DOMContentLoaded', () => {
                
                 if(percentageval.trim() != '' || percentageval != null || percentageval != undefined){
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
+                       let msgContent = 'You must enter valid question';
+                        if(urlParams.get('group_id') == 'Group 6'){
+                        msgContent = 'Enter an nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 9'){
+                            msgContent = 'Enter an social value question';
+                            }
 
-                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', "You must enter valid question", /\w+/);
+                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', msgContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
                 }
@@ -17361,7 +17556,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
-        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
     }
     if (ccs_vetting_type) {
@@ -17378,6 +17573,9 @@ $('#rfp_singleselect').on('submit', event => {
 }
 });
 
+$('#rfp_security_confirmation').on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
 const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 
 
@@ -17827,6 +18025,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("service_user_type_form") !== null) {
 
+        document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+
         let with_value_count = 10,
             prev_input = 0,
             deleteButtons = document.querySelectorAll("a.del");
@@ -18178,9 +18378,108 @@ const emptyFieldCheckRfp = () => {
     }
     return errorStore;
 }
+
+const removeErrorFieldsRfpgc = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+}
+
+const checkFieldsRfpgc = () => {
+    const start = 1;
+    const end = 20;
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    for (var a = start; a <= end; a++) {
+        let input = $(`#rfp_term_service_group_${a}`)
+        let textbox = $(`#rfp_term_more_details_${a}`);
+
+        if (!pageHeading.includes("(Optional)")) {
+            
+            const field1 = countWords1(input.val()) < 50;
+            const field2 = countWords1(textbox.val()) < 150;
+            
+            if (input.val() !== "" || field1) {
+                $(`#rfp_term_service_group_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} input`).removeClass('govuk-input--error')
+            }
+
+            if (textbox.val() !== "" || field2) {
+                $(`#rfp_term_more_details_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+            }
+        }
+
+    }
+}
+
+const emptyFieldCheckgcloud = (type) => {
+    let fieldCheck = "",
+        errorStore = [];
+    removeErrorFieldsRfpgc();
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    
+    fieldMsg = 'You must add information in all fields.';
+    descMsg = 'You must add information in all fields.';
+
+    for (var x = 1; x < 21; x++) {
+        let term_field = document.getElementById('rfp_term_service_group_' + x);
+        let definition_field = document.getElementById("rfp_term_more_details_" + x);
+
+        if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfpgc();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
+            }
+        }
+
+    }
+    return errorStore;
+}
+
 const ccsZvalidateRfpAcronyms = (event) => {
 
     // event.preventDefault();
+
+    errorStoreforOptional = emptyFieldCheckgcloud('submit');
+    if (errorStoreforOptional.length == 0) {
 
     //errorStore = emptyFieldCheckRfp();
 
@@ -18192,6 +18491,7 @@ const ccsZvalidateRfpAcronyms = (event) => {
     //   ccsZPresentErrorSummary(errorStore);
 
     // }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
 };
 const ccsScrollToJourney = (event) => {
     let element = document.querySelector('.govuk-breadcrumbs');
@@ -18509,7 +18809,7 @@ const ccsZvalidateEoiBudget = event => {
 
   } 
   else if (fieldChecks !== true) errorStore.push(fieldChecks);
-  if ($('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val().trim().length > 0) {
+  if ($('#eoi_minimum_budget').val() && $('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val() && $('#eoi_maximum_budget').val().trim().length > 0) {
     fieldCheck = ccsZvalidateWithRegex(
       'eoi_minimum_budget',
       'Enter a minimum value',
@@ -18522,27 +18822,22 @@ const ccsZvalidateEoiBudget = event => {
     );
     
     if (fieldCheck !== true) {
-      console.log("INSIDE 2");
       errorStore.push(fieldCheck);
     }
     else if (fieldChecks !== true){
-      console.log("INSIDE 3");
       errorStore.push(fieldChecks);
     } 
     else if (Number($('#eoi_maximum_budget').val()) < Number($('#eoi_minimum_budget').val())) {
-      console.log("INSIDE 4");
       errorStore.push(
         ccsZvalidateWithRegex('eoi_minimum_budget', 'Minimum budget should be less than maximum budget', /(?=a)b/),
       );
     }
 
   }
-console.log("errorStore",errorStore);
   if (errorStore.length === 0) {
     document.forms['eoi_budget_form'].submit();
   }
   else {
-    console.log("HEREEE")
     ccsZPresentErrorSummary(errorStore);
   }
 };

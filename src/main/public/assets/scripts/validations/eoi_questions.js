@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_eoi_questions_form") !== null) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     let with_value_count = 10,
       prev_input = 0,
@@ -230,7 +232,12 @@ const emptyObjectiveFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
   if ($("#page-heading").text().includes("Project objectives"))
+  if(urlParams.get('agreement_id') == 'RM6187'){
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "Enter at least 1 project objective", /\w+/);
+  }else{
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  }
+    
   if (fieldCheck !== true && ($("#page-heading").text().includes("Project objectives"))) errorStore.push(fieldCheck);
   return errorStore;
 };

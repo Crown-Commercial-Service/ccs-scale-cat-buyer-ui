@@ -334,7 +334,7 @@
                             },
                             id: "eoi_duration-years",
                             name: "eoi_duration-years",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value,
@@ -354,7 +354,7 @@
                             },
                             id: "eoi_duration-months",
                             name: "eoi_duration-months",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[1].value,
@@ -374,7 +374,7 @@
                             },
                             id: "eoi_duration-days",
                             name: "eoi_duration-days",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[2].value,
@@ -987,7 +987,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest</a>
+                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your EoI</a>
                 </div>
 
               </form>

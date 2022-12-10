@@ -71,9 +71,8 @@
       {% include "includes/project_header.njk" %}
       <div>  
         {% if agreementId_session != 'RM1043.8' %}  
-            {% if agreementId_session == 'RM6187' %}
-              <p class="govuk-body">Enter your final evalution score for this supplier.</p>
-              <p class="govuk-body">The final score incorporates all the individual and category weightings.</p> 
+            {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+              <p class="govuk-body">Enter your final score for this supplier. This is the quality and price score added together.</p>        
               
             {% else %}     
               <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
@@ -126,7 +125,7 @@
                 {% else %}
                       {{ CCSInput({
                             label: {
-                              text: "Score ",
+                              text: "Final score ",
                               classes: "govuk-label--m",
                               id: "enter_evaluation",
                               name: "enter_evaluation"
