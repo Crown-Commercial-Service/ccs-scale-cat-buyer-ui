@@ -17,6 +17,7 @@
     "subtitle1": "You can close this project using the link under the project name below.",
     "subsection2_title": "Project ID/name",
     "subsection2_content": "Close your event",
+    "subsection2_content2": "Close this project",
     "subsection3_title": "Your Inbox",
     "subsection3_linkText": "Open my inbox",
     "subsection3_linkURL": "/message/inbox",
