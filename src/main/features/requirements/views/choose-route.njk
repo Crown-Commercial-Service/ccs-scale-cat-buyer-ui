@@ -38,11 +38,13 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
         <p class="govuk-body">{{ data.form.question }}</p>
-        {% if agreementId_session == 'RM6187' %}
+        {# {% if agreementId_session == 'RM6187' %}
         <p class="govuk-body">
           If you select an option that includes capability assessment, you can download your list of suppliers at the end of the assessment to use on your own procurement system.</p>
-        {% endif %}
+        {% endif %} #}
+        {% if agreementId_session != 'RM6187' %}
         <p class="govuk-body">Before you select direct award, you'll need to get legal advice to confirm it is a compliant route to market(way to buy) for your circumstances</p>
+        {% endif %}
         {#<p class="govuk-body">If you select an option that includes capability assessment,you can download your list of suppliers at the end of the assessment to use your own procurement system.</p>#}
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full govuk-!-margin-top-9">
