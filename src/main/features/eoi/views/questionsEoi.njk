@@ -128,9 +128,12 @@
               ] %}
               {% for i in range(2, 11) -%}
 
+               <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
+<a href='{{i}}'  class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+
                 {{ CCSCharacterCount({
                       label: {
-                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"<a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>",
+                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"",
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_"+i,
@@ -140,7 +143,7 @@
                       value: requirement.nonOCDS.options[i-1].value
                     })
                 }}
-
+</div>
               {%- endfor %}
 
               <p class="govuk-body">
@@ -333,7 +336,7 @@
                             },
                             id: "eoi_duration-years",
                             name: "eoi_duration-years",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value,
@@ -353,7 +356,7 @@
                             },
                             id: "eoi_duration-months",
                             name: "eoi_duration-months",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[1].value,
@@ -373,7 +376,7 @@
                             },
                             id: "eoi_duration-days",
                             name: "eoi_duration-days",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[2].value,
@@ -431,7 +434,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_fieldset splterm_1",
+                            classes: "closeCCS term_fieldset splterm_1",
                             id:"term_fieldset_splterm_1"
                   }) %}
 
@@ -470,7 +473,7 @@
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_fieldset splterm_"+i,
+                      classes: "closeCCS term_fieldset splterm_"+i,
                       id:"term_fieldset"
                     }) %}
                  
@@ -522,7 +525,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_fieldset splterm_1",
+                            classes: "closeCCS term_fieldset splterm_1",
                             id:"term_fieldset_splterm_1"
                   }) %}
 
@@ -594,7 +597,7 @@
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_fieldset splterm_"+i,
+                      classes: "closeCCS term_fieldset splterm_"+i,
                       id:"term_fieldset"
                     }) %}
                   {% if agreement_id == 'RM6187' %}
@@ -766,7 +769,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_1",
+                            classes: "closeCCS term_acronym_fieldset acronym_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                       %}
@@ -833,7 +836,7 @@
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_acronym_fieldset acronym_"+i,
+                      classes: "closeCCS term_acronym_fieldset acronym_"+i,
                       id:"term_acronym_fieldset"
                     }) %}
 
@@ -986,7 +989,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest</a>
+                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your EoI</a>
                 </div>
 
               </form>

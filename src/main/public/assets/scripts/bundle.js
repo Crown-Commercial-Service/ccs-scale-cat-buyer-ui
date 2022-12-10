@@ -6409,65 +6409,280 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+              
+                    e.preventDefault();
+            let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+              prev_coll = Number(target) - 1,
+              target_fieldset = db.closest("div");
+    
+                   let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                   
+                   if(target != 20) {
+                       let ml = 1;
+                       
+                       let next_coll = Number(target);
+                       let nextLevel_coll = Number(target);
+                       let eptArr = [];
+                       while (Sibling) {
+    
+                        let siblingClassList = Sibling.classList;
+                           if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                             let current_col = nextLevel_coll;  
+                             nextLevel_coll = (nextLevel_coll + 1);
+    
+                             eptArr.push(nextLevel_coll)
+                            
+                               if(ml == 1) {
+                                   console.log(`First: ${ml} - ${next_coll}`)
+                                   let first;
+                                   let last;
+                                   let percentage;
+                                  
+                                   var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                   if(fc_question_precenate_fir){
+                                    first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                  
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                   }
+                                   var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                   if(fc_question_precenate_sec){
+                                    var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                 
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                   }
+                                   var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                   if(fc_question_precenate_third){
+                                     percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                   
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                   }
+                                   //ID BASED
+                                   var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                   if(fc_question_precenate_El){
+                                     last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                    
+                                     document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                   }
+                                  
+                               
+                                
+                                
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+    
+                                  
+                               } else {
+                                   next_coll = next_coll + 1;
+                                   console.log(`Usual: ${ml} - ${next_coll}`)
+                              
+                                // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                               
+                                   
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                let first;
+                                let last;
+                                let percentage;
+    
+                                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                if(fc_question_precenate_fir){
+                                 first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                }
+                                var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                if(fc_question_precenate_sec){
+                                 var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                }
+                                var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                if(fc_question_precenate_third){
+                                  percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                 
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                }
+                                //ID BASED
+                                var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                if(fc_question_precenate_El){
+                                  last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 
+                                  document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                }
+                                
+                               }
+           
+                              
+                               Sibling = Sibling.nextElementSibling;
+                           } else {
+                               Sibling = false;
+                           }
+                       ml++;}
+                       if(eptArr.length > 0) {
+                          
+                           let removeLogic = eptArr.at(-1);
+                          
+                          
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                        
+                        document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                    } else {
+                       
+                           target_fieldset.classList.add("ccs-dynaform-hidden");
+                           
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        
+                           if (prev_coll > 1) {
+                            document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                           }
+                           $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                       }
+                   } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+    
+                    var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                           }
+                 
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+                   with_value_count--;
+                   if (with_value_count != 11) {
                     
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               });
+
+            // db.addEventListener('click', (e) => {
+            //     console.log("Delete")
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
                     
-                }
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    
+            //     }
                 
-              //  console.log("Target",precentageValueofLast);
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+            //   //  console.log("Target",precentageValueofLast);
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-                }
+            //     }
 
-                $('.class_question_remove_' + target).val("");
+            //     $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
 
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-                    //console.log("PREVIOUSS")
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                } else {
-                    //console.log("Else statement")
-                }
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+            //         //console.log("PREVIOUSS")
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+            //         //console.log("Else statement")
+            //     }
 
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                with_value_count--;
-            });
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     with_value_count--;
+            // });
+
+
         });
 
         for (var box_num = 10; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
             if (this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === 10) {
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
@@ -6491,7 +6706,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
-         console.log("question selected in DA")
+         
            // $('.govuk-error-summary').remove();
            // $('.govuk-form-group--error').remove();
             removeErrorFieldsDAScoreQuestion();
@@ -6515,7 +6730,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (with_value_count > 2) {
                     prev_input = with_value_count - 1;
-                    document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                 //   document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
                 }
 
                 if (pageHeading.includes('Write your social value questions')) {
@@ -6551,63 +6766,63 @@ document.addEventListener('DOMContentLoaded', () => {
             } else ccsZPresentErrorSummary(errorStore);
         });
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                e.preventDefault();
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         e.preventDefault();
                 
-                const pageHeading = document.getElementById('page-heading').innerHTML;
-                const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
+        //         const pageHeading = document.getElementById('page-heading').innerHTML;
+        //         const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
 
-                if (pageHeading.includes('Write your social value questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your social value questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                if (pageHeading.includes('Write your technical questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your technical questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
     }
 
     const emptyQuestionFieldCheckDa = (add_more='') => {
@@ -7323,7 +7538,7 @@ document.addEventListener('DOMContentLoaded', () => {
         term_box = document.getElementById("eoi_term_" + acronym_fieldset);
 
       if (term_box.value !== "") {
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
+       // this_fieldset.classList.remove('ccs-dynaform-hidden');
 
         if (acronym_fieldset === 20) {
           document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
@@ -7363,7 +7578,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+         // document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -7386,22 +7601,100 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+            
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
 
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + current_col).value = first.value;
+                    document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + next_coll).value = first.value;
+                    document.getElementById('eoi_term_definition_' + next_coll).value = last.value;
+                }
+
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_term_' + removeLogic).value = "";
+            document.getElementById('eoi_term_definition_' + removeLogic).value = "";
+            document.getElementById('eoi_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_term_' + target).value = "";
+            document.getElementById('eoi_term_definition_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
+    } else {
         target_fieldset.classList.add("ccs-dynaform-hidden");
-
         document.getElementById('eoi_term_' + target).value = "";
         document.getElementById('eoi_term_definition_' + target).value = "";
-
-
         if (prev_coll > 1) {
-          document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
-
         document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoiTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_term_' + target).value = "";
+        // document.getElementById('eoi_term_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+     
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -7759,6 +8052,24 @@ const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
 
+
+DaySelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+MonthSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });  
+YearSelector.on('keydown', (event) => {
+    if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+    event.preventDefault(); });
+    
+let eoiDurationField = $('.eoi_duration');
+  
+    eoiDurationField.on('keydown', (event) => {
+     if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
+       event.preventDefault(); });
+
+
 let agreementData;
 if ($('.agreement_no').attr('id')) {
     agreementData = $('.agreement_no').attr('id').split("-");
@@ -7774,9 +8085,8 @@ if (agreementData != undefined && agreementData.length > 0) {
     expiryDate = Number(agreementData[2]);
 }
 
-const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
+const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
 const getMSOfExpiryDate = ExpiryDates.getTime()
-
 
 
 DaySelector.on('blur', () => {
@@ -7977,9 +8287,9 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
-    const FormDate = new Date(Year, Month, Day);
+    const FormDate = new Date(Year, Month-1, Day);
     const getTimeOfFormDate = FormDate.getTime();
-
+   
     const todayDate = new Date();
 
 
@@ -8020,11 +8330,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
        // console.log("errorStore",errorStore)
         //ccsZPresentErrorSummary(errorStore);
     }
-    console.log("getTimeOfFormDate",getTimeOfFormDate);
-    console.log("getMSOfExpiryDate",getMSOfExpiryDate);
     
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
+       
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
         DaySelector.addClass('govuk-form-group--error');
         MonthSelector.addClass('govuk-form-group--error');
@@ -8115,10 +8424,25 @@ const ccsZvalidateEoiDate = (event) => {
   else
   {
     
-    var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
+    // var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
     
-    var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    // var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    let agreementData;
+    if ($('.agreement_no').attr('id')) {
+        agreementData = $('.agreement_no').attr('id').split("-");
+    }
+    let expiryYears = null;
+    let expiryMonth = null;
+    let expiryDate = null;
+    if (agreementData != undefined && agreementData.length > 0) {
+        expiryYears = Number(agreementData[0]);
+        expiryMonth = Number(agreementData[1]);
+        expiryDate = Number(agreementData[2]);
+    }
+    // const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
+    // const getMSOfExpiryDate = ExpiryDates.getTime()
     
+    var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
         ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
@@ -8154,7 +8478,6 @@ function getDate(start_day, start_month, start_year, start_date) {
 }
 
 function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
- 
     if(start_date !=undefined && start_date !=null && start_date <= new Date(agreement_expiry_date)) { // This will only work in prototype for MCF-3 lot 1 for enabling this page for other agreements need to add hidden field in the page to read lot endDate
       return true;
   }else {
@@ -8215,6 +8538,8 @@ document.addEventListener('DOMContentLoaded', () => {
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_eoi_questions_form") !== null) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     let with_value_count = 10,
       prev_input = 0,
@@ -8233,9 +8558,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
+       
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+        //let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
         document.getElementById("eoi_question_"+text_box_num+"-info" ).classList.add('ccs-dynaform-hidden');
-        the_label.classList.add('ccs-dynaform-hidden');
+        //the_label.classList.add('ccs-dynaform-hidden');
         filled_input++;
         with_value_count = text_box_num;
       }
@@ -8258,6 +8585,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("eoi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
+
         document.querySelector('label[for=eoi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
         document.getElementById("eoi_question_"+with_value_count+"-info" ).classList.remove('ccs-dynaform-hidden');
 
@@ -8278,29 +8607,116 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-
+      
+       db.addEventListener('click', (e) => {
+    
         e.preventDefault();
+        console.log("e.target.href",e.target.href);
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        prev_coll = Number(target) - 1,
+       target_fieldset = db.closest("div");
+        console.log("target",target);
+        console.log("target_fieldset",target_fieldset);
 
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-        document.getElementById('eoi_question_' + target).value = "";
-        document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
-        if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
-        document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-        document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
-        if (prev_box > 1) {
-          document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                console.log(`target: ${target}`)
+                console.log("Sibling",Sibling)
+                if(target != 20) {
+                    let ml = 1;
+                  console.log("1111")  
+                    let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
+                            nextLevel_coll = (nextLevel_coll + 1);
+
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                console.log("nextLevel_coll",nextLevel_coll);
+                                console.log("current_col",current_col);
+                                
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                                
+                            } else {
+                                next_coll = next_coll + 1;
+                                console.log(`Usual: ${ml} - ${next_coll}`)
+                                console.log("nextLevel_coll",nextLevel_coll);
+                                console.log("current_col",current_col);
+
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                            }
+        
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('eoi_question_' + removeLogic).value = "";
+                       
+                        document.getElementById('fc_question_' + removeLogic).closest("div").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        target_fieldset.classList.add("ccs-dynaform-hidden");
+                        document.getElementById('eoi_question_' + target).value = "";
+                       
+                        if (prev_coll > 1) {
+                          document.querySelector('#fc_question_2' + removeLogic).classList.add("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    target_fieldset.classList.add("ccs-dynaform-hidden");
+                    document.getElementById('eoi_question_' + target).value = "";
+                    
+                    if (prev_coll > 1) {
+                      document.querySelector('#main_eoi_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                    }
+                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                }
+                with_value_count--;
+                if (with_value_count != 21) {
+                    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+                }
+
+
+      //   e.preventDefault();
+    
+      //   let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_box = Number(target) - 1;
+      //   document.getElementById('eoi_question_' + target).value = "";
+      //   document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
+      //   let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
+      //   if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
+      //     parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
+      //     parentNode.classList.remove("govuk-form-group--error");
+      //     parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
+      //   }
+      //   //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
+      //   document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+      //   document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
+      //   if (prev_box > 1) {
+      //     document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+      //   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+       });
+
+
     });
 
 
@@ -8341,7 +8757,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
-      if (!document.getElementById("eoi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+      if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
         fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, errorText, /\w+/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
@@ -8354,7 +8770,12 @@ const emptyObjectiveFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
   if ($("#page-heading").text().includes("Project objectives"))
+  if(urlParams.get('agreement_id') == 'RM6187'){
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "Enter at least 1 project objective", /\w+/);
+  }else{
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  }
+    
   if (fieldCheck !== true && ($("#page-heading").text().includes("Project objectives"))) errorStore.push(fieldCheck);
   return errorStore;
 };
@@ -8555,22 +8976,96 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+          
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                    document.getElementById('eoi_splterm_' + current_col).value = first.value;
+                    //document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                  
+                    document.getElementById('eoi_splterm_' + next_coll).value = first.value;
+                   
+                }
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-
-        document.getElementById('eoi_splterm_' + target).value = "";
-        // document.getElementById('eoi_splterm_definition_' + target).value = "";
-
-
-        if (prev_coll > 1) {
-          document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_splterm_' + removeLogic).value = "";
+           
+            document.getElementById('eoi_splterm_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_splterm_' + target).value = "";
+           
+            if (prev_coll > 1) {
+                document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
+    } else {
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+        document.getElementById('eoi_splterm_' + target).value = "";
+       
+        if (prev_coll > 1) {
+            document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
         document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoisplTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_splterm_' + target).value = "";
+        // // document.getElementById('eoi_splterm_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+    //  });
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -8997,7 +9492,6 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
-                console.log(file)
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -9010,9 +9504,17 @@ $(document).ready(function () {
                     
                 }
                 else if(!checkFileValidMimeType){
-                ErrorCheckArray.push({
-                    type: "type"
-                })
+                    let fileExt = file.name.split(".").pop();
+                    fileExt = fileExt?fileExt:undefined;
+                    if(fileExt == 'kml'){
+                        ErrorCheckArray.push({
+                            type: "none"
+                        })
+                    }else{
+                        ErrorCheckArray.push({
+                            type: "type"
+                        })
+                    }
                 }
                 else{
                 ErrorCheckArray.push({
@@ -10788,6 +11290,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 $('.add').addClass('ccs-dynaform-hidden');
 document.addEventListener('DOMContentLoaded', () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
 
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
@@ -10807,6 +11311,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("rfi_question_" + text_box_num).classList.remove('ccs-dynaform-hidden');
         let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
         the_label.classList.remove('ccs-dynaform-hidden');
+        
+        
+        
+
       }
       else{
       if (this_box.value !== "") {
@@ -10817,8 +11325,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
-        the_label.classList.add('ccs-dynaform-hidden');
+        // let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
+        // the_label.classList.add('ccs-dynaform-hidden');
+        
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+
         with_value_count = text_box_num;
       }
     }
@@ -10833,7 +11344,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errorStore.length == 0) {
 
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
         document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
 
         if (with_value_count > 2) {
@@ -10861,57 +11372,206 @@ document.addEventListener('DOMContentLoaded', () => {
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               console.log("Sibling",Sibling);
+
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   console.log("nextLevel_coll",nextLevel_coll);
+                   console.log("target",target);
+                   let current_col = nextLevel_coll;  
+                   
+                   let eptArr = [];
+                   while (Sibling) {
+
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
+
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               
+                               let last;
+                               
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                                 document.getElementById('rfi_question_'+current_col).value=last;
+                               }
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                          
+                            let last;
+                          
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                              document.getElementById('rfi_question_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       console.log(eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                      
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+removeLogic).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+current_col).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+current_col).value="";
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+           });
+
+
+
+
+
+
+
+
+
         //debugger;
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-          for (var k=1;k<=10;k++)
-          {
-            document.getElementById("rfi_label_question_"+k).innerText="";
+
+
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_box = Number(target) - 1;
+        //   for (var k=1;k<=10;k++)
+        //   {
+        //     document.getElementById("rfi_label_question_"+k).innerText="";
             
-          }
-        for (var i=target;i<11;i++){
-          var j=Number(i)+1;
-         let nextelmnt= document.getElementById('rfi_question_' + j);
-        //  let prevelmnt= document.getElementById('rfi_question_' + i);
-        if(nextelmnt!=null){
-         if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
-         {
-          document.getElementById('rfi_question_' + i).value=nextelmnt.value;
-          document.getElementById("rfi_label_question_"+i).innerText="";
-         }
-         else
-         {
-           target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-         }
-        }
-        else
-        {
-          target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-        }
-        }
+        //   }
+        // for (var i=target;i<11;i++){
+        //   var j=Number(i)+1;
+        //  let nextelmnt= document.getElementById('rfi_question_' + j);
+        // //  let prevelmnt= document.getElementById('rfi_question_' + i);
+        // if(nextelmnt!=null){
+        //  if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
+        //  {
+        //   document.getElementById('rfi_question_' + i).value=nextelmnt.value;
+        //   document.getElementById("rfi_label_question_"+i).innerText="";
+        //  }
+        //  else
+        //  {
+        //    target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        //  }
+        // }
+        // else
+        // {
+        //   target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        // }
+        // }
 
-        document.getElementById('rfi_question_' + target).value = "";
-        document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
-        if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
-        document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+        // document.getElementById('rfi_question_' + target).value = "";
+        // document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
+        // let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
+        // if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
+        //   parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
+        //   parentNode.classList.remove("govuk-form-group--error");
+        //   parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
+        // }
+        // //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
+        // document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
 
-        if (prev_box > 1) {
-          //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-        console.log("with_value_count>>>",with_value_count)
-      });
+        // if (prev_box > 1) {
+        //   //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+        // document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+        // console.log("with_value_count>>>",with_value_count)
+   //   });
     });
 
 
@@ -10951,9 +11611,15 @@ const emptyQuestionFieldCheck = () => {
   //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   for (var i = 1; i < 21; i++) {
-    if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+   // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+    if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM6187'){
+          errText = "You must ask at least one question";
+        }else{
+          errText = "You must add at least one question";
+        }
+        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
       fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -10968,7 +11634,12 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+    if(urlParams.get('agreement_id') == 'RM6187'){
+      errText = "You must ask at least one question";
+    }else{
+      errText = "You must add at least one question";
+    }
+  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
@@ -11464,7 +12135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
             checkFieldsRfp1();
             e.preventDefault();
-            errorStoreforOptional = emptyFieldCheckdos();
+            errorStoreforOptional = emptyFieldCheckdos('addmore');
             if (errorStoreforOptional.length == 0) {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
@@ -11723,7 +12394,7 @@ messagesendcountEle.forEach(ele => {
         removeErrorFieldsRfp1();
     });
 });
-const emptyFieldCheckdos = () => {
+const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
@@ -11741,20 +12412,41 @@ const emptyFieldCheckdos = () => {
         let definition_field = document.getElementById("rfp_term_definition_" + x);
 
         if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
-            const field1 = countWords1(term_field.value) > 50;
-            const field2 = countWords1(definition_field.value) > 150;
-            if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-                checkFieldsRfp1();
-                     if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, fieldMsg];
-                        ccsZaddErrorMessage(term_field, fieldMsg);
-                        errorStore.push(fieldCheck);
-                    } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, descMsg];
-                        //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, descMsg);
-                        errorStore.push(fieldCheck);                        
-                    } 
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfp1();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
             }
         }
 
@@ -11873,6 +12565,9 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
     // }
 
     // return false;
+
+    errorStoreforOptional = emptyFieldCheckdos('submit');
+        if (errorStoreforOptional.length == 0) {
     
     errorStore = emptyFieldCheckRfp1();
 
@@ -11903,6 +12598,7 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
   }else {
     ccsZPresentErrorSummary(errorStore);
   }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
     //errorStore = emptyFieldCheckRfp();
 
     //if (errorStore.length === 0) {
@@ -12154,11 +12850,10 @@ const emptyQuestionFieldCheckBudget = () => {
   const pageHeading = pageHeadingVal.toLowerCase();
 
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value').val() != null && $('#rfp_maximum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    console.log("maxBudget",maxBudget);
-    console.log("minBudget",minBudget);
+    
     
     if(maxBudget=='0'){
       errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
@@ -12198,7 +12893,7 @@ const emptyQuestionFieldCheckBudget = () => {
     }
   }
 
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value').val() != null && $('#rfp_minimum_estimated_contract_value').val() != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
 
@@ -12403,6 +13098,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 1;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -12425,12 +13122,12 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else{
             removeErrorFieldsdates();
-
             return true;
           }
          }
          
-      }
+         }
+        }
       }
 
       const MonthCheckResourceStart = () => {
@@ -12438,6 +13135,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) <= 0;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -12462,7 +13161,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
          }
          }
-      }
+          }
+         }
       }
       const YearCheckResourceStart = () => {
         // let fieldCheck = "", errorStore = [];
@@ -12510,6 +13210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
       else{
+
          removeErrorFieldsdates();
          return true;
       }
@@ -13085,18 +13786,33 @@ function checkResourceStartDate()
          var error_msg = 'Enter a valid date'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
+            if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
+               error_msg = 'Enter a day and month'
+               rfpResourceStartMonth.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' &&  rfpResourceStartMonth.val() != ''){
+               error_msg = 'Enter a day and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() =='') {
             error_msg = 'Enter a day'
+            rfpResourceStartMonth.removeClass('govuk-form-group--error');
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
+
+            }
+
          }
          flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
         // rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid date');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }
+         
          // else{
          //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
          // }
@@ -13123,13 +13839,21 @@ function checkResourceStartDate()
           error_msg = 'Enter a valid month'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a month'
+            if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() == ''){
+               error_msg = 'Enter a month and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+            }
+            else if(rfpResourceStartMonth.val() =='') {
+               error_msg = 'Enter a month'
+               rfpResourceStartYear.removeClass('govuk-form-group--error');
+            }
          }
 
          flag =false;
          rfpResourceStartMonth.addClass('govuk-form-group--error');
          rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid month');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11","rfp_resource_start_date",error_msg, /^\d{1,}$/);
@@ -13173,6 +13897,22 @@ function checkResourceStartDate()
          // else{
          //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
          // }  
+      }
+      else if( rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4){
+         if(document.getElementById('agreementID').value === 'RM1043.8') {
+            removeErrorFieldsdates();
+         }
+         flag =false;
+         rfpResourceStartYear.addClass('govuk-form-group--error');
+         rfpResourceStartDay.removeClass('govuk-form-group--error');
+         rfpResourceStartMonth.removeClass('govuk-form-group--error');
+         $('.durations').addClass('govuk-form-group--error');
+         $('#event-name-error-date').html('Enter a valid year');  
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter valid year", /^\d{4,}$/);
+
+         if (fieldCheck !== true){
+             errorStore.push(fieldCheck)
+         }
       }
       else if(rfpResourceStartYear.val() <= 1)
       {
@@ -13354,7 +14094,12 @@ function isProjectExtensionValid() {
       }
   }
    
-  
+  let durationYears='2';
+  let durationMessage='Expected contract length must be 2 years or less';
+  if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+   durationYears='3';
+   durationMessage='Expected contract length must be 3 years or less';
+  }
    
    if (YearProjectRun != null && YearProjectRun != "") {
       if(Number(YearProjectRun) < 0 )
@@ -13365,22 +14110,22 @@ function isProjectExtensionValid() {
          fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a Valid Year",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
        }
-      else if(Number(YearProjectRun) > 2 )
+      else if(Number(YearProjectRun) > durationYears )
       {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');   
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Expected contract length must be 2 years or less",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         
 
       }
-      else if (Number(YearProjectRun) >= 2 && (Number(MonthProjectRun)> 0 || Number(DaysProjectRun) > 0 ))
+      else if (Number(YearProjectRun) >= durationYears && (Number(MonthProjectRun)> 0 || Number(DaysProjectRun) > 0 ))
       {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Expected contract length must be 2 years or less",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         // return false;
       }
@@ -13448,25 +14193,58 @@ function isProjectExtensionValid() {
       let tempProjectRunInDays = Number(projectRunInDays);
       let tempExtensionRunInDays = Number(extensionRunInDays);
       if (tempProjectRunInDays > tempExtensionRunInDays) {
-         let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
-         if (dayDiffPercentage > 50) {
-            isValid = false;       
-            $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
-            //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-            fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
-         }
-         else {
-            isValid = true;
-            if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
-           
-         }
+
+         if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+
+            if(tempExtensionRunInDays > 365 ){
+               isValid = false;       
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Expected contract length must be 12 months or less",/^\d{1,}$/);
+              if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+            }else{
+
+               let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
+            if (dayDiffPercentage > 50) {
+               isValid = false;       
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+            else {
+               isValid = true;
+               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+              
+            }
+               
+            }
+            
+           }else{
+
+            let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
+            if (dayDiffPercentage > 50) {
+               isValid = false;       
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+            else {
+               isValid = true;
+               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+              
+            }
+
+        }
+
       }
       else {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -13727,6 +14505,28 @@ $(".startdateyearlimit").keypress(function(e) {
 
 });
 
+$(".yearlimit").keyup(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   
+   if (maxLen >= 1) {
+       return false; 
+   }
+
+});
+
+
+$(".yearlimit").keypress(function(e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+   if (maxLen >= 1) {
+      return false;
+   }
+
+});
+
 const removeErrorFieldsdates = () => {
    $('.govuk-error-message').remove();
    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
@@ -13870,15 +14670,21 @@ $('#rfp_IR35_form').on('submit', (event) => {
   
   });
 document.addEventListener('DOMContentLoaded', () => {
+
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
+
+    addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9\.]/g, '');
+    });
+
     let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
      
       let percentage = 0
       let errorList = [];
-      removeErrorFieldsRfpPercentage();
+      //removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         
 
@@ -13960,7 +14766,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -13976,7 +14782,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -14274,66 +15080,273 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
+            console.log("0")
                 e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-                if(Number(target) == 20){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               console.log("Sibling",Sibling);
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   let eptArr = [];
+                   while (Sibling) {
 
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
 
-                }
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               let first;
+                               let last;
+                               let percentage;
 
+                               var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                               if(fc_question_precenate_fir){
+                                first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                               }
+                               var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                               if(fc_question_precenate_sec){
+                                var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                               }
+                               var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                               if(fc_question_precenate_third){
+                                 percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                               }
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 document.getElementById('fc_question_precenate_'+current_col).value=last;
+                               }
+                              
+                           
+                            
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
 
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            let first;
+                            let last;
+                            let percentage;
 
-                }
+                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                            if(fc_question_precenate_fir){
+                             first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            }
+                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                            if(fc_question_precenate_sec){
+                             var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                            }
+                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                            if(fc_question_precenate_third){
+                              percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            }
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                              document.getElementById('fc_question_precenate_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       console.log(eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                      
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                       }
 
-                $('.class_question_remove_' + target).val("");
-
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
-
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
 
-                }
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
-                    with_value_count = 21
-                }
-                with_value_count--;
-            });
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+           });
+            
+            
+            // db.addEventListener('click', (e) => {
+            //     if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+            //     if(Number(target) == 20){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+
+            //     }
+
+
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+
+            //     }
+
+            //     $('.class_question_remove_' + target).val("");
+
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
+
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+
+            //     }
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
+            //         with_value_count = 21
+            //     }
+            //     with_value_count--;
+            // });
         });
 
       
@@ -14385,8 +15398,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
+            
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+                console.log("ORDER1")
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14398,6 +15414,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                console.log("ORDER23")
+                console.log("this_box",this_box)
+                document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14504,6 +15523,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                         }
+                        else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                        }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
@@ -14542,6 +15573,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         let msgWeightageContent = 'You must enter percentage';
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                        }
+                       else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
                         }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
@@ -14591,7 +15634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
                         if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
+                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
@@ -14653,11 +15696,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 //Added this condation section 5 (step 43/44/45)
 
                 if (with_value_count > 2) {
-                    if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    }else {
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    }
+                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                    // }else {
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                    // }
                 }
                 if (document.getElementById("questionsCount") != undefined) {
                     document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
@@ -14686,7 +15729,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 }
                 totalAnswerd();
-                $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
+               // $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
                 
             } else ccsZPresentErrorSummary(errorStore);
         });
@@ -14695,48 +15738,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                totalAnswerd();
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         totalAnswerd();
+        //         e.preventDefault();
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
 
         $('.dos_question_count').on('change keyup paste', (event) => {
             totalAnswerd();
@@ -14758,7 +15801,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(showinputarray.length > 0){
                 let prevvaalue = lastElement -1;
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
-                $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
+              //  $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -14844,7 +15887,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes('Write your social value questions (Optional)')) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
@@ -14853,7 +15896,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
-
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
+                                msgContent = 'Enter an nice-to-have skill and experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 9' )) ) {
+                                msgContent = 'Enter an social value question';
+                                msgWeightageContent = 'Enter a weighting for this social value question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
+                            
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 msgContent;
@@ -14919,6 +15979,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log("1111")
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
@@ -14943,6 +16004,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+            Array.prototype.forEach.call(weightLoop, function(el) {
+                // Do stuff here
+                if(el.value !== "") {
+                    weightArr = weightArr + 1
+                }
+                if(!el.parentElement.parentElement.parentElement.classList.contains('ccs-dynaform-hidden')) {
+                    weightTotal = weightTotal + 1
+                }
+            });
+        }
+        else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
             Array.prototype.forEach.call(weightLoop, function(el) {
                 // Do stuff here
                 if(el.value !== "") {
@@ -14981,7 +16053,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     var percentageval = $('#fc_question_precenate_'+1).val();
                     if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, "You must enter percentage", /\w+/);
+                           let msgContent = 'You must enter percentage';
+                           if(urlParams.get('group_id') == 'Group 6' ){
+                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                           }
+                           else if(urlParams.get('group_id') == 'Group 9' ){
+                            msgContent = 'Enter a weighting for this social value question';
+                           }
+                           
+                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, msgContent, /\w+/);
                             errorStore.push(fieldCheck)
                        }
                     }
@@ -15002,7 +16082,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
                 document.forms['rfp_multianswer_question_form'].submit();
-            } else {
+            }else if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6') {
+                document.forms['rfp_multianswer_question_form'].submit();
+            }
+             else {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
@@ -15023,6 +16106,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8'))) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
 
                             var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msgContent, /\w+/);
 
@@ -15037,6 +16129,13 @@ document.addEventListener('DOMContentLoaded', () => {
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                  msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                              }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                             }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                             }
+                            
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
 
                         errorStore.push(percentageCheck)
@@ -15051,9 +16150,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){
                             errorStore.push(["There is a problem", "Your total weighting is must be greater than 1%"]);
                         }
-                        // else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
-                        //     errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
-                        // }
+                        else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 100){
+                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                        }
 
                         if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
@@ -15132,8 +16231,15 @@ document.addEventListener('DOMContentLoaded', () => {
                
                 if(percentageval.trim() != '' || percentageval != null || percentageval != undefined){
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
+                       let msgContent = 'You must enter valid question';
+                        if(urlParams.get('group_id') == 'Group 6'){
+                        msgContent = 'Enter an nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 9'){
+                            msgContent = 'Enter an social value question';
+                            }
 
-                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', "You must enter valid question", /\w+/);
+                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', msgContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
                 }
@@ -16447,13 +17553,17 @@ $('#rfp_singleselect').on('submit', event => {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
-        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
     }
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
@@ -16463,6 +17573,9 @@ $('#rfp_singleselect').on('submit', event => {
 }
 });
 
+$('#rfp_security_confirmation').on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
 const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 
 
@@ -16477,30 +17590,120 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.add('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
 
+      db.addEventListener('click', (e) => {
+            
+         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
 
-        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        
-        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+        let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+        console.log(`target: ${target}`)
+        if(target != 20) {
+            let ml = 1;
+            
+            let next_coll = Number(target);
+            let nextLevel_coll = Number(target);
+            let eptArr = [];
+            while (Sibling) {
+                
+                let siblingClassList = Sibling.classList;
+                if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                  let current_col = nextLevel_coll;  
+                  nextLevel_coll = (nextLevel_coll + 1);
+                  eptArr.push(nextLevel_coll)
+                    if(ml == 1) {
+                        console.log(`First: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + current_col).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + current_col).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + current_col).value = percentage.value;
+                        // target_fieldset.querySelector("[name='term']").value = first.value;
+                        // target_fieldset.querySelector("[name='value']").value = last.value;
+                        // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
+                    } else {
+                        next_coll = next_coll + 1;
+                        console.log(`Usual: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + next_coll).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + next_coll).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
+                    }
 
-        document.getElementById("kpiKeyLevel").textContent = prev_coll;
-        if (prev_coll > 1) {
-          document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    console.log(Sibling.classList);
+                    Sibling = Sibling.nextElementSibling;
+                } else {
+                    Sibling = false;
+                }
+            ml++;}
+            if(eptArr.length > 0) {
+                console.log(eptArr);
+                let removeLogic = eptArr.at(-1);
+                console.log(`removeLogic: ${removeLogic}`);
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+            } else {
+                target_fieldset.classList.add("ccs-dynaform-hidden");
+                document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                if (prev_coll > 1) {
+                    document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                }
+                document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+            }
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
-      });
+        if (with_value_count != 11) {
+         
+          document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
+    });
+
+      // db.addEventListener('click', (e) => {
+      //   e.preventDefault();
+
+      //   let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_coll = Number(target) - 1,
+      //     target_fieldset = db.closest("fieldset");
+
+
+      //   document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+      //   target_fieldset.classList.add("ccs-dynaform-hidden");
+        
+      //   document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+
+      //   document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //   if (prev_coll > 1) {
+      //     document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //     document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+
+      //   document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+      // });
     });
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
@@ -16822,6 +18025,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("service_user_type_form") !== null) {
 
+        document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+
         let with_value_count = 10,
             prev_input = 0,
             deleteButtons = document.querySelectorAll("a.del");
@@ -17058,7 +18263,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(index == 0){
                     $("#deleteButton_service_useer_type_" + val).removeClass("ccs-dynaform-hidden");
                 }else {
-                    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
+                //    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
                 }
             })
         }
@@ -17173,9 +18378,108 @@ const emptyFieldCheckRfp = () => {
     }
     return errorStore;
 }
+
+const removeErrorFieldsRfpgc = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+}
+
+const checkFieldsRfpgc = () => {
+    const start = 1;
+    const end = 20;
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    for (var a = start; a <= end; a++) {
+        let input = $(`#rfp_term_service_group_${a}`)
+        let textbox = $(`#rfp_term_more_details_${a}`);
+
+        if (!pageHeading.includes("(Optional)")) {
+            
+            const field1 = countWords1(input.val()) < 50;
+            const field2 = countWords1(textbox.val()) < 150;
+            
+            if (input.val() !== "" || field1) {
+                $(`#rfp_term_service_group_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} input`).removeClass('govuk-input--error')
+            }
+
+            if (textbox.val() !== "" || field2) {
+                $(`#rfp_term_more_details_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+            }
+        }
+
+    }
+}
+
+const emptyFieldCheckgcloud = (type) => {
+    let fieldCheck = "",
+        errorStore = [];
+    removeErrorFieldsRfpgc();
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    
+    fieldMsg = 'You must add information in all fields.';
+    descMsg = 'You must add information in all fields.';
+
+    for (var x = 1; x < 21; x++) {
+        let term_field = document.getElementById('rfp_term_service_group_' + x);
+        let definition_field = document.getElementById("rfp_term_more_details_" + x);
+
+        if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfpgc();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
+            }
+        }
+
+    }
+    return errorStore;
+}
+
 const ccsZvalidateRfpAcronyms = (event) => {
 
     // event.preventDefault();
+
+    errorStoreforOptional = emptyFieldCheckgcloud('submit');
+    if (errorStoreforOptional.length == 0) {
 
     //errorStore = emptyFieldCheckRfp();
 
@@ -17187,6 +18491,7 @@ const ccsZvalidateRfpAcronyms = (event) => {
     //   ccsZPresentErrorSummary(errorStore);
 
     // }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
 };
 const ccsScrollToJourney = (event) => {
     let element = document.querySelector('.govuk-breadcrumbs');
@@ -17504,7 +18809,7 @@ const ccsZvalidateEoiBudget = event => {
 
   } 
   else if (fieldChecks !== true) errorStore.push(fieldChecks);
-  if ($('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val().trim().length > 0) {
+  if ($('#eoi_minimum_budget').val() && $('#eoi_minimum_budget').val().trim().length > 0 && $('#eoi_maximum_budget').val() && $('#eoi_maximum_budget').val().trim().length > 0) {
     fieldCheck = ccsZvalidateWithRegex(
       'eoi_minimum_budget',
       'Enter a minimum value',
@@ -17517,27 +18822,22 @@ const ccsZvalidateEoiBudget = event => {
     );
     
     if (fieldCheck !== true) {
-      console.log("INSIDE 2");
       errorStore.push(fieldCheck);
     }
     else if (fieldChecks !== true){
-      console.log("INSIDE 3");
       errorStore.push(fieldChecks);
     } 
     else if (Number($('#eoi_maximum_budget').val()) < Number($('#eoi_minimum_budget').val())) {
-      console.log("INSIDE 4");
       errorStore.push(
         ccsZvalidateWithRegex('eoi_minimum_budget', 'Minimum budget should be less than maximum budget', /(?=a)b/),
       );
     }
 
   }
-console.log("errorStore",errorStore);
   if (errorStore.length === 0) {
     document.forms['eoi_budget_form'].submit();
   }
   else {
-    console.log("HEREEE")
     ccsZPresentErrorSummary(errorStore);
   }
 };
@@ -18554,8 +19854,26 @@ const ccsZvalidateRfPStrategy = event => {
   }
   
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
+    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter research dates');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }

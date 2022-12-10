@@ -83,7 +83,7 @@
         {
             "eventno": 4,
             "eventTitle": "Upload pricing schedules and other documents",
-            "eventDescription": "In this section you’ll also need to confirm if you require a contracted out service or a supply of resource. Note that resources that fall within scope of IR35 are not permitted through this agreement.",
+            "eventDescription": "Upload your pricing schedule, terms and conditions, and any additional information that will help suppliers understand your project.",
             "eventTask": [{
                     "Task": 1,
                     "title": "Upload your pricing schedule and other documents",
@@ -124,7 +124,7 @@
             "eventDescription": "Review the information you've entered,ensuring that you have included all relevant context, requirements, evaluation criteria and weightings.",
             "eventTask": [{
                     "Task": 1,
-                    "title": "See the available suppliers",
+                    "title": "View suppliers",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/suppliers"

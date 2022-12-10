@@ -36,10 +36,25 @@ const ccsZvalidateEoiDate = (event) => {
   else
   {
     
-    var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
+    // var description =document.getElementById("eoi_resource_start_date-hint") !=undefined && document.getElementById("eoi_resource_start_date-hint") !=null ?  document.getElementById("eoi_resource_start_date-hint").innerText.trim().split('\n')[0].split(' '):null;
     
-    var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    // var agreement_expiry_date =description !=null? description[5]+","+description[6]+","+description[7]:null;
+    let agreementData;
+    if ($('.agreement_no').attr('id')) {
+        agreementData = $('.agreement_no').attr('id').split("-");
+    }
+    let expiryYears = null;
+    let expiryMonth = null;
+    let expiryDate = null;
+    if (agreementData != undefined && agreementData.length > 0) {
+        expiryYears = Number(agreementData[0]);
+        expiryMonth = Number(agreementData[1]);
+        expiryDate = Number(agreementData[2]);
+    }
+    // const ExpiryDates = new Date(expiryYears, expiryMonth-1, expiryDate);
+    // const getMSOfExpiryDate = ExpiryDates.getTime()
     
+    var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
         ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
@@ -75,7 +90,6 @@ function getDate(start_day, start_month, start_year, start_date) {
 }
 
 function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
- 
     if(start_date !=undefined && start_date !=null && start_date <= new Date(agreement_expiry_date)) { // This will only work in prototype for MCF-3 lot 1 for enabling this page for other agreements need to add hidden field in the page to read lot endDate
       return true;
   }else {

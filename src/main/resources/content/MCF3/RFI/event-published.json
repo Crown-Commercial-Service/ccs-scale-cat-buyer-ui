@@ -2,19 +2,20 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your RfI is published  ",
+    "title": "Your RfI has been published  ",
     "board": {
-        "header": "Your Request for Information has been published",
+        "header": "Your RfI has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
             {"li": "The suppliers you selected can read your RfI and ask questions if they need more information."},
-            {"li": "When the clarification period ends you will need to answer the supplier questions by the deadline you set."}
+            {"li": "You will need to answer supplier questions by the deadline you set."},
+            {"li": "After receiving responses to your RfI, you will need to confirm next steps with suppliers."}
         ]
     },
         "dashboard": {
-            "title": "Go to your project dashboard",
+            "title": "Go to project dashboard",
             "href": "/dashboard"
         },
         "procurement": {
