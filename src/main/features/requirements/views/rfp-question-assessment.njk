@@ -123,14 +123,22 @@
                       {% if agreement_id == 'RM1043.8' %}
                         {{shortTitle}} entered so far
                       {% else %}
-                        {{shortTitle}} questions entered
+                          {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
+                              {{shortTitle}} questions entered so far
+                          {% else %}
+                              {{shortTitle}} questions entered
+                          {% endif %}
                       {% endif %}
                       </h2>
 
                     {% if agreement_id == 'RM1043.8' %}
                       <h2> Total for the {{shortTitle}}{{ ' category' if ((group_id == 'Group 8') or (group_id == 'Group 9')) else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
-                    {% else %}
-                      <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
+                    {% else %} 
+                          {% if agreement_id == 'RM6187' %}
+                              <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
+                          {% else %}
+                              <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
+                          {% endif %}
                     {% endif %}
                   </p>
                 </div>
@@ -166,8 +174,10 @@
                 
 
                 {% for i in range(1, 51) -%}
+
                   <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }} closeCCS">
-                    <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >{{ 'Enter your ' if agreement_id == 'RM1043.8' else 'Enter an ' }}{{numberWord[i]}}
+                    <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >{{ 'Enter your ' if (agreement_id == 'RM1043.8' or agreement_id == 'RM6187')' else 'Enter an ' }}{{numberWord[i]}}
+
                       {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}<a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
                     </label>
                   </br>
