@@ -92,7 +92,7 @@ for(let i=0;i<suppliersList.length;i++){
     }
     
   const rowCount=10;let showPrevious=false,showNext=false;
-  supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+  supplierList = supplierList?.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
   const supplierListDwn = supplierList;
   const supplierLength = supplierList.length;
   

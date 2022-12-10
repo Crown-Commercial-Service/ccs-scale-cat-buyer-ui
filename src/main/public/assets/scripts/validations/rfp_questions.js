@@ -638,14 +638,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, "You must enter your description of the requirement"])
                                 }
                             }
