@@ -120,6 +120,31 @@
                   })
               }}
               <p><label id="rfi_label_question_1"></label></p>#}
+          {% if agreement_id == 'RM6187' %}
+              {% set numberWord = [
+              'Zero',
+              'First',
+              'Second',
+              ' Third',
+              ' Fourth',
+              ' Fifth',
+              ' Sixth',
+              ' Seventh',
+              ' Eighth',
+              ' Ninth',
+              ' Tenth',
+              'Eleventh',
+                'Twelfth',
+                'Thirteenth',
+                'Fourteenth',
+                'Fifteenth',
+                'Sixteenth',
+                'Seventeenth',
+                'Eighteenth',
+                'Nineteenth',
+                'Twentieth'
+            ] %}
+        {% else %}
             {% set numberWord = [
               'Zero',
               'first',
@@ -129,20 +154,22 @@
               ' fifth',
               ' sixth',
               ' seventh',
-              ' eight',
+              ' eighth',
               ' ninth',
               ' tenth',
               'eleventh',
-              'twelfth',
-              'thirteen',
-              'fourteen',
-              'fifteen',
-              'sixteen',
-              'seventeen',
-              'eighteen',
-              'nineteen',
-              'twenty'
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
             ] %}
+            {% endif %}
+
             {% for i in range(1, 21) -%}
             <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
                {% if i!=1 %} 
@@ -157,7 +184,12 @@
                 {% endif %}
               {% else %}
 
-                {% set t="Enter your "+numberWord[i]+" question " %}
+              {% if agreement_id == 'RM6187' %}
+                {% set t=""+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>" %}
+                {% else %}
+                {% set t="Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>" %}
+                {% endif %}
+
               {% endif %}
 {% if agreement_id == "RM1557.13" %}
 {{  CCSTextarea({
