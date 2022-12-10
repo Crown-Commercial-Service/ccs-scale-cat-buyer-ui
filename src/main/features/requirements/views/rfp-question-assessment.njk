@@ -4,7 +4,36 @@
 {% set title =  rfpTitle + '- Create a Request for Information (rfp)' %}
 
 {% block breadCrumb %}
+{% if agreement_id == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
+    items: [
+     {
+        text: "Dashboard",
+        href: "/dashboard"
+      },
+      {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+      },
+      {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+        },
+        {
+          text: "Write and publish your requirements",
+          href: "/rfp/task-list"
+        },
+        {
+          text: "Your assessment criteria",
+          href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+        },
+      {
+        text: bcTitleText
+      }
+    ]
+  }) }}
+ {% else %}
+  {{ CCSBreadcrumbs({
     items: [
      {
         text: "Dashboard",
@@ -31,7 +60,7 @@
       }
     ]
   }) }}
-
+{%endif %}
 {% endblock %}
 
 {% block content %}
@@ -137,7 +166,7 @@
                 
 
                 {% for i in range(1, 51) -%}
-                  <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }}">
+                  <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }} closeCCS">
                     <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >{{ 'Enter your ' if agreement_id == 'RM1043.8' else 'Enter an ' }}{{numberWord[i]}}
                       {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}<a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
                     </label>

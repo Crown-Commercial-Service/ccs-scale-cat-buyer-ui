@@ -94,7 +94,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -291,8 +291,12 @@
                                 <tr class="govuk-table__row">
                                     <td scope="row" class="govuk-table__cell">
                                         <strong class="govuk-tag govuk-tag--blue">
-                                        You don't have any Received messages
-                                    </strong>
+                                            {% if agreementId == 'RM6187' %}
+                                                You have not received any messages
+                                            {% else %}
+                                                You don't have any Received messages
+                                            {% endif %}
+                                        </strong>
                                     </td>
                                     <td class="govuk-table__cell"></td>
                                     <td class="govuk-table__cell"></td>

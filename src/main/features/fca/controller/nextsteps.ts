@@ -20,6 +20,7 @@ export const FCA_GET_NEXTSTEPS  = async (req: express.Request, res: express.Resp
           eventId : req.session.eventId,
           releatedContent,
           error: isEmptyNextstepError,
+          agreementId_session,
     }
     const { SESSION_ID } = req.cookies; //jwt
     res.locals.agreement_header = {
