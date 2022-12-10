@@ -44,7 +44,11 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
 
     
     uploadDatas.taskList[0].taskStatus="To do";
-    uploadDatas.taskList[1].taskStatus="To do";
+    if(agreementId_session == 'RM1557.13') { //GCloud
+      uploadDatas.taskList[1].taskStatus="To do";
+    }else{
+      uploadDatas.taskList[1].taskStatus="Cannot start yet";
+    }
     uploadDatas.taskList[2].taskStatus="Optional";
    
     FETCH_FILEDATA?.map(file => {

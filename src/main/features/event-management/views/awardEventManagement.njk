@@ -37,8 +37,8 @@
         {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
     {% endif %} 
     {% endif %} 
-        </strong>
-      </p>
+    
+  </strong></p>
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong>
           </p>
         </div>
@@ -235,10 +235,10 @@
                 </tr>
               </thead>
                 
-                {% for supplier in supplierDetailsDataList %}
-                  {% if supplier.responseState == 'Submitted' %}
+                
                     <tbody class="govuk-table__body">
-
+                      {% for supplier in supplierDetailsDataList %}
+                        {% if supplier.responseState == 'Submitted' %}
                       <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__cell">
 
@@ -261,23 +261,27 @@
                         <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
                           <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                         </th>
-
-                      </th>
-                      <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                        <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
-                      </th>
-                    </tr>
+                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
+                        </th>
+                      </tr>
+                        {% endif %}
+                      {% endfor %}
+                      {% if (showallDownload) %}
+                      <tr class="govuk-table__row">
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                      </tr>
+                      {% endif %}
                   </tbody>
-                {% endif %}
-              {% endfor %}
+                
             </table>
           </div>
         </div>
-        {% if (showallDownload) %}
-          <p class="govuk-body govuk-!-text-align-centre">
-            <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a>
-          </p>
-        {% endif %}
       </div>
     </div>
     {% if eventType != 'RFI' and eventType != 'EOI' %}
@@ -295,7 +299,10 @@
 
 <div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
-    {% if agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13' %}
+
+
+    {% if agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13' or agreementId_session == 'RM6187' %}
+
       <h1 class="govuk-heading-m">
         <span class="proc-task-list__section-number">6.</span>
           Award 

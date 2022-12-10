@@ -37,15 +37,16 @@
                    <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
     and agreement_header.agreementLotName != undefined)%}
     
-    {% if(agreementId_session =='RM1557.13' and agreement_header['lotid']=='4') %}
+    {% if(agreementId_session=='RM1557.13' and agreement_header['lotid']=='4') %}
+
              Lot 4
     {% else %}
              , 
         {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
     {% endif %} 
     {% endif %} 
-        </strong>
-      </p>
+    
+  </strong></p>
                     <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
                       {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
                     <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
@@ -101,7 +102,7 @@
           {% if agreementId_session == 'RM6187' %}
            
            {% else %}
-           <p> The suppliers below have responded to your published project. You can download individual supplier's answers or all answers.</p> 
+           <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
         {% endif %}
           
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">

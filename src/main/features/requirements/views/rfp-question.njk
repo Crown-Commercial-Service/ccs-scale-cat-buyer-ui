@@ -136,6 +136,11 @@ text: bcTitleText
 
                 </div>
                 {%endif%}
+                {% if agreement_id == 'RM6187' and  group_id == 'Group 5' and criterian_id == 'Criterion 3' %}
+                <label class="govuk-label govuk-label govuk-label--m" for="business_need"> Business need
+                    </label>
+                {%endif%}
+
                 {#<--!Condtns modified according to SCAT-5151-->#}
                 {%if (form_name === 'rfp_multianswer_question_form') %}
                 {%if (rfpTitle!='Enter your project requirements')%}
@@ -170,7 +175,7 @@ text: bcTitleText
                 'twelfth',
                 'thirteenth',
                 'fourteenth',
-                'fifeteenth',
+                'fifteenth',
                 'sixteenth',
                 'seventeenth',
                 'eighteenth',
@@ -217,7 +222,7 @@ text: bcTitleText
                 {%endif%}
                                  
                 {% for i in range(rf, rt) -%}
-                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                <div id="fc_question_{{i}}" class="closeCCS ccs-page-section {{'additional' if i>1 }}">
                 {% if (agreement_id != 'RM1043.8') %}
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}

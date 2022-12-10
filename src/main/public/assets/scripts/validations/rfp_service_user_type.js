@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if( (group_name == '' || group_details == '') ){
             if(group_name == '') {
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type.", /\w+/);
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type", /\w+/);
                 }
                 else{
                     groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if(group_details == ''){
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users.", /\w+/);
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users", /\w+/);
                 }
                 else{
                     groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(index == 0){
                     $("#deleteButton_service_useer_type_" + val).removeClass("ccs-dynaform-hidden");
                 }else {
-                    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
+                //    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
                 }
             })
         }
