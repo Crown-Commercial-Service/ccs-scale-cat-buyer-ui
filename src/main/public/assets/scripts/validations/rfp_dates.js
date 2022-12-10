@@ -1131,7 +1131,7 @@ function isProjectExtensionValid() {
                isValid = false;       
                $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
                //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Expected contract length must be 12 months or less",/^\d{1,}$/);
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less",/^\d{1,}$/);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
 
             }else{
