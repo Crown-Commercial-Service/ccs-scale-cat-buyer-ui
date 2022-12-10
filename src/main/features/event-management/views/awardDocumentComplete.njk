@@ -24,9 +24,19 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
-  </strong></p>
-  {%endif %}
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}
+    
+    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+             Lot 4
+    {% else %}
+             , 
+        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+    {% endif %} 
+    {% endif %} 
+
+        </strong>
+      </p>
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
    <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
         </div>
@@ -56,7 +66,7 @@
           {% endif %}
         </h1>
       
-      {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' %}
+      {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' or agreementId == 'RM1557.13' %}
         <h2> <strong>Successful supplier templates</strong></h2>
        <p>If you have not already completed the order form and call off schedules template, please do so before continuing.</p>
        <p>You can use the templates provided on this page to inform the successful supplier that you intend to award them the contract.</p>
