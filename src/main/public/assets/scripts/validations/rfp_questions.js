@@ -87,66 +87,273 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
+            console.log("0")
                 e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-                if(Number(target) == 20){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               console.log("Sibling",Sibling);
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   let eptArr = [];
+                   while (Sibling) {
 
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
 
-                }
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               let first;
+                               let last;
+                               let percentage;
 
+                               var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                               if(fc_question_precenate_fir){
+                                first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                               }
+                               var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                               if(fc_question_precenate_sec){
+                                var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                               }
+                               var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                               if(fc_question_precenate_third){
+                                 percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                               }
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 document.getElementById('fc_question_precenate_'+current_col).value=last;
+                               }
+                              
+                           
+                            
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
 
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            let first;
+                            let last;
+                            let percentage;
 
-                }
+                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                            if(fc_question_precenate_fir){
+                             first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            }
+                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                            if(fc_question_precenate_sec){
+                             var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                            }
+                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                            if(fc_question_precenate_third){
+                              percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            }
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                              document.getElementById('fc_question_precenate_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       console.log(eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                      
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                       }
 
-                $('.class_question_remove_' + target).val("");
-
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
-
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
 
-                }
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
-                    with_value_count = 21
-                }
-                with_value_count--;
-            });
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+           });
+            
+            
+            // db.addEventListener('click', (e) => {
+            //     if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+            //     if(Number(target) == 20){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+
+            //     }
+
+
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+
+            //     }
+
+            //     $('.class_question_remove_' + target).val("");
+
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
+
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+
+            //     }
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
+            //         with_value_count = 21
+            //     }
+            //     with_value_count--;
+            // });
         });
 
       
@@ -198,8 +405,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
+            
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+                console.log("ORDER1")
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -211,6 +421,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                console.log("ORDER23")
+                console.log("this_box",this_box)
+                document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -317,6 +530,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                         }
+                        else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                        }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
@@ -355,6 +580,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         let msgWeightageContent = 'You must enter percentage';
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                        }
+                       else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
                         }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
@@ -404,7 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
                         if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
+                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
@@ -466,11 +703,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 //Added this condation section 5 (step 43/44/45)
 
                 if (with_value_count > 2) {
-                    if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    }else {
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    }
+                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                    // }else {
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                    // }
                 }
                 if (document.getElementById("questionsCount") != undefined) {
                     document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
@@ -499,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 }
                 totalAnswerd();
-                $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
+               // $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
                 
             } else ccsZPresentErrorSummary(errorStore);
         });
@@ -508,48 +745,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                totalAnswerd();
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         totalAnswerd();
+        //         e.preventDefault();
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
 
         $('.dos_question_count').on('change keyup paste', (event) => {
             totalAnswerd();
@@ -571,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(showinputarray.length > 0){
                 let prevvaalue = lastElement -1;
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
-                $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
+              //  $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -638,14 +875,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, "You must enter your description of the requirement"])
                                 }
                             }
@@ -666,7 +906,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
-
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
+                                msgContent = 'Enter an nice-to-have skill and experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 9' )) ) {
+                                msgContent = 'Enter an social value question';
+                                msgWeightageContent = 'Enter a weighting for this social value question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
+                            
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 msgContent;
@@ -732,6 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log("1111")
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
@@ -805,7 +1063,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     var percentageval = $('#fc_question_precenate_'+1).val();
                     if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, "You must enter percentage", /\w+/);
+                           let msgContent = 'You must enter percentage';
+                           if(urlParams.get('group_id') == 'Group 6' ){
+                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                           }
+                           else if(urlParams.get('group_id') == 'Group 9' ){
+                            msgContent = 'Enter a weighting for this social value question';
+                           }
+                           
+                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, msgContent, /\w+/);
                             errorStore.push(fieldCheck)
                        }
                     }
@@ -850,6 +1116,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter an technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8'))) {
+                                msgContent = 'Enter an cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
 
                             var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msgContent, /\w+/);
 
@@ -864,6 +1139,13 @@ document.addEventListener('DOMContentLoaded', () => {
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                  msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                              }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                             }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                             }
+                            
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
 
                         errorStore.push(percentageCheck)
@@ -959,8 +1241,15 @@ document.addEventListener('DOMContentLoaded', () => {
                
                 if(percentageval.trim() != '' || percentageval != null || percentageval != undefined){
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
+                       let msgContent = 'You must enter valid question';
+                        if(urlParams.get('group_id') == 'Group 6'){
+                        msgContent = 'Enter an nice-to-have skill and experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 9'){
+                            msgContent = 'Enter an social value question';
+                            }
 
-                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', "You must enter valid question", /\w+/);
+                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', msgContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
                 }

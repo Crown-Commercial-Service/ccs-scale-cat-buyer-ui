@@ -13,11 +13,11 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Message",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Inbox",
     "line1":"[Reply to ]",
     "MessageClassification": "Message Classification",
     "Subject": "Subject",
