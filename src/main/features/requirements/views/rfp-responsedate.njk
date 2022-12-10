@@ -45,7 +45,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                {% if agreementId_session == 'RM6187' %}
+                {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
                     Set your timeline
                 {% else %}
                     {{data.title }} 
@@ -81,8 +81,9 @@
                     {% else %}
                     {% if agreementId_session == 'RM1557.13' %}
                     <li>4 working days from publishing the RfI until the clarification period closes</li>
+                    {% elseif agreementId_session == 'RM1043.8' %}
                     {% else %}
-                <li><b>four</b> working days from publishing your one stage further competition until the clarification period closes</li>
+                    <li><b>4</b> working days from publishing your one stage further competition until the clarification period closes</li>
                 {% endif %}
                 {% endif %}
                 {% if agreementId_session == 'RM6187' %}
@@ -92,10 +93,10 @@
                 {% if agreementId_session == 'RM1557.13' %}
                     <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
                     {% else %}
-                <li><b>four</b> working days from publishing your further competition until the clarification period closes</li>
-                <li><b>two</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
+                <li><b>4</b> working days from publishing your further competition until the clarification period closes</li>
+                <li><b>2</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
                 
-                <li><b>four</b> working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
+                <li><b>4</b> working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li>
                 {% endif %}
                 {% endif %}
                 {% if agreementId_session == 'RM1557.13' %}
@@ -145,6 +146,9 @@
                                     {% if(agreementId_session == 'RM6187' and requirement.OCDS.id == "Question 8") %}
                                         <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
                                     If you do not require a standstill, change this date to be the same as the date in point 8 below.</p>
+                                    {%endif %}
+                                    {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 4" and stage2_value == "Stage 2") %}
+                                    <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
                                     {%endif %}
                                     <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{  requirement.nonOCDS.options[0].value   }}</strong>
                                 </label>
