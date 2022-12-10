@@ -52,6 +52,8 @@
     {% if status.toLowerCase() === 'published' %}
     <p>You can manage your project  from this page including responding to supplier clarification questions or messages in your inbox, and seeing supplier responses to your published project.</p>
     <p>You can close this project using the link under the project name below. </p><br>
+    {% elif status.toLowerCase() === 'closed' %}
+    <p>Manage your project  from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.</p>
     {% else %}
     <p>Manage your project  from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.</p>
     <p>You can close this project using the link under the project name below. </p><br>
