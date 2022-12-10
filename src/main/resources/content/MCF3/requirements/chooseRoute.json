@@ -17,11 +17,11 @@
         }
     ],
 
-    "title": "Choose how to find a supplier",
+    "title": "Choose your route to market",
     "subtitle": null,
 
     "form": {
-        "question": "Select how you want to buy from a supplier on this agreement.",
+        "question": "Select the most appropriate route to market (way to buy) for your project. You can shortlist the suppliers to find the ones most suitable for your project.",
         "radioOptions": {
             "idPrefix": "ccs_choose_ca_route",
             "name": "ccs_choose_ca_type",
@@ -37,7 +37,7 @@
                 "value": "award",
                 "text": "Direct award",
                 "hint": {
-                    "text": "Shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool. You can then choose to continue your direct award online or use your own organisation’s procurement systems."
+                    "text": "If you select this option, you will need to confirm that this provides the best value for money or that there is only one supplier that can meet your requirement. You may want to get legal advice to confirm that this is a compliant route to market for your project."
                 },
                 "disabled": "false",
                 "remove": "false"
