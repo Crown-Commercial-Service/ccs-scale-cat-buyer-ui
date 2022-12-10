@@ -250,7 +250,7 @@ $('#rfp_singleselect').on('submit', event => {
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
