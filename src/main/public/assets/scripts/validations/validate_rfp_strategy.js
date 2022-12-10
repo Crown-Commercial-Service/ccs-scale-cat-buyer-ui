@@ -258,7 +258,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter the business need');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Add details about your business need');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }

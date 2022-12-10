@@ -79,13 +79,19 @@ const checkPercentagesCond = () => {
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions")){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for technical questions", false);
-          }else{
+          }
+          else if(agrement_id == 'RM1043.8'){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+          }
+          else{
                fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
         }
-        else {
+        else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+        }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -95,7 +101,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -111,7 +117,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -172,7 +178,7 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
