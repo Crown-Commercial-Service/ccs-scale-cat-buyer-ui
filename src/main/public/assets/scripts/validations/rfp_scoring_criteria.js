@@ -682,10 +682,10 @@ const emptyFieldCheckRfpScore2 = () => {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
         if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-        fieldCheck = [name_field.id, 'Enter a user type.'];
-        ccsZaddErrorMessage(name_field, 'Enter a user type.');
-        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
-        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        fieldCheck = [name_field.id, 'Enter a user type'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users');
         errorStore.push(fieldCheck);
         errorStore.push(fieldCheck1);
         }
@@ -703,8 +703,8 @@ const emptyFieldCheckRfpScore2 = () => {
         };
         if (name_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-            fieldCheck = [name_field.id, 'Enter a user type.'];
-            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+            fieldCheck = [name_field.id, 'Enter a user type'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type');
            errorStore.push(fieldCheck);
           }
           else{
@@ -715,8 +715,8 @@ const emptyFieldCheckRfpScore2 = () => {
                   }
         if (desc_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-             fieldCheck = [desc_field.id, 'Enter details about your users.'];
-             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+             fieldCheck = [desc_field.id, 'Enter details about your users'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users');
             errorStore.push(fieldCheck);
            }
            else{
