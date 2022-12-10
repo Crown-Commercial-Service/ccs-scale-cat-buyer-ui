@@ -80,6 +80,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         multiAnswer: aSelector.nonOCDS.multiAnswer,
         length: aSelector.nonOCDS.length,
       };
+      
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_singleselect';
