@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(index == 0){
                     $("#deleteButton_service_useer_type_" + val).removeClass("ccs-dynaform-hidden");
                 }else {
-                    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
+                //    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
                 }
             })
         }
