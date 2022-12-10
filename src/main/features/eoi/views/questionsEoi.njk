@@ -127,8 +127,10 @@
                 ' tenth'
               ] %}
               {% for i in range(2, 11) -%}
+
                <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
 <a href='{{i}}'  class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+
                 {{ CCSCharacterCount({
                       label: {
                         html: requirement.OCDS.title | replace("first",numberWord[i]) +"",
