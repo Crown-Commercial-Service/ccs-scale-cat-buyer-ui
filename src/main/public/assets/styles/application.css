@@ -4009,7 +4009,10 @@ p + .govuk-heading-s,
   color: #ffffff;
   background: #0b0c0c;
 }
-
+.rfi_del{
+  position: relative;
+  z-index: 1;
+}
 @media print {
   .govuk-header {
     font-family: sans-serif;

@@ -6409,65 +6409,280 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+              
+                    e.preventDefault();
+            let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+              prev_coll = Number(target) - 1,
+              target_fieldset = db.closest("div");
+    
+                   let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                   
+                   if(target != 20) {
+                       let ml = 1;
+                       
+                       let next_coll = Number(target);
+                       let nextLevel_coll = Number(target);
+                       let eptArr = [];
+                       while (Sibling) {
+    
+                        let siblingClassList = Sibling.classList;
+                           if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                             let current_col = nextLevel_coll;  
+                             nextLevel_coll = (nextLevel_coll + 1);
+    
+                             eptArr.push(nextLevel_coll)
+                            
+                               if(ml == 1) {
+                                   console.log(`First: ${ml} - ${next_coll}`)
+                                   let first;
+                                   let last;
+                                   let percentage;
+                                  
+                                   var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                   if(fc_question_precenate_fir){
+                                    first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                  
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                   }
+                                   var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                   if(fc_question_precenate_sec){
+                                    var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                 
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                   }
+                                   var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                   if(fc_question_precenate_third){
+                                     percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                   
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                   }
+                                   //ID BASED
+                                   var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                   if(fc_question_precenate_El){
+                                     last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                    
+                                     document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                   }
+                                  
+                               
+                                
+                                
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+    
+                                  
+                               } else {
+                                   next_coll = next_coll + 1;
+                                   console.log(`Usual: ${ml} - ${next_coll}`)
+                              
+                                // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                               
+                                   
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                let first;
+                                let last;
+                                let percentage;
+    
+                                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                if(fc_question_precenate_fir){
+                                 first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                }
+                                var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                if(fc_question_precenate_sec){
+                                 var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                }
+                                var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                if(fc_question_precenate_third){
+                                  percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                 
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                }
+                                //ID BASED
+                                var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                if(fc_question_precenate_El){
+                                  last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 
+                                  document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                }
+                                
+                               }
+           
+                              
+                               Sibling = Sibling.nextElementSibling;
+                           } else {
+                               Sibling = false;
+                           }
+                       ml++;}
+                       if(eptArr.length > 0) {
+                          
+                           let removeLogic = eptArr.at(-1);
+                          
+                          
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                        
+                        document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                    } else {
+                       
+                           target_fieldset.classList.add("ccs-dynaform-hidden");
+                           
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        
+                           if (prev_coll > 1) {
+                            document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                           }
+                           $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                       }
+                   } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+    
+                    var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                           }
+                 
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+                   with_value_count--;
+                   if (with_value_count != 11) {
                     
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               });
+
+            // db.addEventListener('click', (e) => {
+            //     console.log("Delete")
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
                     
-                }
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    
+            //     }
                 
-              //  console.log("Target",precentageValueofLast);
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+            //   //  console.log("Target",precentageValueofLast);
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-                }
+            //     }
 
-                $('.class_question_remove_' + target).val("");
+            //     $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
 
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-                    //console.log("PREVIOUSS")
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                } else {
-                    //console.log("Else statement")
-                }
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+            //         //console.log("PREVIOUSS")
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+            //         //console.log("Else statement")
+            //     }
 
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                with_value_count--;
-            });
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     with_value_count--;
+            // });
+
+
         });
 
         for (var box_num = 10; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
             if (this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === 10) {
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
@@ -6491,7 +6706,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
-         console.log("question selected in DA")
+         
            // $('.govuk-error-summary').remove();
            // $('.govuk-form-group--error').remove();
             removeErrorFieldsDAScoreQuestion();
@@ -6515,7 +6730,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (with_value_count > 2) {
                     prev_input = with_value_count - 1;
-                    document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                 //   document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
                 }
 
                 if (pageHeading.includes('Write your social value questions')) {
@@ -6551,63 +6766,63 @@ document.addEventListener('DOMContentLoaded', () => {
             } else ccsZPresentErrorSummary(errorStore);
         });
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                e.preventDefault();
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         e.preventDefault();
                 
-                const pageHeading = document.getElementById('page-heading').innerHTML;
-                const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
+        //         const pageHeading = document.getElementById('page-heading').innerHTML;
+        //         const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
 
-                if (pageHeading.includes('Write your social value questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your social value questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                if (pageHeading.includes('Write your technical questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your technical questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
     }
 
     const emptyQuestionFieldCheckDa = (add_more='') => {
@@ -7323,7 +7538,7 @@ document.addEventListener('DOMContentLoaded', () => {
         term_box = document.getElementById("eoi_term_" + acronym_fieldset);
 
       if (term_box.value !== "") {
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
+       // this_fieldset.classList.remove('ccs-dynaform-hidden');
 
         if (acronym_fieldset === 20) {
           document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
@@ -7363,7 +7578,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+         // document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -7386,22 +7601,100 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+            
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
 
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + current_col).value = first.value;
+                    document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + next_coll).value = first.value;
+                    document.getElementById('eoi_term_definition_' + next_coll).value = last.value;
+                }
+
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_term_' + removeLogic).value = "";
+            document.getElementById('eoi_term_definition_' + removeLogic).value = "";
+            document.getElementById('eoi_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_term_' + target).value = "";
+            document.getElementById('eoi_term_definition_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
+    } else {
         target_fieldset.classList.add("ccs-dynaform-hidden");
-
         document.getElementById('eoi_term_' + target).value = "";
         document.getElementById('eoi_term_definition_' + target).value = "";
-
-
         if (prev_coll > 1) {
-          document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
-
         document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoiTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_term_' + target).value = "";
+        // document.getElementById('eoi_term_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+     
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -8265,9 +8558,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
+       
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+        //let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
         document.getElementById("eoi_question_"+text_box_num+"-info" ).classList.add('ccs-dynaform-hidden');
-        the_label.classList.add('ccs-dynaform-hidden');
+        //the_label.classList.add('ccs-dynaform-hidden');
         filled_input++;
         with_value_count = text_box_num;
       }
@@ -8290,6 +8585,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("eoi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
+
         document.querySelector('label[for=eoi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
         document.getElementById("eoi_question_"+with_value_count+"-info" ).classList.remove('ccs-dynaform-hidden');
 
@@ -8310,29 +8607,116 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-
+      
+       db.addEventListener('click', (e) => {
+    
         e.preventDefault();
+        console.log("e.target.href",e.target.href);
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        prev_coll = Number(target) - 1,
+       target_fieldset = db.closest("div");
+        console.log("target",target);
+        console.log("target_fieldset",target_fieldset);
 
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-        document.getElementById('eoi_question_' + target).value = "";
-        document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
-        if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
-        document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-        document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
-        if (prev_box > 1) {
-          document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                console.log(`target: ${target}`)
+                console.log("Sibling",Sibling)
+                if(target != 20) {
+                    let ml = 1;
+                  console.log("1111")  
+                    let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
+                            nextLevel_coll = (nextLevel_coll + 1);
+
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                console.log("nextLevel_coll",nextLevel_coll);
+                                console.log("current_col",current_col);
+                                
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                                
+                            } else {
+                                next_coll = next_coll + 1;
+                                console.log(`Usual: ${ml} - ${next_coll}`)
+                                console.log("nextLevel_coll",nextLevel_coll);
+                                console.log("current_col",current_col);
+
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                            }
+        
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('eoi_question_' + removeLogic).value = "";
+                       
+                        document.getElementById('fc_question_' + removeLogic).closest("div").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        target_fieldset.classList.add("ccs-dynaform-hidden");
+                        document.getElementById('eoi_question_' + target).value = "";
+                       
+                        if (prev_coll > 1) {
+                          document.querySelector('#fc_question_2' + removeLogic).classList.add("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    target_fieldset.classList.add("ccs-dynaform-hidden");
+                    document.getElementById('eoi_question_' + target).value = "";
+                    
+                    if (prev_coll > 1) {
+                      document.querySelector('#main_eoi_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                    }
+                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                }
+                with_value_count--;
+                if (with_value_count != 21) {
+                    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+                }
+
+
+      //   e.preventDefault();
+    
+      //   let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_box = Number(target) - 1;
+      //   document.getElementById('eoi_question_' + target).value = "";
+      //   document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
+      //   let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
+      //   if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
+      //     parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
+      //     parentNode.classList.remove("govuk-form-group--error");
+      //     parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
+      //   }
+      //   //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
+      //   document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+      //   document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
+      //   if (prev_box > 1) {
+      //     document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+      //   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+       });
+
+
     });
 
 
@@ -8373,7 +8757,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
-      if (!document.getElementById("eoi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+      if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
         fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, errorText, /\w+/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
@@ -8592,22 +8976,96 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+          
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                    document.getElementById('eoi_splterm_' + current_col).value = first.value;
+                    //document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                  
+                    document.getElementById('eoi_splterm_' + next_coll).value = first.value;
+                   
+                }
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-
-        document.getElementById('eoi_splterm_' + target).value = "";
-        // document.getElementById('eoi_splterm_definition_' + target).value = "";
-
-
-        if (prev_coll > 1) {
-          document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_splterm_' + removeLogic).value = "";
+           
+            document.getElementById('eoi_splterm_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_splterm_' + target).value = "";
+           
+            if (prev_coll > 1) {
+                document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
+    } else {
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+        document.getElementById('eoi_splterm_' + target).value = "";
+       
+        if (prev_coll > 1) {
+            document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
         document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoisplTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_splterm_' + target).value = "";
+        // // document.getElementById('eoi_splterm_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+    //  });
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -10853,6 +11311,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("rfi_question_" + text_box_num).classList.remove('ccs-dynaform-hidden');
         let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
         the_label.classList.remove('ccs-dynaform-hidden');
+        
+        
+        
+
       }
       else{
       if (this_box.value !== "") {
@@ -10863,8 +11325,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
-        the_label.classList.add('ccs-dynaform-hidden');
+        // let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
+        // the_label.classList.add('ccs-dynaform-hidden');
+        
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+
         with_value_count = text_box_num;
       }
     }
@@ -10879,7 +11344,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errorStore.length == 0) {
 
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
         document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
 
         if (with_value_count > 2) {
@@ -10907,57 +11372,206 @@ document.addEventListener('DOMContentLoaded', () => {
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               console.log("Sibling",Sibling);
+
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   console.log("nextLevel_coll",nextLevel_coll);
+                   console.log("target",target);
+                   let current_col = nextLevel_coll;  
+                   
+                   let eptArr = [];
+                   while (Sibling) {
+
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
+
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               
+                               let last;
+                               
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                                 document.getElementById('rfi_question_'+current_col).value=last;
+                               }
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                          
+                            let last;
+                          
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                              document.getElementById('rfi_question_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       console.log(eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                      
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+removeLogic).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+current_col).value="";
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+current_col).value="";
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+           });
+
+
+
+
+
+
+
+
+
         //debugger;
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-          for (var k=1;k<=10;k++)
-          {
-            document.getElementById("rfi_label_question_"+k).innerText="";
+
+
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_box = Number(target) - 1;
+        //   for (var k=1;k<=10;k++)
+        //   {
+        //     document.getElementById("rfi_label_question_"+k).innerText="";
             
-          }
-        for (var i=target;i<11;i++){
-          var j=Number(i)+1;
-         let nextelmnt= document.getElementById('rfi_question_' + j);
-        //  let prevelmnt= document.getElementById('rfi_question_' + i);
-        if(nextelmnt!=null){
-         if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
-         {
-          document.getElementById('rfi_question_' + i).value=nextelmnt.value;
-          document.getElementById("rfi_label_question_"+i).innerText="";
-         }
-         else
-         {
-           target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-         }
-        }
-        else
-        {
-          target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-        }
-        }
+        //   }
+        // for (var i=target;i<11;i++){
+        //   var j=Number(i)+1;
+        //  let nextelmnt= document.getElementById('rfi_question_' + j);
+        // //  let prevelmnt= document.getElementById('rfi_question_' + i);
+        // if(nextelmnt!=null){
+        //  if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
+        //  {
+        //   document.getElementById('rfi_question_' + i).value=nextelmnt.value;
+        //   document.getElementById("rfi_label_question_"+i).innerText="";
+        //  }
+        //  else
+        //  {
+        //    target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        //  }
+        // }
+        // else
+        // {
+        //   target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        // }
+        // }
 
-        document.getElementById('rfi_question_' + target).value = "";
-        document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
-        if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
-        document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+        // document.getElementById('rfi_question_' + target).value = "";
+        // document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
+        // let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
+        // if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
+        //   parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
+        //   parentNode.classList.remove("govuk-form-group--error");
+        //   parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
+        // }
+        // //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
+        // document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
 
-        if (prev_box > 1) {
-          //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-        console.log("with_value_count>>>",with_value_count)
-      });
+        // if (prev_box > 1) {
+        //   //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+        // document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+        // console.log("with_value_count>>>",with_value_count)
+   //   });
     });
 
 
@@ -10997,7 +11611,8 @@ const emptyQuestionFieldCheck = () => {
   //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   for (var i = 1; i < 21; i++) {
-    if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+   // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+    if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         if(urlParams.get('agreement_id') == 'RM6187'){
           errText = "You must ask at least one question";
@@ -14465,66 +15080,273 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
+            console.log("0")
                 e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-                if(Number(target) == 20){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+          console.log("target_fieldset",target_fieldset);
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+               console.log("Sibling",Sibling);
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                   let eptArr = [];
+                   while (Sibling) {
 
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
 
-                }
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               console.log(`First: ${ml} - ${next_coll}`)
+                               let first;
+                               let last;
+                               let percentage;
 
+                               var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                               if(fc_question_precenate_fir){
+                                first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                               }
+                               var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                               if(fc_question_precenate_sec){
+                                var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                               }
+                               var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                               if(fc_question_precenate_third){
+                                 percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                               }
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 document.getElementById('fc_question_precenate_'+current_col).value=last;
+                               }
+                              
+                           
+                            
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
 
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                               console.log(`Usual: ${ml} - ${next_coll}`)
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            let first;
+                            let last;
+                            let percentage;
 
-                }
+                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                            if(fc_question_precenate_fir){
+                             first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            }
+                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                            if(fc_question_precenate_sec){
+                             var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                            }
+                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                            if(fc_question_precenate_third){
+                              percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            }
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                              document.getElementById('fc_question_precenate_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           console.log(Sibling.classList);
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       console.log(eptArr);
+                       let removeLogic = eptArr.at(-1);
+                       console.log(`removeLogic: ${removeLogic}`);
+                      
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                       }
 
-                $('.class_question_remove_' + target).val("");
-
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
-
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
 
-                }
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
-                    with_value_count = 21
-                }
-                with_value_count--;
-            });
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+                
+                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+           });
+            
+            
+            // db.addEventListener('click', (e) => {
+            //     if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+            //     if(Number(target) == 20){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+
+            //     }
+
+
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+
+            //     }
+
+            //     $('.class_question_remove_' + target).val("");
+
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
+
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+
+            //     }
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
+            //         with_value_count = 21
+            //     }
+            //     with_value_count--;
+            // });
         });
 
       
@@ -14576,8 +15398,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
+            
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+                console.log("ORDER1")
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14589,6 +15414,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                console.log("ORDER23")
+                console.log("this_box",this_box)
+                document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14868,11 +15696,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 //Added this condation section 5 (step 43/44/45)
 
                 if (with_value_count > 2) {
-                    if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    }else {
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    }
+                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                    // }else {
+                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                    // }
                 }
                 if (document.getElementById("questionsCount") != undefined) {
                     document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
@@ -14901,7 +15729,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 }
                 totalAnswerd();
-                $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
+               // $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
                 
             } else ccsZPresentErrorSummary(errorStore);
         });
@@ -14910,48 +15738,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                totalAnswerd();
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         totalAnswerd();
+        //         e.preventDefault();
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
 
         $('.dos_question_count').on('change keyup paste', (event) => {
             totalAnswerd();
@@ -14973,7 +15801,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(showinputarray.length > 0){
                 let prevvaalue = lastElement -1;
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
-                $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
+              //  $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -15151,6 +15979,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_multianswer_question_form').on('submit', (event) => {
+        console.log("1111")
         let weightArr = 0;
         let weightTotal = 0;
         event.preventDefault();
@@ -16761,30 +17590,120 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.add('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
 
+      db.addEventListener('click', (e) => {
+            
+         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
 
-        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        
-        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+        let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+        console.log(`target: ${target}`)
+        if(target != 20) {
+            let ml = 1;
+            
+            let next_coll = Number(target);
+            let nextLevel_coll = Number(target);
+            let eptArr = [];
+            while (Sibling) {
+                
+                let siblingClassList = Sibling.classList;
+                if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                  let current_col = nextLevel_coll;  
+                  nextLevel_coll = (nextLevel_coll + 1);
+                  eptArr.push(nextLevel_coll)
+                    if(ml == 1) {
+                        console.log(`First: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + current_col).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + current_col).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + current_col).value = percentage.value;
+                        // target_fieldset.querySelector("[name='term']").value = first.value;
+                        // target_fieldset.querySelector("[name='value']").value = last.value;
+                        // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
+                    } else {
+                        next_coll = next_coll + 1;
+                        console.log(`Usual: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + next_coll).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + next_coll).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
+                    }
 
-        document.getElementById("kpiKeyLevel").textContent = prev_coll;
-        if (prev_coll > 1) {
-          document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    console.log(Sibling.classList);
+                    Sibling = Sibling.nextElementSibling;
+                } else {
+                    Sibling = false;
+                }
+            ml++;}
+            if(eptArr.length > 0) {
+                console.log(eptArr);
+                let removeLogic = eptArr.at(-1);
+                console.log(`removeLogic: ${removeLogic}`);
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+            } else {
+                target_fieldset.classList.add("ccs-dynaform-hidden");
+                document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                if (prev_coll > 1) {
+                    document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                }
+                document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+            }
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
-      });
+        if (with_value_count != 11) {
+         
+          document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
+    });
+
+      // db.addEventListener('click', (e) => {
+      //   e.preventDefault();
+
+      //   let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_coll = Number(target) - 1,
+      //     target_fieldset = db.closest("fieldset");
+
+
+      //   document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+      //   target_fieldset.classList.add("ccs-dynaform-hidden");
+        
+      //   document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+
+      //   document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //   if (prev_coll > 1) {
+      //     document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //     document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+
+      //   document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+      // });
     });
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
@@ -17344,7 +18263,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(index == 0){
                     $("#deleteButton_service_useer_type_" + val).removeClass("ccs-dynaform-hidden");
                 }else {
-                    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
+                //    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
                 }
             })
         }
