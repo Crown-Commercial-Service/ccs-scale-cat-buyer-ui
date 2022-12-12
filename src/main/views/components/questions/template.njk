@@ -304,10 +304,13 @@
 {% block TextRFP %}
 
   {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'rfp_multianswer_question_form' %}
-         
+  {% if (agreement_id == 'RM1043.8' and requirement.OCDS.title == 'Explain the social value question') %}
+  {% set countLength = 5000 %}
+  {% set classnameForCount = "rpf_5000" %}
+  {% else %}
           {% set classnameForCount = "rfpterm" %}
           {% set countLength = 500 %}
-             
+          {% endif %}
               {% if(agreement_id=="RM6187" and eventType=="rfp" and requirement.OCDS.title=="Enter your question")  %}
             {% set classnameForCount = "messagesendcountDaSocial" %}
             {% set countLength = 2000 %}
