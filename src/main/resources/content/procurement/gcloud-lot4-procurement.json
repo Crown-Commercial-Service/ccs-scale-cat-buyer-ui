@@ -40,7 +40,7 @@
         },
         {
             "eventno": 2,
-            "eventTitle": "Do pre-market engagement",
+            "eventTitle": "Do pre-tender engagement",
             "buttonText": "Start pre-tender market engagement",
             "note": "",
             "buttonDisable": true,

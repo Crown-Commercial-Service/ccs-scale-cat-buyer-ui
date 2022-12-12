@@ -13,15 +13,16 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Message",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Inbox",
     "subtitle": "Write a new message",
+    "subtitle2": "Create a new message",
     "signposting": {
-        "line1": "Description to explain what happens in a broadcast",
-        "line2": "See Supplier List",
+        "line1": "Your message will be sent to all suppliers on the list.",
+        "line2": "View supplier list",
         "link": "#"
     },
     "MessageClassification": "Message Classification",
