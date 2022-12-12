@@ -14,7 +14,7 @@
           }
       });
       if (checkError) {
-          fieldCheck = [itemForm.id, 'Minimum one service you have to pick'];
+          fieldCheck = [itemForm.id, 'Select at least one service'];
           errorStore.push(fieldCheck);
           ccsZPresentErrorSummary(errorStore);
       }

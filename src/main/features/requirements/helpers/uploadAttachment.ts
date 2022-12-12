@@ -148,7 +148,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
           fileError=true;
         }
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          errorList.push({ text: "Pricing schedule must be uploaded", href: "#rfp_offline_document" });
           fileError=true;
         }
       }

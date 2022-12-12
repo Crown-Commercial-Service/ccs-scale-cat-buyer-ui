@@ -45,7 +45,7 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
     req.session?.types,
   );
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError };
+  const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError, agreementId_session };
   res.render('choose-route', appendData);
 };
 

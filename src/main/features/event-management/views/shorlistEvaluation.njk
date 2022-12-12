@@ -42,10 +42,15 @@
               </ol>
           <br>
         </div>
+        {% if (agreement_id == 'RM1043.8') %}
+       {% set returnLink = "/event/management?id="+eventId %}
+       {% else %}
+       {% set returnLink = "/dashboard" %}
+        {% endif %}
   <div class="govuk-button-group">
         {{ CCSButton({
           text: data.btntext,
-          href:"/dashboard"
+          href:returnLink
           }) }}
                                           </div>
         

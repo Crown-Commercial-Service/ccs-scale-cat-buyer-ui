@@ -7,6 +7,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 
 ///eoi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -108,6 +109,7 @@ function isValidQuestion(
   minute: number,
   timeinHoursBased: number,
   timeline: any,
+  bankholidaydata:any
 ) {
   let isValid = true,
     error,
@@ -139,7 +141,20 @@ function isValidQuestion(
     error = 'Enter a valid year';
   }
 
+  let bankHolidayEnglandWales;
+  if(bankholidaydata){
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+      bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+      bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  }
+  const questionInputDate = new Date(year, month, day);
  
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
+
   const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
 
   const dayOfWeek = new Date(questionNewDate).getDay();
@@ -201,6 +216,20 @@ function isValidQuestion(
   return { isValid, error, errorSelector };
 }
 
+function checkBankHoliday(questionInputDate,bankHolidayEnglandWales) {
+  let isBankHoliday = false; 
+ if(bankHolidayEnglandWales.length>0){
+  let currentyearHolidays =  bankHolidayEnglandWales.filter(holiday=>new Date(holiday.date).getFullYear() == questionInputDate.getFullYear())
+  currentyearHolidays.forEach(data=>{
+
+      if(questionInputDate.setHours(0, 0, 0, 0) === new Date(data.date).setHours(0, 0, 0, 0)){
+          isBankHoliday = true;
+      }
+  })
+ }
+return isBankHoliday;
+}
+
 // @POST "/eoi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
 
@@ -226,6 +255,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_minute = Number(clarification_date_minute);
 
   clarification_date_month = clarification_date_month - 1;
+
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
 
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
@@ -253,6 +285,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_minute,
     timeinHoursBased,
     timeline,
+    bankholidaydata
   );
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
