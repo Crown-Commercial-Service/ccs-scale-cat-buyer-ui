@@ -53,20 +53,32 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       lotName: '',
       activeEvent: undefined,
     };
+    var searchNew = '' + search;
     
-    if (search.trim() != '') {
-      const NameURL = `/tenders/projects?search-type=projectName&search-term=*${search.trim()}*&page=0&page-size=20`;
-      const eventURL = `/tenders/projects?search-type=eventId&search-term=*${search.trim()}*&page=0&page-size=20`;
-      const suppourtURL = `/tenders/projects?search-type=eventSupportId&search-term=*${search.trim()}*&page=0&page-size=20`;
+    if (searchNew.trim() != '') {
+      
+      const NameURL = `/tenders/projects?search-type=projectName&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
+      const eventURL = `/tenders/projects?search-type=eventId&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
+      const suppourtURL = `/tenders/projects?search-type=eventSupportId&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
+      
       req.session.openProjectActiveEvents = [];
       req.session.historicalEvents = [];
-      const nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(NameURL);
-      const eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(eventURL);
-      const supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(suppourtURL);
-      await nameretrieveProjetActiveEventsPromise.then(async data => {
+      let nameretrieveProjetActiveEventsPromise,eventretrieveProjetActiveEventsPromise,supportretrieveProjetActiveEventsPromise;
+      if(searchNew.trim().includes('£') || searchNew.trim().includes('#')){
+         nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(NameURL));
+         eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(eventURL));
+         supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(suppourtURL));
+      }else{
+         nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(NameURL);
+         eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(eventURL);
+
+         supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(suppourtURL);
+      }
+      
+      await nameretrieveProjetActiveEventsPromise.then(async data => {        
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
           a.projectId < b.projectId ? 1 : -1,
-        );
+        );        
         for (let i = 0; i < events.length; i++) {
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
 
@@ -225,12 +237,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         // res.redirect('/viewdashboard');
       });
       await eventretrieveProjetActiveEventsPromise.then(async data => {
-        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
+        const eventsId: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
           a.projectId < b.projectId ? 1 : -1,
         );
-        for (let i = 0; i < events.length; i++) {
+        for (let i = 0; i < eventsId.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          const eventsURL = `tenders/projects/${events[i].projectId}/events`;
+          const eventsURL = `tenders/projects/${eventsId[i].projectId}/events`;
 
           let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
           let getEventsData = getEvents.data;
@@ -241,12 +253,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
 
             let singleEvent: ActiveEvents = {
-              projectId: events[i].projectId,
-              projectName: events[i].projectName,
-              agreementId: events[i].agreementId,
-              agreementName: events[i].agreementName,
-              lotId: events[i].lotId,
-              lotName: events[i].lotName,
+              projectId: eventsId[i].projectId,
+              projectName: eventsId[i].projectName,
+              agreementId: eventsId[i].agreementId,
+              agreementName: eventsId[i].agreementName,
+              lotId: eventsId[i].lotId,
+              lotName: eventsId[i].lotName,
               activeEvent: getEventsData[j],
             };
             //singleEvent=events[i];
@@ -394,12 +406,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         // res.redirect('/viewdashboard');
       });
       await supportretrieveProjetActiveEventsPromise.then(async data => {
-        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
+        const supportevents: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
           a.projectId < b.projectId ? 1 : -1,
         );
-        for (let i = 0; i < events.length; i++) {
+        for (let i = 0; i < supportevents.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          const eventsURL = `tenders/projects/${events[i].projectId}/events`;
+          const eventsURL = `tenders/projects/${supportevents[i].projectId}/events`;
 
           let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
           let getEventsData = getEvents.data;
@@ -410,12 +422,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
 
             let singleEvent: ActiveEvents = {
-              projectId: events[i].projectId,
-              projectName: events[i].projectName,
-              agreementId: events[i].agreementId,
-              agreementName: events[i].agreementName,
-              lotId: events[i].lotId,
-              lotName: events[i].lotName,
+              projectId: supportevents[i].projectId,
+              projectName: supportevents[i].projectName,
+              agreementId: supportevents[i].agreementId,
+              agreementName: supportevents[i].agreementName,
+              lotId: supportevents[i].lotId,
+              lotName: supportevents[i].lotName,
               activeEvent: getEventsData[j],
             };
             //singleEvent=events[i];
@@ -562,8 +574,11 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         }
       });
 
-      req.session.openProjectActiveEvents = activeEvents;
-      req.session.historicalEvents = historicalEvents;
+      var filteredactive = [...new Set(activeEvents.map(({projectId}) => projectId))].map(e => activeEvents.find(({projectId}) => projectId == e));	
+      var filteredhistorical = [...new Set(historicalEvents.map(({projectId}) => projectId))].map(e => historicalEvents.find(({projectId}) => projectId == e));	
+
+      req.session.openProjectActiveEvents = filteredactive;
+      req.session.historicalEvents = filteredhistorical;
       res.redirect('/viewdashboard');
     } else {
       req.session.openProjectActiveEvents = [];
@@ -571,6 +586,8 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
+    console.log("errerrerr",err);
+    
     LoggTracer.errorLogger(
       res,
       err,
