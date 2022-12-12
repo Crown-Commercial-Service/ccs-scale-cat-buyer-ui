@@ -8,6 +8,7 @@
     "btntext":"Export your 1-stage further competition",
     "board": {
         "headerRFP": "Your requirements have been sent to suppliers",
+        "headerRFPResponse": "We are now publishing your event. This can take a few minutes. We recommend you to check your dashboard after few minutes to see your published event.",
         "headerDA":"Your direct award has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
