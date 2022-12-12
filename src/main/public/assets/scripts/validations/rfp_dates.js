@@ -782,7 +782,7 @@ function checkResourceStartDate()
 
             }
             else if(rfpResourceStartDay.val() =='') {
-            error_msg = 'Enter a day'
+            error_msg = 'Enter a Day'
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             rfpResourceStartYear.removeClass('govuk-form-group--error');
 
@@ -834,7 +834,7 @@ function checkResourceStartDate()
 
             }
             else if(rfpResourceStartMonth.val() =='') {
-               error_msg = 'Enter a month'
+               error_msg = 'Enter a Month'
                rfpResourceStartYear.removeClass('govuk-form-group--error');
             }
          }
@@ -873,7 +873,7 @@ function checkResourceStartDate()
          error_msg = 'Enter a valid year'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a year'
+            error_msg = 'Enter a Year'
          }
          flag =false;
          rfpResourceStartYear.addClass('govuk-form-group--error');
@@ -899,7 +899,7 @@ function checkResourceStartDate()
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter valid year", /^\d{4,}$/);
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
 
          if (fieldCheck !== true){
              errorStore.push(fieldCheck)
