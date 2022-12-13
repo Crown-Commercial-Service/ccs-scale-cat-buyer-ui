@@ -459,6 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+
             errorStore = [];
             let textboxCount =  0;
             if($('.order_1').length > 0){
@@ -658,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 15'){
+            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19')){
                 for (var i = 1; i < withValue; i++) {
                     const divElem = document.querySelector('#fc_question_' + i);
                     const inputElements = divElem.querySelectorAll("textarea");
@@ -701,9 +702,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             $('.add-another-btn').closest('.ccs-page-section').css("border-bottom", "0px");
                         }
                     }  else {
+
                         let textareaVal = $('#fc_question_'+textboxCount+ '_1').val();
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
-                        if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
+
+                        if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
@@ -712,6 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                         else{
+
                             let textareaData = $('#fc_question_'+with_value_count+ '_1').val();
                             let percentageData = $('#fc_question_precenate_'+with_value_count).val();
 
@@ -945,6 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             } 
                     }
                 }else{
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
                     if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
                         const field1 = countWords1(term_field.value) > 50;
                         const field2 = countWords1(definition_field.value) > 150;
@@ -962,6 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 } 
                         }
                     }
+                   }
                 }
             }
     
@@ -1140,8 +1146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(document.getElementById('lID') !== null) {
             LOTID_VAR = document.getElementById('lID').value;
         }
-        
         errorStoreforOptional = emptyFieldCheckgl4('submit');
+        
         if (errorStoreforOptional.length == 0) {
 
         var weightLoop = document.getElementsByClassName("weightage");

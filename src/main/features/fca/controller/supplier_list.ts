@@ -30,7 +30,36 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
   const downloadSuppliers=process.env['AGREEMENTS_SERVICE_API_URL']+'/agreements/'+req.session.agreement_id+'/lots/'+lotid+'/suppliers/export';
   
-  const releatedContent = req.session.releatedContent;
+  let releatedContentcheck = req.session.releatedContent;
+  let relatedOverride;
+  let agreementLotNames = req.session.agreementLotName
+  if(releatedContentcheck == ''){
+    if (req.session.agreement_id == 'RM1043.8'){
+      
+      if(lotid= '1'){
+        agreementLotNames = 'Digital outcomes'
+      }
+      else if(lotid= '2'){
+        agreementLotNames = 'User research studios'
+      }
+      else if(lotid= '3'){
+        agreementLotNames = 'User research participants'
+      }
+      else {
+        agreementLotNames = req.session.agreementLotName
+      }
+        relatedOverride = new Object({
+          title: 'Related content',
+          lotUrl: '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'), 
+          name: 'Digital Outcomes 6',
+          lotName: agreementLotNames
+        });
+    }    
+  }
+  else {
+    relatedOverride = req.session.releatedContent;
+  }
+  const releatedContent = relatedOverride;
   const { download,previous, next } = req.query
 
   // const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
@@ -115,7 +144,7 @@ for(let i=0;i<suppliersList.length;i++){
             releatedContent: releatedContent,
             downloadSuppliers:downloadSuppliers,
             lotId:req.session.lotId,
-            agreementLotName:req.session.agreementLotName,
+            agreementLotName:agreementLotNames,
             showPrevious,
             showNext,
             supplierLength,
@@ -137,7 +166,7 @@ for(let i=0;i<suppliersList.length;i++){
             releatedContent: releatedContent,
             downloadSuppliers:downloadSuppliers,
             lotId:req.session.lotId,
-            agreementLotName:req.session.agreementLotName,
+            agreementLotName:agreementLotNames,
             showPrevious,
             showNext,
             supplierLength,
@@ -180,7 +209,7 @@ for(let i=0;i<suppliersList.length;i++){
               releatedContent: releatedContent,
               downloadSuppliers:downloadSuppliers,
               lotId:req.session.lotId,
-              agreementLotName:req.session.agreementLotName,
+              agreementLotName:agreementLotNames,
               showPrevious,
               showNext,
               supplierLength,
@@ -230,7 +259,7 @@ for(let i=0;i<suppliersList.length;i++){
             releatedContent: releatedContent,
             downloadSuppliers:downloadSuppliers,
             lotId:req.session.lotId,
-            agreementLotName:req.session.agreementLotName,
+            agreementLotName:agreementLotNames,
             showPrevious,
             showNext,
             supplierLength,
