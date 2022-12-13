@@ -185,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
          return true;
       }
       }
+   }
      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
       const DateCheck = (rfpDay,currentId) => {
          let value = rfpDay;
@@ -610,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          
       }
-   }
+   
 }
 });
 
@@ -1276,6 +1277,8 @@ function isProjectStartDateValid()
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
+            $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+            $('#rfp_resource_start_date-error').html('');
             ccsZPresentErrorSummary();
          }
                  
