@@ -174,8 +174,15 @@
                 
 
                 {% for i in range(1, 51) -%}
-                  <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }}">
-                    <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
+                  {# <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }}"> #}
+                  
+
+                  <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }} closeCCS">
+                    {# <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >{{ 'Enter your ' if (agreement_id == 'RM1043.8' or agreement_id == 'RM6187') else 'Enter an ' }}{{numberWord[i]}}
+
+                      {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}<a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+                    </label> #}
+                  <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
                         Enter a
                         {% elseif (agreement_id == 'RM1043.8')%}
@@ -190,12 +197,7 @@
                       {%endif%}
                       
                       <a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
-
-                  <div id="fc_question_{{i}}" data-sample={{i}} class="ccs-page-section {{'additional' if i>1 }} closeCCS">
-                    <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >{{ 'Enter your ' if (agreement_id == 'RM1043.8' or agreement_id == 'RM6187') else 'Enter an ' }}{{numberWord[i]}}
-
-                      {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}<a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
-                    </label>
+                  </label>
                   </br>
                   {% for requirement in data %}
                     {{recurseRequirements(requirement,form_name,i)}}

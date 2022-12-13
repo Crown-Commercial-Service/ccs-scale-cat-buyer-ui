@@ -35,7 +35,12 @@
              Lot 4
     {% else %}
              , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+          Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% else %}
+            {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% endif %}
+
     {% endif %} 
     {% endif %} 
 

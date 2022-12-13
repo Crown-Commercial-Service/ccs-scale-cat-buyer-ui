@@ -929,7 +929,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let term_field = document.getElementById('fc_question_1_' + x);
             let definition_field = document.getElementById("fc_question_precenate_" + x);
     
-            if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+            if (term_field != null && term_field.value !== undefined && definition_field !== null && definition_field !== undefined) {
                 
                 if(type == 'addmore'){
                     const field1 = countWords1(term_field.value) > 50;
