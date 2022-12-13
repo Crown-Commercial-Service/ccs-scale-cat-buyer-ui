@@ -2089,11 +2089,14 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   
   
   const agreement_id = req.session.agreement_id;
+  const lot_id =   req.session.lotId;
+
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
-    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+
+     CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2121,12 +2124,6 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   if (review_publish == 1) {
     try {
       
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-     
-      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
-      // if (response.status == Number(HttpStatusCode.OK)) {
-      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
-      // }
       if (agreement_id=='RM6187') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
       }else if (agreement_id=='RM1557.13') {
@@ -2134,10 +2131,27 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       }else{
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
-      
-      res.redirect('/rfp/rfp-eventpublished');
+     if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
+       TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       setTimeout(function(){
+        res.redirect('/rfp/rfp-eventpublished');
+        }, 55000);
+     }
+      else{
+        await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        res.redirect('/rfp/rfp-eventpublished');
+
+      }
+
+     
+     
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
+      // }
+
+     
     } catch (error) {
-      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFP_REVIEW_RENDER_TEST(req, res, true, true);
