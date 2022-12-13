@@ -626,7 +626,8 @@
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rfpterm rpf_500"
+                        classes: "rfpterm rpf_500",
+                        rows:"2"
                       })
                   }}
 
@@ -2029,7 +2030,7 @@
                               id: "rfp_term_service_levels_KPI_1",
                               maxlength:500,
                               name: "term",
-                              classes: "rfp_term_1 rfpterm",
+                              classes: "govuk-!-width-two-thirds rfp_term_1 rfpterm",
                               value: requirement.nonOCDS.options[0][0].value
                             })
                             }}
