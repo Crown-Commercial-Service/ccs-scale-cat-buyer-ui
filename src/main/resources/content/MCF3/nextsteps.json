@@ -1,7 +1,7 @@
 {
   "title": "Choose your next steps",
   "subtitle": "Download the list from the supplier filtering tool",
-  "subtitle2": "You can continue to do pre-market engagement, or write and publish your requirements, or return to your dashboard.",
+  "subtitle2": "If you choose to continue and then decide you don’t want to use your shortlist of suppliers, you’ll have to close this project and start a new one.",
   "form": [
     {
       "id": "fca_next_steps",

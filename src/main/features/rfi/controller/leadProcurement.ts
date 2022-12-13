@@ -89,10 +89,14 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');
-
-    res.redirect('/rfi/add-collaborators');
+    let addLead = await TenderApi.Instance(SESSION_ID).put(url, _body);
+    if(addLead){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');
+      res.redirect('/rfi/add-collaborators');
+    }else{
+      req.session['isJaggaerError'] = true;
+      res.redirect('/rfi/procurement-lead');
+    }
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -107,7 +111,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       !isJaggaerError,
     );
 
-    req.session['isJaggaerError'] = isJaggaerError;
+    req.session['isJaggaerError'] = true;
     res.redirect('/rfi/procurement-lead');
   }
 };

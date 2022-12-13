@@ -72,11 +72,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
-    let supplierDataList;
-    if(agreementId_session!='RM1557.13'){
-      const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
-       supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
-    }
+       let supplierDataList;
+      if(agreementId_session=='RM1557.13' && lotid=='All'){
+          supplierDataList ='';
+        }else{
+          const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
+          supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
+        }
     
       //#endregion
       const baseurl = `/tenders/projects/${projectId}/events`
@@ -104,9 +106,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       // Added required session values for accessign the pre-market pages
       req.session.eventManagement_eventType = eventType
       req.session.agreement_id = agreementId_session
-      req.session.agreementLotName = (agreementId_session=='RM1557.13')?'Find cloud hosting, software and support':agreementLotName
+      req.session.agreementLotName = (agreementId_session=='RM1557.13' && lotid=='All')?'Find cloud hosting, software and support':agreementLotName
       req.session.agreementName = agreementName
-      req.session.lotId = (agreementId_session=='RM1557.13') ? 'All': lotid
+      req.session.lotId = (agreementId_session=='RM1557.13' && lotid=='All') ? 'All': lotid
       req.session['projectId'] = projectId
       req.session['eventId'] = eventId
       req.session['evetTitle'] = title
@@ -118,8 +120,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       // Releated content session values
       const releatedContent: ReleatedContent = new ReleatedContent();
       releatedContent.name = agreementName
-    releatedContent.lotName = (agreementId_session=='RM1557.13')?'Find cloud hosting, software and support':lotid + " : " + agreementLotName
-    releatedContent.lotUrl = (agreementId_session=='RM1557.13')?'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=':'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=' + req.session.lotId.replace(/ /g, '%20');
+    releatedContent.lotName = (agreementId_session=='RM1557.13' && lotid=='All')?'Find cloud hosting, software and support':lotid + " : " + agreementLotName
+    releatedContent.lotUrl = (agreementId_session=='RM1557.13' && lotid=='All')?'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=':'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=' + req.session.lotId.replace(/ /g, '%20');
 
       releatedContent.title = 'Related content'
       req.session.releatedContent = releatedContent
@@ -248,7 +250,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
               }
             });
-            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+
+            if(agreementId_session=='RM1043.8'){
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+            }else{
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+            }
           }
           
 
@@ -281,13 +288,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         if (status.toLowerCase() == "complete") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          
+          if(agreementId_session=='RM1043.8'){
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+          }else{
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          }
         }
     }
     //Get Q&A Count
     let fetchData ;
     let qasCount = 0;
-    if(agreementId_session!='RM1557.13'){
+    if(agreementId_session=='RM1557.13' && lotid=='All'){
+      fetchData='';
+      qasCount = 0;
+    }else{
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       if (fetchData.data != undefined) {
@@ -305,30 +320,32 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
       collaboratorData = collaboratorData.data;
     
-      let filtervalues = "";
-      if(agreementId_session!='RM1557.13'){
-      try {
-        if (end_date != undefined && end_date != null) {
-          let day = end_date.substr(0, 10);
-          let time = end_date.substr(11, 5);
-        
-          filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm')
-        
-        }
+      let filtervalues;
+      if(agreementId_session=='RM1557.13' && lotid=='All'){
+         filtervalues = "";
+      }else{
+          try {
+            if (end_date != undefined && end_date != null) {
+              let day = end_date.substr(0, 10);
+              let time = end_date.substr(11, 5);
+            
+              filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm')
+            
+            }
 
-      } catch (error) {
-        console.log('catcherr1',error);
-        LoggTracer.errorLogger(
-          res,
-          error,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'Event Management - Date is Invalid',
-          true,
-        );
-       }
-    }
+          } catch (error) {
+            console.log('catcherr1',error);
+            LoggTracer.errorLogger(
+              res,
+              error,
+              `${req.headers.host}${req.originalUrl}`,
+              null,
+              TokenDecoder.decoder(SESSION_ID),
+              'Event Management - Date is Invalid',
+              true,
+            );
+          }
+      }
       req.session.projectStatus = 2;
       let awardOption = "false";
       const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
@@ -370,12 +387,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         let fetchQuestionsData = fetchQuestions?.data;
        
         
-        
 
         let standstill='';
         if(agreementId_session=='RM6187' && (eventType=='FC' || eventType=='DA')){
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-        }else{
+        }else if(agreementId_session=='RM1557.13' && eventType=='FC' && lotid=='4'){
+
+          standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
+          console.log('standstill');
+          console.log(standstill);
+       }else{
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
         }
        
@@ -406,7 +427,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
        
       }
 
-      let appendData = { projectStatus:2,documentTemplatesUnSuccess: "",evetTitle,awardOption, supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: (agreementId_session!='RM1557.13') ? qasCount : null, suppliers: localData, unreadMessage: unreadMessage, showCloseProject,agreementId_session,assessmentSupplierTarget }
+      let appendData = { projectStatus:2,documentTemplatesUnSuccess: "",evetTitle,awardOption, supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: (agreementId_session=='RM1557.13' && lotid=='All') ?null : qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject,agreementId_session,assessmentSupplierTarget }
+
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
         switch (eventType) {
@@ -780,7 +802,12 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
               }
             });
-            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+
+            if(agreementId_session=='RM1043.8'){
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+            }else{
+              supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
+            }
           }
         }
          
@@ -814,7 +841,11 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          if(agreementId_session=='RM1043.8'){
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+          }else{
+            supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
+          }
         }
       }
      

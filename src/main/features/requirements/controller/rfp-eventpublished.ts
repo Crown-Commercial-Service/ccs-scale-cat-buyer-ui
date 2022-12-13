@@ -3,6 +3,7 @@ import * as cmsData from '../../../resources/content/requirements/rfp-eventpubli
 import * as Mcf3cmsData from '../../../resources/content/requirements/mcf3rfpEventpublished.json';
 import * as dosStage1Data from '../../../resources/content/requirements/dos-Stage1-eventpublished.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-Stage2-eventpublished.json';
+import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-eventpublished.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -14,7 +15,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
 
     const { SESSION_ID } = req.cookies; //jwt
     const { projectId } = req.session;
-    const {eventId} =req.session;
+    const {eventId,lotId} =req.session;
     const { download } = req.query;
     const { agreement_id } = req.session;
     const { stage2_value } = req.session;
@@ -22,7 +23,10 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
     let jsondata ;
     if(agreement_id == 'RM6187') { 
       jsondata = Mcf3cmsData;
-    } else if(agreement_id == 'RM1043.8') {
+    }else if(agreement_id == 'RM1557.13') { 
+      jsondata = GCloudcmsData;
+    } 
+    else if(agreement_id == 'RM1043.8') {
       jsondata = dosStage1Data;
       if(stage2_value === "Stage 2"){
         jsondata = dosStage2Data;
@@ -37,10 +41,12 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
       rfi_ref_no : req.session.eventId,
       selectedeventtype:req.session.selectedeventtype,
       stage2_value,
-      agreement_id
+      agreement_id,
+      lotId
    }
 
 try {
+  
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
     if(download!=undefined)
     {
@@ -66,6 +72,7 @@ try {
       res.render('rfp-eventpublished.njk', appendData)
     }
 }catch (error) {
+  console.log('Error in publish page',error)
   LoggTracer.errorLogger(
     res,
     error,

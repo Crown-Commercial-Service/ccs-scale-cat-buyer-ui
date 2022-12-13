@@ -3997,6 +3997,10 @@ p + .govuk-heading-s,
   margin-bottom: 0;
 }
 
+.d_button {
+  height: 36px;
+}
+
 .govuk-header {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;

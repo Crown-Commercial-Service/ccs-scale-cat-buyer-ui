@@ -34,8 +34,12 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
-               
-             <p class="govuk-body">{{data.subtitle1 | safe}}</p>
+
+                {% if agreementId_session == "RM6187" %}
+                    <p class="govuk-body">{{data.subtitle1_mcf | safe}}</p>
+                {% else %}  
+                    <p class="govuk-body">{{data.subtitle1 | safe}}</p>
+                {% endif %}
               <form id="ccs-rfp-suppliers-form" class="ccs-rfp-suppliers-form" action="/da/suppliers" method="POST">
                 {{ csrfProtection(csrf) }}
                     <br>

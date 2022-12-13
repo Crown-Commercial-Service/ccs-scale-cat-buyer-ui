@@ -29,10 +29,11 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
 export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { standstill_period_yes } =req.body;
-    const {  eventId,projectId,agreement_id } = req.session;
+    const {  eventId,projectId } = req.session;
     let state = "";
 
     const baseurl = `/tenders/projects/${req.session.projectId}/events`
+
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
     //status=apidata.data[0].dashboardStatus;
     const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
@@ -41,10 +42,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
     try {
        if(eventType=="DA"){
         state = "AWARD";
-       }else if(agreement_id=='RM6187' || agreement_id=='RM1043.8'){
-           
-            state = "PRE_AWARD";
-        }else if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {
+       }else if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {
             state = "PRE_AWARD";
         }
         else if (standstill_period_yes != undefined && standstill_period_yes === 'no') {

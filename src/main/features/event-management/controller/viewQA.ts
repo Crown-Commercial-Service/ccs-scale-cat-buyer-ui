@@ -45,14 +45,7 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
     eventIds=req.query.id;
      projectIds = req.query.prId;
      isSupplierQA = true;
-
-     const headerbaseURL = `/tenders/projects`;  
-         const fetchHeader:any = await TenderApi.Instance(SESSION_ID).get(headerbaseURL);
-         let  fetchHeaderData:any = fetchHeader?.data;
-          fetchHeaderData = fetchHeaderData?.filter(((AField: any) => AField?.activeEvent?.id === eventIds));
-          
-          res.locals.agreement_header = fetchHeaderData[0];
-
+    
    }else{
     
     eventIds=req.session.eventId;
@@ -70,8 +63,18 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
           } else { 
             data = inboxData;
           }
-       
-        appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA, agreementId}	
+
+          let response=fetchData.data;
+
+          let projectName=response.projectName;
+          let agreementName=response.agreementName;
+          let agreementId_session=response.agreementId;
+          let agreementLotName=response.lotName;
+          let lotid=response.lotId;
+
+          res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+          
+        appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
         res.render('viewQA', appendData)	
     } catch (err) {	
         LoggTracer.errorLogger(	

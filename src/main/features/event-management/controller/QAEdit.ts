@@ -70,7 +70,9 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
     const { id } = req.session['messageID'];
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
+
     try {
+       
         const _body = req.body
         let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
         const errorText = [];
@@ -131,13 +133,14 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
                     question:_body.message_QA_Edit_Question_input,
                     answer:_body.message_QA_Edit_Answer_input
                 }
+               
                 const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
            const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText }
             res.render('QAEdit', appendData);
         }
 else{
 
-
+   
         const _requestBody = {
             "question": _body.message_QA_Edit_Question_input,
             "answer": _body.message_QA_Edit_Answer_input
@@ -145,6 +148,50 @@ else{
 
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a/${req.session['qaid']}`
         const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
+       
+
+        var host = req.get('host');
+        var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
+    
+        var textContent = 'The questions and answers for this project have been updated. You can access this, and any future updates, using the following link:\n\n'+urlMain+'\n\nIf you are already authenticated, you will be able to see this page. If not, you will need to authenticate through the Public Procurement Gateway before being able to access the page.';
+        const _requestBodys = {
+            "OCDS": {
+                "title": 'Question clarification for event '+eventId,
+                "description": textContent
+            },
+            "nonOCDS": {
+                "isBroadcast": true,
+                "classification": 'Qualification Clarification'
+            }
+        };
+
+
+        
+
+        const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
+        
+       const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+
+        // var host = req.get('host');
+        // var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
+    
+        // var textContent = 'The questions and answers for this project have been updated. You can access this, and any future updates, using the following link:\n\n'+urlMain+'\n\nIf you are already authenticated, you will be able to see this page. If not, you will need to authenticate through the Public Procurement Gateway before being able to access the page.';
+        // const _requestBodys = {
+        //     "OCDS": {
+        //         "title": 'Question clarification for event '+eventId,
+        //         "description": textContent
+        //     },
+        //     "nonOCDS": {
+        //         "isBroadcast": true,
+        //         "classification": 'Qualification Clarification'
+        //     }
+        // };
+
+            
+        // const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
+
+
+
         if (response.status == 200) {
             req.session["createdqaedit"]=true;
             res.redirect('/message/inbox')

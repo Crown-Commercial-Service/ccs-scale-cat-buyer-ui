@@ -113,7 +113,14 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       if (response.status == HttpStatusCode.OK) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
       }
-    } if (agreement_id=='RM1043.8') {
+    }
+    else if (agreement_id=='RM1557.13') {
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+      if (response.status == HttpStatusCode.OK) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+      }
+    }  
+    else if (agreement_id=='RM1043.8') {
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
         let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
@@ -213,18 +220,30 @@ let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/eng
 //}
 const questionInputDate = new Date(year, month, day);
  
-let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
-if(bankHolidayResult){
-  isValid = false;
-  error = 'You cannot set a date in bank holiday';
-
-}
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
   const dayOfWeek = new Date(questionNewDate).getDay();
+  
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
     error = 'You cannot set a date in weekend';
     isweekendErrorFlag = true;
   }
+  
+ 
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
+
+  if(isweekendErrorFlag){
+    isValid = false;
+    error = 'You cannot set a date in weekend';
+  }
+
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
@@ -232,12 +251,11 @@ if(bankHolidayResult){
     case 'Question 2':
       if (questionNewDate < new Date(timeline.publish)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
+        
             error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
@@ -245,12 +263,10 @@ if(bankHolidayResult){
     case 'Question 3':
       if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
            error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
@@ -258,12 +274,11 @@ if(bankHolidayResult){
     case 'Question 4':
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
+        
           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
@@ -271,12 +286,10 @@ if(bankHolidayResult){
     case 'Question 5':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
            error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
@@ -284,12 +297,10 @@ if(bankHolidayResult){
     case 'Question 6':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.evaluationProcessStartDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'deadline_for_submission_of_stage_one';
@@ -297,12 +308,10 @@ if(bankHolidayResult){
     case 'Question 7':
       if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'evaluation_process_start_date';
@@ -311,7 +320,6 @@ if(bankHolidayResult){
 
       if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
 
@@ -320,7 +328,6 @@ if(bankHolidayResult){
       }else{
         if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
           isValid = false;
-          if(!isweekendErrorFlag || !bankHolidayResult)
             error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
         }
       }
@@ -330,12 +337,10 @@ if(bankHolidayResult){
     case 'Question 9':
       if (questionNewDate < new Date(timeline.bidderPresentationsDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.proposedAwardDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'standstill_period_starts_date';
@@ -343,12 +348,10 @@ if(bankHolidayResult){
     case 'Question 10':
       if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'proposed_award_date';
@@ -356,13 +359,11 @@ if(bankHolidayResult){
     case 'Question 11':
       if (questionNewDate < new Date(timeline.proposedAwardDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
         if (agreement_id=='RM1043.8') { //DOS
           if (questionNewDate > new Date(timeline.contractsigneddate)) {
             isValid = false;
-            if(!isweekendErrorFlag || !bankHolidayResult)
               error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
           }
         }
@@ -372,12 +373,10 @@ if(bankHolidayResult){
       case 'Question 12':
       if (questionNewDate < new Date(timeline.expectedSignatureDate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       if (questionNewDate > new Date(timeline.supplierstartdate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'contract_signed_date';
@@ -386,7 +385,6 @@ if(bankHolidayResult){
       case 'Question 13':
       if (questionNewDate < new Date(timeline.contractsigneddate)) {
         isValid = false;
-        if(!isweekendErrorFlag || !bankHolidayResult)
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
       
