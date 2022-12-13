@@ -20,7 +20,7 @@ export const CHOOSE_AGREEMENT = async (req: express.Request, res: express.Respon
   req.session.fca_selected_services = [];
   const agreement_id = req.session.agreement_id
   // If we need to get MCF agreement include the id in below line : getAgreements(['RM6263', 'RM6187'], req, res)
-  const agreements = await getAgreements(['RM6187', 'RM1557.13'], req, res)
+  const agreements = await getAgreements(['RM6187','RM1043.8','RM1557.13'], req, res)
   const appendData = { data: agreementScreenContent, agreement_id, agreements }
   res.render('agreement', appendData)
 }
