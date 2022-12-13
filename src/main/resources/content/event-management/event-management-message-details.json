@@ -20,7 +20,7 @@
   "backlink" : "/message/inbox",
   "backlinkDetailPageHref" : "/message/sent",
   "tabs": {
-    "text1": "Write message to aLL suppliers",
+    "text1": "Write message to all suppliers",
     "href1": "/message/create",
     "text2": "Received",
     "href2": "/message/inbox",
