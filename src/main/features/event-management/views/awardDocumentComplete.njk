@@ -24,9 +24,18 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}
+    
+    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+             Lot 4
+    {% else %}
+             , 
+        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+    {% endif %} 
+    {% endif %} 
+    
   </strong></p>
-  {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
    <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
         </div>
@@ -114,7 +123,7 @@
        <h2> <strong>Unsuccessful supplier templates </strong></h2>
         </br>
         {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' %}
-        <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below. Please make a copy of the supplier names and contact emails below, because you will need to notify all unsuccessful suppliers using your organisation’s email account. You will do this on the next page.</p>
+        <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below. Please make a copy of the supplier names and contact emails below, because you will need to notify all unsuccessful suppliers using your organisation’s email account.</p>
         {% else %}
        <p>You can notify unsuccessful bidders of the outcome using the templates provided on this page. You will need to notify all unsuccessful suppliers via your organisation’s email account. </p>
         {% endif %}
