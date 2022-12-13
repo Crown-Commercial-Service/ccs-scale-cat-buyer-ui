@@ -48,7 +48,6 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
       else {
         agreementLotNames = req.session.agreementLotName
       }
-      console.log("agreementLotNames>>>>",agreementLotNames)
         relatedOverride = new Object({
           title: 'Related content',
           lotUrl: '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'), 
@@ -61,7 +60,6 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
     relatedOverride = req.session.releatedContent;
   }
   const releatedContent = relatedOverride;
-  console.log("relcon????",req.session.agreement_id)
   const { download,previous, next } = req.query
 
   // const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
@@ -334,7 +332,6 @@ for(let i=0;i<suppliersList.length;i++){
     
       }else{
         res.render('fca_supplier_list',appendData );
-        console.log('d?>>>',appendData)
       }
 
     } catch(err) {
