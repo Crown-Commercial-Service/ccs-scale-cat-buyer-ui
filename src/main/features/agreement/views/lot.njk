@@ -92,11 +92,11 @@
                         text: "Sign in or create an account",
                         type: "a",
                         classes: "govuk-button",
-                        href: "/oauth/login"
+                        href: LOGIN_DIRECTOR_URL
                       }) }}
-                </div>
-              {% endif %}
-
+                      {# href: "/oauth/login" #}
+                    </div>
+                {% endif %}
             {% else %}
               {% if (agreement_id == 'RM1043.8') %}
               {% else %}
@@ -179,9 +179,9 @@
                 text: "Sign in or create an account",
                 type: "a",
                 classes: "govuk-button",
-                href: "/oauth/login"
+                href: LOGIN_DIRECTOR_URL
                 }) }}
-                </div>
+                {# href: "/oauth/login" #}
               </div>
               {%endif%}
 
