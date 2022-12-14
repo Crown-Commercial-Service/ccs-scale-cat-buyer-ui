@@ -171,7 +171,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter your information and requirements');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add Management information and reporting requirements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
