@@ -72,7 +72,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     cmsData = chooseRouteDataGCLOUD;
   }
 
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype;
   if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid=='4')){

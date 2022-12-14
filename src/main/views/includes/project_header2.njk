@@ -25,7 +25,8 @@
     {%endif%}
     </p>
   {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
-   <p class="govuk-body">Project ID / Name7: <strong>{{agreement_header['project_name']}}</strong></p>
+     {{agreement_header | dump}}
+   <p class="govuk-body">Project ID & Name22: <strong>{{agreement_header['projectId'] +" & "+agreement_header['project_name']}}</strong></p>
     {% else %}
      <p class="govuk-body">Project name: You have not saved projects </p>
     {% endif %}

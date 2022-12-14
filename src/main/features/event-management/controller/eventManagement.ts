@@ -137,7 +137,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       req.session.currentEvent = { assessmentId }
 
       // Event header
-      res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+      res.locals.agreement_header = { project_name: projectName,projectId, agreementName, agreementId_session, agreementLotName, lotid }
       req.session.agreement_header = res.locals.agreement_header
       // Get unread Message count
       const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
@@ -677,7 +677,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       req.session.currentEvent = { assessmentId }
 
       // Event header
-      res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+      res.locals.agreement_header = { project_name: projectName,projectId, agreementName, agreementId_session, agreementLotName, lotid }
       req.session.agreement_header = res.locals.agreement_header
       
       // Get unread Message count
@@ -1560,6 +1560,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
   try {
             const releatedContent = req.session.releatedContent;
             const project_name = req.session.Projectname 
+            const projectId = req.session.ProjectId
             const agreementName = req.session.agreementName
             const agreementId_session = req.session.agreement_id
             const agreementLotName = req.session.agreementLotName
@@ -1567,7 +1568,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
             const invite_suppliers= req.session.invite_suppliers;
             const eventId= req.session.eventId;
             // Event header
-            res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
+            res.locals.agreement_header = { project_name,projectId, agreementName, agreementId_session, agreementLotName, lotid }
               let supplierIDS=invite_suppliers.split(',');
             const uniqSuppliers = supplierIDS.filter((value:any, index:any, self:any) => {
               return self.indexOf(value) === index;

@@ -32,7 +32,7 @@ export class AgreementDetailsFetchMiddleware {
                 req.session.agreementName = containedData['name'];
                 res.locals.selectedAgreement = containedData
                 const agreementName = req.session?.agreementName;
-                res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
+                res.locals.agreement_header = { project_name,projectId, agreementName, agreementId_session, agreementLotName, lotid }
                 next();
             }).catch(
                 (error) => {
