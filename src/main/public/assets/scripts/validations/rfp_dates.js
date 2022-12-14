@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -163,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // }else{
             //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
             // }
-            //  console.log('errorStore',errorStore)
             //  if(errorStore.length>0){
             //    ccsZPresentErrorSummary(errorStore);
             //    return false;
@@ -708,7 +706,6 @@ $('.rfp_date').on('submit', (e) => {
             let isValid;
             if(checkResourceStartDate())
             {
-
             isValid = isProjectStartDateValid();
             } //XBN00121
             if(isValid)
@@ -928,16 +925,18 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          $('.durations').removeClass('govuk-form-group--error');
          $('#event-name-error-date').html('')
-
+         
          if(!isValidDate(rfpResourceStartYear.val(),rfpResourceStartMonth.val(),rfpResourceStartDay.val()))
          {
             flag =false;
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid date'); 
             if (fieldCheck !== true){ 
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/,false);
                errorStore.push(fieldCheck)
             }else{
-                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+                 errorStore.push(fieldCheck)
             }
          }
          else 
@@ -1009,19 +1008,16 @@ function isProjectExtensionValid() {
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     console.log('month',month)
      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
       }
      }
      else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
       }
      }
      else{

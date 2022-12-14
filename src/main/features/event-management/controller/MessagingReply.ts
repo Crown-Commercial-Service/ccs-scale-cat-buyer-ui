@@ -39,7 +39,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
             
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
-
+        
         if(agreementId == 'RM1043.8'){
             res.locals.agreement_header = req.session.agreement_header
             switch (req.session.eventManagement_eventType) {
@@ -61,7 +61,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
         }
 
         let data;
-        if(agreementId == 'RM1043.8') { //DOS6
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6ReplyData;
           } else { 
             data = replyData;
