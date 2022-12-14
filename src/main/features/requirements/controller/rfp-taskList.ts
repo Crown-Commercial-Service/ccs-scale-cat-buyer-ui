@@ -53,6 +53,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     'User Centred Design',
     'No DDaT Cluster Mapping',
   ];
+  console.log('projectId',projectId)
   let cmsData;
   if(agreementId_session == 'RM6187') {
     //MCF3
