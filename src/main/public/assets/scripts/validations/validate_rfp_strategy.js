@@ -161,13 +161,7 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
@@ -188,6 +182,14 @@ const ccsZvalidateRfPStrategy = event => {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
+  }
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
