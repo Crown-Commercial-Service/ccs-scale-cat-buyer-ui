@@ -49,13 +49,13 @@
             </p>
           </div>
 
-          <div class="govuk-inset-text">
+          {# <div class="govuk-inset-text">
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
               <br>
               <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
-          </div>
+          </div> #}
 
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
@@ -73,6 +73,7 @@
               {% else %}
                 <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
               {% endif %}
+              
               <br><br>
               <p class="govuk-body">{{data.g_cloud_desc2}}</p>
               <p class="govuk-body">{{data.g_cloud_desc3}}</p>
@@ -99,6 +100,7 @@
                 {% endif %}
             {% else %}
               {% if (agreement_id == 'RM1043.8') %}
+             
               {% else %}
                 <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
               {% endif %}
@@ -134,10 +136,13 @@
                 {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") 
                   or(agreement_id == 'RM1043.8' and lot == "Lot 2")or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
                   {{data.line7dl1}}
+                 <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="/fca/supplier/list?agreement={{agreement_id}}&lot={{lot | replace("Lot ", "")}}"
+                    onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% else %}
                   {{data.line7}}
+                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% endif %}
-                <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                {# <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a> #}
               </p>
             </div>
           {% endif %}
@@ -265,21 +270,35 @@
               <p class="govuk-body">
                 <strong>Refer to the requirements template</strong>
               </p>
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1" and isAuth === true) %}
               <p>The <a href="{{ assetPath | default('/assets') }}/images/outcomes requirements template v1.1.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% else %}
+                {% if (agreement_id == 'RM1043.8' and lot == "Lot 1" and isAuth !== true) %}
+                 <p>The <a href="#" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes. (Link will be available when you login)</p> 
+                {% endif %}
               {% endif %}
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2" and isAuth === true) %}
               <p>The <a href="{{ assetPath | default('/assets') }}/images/studios requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for user research studios.</p>
+              {% else %}
+                {% if (agreement_id == 'RM1043.8' and lot == "Lot 2" and isAuth !== true) %}
+                   <p>The <a href="#" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes. (Link will be available when you login)</p> 
+                {% endif %}
+
               {% endif %}
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3" and isAuth === true) %}
               <p>The <a href="{{ assetPath | default('/assets') }}/images/participants requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% else %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3" and isAuth !== true) %}
+              <p>The <a href="#" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes. (Link will be available when you login)</p> 
+              {% endif %}
               {% endif %}
                 {% if (lot == 'Lot 1') %}
                   <p>
                     <strong>Get budget approval</strong>
                   </p>
               <p>You must get budget approval before you start the buying process.<br>
-              If you’re buying for central government, you have to go through the <a href="#" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br>
+              If you’re buying for central government, you have to go through the <a href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br>
               If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
 
                 </p>
