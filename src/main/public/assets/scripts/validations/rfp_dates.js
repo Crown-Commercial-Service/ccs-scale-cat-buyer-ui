@@ -87,12 +87,18 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+               let isValid = validateStartDate();
+      
+               if(isValid!=''){
+                  rfpResourceStartYear.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-date').html(isValid);
+                  return false;
+               }else{
+                  $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+                  $('#rfp_resource_start_date-error').html('');
+                  return true;
+               }
          }
          else{
             removeErrorFieldsdates();
@@ -121,12 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+               let isValid = validateStartDate();
+      
+               if(isValid!=''){
+                  rfpResourceStartYear.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-date').html(isValid);
+                  return false;
+               }else{
+                  $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+                  $('#rfp_resource_start_date-error').html('');
+                  return true;
+               }
          }
          else{
             removeErrorFieldsdates();
@@ -170,20 +182,26 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
             if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+               let isValid = validateStartDate();
+      
+               if(isValid!=''){
+                  rfpResourceStartYear.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-date').html(isValid);
+                  return false;
+               }else{
+                  $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+                  $('#rfp_resource_start_date-error').html('');
+                  return true;
+               }
           
+         }else{
+            removeErrorFieldsdates();
+            return true;
          }
         }
       }
-      else{
-         removeErrorFieldsdates();
-         return true;
-      }
+      
       }
    }
      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
@@ -1520,5 +1538,40 @@ let extensionRunInDays = 0;
    return isValid;
 }
 
+function validateStartDate() {
+   let isValid = '';
+   const Day = $('.rfp_resource_start_day');
+   const Month = $('.rfp_resource_start_month');
+   const Year = $('.rfp_resource_start_year');
 
+if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
+   
+   let rfpagreementData;
+   if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+            rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
+         }
+   if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
+                  const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+                  const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+                  const expiryMonth=expiryMonthTot-1;
+                  const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+
+                  const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+                  const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+                  const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
+
+                  const getTimeOfFormDate = FormDate.getTime();
+                  const todayDate = new Date();
+                  if (getTimeOfFormDate > getMSOfExpiryDate) {
+                     isValid = 'Start date cannot be after agreement expiry date';
+                  }
+                  
+                  if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) {
+                     isValid = 'Start date must be a valid future date';
+                  }
+      }
+
+   }
+   return isValid;
+}
 
