@@ -2135,7 +2135,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
-        }, 55000);
+        }, 10000);
      }
       else{
         await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
