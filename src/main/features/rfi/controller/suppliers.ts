@@ -5,6 +5,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import * as cmsData from '../../../resources/content/RFI/suppliers.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/suppliers.json';
+import * as cmsDataGCLOUD from '../../../resources/content/requirements/suppliersGcloud.json';
 import config from 'config';
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
@@ -56,6 +57,10 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
       forceChangeDataJson = Mcf3cmsData;
     } else { 
       forceChangeDataJson = cmsData;
+    }
+    if(req.session.agreement_id == 'RM1557.13') {
+      //DSP
+      forceChangeDataJson = cmsDataGCLOUD;
     }
 
   let appendData = {
