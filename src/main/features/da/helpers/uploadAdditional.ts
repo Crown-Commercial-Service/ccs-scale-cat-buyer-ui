@@ -159,7 +159,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'DA') selectedRoute.toUpperCase() = 'DA';
       
       
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
+      res.locals.agreement_header = { agreementName, project_name, ProjectId, agreementId_session, agreementLotName, lotId };
       // res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
       res.render(`daw-uploadAdditional`, windowAppendData);
     } catch (error) {

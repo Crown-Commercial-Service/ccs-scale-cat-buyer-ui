@@ -406,8 +406,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
+      const projectId = req.session.projectId;
+
      
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -558,7 +560,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const agreementId_session = req.session.agreement_id;
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+      const projectId = req.session.projectId;
+
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
       let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3

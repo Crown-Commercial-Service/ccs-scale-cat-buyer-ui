@@ -38,6 +38,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
   res.locals.agreement_header = {
     agreementName,
     project_name,
+    projectId,
     agreementId_session,
     agreementLotName,
     lotid,
