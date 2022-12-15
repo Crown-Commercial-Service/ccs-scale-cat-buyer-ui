@@ -89,17 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
             db.classList.add('ccs-dynaform-hidden')
             
             db.addEventListener('click', (e) => {
-            console.log("0")
+            
                 e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
          
-          console.log("target_fieldset",target_fieldset);
+        
            
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-               console.log("Sibling",Sibling);
+              
 
                if(target != 20) {
                    let ml = 1;
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                            }
        
-                           console.log(Sibling.classList);
+                           
                            Sibling = Sibling.nextElementSibling;
                        } else {
                            Sibling = false;
@@ -409,10 +409,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
                
                 this_box.classList.remove('ccs-dynaform-hidden');
-                console.log("qqqqqqqqqqqq")
-                console.log("ureee",urlParamsDefault.get('agreement_id'))
+               
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
-                    console.log("mcf")
+                    
                     document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 }
 
@@ -430,10 +429,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){
-                    console.log("DOs")
+                  
                     document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");  
                 }else{
-                    console.log("Else")
+                  
                     document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 }
                 
@@ -1102,8 +1101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                             if(percentageCheck){
-                                console.log('************1');
-                                console.log(percentageCheck);
+                            
                                 errorStore.push(percentageCheck);
                             }
                         }

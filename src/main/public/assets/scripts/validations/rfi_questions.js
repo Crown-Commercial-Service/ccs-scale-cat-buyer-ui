@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
     if(question_length == 20){
-      console.log("1144")
+      
      // document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
     }
     let with_value_count = 20,
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this_box.classList.remove('ccs-dynaform-hidden');
 
         if (text_box_num === 20) {
-          console.log("text_box_num1111",text_box_num);
+         
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         with_value_count++;
-        console.log("with_value_countadd>",with_value_count)
+      
         if (with_value_count === 21) {
           
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
@@ -89,19 +89,18 @@ document.addEventListener('DOMContentLoaded', () => {
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
          
-          console.log("target_fieldset",target_fieldset);
+         
            
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-               console.log("Sibling",Sibling);
+              
 
                if(target != 21) {
                    let ml = 1;
                    
                    let next_coll = Number(target);
                    let nextLevel_coll = Number(target);
-                   console.log("nextLevel_coll",nextLevel_coll);
-                   console.log("target",target);
+                
                    
                    let eptArr = [];
                    while (Sibling) {
@@ -153,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                            }
        
-                           console.log(Sibling.classList);
+                        
                            Sibling = Sibling.nextElementSibling;
                        } else {
                            Sibling = false;
@@ -194,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        if (prev_coll > 1) {
                         document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                        }
-                       console.log('9999')
+                      
                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                    }
                } else {
@@ -214,12 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
                    if (prev_coll > 1) {
                     document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                    }
-                   console.log("666000000")
+                   
                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
                with_value_count--;
                if (with_value_count != 11) {
-                console.log("666")
+             
                 document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
            });
