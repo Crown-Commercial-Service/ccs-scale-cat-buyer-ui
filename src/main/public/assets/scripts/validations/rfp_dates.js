@@ -769,7 +769,7 @@ function checkResourceStartDate()
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
-         let error_msg_new = 'Enter a valid date'
+         let error_msg_new = 'Enter a project start date'
          //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
          if (fieldCheck !== true){ 
@@ -1366,7 +1366,7 @@ function isProjectStartDateValid()
       
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Enter a valid project start date');
+         $('.resource_start_date').html('Enter a project start date');
          return false;
       } 
       else if (startDate>new Date(2025,07,23)) {
