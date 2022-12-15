@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-        
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -74,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 1;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -102,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else{
             removeErrorFieldsdates();
-
             return true;
           }
          }
          
-      }
+         }
+        }
       }
 
       const MonthCheckResourceStart = () => {
@@ -115,6 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) <= 0;
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          if(value != undefined && value.val() != '')
          {
          if (matchValue || endmonthCheck || startmonthCheck) {
@@ -145,7 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
          }
          }
-      }
+          }
+         }
       }
       const YearCheckResourceStart = () => {
         // let fieldCheck = "", errorStore = [];
@@ -170,7 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // }else{
             //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
             // }
-            //  console.log('errorStore',errorStore)
             //  if(errorStore.length>0){
             //    ccsZPresentErrorSummary(errorStore);
             //    return false;
@@ -201,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
       }
-      
       }
    }
      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
@@ -721,7 +723,6 @@ $('.rfp_date').on('submit', (e) => {
             let isValid;
             if(checkResourceStartDate())
             {
-
             isValid = isProjectStartDateValid();
             } //XBN00121
             if(isValid)
@@ -753,6 +754,11 @@ function checkResourceStartDate()
       let rfpResourceStartDay = $('.rfp_resource_start_day');
       let rfpResourceStartMonth = $('.rfp_resource_start_month');
       let rfpResourceStartYear = $('.rfp_resource_start_year');
+      
+      if(document.getElementById('agreementID').value === 'RM6187'){
+         removeErrorFieldsdates();
+      }
+
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
       {
          if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
@@ -763,8 +769,11 @@ function checkResourceStartDate()
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         let error_msg_new = 'Enter a valid date'
+         //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }else{
            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
          }
@@ -772,21 +781,39 @@ function checkResourceStartDate()
       }
        else if(rfpResourceStartDay.val() =='')
       {
-         var error_msg = 'Enter a valid date'
+        
+         let error_msg = 'Enter a valid date'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a day'
+            if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
+               error_msg = 'Enter a day and month'
+               rfpResourceStartMonth.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' &&  rfpResourceStartMonth.val() != ''){
+               error_msg = 'Enter a day and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+            }
+            else if(rfpResourceStartDay.val() =='') {
+            error_msg = 'Enter a Day'
+            rfpResourceStartMonth.removeClass('govuk-form-group--error');
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
+
+            }
+
          }
+          
          flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
         // rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid date');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }
+         
          // else{
          //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
          // }
@@ -801,7 +828,8 @@ function checkResourceStartDate()
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid date');
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }else{
            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
          }
@@ -813,17 +841,26 @@ function checkResourceStartDate()
           error_msg = 'Enter a valid month'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a month'
+            if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() == ''){
+               error_msg = 'Enter a month and year'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+            }
+            else if(rfpResourceStartMonth.val() =='') {
+               error_msg = 'Enter a Month'
+               rfpResourceStartYear.removeClass('govuk-form-group--error');
+            }
          }
 
          flag =false;
          rfpResourceStartMonth.addClass('govuk-form-group--error');
          rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid month');
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11","rfp_resource_start_date",error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }
          // else{
          //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
@@ -839,7 +876,8 @@ function checkResourceStartDate()
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid month');
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }else{
               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
          }        
@@ -849,7 +887,7 @@ function checkResourceStartDate()
          error_msg = 'Enter a valid year'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a year'
+            error_msg = 'Enter a Year'
          }
          flag =false;
          rfpResourceStartYear.addClass('govuk-form-group--error');
@@ -858,11 +896,28 @@ function checkResourceStartDate()
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid year');  
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }
          // else{
          //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
          // }  
+      }
+      else if( rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4){
+         if(document.getElementById('agreementID').value === 'RM1043.8') {
+            removeErrorFieldsdates();
+         }
+         flag =false;
+         rfpResourceStartYear.addClass('govuk-form-group--error');
+         rfpResourceStartDay.removeClass('govuk-form-group--error');
+         rfpResourceStartMonth.removeClass('govuk-form-group--error');
+         $('.durations').addClass('govuk-form-group--error');
+         $('#event-name-error-date').html('Enter a valid year');  
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
+
+         if (fieldCheck !== true){
+             errorStore.push(fieldCheck)
+         }
       }
       else if(rfpResourceStartYear.val() <= 1)
       {
@@ -873,7 +928,8 @@ function checkResourceStartDate()
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid year');  
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         if (fieldCheck !== true){ 
+            errorStore.push(fieldCheck)
          }else{
               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
          }  
@@ -886,15 +942,18 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          $('.durations').removeClass('govuk-form-group--error');
          $('#event-name-error-date').html('')
-
+         
          if(!isValidDate(rfpResourceStartYear.val(),rfpResourceStartMonth.val(),rfpResourceStartDay.val()))
          {
             flag =false;
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid date'); 
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            if (fieldCheck !== true){ 
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/,false);
+               errorStore.push(fieldCheck)
             }else{
-                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+                 errorStore.push(fieldCheck)
             }
          }
          else 
@@ -966,19 +1025,19 @@ function isProjectExtensionValid() {
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     
+
      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        
+
       }
      }
      else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        
+
       }
      }
      else{
@@ -1194,7 +1253,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -1295,6 +1354,7 @@ function isProjectStartDateValid()
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
+
             $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
             $('#rfp_resource_start_date-error').html('');
             ccsZPresentErrorSummary();

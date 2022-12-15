@@ -210,6 +210,18 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
         TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
       }
     }
+    else if(agreementId_session == 'RM1557.13'){
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              element.optiontableDefination = mapTableDefinationData(element,'RM1557.13');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1557.13'));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+    }
     else{
       if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
         TemporaryObjStorage.forEach(x => {
@@ -1114,7 +1126,7 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
     dataRowsList.push(innerArrObj);
   });
 
-  if(Agreementid == 'RM1043.8'){
+  if(Agreementid == 'RM1043.8' || Agreementid == 'RM1557.13'){
     return dataRowsList;
   }else{
     return dataRowsList.reverse();

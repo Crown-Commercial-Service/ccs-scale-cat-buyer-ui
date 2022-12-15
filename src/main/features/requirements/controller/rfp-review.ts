@@ -3789,7 +3789,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
        //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
-      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
       agreementId_session
     };

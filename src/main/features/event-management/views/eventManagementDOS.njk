@@ -35,11 +35,19 @@
              Lot 4
     {% else %}
              , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+          Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% else %}
+            {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% endif %}
+
     {% endif %} 
     {% endif %} 
-    
-  </strong></p>
+
+        </strong>
+      </p>
+
+
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
           <p class="govuk-body">Project ID / Name: <strong>{{ projectName }}</strong></p>
         </div>
@@ -66,7 +74,7 @@
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
               {% else %}
                 <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
               {% endif %}

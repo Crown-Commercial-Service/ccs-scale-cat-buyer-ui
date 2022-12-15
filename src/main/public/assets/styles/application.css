@@ -4013,7 +4013,10 @@ p + .govuk-heading-s,
   color: #ffffff;
   background: #0b0c0c;
 }
-
+.rfi_del{
+  position: relative;
+  z-index: 1;
+}
 @media print {
   .govuk-header {
     font-family: sans-serif;
@@ -4630,6 +4633,14 @@ p + .govuk-heading-s,
   color: #0b0c0c;
   padding: 15px;
   background-color: #ffffff;
+}
+
+.tasklisttag {
+    background: #F7D7E6;
+    text-align: center;
+    border-radius: 25px;
+    padding: 5px;
+    margin-bottom: 60px;
 }
 
 @media print {
