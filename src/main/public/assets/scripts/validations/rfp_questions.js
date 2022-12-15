@@ -1089,9 +1089,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                             if(percentageCheck){
-                                console.log('************1');
-                                console.log(percentageCheck);
+                                if(urlParams.get('agreement_id') == 'RM1043.8'){
+                                    errorStore.push(ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/));
+                                }else{
                                 errorStore.push(percentageCheck);
+                            }
                             }
                         }
 
