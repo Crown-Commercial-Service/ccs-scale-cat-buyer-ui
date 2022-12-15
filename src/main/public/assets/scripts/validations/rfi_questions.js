@@ -5,11 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
     if(question_length == 20){
-      document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
+      console.log("1144")
+     // document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
     }
     let with_value_count = 20,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
+      document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
       //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
     for (var text_box_num = 20; text_box_num >= 1; text_box_num--) {
 
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this_box.classList.remove('ccs-dynaform-hidden');
 
         if (text_box_num === 20) {
+          console.log("text_box_num1111",text_box_num);
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -64,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         with_value_count++;
         console.log("with_value_countadd>",with_value_count)
         if (with_value_count === 21) {
+          
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
       }
@@ -91,14 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
                console.log("Sibling",Sibling);
 
-               if(target != 20) {
+               if(target != 21) {
                    let ml = 1;
                    
                    let next_coll = Number(target);
                    let nextLevel_coll = Number(target);
                    console.log("nextLevel_coll",nextLevel_coll);
                    console.log("target",target);
-                   let current_col = nextLevel_coll;  
                    
                    let eptArr = [];
                    while (Sibling) {
@@ -179,9 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
                        
                        
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('rfi_question_'+current_col).value="";
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -191,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        if (prev_coll > 1) {
                         document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                        }
+                       console.log('9999')
                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                    }
                } else {
@@ -202,19 +206,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('rfi_question_'+current_col).value="";
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
                        }
              
                    if (prev_coll > 1) {
                     document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                    }
+                   console.log("666000000")
                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
                with_value_count--;
                if (with_value_count != 11) {
-                
+                console.log("666")
                 document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
            });
