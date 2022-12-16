@@ -49,13 +49,13 @@
             </p>
           </div>
 
-          <div class="govuk-inset-text">
+          {# <div class="govuk-inset-text">
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
               <br>
               <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
-          </div>
+          </div> #}
 
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
@@ -73,6 +73,7 @@
               {% else %}
                 <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
               {% endif %}
+              
               <br><br>
               <p class="govuk-body">{{data.g_cloud_desc2}}</p>
               <p class="govuk-body">{{data.g_cloud_desc3}}</p>
@@ -92,13 +93,14 @@
                         text: "Sign in or create an account",
                         type: "a",
                         classes: "govuk-button",
-                        href: "/oauth/login"
+                        href: LOGIN_DIRECTOR_URL
                       }) }}
-                </div>
-              {% endif %}
-
+                      {# href: "/oauth/login" #}
+                    </div>
+                {% endif %}
             {% else %}
               {% if (agreement_id == 'RM1043.8') %}
+             
               {% else %}
                 <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
               {% endif %}
@@ -134,10 +136,13 @@
                 {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") 
                   or(agreement_id == 'RM1043.8' and lot == "Lot 2")or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
                   {{data.line7dl1}}
+                 <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="/fca/supplier/list?agreement={{agreement_id}}&lot={{lot | replace("Lot ", "")}}"
+                    onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% else %}
                   {{data.line7}}
+                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% endif %}
-                <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                {# <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a> #}
               </p>
             </div>
           {% endif %}
@@ -177,11 +182,13 @@
                 text: "Sign in or create an account",
                 type: "a",
                 classes: "govuk-button",
-                href: "/oauth/login"
+                href: LOGIN_DIRECTOR_URL
                 }) }}
-                </div>
-              {%endif%}
+
+                {# href: "/oauth/login" #}
               </div>
+              {%endif%}
+             </div>
             {% endif %}
           {% endif %}
 
@@ -276,7 +283,7 @@
                     <strong>Get budget approval</strong>
                   </p>
               <p>You must get budget approval before you start the buying process.<br>
-              If you’re buying for central government, you have to go through the <a href="#" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br>
+              If you’re buying for central government, you have to go through the <a href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br>
               If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
 
                 </p>
@@ -418,8 +425,12 @@ You will need a clear set of criteria that suppliers will need to meet and be ev
                     <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
                         Create a shortlist
                       </h3>
+                   {% if(isAuth === true)%}
                     <p class="govuk-body">To create a shortlist, download the <a href = "https://assets.applytosupply.digitalmarketplace.service.gov.uk/digital-outcomes-6/communications/catalogues/user-research-studios.csv">list of user research studios</a> and filter it based on location and your requirements. If no other studios meet your needs, you can have a shortlist of one. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
                     </p>
+                    {% else %}
+                    <p class="govuk-body">To create a shortlist, download the list of user research studios (Link will be available when you are logged-in) and filter it based on location and your requirements. If no other studios meet your needs, you can have a shortlist of one. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
+                    {% endif %}
                   </li>
 
                   <li data-label="2" class="govuk-list--number-custome-list">
