@@ -31,7 +31,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "/message/inbox?type=received"
     },
     {
@@ -52,7 +52,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -111,7 +111,7 @@
 
           <ul class="nav-list messaging-nav-list--primary">
             {% if agreementId == 'RM6187' %}
-              <li class="nav-list__item">
+              <li class="nav-list__item selected">
                 {{data.tabs.text5}}
               </li>
               <li class="nav-list__item">
@@ -146,7 +146,7 @@
             {{data.subtitle2}}
           </h1>
           <br>
-          {% if agreementId != 'RM1043.8' %}
+          {% if agreementId != 'RM1043.8' and agreementId != 'RM6187' %}
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">

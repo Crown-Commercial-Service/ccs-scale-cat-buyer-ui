@@ -120,6 +120,31 @@
                   })
               }}
               <p><label id="rfi_label_question_1"></label></p>#}
+          {% if agreement_id == 'RM6187' %}
+              {% set numberWord = [
+              'Zero',
+              'First',
+              'Second',
+              ' Third',
+              ' Fourth',
+              ' Fifth',
+              ' Sixth',
+              ' Seventh',
+              ' Eighth',
+              ' Ninth',
+              ' Tenth',
+              'Eleventh',
+                'Twelfth',
+                'Thirteenth',
+                'Fourteenth',
+                'Fifteenth',
+                'Sixteenth',
+                'Seventeenth',
+                'Eighteenth',
+                'Nineteenth',
+                'Twentieth'
+            ] %}
+        {% else %}
             {% set numberWord = [
               'Zero',
               'first',
@@ -129,21 +154,28 @@
               ' fifth',
               ' sixth',
               ' seventh',
-              ' eight',
+              ' eighth',
               ' ninth',
               ' tenth',
               'eleventh',
-              'twelfth',
-              'thirteen',
-              'fourteen',
-              'fifteen',
-              'sixteen',
-              'seventeen',
-              'eighteen',
-              'nineteen',
-              'twenty'
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
             ] %}
+            {% endif %}
+
             {% for i in range(1, 21) -%}
+            <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
+               {% if i!=1 %} 
+              <a href='{{i}}' class='del rfi_del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>
+              {% endif %}
+
               {% if i==1 %}
               {% if agreement_id == 'RM6187' %}
                 {% set t="First question " %}
@@ -151,7 +183,13 @@
                 {% set t="You must ask at least 1 question " %}
                 {% endif %}
               {% else %}
-                {% set t="Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>" %}
+
+              {% if agreement_id == 'RM6187' %}
+                {% set t=""+numberWord[i]+" question" %}
+                {% else %}
+                {% set t="Enter your "+numberWord[i]+" question " %}
+                {% endif %}
+
               {% endif %}
 {% if agreement_id == "RM1557.13" %}
 {{  CCSTextarea({
@@ -183,6 +221,7 @@
               
               {% set qlable =  'rfi_label_question_' + i %}
               <p><label id="{{qlable}}"></label></p>
+              </div>
             {%- endfor %}
 
             <p class="govuk-body">
@@ -227,7 +266,7 @@
               {{  CCSInput({
                       label: {
                         text: requirement.OCDS.title,
-                        classes: "govuk-label"
+                        classes: "govuk-label govuk-label govuk-label--m"
                       },
                       hint: {
                         text: requirement.OCDS.description
