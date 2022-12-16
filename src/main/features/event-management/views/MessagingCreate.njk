@@ -210,11 +210,22 @@
             </div>
 
             <div class="govuk-button-group">
-              {{ CCSButton({
-                text: data.btnText,
-                action:"submit"
-                })
-            }}
+              
+              {% if agreementId == 'RM6187' %}
+                  {{ CCSButton({
+                      text: data.btnText,
+                      action:"submit",
+                      classes:"btn-sendmsg"
+                  })
+                  }}
+              {% else %}
+                  {{ CCSButton({
+                      text: data.btnText,
+                      action:"submit"
+                  })
+                  }}
+              {% endif %}
+
               <a href="{{data.Cancel.link}}" id="supplierMsgCancel" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
             </div>
 
