@@ -13,7 +13,7 @@ export default function (app: Application): void {
     app.post(FCA_PATHS.POST_SHORTLISTED_SUPPLIERS, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],fcaController.POST_SHORTLIST_SERVICE);
     app.get(FCA_PATHS.SHORTLISTED_SUPPLIERS, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],fcaController.SHORTLIST_SERVICE);
 
-    app.get(FCA_PATHS.SUPPLIERS_LIST, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], fcaController.SUPPLIER_LIST);
+    app.get(FCA_PATHS.SUPPLIERS_LIST, [AgreementDetailsFetchMiddleware.FetchAgreements], fcaController.SUPPLIER_LIST);
     app.get(FCA_PATHS.SUPPLIER_RATECARD, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], fcaController.SUPPLIER_RATECARD);
 
     app.get(FCA_PATHS.GET_USER_PROCUREMENT, [AUTH], fcaController.GET_USER_PROCUREMENT);
