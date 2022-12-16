@@ -639,6 +639,16 @@ function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For MCF3 message create
+$('.btn-sendmsg').on('click', (e) => {
+   e.preventDefault();
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
+                           
+   document.forms['ccs_message_create_form'].submit();
+});
+
+//
+
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
