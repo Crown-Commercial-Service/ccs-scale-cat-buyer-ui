@@ -24,7 +24,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid };
   res.render('chooseBuildrfi',appendData );
  }
