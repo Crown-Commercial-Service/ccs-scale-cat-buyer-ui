@@ -168,6 +168,12 @@ ccs_vetting.forEach(ele => {
     removeErrorFieldsRfpSelect();
   });
 });
+let removeErrRfi = document.querySelectorAll('.removeErr');
+removeErrRfi.forEach(ele => {
+  ele.addEventListener('keydown', (event) => {
+    ccsZremoveErrorMessage();
+  });
+});
 // $("#rfp_security_confirmation").keypress(function(e) {
 //   var keycode =e.which;
 
