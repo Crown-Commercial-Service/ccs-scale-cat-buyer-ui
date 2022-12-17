@@ -7,6 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @Rediect
@@ -39,6 +40,33 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'No DDaT Cluster Mapping',
   ];
 
+
+ 
+    let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
+    if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
+    let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    console.log("16")
+    let nameJourneysts = journeySteps.filter((el: any) => {
+      if(el.step == 27 && el.state == 'Completed') return true;
+      return false;
+    });
+  
+    if(nameJourneysts.length > 0){
+      
+      let addcontsts = journeySteps.filter((el: any) => { 
+        if(el.step == 30) return true;
+        return false;
+      });
+     
+      if(addcontsts[0].state == 'Cannot start yet'){
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+      }
+      
+    }else{
+      let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+      if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+    }
+  
 
   if(req.session.selectedSuppliersDA == undefined  ||  req.session.selectedSuppliersDA == null) {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
