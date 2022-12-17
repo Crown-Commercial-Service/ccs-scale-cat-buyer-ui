@@ -29,6 +29,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
             delete req.session["createdqaedit"];
         }
         const baseReceivedMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
+       
         const draftReceivedMessage = await TenderApi.Instance(SESSION_ID).get(baseReceivedMessageURL)
 
         const receivedMessages: Message[] = draftReceivedMessage.data.messages
@@ -53,6 +54,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
           } else { 
             data = inboxData;
           }
+
 
         const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,msgfor,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
         res.locals.agreement_header = req.session.agreement_header
