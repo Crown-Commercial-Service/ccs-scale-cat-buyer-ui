@@ -27,16 +27,21 @@
           {{data.line1}}
         </h1>
         {% include "includes/project_header.njk" %}
-        <p>{{data.line8}}</p><br>
-    {# <p>{{data.line9}}</p><br> #}
-    <p>Further details of each supplier can be found on the CCS webiste on the <a href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{lot_id}}/lot-suppliers" target="_blank">Search suppliers page</a>. The page will open on a new tab.</p><br>
-    <div class="govuk-inset-text">
-        {% if agreementId_session == "RM6187" %}
-            <p>{{data.line5_mcf}}</p>
-        {% else %}
-            <p>{{data.line5}}</p>
-        {% endif %}
-    </div>
+            {% if agreementId_session == "RM6187" %}
+                <p>{{data.line8_mcf}}</p><br>
+                {# <p>{{data.line9}}</p><br> #}
+                <p>You can view supplier details below. </p><br>
+                <div class="govuk-inset-text">
+                    <p>{{data.line5_mcf}}</p>
+                </div>
+            {% else %}
+                <p>{{data.line8}}</p><br>
+                {# <p>{{data.line9}}</p><br> #}
+                <p>Further details of each supplier can be found on the CCS webiste on the <a href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{lot_id}}/lot-suppliers" target="_blank">Search suppliers page</a>. The page will open on a new tab.</p><br>
+                <div class="govuk-inset-text">
+                    <p>{{data.line5}}</p>
+                </div>
+            {% endif %}
     <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
