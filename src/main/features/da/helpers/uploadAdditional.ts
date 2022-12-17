@@ -157,9 +157,10 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'PA') selectedRoute.toUpperCase() = 'CA';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'DA') selectedRoute.toUpperCase() = 'DA';
+      const projectId = req.session['projectId'];
+
       
-      
-      res.locals.agreement_header = { agreementName, project_name, ProjectId, agreementId_session, agreementLotName, lotId };
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotId };
       // res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
       res.render(`daw-uploadAdditional`, windowAppendData);
     } catch (error) {

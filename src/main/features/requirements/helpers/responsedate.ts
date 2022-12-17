@@ -83,7 +83,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   else {  //DSP
     predefinedDays = DSP_Days;
   }
-  
+  const projectId = req.session.projectId;
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
@@ -406,9 +406,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-      const projectId = req.session.projectId;
-
-     
+    
       res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -560,7 +558,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const agreementId_session = req.session.agreement_id;
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-      const projectId = req.session.projectId;
 
       res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
@@ -670,7 +667,7 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -780,7 +777,7 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -886,7 +883,7 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -992,7 +989,7 @@ res.render('rfp-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1100,7 +1097,7 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1207,7 +1204,7 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1315,7 +1312,7 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1425,7 +1422,7 @@ let appendData = {
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1540,7 +1537,7 @@ let appendData = {
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -1657,7 +1654,7 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
@@ -1771,7 +1768,7 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3

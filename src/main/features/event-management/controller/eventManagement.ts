@@ -1560,7 +1560,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
   try {
             const releatedContent = req.session.releatedContent;
             const project_name = req.session.Projectname 
-            const projectId = req.session.ProjectId
+            const projectId = req.session.projectId
             const agreementName = req.session.agreementName
             const agreementId_session = req.session.agreement_id
             const agreementLotName = req.session.agreementLotName
