@@ -85,7 +85,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
 
   try {
 
-    if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
+    if(agreementId_session == 'RM6187' || agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
       // name your project for dos
       let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
       if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
