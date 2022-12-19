@@ -235,8 +235,13 @@
                   {% if i.question != 'Explain the special term or condition' and i.question != 'Write a definition for the term acronym explaining what it means' %}
                     {% if i.values | length > 0 %}
                       {% for answer in i.values %}
-                        <p class="govuk-body-s">{{ answer.value }}
-                          <p>
+                             {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
+                                  <p class="govuk-body-s">{{ answer.value }}
+                                  <p>
+                              {% else %}
+                                  <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}
+                                  <p>
+                              {% endif %}
                           {% if i.question != undefined %}
                             <p class="govuk-body-s">{{ answer.text | safe }}
                             </p>

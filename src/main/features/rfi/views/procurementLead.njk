@@ -8,7 +8,7 @@
 {%- endset %}
 
 {% block breadCrumb %}
-{% if agreementId_session == "RM6187" %}
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
 {{ CCSBreadcrumbs({
     items: [
       {
@@ -81,7 +81,11 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
+            {% if agreementId_session=="RM1557.13" %}
+           <strong> Change who will lead the Project (optional) </strong>
+           {% else %}
            <strong> Change who will lead the procurement (optional) </strong>
+           {%endif %}
          </h1>
       </div>
    </div>
@@ -91,7 +95,7 @@
          <div>
             <p class="govuk-body">You are registered as the lead for this procurement. This means you will be the main point of contact for any questions submitted by suppliers.</p>
             <p class="govuk-body">Use the drop-down box below to change the procurement leader. 
-               They will need to be registered with CCS.
+               They will need to be <a target="_blank" href="https://identify.crowncommercial.gov.uk/manage-org/register" class="govuk-link govuk-link--no-visited-state">registered with CCS.</a>
                 </p>
                <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.--> 
            
@@ -142,7 +146,7 @@
               {{ CCSButton({
                text: "Save and continue"
               }) }}
-              {% if agreementId_session == "RM6187" %}
+              {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
                  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
               {% else %}
                  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>

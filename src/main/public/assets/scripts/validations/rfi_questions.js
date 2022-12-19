@@ -382,7 +382,8 @@ const ccsZCountRfiQuestions = (event) => {
     let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

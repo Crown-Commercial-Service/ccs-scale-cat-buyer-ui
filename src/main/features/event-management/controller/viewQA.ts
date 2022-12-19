@@ -71,8 +71,8 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
           let agreementId_session=response.agreementId;
           let agreementLotName=response.lotName;
           let lotid=response.lotId;
-
-          res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+          let projectId = req.session.projectId;
+          res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
           
         appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
         res.render('viewQA', appendData)	
