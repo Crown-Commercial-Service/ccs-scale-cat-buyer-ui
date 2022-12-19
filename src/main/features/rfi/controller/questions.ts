@@ -446,7 +446,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
-                  if(agreement_id == 'RM6187') {  //MCF3
+                  if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {  //MCF3 or gcloud
                     
                     if(typeof(Mcf3Qid) == 'object') {
                      

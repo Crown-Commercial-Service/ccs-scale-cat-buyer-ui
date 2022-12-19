@@ -142,7 +142,7 @@
                             <p class="govuk-body">e.g. content delivery networks or accounting software</p>
                            </dd>
 
-                           {% for lot in agreement.lotDetails %}
+                          {% for lot in agreement.lotDetails %}
                             {% if lot.number == '4' %}
                               <dt>
                                 <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{lot.number | replace("Lot ", "")}}: {{lot.name}}</a>

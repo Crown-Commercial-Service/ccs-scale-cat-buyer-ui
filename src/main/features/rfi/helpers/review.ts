@@ -243,9 +243,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
                   supplierList.push(supplierInfo);
                 }
             }
-          if(req.session.agreement_id == 'RM1557.13') { // GCloud
-            supplierList = await GetLotSuppliers(req);
-          }   
+          
       }
       else{
       supplierList = await GetLotSuppliers(req);
