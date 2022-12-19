@@ -50,7 +50,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl"><strong>
-     {{data.title }}</strong>
+     {{data.title }} </strong>
     </h1>
   </div>
 </div>
@@ -62,12 +62,12 @@
   <div class="govuk-grid-row govuk-!-margin-bottom-7  govuk-!-margin-top-5">
     <div class="govuk-grid-column-full">
         <p class="govuk-body govuk-!-margin-bottom-2">Your unique project ID is <strong>{{projectLongName}}</strong></p>
-        <p class="govuk-body govuk-!-margin-bottom-2">Make sure you include this ID everytime you contact CCS. </p>
+        <p class="govuk-body govuk-!-margin-bottom-2">You should include this ID every time you contact CCS. </p>
         
     </div>
   </div>
-  <p class="govuk-body govuk-!-margin-bottom-2">{{data.caption1}}</p>
-        <p class="govuk-body">If you don't want to change the name of  your project you can return to <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">Write and publish your requirements</a></p>
+        {# <p class="govuk-body govuk-!-margin-bottom-2">{{data.caption1}}</p> #}
+        <p class="govuk-body">Please name your project. This will be the name of your contract.</p>
 
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/da/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}

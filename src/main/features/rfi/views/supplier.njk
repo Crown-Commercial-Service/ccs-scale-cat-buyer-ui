@@ -32,16 +32,20 @@
             {% if agreementId_session == 'RM6187' %}
                 <p class="govuk-body">Your opportunity will be sent to the suppliers listed below. </p>
                 <p class="govuk-body">Find more information on each supplier on the
-                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">CCS website (opens in a new tab).
+                <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/RM6187/suppliers" class="govuk-!-font-weight-bold">CCS website (opens in a new tab).
                  </a><br>
                   </p>
             {% else %}
+            {% if agreementId_session != 'RM1557.13' %}
                 <p class="govuk-body">The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
                 <p class="govuk-body">Your RfI will be sent to all suppliers on this list but some may not respond.</p>
                 <p class="govuk-body">If you'd like to look at the details for each
                   suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
                 <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</a>
                   (The page will open in a new tab)</p>
+                  {% else %}
+                  <p>Your opportunity will be sent to the suppliers listed below. </p>
+            {% endif %}
             {% endif %}
 
 
@@ -53,7 +57,7 @@
             {{ csrfProtection(csrf) }}
               <br>
               <h2 class="govuk-heading-l govuk-!-font-size-48 govuk-!-margin-bottom-9 govuk-!-font-weight-regular">
-                {% if agreementId_session == 'RM6187' %}
+                {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}
                   <span id="added_suppliers_count">
                     {{supplierLength}}
                   </span>  suppliers 

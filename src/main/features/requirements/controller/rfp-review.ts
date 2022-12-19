@@ -508,7 +508,8 @@ let scoringData = [];
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -2046,7 +2047,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -2089,11 +2091,14 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   
   
   const agreement_id = req.session.agreement_id;
+  const lot_id =   req.session.lotId;
+
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
-    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+
+     CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2121,12 +2126,6 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   if (review_publish == 1) {
     try {
       
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-     
-      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
-      // if (response.status == Number(HttpStatusCode.OK)) {
-      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
-      // }
       if (agreement_id=='RM6187') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
       }else if (agreement_id=='RM1557.13') {
@@ -2134,10 +2133,27 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       }else{
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
-      
-      res.redirect('/rfp/rfp-eventpublished');
+     if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
+       TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       setTimeout(function(){
+        res.redirect('/rfp/rfp-eventpublished');
+        }, 5000);
+     }
+      else{
+        await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        res.redirect('/rfp/rfp-eventpublished');
+
+      }
+
+     
+     
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
+      // }
+
+     
     } catch (error) {
-      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFP_REVIEW_RENDER_TEST(req, res, true, true);
@@ -2304,7 +2320,8 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
@@ -3153,7 +3170,9 @@ const IR35selected='';
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -3188,7 +3207,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies;
   const proc_id = req.session['projectId'];
   const event_id = req.session['eventId'];
-  
+  const projectId = req.session['projectId'];
 
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
@@ -3775,7 +3794,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
        //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
-      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
       agreementId_session
     };
@@ -3785,7 +3804,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });

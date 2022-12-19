@@ -3,6 +3,7 @@ import * as express from 'express';
 //import * as cmsData from '../../../resources/content/requirements/nameYourProject.json';
 import * as cmsDataOLD from '../../../resources/content/MCF3/requirements/confirmation_review.json';
 import * as cmsData from '../../../resources/content/MCF3/requirements/rfpSelectService.json';
+import * as cmsData from '../../../resources/content/MCF3/requirements/rfpSelectService.json';
 
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';

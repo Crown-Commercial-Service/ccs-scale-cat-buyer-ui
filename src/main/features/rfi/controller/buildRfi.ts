@@ -24,34 +24,27 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid };
   res.render('chooseBuildrfi',appendData );
  }
 
 export const POST_BUILD_RFI  = async (req: express.Request, res: express.Response) => {
-    const { eventId,agreement_id } = req.session;
+    const { eventId } = req.session;
     const { SESSION_ID } = req.cookies;
     try {
     if(req.body.goto_choose == undefined || req.body.goto_choose == ''){
       req.session['buildYorrfierror'] = true;
       res.redirect('/rfi/choose-build-your-rfi');
     }else{
-      if(agreement_id == 'RM1557.13'){
-        let flag = await ShouldEventStatusBeUpdated(eventId, 10, req);
-        
-        if (flag) {
-          // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'In progress');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Completed');
-        }
-      }else{
+      
         let flag = await ShouldEventStatusBeUpdated(eventId, 81, req);
       
         if (flag) {
           // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'In progress');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Completed');
         }
-      }
       
       res.redirect('/rfi/online-task-list');
     }

@@ -45,7 +45,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {% if agreementId_session == 'RM6187' %}
+                {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
                     Set your timeline
                 {% else %}
                         {{data.title }}
@@ -159,10 +159,13 @@
                                                     {% if (agreementId_session == 'RM6187' and requirement.OCDS.id == "Question 8") %}
                                                         <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
                                     If you do not require a standstill, change this date to be the same as the date in point 8 below.</p>
-                                                    {%endif %}
-                                                    <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{  requirement.nonOCDS.options[0].value   }}</strong>
-                                                </label>
-                                            {%endif %}
+                                                     {%endif %}
+                                    {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 4" and stage2_value == "Stage 2") %}
+                                    <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                    {%endif %}
+                                    <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{  requirement.nonOCDS.options[0].value   }}</strong>
+                                </label>
+                            {%endif %}
                                             {% if( requirement.nonOCDS.options.length == 0)%}
                                                 {% if(requirement.OCDS.id == "Question 2" )%}
                                                     <label class="govuk-label govuk-body">
@@ -185,16 +188,16 @@
                                                         <strong id="deadline_for_submission_of_stage_one" class="clarification_6">{{deadline_for_submission_of_stage_one }}</strong>
                                                     </label>
                                                 {% elif(requirement.OCDS.id == "Question 7") %}
-                                                    <label class="govuk-label govuk-body">
-                                                        {% if (agreementId_session == 'RM6187') %}
-                                                            <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
-                                                            {%endif%}
-                                                            <strong id="evaluation_process_start_date" class="clarification_7">{{evaluation_process_start_date}}</strong>
-                                                        </label>
-                                                    {% elif(requirement.OCDS.id == "Question 8") %}
-                                                        <label class="govuk-label govuk-body">
-                                                            {% if (agreementId_session == 'RM6187') %}
-                                                                <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
+                                    <label class="govuk-label govuk-body">
+                                        {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
+                                        <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                        {%endif%}
+                                        <strong id="evaluation_process_start_date" class="clarification_7">{{evaluation_process_start_date}}</strong>
+                                    </label>
+                                                     {% elif(requirement.OCDS.id == "Question 8") %}
+                                    <label class="govuk-label govuk-body">
+                                        {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
+                                        <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
                                         If you do not require a standstill, change this date to be the same as the date in point 8 below.</p>
                                                                 {%endif%}
                                                                 {% if (agreementId_session == 'RM1043.8') %}
@@ -244,8 +247,13 @@
                                                                                     <strong id="lbl-clarification_copy">{{
                     clarification_date_string }}</strong>
                                                                                 </label>
-                                                                                <a href="#rfp_clarification_date_{{loop.index}}"  id="rfp_cancel_change_clarification_date_{{loop.index}}"
+                                            {% if(agreementId_session == 'RM1557.13') %}
+                                            <a href="#rfp_clarification_date_{{loop.index}}"  id="rfp_cancel_change_clarification_date_{{loop.index}}"
+                class="govuk-link govuk-link--no-visited-state " hidden>Cancel Change</a>
+                {%else%}
+<a href="#rfp_clarification_date_{{loop.index}}"  id="rfp_cancel_change_clarification_date_{{loop.index}}"
                 class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
+                {%endif%}
                                                                             </div>
 
                                                                             <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form">
@@ -256,6 +264,7 @@
                                                                                         <div class="govuk-date-input__item">
                                                                                             <div class="govuk-form-group">
                                                                                                 <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
+
                             Date
                         </label>
                                                                                                 <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2"

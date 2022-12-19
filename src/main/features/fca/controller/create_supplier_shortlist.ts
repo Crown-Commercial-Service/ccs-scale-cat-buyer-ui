@@ -51,10 +51,11 @@ export const CREATE_SUPPLIER_SHORTLIST = async (req: express.Request, res: expre
         const project_name = req.session.project_name;
         let agreementId_session = agreement_id;
         const lotid=lotId;
+
         // const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
         
         statusStepsDataFilter(fcaCreateSupplierShortlistContent, journeySteps, 'FCA', agreement_id, projectId, eventId);
-        res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+        res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
         const releatedContent = req.session.releatedContent;
         const windowAppendData = { data: fcaCreateSupplierShortlistContent, lotId, agreementLotName, releatedContent, agreementId_session, btnBottom };
         // req.session.selectedRoute = 'RFI'

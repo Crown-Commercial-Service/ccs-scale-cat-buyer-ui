@@ -38,9 +38,18 @@
                 <h1 class="govuk-heading-xl">
           <strong>Your project</strong>
         </h1>
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}
+    
+    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+             Lot 4
+    {% else %}
+             , 
+        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+    {% endif %} 
+    {% endif %} 
+    
   </strong></p>
-  {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
         </div>
       </div>  
@@ -206,10 +215,10 @@
       <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
         
-          {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' %}
-{% set s_classes = "del btn_event_managment_award" %}
+          {% if eventType=="DA" %}
+            {% set s_classes = "del btn_event_managment_award" %}
         {% else %}
-        {% set s_classes = "del btn_event_managment_award" %}
+        {% set s_classes = "" %}
         {% endif %}
 
         {{ CCSButton({

@@ -15,7 +15,7 @@
   /projects/create-or-choose?lotId={{lotid}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 
-{% if agreementId_session == "RM6187" %}
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13"  %}
 {{ CCSBreadcrumbs({
         items: [
         { "text": "Dashboard", "href": "/dashboard" },
@@ -39,7 +39,7 @@
 
 	<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 		{% if(error) %}
-            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "Option must be select." }] }) }}
+            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "You must select how you will build your RFI." }] }) }}
         {% endif %}
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-full">
@@ -111,6 +111,8 @@
 							{% if agreementId_session == "RM1557.13" %}
 							<p class="govuk-body govuk-!-margin-top-9">You can build your RfI by entering the necessary information online. You will also have the option to upload documents as part of this journey.</p>
 							<p class="govuk-body govuk-!-margin-top-9">In future, you will have the option to prepare your RfI offline and then upload it.</p>
+							{% elif agreementId_session == "RM6187" %}
+							<p class="govuk-body govuk-!-margin-top-9">{{line2}} <br><br> {{line2Line2}}</p>
 							{% else %}
 							<p class="govuk-body govuk-!-margin-top-9">{{line2}}</p>
 							{% endif %}
@@ -159,7 +161,7 @@
 								</button>
 							</span>
 							<span class="govuk-!-margin-left-2 govuk-!-margin-top-2">
-							{% if agreementId_session == "RM6187" %}
+							{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
 								<a href={{returnToHref}}>Return to Request for Information</a>
 							{% else %}
 								<a href={{returnToHref}}>{{returnTo}}</a>

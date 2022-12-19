@@ -16,7 +16,8 @@ export const GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Res
     const project_name = req.session.project_name;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     const { SESSION_ID } = req.cookies; //jwt
     const { eventId } = req.session;
 
