@@ -45,7 +45,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
     if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
     let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    console.log("16")
+   
     let nameJourneysts = journeySteps.filter((el: any) => {
       if(el.step == 27 && el.state == 'Completed') return true;
       return false;

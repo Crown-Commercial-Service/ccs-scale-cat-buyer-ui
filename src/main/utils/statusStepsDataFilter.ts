@@ -106,7 +106,7 @@ export function statusStepsDataFilter(
         let result = steps.filter((obj: any) => {
           return obj.step === 81;
         });
-        console.log(result);
+       
         stepsByType.splice(3, 0, result[0]);
        }
       break;
