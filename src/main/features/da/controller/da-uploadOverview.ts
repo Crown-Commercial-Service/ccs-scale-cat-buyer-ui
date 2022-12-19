@@ -28,9 +28,9 @@ export const DA_UPLOAD = async (req: express.Request, res: express.Response) => 
   const { isJaggaerError } = req.session;
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   
-  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${ eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments?.data;
     

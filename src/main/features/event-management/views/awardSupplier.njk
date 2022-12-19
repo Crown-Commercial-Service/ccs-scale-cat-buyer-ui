@@ -48,8 +48,8 @@
         {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
     {% endif %} 
     {% endif %} 
-        </strong>
-      </p>
+    
+  </strong></p>
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
         </div>
       </div>  
@@ -215,10 +215,10 @@
       <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
         
-          {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' %}
-{% set s_classes = "del btn_event_managment_award" %}
+          {% if eventType=="DA" %}
+            {% set s_classes = "del btn_event_managment_award" %}
         {% else %}
-        {% set s_classes = "del btn_event_managment_award" %}
+        {% set s_classes = "" %}
         {% endif %}
 
         {{ CCSButton({
