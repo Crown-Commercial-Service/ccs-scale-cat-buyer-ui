@@ -106,8 +106,10 @@ export function statusStepsDataFilter(
         let result = steps.filter((obj: any) => {
           return obj.step === 81;
         });
+
        
         stepsByType.splice(3, 0, result[0]);
+        console.log(stepsByType);
        }
       break;
     case 'eoi':

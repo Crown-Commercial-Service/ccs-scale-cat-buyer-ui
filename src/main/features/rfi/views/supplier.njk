@@ -74,7 +74,7 @@
                     text: "Save and continue",
                     classes: "govuk-button-dark"
                     }) }}
-              {% if agreementId_session == 'RM6187' %}
+              {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' %}
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
               {% else %}      
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
@@ -164,7 +164,11 @@
                     {{ CCSButton({
                         text: "Save and continue"
                         }) }}
-                    <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+                    {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' %}
+                      <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+                    {% else %}      
+                      <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                    {% endif %} 
                 </div> 
             {% endif %}
             </form>

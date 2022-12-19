@@ -4,7 +4,7 @@
 {% set title = 'RfI - response date | Crown Commercial Service' %}
 
 {% block breadCrumb %}
-{% if agreementId_session == "RM6187" %}
+{% if agreementId_session == "RM6187" or agreementId_session == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
         items: [
             {
@@ -283,7 +283,7 @@
   <button class="govuk-button govuk-button-dark" id="hideMeWhileDateChange" data-module="govuk-button">
     Save and continue
   </button>
-  {% if agreementId_session == "RM6187" %}
+  {% if agreementId_session == "RM6187" or agreementId_session == 'RM1557.13' %}
   <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
   {% else %}
   <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>

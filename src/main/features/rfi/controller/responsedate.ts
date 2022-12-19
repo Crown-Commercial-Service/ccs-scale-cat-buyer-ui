@@ -127,7 +127,6 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     isValid = false;
     error = 'You cannot set a date in bank holiday';
   }
-  console.log("questionId",questionId);
   
   switch (questionId) {
     case 'Question 1':
