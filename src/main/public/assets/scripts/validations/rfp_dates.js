@@ -87,24 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-               let isValid = validateStartDate();
-               if(isValid!=''){
-                  rfpResourceStartYear.addClass('govuk-form-group--error');
-                  $('.durations').addClass('govuk-form-group--error');
-                  $('#event-name-error-date').html(isValid);
-                  return false;
-               }else{
-                  $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
-                  $('#rfp_resource_start_date-error').html('');
-                  return true;
-               }
-         }
-         else{
-            removeErrorFieldsdates();
-            return true;
-          }
          }
          
          }
@@ -129,24 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-               let isValid = validateStartDate();
-               if(isValid!=''){
-                  rfpResourceStartYear.addClass('govuk-form-group--error');
-                  $('.durations').addClass('govuk-form-group--error');
-                  $('#event-name-error-date').html(isValid);
-                  return false;
-               }else{
-                  $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
-                  $('#rfp_resource_start_date-error').html('');
-                  return true;
-               }
-         }
-         else{
-            removeErrorFieldsdates();
-            return true;
-         }
          }
           }
          }
@@ -185,68 +149,23 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
             
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = validateStartDate();
-            
-            if(isValid!=''){
-               rfpResourceStartYear.addClass('govuk-form-group--error');
-               $('.durations').addClass('govuk-form-group--error');
-               $('#event-name-error-date').html(isValid);
-               return false;
-            }else{
-               $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
-               $('#rfp_resource_start_date-error').html('');
-               return true;
-            }
-            }else{
-               removeErrorFieldsdates();
-               return true;
-            }
         }
       }
       }
    }
      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-      const DateCheck = (rfpDay,currentId) => {
+      const DateCheck = (rfpDay) => {
          let value = rfpDay;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
             if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
                removeErrorFieldsdates();
                }   
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_days_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            }
-            if(currentEID=='rfp_duration_days_Question13'){
-               yrValidation2 = validateExtPeriod();
-            }
-         }
+         
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
            let fieldCheck = "",
             errorStore = [];
@@ -296,103 +215,26 @@ document.addEventListener('DOMContentLoaded', () => {
         else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_days_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                  }
-               }else if(currentEID=='rfp_duration_days_Question13'){
-                  if(yrValidation2==1){
-                        $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                     }else if(yrValidation2==2){
-                        $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                     }else{
-                     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                     }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-               }
+            $(`.p_durations_${currentEventId}`).html('Enter a valid day');
          } else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
    }
    
-      const MonthCheck = (rfpMonth,currentId) => {
+      const MonthCheck = (rfpMonth) => {
          const value = rfpMonth;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
             if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
                removeErrorFieldsdates();
                }
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_months_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(DaysProjectRun>0 && YearProjectRun>0){
-               did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-              //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-               let currentdIdValue = $(`#${did}`);
-              //  let currentyIdValue = $(`#${yid}`);
-               DateCheck(currentdIdValue,did);
-              //  YearCheck(currentyIdValue,yid);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-                  yrValidation = true;
-            }
-         }
-         if(currentEID=='rfp_duration_months_Question13'){
-            const YearProjectRun2 = Number(durationYear[1].value);
-             const MonthProjectRun2 = Number(durationMonth[1].value);
-             const DaysProjectRun2 = Number(durationDay[1].value);
- 
-             if(DaysProjectRun2>0 && YearProjectRun2>0){
-                did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-                let currentdIdValue = $(`#${did}`);
-               //  let currentyIdValue = $(`#${yid}`);
-                DateCheck(currentdIdValue,did);
-               //  YearCheck(currentyIdValue,yid);
-             }
-            //  if(YearProjectRun2==4){
-            //     if(MonthProjectRun2>0 || DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2==3){
-            //     if(MonthProjectRun2==12 && DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2>4){
-            //        yrValidation2 = true;
-            //  }
-            yrValidation2 = validateExtPeriod();
-            }
-         }
+         
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             endmonthCheck = Number(value.val()) > 11;
             let fieldCheck = "",
@@ -466,40 +308,20 @@ document.addEventListener('DOMContentLoaded', () => {
          else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_months_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else if(currentEID=='rfp_duration_months_Question13'){
-               if(yrValidation2==1){
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }else if(yrValidation2==2){
-                  $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else{
-               $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               }
+            $(`.p_durations_${currentEventId}`).html('Enter a valid month');
          }
          else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
-   const YearCheck = (rfpYear,currentId) => {
+   const YearCheck = (rfpYear) => {
 
          let value = rfpYear;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
-         let endyearCheck = Number(value.val()) > 4;
+         // let endyearCheck = Number(value.val()) > 4;
          let startyearCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
          removeErrorFieldsdates();
          }
@@ -507,88 +329,15 @@ document.addEventListener('DOMContentLoaded', () => {
             removeErrorFieldsdates();
             }
          if(document.getElementById('agreementID').value === 'RM6187'){
-            if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration-years_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-
-            if(DaysProjectRun>0 || MonthProjectRun>0){
-            mid = document.getElementsByClassName('rfp_duration_month_25')[0].id;
-            did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-            let currentmIdValue = $(`#${mid}`);
-            let currentdIdValue = $(`#${did}`);
             
-            DateCheck(currentmIdValue,mid);
-            MonthCheck(currentdIdValue,did);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }
-            }
-            if(currentEID=='rfp_duration-years_Question13'){
-               const YearProjectRun2 = Number(durationYear[1].value);
-               const MonthProjectRun2 = Number(durationMonth[1].value);
-               const DaysProjectRun2 = Number(durationDay[1].value);
-   
-               if(DaysProjectRun2>0 || MonthProjectRun2>0){
-               mid = document.getElementsByClassName('rfp_duration_month_25')[1].id;
-               did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               let currentmIdValue = $(`#${mid}`);
-               let currentdIdValue = $(`#${did}`);
-              
-               DateCheck(currentmIdValue,mid);
-               MonthCheck(currentdIdValue,did);
-               }
-               // if(YearProjectRun2==4){
-               //    if(MonthProjectRun2>0 || DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2==3){
-               //    if(MonthProjectRun2==12 && DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }
-               yrValidation2 = validateExtPeriod();
-               }
-         }
-           if ((matchValue || endyearCheck || startyearCheck || yrValidation || yrValidation2) && value.val() != '') {
+           if ((matchValue || startyearCheck) && value.val() != '') {
                 $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               
-               if(currentEID=='rfp_duration-years_Question12'){
-                  if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else if(currentEID=='rfp_duration-years_Question13'){
-                  if(yrValidation2==1){
-                     $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                  }else if(yrValidation2==2){
-                     $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }
+               $(`.p_durations_${currentEventId}`).html('Enter a valid year');
             }
             else {
                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               document.getElementById(currentEID).classList.remove('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
@@ -618,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
          }
          else{
-            if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
+            if ((matchValue || startyearCheck) && value.val() != '') {
                $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
@@ -654,6 +403,8 @@ $('.rfp_date').on('submit', (e) => {
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
    if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+      let fieldCheck = "", errorStore = [];
+      ccsZPresentErrorSummary();
        if(checkResourceStartDate())
       {
          let isValid = isProjectStartDateValid();
@@ -677,32 +428,32 @@ $('.rfp_date').on('submit', (e) => {
             if(DaysProjectRun<0 || DaysProjectRun>31){
                yrValidation = true;
             }
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4  || YearProjectRun<0){
-               yrValidation = true;
-            }
+            
             if(yrValidation){
-               return;
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the valid project date", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck); 
+               if(errorStore.length>0){
+                  ccsZPresentErrorSummary(errorStore);
+                  return;
+                 }
             }
          }
 
          if(durationYear[1].value!='' || durationMonth[1].value!='' || durationDay[1].value!=''){
             yrValidation2 = validateExtPeriod();
             if(yrValidation2){
-               return;
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck); 
+               if(errorStore.length>0){
+                  ccsZPresentErrorSummary(errorStore);
+                  return;
+                 }
             }
          }
             
          }
 
-         if(isValid)
+         if (isValid)
          document.forms['rfp_date'].submit();
       }
    } else {
@@ -766,7 +517,7 @@ function checkResourceStartDate()
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       
       if(document.getElementById('agreementID').value === 'RM6187'){
-         removeErrorFieldsdates();
+         // removeErrorFieldsdates();
       }
 
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
