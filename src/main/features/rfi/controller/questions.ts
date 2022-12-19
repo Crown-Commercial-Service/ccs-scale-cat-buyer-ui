@@ -155,6 +155,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
+  
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
@@ -166,9 +167,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     }
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
+   
     if (operations.equals(started_progress_check, false)) {
       // const { rfi_build_started, question_id, questionType } = req.body;
       const { rfi_build_started, questionType } = req.body;
+     
       let Mcf3Qid = req.body.question_id;
       let question_id;
       let question_id_append = req.body.question_id;
@@ -179,7 +182,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         question_id = question_id_append;
       }
 
-
+     
       const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
       if (rfi_build_started === 'true') {
         let validationError = false;
@@ -201,8 +204,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         });
         
         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
+        
           req.session.isValidationError = true;
           if (object_values.length > 0) {
+         
             const object_values_Keyterm = object_values[0].value;
             const object_values_acronyms = object_values[1].value;
             const keyTermsAcronymsSorted = [];
@@ -218,13 +223,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             req.session.isFieldError = true;
           }
           if (questionType === 'MultiSelecttrue') {
+          
             validationError = true;
             req.session['isLocationError'] = true;
             req.session['isLocationMandatoryError'] = true;
           }
-
+       
           res.redirect(url.replace(regex, 'questions'));
         } else {
+          
           req.session['isLocationMandatoryError'] = false;
           if (questionType === 'Valuetrue') {
 
@@ -340,8 +347,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           } else {
 
 
-          
-            
             const question_array_check: boolean = Array.isArray(question_id);
             if (question_array_check) {
               const sortedStorage = [];
@@ -359,7 +364,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     options: [iteration.answer],
                   },
                 };
-
+               
                 try {
                   const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
@@ -396,6 +401,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 }
               }
             } else {
+             
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
                 if (check) {
@@ -406,7 +412,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return arrayOFArrayedObjects;
                 } else return { value: anObject.value, selected: true };
               });
-
+             
               selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
                 if (Array.isArray(anItem)) {
                   return anItem;
@@ -414,10 +420,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return [anItem];
                 }
               });
+           
               try {
                 if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                   //return error & show
+                
                 } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
+                
                   const answerBody = {
                     nonOCDS: {
                       answered: true,
@@ -428,17 +437,19 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                 } else if (
                   selectedOptionToggle[0].find(
-                    x => x.value === 'No specific location, for example they can work remotely',
+                    x => x.value === 'Not No specific location, for example they can work remotely',
                   ) &&
-                  selectedOptionToggle[0].length > 1
+                  selectedOptionToggle[0].length > 2
                 ) {
+                 
                   validationError = true;
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
-                  if(agreement_id == 'RM6187') {  //MCF3
-
+                  if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {  //MCF3 or gcloud
+                    
                     if(typeof(Mcf3Qid) == 'object') {
+                     
                       const sortedStorageMcf3 = [];
                       for (let h = 0; h < Mcf3Qid.length; h++) {
                         const comparisonObject = {
@@ -460,6 +471,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                       }
                     } else {
+                     
                       const answerBody = {
                         nonOCDS: {
                           answered: true,
@@ -470,6 +482,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                       await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                     }
                   } else {
+                    
                     const answerBody = {
                       nonOCDS: {
                         answered: true,
@@ -538,8 +551,13 @@ const findErrorText = (data: any, req: express.Request) => {
   let errorText = '';
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
-    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true){
+      const { agreement_id} = req.query;
+      if(agreement_id== 'RM6187')
+      errorText = 'You must ask at least one question';
+      else
       errorText = 'You must add at least one question';
+    }
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)

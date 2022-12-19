@@ -5,6 +5,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import * as cmsData from '../../../resources/content/RFI/suppliers.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/suppliers.json';
+import * as cmsDataGCLOUD from '../../../resources/content/requirements/suppliersGcloud.json';
 import config from 'config';
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
@@ -26,7 +27,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
   let supplierList = [];
   supplierList = await GetLotSuppliers(req);
   //27-08-2022
-  if(agreementId_session == 'RM6187') { //MCF3
+  if(agreementId_session == 'RM6187' || agreementId_session =='RM1557.13') { //MCF3 or Gcloud
     const {data: getSuppliersPushed} = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`);
     let getSuppliersPushedArr = getSuppliersPushed.suppliers;
     if(getSuppliersPushedArr.length > 0) {
@@ -56,6 +57,10 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
       forceChangeDataJson = Mcf3cmsData;
     } else { 
       forceChangeDataJson = cmsData;
+    }
+    if(req.session.agreement_id == 'RM1557.13') {
+      //DSP
+      forceChangeDataJson = cmsDataGCLOUD;
     }
 
   let appendData = {
@@ -105,7 +110,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
             
             contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
             // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
-            contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
+            contactData['Trading name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
             contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
             
@@ -274,10 +279,7 @@ export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Respo
         const { eventId,agreement_id } = req.session;
         let steps = 12;
         let nextStep = 13;
-        if(agreement_id == 'RM1557.13'){
-          steps = 13;
-          nextStep = 14;
-        }
+        
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${steps}`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
           let flag=await ShouldEventStatusBeUpdated(eventId,nextStep,req);

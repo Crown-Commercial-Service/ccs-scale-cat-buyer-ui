@@ -45,7 +45,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
   try {
    
     let flag = await ShouldEventStatusBeUpdated(eventId, 19, req);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');
     if (flag) {
       
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');

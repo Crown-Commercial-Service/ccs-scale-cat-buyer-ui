@@ -23,7 +23,7 @@
   ],
   "errortext":"There is a problem with these files<br>Your file cannot exceed 300MB<br>You have exceeded the maximum upload of 1GB for your files ",
   "title": "Upload documents (Optional)",
-  "subtitle": "If there are any additional details you can provide suppliers to help them understand your project better,please upload relevant documents.",
+  "subtitle": "If there are any additional details you can provide suppliers to help them understand your project better, please upload relevant documents.",
   "filedesc": "you can upload as many files as you need to, up to a maximum of 1Gb in total. You can only use the following file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
   "backJump": {
     "title": " Return to Run pre-market engagement",

@@ -35,7 +35,9 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
   const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
@@ -240,7 +242,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     // to get suppliers count
   let supplierList = [];

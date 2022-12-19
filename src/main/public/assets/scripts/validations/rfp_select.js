@@ -168,6 +168,12 @@ ccs_vetting.forEach(ele => {
     removeErrorFieldsRfpSelect();
   });
 });
+let removeErrRfi = document.querySelectorAll('.removeErr');
+removeErrRfi.forEach(ele => {
+  ele.addEventListener('keydown', (event) => {
+    ccsZremoveErrorMessage();
+  });
+});
 // $("#rfp_security_confirmation").keypress(function(e) {
 //   var keycode =e.which;
 
@@ -250,14 +256,18 @@ $('#rfp_singleselect').on('submit', event => {
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
       }else{
-        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
     }
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
@@ -265,4 +275,8 @@ $('#rfp_singleselect').on('submit', event => {
     }
   }
 }
+});
+
+$('#rfp_security_confirmation').on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
 });

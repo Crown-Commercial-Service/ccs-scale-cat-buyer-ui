@@ -311,9 +311,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               break;
             } else if (
               selectedOptionToggle[0].find(
-                x => x.value === 'No specific location, for example they can work remotely',
+                x => x.value === 'Not No specific location, for example they can work remotely',
               ) &&
-              selectedOptionToggle[0].length > 1
+              selectedOptionToggle[0].length > 2
             ) {
               validationError = true;
               req.session['isLocationError'] = true;
@@ -397,6 +397,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             };
           } 
           else if (questionNonOCDS.questionType === 'SingleSelect') {
+            
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
@@ -405,8 +406,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               nonOCDS: {
                 answered: true,
                 multiAnswer: questionNonOCDS.multiAnswer,
-                options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
-                //options: [{ value: req.body["ccs_vetting_type"], selected: true }],
+                //options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                options: [{ value: req.body["ccs_vetting_type"], selected: true }],
               },
             };
           }
@@ -650,8 +651,13 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
     if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
       errorText.push({ text: 'You must be 10000 characters or fewer' });
-      else
-      errorText.push({ text: 'You must add at least one objective' });
+      else{
+        if(req.session.agreement_id == 'RM6187'){
+          errorText.push({ text: 'Enter at least 1 project objective' });
+        }else{
+          errorText.push({ text: 'You must add at least one objective' });
+        }
+      }
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
 
     if (req.session.fieldLengthError?.length !== 1 ){

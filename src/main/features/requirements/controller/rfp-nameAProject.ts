@@ -25,6 +25,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
   const lotId = req.session.lotId;
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
+  const projectId = req.session.projectId;
   const agreementLotName = req.session.agreementLotName;
   const releatedContent = req.session.releatedContent;
   const agreementId_session = req.session.agreement_id;
@@ -39,6 +40,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
     data: forceChangeDataJson,
     procId: procurement.procurementID,
     projectLongName: project_name,
+    projectId,
     lotId,
     agreementLotName,
     error: isEmptyProjectError,
@@ -46,7 +48,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
     notValidText: notValidText,
     releatedContent: releatedContent,
   };
-  res.render('nameAProject-rfp', viewData);
+   res.render('nameAProject-rfp', viewData);
 };
 
 /**

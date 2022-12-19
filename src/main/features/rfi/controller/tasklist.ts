@@ -49,34 +49,37 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     let agreementId_session = agreement_id;
     
     
-    if((agreementId_session == 'RM1557.13' && lotId == '4')) {
+    // if((agreementId_session == 'RM1557.13' && lotId == '4')) {
       // name your project for dos
       let flag = await ShouldEventStatusBeUpdated(eventId, 7, req);
       
       if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Not started'); }
-      let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      let { data: journeyStepsName } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+
+      console.log(journeyStepsName);
       
-      let nameJourneysts = journeySteps.filter((el: any) => {
+      let nameJourneysts = journeyStepsName.filter((el: any) => {
         if(el.step == 7 && el.state == 'Completed') return true;
         return false;
       });
       
       if(nameJourneysts.length > 0){
 
-        let addcontsts = journeySteps.filter((el: any) => { 
-          if(el.step == 10) return true;
+        let addcontsts = journeyStepsName.filter((el: any) => { 
+          if(el.step == 81) return true;
           return false;
         });
 
         if(addcontsts[0].state == 'Cannot start yet' || addcontsts[0].state == 'Not started'){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started'); 
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Not started'); 
         }
 
       }else{
-        let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 10, req);        
-        if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet'); 
+        // let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 81, req);        
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Cannot start yet'); 
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet'); 
       }
-    }
+    // }
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
 
