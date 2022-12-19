@@ -20,7 +20,9 @@
   "buttonText":"Save and continue",
   "returnTo":"Return to Do pre-market engagement",
   "returnToHref": "/rfi/rfi-tasklist",
-  "line2": "You can choose to either enter the information online to build your RfI or upload your own document.",
+  "line2": "You can build your RfI by entering the necessary information online.You will also have the option to upload documents as part of this journey.",
+  "line2Line2": "In future, you will have the option to prepare your RfI offline and then upload it.",
+
   "events":[
       {
           "checkbox_id":"1",
