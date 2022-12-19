@@ -100,12 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
               
-
+               let next_coll = Number(target);
+               let nextLevel_coll = Number(target);
                if(target != 20) {
                    let ml = 1;
                    
-                   let next_coll = Number(target);
-                   let nextLevel_coll = Number(target);
+                   
                    let eptArr = [];
                    while (Sibling) {
 
@@ -259,22 +259,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
 
-                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
                        }
-                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
                        }
-                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
                        }
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
                        }
              
                    if (prev_coll > 1) {
@@ -283,7 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
                with_value_count--;
-               if (with_value_count != 11) {
+               console.log('with_value_count in delete',with_value_count)
+               if (with_value_count != 21) {
                 
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
@@ -467,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            totalPercentage();
 
             errorStore = [];
             let textboxCount =  0;
@@ -476,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
              
-             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
+             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 19' || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17'))) && with_value_count == 20){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
              }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
@@ -667,7 +669,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19')){
+            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19') || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                removeErrorFieldsRfpScoreQuestion();
                 for (var i = 1; i < withValue; i++) {
                     const divElem = document.querySelector('#fc_question_' + i);
                     const inputElements = divElem.querySelectorAll("textarea");
