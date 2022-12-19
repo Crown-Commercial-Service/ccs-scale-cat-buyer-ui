@@ -107,7 +107,9 @@ export function statusStepsDataFilter(
           return obj.step === 81;
         });
         console.log(result);
+        console.log(stepsByType);
         stepsByType.splice(3, 0, result[0]);
+        console.log(stepsByType);
        }
       break;
     case 'eoi':
