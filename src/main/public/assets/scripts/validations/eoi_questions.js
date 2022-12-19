@@ -81,13 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-                console.log(`target: ${target}`)
-                console.log("Sibling",Sibling)
+                let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
                   console.log("1111")  
-                    let next_coll = Number(target);
-                    let nextLevel_coll = Number(target);
+                    
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -137,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('eoi_question_' + target).value = "";
                        
                         if (prev_coll > 1) {
-                          document.querySelector('#fc_question_2' + removeLogic).classList.add("ccs-dynaform-hidden");
+                          document.querySelector('#fc_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                         }
                         document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                     }
@@ -146,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('eoi_question_' + target).value = "";
                     
                     if (prev_coll > 1) {
-                      document.querySelector('#main_eoi_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                      document.querySelector('#main_eoi_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                     }
                     document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                 }
