@@ -106,10 +106,14 @@
       </div>
     </div>
     <p class="govuk-body">{{data.content.p1}}</p>
-
-    <p class="govuk-body">{{data.content.p2}} </p>
-
-    <p class="govuk-body">{{data.content.p3}}</p>
+     {% if agreementId_session == "RM6187" %}
+          <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="/dashboard">Public Procurement Gateway and Contract Award Service.</a></p>
+     {% else %}
+          <p class="govuk-body">{{data.content.p2}} </p>
+     {% endif %}
+     
+          <p class="govuk-body">{{data.content.p3}}</p>
+     
       
     <p class="govuk-body">{{data.content.p4}} </p>
   <hr>

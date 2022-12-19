@@ -2,14 +2,14 @@
     "title": "Add colleagues to your project (optional)",
     "subtitle": null,
     "content": {
-        "p1": "You’re advised to add additional colleagues to this procurement in case you’re unavailable at any time. Additional collagues can help you write your requirements and review and evaluate suppliers. ",
+        "p1": "You’re advised to add additional colleagues to this project in case you’re unavailable at any time. Additional colleagues can help you write your requirements and review and evaluate suppliers. ",
         "p2": "Use the drop-down box below to add colleagues. They will need to be registered with CCS.",
         "a1": {
             "text": "self-registration service.",
             "href": "https://www.crowncommercial.gov.uk/"
         },
-        "p3": "If you need to wait for them to register, you can complete this step later and either return to the pre - market engagement section, or continue to the next step. ",
-        "p4": "You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step.",
+        "p3": "If you need to wait for them to register, you can continue to the next step and come back to this later.  ",
+        "p4": "You cannot remove yourself from this project. If you want to be removed, you will need to change the lead colleague, who can then remove you. You can do this in the previous step.",
         "collegue": {
             "name": "Colleague :",
             "email": "Email address:",

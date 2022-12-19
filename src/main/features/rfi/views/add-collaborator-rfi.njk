@@ -130,8 +130,13 @@
    <div class="ccs-page-section">
     <p class="govuk-body">{{data.content.p1}}</p>
 
-    <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
+  {% if agreementId_session == "RM6187" %}
+      <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="/dashboard">Public Procurement Gateway and Contract Award Service.</a></p>
+  {% else %}
+      <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
         href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
+  {% endif %}
+   
 
     <p class="govuk-body">{{data.content.p3}}</p>
       
