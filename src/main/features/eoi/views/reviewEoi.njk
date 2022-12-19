@@ -235,8 +235,11 @@
                   {% if i.question != 'Explain the special term or condition' and i.question != 'Write a definition for the term acronym explaining what it means' %}
                     {% if i.values | length > 0 %}
                       {% for answer in i.values %}
-                        <p class="govuk-body-s">{{ answer.value }}
-                          <p>
+                      <div id="post-div">
+                        <p class="govuk-body-s content_review_eoi">{{ answer.value }}
+                          </p>
+                          <button id="read_more_id">Read More</button>
+                          </div>
                           {% if i.question != undefined %}
                             <p class="govuk-body-s">{{ answer.text | safe }}
                             </p>

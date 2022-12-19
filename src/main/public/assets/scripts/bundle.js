@@ -19178,6 +19178,33 @@ const ccsZvalidateEoiLocation = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  let noOfCharac = 200;
+let contents = document.querySelectorAll(".content_review_eoi");
+contents.forEach(content => {
+    //If text length is less that noOfCharac... then hide the read more button
+    if(content.textContent.length < noOfCharac){
+        content.nextElementSibling.style.display = "none";
+    }
+    else{
+        let displayText = content.textContent.slice(0,noOfCharac);
+        let moreText = content.textContent.slice(noOfCharac);
+        content.innerHTML = `${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span>`;
+    }
+});
+});
+
+document.getElementById("read_more_id").addEventListener("click", myFunction);
+
+function myFunction(){
+    console.log('asd');
+    let post = document.getElementById("post-div");
+    post.querySelector(".dots").classList.toggle("hide");
+    post.querySelector(".more").classList.toggle("hide");
+    //btn.textContent == "Read More" ? btn.textContent = "Read Less" : btn.textContent = "Read More";
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
   // console.log('va from eoi onload>>>>');
   if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("eoi_location")!==null ) {
     nospeclocationCheckboxeseoi = document.querySelectorAll("input[name='required_locations']");
