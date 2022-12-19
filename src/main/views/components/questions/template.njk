@@ -2313,7 +2313,6 @@
                             {% set sec_vetting_opt = requirement.nonOCDS.options[i] %}
                               {% if sec_vetting_opt.value !== "No security clearance needed" 
                                 and sec_vetting_opt.value !== "No specific location, for example they can work remotely"
-                                and sec_vetting_opt.value !== "No specific location (for example they can work remotely)"
                                 and sec_vetting_opt.value !== "Not Applicable" 
                                 and sec_vetting_opt.value !== "None" %}
                               <div class="govuk-checkboxes__item">
