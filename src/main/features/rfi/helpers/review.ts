@@ -159,7 +159,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         };
       });
 
-      const RFI_ANSWER_STORAGE = [];
+      let RFI_ANSWER_STORAGE = [];
 
       for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
         for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
@@ -263,7 +263,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         forceChangeDataJson = cmsData;
       }
       const customStatus = ReviewData.OCDS.status;
-      
+      RFI_ANSWER_STORAGE = RFI_ANSWER_STORAGE.sort((a, b) => (a.id < b.id ? -1 : 1));
       let appendData = {
         rfi_data: RFI_ANSWER_STORAGE,
         rfi_keydates: expected_rfi_keydates[0],

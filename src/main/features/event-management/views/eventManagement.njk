@@ -253,7 +253,7 @@
   <div class="govuk-grid-column-full">
 
     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
-        {% if agreementId_session == "RM6187" %}
+        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
             Number of suppliers who may respond to your published project </h2>
@@ -292,7 +292,7 @@
           <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
             <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
             {% else %}
-                {% if agreementId_session == 'RM6187' %}
+                {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                       {% if status.toLowerCase() === 'published' %}
                           <h2 class="govuk-heading-m">
                           <span class="proc-task-list__section-number">3.</span>
@@ -995,4 +995,9 @@
           </div>
 
           {% endif %}
+          <div class="govuk-!-margin-top-6">
+            {% if agreementId_session == "RM1557.13" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+          </div>
           {% endblock %}
