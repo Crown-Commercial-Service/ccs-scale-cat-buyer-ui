@@ -63,8 +63,17 @@
 
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
-              {{ data.g_cloud_description if agreement_id == 'RM1557.13' else data.line3 }}</h1>
+              {% if (agreement_id == 'RM1557.13') %}
+                {{data.g_cloud_description}}
+              {% elif (agreement_id == 'RM6187') %}
+                {{data.g_cloud_description}}
+              {% else %}
+                {{data.line3}}
+              {% endif %}
+
+              {# {{ data.g_cloud_description if agreement_id == 'RM1557.13' else data.line3 }}</h1> #}
             {% if (agreement_id == 'RM1557.13') %}
+              <p class="govuk-body"></p>
               {% if (lot == 'Lot 1') %}
                 <p class="govuk-body">{{data.g_cloud_desc1_lot1}}</p>
               {% elif(lot == 'Lot 2') %}
@@ -101,18 +110,23 @@
                       }) }}
                       {# href: "/oauth/login" #}
                     </div>
-                {% endif %}
+              {% endif %}
+
             {% else %}
+            
               {% if (agreement_id == 'RM1043.8') %}
-             
+              {% elif (agreement_id == 'RM6187') %}
+                <p class="govuk-body"></p>
+                {{data.mcf3_detail_description[lotFind].data | safe}}
               {% else %}
                 <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
               {% endif %}
+
             {% endif %}
 
-            {% if (agreement_id != 'RM6263') and (lot != 'lot 2') %}
-              {% if (agreement_id == 'RM1557.13') %}
 
+            {% if (agreement_id != 'RM6263') and (lot != 'lot 2') %}
+              {% if (agreement_id == 'RM1557.13' or agreement_id == 'RM6187') %}
               {% else %}
                 <ul class="govuk-list govuk-list--bullet">
                   {% for sector in agreement_lot.sectors %}
@@ -129,11 +143,13 @@
                   <p class="govuk-body">{{data.line5}}</p>
                   <p class="govuk-body">{{data.line6}}</p>
                 {% endif %}
+
               {% endif %}
             {% endif %}
-          </div>
-          {% if (agreement_id == 'RM1557.13') %}
 
+          </div>
+
+          {% if (agreement_id == 'RM1557.13') %}
           {% else %}
             <div class="ccs-page-section">
               <p class="govuk-!-padding-bottom-3">
@@ -142,6 +158,11 @@
                   {{data.line7dl1}}
                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="/fca/supplier/list?agreement={{agreement_id}}&lot={{lot | replace("Lot ", "")}}"
                     onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                {% elif agreement_id == 'RM6187' %}
+                  {{data.line71}}
+                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                  {# <p class='govuk-body'>To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.</p>
+                  <p class='govuk-body'>The Public Procurement Gateway helps you to access the different procurement services available to the public sector.</p> #}
                 {% else %}
                   {{data.line7}}
                    <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
@@ -154,16 +175,16 @@
           {% if (agreement_id == 'RM1557.13') %}
 
           {% else %}
-            {% if (agreement_id == 'RM1043.8') 
-              and lot == "Lot 2" %}
+
+            {% if (agreement_id == 'RM1043.8') and lot == "Lot 2" %}
               {% set btnprob = true %}
               {% set btntype = "#" %}
-              {%else%}
+            {%else%}
               {% set btntype = "/dashboard" %}
               {% set btnprob = false %}
             {% endif %}
-            {% if (agreement_id == 'RM1043.8') 
-              and lot != "Lot 2" %}
+
+            {% if (agreement_id == 'RM1043.8') and lot != "Lot 2" %}
               <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
 
                 <p class="govuk-body">{{data.line8}}</p>
@@ -172,28 +193,56 @@
                 {% if(isAuth === true)%}
                   <div class="govuk-button-group">
                     {{ CCSButton({
-               text: "Start Now",
-               type: "a",
-               classes: "govuk-button",
-               href: btntype,
-               disabled: btnprob
-              }) }}
+                    text: "Start Now",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: btntype,
+                    disabled: btnprob
+                    }) }}
                   </div>
                 {%else%}
-
                 <div class="govuk-button-group govuk-!-padding-bottom-3">
                   {{ CCSButton({
-                text: "Sign in or create an account",
-                type: "a",
-                classes: "govuk-button",
-                href: LOGIN_DIRECTOR_URL
-                }) }}
-
+                  text: "Sign in or create an account",
+                  type: "a",
+                  classes: "govuk-button",
+                  href: LOGIN_DIRECTOR_URL
+                  }) }}
                 {# href: "/oauth/login" #}
               </div>
               {%endif%}
+
              </div>
             {% endif %}
+
+            {% if (agreement_id == 'RM6187') %}
+              <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
+                <p class="govuk-body">{{data.line8}} {{isAuth}}</p>
+                <p class="govuk-body">{{data.line9}}</p>
+                {% if(isAuth === true)%}
+                  <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "Start Now",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: btntype,
+                    disabled: btnprob
+                    }) }}
+                  </div>
+                {%else%}
+                  <div class="govuk-button-group govuk-!-padding-bottom-3">
+                    {{ CCSButton({
+                    text: "Sign in or create an account",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: LOGIN_DIRECTOR_URL
+                    }) }}
+                  </div>
+              {%endif%}
+
+             </div>
+            {% endif %}
+
           {% endif %}
 
           <div class="ccs-page-section" id="buyonline">
@@ -218,28 +267,34 @@
             {% else %}
               {% if (agreement_id != 'RM1043.8') %}
                 <p class="govuk-body">
-                  <strong>{{data.line11}}</strong>
+                  <strong>{{ data.line111 if agreement_id == 'RM6187' else data.line11 }}</strong>
                 </p>
 
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>
-                    <strong>{{data.line12}}</strong>
-                    {{data.line13}}</li>
-                  <li>
-                    <strong>{{data.line14}}</strong>
-                    {{data.line15}}</li>
-                  <li>
-                    <strong>{{data.line16}}</strong>
-                    {{data.line17}}</li>
-                </ul>
-                {% if lot == "Lot 2" %}
-                  <p class="govuk-body">or</p>
+                {% if (agreement_id != 'RM1043.8') %}
+                  {{data.mcf3_before_start | safe}}
+                {% else %}
                   <ul class="govuk-list govuk-list--bullet">
                     <li>
-                      <strong>{{data.line53}}</strong>
-                      {{data.line54}}</li>
+                      <strong>{{data.line12}}</strong>
+                      {{data.line13}}</li>
+                    <li>
+                      <strong>{{data.line14}}</strong>
+                      {{data.line15}}</li>
+                    <li>
+                      <strong>{{data.line16}}</strong>
+                      {{data.line17}}</li>
                   </ul>
+                  {% if lot == "Lot 2" %}
+                    <p class="govuk-body">or</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>
+                        <strong>{{data.line53}}</strong>
+                        {{data.line54}}</li>
+                    </ul>
+                  {% endif %}
                 {% endif %}
+                
+
               {% else %}
                 {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
                   <p class="govuk-body">
@@ -383,6 +438,8 @@
                 </ol>
               </h3>
             {% endif %}
+          {% elif (agreement_id == 'RM6187') %}
+            {{data.mcf3_before_after_content | safe}}
           {% else %}
             {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") 
               or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
