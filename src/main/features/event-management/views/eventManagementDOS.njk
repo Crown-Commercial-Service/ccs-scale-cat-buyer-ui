@@ -516,7 +516,7 @@
 
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
-                                     {% if (status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING') %}
+                                     {% if status.toUpperCase() == 'EVALUATING' %}
 
                                           <div class="govuk-button-group">
                                             {{ CCSButton({
