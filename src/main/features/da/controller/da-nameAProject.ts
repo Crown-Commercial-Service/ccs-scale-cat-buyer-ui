@@ -27,8 +27,9 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
   const agreementId_session = req.session.agreement_id;
   const agreementName = req.session.agreementName;
   const lotid = lotId;
-    
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+  
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,

@@ -27,7 +27,19 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
 
       const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria`;
       
+     // let response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
+        
+
       try {
+         
+          let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+        let journeys=journeySteps.find(item => item.step == 10);
+        
+        if(journeys.state !='Completed'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
+        }
+      
+
          let fetch_dynamic_api_data;
          if(agreement_id == 'RM6263') {   //DSP
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -160,13 +172,8 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Completed');
             // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
             
-            let flag=await ShouldEventStatusBeUpdated(eventId,10,req);
-    if(flag)
-    {
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
-          }
+           
       } catch (error) {
-         console.log("error",error);
          
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "RFI Online Task List - Tenders Service Api cannot be connected", true)

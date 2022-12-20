@@ -14,7 +14,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
  * @param res 
  */
  export const GET_STEPS_TO_CONTINUE = async (req: express.Request, res: express.Response) => {
-  const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
+  const { agreementLotName, agreementName, agreement_id, releatedContent, project_name, projectId } =
     req.session;
     const lotid = req.session?.lotId;
     const agreementId_session = agreement_id;
@@ -41,6 +41,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
       res.locals.agreement_header = {
         agreementName,
         project_name,
+        projectId,
         agreementId_session,
         agreementLotName,
         lotid,

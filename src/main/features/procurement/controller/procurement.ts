@@ -133,7 +133,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         : journyData.states.find(item => item.step === event.eventno);
       if (step) {
         if (step.state === 'Not started') {
-          event.status = 'TODO';
+          event.status = 'TO DO';
         } else if (step.state === 'Completed') {
           event.status = 'DONE';
         } else {
@@ -175,7 +175,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           if(step_1) {
             let OverWriteStep1;
             if (step_1.state === 'Not started') {
-              OverWriteStep1 = 'TODO';
+              OverWriteStep1 = 'TO DO';
             } else if (step_1.state === 'Completed') {
               OverWriteStep1 = 'DONE';
             } else {
@@ -221,9 +221,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
 
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;    
+    const projectId = req.session.projectId;    
     const releatedContent = req.session.releatedContent;
 
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let ScrollTo=""
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}

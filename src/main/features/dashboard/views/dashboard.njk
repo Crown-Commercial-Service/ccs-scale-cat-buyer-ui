@@ -158,7 +158,13 @@
                   {% endif %}
 
                   <td class="govuk-table__cell govuk-table__header_custom_w-3">
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                      {% if (event.agreementId == 'RM1043.8') %}
+                        Lot {{ event.lotId }} : {{ event.lotName }}
+                      {% else %}
+                        {{ event.lotId }} : {{ event.lotName }}
+                      {% endif %}
+                    </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
                   <td class="govuk-table__cell">

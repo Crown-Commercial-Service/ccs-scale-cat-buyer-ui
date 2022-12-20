@@ -137,7 +137,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       req.session.currentEvent = { assessmentId }
 
       // Event header
-      res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+      res.locals.agreement_header = { project_name: projectName,projectId, agreementName, agreementId_session, agreementLotName, lotid }
       req.session.agreement_header = res.locals.agreement_header
       // Get unread Message count
       const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
@@ -304,6 +304,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       qasCount = 0;
     }else{
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+     
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       if (fetchData.data != undefined) {
         qasCount = fetchData.data.QandA;
@@ -427,7 +428,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
        
       }
 
-      let appendData = { projectStatus:2,documentTemplatesUnSuccess: "",evetTitle,awardOption, supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: (agreementId_session=='RM1557.13' && lotid=='All') ?null : qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject,agreementId_session,assessmentSupplierTarget }
+      let appendData = { projectStatus:2,documentTemplatesUnSuccess: "",evetTitle,awardOption, supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName,projectId, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: (agreementId_session=='RM1557.13' && lotid=='All') ?null : qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject,agreementId_session,assessmentSupplierTarget }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
@@ -677,7 +678,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       req.session.currentEvent = { assessmentId }
 
       // Event header
-      res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
+      res.locals.agreement_header = { project_name: projectName,projectId, agreementName, agreementId_session, agreementLotName, lotid }
       req.session.agreement_header = res.locals.agreement_header
       
       // Get unread Message count
@@ -851,6 +852,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
      
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+     
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       let qasCount = 0;
       if (fetchData.data != undefined) {
@@ -1560,6 +1562,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
   try {
             const releatedContent = req.session.releatedContent;
             const project_name = req.session.Projectname 
+            const projectId = req.session.projectId
             const agreementName = req.session.agreementName
             const agreementId_session = req.session.agreement_id
             const agreementLotName = req.session.agreementLotName
@@ -1567,7 +1570,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
             const invite_suppliers= req.session.invite_suppliers;
             const eventId= req.session.eventId;
             // Event header
-            res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
+            res.locals.agreement_header = { project_name,projectId, agreementName, agreementId_session, agreementLotName, lotid }
               let supplierIDS=invite_suppliers.split(',');
             const uniqSuppliers = supplierIDS.filter((value:any, index:any, self:any) => {
               return self.indexOf(value) === index;

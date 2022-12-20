@@ -9,7 +9,25 @@ import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json';
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 
+const momentCssHolidays = async () => {
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+  let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  let holiDaysArr = []
+  for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
+    var AsDate = new Date(bankHolidayEnglandWales[h].date);
+    holiDaysArr.push(moment(AsDate).format('DD-MM-YYYY'));
+  }
+  
+  moment.updateLocale('en', {
+    holidays: holiDaysArr,
+    holidayFormat: 'DD-MM-YYYY'
+  });
+}
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
   defaultEndingMinutes: Number(config.get('predefinedDays.defaultEndingMinutes')),
@@ -20,6 +38,7 @@ const predefinedDays = {
 };
 
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
+  await momentCssHolidays();
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const agreementId_session = req.session.agreement_id;
@@ -49,7 +68,12 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
-    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
+    let prompt = criterianStorage[0].nonOCDS.prompt;
+    if( agreementId_session != 'RM1557.13') { 
+      prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
+    }else{
+      prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " </strong></p>");
+    }
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;

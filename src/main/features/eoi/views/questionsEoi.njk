@@ -115,22 +115,25 @@
                 }}
               {% set numberWord = [
                 'Zero',
-                'first',
-                'second',
-                ' third',
-                ' fourth',
-                ' fifth',
-                ' sixth',
-                ' seventh',
-                ' eight',
-                ' ninth',
-                ' tenth'
+                'First',
+                'Second',
+                ' Third',
+                ' Fourth',
+                ' Fifth',
+                ' Sixth',
+                ' Seventh',
+                ' Eight',
+                ' Ninth',
+                ' Tenth'
               ] %}
               {% for i in range(2, 11) -%}
 
+               <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
+<a href='{{i}}'  class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+
                 {{ CCSCharacterCount({
                       label: {
-                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"<a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>",
+                        html: requirement.OCDS.title | replace("First",numberWord[i]) +"",
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_"+i,
@@ -140,7 +143,7 @@
                       value: requirement.nonOCDS.options[i-1].value
                     })
                 }}
-
+</div>
               {%- endfor %}
 
               <p class="govuk-body">
@@ -431,7 +434,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_fieldset splterm_1",
+                            classes: "closeCCS term_fieldset splterm_1",
                             id:"term_fieldset_splterm_1"
                   }) %}
 
@@ -442,7 +445,7 @@
                     rows: "6",
                     classes:"rfp_term_definition",
                     label: {
-                      text: "Enter the first special term or condition",
+                      text: "",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
                       isPageHeading: false
                     },
@@ -466,11 +469,11 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_fieldset splterm_"+i,
+                      classes: "closeCCS term_fieldset splterm_"+i,
                       id:"term_fieldset"
                     }) %}
                  
@@ -481,7 +484,7 @@
                             classes: "rfp_term_definition eoi_splterm_"+i,
                             rows: "6",
                             label: {
-                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              text: "",
                               classes: "govuk-label--m govuk-!-font-weight-regular",
                               isPageHeading: false
                             },
@@ -522,7 +525,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_fieldset splterm_1",
+                            classes: "closeCCS term_fieldset splterm_1",
                             id:"term_fieldset_splterm_1"
                   }) %}
 
@@ -594,7 +597,7 @@
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_fieldset splterm_"+i,
+                      classes: "closeCCS term_fieldset splterm_"+i,
                       id:"term_fieldset"
                     }) %}
                   {% if agreement_id == 'RM6187' %}
@@ -766,7 +769,7 @@
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_1",
+                            classes: "closeCCS term_acronym_fieldset acronym_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                       %}
@@ -833,7 +836,7 @@
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
-                      classes: "term_acronym_fieldset acronym_"+i,
+                      classes: "closeCCS term_acronym_fieldset acronym_"+i,
                       id:"term_acronym_fieldset"
                     }) %}
 

@@ -102,12 +102,15 @@ export function statusStepsDataFilter(
   switch (type) {
     case 'rfi':
       stepsByType = steps.slice(6, 14);
-      if (agreement_id == 'RM6187') {
+      if (agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {
         let result = steps.filter((obj: any) => {
           return obj.step === 81;
         });
+
+       
         stepsByType.splice(3, 0, result[0]);
-      }
+        console.log(stepsByType);
+       }
       break;
     case 'eoi':
       stepsByType = steps.slice(15, 25);
