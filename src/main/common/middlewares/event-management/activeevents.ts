@@ -77,8 +77,6 @@ export class EventEngagementMiddleware {
           
           let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
           let getEventsData = getEvents.data;
-          console.log('events[i].projectId',events[i].projectId)
-          console.log('events[i].projectName',events[i].projectName)
 
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
