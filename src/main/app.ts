@@ -64,6 +64,12 @@ app.use((req, res, next) => {
     'Cache-Control',
     'no-cache, max-age=0, must-revalidate, no-store',
   );
+  if(process.env.LOGIN_DIRECTOR_URL == "NONE") {
+    res.locals.LOGIN_DIRECTOR_URL = '/oauth/login';
+  } else {
+    res.locals.LOGIN_DIRECTOR_URL = process.env.LOGIN_DIRECTOR_URL;
+  }
+  
   res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
   res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
   res.locals.assetBundlerMode = env.trim();

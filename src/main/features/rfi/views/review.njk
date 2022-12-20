@@ -12,7 +12,7 @@
   {% set url -%}
     /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
-{% if agreementId_session == "RM6187" %}  
+{% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
 {% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
           items: [
@@ -556,7 +556,7 @@ action="/rfi/review" method="post">
                                     },
                                     text: "Publish and continue"
                                     }) }}
-                                    {% if agreementId_session == "RM6187" %}  
+                                    {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
                                 <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Request for Information  </a>
                                     {% else %}
                                 <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement  </a>

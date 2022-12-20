@@ -751,11 +751,23 @@
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Maximum estimated contract value (optional)</p></dt>
+                        <dt class="govuk-summary-list__value">
+                            {% if agreementId_session == 'RM6187' %}
+                                <p>Indicative maximum (optional)</p>
+                            {% else %}
+                                <p>Maximum estimated contract value (optional)</p>
+                            {% endif %}
+                        </dt>
                         <dd class="govuk-summary-list__value"><p>{{ bc1 }}</p></dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Minimum estimated contract value (optional)</p></dt>
+                        <dt class="govuk-summary-list__value">
+                            {% if agreementId_session == 'RM6187' %}
+                              <p>Indicative minimum (optional)</p>
+                            {% else %}
+                              <p>Minimum estimated contract value (optional)</p>
+                            {% endif %}
+                        </dt>
                         <dd class="govuk-summary-list__value"><p>{{ bc2 }}</p></dd>
                       </div>
                       <div class="govuk-summary-list__row">
@@ -780,6 +792,21 @@
                       </div>
                       {% if reqGroup !=undefined  and reqGroup !=null and numberWordSmall !=undefined and numberWordSmall !=null and numberWordSmall !='' and reqGroup | length >0 %}
                           {% set i=1 %}
+                          {% if agreementId_session == 'RM6187' %}
+                            {% for data in reqGroup %}
+                            {% set text = "Name of the" +numberWordSmall[i]+" requirement" %}
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__value"><p>{{ text }}</p></dt>
+                              <dd class="govuk-summary-list__value"><p>{{ data.title }}</p></dd>
+                            </div>
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__value"><p>Description of the requirement</p></dt>
+                              <dd class="govuk-summary-list__value"><p>{{ data.group }}</p></dd>
+                            </div>
+                            
+                            {% set i=i+1 %}
+                            {% endfor %}
+                          {% else %}
                           {% for data in reqGroup %}
                             {% set text = "Name of the" +numberWordSmall[i]+" requirement group" %}
                             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -796,6 +823,7 @@
                             </div>
                             {% set i=i+1 %}
                           {% endfor %}
+                          {% endif %}
                       {% endif %}
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>

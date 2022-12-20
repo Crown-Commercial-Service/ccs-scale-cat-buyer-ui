@@ -23,6 +23,10 @@
       "href": "/event/management?id="+eventId
     },
     {
+      "text": "Your inbox",
+      "href": "/message/inbox?type=received"
+    },
+    {
       "text": "Message",
       "href": "#"
     }
@@ -96,8 +100,9 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row messaging-navigation">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        <div class="messaging-navigation">
         <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
             <ul class="nav-list messaging-nav-list--primary">
@@ -117,6 +122,7 @@
                         </li>
                     </ul>
         </nav>
+        </div>
       </div>
     </div>
     <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-add" method="POST">

@@ -13,11 +13,12 @@
         }
     ],
     "title": "Your Project",
-    "subtitle": "Manage your project from this page including responding to supplier's clarification questions or messages in your inbox. See supplier's answers to your published project.",
+    "subtitle": "Manage your project from this page including responding to supplier clarification questions or messages in your inbox. See supplier answers to your published project.",
     "subtitle1": "You can close this project using the link under the project name below.",
     "subsection2_title": "Project ID/name",
     "subsection2_content": "Close your event",
-    "subsection3_title": "Your Inbox",
+    "subsection2_content2": "Close this project",
+    "subsection3_title": "Your inbox",
     "subsection3_linkText": "Open my inbox",
     "subsection3_linkURL": "/message/inbox",
     "subsection3_title2": "Clarification questions",
@@ -32,6 +33,7 @@
     }],
     "subsection4_title2_1": "Your published project",
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
+    "subsection4_title2_2_mcf":"Your published project",
     "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_2_descriiption": "[ Description for this section ]",
     "subsection4_title2_1_task": [{
@@ -65,6 +67,7 @@
     "subsection4_title3_task2": "Number of suppliers who responded",
     "subsection4_title3_task3": "Number of suppliers who do not want to respond",
     "subsection4_title3_task4": "Number of suppliers who have not responded",
+    "subsection4_title3_task2_mcf": "Number of suppliers who intend to respond",
 
     "subsection4_title3_eval": "How many suppliers will respond to your published project",
     "subsection4_title3_award": "Suppliers who responded to your published project",
@@ -76,6 +79,7 @@
     "subsection4_title3_eval_task2": "Number of suppliers who responded",
     "subsection4_title3_eval_task3": "Number of suppliers who do not want to respond",
     "subsection4_title3_eval_task4": "Number of suppliers who have not responded",
+    "subsection4_title3_eval_task2_mcf":"Number of suppliers who intend to respond",
 
 
     "subsection4_title4": "Supplier responses",

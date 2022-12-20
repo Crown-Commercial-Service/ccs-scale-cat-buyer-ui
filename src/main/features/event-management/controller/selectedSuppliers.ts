@@ -30,7 +30,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: project_name,projectId,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
    
   try{
     //Supplier of interest
@@ -48,7 +48,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = { releatedContent,data: selectedSuppliersData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData , agreementId_session }
-          res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+          res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     res.render('selectedSuppliers',appendData);     
     
   } catch (err) {

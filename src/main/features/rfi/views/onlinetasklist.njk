@@ -6,7 +6,7 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
-{% if agreement_id == "RM6187" %}
+{% if agreement_id == "RM6187" or agreement_id=="RM1557.13" %}
 {{ CCSBreadcrumbs({
           items:[
         {
@@ -114,7 +114,7 @@
             <br>
             <br>
             <p class="govuk-body">
-            {% if agreement_id == "RM6187" %}
+            {% if agreement_id == "RM6187" or agreement_id=="RM1557.13" %}
                 <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
             {% else %}
                 <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{file_data.backJump.title }}</a>
