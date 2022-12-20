@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
+        let textboxelementsorder2 = document.querySelectorAll('.order_2');
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -61,6 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         textboxelements.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
+        textboxelementsorder2.forEach(ele => {
             ele.addEventListener('keydown', (event) => {
                 removeErrorFieldsRfpScoreQuestion();
             });
@@ -283,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
                with_value_count--;
-               console.log('with_value_count in delete',with_value_count)
                if (with_value_count != 21) {
                 
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -477,12 +483,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-             
-             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 19' || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17'))) && with_value_count == 20){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
-             }
+           
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+               $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -683,7 +686,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     let error = ccsZvalidateWithRegex(element.id, "You must add information in all fields.", /^.+$/);
                                     errorStore.push(error);
                             }
+
                             if (textboxCount == 19) {
+
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
                         }
