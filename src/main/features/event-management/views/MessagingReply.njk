@@ -119,7 +119,59 @@
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
+         {%if agreementId == 'RM1557.13'%} 
+            <label class="govuk-label govuk-label govuk-label--m">{{data.line2}}</label>
+            <label class="govuk-label govuk-label">{{message.OCDS.title}}</label></br></br></br>
+         {%endif%}
+         {%if agreementId == 'RM1043.8'%} 
           {%if msgThreadList.length >0%}
+          <div class="govuk-!-margin-bottom-9">
+            <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+              {%for msgItem in msgThreadList%}
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                      <span class="govuk-details__summary-text">
+                        {{msgItem.OCDS.title}}
+                      </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                    <span class="govuk-details__summary-text">
+                        Date:<strong> {{msgItem.OCDS.date | dateddmmyyyy}}</strong>
+                      </span>
+                    </div>
+                    <div class="govuk-details__text">
+                      <span class="govuk-details__summary-text">
+                      Message: {{msgItem.OCDS.description}}
+                      </span>
+                    </div>
+                </details>
+              
+                {% endfor %}
+          </div>
+          {%else%}
+          <div class="govuk-!-margin-bottom-9">
+          <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                {{message.OCDS.title}}
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+            <span class="govuk-details__summary-text">
+                Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong>
+              </span>
+            </div>
+            <div class="govuk-details__text">
+              <span class="govuk-details__summary-text">
+              Message: {{message.OCDS.description}}
+              </span>
+            </div>
+        </details>
+      </div>
+          {%endif%}
+        {%else%}
+        {%if msgThreadList.length >0%}
           {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
@@ -140,10 +192,6 @@
         </details>
          {% endfor %}
         {%endif%}
-        
-         {%if agreementId == 'RM1557.13'%} 
-            <label class="govuk-label govuk-label govuk-label--m">{{data.line2}}</label>
-            <label class="govuk-label govuk-label">{{message.OCDS.title}}</label></br></br></br>
          {%endif%}
          {%if (replyto == 'all' and agreementId == 'RM1043.8')  or agreementId == 'RM1557.13'%} 
             {# <label class="govuk-label govuk-label govuk-label--m">{{data.line2}}</label>
@@ -154,7 +202,7 @@
           <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
         {%endif%}
          
-<p class="govuk-body govuk-label govuk-label--m">{{data.MessageClassification}} : {{message.nonOCDS.classification}}</p></br>
+<p class="govuk-body">{{data.MessageClassification}} : <strong>{{message.nonOCDS.classification}}</strong></p></br>
               {{ CCSInput({           
                 id: "reply_subject_input",
                 name: "reply_subject_input",
