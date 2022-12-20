@@ -486,7 +486,7 @@
                                     Evaluate suppliers</h2>
                                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
-                                  {% if (status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING') %}
+                                  {% if  status.toUpperCase() == 'EVALUATING' %}
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
                                       <div class="govuk-button-group">
