@@ -55,9 +55,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
       
       if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Not started'); }
       let { data: journeyStepsName } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-
-      console.log(journeyStepsName);
-      
+    
       let nameJourneysts = journeyStepsName.filter((el: any) => {
         if(el.step == 7 && el.state == 'Completed') return true;
         return false;
