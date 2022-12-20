@@ -71,7 +71,11 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle1}}</p>
-                            <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle2}}</p>
+                                {% if agreementId_session == 'RM6187' %}
+                                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle_4}}</p>
+                                {% else %}
+                                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle2}}</p>
+                                {% endif %}
                             <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle3}}</p>
                             <div>
                                 <div class="govuk-div-inline">
