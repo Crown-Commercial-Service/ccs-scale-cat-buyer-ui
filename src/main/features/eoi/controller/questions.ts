@@ -27,6 +27,17 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
 
   try {
+
+    if(agreement_id == 'RM6187'){
+      console.log("questionInside")
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+    const journeys=journeySteps.find(item => item.step == 20);
+    
+    if(journeys.state !='Completed'){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+    }
+  }
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
