@@ -919,7 +919,7 @@
           {% else %}
 
           {# {% if status.toUpperCase() == 'EVALUATED' %}  --> Commented merge #}
-          {% if status.toUpperCase() != 'CLOSED' and agreementId_session !=='RM1043.8' %}
+          {% if status.toUpperCase() != 'CLOSED' and status.toUpperCase() != 'TO-BE-EVALUATED' and agreementId_session !=='RM1043.8' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">5.</span> Evaluate suppliers</h2>
               {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
