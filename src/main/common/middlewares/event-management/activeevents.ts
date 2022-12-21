@@ -65,6 +65,7 @@ export class EventEngagementMiddleware {
     req.session['UIDate'] = null;
     req.session['isRFIComplete']=false;
     req.session['searchText']='';
+    req.session['ccs_rfi_type']='';
     // Retrive active events
     
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)

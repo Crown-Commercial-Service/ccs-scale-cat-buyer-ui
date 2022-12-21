@@ -288,8 +288,14 @@ let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
 let removeErr = document.querySelectorAll('.removeErr');
+let removeErrCheckbox = document.querySelectorAll('.removeErrCheckbox');
 removeErr.forEach(ele => {
     ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+removeErrCheckbox.forEach(ele => {
+    ele.addEventListener('change', (event) => {
         removeErrorFieldsRfp1();
     });
 });
