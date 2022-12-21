@@ -100,7 +100,7 @@ try{
                 }
               ];
               
-              await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
             
