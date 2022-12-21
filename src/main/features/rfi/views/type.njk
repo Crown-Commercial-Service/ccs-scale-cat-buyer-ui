@@ -17,7 +17,7 @@
       },
       {
          text: "Procurement overview",
-         href: url
+         href: "/projects/create-or-choose"
       },
       {
          text: "Request for Information",
@@ -68,6 +68,11 @@
       {% set form_Options_Altered = [] %}
 
       {% for item in formOptions %}
+      {% if item.value == ccs_rfi_type %}
+          {% set radioCheckSession = 'checked' %}
+      {% else %}
+          {% set radioCheckSession = '' %}
+      {% endif %}
         {% if item.disabled != 'true' %}
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
@@ -75,7 +80,8 @@
               html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
               hint : {
                 text: item.hint.text
-              }
+              },
+              checked: radioCheckSession
               }
              ), form_Options_Altered) 
              
@@ -113,7 +119,11 @@
         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                {% if agreementId_session=="RM1557.13" %}
+        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+        {% else %}
+<a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+        {% endif %}
       </div>
     </form>
   </div>

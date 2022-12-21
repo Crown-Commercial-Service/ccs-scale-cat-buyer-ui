@@ -359,7 +359,7 @@ const emptyQuestionFieldCheckForSave = () => {
 
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheckForSave();
+  errorStore = emptyQuestionFieldCheck();
 
   //}
 
