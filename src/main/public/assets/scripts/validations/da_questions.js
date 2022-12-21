@@ -57,12 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
               target_fieldset = db.closest("div");
     
                    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+
                    if(target != 20) {
                        let ml = 1;
                        
-                       let next_coll = Number(target);
-                       let nextLevel_coll = Number(target);
+                      
                        let eptArr = [];
                        while (Sibling) {
     
@@ -195,22 +196,22 @@ document.addEventListener('DOMContentLoaded', () => {
                        
                            target_fieldset.classList.add("ccs-dynaform-hidden");
                            
-                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
                            if(fc_question_precenate_fir){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
                            }
-                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
                            if(fc_question_precenate_sec){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
                            }
-                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
                            if(fc_question_precenate_third){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
                            }
                            //ID BASED
-                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);
                            if(fc_question_precenate_El){
-                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                             document.getElementById('fc_question_precenate_'+next_coll).value="";
                            }
     
                         //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -229,22 +230,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
     
-                    var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                    var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
                            if(fc_question_precenate_fir){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
                            }
-                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
                            if(fc_question_precenate_sec){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
                            }
-                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
                            if(fc_question_precenate_third){
-                            document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
                            }
                            //ID BASED
-                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);
                            if(fc_question_precenate_El){
-                             document.getElementById('fc_question_precenate_'+current_col).value="";
+                             document.getElementById('fc_question_precenate_'+next_coll).value="";
                            }
                  
                        if (prev_coll > 1) {
@@ -253,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                    }
                    with_value_count--;
+                   console.log("with_value_count --",with_value_count);
                    if (with_value_count != 11) {
                     
                     $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -323,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === 10) {
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
                         $('.add-another-btn').closest('.ccs-page-section').css("border-bottom", "0px");
@@ -355,8 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorStore = emptyQuestionFieldCheckDa("add_more");
             }
-            
+            console.log("with_value_count +++",with_value_count);
+            if (with_value_count === 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+           
+
             if (with_value_count === 11 && document.getElementById("fc_question_10_1").value != "") {
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 errorStore.push(["There is a problem", "Cannot add another question already 10 questions created"]);
             } else {
                 errorStore = emptyQuestionFieldCheckDa("add_more");
