@@ -22,8 +22,8 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const { agreementName, agreementEndDate, agreementDescription, suppliersCount } = req.session;
   regExp.test(lotNum) ? lot = lotNum : lot = "Lot " + lotNum;
   const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount, lotSuppliers, lot };
-  let appendData = { data: lotData, agreement_id, lot, agreement }
-
+  let lotFind = parseInt(lot.replace("Lot ", "")) - 1;
+  let appendData = { data: lotData, agreement_id, lot, agreement, lotFind }
   if (isAuthenticated) {
     appendData = Object.assign({}, { ...appendData, isAuth: true })
   }
