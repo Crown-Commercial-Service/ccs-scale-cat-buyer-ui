@@ -11,8 +11,9 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 // RFI TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
    const { agreement_id } = req.query;
+   const agreementId_session = req.session.agreement_id;
    const releatedContent = req.session.releatedContent
-   const windowAppendData = { data: cmsData, agreement_id: agreement_id, releatedContent }
+   const windowAppendData = { data: cmsData, agreement_id: agreement_id,agreementId_session, releatedContent }
    res.render('type', windowAppendData);
 }
 
