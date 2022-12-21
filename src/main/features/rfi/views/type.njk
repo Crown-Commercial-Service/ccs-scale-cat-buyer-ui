@@ -4,9 +4,36 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Request for Information",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Choose how to build your RfI",
+         href: "#"
+      }
+    ]
+      }) }}
+{% else %}
+{{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -23,8 +50,12 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-
+        {% if agreementId_session == "RM1557.13" %}
+          <p>You can build your RfI by entering the necessary information online. You will also have the option to upload documents as part of this journey.</p><br>
+          <p> In future, you will have the option to prepare your RfI offline and then upload it.</p>
+        {% else %}
         <p class="govuk-body">{{ data.form.question }}</p>
+        {% endif %}
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
