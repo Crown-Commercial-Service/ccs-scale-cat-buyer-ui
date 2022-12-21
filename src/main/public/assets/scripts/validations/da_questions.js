@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                    }
                    with_value_count--;
-                   console.log("with_value_count --",with_value_count);
+                  
                    if (with_value_count != 11) {
                     
                     $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorStore = emptyQuestionFieldCheckDa("add_more");
             }
-            console.log("with_value_count +++",with_value_count);
+            
             if (with_value_count === 10){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
