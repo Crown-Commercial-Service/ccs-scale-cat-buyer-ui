@@ -21,7 +21,8 @@ const ccsZCountRfiWho = (event) => {
     
     let labelElement=document.getElementById("rfi_label_contracting_auth");
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining of 500";
+    labelElement.innerText="You have " +count + " characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

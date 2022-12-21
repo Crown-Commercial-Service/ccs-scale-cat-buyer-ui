@@ -8,7 +8,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 //@GET /rfi/event-sent
 export const GET_EVENT_PUBLISHED  = async (req: express.Request, res: express.Response) => {
   const agreement_id = req.session.agreement_id;
-  let forceChangeDataJson = (agreement_id == 'RM6187')?Mcf3cmsData:cmsData;
+  let forceChangeDataJson = (agreement_id == 'RM6187' || agreement_id == 'RM1557.13')?Mcf3cmsData:cmsData;
     const appendData = {
         data: forceChangeDataJson,
         projPersistID: req.session['project_name'],
