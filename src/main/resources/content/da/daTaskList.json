@@ -33,7 +33,7 @@
                 {
                     "Task": 2,
                     "link": "/da/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead the project",
                     "required": "optional",
                     "status": "Optional"
                 },
