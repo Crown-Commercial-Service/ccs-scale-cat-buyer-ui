@@ -431,22 +431,42 @@
   {%endif%}
 
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
-
-    {{ CCSInput({
-      label: {
-        text: requirement.OCDS.title | striptags(true) | escape | nl2br,
-        classes: "govuk-label--m"
-      },
-      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
-      id: "fc_question_precenate_"+index,
-      value: requirement.nonOCDS.options[index-1].value,
-      name: requirement.OCDS.id,
-      suffix: {
-        text: "%"
-      },
-      type:"number"
-    }) }}
-
+      {% if (agreement_id == "RM6187") %}
+        {{ CCSInput({
+            label: {
+              text: requirement.OCDS.title | striptags(true) | escape | nl2br,
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
+            id: "fc_question_precenate_"+index,
+            value: requirement.nonOCDS.options[index-1].value,
+            hint: {
+              text: requirement.OCDS.description,
+              html: "The weighting below is for this question only",
+              classes: "govuk-hint"
+            },
+            name: requirement.OCDS.id,
+            suffix: {
+              text: "%"
+            },
+            type:"number"
+        }) }}
+      {% else %}
+        {{ CCSInput({
+          label: {
+            text: requirement.OCDS.title | striptags(true) | escape | nl2br,
+            classes: "govuk-label--m"
+          },
+          classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
+          id: "fc_question_precenate_"+index,
+          value: requirement.nonOCDS.options[index-1].value,
+          name: requirement.OCDS.id,
+          suffix: {
+            text: "%"
+          },
+          type:"number"
+        }) }}
+      {% endif %}
   {%endif%}
 
     {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'da_multianswer_question_form'%}
