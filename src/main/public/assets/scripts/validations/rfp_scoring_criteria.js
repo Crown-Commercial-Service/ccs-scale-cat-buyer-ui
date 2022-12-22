@@ -147,8 +147,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }else if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1557.13'){ 
             rowsAndHead.rows.reverse();
+            var rowLength,rowLengthValue;
+            if(rowsAndHead.rows.length == 6){
+              rowLength = 4
+              rowLengthValue = 5
+            }else{
+              rowLength = 3
+              rowLengthValue = 4
+            }
               for (let i = 0; i < rowsAndHead.rows.length; i++) {
-              if (i !== 5) {
+              if (i !== rowLengthValue) {
                const ii = i + 1;
                var elements = document.getElementsByClassName("score_criteria_" + ii);
                 elements[0].classList.remove("ccs-dynaform-hidden");
@@ -157,6 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).focus();
                 document.getElementById("rfp_score_criteria_name_" + ii).focus();
+              }
+              
+              if(i>rowLength){
+                var eleI = i + 1;
+                var elements = document.getElementsByClassName("score_criteria_" + eleI);
+                elements[0].classList.add("ccs-dynaform-hidden");
               }
               if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
