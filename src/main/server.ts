@@ -26,5 +26,6 @@ if (app.locals.ENV === 'development') {
   const ELB = app.listen(port, () => {
     logger.info(`Application started: http://localhost:${port}`);
   });
-  ELB.keepAliveTimeout = 61 * 1000;
+  ELB.keepAliveTimeout = 61 * 100000;
+  ELB.headersTimeout = 61 * 100000;
 }
