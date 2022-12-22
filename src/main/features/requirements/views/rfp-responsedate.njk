@@ -8,7 +8,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% block breadCrumb %}
 
-    {% if agreementId_session == 'RM6187' %}
+    {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
         {{ CCSBreadcrumbs({
         items: [
             {

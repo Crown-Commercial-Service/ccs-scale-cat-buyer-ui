@@ -949,12 +949,18 @@
 
               {# {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %} commented for dos assesment criteria question issue #}
               {% if- (requirement.OCDS.title === 'Price') or (requirement.OCDS.title === 'Technical questions') %}
-              <div>
-                {{ CCSInsetText({
-                      text: "<b> The total weighting is : <span id='totalPercentage'>0</span>% </b> " | safe
-                    }) }}
+                  {% if (agreement_id == 'RM1557.13') %}
+                      <div class="govuk-inset-text">
+                        <p><b> The total weighting is : <span id='totalPercentage'>0</span>% </b></p>
+                      </div>  
+                  {% else %}
+                      <div>
+                          {{ CCSInsetText({
+                                text: "<b> The total weighting is : <span id='totalPercentage'>0</span>% </b> " | safe
+                          }) }}
 
-              </div>
+                      </div>
+                  {% endif %}
               {% elseif(requirement.OCDS.title === 'Social value criteria') %}
               <div>
                 {{ CCSInsetText({
