@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             db.classList.add('ccs-dynaform-hidden')
             
             db.addEventListener('click', (e) => {
-            
+               
                 e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
@@ -290,6 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
                with_value_count--;
+               totalAnswerd();
+               totalPercentage();
                if (with_value_count != 21) {
                 
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -492,8 +494,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-
+           
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
 
@@ -514,6 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+               
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
