@@ -11,8 +11,10 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 // RFI TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
    const { agreement_id } = req.query;
+   const ccs_rfi_type = req.session.ccs_rfi_type
+   const agreementId_session = req.session.agreement_id;
    const releatedContent = req.session.releatedContent
-   const windowAppendData = { data: cmsData, agreement_id: agreement_id, releatedContent }
+   const windowAppendData = { data: cmsData, agreement_id: agreement_id,agreementId_session, releatedContent,ccs_rfi_type }
    res.render('type', windowAppendData);
 }
 
@@ -51,7 +53,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
       const filtered_body_content_removed_rfi_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_rfi_type');
    
       const { ccs_rfi_type } = filtered_body_content_removed_rfi_key;
-   
+      req.session.ccs_rfi_type = ccs_rfi_type;
       switch (ccs_rfi_type) {
          case 'all_online':
             // eslint-disable-next-line no-case-declarations
