@@ -23,7 +23,8 @@ if (app.locals.ENV === 'development') {
 
   });
 } else {
-  app.listen(port, () => {
+  const ELB = app.listen(port, () => {
     logger.info(`Application started: http://localhost:${port}`);
   });
+  ELB.keepAliveTimeout = 61 * 1000;
 }

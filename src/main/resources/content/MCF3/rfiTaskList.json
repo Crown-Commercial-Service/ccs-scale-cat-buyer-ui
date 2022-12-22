@@ -19,7 +19,7 @@
                 {
                     "Task": 2,
                     "link": "/rfi/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead the project",
                     "required": "optional",
                     "status": "optional"
                 },
