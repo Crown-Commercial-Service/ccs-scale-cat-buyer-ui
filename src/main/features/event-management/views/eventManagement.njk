@@ -282,7 +282,7 @@
     <p class="govuk-grid-column-one-half">
       <strong>{{data.subsection4_title3_eval_task1}} </strong>
       <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-          {% if agreementId_session == 'RM6187' %}
+          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}
           {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
@@ -290,7 +290,11 @@
         <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-          <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+            {% if (agreementId_session == 'RM1557.13') %}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_gcloud}}
+            {% else %}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+            {% endif %}
             <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
             {% else %}
                 {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
@@ -327,7 +331,7 @@
             <p class="govuk-grid-column-one-half">
               <strong>{{data.subsection4_title3_task1}} </strong>
               <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-                  {% if agreementId_session == 'RM6187' %}
+                  {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_mcf}}
                   {% else %}
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
@@ -336,7 +340,11 @@
                 <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
                 <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
                   <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                  <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                      {% if (agreementId_session == 'RM1557.13') %}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}
+                      {% else %}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                      {% endif %}
                     <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                     {% endif %}
                   </div>
@@ -396,7 +404,7 @@
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
 
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %} 
-                         {% if agreementId_session != "RM6187" %}
+                         {% if (agreementId_session != "RM6187") and (agreementId_session != "RM1557.13") %}
                             <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
                          {% else  %}
                             <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
@@ -416,7 +424,7 @@
                           <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
                           <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
-                            {% if agreementId_session != 'RM6187' %}
+                            {% if (agreementId_session != 'RM6187') and (agreementId_session != 'RM1557.13') %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
                             {% else %}
                               <th scope="col" class="govuk-table__header">Supplier name</th>

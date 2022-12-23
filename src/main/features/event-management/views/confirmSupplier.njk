@@ -5,7 +5,11 @@
 {% if stage2_value == 'Stage 2' %} 
 {% set title = 'Your project' %}
 {% else %}
-{% set title = 'Event management' %}
+    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+        {% set title = 'Your project' %}
+    {% else %}
+        {% set title = 'Event management' %}
+    {% endif %}
 {% endif %} 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -127,7 +131,7 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                {% if agreement_header['agreementId_session'] == 'RM6187' %} 
+                {% if (agreement_header['agreementId_session'] == 'RM6187') or (agreement_header['agreementId_session'] == 'RM1557.13') %} 
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
