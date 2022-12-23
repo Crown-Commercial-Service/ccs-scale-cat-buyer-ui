@@ -307,7 +307,12 @@
                                             {{ supplier.responseDate }}
                                           </td>
                                           <td class="govuk-text-align govuk-!-text-align-left">
+                                            {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
+                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
+                                            {%else%}
                                             <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                                            {%endif%}
+
                                           </td>
 
                                           {%endif%}
@@ -361,7 +366,11 @@
                                               {% if (showallDownload) %}
 
                                                 {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
+                                                  {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
+                                                     <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
+                                                    {% else%}
                                                   <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                                  {% endif %}
                                                 {% endif %}
 
                                               {% endif %}

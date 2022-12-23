@@ -17,11 +17,7 @@ $(document).ready(function () {
     
   }
 
-  document.querySelector('.blurpage').addEventListener('click', (e) => {
-    e.preventDefault();
-    var bodytg = document.body;
-    bodytg.classList.add("pageblur");
-  })
+  
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
@@ -1546,8 +1542,14 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
             xhrFields: {
                 responseType: 'blob' // to avoid binary data being mangled on charset conversion
             },
-        success: function(blob, status, xhr) {
+            beforeSend: function(){
+              var bodytg = document.body;
+              bodytg.classList.add("pageblur");
+            },
+           success: function(blob, status, xhr) {
             // check for a filename
+            var bodytg = document.body;
+              bodytg.classList.remove("pageblur");
             var filename = "";
             var disposition = xhr.getResponseHeader('Content-Disposition');
             if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -1577,7 +1579,7 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
                     window.location.href = downloadUrl;
                 }
     
-                setTimeout(function () { URL.revokeObjectURL(downloadUrl);location.reload(); }, 1000); // cleanup
+                setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
         }
           });
