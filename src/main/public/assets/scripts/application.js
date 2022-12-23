@@ -17,7 +17,11 @@ $(document).ready(function () {
     
   }
 
-
+  document.querySelector('.blurpage').addEventListener('click', (e) => {
+    e.preventDefault();
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
+  })
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
@@ -473,7 +477,7 @@ setInputFilter(
   document.getElementById('clarification_date-month_6'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter(
+setInputFilter( 
   document.getElementById('clarification_date-year_6'),
   value => /^\d*$/.test(value),
 );
