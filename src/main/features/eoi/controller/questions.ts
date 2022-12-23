@@ -29,7 +29,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   try {
 
     if(agreement_id == 'RM6187'){
-      console.log("questionInside")
+     
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
     

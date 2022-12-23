@@ -26,6 +26,7 @@
         <strong>
         {{data.title}}</strong>
       </h1>
+      
       <div class="project-overview">
         <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
           {% if(agreement_header !=undefined and agreement_header !=null 
@@ -486,7 +487,7 @@
                               </td>
                               {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
                               <td class="govuk-text-align govuk-!-text-align-left">
-                                <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                                <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
                               </td>
                               {%endif%}
 
@@ -549,7 +550,7 @@
 
                               {% if (showallDownload) %}
                               {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
-                              <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                              <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                               {% endif %}
                               {% if status.toUpperCase() === 'EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
 
@@ -933,6 +934,9 @@
               {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline. </p>
+                  {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                  <p>You can start supplier evaluation after downloading supplier responses. </p>
+                  {% endif %}
               {% else %}           
                   <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project. You will need to provide feedback and a score for each answer from each supplier, as well as an overall evaluation summary and score.</p>
                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline. It is good practice to capture all the scores for individual elements of the evaluation, as this will be used in feedback to suppliers.</p>
@@ -940,10 +944,17 @@
 
             {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
             <div class="govuk-button-group">
-              {{ CCSButton({
-                text: "Start supplier evaluation",
-                href:"/eventStateChange?StateChange=1"
-              }) }}
+              {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                  {{ CCSButton({
+                  text: "Start supplier evaluation",
+                  disabled: true
+                }) }}
+                {% else %}
+                {{ CCSButton({
+                  text: "Start supplier evaluation",
+                  href:"/eventStateChange?StateChange=1"
+                }) }}
+                {% endif %}
               <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             </div>
             {% endif %}

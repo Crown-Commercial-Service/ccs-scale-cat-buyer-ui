@@ -27,26 +27,20 @@
             {{data.title}}</strong>
         </h1>
         <div class="project-overview">
-          <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
-              {% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}
-    
-    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
-             Lot 4
-    {% else %}
-             , 
-        {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
-          Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
-        {% else %}
-            {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
-        {% endif %}
-
-    {% endif %} 
-    {% endif %} 
-
-        </strong>
-      </p>
-
+          {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} </p>
+           {% else %}
+            <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
+            {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
+              {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                Lot 4
+              {% else %}
+                ,{{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+              {% endif %} 
+            {% endif %} 
+            </strong>
+            </p>
+          {% endif %} 
 
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
           <p class="govuk-body">Project ID & Name: <strong>{{projectId+" & "+projectName }}</strong></p>
@@ -307,7 +301,12 @@
                                             {{ supplier.responseDate }}
                                           </td>
                                           <td class="govuk-text-align govuk-!-text-align-left">
+                                            {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
+                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
+                                            {%else%}
                                             <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                                            {%endif%}
+
                                           </td>
 
                                           {%endif%}
@@ -361,7 +360,11 @@
                                               {% if (showallDownload) %}
 
                                                 {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
+                                                  {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
+                                                     <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
+                                                    {% else%}
                                                   <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                                  {% endif %}
                                                 {% endif %}
 
                                               {% endif %}

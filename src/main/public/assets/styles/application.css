@@ -5027,6 +5027,12 @@ display: inline-block;
   opacity: 0.25;
   pointer-events: none;
 }
+.pageblur {
+  opacity: .25;
+  pointer-events: none;
+  overflow: hidden;
+  height: 100%;
+}
 .dm-attachment__thumbnail-image {
   display: block;
   width: auto;
