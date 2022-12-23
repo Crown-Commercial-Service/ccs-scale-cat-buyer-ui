@@ -8619,13 +8619,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-                console.log(`target: ${target}`)
-                console.log("Sibling",Sibling)
+                let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
                   console.log("1111")  
-                    let next_coll = Number(target);
-                    let nextLevel_coll = Number(target);
+                    
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -8675,7 +8674,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('eoi_question_' + target).value = "";
                        
                         if (prev_coll > 1) {
-                          document.querySelector('#fc_question_2' + removeLogic).classList.add("ccs-dynaform-hidden");
+                          document.querySelector('#fc_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                         }
                         document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                     }
@@ -8684,7 +8683,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('eoi_question_' + target).value = "";
                     
                     if (prev_coll > 1) {
-                      document.querySelector('#main_eoi_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                      document.querySelector('#main_eoi_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                     }
                     document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                 }
@@ -10840,7 +10839,8 @@ const ccsZCountRfiTerms = (event) => {
     }
     let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining2 of 500";
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -10865,7 +10865,8 @@ const ccsZCountRfiAcronyms = (event) => {
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining1 of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -11296,11 +11297,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
     if(question_length == 20){
-      document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
+      
+     // document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
     }
     let with_value_count = 20,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
+      document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
       //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
     for (var text_box_num = 20; text_box_num >= 1; text_box_num--) {
 
@@ -11321,6 +11324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this_box.classList.remove('ccs-dynaform-hidden');
 
         if (text_box_num === 20) {
+         
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -11336,7 +11340,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -11353,8 +11357,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         with_value_count++;
-        console.log("with_value_countadd>",with_value_count)
+      
         if (with_value_count === 21) {
+          
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
       }
@@ -11376,20 +11381,18 @@ document.addEventListener('DOMContentLoaded', () => {
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
          
-          console.log("target_fieldset",target_fieldset);
+         
            
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-               console.log("Sibling",Sibling);
+              
 
-               if(target != 20) {
+               if(target != 21) {
                    let ml = 1;
                    
                    let next_coll = Number(target);
                    let nextLevel_coll = Number(target);
-                   console.log("nextLevel_coll",nextLevel_coll);
-                   console.log("target",target);
-                   let current_col = nextLevel_coll;  
+                
                    
                    let eptArr = [];
                    while (Sibling) {
@@ -11441,7 +11444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                            }
        
-                           console.log(Sibling.classList);
+                        
                            Sibling = Sibling.nextElementSibling;
                        } else {
                            Sibling = false;
@@ -11470,9 +11473,9 @@ document.addEventListener('DOMContentLoaded', () => {
                        
                        
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('rfi_question_'+current_col).value="";
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -11482,6 +11485,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        if (prev_coll > 1) {
                         document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                        }
+                      
                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                    }
                } else {
@@ -11493,19 +11497,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("rfi_question_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('rfi_question_'+current_col).value="";
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
                        }
              
                    if (prev_coll > 1) {
                     document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                    }
+                   
                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
                with_value_count--;
                if (with_value_count != 11) {
-                
+             
                 document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
                }
            });
@@ -11669,7 +11674,8 @@ const ccsZCountRfiQuestions = (event) => {
     let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -13029,7 +13035,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -13112,18 +13117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
-         }
-         else{
-            removeErrorFieldsdates();
-            return true;
-          }
          }
          
          }
@@ -13148,18 +13141,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
-         }
-         else{
-            removeErrorFieldsdates();
-            return true;
-         }
          }
           }
          }
@@ -13187,7 +13168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // }else{
             //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
             // }
-            //  console.log('errorStore',errorStore)
             //  if(errorStore.length>0){
             //    ccsZPresentErrorSummary(errorStore);
             //    return false;
@@ -13198,64 +13178,24 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
-          
-         }
+            
         }
       }
-      else{
-
-         removeErrorFieldsdates();
-         return true;
       }
-      }
+   }
      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-      const DateCheck = (rfpDay,currentId) => {
+      const DateCheck = (rfpDay) => {
          let value = rfpDay;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
             if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
                removeErrorFieldsdates();
                }   
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_days_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            }
-            if(currentEID=='rfp_duration_days_Question13'){
-               yrValidation2 = validateExtPeriod();
-            }
-         }
+         
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
            let fieldCheck = "",
             errorStore = [];
@@ -13305,103 +13245,26 @@ document.addEventListener('DOMContentLoaded', () => {
         else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_days_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                  }
-               }else if(currentEID=='rfp_duration_days_Question13'){
-                  if(yrValidation2==1){
-                        $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                     }else if(yrValidation2==2){
-                        $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                     }else{
-                     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                     }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-               }
+            $(`.p_durations_${currentEventId}`).html('Enter a valid day');
          } else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
    }
    
-      const MonthCheck = (rfpMonth,currentId) => {
+      const MonthCheck = (rfpMonth) => {
          const value = rfpMonth;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
             if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
                removeErrorFieldsdates();
                }
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_months_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(DaysProjectRun>0 && YearProjectRun>0){
-               did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-              //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-               let currentdIdValue = $(`#${did}`);
-              //  let currentyIdValue = $(`#${yid}`);
-               DateCheck(currentdIdValue,did);
-              //  YearCheck(currentyIdValue,yid);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-                  yrValidation = true;
-            }
-         }
-         if(currentEID=='rfp_duration_months_Question13'){
-            const YearProjectRun2 = Number(durationYear[1].value);
-             const MonthProjectRun2 = Number(durationMonth[1].value);
-             const DaysProjectRun2 = Number(durationDay[1].value);
- 
-             if(DaysProjectRun2>0 && YearProjectRun2>0){
-                did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-                let currentdIdValue = $(`#${did}`);
-               //  let currentyIdValue = $(`#${yid}`);
-                DateCheck(currentdIdValue,did);
-               //  YearCheck(currentyIdValue,yid);
-             }
-            //  if(YearProjectRun2==4){
-            //     if(MonthProjectRun2>0 || DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2==3){
-            //     if(MonthProjectRun2==12 && DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2>4){
-            //        yrValidation2 = true;
-            //  }
-            yrValidation2 = validateExtPeriod();
-            }
-         }
+         
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             endmonthCheck = Number(value.val()) > 11;
             let fieldCheck = "",
@@ -13475,40 +13338,20 @@ document.addEventListener('DOMContentLoaded', () => {
          else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_months_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else if(currentEID=='rfp_duration_months_Question13'){
-               if(yrValidation2==1){
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }else if(yrValidation2==2){
-                  $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else{
-               $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               }
+            $(`.p_durations_${currentEventId}`).html('Enter a valid month');
          }
          else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
-   const YearCheck = (rfpYear,currentId) => {
+   const YearCheck = (rfpYear) => {
 
          let value = rfpYear;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
-         let endyearCheck = Number(value.val()) > 4;
+         // let endyearCheck = Number(value.val()) > 4;
          let startyearCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
          removeErrorFieldsdates();
          }
@@ -13516,88 +13359,15 @@ document.addEventListener('DOMContentLoaded', () => {
             removeErrorFieldsdates();
             }
          if(document.getElementById('agreementID').value === 'RM6187'){
-            if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration-years_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-
-            if(DaysProjectRun>0 || MonthProjectRun>0){
-            mid = document.getElementsByClassName('rfp_duration_month_25')[0].id;
-            did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-            let currentmIdValue = $(`#${mid}`);
-            let currentdIdValue = $(`#${did}`);
             
-            DateCheck(currentmIdValue,mid);
-            MonthCheck(currentdIdValue,did);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }
-            }
-            if(currentEID=='rfp_duration-years_Question13'){
-               const YearProjectRun2 = Number(durationYear[1].value);
-               const MonthProjectRun2 = Number(durationMonth[1].value);
-               const DaysProjectRun2 = Number(durationDay[1].value);
-   
-               if(DaysProjectRun2>0 || MonthProjectRun2>0){
-               mid = document.getElementsByClassName('rfp_duration_month_25')[1].id;
-               did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               let currentmIdValue = $(`#${mid}`);
-               let currentdIdValue = $(`#${did}`);
-              
-               DateCheck(currentmIdValue,mid);
-               MonthCheck(currentdIdValue,did);
-               }
-               // if(YearProjectRun2==4){
-               //    if(MonthProjectRun2>0 || DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2==3){
-               //    if(MonthProjectRun2==12 && DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }
-               yrValidation2 = validateExtPeriod();
-               }
-         }
-           if ((matchValue || endyearCheck || startyearCheck || yrValidation || yrValidation2) && value.val() != '') {
+           if ((matchValue || startyearCheck) && value.val() != '') {
                 $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               
-               if(currentEID=='rfp_duration-years_Question12'){
-                  if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else if(currentEID=='rfp_duration-years_Question13'){
-                  if(yrValidation2==1){
-                     $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                  }else if(yrValidation2==2){
-                     $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }
+               $(`.p_durations_${currentEventId}`).html('Enter a valid year');
             }
             else {
                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               document.getElementById(currentEID).classList.remove('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
@@ -13627,7 +13397,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
          }
          else{
-            if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
+            if ((matchValue || startyearCheck) && value.val() != '') {
                $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
@@ -13640,7 +13410,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          
       }
-   }
+   
 }
 });
 
@@ -13648,11 +13418,23 @@ function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For MCF3 message create
+$('.btn-sendmsg').on('click', (e) => {
+   e.preventDefault();
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
+                           
+   document.forms['ccs_message_create_form'].submit();
+});
+
+//
+
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
    if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+      let fieldCheck = "", errorStore = [];
+      ccsZPresentErrorSummary();
        if(checkResourceStartDate())
       {
          let isValid = isProjectStartDateValid();
@@ -13676,32 +13458,32 @@ $('.rfp_date').on('submit', (e) => {
             if(DaysProjectRun<0 || DaysProjectRun>31){
                yrValidation = true;
             }
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4  || YearProjectRun<0){
-               yrValidation = true;
-            }
+            
             if(yrValidation){
-               return;
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the valid project date", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck); 
+               if(errorStore.length>0){
+                  ccsZPresentErrorSummary(errorStore);
+                  return;
+                 }
             }
          }
 
          if(durationYear[1].value!='' || durationMonth[1].value!='' || durationDay[1].value!=''){
             yrValidation2 = validateExtPeriod();
             if(yrValidation2){
-               return;
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck); 
+               if(errorStore.length>0){
+                  ccsZPresentErrorSummary(errorStore);
+                  return;
+                 }
             }
          }
             
          }
 
-         if(isValid)
+         if (isValid)
          document.forms['rfp_date'].submit();
       }
    } else {
@@ -13732,7 +13514,6 @@ $('.rfp_date').on('submit', (e) => {
             let isValid;
             if(checkResourceStartDate())
             {
-
             isValid = isProjectStartDateValid();
             } //XBN00121
             if(isValid)
@@ -13766,7 +13547,7 @@ function checkResourceStartDate()
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       
       if(document.getElementById('agreementID').value === 'RM6187'){
-         removeErrorFieldsdates();
+         // removeErrorFieldsdates();
       }
 
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
@@ -13779,7 +13560,7 @@ function checkResourceStartDate()
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
-         let error_msg_new = 'Enter a valid date'
+         let error_msg_new = 'Enter a project start date'
          //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
          if (fieldCheck !== true){ 
@@ -13806,7 +13587,7 @@ function checkResourceStartDate()
 
             }
             else if(rfpResourceStartDay.val() =='') {
-            error_msg = 'Enter a day'
+            error_msg = 'Enter a Day'
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             rfpResourceStartYear.removeClass('govuk-form-group--error');
 
@@ -13858,7 +13639,7 @@ function checkResourceStartDate()
 
             }
             else if(rfpResourceStartMonth.val() =='') {
-               error_msg = 'Enter a month'
+               error_msg = 'Enter a Month'
                rfpResourceStartYear.removeClass('govuk-form-group--error');
             }
          }
@@ -13897,7 +13678,7 @@ function checkResourceStartDate()
          error_msg = 'Enter a valid year'
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
-            error_msg = 'Enter a year'
+            error_msg = 'Enter a Year'
          }
          flag =false;
          rfpResourceStartYear.addClass('govuk-form-group--error');
@@ -13923,7 +13704,7 @@ function checkResourceStartDate()
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter valid year", /^\d{4,}$/);
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
 
          if (fieldCheck !== true){
              errorStore.push(fieldCheck)
@@ -13952,16 +13733,18 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          $('.durations').removeClass('govuk-form-group--error');
          $('#event-name-error-date').html('')
-
+         
          if(!isValidDate(rfpResourceStartYear.val(),rfpResourceStartMonth.val(),rfpResourceStartDay.val()))
          {
             flag =false;
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a valid date'); 
             if (fieldCheck !== true){ 
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/,false);
                errorStore.push(fieldCheck)
             }else{
-                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+                 errorStore.push(fieldCheck)
             }
          }
          else 
@@ -14033,19 +13816,19 @@ function isProjectExtensionValid() {
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     console.log('month',month)
+
      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
+
       }
      }
      else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
       if(Number(year) < 2 && Number(month) > 0){
         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
+
       }
      }
      else{
@@ -14362,6 +14145,9 @@ function isProjectStartDateValid()
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
+
+            $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+            $('#rfp_resource_start_date-error').html('');
             ccsZPresentErrorSummary();
          }
                  
@@ -14371,7 +14157,7 @@ function isProjectStartDateValid()
       
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Enter a valid project start date');
+         $('.resource_start_date').html('Enter a project start date');
          return false;
       } 
       else if (startDate>new Date(2025,07,23)) {
@@ -14599,6 +14385,43 @@ let extensionRunInDays = 0;
             }
    }else{
       isValid = 2;
+   }
+   return isValid;
+}
+
+function validateStartDate() {
+   let isValid = '';
+   const Day = $('.rfp_resource_start_day');
+   const Month = $('.rfp_resource_start_month');
+   const Year = $('.rfp_resource_start_year');
+
+if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
+   
+   let rfpagreementData;
+   if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+            rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
+         }
+   if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
+                  const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+                  const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+                  const expiryMonth=expiryMonthTot-1;
+                  const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+
+                  const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+                  const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+                  const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
+
+                  const getTimeOfFormDate = FormDate.getTime();
+                  const todayDate = new Date();
+                  if (getTimeOfFormDate > getMSOfExpiryDate) {
+                     isValid = 'Start date cannot be after agreement expiry date';
+                  }
+                  
+                  if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) {
+                     isValid = 'Start date must be a valid future date';
+                  }
+      }
+
    }
    return isValid;
 }
@@ -15052,6 +14875,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
+        let textboxelementsorder2 = document.querySelectorAll('.order_2');
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -15081,6 +14906,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 removeErrorFieldsRfpScoreQuestion();
             });
         });
+        textboxelementsorder2.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
@@ -15105,23 +14935,23 @@ document.addEventListener('DOMContentLoaded', () => {
             db.classList.add('ccs-dynaform-hidden')
             
             db.addEventListener('click', (e) => {
-            console.log("0")
+            
                 e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
          
-          console.log("target_fieldset",target_fieldset);
+        
            
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-               console.log("Sibling",Sibling);
-
+              
+               let next_coll = Number(target);
+               let nextLevel_coll = Number(target);
                if(target != 20) {
                    let ml = 1;
                    
-                   let next_coll = Number(target);
-                   let nextLevel_coll = Number(target);
+                   
                    let eptArr = [];
                    while (Sibling) {
 
@@ -15132,7 +14962,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                let first;
                                let last;
                                let percentage;
@@ -15169,7 +14998,6 @@ document.addEventListener('DOMContentLoaded', () => {
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -15207,16 +15035,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                            }
        
-                           console.log(Sibling.classList);
+                           
                            Sibling = Sibling.nextElementSibling;
                        } else {
                            Sibling = false;
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
                        if(fc_question_precenate_fir){
@@ -15245,22 +15071,22 @@ document.addEventListener('DOMContentLoaded', () => {
                    
                        target_fieldset.classList.add("ccs-dynaform-hidden");
                        
-                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
                        }
-                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
                        }
-                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
                        }
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -15279,22 +15105,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
 
-                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
                        }
-                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
                        }
-                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
                        }
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
                        }
              
                    if (prev_coll > 1) {
@@ -15303,7 +15129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
                with_value_count--;
-               if (with_value_count != 11) {
+               if (with_value_count != 21) {
                 
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
@@ -15421,11 +15247,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
-            
+           
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
-                console.log("ORDER1")
+               
                 this_box.classList.remove('ccs-dynaform-hidden');
-                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+               
+                if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
+                    
+                    document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                }
+
+                
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -15437,9 +15269,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
-                console.log("ORDER23")
-                console.log("this_box",this_box)
-                document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){
+                  
+                    document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");  
+                }else{
+                  
+                    document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                }
+                
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -15475,6 +15313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            totalPercentage();
 
             errorStore = [];
             let textboxCount =  0;
@@ -15483,12 +15322,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-             
-             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
-             }
+           
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+               $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -15675,7 +15511,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19')){
+            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19') || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                removeErrorFieldsRfpScoreQuestion();
                 for (var i = 1; i < withValue; i++) {
                     const divElem = document.querySelector('#fc_question_' + i);
                     const inputElements = divElem.querySelectorAll("textarea");
@@ -15688,7 +15525,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     let error = ccsZvalidateWithRegex(element.id, "You must add information in all fields.", /^.+$/);
                                     errorStore.push(error);
                             }
+
                             if (textboxCount == 19) {
+
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
                         }
@@ -15723,9 +15562,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
 
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
-                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
+                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0)){
+                                if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    errorStore.push(fieldCheck)
+                                }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
+                                }
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
                             }
@@ -15945,7 +15789,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let term_field = document.getElementById('fc_question_1_' + x);
             let definition_field = document.getElementById("fc_question_precenate_" + x);
     
-            if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+            if (term_field != null && term_field.value !== undefined && definition_field !== null && definition_field !== undefined) {
                 
                 if(type == 'addmore'){
                     const field1 = countWords1(term_field.value) > 50;
@@ -16105,9 +15949,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                             if(percentageCheck){
-                                console.log('************1');
-                                console.log(percentageCheck);
+                                if(urlParams.get('agreement_id') == 'RM1043.8'){
+                                    errorStore.push(ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/));
+                                }else{
                                 errorStore.push(percentageCheck);
+                            }
                             }
                         }
 
@@ -16353,7 +16199,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     // }
 
+                    if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4'){
+                        if (Number($('#totalPercentage').text()) < 100) {
+                            errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
+                            }
+                    }
+
                 }
+
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
                 if (errorStore.length === 0) {
                     const classList = document.getElementsByClassName("govuk-hint-error-message");
@@ -16857,7 +16710,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
               }
             }
-          }else{
+          }else if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1557.13'){ 
+            rowsAndHead.rows.reverse();
+              for (let i = 0; i < rowsAndHead.rows.length; i++) {
+              if (i !== 5) {
+               const ii = i + 1;
+               var elements = document.getElementsByClassName("score_criteria_" + ii);
+                elements[0].classList.remove("ccs-dynaform-hidden");
+                document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+                document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                document.getElementById("rfp_score_criteria_name_" + ii).focus();
+              }
+              if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              } else {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+              }
+            }
+          }
+          else{
             for (let i = 0; i < rowsAndHead.rows.length; i++) {
               if (i !== 0) {
                 //const ii = i + 1;
@@ -17482,6 +17355,10 @@ const  deletePost = (url) => {
       window.location.href = window.location.origin+url;
   }
 }
+
+$("input[name='score_criteria_points']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
 let rfp_security_confirmation = null;
 
 document.addEventListener('DOMContentLoaded', () => {  
@@ -17650,6 +17527,12 @@ rfp_term_definition_new.forEach(ele => {
 ccs_vetting.forEach(ele => {
   ele.addEventListener('click', (event) => {
     removeErrorFieldsRfpSelect();
+  });
+});
+let removeErrRfi = document.querySelectorAll('.removeErr');
+removeErrRfi.forEach(ele => {
+  ele.addEventListener('keydown', (event) => {
+    ccsZremoveErrorMessage();
   });
 });
 // $("#rfp_security_confirmation").keypress(function(e) {
@@ -19185,35 +19068,50 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if(cl.value === "No specific location, for example they can work remotely") {
         noLocationtagideoi = cl.id;
-        console.log('va from rfi onload>>>>',noLocationtagideoi);
+       
+      }
+      if(cl.value === "Overseas") {
+        overSeesid = cl.id;
+        // console.log('va from rfi onload>>>>',noLocationtagid);
       }
       
     })
+
+    let allCheckboxOverSees = document.getElementById(overSeesid);
     let allCheckbox = document.getElementById(noLocationtagideoi),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+        if (cb.value != allCheckbox.value && cb.value != allCheckboxOverSees.value) {
+         
+          //cb.disabled = true;
+        }
+        
 
       });
     }
 
     document.getElementById(noLocationtagideoi).addEventListener('change', () => {
+      let alloverSeesid = document.getElementById(overSeesid);
       let allCb = document.getElementById(noLocationtagideoi),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
         // console.log('va from eoi>>>>');
       locationCheckboxes.forEach((cb) => {
 
-        if (allCb.checked && cb.value != allCb.value) {
-          cb.checked = false;
-          cb.disabled = true;
+        if (allCb.checked && cb.value != allCb.value && cb.value != alloverSeesid.value) {
+          // cb.checked = false;
+          // cb.disabled = true;
         }
 
         if (!allCb.checked && cb.value != allCb.value) {
-          cb.disabled = false;
+          //cb.disabled = false;
         }
+
+        if (!allCb.checked && cb.value != alloverSeesid.value) {
+          // cb.disabled = false;
+         }
 
       });
 
@@ -19409,32 +19307,49 @@ document.addEventListener('DOMContentLoaded', () => {
         noLocationtagid = cl.id;
         // console.log('va from rfi onload>>>>',noLocationtagid);
       }
+      if(cl.value === "Overseas") {
+        overSeesid = cl.id;
+        // console.log('va from rfi onload>>>>',noLocationtagid);
+      }
       
+
     })
+   
+    let allCheckboxOverSees = document.getElementById(overSeesid);
+
     let allCheckbox = document.getElementById(noLocationtagid),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
-
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+        if (cb.value != allCheckbox.value && cb.value != allCheckboxOverSees.value) {
+         // cb.disabled = true;
+        }
+        
 
       });
     }
 
     document.getElementById(noLocationtagid).addEventListener('change', () => {
+      let alloverSeesid = document.getElementById(overSeesid);
+
       let allCb = document.getElementById(noLocationtagid),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
       // console.log('va from rfi>>>>');
       locationCheckboxes.forEach((cb) => {
 
-        if (allCb.checked && cb.value != allCb.value) {
-          cb.checked = false;
-          cb.disabled = true;
+        if (allCb.checked && cb.value != allCb.value && cb.value != alloverSeesid.value) {
+    
+        //    cb.checked = false;
+        //  cb.disabled = true;
         }
 
         if (!allCb.checked && cb.value != allCb.value) {
-          cb.disabled = false;
+          //cb.disabled = false;
+        }
+
+        if (!allCb.checked && cb.value != alloverSeesid.value) {
+          //cb.disabled = false;
         }
 
       });
@@ -19473,13 +19388,18 @@ const ccsZCountRfiProjectName = (event) => {
   //   let count=250-element.value.length;
   //   labelElement.innerText=count + " remaining of 250";
 };
+var urlParamsDefault = new URLSearchParams(window.location.search);
 const ccsZvalidateRfiProject = (event) => {
   event.preventDefault();
-
+  
   let fieldCheck = "",
     errorStore = [];
-
-  fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
+    if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your project");
+    }else{
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
+    }
+  
   if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_about_proj"].submit();
@@ -19497,7 +19417,11 @@ const ccsZCountRfiProject = (event) => {
     let labelElement=document.getElementById("rfi_label_prob_statement");
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+      labelElement.innerText="You have "+count+" characters remaining";
+    }else{
+      labelElement.innerText=count + " remaining of "+maxlength;
+    }
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -19671,13 +19595,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let allCheckbox = document.getElementById(noLocationtagid),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
-    if (allCheckbox.checked) {
-      locationCheckboxes.forEach((cb) => {
+    // if (allCheckbox.checked) {
+    //   locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+    //     if (cb.value != allCheckbox.value) cb.disabled = true;
 
-      });
-    }
+    //   });
+    // }
   }
 
 
@@ -19843,13 +19767,13 @@ console.log("group_id",group_id);
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
           errMsg = "Select the locations where staff will work";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
-          errMsg = "Select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
           errMsg = "Select the needed security levels or “No security clearance needed”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
-          errMsg = "Select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
-          errMsg = "You must select at least one region where the research will be taking place, or  “International (outside the UK)”";
+          errMsg = "You must select at least one region where the research will be taking place";
         }
         else {
           errMsg=" Please select the checkbox.";
@@ -20099,17 +20023,11 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter your information and requirements');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add Management information and reporting requirements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
@@ -20126,6 +20044,14 @@ const ccsZvalidateRfPStrategy = event => {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
+  }
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
@@ -21786,6 +21712,56 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
      
     })
+
+
+    document.querySelectorAll(".download").forEach(function(event) {
+      event.addEventListener('click', function(event) {   
+        var $this = $(this);
+        var url=$this.attr('data-url');
+        $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            xhrFields: {
+                responseType: 'blob' // to avoid binary data being mangled on charset conversion
+            },
+        success: function(blob, status, xhr) {
+            // check for a filename
+            var filename = "";
+            var disposition = xhr.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+            }
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+                if (filename) {
+                    // use HTML5 a[download] attribute to specify filename
+                    var a = document.createElement("a");
+                    // safari doesn't support this yet
+                    if (typeof a.download === 'undefined') {
+                        window.location.href = downloadUrl;
+                    } else {
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                } else {
+                    window.location.href = downloadUrl;
+                }
+    
+                setTimeout(function () { URL.revokeObjectURL(downloadUrl);location.reload(); }, 1000); // cleanup
+            }
+        }
+          });
+       })
+  });
 
 
 
