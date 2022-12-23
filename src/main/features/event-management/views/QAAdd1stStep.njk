@@ -60,7 +60,7 @@
           <p class="govuk-no-margin-5bottom"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
         
         <div class="project-overview">
-  <p class="govuk-no-margin-5bottom">Selected agreement: 
+  {# <p class="govuk-no-margin-5bottom">Selected agreement: 
    {%if agreement_header !=undefined and agreement_header !=null %}
     {{ agreement_header['agreementName'] }}
     {%endif%}
@@ -83,7 +83,8 @@
   
    
     
-  <p></p>
+  <p></p> #}
+  {% include "includes/project_header.njk" %}
 </div>
       </div>
     </div>

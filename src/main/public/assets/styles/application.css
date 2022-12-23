@@ -4634,6 +4634,11 @@ p + .govuk-heading-s,
   background-color: #ffffff;
 }
 
+.govuk-details[open] > .govuk-details__summary.govuk-details__summary_msgthread:not(:first-child)::before {
+  border: 0;
+}
+
+
 .tasklisttag {
     background: #F7D7E6;
     text-align: center;

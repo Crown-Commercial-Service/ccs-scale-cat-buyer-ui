@@ -72,7 +72,7 @@
         </p>
         <div class="project-overview">
         <p class="govuk-no-margin-5bottom"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
-  <p class="govuk-no-margin-5bottom">Selected agreement: 
+  {# <p class="govuk-no-margin-5bottom">Selected agreement: 
    {%if agreement_header !=undefined and agreement_header !=null %}
     {{ agreement_header['agreementName'] }}
     {%endif%}
@@ -95,7 +95,8 @@
   
    
     
-  <p></p>
+  <p></p> #}
+  {% include "includes/project_header.njk" %}
 </div>
       </div>
     </div>
@@ -109,7 +110,7 @@
                          <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href4}}?type=create">{{data.tabs.text4}}</a>
                         </li>
-                        {% if agreementId != 'RM1043.8' %}
+                        {% if agreementId != 'RM1043.8' and agreementId != 'RM1557.13'%}
                         <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                         </li>
