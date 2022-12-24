@@ -259,6 +259,8 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Choose if this is a new, replacement or expanded service.']]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
@@ -268,6 +270,8 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
