@@ -291,7 +291,7 @@
         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
             {% if (agreementId_session == 'RM1557.13') %}
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_gcloud}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}
             {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
             {% endif %}
@@ -935,7 +935,9 @@
                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline. </p>
                   {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
-                  <p>You can start supplier evaluation after downloading supplier responses. </p>
+                      {% if agreementId_session != "RM1557.13" %}
+                          <p>You can start supplier evaluation after downloading supplier responses. </p>
+                      {% endif %}    
                   {% endif %}
               {% else %}           
                   <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project. You will need to provide feedback and a score for each answer from each supplier, as well as an overall evaluation summary and score.</p>
