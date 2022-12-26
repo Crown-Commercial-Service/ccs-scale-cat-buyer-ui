@@ -342,7 +342,8 @@ const emptyFieldCheckdos = (type) => {
                             fieldCheck = [term_field.id, fieldMsg];
                             ccsZaddErrorMessage(term_field, fieldMsg);
                             errorStore.push(fieldCheck);
-                        } else if (definition_field.value.trim() === '') {
+                        }
+                        if (definition_field.value.trim() === '') {
                             fieldCheck = [definition_field.id, descMsg];
                             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
                             ccsZaddErrorMessage(definition_field, descMsg);
