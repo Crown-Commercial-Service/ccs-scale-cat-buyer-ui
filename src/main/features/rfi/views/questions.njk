@@ -191,7 +191,7 @@
                 {% endif %}
 
               {% endif %}
-{% if agreement_id == "RM1557.13" %}
+{% if agreement_id == "RM1557.13"  %}
 {{  CCSCharacterCount({
                     id: "rfi_question_"+i,
                     name: "rfi_question_"+i,
@@ -205,18 +205,18 @@
                     rows:"5"
                   }) }}
               {%else%}
-{{ CCSInput({
+{{  CCSCharacterCount({
+                    id: "rfi_question_"+i,
+                    name: "rfi_question_"+i,
+                    value: requirement.nonOCDS.options[i-1].value,
                     label: {
                       html: t,
                       classes: "govuk-label"
                     },
-                    id: "rfi_question_"+i,
-                    name: "rfi_question_"+i,
-                    classes: "add",
-                    value: requirement.nonOCDS.options[i-1].value,
-                    maxlength:"500"
-                  })
-              }}
+                    maxlength:"500",
+                    classes: "rfpterm add removeErr",
+                    rows:"5"
+                  }) }}
 
 {% endif %}
               
@@ -294,8 +294,10 @@
         {% block TextSelect%}
           {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
           {% set maxlength = '5000' %}
+           {% set className = 'removeErr messagesendcount' %}
 {% if agreement_id == "RM1557.13" %}
 {% set maxlength = '10000' %}
+ {% set className = 'removeErr rfp_term_definition' %}
 {% endif %}
 {{ CCSCharacterCount({
                               label: {
@@ -304,7 +306,7 @@
                                 },
                               id: "rfi_prob_statement",
                               name: "rfi_prob_statement",
-                              classes: "removeErr",
+                              classes: className,
                               value: requirement.nonOCDS.options[0].value,
                               maxlength: maxlength,
                               rows:"5"
