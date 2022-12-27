@@ -23,16 +23,17 @@ export class LoggTracer {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
   
   const LogMessage = { 
-      "environment": "develop",
-      "logType": "error",
-      "api": errorLog?.exception?.config?.url,
-      "method":errorLog?.exception?.config?.method,
-      "body": errorLog?.exception?.config.data,
-      "StartTime": "null",
-      "EndTime": "null",
-      "others":{
-        AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
-      }
+    "environment": "null",
+    "logType": "error",
+    "baseUrl":errorLog?.exception?.config?.baseURL,
+    "api": errorLog?.exception?.config?.url,
+    "method":errorLog?.exception?.config?.method,
+    "body": JSON.parse(errorLog?.exception?.config?.data),
+    "startTime": errorLog?.exception?.config?.metadata?.startTime,
+    "endTime": errorLog?.exception?.config?.metadata?.endTime,
+    "others":{
+      AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
+    }
       
     };
    
@@ -51,9 +52,23 @@ export class LoggTracer {
    * @param errorLog
    */
   static errorTracerWithoutRedirect = async (errorLog: any): Promise<void> => {
+    // const LogMessage = { 
+    //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
+    //  };
     const LogMessage = { 
-      AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
-     };
+      "environment": "null",
+      "logType": "error",
+      "baseUrl":errorLog?.exception?.config?.baseURL,
+      "api": errorLog?.exception?.config?.url,
+      "method":errorLog?.exception?.config?.method,
+      "body": JSON.parse(errorLog?.exception?.config?.data),
+      "startTime": errorLog?.exception?.config?.metadata?.startTime,
+      "endTime": errorLog?.exception?.config?.metadata?.endTime,
+      "others":{
+        AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
+      }
+      
+    };
     await LoggerInstance.Instance.post('', LogMessage);
   };
 
