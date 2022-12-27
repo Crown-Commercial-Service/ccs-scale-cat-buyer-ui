@@ -257,7 +257,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_month = clarification_date_month - 1;
 
   let basebankURL = `/bank-holidays.json`;
-  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
 
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {

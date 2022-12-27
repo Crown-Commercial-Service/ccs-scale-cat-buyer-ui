@@ -40,7 +40,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
         
-        if(agreementId == 'RM1043.8'){
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13' ){
             res.locals.agreement_header = req.session.agreement_header
             switch (req.session.eventManagement_eventType) {
                 case 'EOI':
@@ -117,7 +117,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
         const messageReply: MessageReply = draftMessage.data
         if (validationError) {
 
-            if(agreementId == 'RM1043.8') {
+            if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') {
                 res.locals.agreement_header = req.session.agreement_header
                 switch (req.session.eventManagement_eventType) {
                     case 'EOI':

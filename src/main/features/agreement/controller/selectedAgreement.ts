@@ -24,7 +24,7 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
         req.session.agreementLotName =agreementLotName;
     }else{
       const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`;
-      const { data: retrieveAgreementLot } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+      const { data: retrieveAgreementLot } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
       req.session.agreementLotName = retrieveAgreementLot.name;
       lotRelatedName = retrieveAgreementLot.name;
     }

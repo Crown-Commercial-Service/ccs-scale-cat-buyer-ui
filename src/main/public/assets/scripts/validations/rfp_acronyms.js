@@ -1,4 +1,4 @@
-const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+const countWords1 = (str) => { return  str ? str.trim().split(/\s+/).length : false };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -281,12 +281,17 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
+    $(".govuk-select").removeClass("govuk-select--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error1');
 
 }
 let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+let subjecterror = document.querySelectorAll('#create_subject_input');
+let classification_input = document.querySelectorAll('#create_message');
+let supplier_error = document.querySelectorAll('#create_supplier_message');
 let removeErr = document.querySelectorAll('.removeErr');
 let removeErrCheckbox = document.querySelectorAll('.removeErrCheckbox');
 removeErr.forEach(ele => {
@@ -296,6 +301,21 @@ removeErr.forEach(ele => {
 });
 removeErrCheckbox.forEach(ele => {
     ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+classification_input.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+supplier_error.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+subjecterror.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
         removeErrorFieldsRfp1();
     });
 });
@@ -342,7 +362,8 @@ const emptyFieldCheckdos = (type) => {
                             fieldCheck = [term_field.id, fieldMsg];
                             ccsZaddErrorMessage(term_field, fieldMsg);
                             errorStore.push(fieldCheck);
-                        } else if (definition_field.value.trim() === '') {
+                        }
+                        if (definition_field.value.trim() === '') {
                             fieldCheck = [definition_field.id, descMsg];
                             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
                             ccsZaddErrorMessage(definition_field, descMsg);
