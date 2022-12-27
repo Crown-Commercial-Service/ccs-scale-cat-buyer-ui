@@ -293,7 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
                totalAnswerd();
                totalPercentage();
                if (with_value_count != 21) {
-                
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
            });
@@ -476,8 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            console.log("working");
             totalPercentage();
-
             errorStore = [];
             let textboxCount =  0;
             if($('.order_1').length > 0){
@@ -493,14 +492,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
 
-
-           
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
                 
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
+            
+            let percentageval = $('#fc_question_precenate_'+textboxCount).val();
 
-            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && percentageval != 0){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
@@ -728,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0)){
-                                if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
                                     var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
                                     errorStore.push(fieldCheck)
                                 }else{
@@ -803,7 +802,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 with_value_count++;
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44))) {
                  if (with_value_count == withValue) {
-                    // $('.add-another-btn').addClass('ccs-dynaform-hidden');
+                    $('.add-another-btn').addClass('ccs-dynaform-hidden');
                     errorStore.push(["There is a problem", "Cannot add another question already "+ with_value_count +" questions created"]);
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
