@@ -205,13 +205,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  
+
   const emptyObjectiveFieldCheck = () => {
+    var words = ['','first ','second ','third ','fourth ', 'fifth ','sixth','seventh ','eighth ','nineth ','tenth'];
+
     let fieldCheck = "",
       errorStore = [];
 
     let errorText = '';
     if ($("#page-heading").text().includes("Project scope")) {
-      errorText = "You must type at least one project scope before you can add another"
+      errorText = "You must type first project scope before you can add another"
     } else {
       errorText = "You must type an objective before you can add another objective"
     }
@@ -219,6 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+        if ($("#page-heading").text().includes("Project scope")) {
+          errorText = `You must type ${words[i]} project scope before you can add another`;
+        }
         fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, errorText, /\w+/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }

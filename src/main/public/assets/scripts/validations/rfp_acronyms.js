@@ -1,4 +1,4 @@
-const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+const countWords1 = (str) => { return  str ? str.trim().split(/\s+/).length : false };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
