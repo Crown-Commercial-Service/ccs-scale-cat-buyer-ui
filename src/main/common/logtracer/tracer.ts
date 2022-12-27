@@ -29,9 +29,9 @@ export class LoggTracer {
     "api": errorLog?.exception?.config?.url,
     "method":errorLog?.exception?.config?.method,
     "body": JSON.parse(errorLog?.exception?.config?.data),
-    "startTime": errorLog?.exception?.config?.metadata?.startTime,
-    "endTime": errorLog?.exception?.config?.metadata?.endTime,
-    "duration":errorLog?.exception?.duration,
+    "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
+    "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
+    "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
     "others":{
       AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
     }
@@ -64,9 +64,9 @@ export class LoggTracer {
       "api": errorLog?.exception?.config?.url,
       "method":errorLog?.exception?.config?.method,
       "body": JSON.parse(errorLog?.exception?.config?.data),
-      "startTime": errorLog?.exception?.config?.metadata?.startTime,
-      "endTime": errorLog?.exception?.config?.metadata?.endTime,
-      "duration":errorLog?.exception?.duration,
+      "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
+    "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
+    "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
       "others":{
         AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
       }
