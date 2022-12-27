@@ -206,11 +206,11 @@
                 {{data.subsection4_title4}}</h2>
             </br>
           </br>
-
+{% if agreementId_session != "RM1557.13" %}
           <h1 class="govuk-heading-s">
             <strong> Result of award</strong>
           </h1>
-
+{% endif %}
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -437,7 +437,11 @@
 <div class="govuk-grid-column-full">
 
 {% if status.toLowerCase() =="complete"%}
-<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+<div class="govuk-button-group">
+<div class="govuk-!-margin-top-6">
+&nbsp; &nbsp;&nbsp; &nbsp;<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+</div>
+</div>
 {% else %}
 {% if status.toUpperCase() =="AWARDED"%}
 {{ CCSWarningText({
