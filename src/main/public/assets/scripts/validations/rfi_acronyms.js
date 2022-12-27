@@ -25,14 +25,14 @@ const buttonTermsHidden = () => {
 
 let rfi_term_def = document.querySelectorAll('.rfitermdef');
 rfi_term_def.forEach(ele => {
-  ele.addEventListener('keydown', (event) => {
-    removeErrorFields();
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
   });
 }); 
 let rfitermtext = document.querySelectorAll('.rfitermtext');
 rfitermtext.forEach(ele => {
-  ele.addEventListener('keydown', (event) => {
-    removeErrorFields();
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
   });
 });
 const urlParams = new URLSearchParams(window.location.search);
@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           for (var k=1;k<=total_count;k++)
           {
-            document.getElementById("rfi_label_term_"+k).innerText="";
-            document.getElementById("rfi_label_acronym_"+k).innerText="";
+            // document.getElementById("rfi_label_term_"+k).innerText="";
+            // document.getElementById("rfi_label_acronym_"+k).innerText="";
           }
           for (var i=target;i<total_count_index;i++){
             var j=Number(i)+1;
@@ -154,20 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
            {
             document.getElementById('rfi_term_' + i).value=document.getElementById('rfi_term_' + j).value;
             document.getElementById('rfi_term_definition_' + i).value=document.getElementById('rfi_term_definition_' + j).value;
-            document.getElementById("rfi_label_term_"+i).innerText="";
-            document.getElementById("rfi_label_acronym_"+i).innerText="";
+            // document.getElementById("rfi_label_term_"+i).innerText="";
+            // document.getElementById("rfi_label_acronym_"+i).innerText="";
           }
            else
            {
              target=i;
-             document.getElementById("rfi_label_acronym_"+i).innerText="";
+            //  document.getElementById("rfi_label_acronym_"+i).innerText="";
              break;
            }
           }
           else
         {
           target=i;
-           document.getElementById("rfi_label_acronym_"+i).innerText="";
+          //  document.getElementById("rfi_label_acronym_"+i).innerText="";
            break;
         }
           }
@@ -300,7 +300,23 @@ const removeErrorFields = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+$('.rfi_term_definition').keyup(function(e) {
+  var tlength = $(this).val().length;
+  $(this).val($(this).val().substring(0, maxchars));
+  var tlength = $(this).val().length;
+  remain = maxchars - parseInt(tlength);
+  $(this).text(remain);
 
+});
+$(".rfi_term_definition").keypress(function(e) {
+  var maxLen = $(this).val().length;
+  var keyCode = e.which;
+
+  if (maxLen >= 10000 && (keyCode != 8) && (keyCode < 48 || keyCode > 57)) {
+      return false;
+  }
+
+});
 
     
 const emptyFieldCheck = (add_more='') => {
@@ -313,22 +329,24 @@ const emptyFieldCheck = (add_more='') => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
-        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
+        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must enter the definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must enter the definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
+        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym.'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must enter the term or acronym.');
-        fieldCheck = [term_field.id, 'You must enter the term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
+        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
         errorStore.push(fieldCheck);
       }
     }
@@ -346,8 +364,8 @@ const ccsZCountRfiTerms = (event) => {
   // {
     for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_term_"+i).innerText="";
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
     let count=500-element.value.length;
@@ -371,8 +389,8 @@ const ccsZCountRfiAcronyms = (event) => {
   // {
     for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
-      document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");

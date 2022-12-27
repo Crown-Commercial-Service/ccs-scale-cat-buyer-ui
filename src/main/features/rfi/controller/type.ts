@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiType.json'
+import * as MCFcmsData from '../../../resources/content/MCF3/RFI/rfiType.json'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { RFI_PATHS } from '../model/rficonstant'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -10,11 +11,16 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 // RFI TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
-   const { agreement_id } = req.query;
+   // const { agreement_id } = req.query;
+   const { agreement_id } = req.session;
    const ccs_rfi_type = req.session.ccs_rfi_type
    const agreementId_session = req.session.agreement_id;
    const releatedContent = req.session.releatedContent
-   const windowAppendData = { data: cmsData, agreement_id: agreement_id,agreementId_session, releatedContent,ccs_rfi_type }
+   let fetchCmsData = cmsData;
+   if(agreement_id == 'RM1557.13') {
+      fetchCmsData = MCFcmsData;
+   }
+   const windowAppendData = { data: fetchCmsData, agreement_id: agreement_id,agreementId_session, releatedContent,ccs_rfi_type }
    res.render('type', windowAppendData);
 }
 

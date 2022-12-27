@@ -73,7 +73,7 @@
                 },
                 {
                     "Task": 3,
-                    "title": "Your RfI timeline",
+                    "title": "Set your RfI timeline",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfi/response-date"
