@@ -65,7 +65,7 @@
 </p>
 {% endset %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -133,6 +133,11 @@
                         {% endif %}
                     </h3>
                     {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+                    </p>
+                    {% endif %}
+                    {% if agreementId == 'RM1557.13' %} 
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
                     </p>
