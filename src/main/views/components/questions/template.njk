@@ -965,12 +965,17 @@
                       </div>
                   {% endif %}
               {% elseif(requirement.OCDS.title === 'Social value criteria') %}
-              <div>
-                {{ CCSInsetText({
-                      text: "<b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> " | safe
-                    }) }}
-
-              </div>
+                    {% if (agreement_id == 'RM1557.13') %}
+                        <div class="govuk-inset-text">
+                            <p> <b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> </p>
+                        </div>
+                    {% else %}
+                        <div>
+                            {{ CCSInsetText({
+                                text: "<b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> " | safe
+                            }) }}
+                        </div>
+                    {% endif %}
               {%endif%}
               {{  CCSInput({
                         id: "question_id",
