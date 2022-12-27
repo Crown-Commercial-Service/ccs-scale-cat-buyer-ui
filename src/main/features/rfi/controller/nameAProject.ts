@@ -67,8 +67,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
   try {
     if (name) {
       const _body = {
-        sdsd:"sdf",
-        nameassa: name
+        name: name,
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
