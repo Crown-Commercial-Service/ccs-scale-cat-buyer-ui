@@ -63,7 +63,12 @@
      {% endif %}
   {% else %}
     <p>
-      {{data.subtitle}}<br>
+       
+          {% if agreementId_session ==='RM1557.13' %}
+              {{data.subtitle_gcloud}}
+          {% else %}   
+              {{data.subtitle}}<br>
+          {% endif %}
        {% if (status!="CLOSED") %}
       <br>
       {{data.subtitle1}}
@@ -316,7 +321,7 @@
                     <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
                 {% endif %}
             {% if (projectStatus==2) %}
-                {% if agreementId_session == 'RM6187' %}
+                {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                     <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                 {% else %}
                     <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
@@ -450,7 +455,7 @@
                               {% endif %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
-                                  {% if agreementId_session != 'RM6187' %}
+                                  {% if (agreementId_session != 'RM6187') and (agreementId_session != 'RM1557.13') %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
                                   {% else %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}} (%)</th>
@@ -907,7 +912,7 @@
           </form>
 
           {% elseif status.toUpperCase() == 'EVALUATED' and (agreementId_session ==='RM6187' or  agreementId_session == 'RM1557.13')  %}
-              {% if agreementId_session == 'RM1557.13' %}
+              {% if (agreementId_session != 'RM1557.13') and (agreementId_session != 'RM6187') %}
                     <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">5.</span> Evaluate Suppliers</h2>
                     <p>You have completed your supplier evaluation.</p>
               {% else %}
