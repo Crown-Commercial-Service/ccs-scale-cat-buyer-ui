@@ -71,7 +71,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if(agreementId_session == 'RM1557.13' && lotId=='All') {
       types='';
     }else{
-      const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
+      const { data: typesRaw } = await AgreementAPI.Instance(null).get(eventTypesURL);
       types = typesRaw.map((typeRaw: any) => typeRaw.type);
     }
     appendData = { types,lotId, ...appendData };

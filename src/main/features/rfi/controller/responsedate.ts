@@ -215,7 +215,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_hour = Number(clarification_date_hour);
 
   let basebankURL = `/bank-holidays.json`;
-  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
 
   if (clarification_date_day == 0 || isNaN(clarification_date_day) || clarification_date_month == 0 || isNaN(clarification_date_month) || clarification_date_year == 0 || isNaN(clarification_date_year)) {
     const errorItem = {

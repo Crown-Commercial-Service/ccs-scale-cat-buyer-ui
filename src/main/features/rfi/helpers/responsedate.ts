@@ -13,7 +13,7 @@ import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayser
 
 const momentCssHolidays = async () => {
   let basebankURL = `/bank-holidays.json`;
-  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
   bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
   let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;

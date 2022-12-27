@@ -34,17 +34,17 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
       // POST MVP this base URL needs to be changed to GET /agreements to retrieve active agreements applicable for the CAS
       const BaseURL = `agreements/${agreement}`
       const LotBaseURL = `agreements/${agreement}/lots`
-      const retrieveAgreementPromise = await AgreementAPI.Instance.get(BaseURL);
+      const retrieveAgreementPromise = await AgreementAPI.Instance(null).get(BaseURL);
       logger.info("Feached agreement details from Agreement service API")
       draftAgreementDetails[i] = retrieveAgreementPromise?.data
-      const retrieveLotPromise = await AgreementAPI.Instance.get(LotBaseURL);
+      const retrieveLotPromise = await AgreementAPI.Instance(null).get(LotBaseURL);
       logger.info("Feached Lot details from Agreement service API")
 
       const draft: LotDetail[] = retrieveLotPromise?.data
       // getting supplier count for the lot
       for (const lot of draft) {
         const BaseUrlAgreementSuppliers = `/agreements/${agreement}/lots/${lot.number}/suppliers`
-        const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers)
+        const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance(null).get(BaseUrlAgreementSuppliers)
         lot.suppliers = retrieveAgreementSuppliers.length + " suppliers"
       }
 

@@ -47,7 +47,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
 
       //agreements/{agreement-id}/lots/{lot-id}/suppliers
       const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-      const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+      const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
       
 
       let documentTemplateDataList: DocumentTemplate[] = [];
