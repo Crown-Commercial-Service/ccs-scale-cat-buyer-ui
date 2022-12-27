@@ -21,7 +21,7 @@ export class LoggTracer {
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
-  
+ 
   const LogMessage = { 
     "environment": "null",
     "logType": "error",
@@ -31,6 +31,7 @@ export class LoggTracer {
     "body": JSON.parse(errorLog?.exception?.config?.data),
     "startTime": errorLog?.exception?.config?.metadata?.startTime,
     "endTime": errorLog?.exception?.config?.metadata?.endTime,
+    "duration":errorLog?.exception?.duration,
     "others":{
       AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
     }
@@ -55,6 +56,7 @@ export class LoggTracer {
     // const LogMessage = { 
     //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
     //  };
+    
     const LogMessage = { 
       "environment": "null",
       "logType": "error",
@@ -64,6 +66,7 @@ export class LoggTracer {
       "body": JSON.parse(errorLog?.exception?.config?.data),
       "startTime": errorLog?.exception?.config?.metadata?.startTime,
       "endTime": errorLog?.exception?.config?.metadata?.endTime,
+      "duration":errorLog?.exception?.duration,
       "others":{
         AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
       }
@@ -89,7 +92,7 @@ export class LoggTracer {
       error_reason: error_reason,
       exception: errorLog,
     };
-    
+   
     let Log = new LogMessageFormatter(
       Logmessage.Person_id,
       Logmessage.error_location,
