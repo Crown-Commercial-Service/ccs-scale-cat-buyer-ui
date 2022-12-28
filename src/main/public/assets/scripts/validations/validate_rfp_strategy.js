@@ -98,7 +98,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }

@@ -340,7 +340,7 @@ const emptyFieldCheckdos = (type) => {
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
-    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
         fieldMsg = 'You must enter term or acronym'
         descMsg = 'You must enter definition for the term or acronym';
     }else{
