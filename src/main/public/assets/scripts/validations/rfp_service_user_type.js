@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("service_user_type_form") !== null) {
 
-        document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+        var urlParam = new URLSearchParams(window.location.search);
+        var agreement_Id = urlParam.get("agreement_id");
+        if(agreement_Id == "RM1557.13"){
+            document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+        }
 
         let with_value_count = 10,
             prev_input = 0,
@@ -410,7 +414,7 @@ const emptyFieldCheckgcloud = (type) => {
         let term_field = document.getElementById('rfp_term_service_group_' + x);
         let definition_field = document.getElementById("rfp_term_more_details_" + x);
 
-        if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+        if (term_field != null && term_field.value !== undefined && definition_field != null && definition_field !== undefined) {
             
             if(type == 'addmore'){
                 const field1 = countWords1(term_field.value) > 50;
