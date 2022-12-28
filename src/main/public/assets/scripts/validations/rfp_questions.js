@@ -475,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
-            console.log("working");
             totalPercentage();
             errorStore = [];
             let textboxCount =  0;
@@ -724,9 +723,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         let textareaVal = $('#fc_question_'+textboxCount+ '_1').val();
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
-
+                        const pageHeading = document.getElementById('page-heading').innerHTML;
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
-                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0)){
+                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
                                     var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
                                     errorStore.push(fieldCheck)
@@ -766,7 +765,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
             }
 
-            const pageHeading = document.getElementById('page-heading').innerHTML;
             if (errorStore.length == 0) {
                 prev_input = with_value_count - 1;
                 deleteButtonClicked = true
@@ -1035,6 +1033,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             var desmsg = '';
                             if(labelText.trim() == 'Name of the requirement'){
                                 msg = 'You must enter your name of the requirement';
+                            }else if(labelText.trim() == 'Describe the requirement'){
+                                msg = 'You must enter your description of the requirement';
                             }else{
                                 msg = 'You must enter your name of the group';
                             }
