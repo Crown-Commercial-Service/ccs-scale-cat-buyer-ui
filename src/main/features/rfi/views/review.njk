@@ -20,7 +20,7 @@
                 {"text": "Choose a commercial agreement","href": "/projects/choose-agreement"},
                 {"text": "Procurement overview","href": url},
                 {"text": "Request for Information","href": "/rfi/rfi-tasklist"},
-                {"text": "Review and publish Rfi"}    ] 
+                {"text": "Review and publish your RfI"}    ] 
   }) }}
   {% else %}
   {{ CCSBreadcrumbs({
@@ -131,11 +131,9 @@ href: "/rfi/review?download=1"
           <div class="govuk-summary-list__row">
 
             <dt class="govuk-summary-list__key">
-              {% if agreementId_session == 'RM6187' %}
-Name your project (optional)
-{% else %}
-Name your project
-{% endif %}
+              <p class="govuk-body">
+              Name your project
+            </p>
             </dt>
             {% if project_name | length > 0 %}
               <dd class="govuk-summary-list__value">
@@ -145,8 +143,10 @@ Name your project
               </dd>
             {% else %}
               <dd class="govuk-summary-list__value">
-You have not given a custom name to your project
-</dd>
+                <p class="govuk-body">
+                  You have not given a custom name to your project
+                </p>
+              </dd>
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
@@ -159,12 +159,13 @@ Change<span class="govuk-visually-hidden">project name</span>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
+              <p class="govuk-body">
               {% if agreementId_session == 'RM6187' %}
               Who will lead the project (optional)
               {% else %}
               Change who is going to lead the procurement
               {% endif %}
-
+                </p>
             </dt>
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--none">
@@ -186,12 +187,13 @@ Change<span class="govuk-visually-hidden"> procurement lead</span>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-
+              <p class="govuk-body">
               {% if agreementId_session == 'RM6187' %}
-Add colleagues to your project (optional)
-{% else %}
-Add colleagues to your project
-{% endif %}
+              Add colleagues to your project (optional)
+              {% else %}
+              Add colleagues to your project
+              {% endif %}
+              </p>
             </dt>
             {% if procurementColleagues | length > 0 %}
               <dd class="govuk-summary-list__value">
@@ -212,8 +214,10 @@ Add colleagues to your project
               </dd>
             {% else %}
               <dd class="govuk-summary-list__value">
-You have not added anyone so far in your team
-</dd>
+                <p class="govuk-body">
+                    You have not added anyone so far in your team
+                </p>
+              </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published" and closeStatus!="CLOSED"%}
@@ -236,15 +240,21 @@ Change<span class="govuk-visually-hidden"> rfi team members</span>
 {% if agreementId_session == "RM1557.13" %}  
           <div class="govuk-summary-list__row">
 <dt class="govuk-summary-list__key">
+  <p class="govuk-body">
 Choose how to build your RfI
+</p>
 </dt>
 {% if ccs_rfi_type == 'all_online' %}
 <dd class="govuk-summary-list__value">
+  <p class="govuk-body">
 Provide all information online
+</p>
 </dd>
 {% else %}
 <dd class="govuk-summary-list__value">
+  <p class="govuk-body">
 Complete a document offline
+</p>
 </dd>
 {% endif %}
 
@@ -259,7 +269,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 {% endif %}
 
           <div class="ccs-summary-list-heading">
-            <strong> Build your Rfi <br><br></strong>
+            <strong class="govuk-heading-s"> Build your Rfi <br><br></strong>
           </div>
 
           {# {% if ccs_rfi_type == 'all_online' %}
@@ -284,9 +294,11 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             {%for i in item.answer%}
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
-                 {% if i.question != 'Name of the organisation doing the procurement' %}
-                {{i.question}}
-                 {%endif%}
+                <p class="govuk-body">
+                    {% if i.question != 'Name of the organisation doing the procurement' %}
+                    {{i.question}}
+                    {%endif%}
+                </p>
                 </dt>
               <dd class="govuk-summary-list__value">
                 
@@ -325,15 +337,19 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             {% else %}
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
+                  <p class="govuk-body">
                   {% if item.mandatory == false %}
                     {{item.title}} (optional)
                       {% else %}
                     {{item.title}}
                   {% endif %}
+                  </p>
                 </dt>
                 {% if data['rfi_offline_document'] | length > 0 %}
                   <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">
                     data['rfi_offline_document']
+                    </p>
                     </dd>
                    {% else %}
                   <dd class="govuk-summary-list__value">
@@ -342,14 +358,12 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                       {% if i.question != 'Name of the Contracting Authority' %}
                       {% if i.values | length > 0 %}
                         {% for answer in i.values%}
-                          <p class="govuk-body content_review_length">{{answer.value}}
-                            <p>
-                              <p class="govuk-body content_review_length">{{answer.text | safe}}
-                              </p>
+                          <p class="govuk-body content_review_length">{{answer.value}}</p>
+                          <p class="govuk-body content_review_length">{{answer.text | safe}}</p>
                               <br/>
                               {%endfor%}
                               {%else%}
-                              <p class="govuk-body">You have not answered this question<p>
+                              <p class="govuk-body">You have not answered this question</p>
                                   {%endif%}
                                   {%endif%}
                                   {%endfor%}
@@ -392,12 +406,13 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                           <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
+                              <p class="govuk-body">
                               {% if agreementId_session == 'RM6187' %}
 Upload documents (optional)
 {% else %}
 Upload documents
 {% endif %}
-
+</p>
                             </dt>
                             {% if documents | length > 0 %}
                               <dd class="govuk-summary-list__value">
@@ -430,11 +445,13 @@ Change<span class="govuk-visually-hidden">rfi additional link and documents</spa
 
                             <div class="govuk-summary-list__row">
                               <dt class="govuk-summary-list__key">
+                                <p class="govuk-body">
                                 {% if agreementId_session == 'RM6187' %}
                                     View suppliers
                                 {% else %}
                                     See the suppliers who will receive your RfI
                                 {% endif %}
+                                </p>
                               </dt>
 
                               <dd class="govuk-summary-list__value">
@@ -453,9 +470,9 @@ View<span class="govuk-visually-hidden">rfi supplier list</span>
                             <dt>
                               <div class="ccs-summary-list-heading">
                                 {% if agreementId_session == 'RM6187' %}
-                                    <strong> Your timeline <br><br></strong>
+                                    <strong class="govuk-heading-s"> Your timeline <br><br></strong>
                                 {% else %}
-                                    <strong> Your Rfi timeline <br><br></strong>
+                                    <strong class="govuk-heading-s"> Your Rfi timeline <br><br></strong>
                                 {% endif %}
                                 
                               </div>
@@ -472,7 +489,9 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                             {% for dates in rfi_keydates.answer%}
                               <div class="govuk-summary-list__row no-borders">
                                 <dt class="govuk-summary-list__row no borders">
+                                  <p class="govuk-body">
                                   {{dates.question}}
+                                  </p>
                                 </dt>
                                 <dd class="govuk-summary-list__value no-borders">
                                   {%for value in dates.values%}
@@ -483,7 +502,7 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                 </div>
                                 {%endfor%}
 
-                                <dt class="govuk-summary-list__key"></dt>
+                                <dt class="govuk-summary-list__key"></dt> 
                                 <dd class="govuk-summary-list__value"></dd>
                                 <dd class="govuk-summary-list__actions"></dd>
                               </dl>

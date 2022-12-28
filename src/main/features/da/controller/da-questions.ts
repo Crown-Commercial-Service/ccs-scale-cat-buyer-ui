@@ -115,7 +115,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
       }
     });
     const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
 
     req.session?.nonOCDSList = nonOCDSList;
@@ -316,7 +316,7 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -1008,7 +1008,7 @@ function changeTitle(title) {
       text = 'Tell us if there is an existing supplier';
       break;
     case 'Management information and reporting':
-      text = 'Management information and reporting requirements';
+      text = 'Management information and reporting';
       break;
     case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';

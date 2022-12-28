@@ -356,6 +356,9 @@
        {% if (agreement_id == 'RM1557.13' and requirement.nonOCDS.order == 1 and group_id == "Group 18") %}
                       {% set rows = 1 %}
                     {% endif %}
+          {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
+          {% set rows = 1 %}
+          {% endif %}
        {% if (agreement_id == 'RM1557.13' and (requirement.OCDS.title == "Enter your question" or requirement.OCDS.title == "Your social value question")) %}
                       {% set countLength = 5000 %}
                       {% set classnameForCount = "rpf_5000" %}
@@ -1883,7 +1886,7 @@
                           })
                         %}
 
-                        {% if (agreement_id == 'RM1043.8') %}
+                        {% if (agreement_id == 'RM1043.8') or (agreement_id == 'RM1557.13') %}
                           {% set labelText = 'Give this user type a name' %}
                         {% else %}
                           {% set labelText = 'Give this group a name' %}
@@ -1905,7 +1908,7 @@
                               name: "value",
                               id: "rfp_term_more_details_1",
                               label: {
-                                text: 'Enter details about your service users'
+                                text: 'Enter more details about this user type'
                               },
                               maxlength:10000,
                               classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
@@ -1957,7 +1960,7 @@
                             })
                           %}
 
-                         {% if (agreement_id == 'RM1043.8') %}
+                         {% if (agreement_id == 'RM1043.8') or (agreement_id == 'RM1557.13') %}
                           {% set labelText = 'Give this user type a name' %}
                         {% else %}
                           {% set labelText = 'Give this group a name' %}
@@ -1979,7 +1982,7 @@
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
                                 label: {
-                                  text: 'Enter details about your service users'
+                                  text: 'Enter more details about this user type'
                                 },
                                 maxlength:10000,
                                 classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
@@ -2002,7 +2005,7 @@
                           {% endcall %}
 
                         {%- endfor %}
-                        {% if (agreement_id == 'RM1043.8') %}
+                        {% if (agreement_id == 'RM1043.8') or (agreement_id == 'RM1557.13') %}
                           {% set AddAnotherServiceUserType = 'Add another user type' %}
                         {% else %}
                           {% set AddAnotherServiceUserType = 'Add another service user type' %}

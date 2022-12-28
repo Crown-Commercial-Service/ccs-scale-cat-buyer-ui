@@ -54,9 +54,9 @@
         <div id="upload_doc_form">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full" id="documents_upload">
-              <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="eoi_offline_document">Upload a file</label>
+              <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="eoi_offline_document">{{data.inputtitle}}</label>
               <span id="eoi_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
-              <p class="govuk-body-s"> {{data.filedesc}}</p>
+              <p class="govuk-body-s"> {{data.filedesc}}<br>{{data.filedesc2}}</p>
               {% if (files.length > 0)%}
               <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
                 <ul class="app-task-list">

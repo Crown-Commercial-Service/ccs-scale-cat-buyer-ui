@@ -40,7 +40,7 @@
               },
               {
                 "value": "all_offline",
-                "text": "Complete and upload a document (Coming soon)",
+                "text": "Complete and upload a document (You cannot upload documents at the moment)",
                 "hint": {
                   "text": "Use this option to prepare your RfI offline and then upload it."
                 },

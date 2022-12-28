@@ -150,7 +150,7 @@ let ccs_vetting = document.querySelectorAll('.ccs_vetting');
 let rfp_term_definition_new = document.querySelectorAll('.rfp_term_definition_new');
 rfp_vetting.forEach(ele => {
   ele.addEventListener('keydown', (event) => {
-    removeErrorFieldsRfpSelect();
+    // removeErrorFieldsRfpSelect();
   });
 });
 rfp_term_percentage.forEach(ele => {

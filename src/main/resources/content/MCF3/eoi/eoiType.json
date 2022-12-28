@@ -35,7 +35,7 @@
           "value": "all_online",
           "text": "Enter all information online",
           "hint": {
-            "text": "Enter all the information needed to build your EoI and submit to the suppliers."
+            "text": "Enter all the information needed to build your EoI and submit to your selected suppliers."
           },
           "disabled": "false"
         },

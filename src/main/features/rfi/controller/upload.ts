@@ -33,10 +33,11 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  const journeyStatus = req.session['journey_status'];
-
+  
   if (!req.files) {
-    const journey = journeyStatus.find(journey => journey.step === 11)?.state;
+    const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+    const journeyStatus = JourneyStatusUpload?.data;
+    const journey = journeyStatus?.find(journey => journey.step === 11)?.state;
     const routeRedirect = journey === 'Optional' ? '/rfi/suppliers' : '/rfi/upload-doc';
     res.redirect(routeRedirect);
   } else {

@@ -318,7 +318,7 @@ var { Parser } = require("json2csv");
       {
 
         const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-        const {data: retrieveSupplierContactDetails} = await AgreementAPI.Instance.get(BaseURLSupplierContact);
+        const {data: retrieveSupplierContactDetails} = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
         const JsonData:any = [];
         let contactSupplierDetails;
         
