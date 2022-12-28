@@ -76,9 +76,12 @@
                         <p class="govuk-body">{{data.subtitle1}}</p>
                         {% if stage2_value !== 'Stage 2' %}
                             <ul class="govuk-list govuk-list--bullet">
-                                {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
+                                {% if agreementId_session == 'RM6187' %}
                                     <li>
-                                        <b>4</b> working days from publishing your further competition until the clarification period closes</li>
+                                        <b>4</b> working days from publishing until the clarification period closes</li>
+                                {% elseif agreementId_session == 'RM1043.8' %}
+                                <li>
+                                    <b>4</b> working days from publishing your further competition until the clarification period closes</li>
                                 {% else %}
                                     {% if agreementId_session == 'RM1557.13' %}
                                         <li>4 working days from publishing until the clarification period closes</li>
