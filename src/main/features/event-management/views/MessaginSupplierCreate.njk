@@ -31,11 +31,11 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Message",
+      "text": "Your inbox",
       "href": "/message/inbox?type=received"
     },
     {
-      "text": "Create Message",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -105,8 +105,9 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row messaging-navigation">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        <div class="messaging-navigation">
         <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
           <ul class="nav-list messaging-nav-list--primary">
@@ -118,7 +119,7 @@
                 <a class="nav-list__link " href="{{data.tabs.href1}}?type=received">{{data.tabs.text6}}</a>
               </li>
             {% else %}
-              <li class="nav-list__item">
+              <li class="nav-list__item selected">
                 {{data.tabs.text4}}
               </li>
               <li class="nav-list__item">
@@ -134,6 +135,7 @@
             </li>
           </ul>
         </nav>
+        </div>
       </div>
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/createSupplier" method="POST">
@@ -146,7 +148,7 @@
             {{data.subtitle2}}
           </h1>
           <br>
-          {% if agreementId != 'RM1043.8' and agreementId != 'RM6187' %}
+          {% if agreementId != 'RM1043.8' and agreementId != 'RM6187' and agreementId != 'RM1557.13' %}
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">
@@ -265,11 +267,22 @@
             </div>
 
             <div class="govuk-button-group">
-              {{ CCSButton({
-                text: data.btnTextSupplier,
-                action:"submit"
-                })
-            }}
+
+              {% if agreementId == 'RM6187' %}
+                  {{ CCSButton({
+                      text: data.btnTextSupplier,
+                      action:"submit",
+                      classes:"btn-sendmsg"
+                  })
+                  }}
+              {% else %}
+                  {{ CCSButton({
+                      text: data.btnTextSupplier,
+                      action:"submit"
+                  })
+                  }}
+              {% endif %}
+
               <a href="{{data.Cancel.link}}" id="supplierMsgCancel" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
             </div>
 

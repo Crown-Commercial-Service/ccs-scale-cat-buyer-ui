@@ -121,7 +121,11 @@
                     <h2>
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
-                        {{shortTitle}} entered so far
+                          {% if (group_id == 'Group 8') %}
+                            {{shortTitle}} questions entered so far
+                          {% else %}
+                            {{shortTitle}} entered so far
+                          {% endif %}
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
                               {{shortTitle}} questions entered so far
@@ -132,7 +136,11 @@
                       </h2>
 
                     {% if agreement_id == 'RM1043.8' %}
-                      <h2> Total for the {{shortTitle}}{{ ' category' if ((group_id == 'Group 8') or (group_id == 'Group 9')) else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% if (group_id == 'Group 8') %}
+                        <h2> Total for the {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% else %}
+                        <h2> Total for the {{shortTitle}}{{ ' category' if (group_id == 'Group 9') else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% endif %}
                     {% else %} 
                           {% if agreement_id == 'RM6187' %}
                               <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>

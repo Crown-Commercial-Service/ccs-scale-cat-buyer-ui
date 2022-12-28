@@ -6,7 +6,7 @@
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
-{% if agreementId_session == 'RM6187' %}
+{% if agreementId_session == 'RM6187' or agreementId_session=="RM1557.13" %}
 {{ CCSBreadcrumbs({
         items: [
         {
@@ -64,7 +64,7 @@
     <div class="govuk-grid-column-two-thirds">
     {% include "includes/project_header.njk" %} 
 
-  {% if(agreementId_session=="RM6187") %}
+  {% if(agreementId_session=="RM6187" or agreementId_session=="RM1557.13") %}
     <p class="govuk-body">{{data.line1}}</p>
       <ul class="govuk-list govuk-list--bullet">
         <li>{{data.line2}} </li>

@@ -162,6 +162,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
+      lotId: req.session.lotId,
       proc_id: proc_id,
       event_id: event_id,
       group_id: group_id,
@@ -261,7 +262,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     //   }
     // }
 
-    // console.log('logForm', data.form_name );
+    // console.log("data",JSON.stringify(data));
     res.render('daw-question', data);
   } catch (error) {
     delete error?.config?.['headers'];

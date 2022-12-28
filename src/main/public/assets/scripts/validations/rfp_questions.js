@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
+        let textboxelementsorder2 = document.querySelectorAll('.order_2');
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -65,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 removeErrorFieldsRfpScoreQuestion();
             });
         });
+        textboxelementsorder2.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
         elements.forEach(ele => {
             ele.addEventListener('focusout', totalPercentage);
             ele.addEventListener('keydown', (event) => {
@@ -89,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             db.classList.add('ccs-dynaform-hidden')
             
             db.addEventListener('click', (e) => {
-            
+               
                 e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
@@ -100,12 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
           
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
               
-
+               let next_coll = Number(target);
+               let nextLevel_coll = Number(target);
                if(target != 20) {
                    let ml = 1;
                    
-                   let next_coll = Number(target);
-                   let nextLevel_coll = Number(target);
+                   
                    let eptArr = [];
                    while (Sibling) {
 
@@ -116,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                let first;
                                let last;
                                let percentage;
@@ -153,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -198,9 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
                        if(fc_question_precenate_fir){
@@ -263,22 +266,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
                 //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
 
-                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+current_col)[0];
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
                        }
-                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+current_col)[1];
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
                        }
-                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+current_col)[2];
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
-                        document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
                        }
                        //ID BASED
-                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+current_col);
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
-                         document.getElementById('fc_question_precenate_'+current_col).value="";
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
                        }
              
                    if (prev_coll > 1) {
@@ -287,7 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
                with_value_count--;
-               if (with_value_count != 11) {
+               totalAnswerd();
+               totalPercentage();
+               if (with_value_count != 21) {
                 
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
@@ -471,6 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            totalPercentage();
 
             errorStore = [];
             let textboxCount =  0;
@@ -479,20 +485,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-             
-             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
-             }
+           
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+               $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
 
 
-
+           
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
 
@@ -513,6 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+               
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
@@ -671,7 +676,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19')){
+            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19') || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                removeErrorFieldsRfpScoreQuestion();
                 for (var i = 1; i < withValue; i++) {
                     const divElem = document.querySelector('#fc_question_' + i);
                     const inputElements = divElem.querySelectorAll("textarea");
@@ -684,7 +690,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     let error = ccsZvalidateWithRegex(element.id, "You must add information in all fields.", /^.+$/);
                                     errorStore.push(error);
                             }
+
                             if (textboxCount == 19) {
+
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
                         }
@@ -719,9 +727,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
 
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
-                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
+                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0)){
+                                if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    errorStore.push(fieldCheck)
+                                }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
+                                }
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
                             }
@@ -1351,7 +1364,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     // }
 
+                    if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4'){
+                        if (Number($('#totalPercentage').text()) < 100) {
+                            errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
+                            }
+                    }
+
                 }
+
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
                 if (errorStore.length === 0) {
                     const classList = document.getElementsByClassName("govuk-hint-error-message");

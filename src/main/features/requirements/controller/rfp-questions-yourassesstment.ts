@@ -965,7 +965,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
       case 'Group 8':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = 'social value questions'; } else { title = 'cultural fit'; }
+        if(lotId == 3) { title = 'social value question'; } else { title = 'cultural fit'; }
       } else {
         title = '';
       }

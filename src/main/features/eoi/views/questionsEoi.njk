@@ -115,16 +115,16 @@
                 }}
               {% set numberWord = [
                 'Zero',
-                'first',
-                'second',
-                ' third',
-                ' fourth',
-                ' fifth',
-                ' sixth',
-                ' seventh',
-                ' eight',
-                ' ninth',
-                ' tenth'
+                'First',
+                'Second',
+                ' Third',
+                ' Fourth',
+                ' Fifth',
+                ' Sixth',
+                ' Seventh',
+                ' Eight',
+                ' Ninth',
+                ' Tenth'
               ] %}
               {% for i in range(2, 11) -%}
 
@@ -133,7 +133,7 @@
 
                 {{ CCSCharacterCount({
                       label: {
-                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"",
+                        html: requirement.OCDS.title | replace("First",numberWord[i]) +"",
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_"+i,

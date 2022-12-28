@@ -431,22 +431,42 @@
   {%endif%}
 
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
-
-    {{ CCSInput({
-      label: {
-        text: requirement.OCDS.title | striptags(true) | escape | nl2br,
-        classes: "govuk-label--m"
-      },
-      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
-      id: "fc_question_precenate_"+index,
-      value: requirement.nonOCDS.options[index-1].value,
-      name: requirement.OCDS.id,
-      suffix: {
-        text: "%"
-      },
-      type:"number"
-    }) }}
-
+      {% if (agreement_id == "RM6187") %}
+        {{ CCSInput({
+            label: {
+              text: requirement.OCDS.title | striptags(true) | escape | nl2br,
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
+            id: "fc_question_precenate_"+index,
+            value: requirement.nonOCDS.options[index-1].value,
+            hint: {
+              text: requirement.OCDS.description,
+              html: "The weighting below is for this question only",
+              classes: "govuk-hint"
+            },
+            name: requirement.OCDS.id,
+            suffix: {
+              text: "%"
+            },
+            type:"number"
+        }) }}
+      {% else %}
+        {{ CCSInput({
+          label: {
+            text: requirement.OCDS.title | striptags(true) | escape | nl2br,
+            classes: "govuk-label--m"
+          },
+          classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage weightagelimit",
+          id: "fc_question_precenate_"+index,
+          value: requirement.nonOCDS.options[index-1].value,
+          name: requirement.OCDS.id,
+          suffix: {
+            text: "%"
+          },
+          type:"number"
+        }) }}
+      {% endif %}
   {%endif%}
 
     {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'da_multianswer_question_form'%}
@@ -929,19 +949,30 @@
 
               {# {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %} commented for dos assesment criteria question issue #}
               {% if- (requirement.OCDS.title === 'Price') or (requirement.OCDS.title === 'Technical questions') %}
-              <div>
-                {{ CCSInsetText({
-                      text: "<b> The total weighting is : <span id='totalPercentage'>0</span>% </b> " | safe
-                    }) }}
+                  {% if (agreement_id == 'RM1557.13') %}
+                      <div class="govuk-inset-text">
+                        <p><b> The total weighting is : <span id='totalPercentage'>0</span>% </b></p>
+                      </div>  
+                  {% else %}
+                      <div>
+                          {{ CCSInsetText({
+                                text: "<b> The total weighting is : <span id='totalPercentage'>0</span>% </b> " | safe
+                          }) }}
 
-              </div>
+                      </div>
+                  {% endif %}
               {% elseif(requirement.OCDS.title === 'Social value criteria') %}
-              <div>
-                {{ CCSInsetText({
-                      text: "<b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> " | safe
-                    }) }}
-
-              </div>
+                    {% if (agreement_id == 'RM1557.13') %}
+                        <div class="govuk-inset-text">
+                            <p> <b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> </p>
+                        </div>
+                    {% else %}
+                        <div>
+                            {{ CCSInsetText({
+                                text: "<b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> " | safe
+                            }) }}
+                        </div>
+                    {% endif %}
               {%endif%}
               {{  CCSInput({
                         id: "question_id",
@@ -2313,7 +2344,6 @@
                             {% set sec_vetting_opt = requirement.nonOCDS.options[i] %}
                               {% if sec_vetting_opt.value !== "No security clearance needed" 
                                 and sec_vetting_opt.value !== "No specific location, for example they can work remotely"
-                                and sec_vetting_opt.value !== "No specific location (for example they can work remotely)"
                                 and sec_vetting_opt.value !== "Not Applicable" 
                                 and sec_vetting_opt.value !== "None" %}
                               <div class="govuk-checkboxes__item">

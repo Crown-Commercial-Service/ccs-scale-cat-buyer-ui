@@ -1,15 +1,15 @@
 {
-    "line1": "A Request for Information (RfI) can help you to:",
-    "line2": "better understand what you need",
-    "line3": "write clearer needs to publish for suppliers",
-    "line4": "understand how much this work could cost",
+    "line1": "An RfI can help you to write clearer needs to publish for suppliers, which may include:",
+    "line2": "what you need",
+    "line3": "how much this work may cost",
+    "line4": "how long this work may take",
     "line5": "better understand how long this work could take",
     "title": "Request for Information (RfI)",
     "subtitle": null,
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfi/name-your-project",
@@ -20,7 +20,7 @@
                 {
                     "Task": 2,
                     "link": "/rfi/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead the project",
                     "required": "optional",
                     "status": "optional"
                 },
@@ -66,7 +66,7 @@
                 },
                 {
                     "Task": 2,
-                    "title": "See the suppliers who will receive your RfI",
+                    "title": "View Suppliers",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfi/suppliers"

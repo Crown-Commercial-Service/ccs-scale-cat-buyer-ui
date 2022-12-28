@@ -55,6 +55,13 @@
               <p class="govuk-body">{{prompt[1] | safe}}</p>
              {%endif%}  
     
+    {% if agreement_id=='RM6187' %}
+      <p class="govuk-label--l">
+        Select a scoring criteria
+        </p>
+      <p> Select one of the scoring criteria templates and the system will automatically populate the levels below.
+        Then click 'Save and continue'. </p>
+    {% endif %}
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}

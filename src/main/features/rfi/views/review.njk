@@ -12,7 +12,7 @@
   {% set url -%}
     /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
-{% if agreementId_session == "RM6187" %}  
+{% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
 {% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
           items: [
@@ -20,7 +20,7 @@
                 {"text": "Choose a commercial agreement","href": "/projects/choose-agreement"},
                 {"text": "Procurement overview","href": url},
                 {"text": "Request for Information","href": "/rfi/rfi-tasklist"},
-                {"text": "Review and publish"}    ] 
+                {"text": "Review and publish Rfi"}    ] 
   }) }}
   {% else %}
   {{ CCSBreadcrumbs({
@@ -160,10 +160,10 @@ Change<span class="govuk-visually-hidden">project name</span>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               {% if agreementId_session == 'RM6187' %}
-Who will lead the procurement (optional)
-{% else %}
-Change who is going to lead the procurement
-{% endif %}
+              Who will lead the project (optional)
+              {% else %}
+              Change who is going to lead the procurement
+              {% endif %}
 
             </dt>
             <dd class="govuk-summary-list__value">
@@ -233,8 +233,8 @@ Change<span class="govuk-visually-hidden"> rfi team members</span>
             <dd class="govuk-summary-list__value"></dd>
             <dd class="govuk-summary-list__actions"></dd>
           </div>
-
-          <!--<div class="govuk-summary-list__row">
+{% if agreementId_session == "RM1557.13" %}  
+          <div class="govuk-summary-list__row">
 <dt class="govuk-summary-list__key">
 Choose how to build your RfI
 </dt>
@@ -255,7 +255,8 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 </a>
 {% endif %}
 </dd>
-</div>-->
+</div>
+{% endif %}
 
           <div class="ccs-summary-list-heading">
             <strong> Build your Rfi <br><br></strong>
@@ -338,7 +339,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   <dd class="govuk-summary-list__value">
 
                     {% for i in item.answer %}
-
+                      {% if i.question != 'Name of the Contracting Authority' %}
                       {% if i.values | length > 0 %}
                         {% for answer in i.values%}
                           <p class="govuk-body">{{answer.value}}
@@ -349,6 +350,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                               {%endfor%}
                               {%else%}
                               <p class="govuk-body">You have not answered this question<p>
+                                  {%endif%}
                                   {%endif%}
                                   {%endfor%}
                                 </dd>
@@ -494,7 +496,7 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                 <h2 class="govuk-heading-m"> Publish your RfI</h2>
                               </p>
 
-                              {% if agreementId_session == 'RM6187' %}
+                              {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                                   <div class="govuk-inset-text">
                                     <p class="govuk-body">Your RfI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
                                   </div>
@@ -511,14 +513,14 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                               {% endif %}
  
                               <p class="govuk-body">
-                                {% if agreementId_session != 'RM6187' %}
+                                {% if agreementId_session != 'RM6187' and agreementId_session != "RM1557.13"  %}
                                 The document sent to suppliers will also include a number of best practice statements from your organisation.  These are in the link below for you to review.
                                 {% endif %}
 
                               </p>
                               <br><br>
 
-                          {% if agreementId_session == 'RM6187' %}
+                          {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13"  %}
                               {{ CCSWarningText({
                                 text: "By publishing this RfI you are stating that, to the best of your knowledge, the information you have provided is correct.",
                                 iconFallbackText: "Warning"
@@ -556,7 +558,7 @@ action="/rfi/review" method="post">
                                     },
                                     text: "Publish and continue"
                                     }) }}
-                                    {% if agreementId_session == "RM6187" %}  
+                                    {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
                                 <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Request for Information  </a>
                                     {% else %}
                                 <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement  </a>

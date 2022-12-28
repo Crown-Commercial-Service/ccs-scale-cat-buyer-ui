@@ -71,7 +71,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
 
       const agreementId_session = req.session.agreement_id;
       let forceChangeDataJson;
-      if(agreementId_session == 'RM6187') { //MCF3
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') { //MCF3 or gcloud
         forceChangeDataJson = Mcf3cmsData;
       } else { 
         forceChangeDataJson = cmsData;

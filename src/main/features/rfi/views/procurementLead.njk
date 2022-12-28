@@ -8,7 +8,7 @@
 {%- endset %}
 
 {% block breadCrumb %}
-{% if agreementId_session == "RM6187" %}
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
 {{ CCSBreadcrumbs({
     items: [
       {
@@ -28,7 +28,7 @@
          href: "/rfi/rfi-tasklist"
       },
       {
-         text: "Change who is going to lead the procurement",
+         text: "Change who will lead the project",
          href: "#"
       }
     ]
@@ -81,7 +81,13 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
-           <strong> Change who will lead the procurement (optional) </strong>
+         {% if agreementId_session=="RM1557.13" %}
+           	<strong> Change who will lead the Project (optional) </strong>
+         {% elseif agreementId_session == 'RM6187' %}
+           	<strong> Change who will lead the Project (optional) </strong>
+	      {% else %}
+		      <strong> Change who will lead the procurement (optional) </strong>
+         {% endif %}
          </h1>
       </div>
    </div>
@@ -89,22 +95,39 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
          {% include "includes/project_header.njk" %}
          <div>
-            <p class="govuk-body">You are registered as the lead for this procurement. This means you will be the main point of contact for any questions submitted by suppliers.</p>
-            <p class="govuk-body">Use the drop-down box below to change the procurement leader. 
-               They will need to be registered with CCS.
-                </p>
+
+{% if agreementId_session == "RM1557.13" %}
+<p class="govuk-body">You are registered as the lead for this project. This means you will be the main point of contact for any questions submitted by suppliers.</p>
+<p class="govuk-body">Use the drop-down box below to change the project lead. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register">CCS</a>.</p>
+
                <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.--> 
            
-            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-market engagement, or continue to the next step.</p>
+            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-tender market engagement, or continue to the next step.</p>
             <br>
-         </div>
+ {% elseif agreementId_session == 'RM6187' %}
+  <p class="govuk-body">You are registered as the lead for this project. This means you will be the main point of contact for any questions submitted by suppliers.</p>
+               <p class="govuk-body">Use the drop-down box below to change the project lead. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register">Public Procurement Gateway and Contract Award Service</a>.</p>
+               <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this later.</p>
+{% else %}
+            <p class="govuk-body">You are registered as the lead for this project. This means you will be the main point of contact for any questions submitted by suppliers.</p>
+<p class="govuk-body">Use the drop-down box below to change the project lead. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register">Public Procurement Gateway and Contract Award Service</a>.</p>
 
-         <div class="form ccs_procurement_lead">
-            {% if agreementId_session == "RM1557.13" %}
-            <p class="govuk-body">Select the project lead:</p>
-            {% else %}
-            <p class="govuk-body">Select the procurement lead for this project:</p>
+               <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.--> 
+           
+            <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this later.</p>
+            <br>
             {% endif %}
+
+         </div>
+         <hr>
+         <div class="form ccs_procurement_lead">
+         {% if agreementId_session == "RM1557.13" %}
+            <p class="govuk-body">Select the project lead:</p>
+		   {% elseif agreementId_session == 'RM6187' %}
+		      <p class="govuk-body">Select the project lead:</p>
+         {% else %}
+		      <p class="govuk-body">Select the procurement lead for this project:</p>
+		   {% endif %}
             <form method="GET" id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead"  action="/rfi/procurement-lead">
              <div class="govuk-button-group">
                {{ CCSSelect({
@@ -142,7 +165,7 @@
               {{ CCSButton({
                text: "Save and continue"
               }) }}
-              {% if agreementId_session == "RM6187" %}
+              {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
                  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
               {% else %}
                  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>

@@ -156,12 +156,7 @@ export class QuestionHelper {
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
         
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
-        let response;
-        if(agreement_id == 'RM1557.13'){
-           response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, status);
-        }else{
-           response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
-        }
+        let response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
         
         
         if (response.status == HttpStatusCode.OK && status=="Completed") {
@@ -174,12 +169,9 @@ export class QuestionHelper {
           flag=await ShouldEventStatusBeUpdated(event_id,12,req);
           if(flag)
           {   
-            if(agreement_id == 'RM1557.13'){
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Optional');
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Not started');
-            }else{
+            
               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
-            }
+            
                 
           }
         }

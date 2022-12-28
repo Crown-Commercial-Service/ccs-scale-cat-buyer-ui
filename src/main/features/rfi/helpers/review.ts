@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 //import * as cmsData from '../../../resources/content/RFI/review.json';
-import * as cmsData from '../../../resources/content/rfi/review.json';
+import * as cmsData from '../../../resources/content/RFI/review.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -159,7 +159,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         };
       });
 
-      const RFI_ANSWER_STORAGE = [];
+      let RFI_ANSWER_STORAGE = [];
 
       for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
         for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
@@ -243,6 +243,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
                   supplierList.push(supplierInfo);
                 }
             }
+          
       }
       else{
       supplierList = await GetLotSuppliers(req);
@@ -262,7 +263,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         forceChangeDataJson = cmsData;
       }
       const customStatus = ReviewData.OCDS.status;
-      
+      RFI_ANSWER_STORAGE = RFI_ANSWER_STORAGE.sort((a, b) => (a.id < b.id ? -1 : 1));
       let appendData = {
         rfi_data: RFI_ANSWER_STORAGE,
         rfi_keydates: expected_rfi_keydates[0],
