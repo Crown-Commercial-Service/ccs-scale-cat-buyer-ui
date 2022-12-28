@@ -65,7 +65,7 @@
     <p>
        
           {% if agreementId_session ==='RM1557.13' %}
-              {{data.subtitle_gcloud}}
+              {{data.subtitle_gcloud}}<br>
           {% else %}   
               {{data.subtitle}}<br>
           {% endif %}
@@ -455,7 +455,7 @@
                               {% endif %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
-                                  {% if (agreementId_session != 'RM6187') and (agreementId_session != 'RM1557.13') %}
+                                  {% if (agreementId_session != 'RM6187') %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
                                   {% else %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}} (%)</th>
