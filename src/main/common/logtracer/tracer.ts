@@ -21,14 +21,18 @@ export class LoggTracer {
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
- 
+ console.log("errorLog?.exception?.config?.data",errorLog?.exception?.config?.data);
+ let body=null;
+ if(errorLog?.exception?.config?.data!=undefined){
+   body = JSON.parse(errorLog?.exception?.config?.data)
+ }
   const LogMessage = { 
     "environment": "null",
     "logType": "error",
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
     "method":errorLog?.exception?.config?.method,
-    "body": JSON.parse(errorLog?.exception?.config?.data),
+    "body": body,
     "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
     "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
     "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
@@ -56,14 +60,17 @@ export class LoggTracer {
     // const LogMessage = { 
     //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
     //  };
-    
+    let body=null;
+ if(errorLog?.exception?.config?.data!=undefined){
+   body = JSON.parse(errorLog?.exception?.config?.data)
+ }
     const LogMessage = { 
       "environment": "null",
       "logType": "error",
       "baseUrl":errorLog?.exception?.config?.baseURL,
       "api": errorLog?.exception?.config?.url,
       "method":errorLog?.exception?.config?.method,
-      "body": JSON.parse(errorLog?.exception?.config?.data),
+      "body": body,
       "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
     "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
     "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
