@@ -747,23 +747,6 @@
                     {% if budget  %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Indicative maximum</p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                          {% if (agreement_id == "RM1043.8") %}
-                               <p>{{ budgetMaximum }}</p>
-                          {% else %}
-                               <p>{{ budgetMaximum }}</p>
-                          {% endif %}
-                      {% else %}
-                          <p>{{ budgetMaximum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
-
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
                       <p>Indicative minimum </p>
                     </dt>
                     <dd class="govuk-summary-list__value">
@@ -772,7 +755,7 @@
                         {% if (agreement_id == "RM1043.8") %}
                                <p>{{ budgetMinimum }}</p>
                           {% else %}
-                               <p>{{ budgetMinimum }}</p>
+                               <p>£{{ budgetMinimum }}</p>
                           {% endif %}
                         {% endif %}
                       {% else %}
@@ -781,6 +764,22 @@
                     </dd>
                   </div>
                   
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">
+                      <p>Indicative maximum</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {% if budget[0] != 'No'  %}
+                          {% if (agreement_id == "RM1043.8") %}
+                               <p>{{ budgetMaximum }}</p>
+                          {% else %}
+                               <p>£{{ budgetMaximum }}</p>
+                          {% endif %}
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
+                    </dd>
+                  </div>
                     {% if furtherInfo != ''  %}
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
@@ -1093,25 +1092,12 @@
                     {% if budget  %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Indicative maximum</p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                      <p>{{ budgetMaximum }}</p>
-                      {% else %}
-                          <p>{{ budgetMaximum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
-
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
                       <p>Indicative minimum</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       {% if budget[0] != 'No'  %}
                       {% if budgetMinimum != ''  %}
-                          <p>{{ budgetMinimum }}</p>
+                          <p>£{{ budgetMinimum }}</p>
                         {% endif %}
                       {% else %}
                           <p>{{ budgetMinimum }}</p>
@@ -1120,7 +1106,18 @@
                     </dd>
                   </div>
 
-
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">
+                      <p>Indicative maximum</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {% if budget[0] != 'No'  %}
+                      <p>£{{ budgetMaximum }}</p>
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
+                    </dd>
+                  </div>
 
                       {% if furtherInfo != ''  %}
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -2053,11 +2050,7 @@
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
-                          {% if (lotId == "1") %}
-                            <p>Cultural fit</p>
-                          {% else %}
-                           <p>Availability</p>
-                          {% endif %}
+                          <p>Cultural fit</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
                           <p>{{ culturalgroupquestion1 }}%</p>
@@ -3145,7 +3138,7 @@
                     
                       
                                       {{ CCSWarningText({
-                  html: "Thank you for submitting your requirements, unfortunately the next step of the digital journey is currently unavailable.<br><br>\nPlease refer to the 'Export your  draft stage 1 requirements'. This will allow you to download the detail of your procurement and continue the journey offline using your own procurement processes. We apologise for any inconvenience caused.",
+                  html: "<b>IMPORTANT MESSAGE:</b> Between 24 December 2022 and 9 January 2023, to allow essential maintenance work, customers will not be able to publish requirements to DOS 6 suppliers. We apologise for any inconvenience. DOS 6 is expected to reopen on 9 January 2023 to allow customers to continue their procurements.<br><br>\nIf your requirements are urgent, you are still able to use DOS 5. To access DOS 5 please visit the Digital Marketplace <a target='_blank' href='https://www.gov.uk/digital-marketplace'>homepage</a>.",
                   iconFallbackText: "Warning"
                   }) }}
                       
@@ -3183,7 +3176,7 @@
         id: "rfp_btn_publish_now"
         },
         text: "Publish and continue",
-        isDisabled: 'disabled'
+        isDisabled: "disabled"
         }) }}
 
                       {# {{ CCSButton({
