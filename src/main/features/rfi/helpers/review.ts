@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 //import * as cmsData from '../../../resources/content/RFI/review.json';
-import * as cmsData from '../../../resources/content/eoi/review.json';
+import * as cmsData from '../../../resources/content/RFI/review.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -243,6 +243,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
                   supplierList.push(supplierInfo);
                 }
             }
+          
       }
       else{
       supplierList = await GetLotSuppliers(req);

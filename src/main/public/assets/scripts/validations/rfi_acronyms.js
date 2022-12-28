@@ -351,7 +351,8 @@ const ccsZCountRfiTerms = (event) => {
     }
     let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining2 of 500";
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -376,7 +377,8 @@ const ccsZCountRfiAcronyms = (event) => {
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining1 of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

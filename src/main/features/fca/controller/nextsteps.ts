@@ -9,7 +9,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 //@GET /fca/event-sent
 export const FCA_GET_NEXTSTEPS  = async (req: express.Request, res: express.Response) => {
     //cmsData.breadCrumbs[1].href=cmsData.breadCrumbs[1].href+req.session.eventId;
-    const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } = req.session;
+    const { agreementLotName, agreementName, agreement_id, releatedContent, project_name, projectId } = req.session;
     const { isEmptyNextstepError } = req.session;
     req.session['isEmptyNextstepError'] = false;
     const lotid = req.session?.lotId;
@@ -26,6 +26,7 @@ export const FCA_GET_NEXTSTEPS  = async (req: express.Request, res: express.Resp
     res.locals.agreement_header = {
         agreementName,
         project_name,
+        projectId,
         agreementId_session,
         agreementLotName,
         lotid,

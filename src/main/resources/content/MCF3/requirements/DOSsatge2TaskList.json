@@ -23,7 +23,7 @@
   "events": [
     {
       "eventno": 1,
-      "eventTitle": "Project and colleagues",
+      "eventTitle": "Project and collaborators",
       "eventTask": [
         {
           "Task": 1,
@@ -35,7 +35,7 @@
         {
           "Task": 2,
           "link": "/rfp/procurement-lead",
-          "title": "Change who is going to lead the procurement",
+          "title": "Change who will lead the project",
           "required": "optional",
           "status": "Optional"
         },
@@ -61,7 +61,7 @@
         },
         {
           "Task": 2,
-          "title": " Upload terms and conditions (optional)",
+          "title": "Upload your core terms, call-off order form and schedules (terms and conditions) ",
           "required": "optional",
           "link": "/rfp/upload-doc",
           "status": "Cannot start yet"

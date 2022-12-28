@@ -100,14 +100,17 @@
         {% if agreementId_session == 'RM1043.8' %}
           <p class="govuk-body">{{data.content.p5}}</p>
         {% endif %}
-        <p class="govuk-body">{{data.content.p2}}
+        {% if agreementId_session == "RM6187" %}
+          <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="/dashboard">Public Procurement Gateway and Contract Award Service.</a></p>
+        {% else %}
+          <p class="govuk-body">{{data.content.p2}}
           <a class="govuk-link govuk-link--no-visited-state"
-        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a>
-        </p>
-
+           href="{{data.content.a1.href}}">{{data.content.a1.text}}</a>
+        {% endif %}
+        
         <p class="govuk-body">{{data.content.p3}}</p>
 
-        {% if agreementId_session == 'RM6187' %}
+        {% if agreementId_session !== 'RM6187' %}
           <p class="govuk-body">If you are the lead on this project you can add four colleagues.
           If you are not the lead you can add three colleagues.</p>
         {% endif %}

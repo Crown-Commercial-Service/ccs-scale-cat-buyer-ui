@@ -276,9 +276,8 @@
 }
 
 @media (min-width: 40.0625em) {
-  .govuk-heading-xl {
-    font-size: 48px;
-    font-size: 3rem;
+  .govuk-heading-xl, h1.govuk-heading-xl {
+    font-size: 46px;
     line-height: 1.04167;
   }
 }
@@ -4013,7 +4012,10 @@ p + .govuk-heading-s,
   color: #ffffff;
   background: #0b0c0c;
 }
-
+.rfi_del{
+  position: relative;
+  z-index: 1;
+}
 @media print {
   .govuk-header {
     font-family: sans-serif;
@@ -4630,6 +4632,14 @@ p + .govuk-heading-s,
   color: #0b0c0c;
   padding: 15px;
   background-color: #ffffff;
+}
+
+.tasklisttag {
+    background: #F7D7E6;
+    text-align: center;
+    border-radius: 25px;
+    padding: 5px;
+    margin-bottom: 60px;
 }
 
 @media print {
