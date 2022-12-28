@@ -1,5 +1,5 @@
 {
-    "title": "Name your project (Optional)",
+    "title": "Name your project",
     "topHeader": {
         "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
         "aggrementId": "Agreement ID: ",

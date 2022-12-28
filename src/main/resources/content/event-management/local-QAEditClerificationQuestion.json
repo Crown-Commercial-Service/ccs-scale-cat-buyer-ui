@@ -39,13 +39,13 @@
     }, 
     "backlink" : "/message/inbox",
     "tabs": {
-        "text1": "Create Message to ALL Suppliers",
+        "text1": "Write message to all suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Create Message to Supplier",
+        "text4": "Write message to supplier",
         "href4": "/message/create/supplier"
     }
 }

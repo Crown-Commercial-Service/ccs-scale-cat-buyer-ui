@@ -27,7 +27,7 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
-{% if agreementId_session == "RM6187" %}
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
 {{ CCSBreadcrumbs({
        items: [
         {
@@ -130,10 +130,14 @@
    <div class="ccs-page-section">
     <p class="govuk-body">{{data.content.p1}}</p>
 
-    <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
+  {% if agreementId_session == "RM6187" %}
+      <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="/dashboard">Public Procurement Gateway and Contract Award Service.</a></p>
+  {% else %}
+      <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
         href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
-
-    <p class="govuk-body">{{data.content.p3}}</p>
+  {% endif %}
+   
+      <p class="govuk-body">{{data.content.p3}}</p>
       
      {% if agreementId_session != 'RM6187' %}
       {{ CCSInsetText({
@@ -231,7 +235,7 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
-        {% if agreementId_session == "RM6187" %}
+        {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
           <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
         {% else %}
           <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>

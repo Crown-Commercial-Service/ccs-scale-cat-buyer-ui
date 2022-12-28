@@ -34,7 +34,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: project_name, projectId,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
    
   try{
     //Supplier of interest
@@ -100,7 +100,7 @@ try{
                 }
               ];
               
-              await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
             
