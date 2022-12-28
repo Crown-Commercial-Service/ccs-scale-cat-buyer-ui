@@ -23,7 +23,7 @@ export class LoggTracer {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
  console.log("errorLog?.exception?.config?.data",errorLog?.exception?.config?.data);
  let body=null;
- if(errorLog?.exception?.config?.data!=undefined){
+ if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
    body = JSON.parse(errorLog?.exception?.config?.data)
  }
   const LogMessage = { 
@@ -61,7 +61,7 @@ export class LoggTracer {
     //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
     //  };
     let body=null;
- if(errorLog?.exception?.config?.data!=undefined){
+ if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
    body = JSON.parse(errorLog?.exception?.config?.data)
  }
     const LogMessage = { 
