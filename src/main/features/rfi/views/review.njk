@@ -54,7 +54,7 @@
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if (viewError == true) and (apiError == false) %}
-      {% if agreementId_session == 'RM6187' %}
+      {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
         {{ CCSErrorSummary({
 titleText: "There is a problem with publishing RFI",
 errorList: [
@@ -159,7 +159,7 @@ Change<span class="govuk-visually-hidden">project name</span>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              {% if agreementId_session == 'RM6187' %}
+              {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
               Who will lead the project (optional)
               {% else %}
               Change who is going to lead the procurement
@@ -326,7 +326,11 @@ Change<span class="govuk-visually-hidden">RFI type</span>
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                   {% if item.mandatory == false %}
-                    {{item.title}} (optional)
+                  {% if item.title == "Who the organisation using the products or services is" %}
+                    <strong>{{item.title}} (optional)</strong>
+                      {% else %}
+                      {{item.title}}
+                      {% endif %}
                       {% else %}
                     {{item.title}}
                   {% endif %}
@@ -430,7 +434,7 @@ Change<span class="govuk-visually-hidden">rfi additional link and documents</spa
 
                             <div class="govuk-summary-list__row">
                               <dt class="govuk-summary-list__key">
-                                {% if agreementId_session == 'RM6187' %}
+                                {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                                     View suppliers
                                 {% else %}
                                     See the suppliers who will receive your RfI

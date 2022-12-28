@@ -12,7 +12,8 @@ export const GET_EVENT_PUBLISHED  = async (req: express.Request, res: express.Re
     const appendData = {
         data: forceChangeDataJson,
         projPersistID: req.session['project_name'],
-        rfi_ref_no : req.session.eventId
+        rfi_ref_no : req.session.eventId,
+        agreement_id
     }
     const { SESSION_ID } = req.cookies; //jwt
     const { eventId } = req.session;
