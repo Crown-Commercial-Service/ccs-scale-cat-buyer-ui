@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (allCheckbox && allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != notApplicableTag) cb.disabled = true;
+        //if (cb.value != notApplicableTag) //cb.disabled = true;
 
       });
     }
@@ -42,12 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
         locationCheckboxes.forEach((cb) => {
   
           if (allCb.checked && cb.value != notApplicableTag) {
-            cb.checked = false;
-            cb.disabled = true;
+            // cb.checked = false;
+            //cb.disabled = true;
           }
   
           if (!allCb.checked && cb.value != notApplicableTag) {
-            cb.disabled = false;
+            // cb.disabled = false;
           }
   
         });

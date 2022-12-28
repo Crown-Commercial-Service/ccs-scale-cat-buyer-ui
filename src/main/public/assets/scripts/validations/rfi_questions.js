@@ -1,19 +1,28 @@
+
+let totalCount = 20;
+let totalCountindex = 21;
+
 document.addEventListener('DOMContentLoaded', () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+  if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+    totalCount = 10;
+    totalCountindex = 11;
+  }
+  
 
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
-    if(question_length == 20){
+    if(question_length == totalCount){
       
      // document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
     }
-    let with_value_count = 20,
+    let with_value_count = totalCount,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
       document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
       //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
-    for (var text_box_num = 20; text_box_num >= 1; text_box_num--) {
+    for (var text_box_num = totalCount; text_box_num >= 1; text_box_num--) {
 
       let this_box = document.getElementById("rfi_question_" + text_box_num);
       this_box.addEventListener('input', ccsZCountRfiQuestions);
@@ -31,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this_box.value !== "") {
         this_box.classList.remove('ccs-dynaform-hidden');
 
-        if (text_box_num === 20) {
+        if (text_box_num === totalCount) {
          
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
@@ -66,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         with_value_count++;
       
-        if (with_value_count === 21) {
+        if (with_value_count === totalCountindex) {
           
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
@@ -95,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
               
 
-               if(target != 21) {
+               if(target != totalCountindex) {
                    let ml = 1;
                    
                    let next_coll = Number(target);
@@ -288,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    let length = 21;
+    let length = totalCountindex;
     while (--length) {
       console.log(length);
       let element = document.querySelector("#rfi_question_" + length);
@@ -323,7 +332,7 @@ const emptyQuestionFieldCheck = () => {
   //if (event_typ !== "Request for Information") {
   //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  for (var i = 1; i < 21; i++) {
+  for (var i = 1; i < totalCountindex; i++) {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
@@ -375,15 +384,15 @@ const ccsZCountRfiQuestions = (event) => {
   const arr=inputId.split("rfi_question_");
   // if(element.value.length<500)
   // {
-    for(var i=1;i<=20;i++)
+    for(var i=1;i<=totalCount;i++)
     {
-      document.getElementById("rfi_label_question_"+i).innerText="";
+      // document.getElementById("rfi_label_question_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
     // labelElement.innerText=count + " remaining of "+maxlength;
-    labelElement.innerText="You have "+count+" characters remaining";
+    // labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
