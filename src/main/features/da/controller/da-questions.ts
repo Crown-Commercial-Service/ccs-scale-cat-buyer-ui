@@ -1008,7 +1008,7 @@ function changeTitle(title) {
       text = 'Tell us if there is an existing supplier';
       break;
     case 'Management information and reporting':
-      text = 'Management information and reporting requirements';
+      text = 'Management information and reporting';
       break;
     case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';
