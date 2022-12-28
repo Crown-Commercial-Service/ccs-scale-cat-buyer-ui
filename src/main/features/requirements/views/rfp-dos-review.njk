@@ -747,6 +747,23 @@
                     {% if budget  %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
+                      <p>Indicative maximum</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {% if budget[0] != 'No'  %}
+                          {% if (agreement_id == "RM1043.8") %}
+                               <p>{{ budgetMaximum }}</p>
+                          {% else %}
+                               <p>{{ budgetMaximum }}</p>
+                          {% endif %}
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
+                    </dd>
+                  </div>
+
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">
                       <p>Indicative minimum </p>
                     </dt>
                     <dd class="govuk-summary-list__value">
@@ -755,7 +772,7 @@
                         {% if (agreement_id == "RM1043.8") %}
                                <p>{{ budgetMinimum }}</p>
                           {% else %}
-                               <p>£{{ budgetMinimum }}</p>
+                               <p>{{ budgetMinimum }}</p>
                           {% endif %}
                         {% endif %}
                       {% else %}
@@ -764,22 +781,6 @@
                     </dd>
                   </div>
                   
-                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
-                      <p>Indicative maximum</p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                          {% if (agreement_id == "RM1043.8") %}
-                               <p>{{ budgetMaximum }}</p>
-                          {% else %}
-                               <p>£{{ budgetMaximum }}</p>
-                          {% endif %}
-                      {% else %}
-                          <p>{{ budgetMaximum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
                     {% if furtherInfo != ''  %}
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
@@ -1092,12 +1093,25 @@
                     {% if budget  %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
+                      <p>Indicative maximum</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {% if budget[0] != 'No'  %}
+                      <p>{{ budgetMaximum }}</p>
+                      {% else %}
+                          <p>{{ budgetMaximum }}</p>
+                      {% endif %}
+                    </dd>
+                  </div>
+
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">
                       <p>Indicative minimum</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       {% if budget[0] != 'No'  %}
                       {% if budgetMinimum != ''  %}
-                          <p>£{{ budgetMinimum }}</p>
+                          <p>{{ budgetMinimum }}</p>
                         {% endif %}
                       {% else %}
                           <p>{{ budgetMinimum }}</p>
@@ -1106,18 +1120,7 @@
                     </dd>
                   </div>
 
-                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
-                      <p>Indicative maximum</p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                      <p>£{{ budgetMaximum }}</p>
-                      {% else %}
-                          <p>{{ budgetMaximum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
+
 
                       {% if furtherInfo != ''  %}
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -2050,7 +2053,11 @@
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
-                          <p>Cultural fit</p>
+                          {% if (lotId == "1") %}
+                            <p>Cultural fit</p>
+                          {% else %}
+                           <p>Availability</p>
+                          {% endif %}
                         </dt>
                         <dd class="govuk-summary-list__value">
                           <p>{{ culturalgroupquestion1 }}%</p>
@@ -3138,7 +3145,7 @@
                     
                       
                                       {{ CCSWarningText({
-                  text: "By publishing these requirements to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                  html: "Thank you for submitting your requirements, unfortunately the next step of the digital journey is currently unavailable.<br><br>\nPlease refer to the 'Export your  draft stage 1 requirements'. This will allow you to download the detail of your procurement and continue the journey offline using your own procurement processes. We apologise for any inconvenience caused.",
                   iconFallbackText: "Warning"
                   }) }}
                       
@@ -3163,7 +3170,8 @@
       {
       "value": 1,
       html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above are true.</strong></label>",
-      Checked: ""
+      Checked: "",
+      isDisabled: "disabled"
       }
       ]
       }) }}
@@ -3174,7 +3182,8 @@
         attributes: {
         id: "rfp_btn_publish_now"
         },
-        text: "Publish and continue"
+        text: "Publish and continue",
+        isDisabled: 'disabled'
         }) }}
 
                       {# {{ CCSButton({

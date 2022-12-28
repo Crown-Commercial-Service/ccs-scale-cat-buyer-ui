@@ -75,7 +75,7 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
       cmsData = fcaCreateSupplierShortlistContent;
     }
         const lotid=lotId;
-        res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+        res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
         const releatedContent = req.session.releatedContent;
         const windowAppendData = { eventType:req.session.currentEvent.eventType,data: cmsData, lotId, agreementLotName,error: isEmptySelectedServicesError, releatedContent, agreementId_session, services:eptObj, checkCheckbox };
         res.render('select_services', windowAppendData);

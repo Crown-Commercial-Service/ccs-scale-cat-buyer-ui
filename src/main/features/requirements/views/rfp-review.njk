@@ -751,11 +751,23 @@
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Maximum estimated contract value (optional)</p></dt>
+                        <dt class="govuk-summary-list__value">
+                            {% if agreementId_session == 'RM6187' %}
+                                <p>Indicative maximum (optional)</p>
+                            {% else %}
+                                <p>Maximum estimated contract value (optional)</p>
+                            {% endif %}
+                        </dt>
                         <dd class="govuk-summary-list__value"><p>{{ bc1 }}</p></dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Minimum estimated contract value (optional)</p></dt>
+                        <dt class="govuk-summary-list__value">
+                            {% if agreementId_session == 'RM6187' %}
+                              <p>Indicative minimum (optional)</p>
+                            {% else %}
+                              <p>Minimum estimated contract value (optional)</p>
+                            {% endif %}
+                        </dt>
                         <dd class="govuk-summary-list__value"><p>{{ bc2 }}</p></dd>
                       </div>
                       <div class="govuk-summary-list__row">

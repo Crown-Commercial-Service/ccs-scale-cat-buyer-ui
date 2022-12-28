@@ -30,7 +30,7 @@
     "href4": "/message/create/supplier?type=received"
   },
   "title": "Message",
-  "title2": "Inbox",
+  "title2": "Your inbox",
   "subtitle": "When responding to your message, you can select from three options:",
   "subtitleLine1":"'Reply' will send your message only to the supplier who messaged you",
   "subtitleLine2":"'Send to all' will send your message to all the suppliers",

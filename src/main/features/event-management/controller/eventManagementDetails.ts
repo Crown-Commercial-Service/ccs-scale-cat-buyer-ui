@@ -52,7 +52,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             const message: MessageDetails = draftMessage.data
             const agreementId = req.session.agreement_id;  
             let data;
-        if(agreementId == 'RM1043.8') { //DOS6
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6InboxData;
           } else { 
             data = inboxData;

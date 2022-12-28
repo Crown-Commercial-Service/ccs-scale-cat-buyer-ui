@@ -249,8 +249,8 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
               //Suppliers Save Post
               let supplierList: any[] = [];
               let supplierScoreList = await GetLotSuppliersScore(req, true);
-              let lengthGet = supplierScoreList.dimensionRequirements[0].requirements.length;
-              let weightGet = supplierScoreList.dimensionRequirements[0].requirements[0].weighting;
+              let lengthGet = supplierScoreList.dimensionRequirements[0]?.requirements.length;
+              let weightGet = supplierScoreList.dimensionRequirements[0]?.requirements[0]?.weighting;
               const maxResult = weightGet * lengthGet;  
               let scoreArray = supplierScoreList.scores;
               const resultScoreSupplier = scoreArray.filter((el: any) => el.total == maxResult);

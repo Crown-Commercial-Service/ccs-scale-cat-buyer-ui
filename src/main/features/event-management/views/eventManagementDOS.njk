@@ -35,13 +35,21 @@
              Lot 4
     {% else %}
              , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+          Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% else %}
+            {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {% endif %}
+
     {% endif %} 
     {% endif %} 
-    
-  </strong></p>
+
+        </strong>
+      </p>
+
+
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
-          <p class="govuk-body">Project ID / Name: <strong>{{ projectName }}</strong></p>
+          <p class="govuk-body">Project ID & Name: <strong>{{projectId+" & "+projectName }}</strong></p>
         </div>
       </div>
     </div>
@@ -66,7 +74,7 @@
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
               {% else %}
                 <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
               {% endif %}
@@ -478,14 +486,24 @@
                                     Evaluate suppliers</h2>
                                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
+                                  {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                                  <p>You can start supplier evaluation after downloading supplier responses. </p>
+                                  {% endif %}
                                   {% if (status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING') %}
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
                                       <div class="govuk-button-group">
-                                        {{ CCSButton({
-                                            text: "Start supplier evaluation", 
+                                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                                            {{ CCSButton({
+                                            text: "Start supplier evaluation",
+                                            disabled: true
+                                          }) }}
+                                          {% else %}
+                                          {{ CCSButton({
+                                            text: "Start supplier evaluation",
                                             href:"/eventStateChange?StateChange=1"
                                           }) }}
+                                          {% endif %}
                                       </div>
                                       <div class="govuk-!-padding-top-6">
                                   <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
