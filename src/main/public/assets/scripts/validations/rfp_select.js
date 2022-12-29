@@ -258,7 +258,12 @@ $('#rfp_singleselect').on('submit', event => {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        let urlParamsData = new URLSearchParams(window.location.search);
+        if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('group_id') == 'Group 21'){
+          ccsZPresentErrorSummary([['ccs_vetting_type', 'Select whether you need a contracted out service or a supply of resource']]);
+        }else{
+          ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
         ccsZPresentErrorSummary([['There is a problem', 'Choose if this is a new, replacement or expanded service.']]);
       }else{
