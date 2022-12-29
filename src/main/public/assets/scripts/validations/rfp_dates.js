@@ -937,8 +937,15 @@ function isProjectExtensionValid() {
       }
       projectRunInDays = projectRunInDays + Number(DaysProjectRun)
    }
-
-  
+   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun)) ) {
+      if(Number(projectRunInDays) == 0 )
+      {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter a valid Expected contract length period",/^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck); 
+       }
+   }
    const YearExtensionPeriod = durationYear[1].value;
    const MonthExtensionPeriod = durationMonth[1].value;
    const DaysExtensionPeriod = durationDay[1].value;
