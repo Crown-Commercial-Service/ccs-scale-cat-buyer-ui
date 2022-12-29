@@ -685,7 +685,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             const element = inputElements[index];
                             ccsZremoveErrorMessage(element)
                             if (element.value == '' && index >= 0 && (error_classes == false)) {
-                                    let error = ccsZvalidateWithRegex(element.id, "You must add information in all fields.", /^.+$/);
+                                let errorMsg = '';
+                                if(urlParamsDefault.get('group_id') == 'Group 19' || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                                    errorMsg = "Enter your special terms and conditions";
+                                }
+                                else if(urlParamsDefault.get('group_id') == 'Group 15'){
+                                    errorMsg = "Enter your accessibility requirements";
+                                }
+                                else {
+                                    errorMsg = "You must add information in all fields";
+                                }
+                                    let error = ccsZvalidateWithRegex(element.id, errorMsg, /^.+$/);
                                     errorStore.push(error);
                             }
 
