@@ -411,12 +411,12 @@ document.addEventListener('DOMContentLoaded', () => {
             let this_box = document.getElementById('fc_question_' + box_num);
            
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
-               
+              
                 this_box.classList.remove('ccs-dynaform-hidden');
                
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
                     
-                    document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                  //  document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 }
 
                 
@@ -1031,29 +1031,39 @@ document.addEventListener('DOMContentLoaded', () => {
                             var labelText = labelElement.innerHTML;
                             var msg = '';
                             var desmsg = '';
+                         
                             if(labelText.trim() == 'Name of the requirement'){
+                                
                                 msg = 'You must enter your name of the requirement';
                             }else if(labelText.trim() == 'Describe the requirement'){
+                               
                                 msg = 'You must enter your description of the requirement';
                             }else{
+                               
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
+                          
                                 desmsg = 'You must enter your description of the requirement';
                             }else{
+                               
                                 desmsg = 'You must enter your name of the requirement';
                             }
+                         
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                   
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
+                              
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
+                                
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, "You must enter your description of the requirement"])

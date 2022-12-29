@@ -21,7 +21,7 @@ export class LoggTracer {
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
- console.log("errorLog?.exception?.config?.data",errorLog?.exception?.config?.data);
+ 
  let body=null;
  if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
    body = JSON.parse(errorLog?.exception?.config?.data)
