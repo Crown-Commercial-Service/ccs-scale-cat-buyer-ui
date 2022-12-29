@@ -101,9 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // }
 
            
-            // console.log('with_value_count',with_value_count)
-            if (with_value_count === 10) {
-                document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+
+            if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                if (errorStore.length == 0 && with_value_count === 10) {
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+            }else{
+                if (with_value_count === 10) {
+                  document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
             }
             if(errorStore.length == 0){
                 if($("#deleteButton_service_useer_type_" + last_value)){
