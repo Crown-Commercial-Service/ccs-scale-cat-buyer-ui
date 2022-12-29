@@ -32,6 +32,7 @@
     "returnTo": "Return to See the available suppliers",
     "return_url": "/#",
     "line5": "Tell suppliers about the services you're interested in buying.",
+    "line5_mcf3": "Select all the services you need from the list below.",
     "line6": "If you have already selected services using the filtering tool they'll be checked below. To make any change, you'll need to go back to your procurement overview page and create a new shortlist of suppliers by selecting different services.",
     "line7": "If you have not selected your services yet, you can do so by checking the boxes below.",
     "events": [
