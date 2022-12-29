@@ -311,7 +311,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                     {% for answer in i.values%}
                     
                    
-                      <p class="govuk-body">{{answer.value}}</p>
+                      <p class="govuk-body content_review_length">{{answer.value}}</p>
                      
 
                     {%endfor%}
@@ -363,8 +363,8 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                       {% if i.question != 'Name of the Contracting Authority' %}
                       {% if i.values | length > 0 %}
                         {% for answer in i.values%}
-                          <p class="govuk-body">{{answer.value}}</p>
-                          <p class="govuk-body">{{answer.text | safe}}</p>
+                          <p class="govuk-body content_review_length">{{answer.value}}</p>
+                          <p class="govuk-body content_review_length">{{answer.text | safe}}</p>
                               <br/>
                               {%endfor%}
                               {%else%}

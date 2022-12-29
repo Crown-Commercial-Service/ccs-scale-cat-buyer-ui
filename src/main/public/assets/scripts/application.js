@@ -346,7 +346,49 @@ if (document.getElementById('ccs_da_project_name_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
   //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
+  
+  let noOfCharac = 200;
+    let contents = document.querySelectorAll(".content_review_length");
+   // if (document.getElementsByClassName('rfp_percentage_form') !== null){
+          contents.forEach((content,index) => {
+              //If text length is less that noOfCharac... then hide the read more button
+              if(content.textContent.length < noOfCharac){
+                //content.nextElementSibling.style.display = "none";
+              }
+              else{
+                  //let that = this;
+                  let displayText = content.textContent.slice(0,noOfCharac);
+                  let moreText = content.textContent.slice(noOfCharac);
+                  content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+                // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+              }
+        
+          });
+   //   }
 
+  function readMoreWithLength(){
+    document.querySelectorAll(".content_review_length").forEach(function(event) {
+      event.addEventListener('click', function(e) {
+         let targetId = e.target.id;
+          //$('#moreValue'+targetId).show();
+          let btn = document.querySelector('#content-'+targetId);
+          let HtmlBtn = $('#'+targetId).html();       
+        if(HtmlBtn=='Read more'){
+          $('#moreValue'+targetId).removeClass("hide");
+          $('#'+targetId).html("Read less");
+          $('#moreValue'+targetId).show();
+          $('#dots-'+targetId).hide();
+        }else{
+          $('#moreValue'+targetId).addClass("hide");
+          $('#'+targetId).html("Read more");
+          $('#moreValue'+targetId).hide();
+          $('#dots-'+targetId).show();
+        }
+      });
+    });
+  }
+  readMoreWithLength();
+  
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(

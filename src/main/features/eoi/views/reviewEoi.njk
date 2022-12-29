@@ -242,12 +242,13 @@
                     {% if i.values | length > 0 %}
                       {% for answer in i.values %}
                              {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
-                                  <p class="govuk-body-s">{{ answer.value }}</p>
+                                  <p class="govuk-body-s content_review_length">{{ answer.value }}</p>
                               {% else %}
-                                  <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}</p>
+                                  <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}
+                                  <p>
                               {% endif %}
                           {% if i.question != undefined %}
-                            <p class="govuk-body-s">{{ answer.text | safe }}
+                            <p class="govuk-body-s content_review_length">{{ answer.text | safe }}
                             </p>
                             <br/>
                           {% endif %}  
