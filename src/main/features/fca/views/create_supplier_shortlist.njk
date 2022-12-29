@@ -75,12 +75,7 @@
              </li>
     {% endfor %}
     </ol>
-    {% if btnBottom %}
       <a href="{{url}}" class="govuk-link govuk-link--no-visited-state">Return to Procurement overview </a>
-    {% else %}
-      <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">Return to Dashboard </a>
-    {% endif %}
-    
     </div>
           <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
