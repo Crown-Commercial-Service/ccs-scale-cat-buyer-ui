@@ -537,10 +537,19 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [focusField.id, 'You must add information in all fields'];
-        ccsZaddErrorMessage(name_field, 'You must add information in all fields');
-        ccsZaddErrorMessage(point_field, 'Enter a valid number');
-        ccsZaddErrorMessage(desc_field, 'You must add information in all fields');
+        if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+          fieldCheck = [focusField.id, 'You must add information in all fields'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields');
+          ccsZaddErrorMessage(point_field, 'Enter a valid number');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields');
+        }else{
+          fieldCheck = [focusField.id, 'You must add information in all fields.'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        }
+
+
         errorStore.push(fieldCheck);
       } 
       else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
@@ -654,7 +663,11 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add minmum 2 tiers'])
+    if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+      errorStore.push(["There is a problem", 'You must add minmum 2 tiers'])
+    }else{
+      errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    }
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
