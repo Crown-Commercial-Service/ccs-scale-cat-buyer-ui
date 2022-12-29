@@ -537,10 +537,10 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [focusField.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(point_field, 'Enter a valid number.');
-        ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        fieldCheck = [focusField.id, 'You must add information in all fields'];
+        ccsZaddErrorMessage(name_field, 'You must add information in all fields');
+        ccsZaddErrorMessage(point_field, 'Enter a valid number');
+        ccsZaddErrorMessage(desc_field, 'You must add information in all fields');
         errorStore.push(fieldCheck);
       } 
       else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
@@ -654,7 +654,7 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    errorStore.push(["There is a problem", 'You must add minmum 2 tiers'])
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
