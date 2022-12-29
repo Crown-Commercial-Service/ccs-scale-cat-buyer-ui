@@ -356,17 +356,29 @@
        {% if (agreement_id == 'RM1557.13' and requirement.nonOCDS.order == 1 and group_id == "Group 18") %}
                       {% set rows = 1 %}
                     {% endif %}
-          {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
+         {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
           {% set rows = 1 %}
           {% endif %}
+
        {% if (agreement_id == 'RM1557.13' and (requirement.OCDS.title == "Enter your question" or requirement.OCDS.title == "Your social value question")) %}
                       {% set countLength = 5000 %}
                       {% set classnameForCount = "rpf_5000" %}
                     {% endif %}
+
+                    {% set dyNamicId = requirement.nonOCDS.order %}
+          {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
+         
+          {% set dyNamicId = 1 %}
+          {% endif %}
+
+           {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Describe the requirement") %}
+          {% set dyNamicId = 2 %}
+          {% endif %}
+
       {{  CCSCharacterCount({
         name:  requirement.OCDS.id,
         required: requirement.nonOCDS.mandatory,
-        id: "fc_question_"+index+'_'+requirement.nonOCDS.order,
+        id: "fc_question_"+index+'_'+dyNamicId,
         value: requirement.nonOCDS.options[index-1].value,
         maxlength:countLength,
         label: {
