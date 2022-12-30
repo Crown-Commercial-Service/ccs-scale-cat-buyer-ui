@@ -888,7 +888,7 @@ function isProjectExtensionValid() {
   let durationMessage='Expected contract length must be 2 years or less';
   if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
    durationYears='3';
-   durationMessage='Expected contract length must be 3 years or less';
+   durationMessage='Expected contract length must be 36 months or less';
   }
    
    if (YearProjectRun != null && YearProjectRun != "") {
