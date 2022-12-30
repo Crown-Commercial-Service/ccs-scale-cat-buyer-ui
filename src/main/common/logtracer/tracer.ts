@@ -27,8 +27,10 @@ export class LoggTracer {
    body = JSON.parse(errorLog?.exception?.config?.data)
  }
   const LogMessage = { 
-    "environment": "null",
-    "logType": "error",
+    "environment1": "null",
+    "logType": "CAS-ERROR",
+    "level": "error",
+    "message": errorLog?.errorRoot,
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
     "method":errorLog?.exception?.config?.method,
@@ -36,15 +38,14 @@ export class LoggTracer {
     "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
     "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
     "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
-    "others":{
-      AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
-    }
+    // "others":{
+    //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
+    // }
       
     };
    
-
-  
     await LoggerInstance.Instance.post('', LogMessage);
+
     if (!isNaN(errorLog.statusCode) && errorLog.statusCode == 401) {
       res.clearCookie(cookies.sessionID);
       res.clearCookie(cookies.state);
@@ -66,19 +67,22 @@ export class LoggTracer {
  }
     const LogMessage = { 
       "environment": "null",
-      "logType": "error",
+      "logType": "CAS-ERROR",
+      "level": "error",
+      "message": errorLog?.errorRoot,
       "baseUrl":errorLog?.exception?.config?.baseURL,
       "api": errorLog?.exception?.config?.url,
       "method":errorLog?.exception?.config?.method,
       "body": body,
       "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
-    "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
-    "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
-      "others":{
-        AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
-      }
+      "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
+      "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null
+      // "others":{
+      //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
+      // }
       
     };
+    
     await LoggerInstance.Instance.post('', LogMessage);
   };
 
