@@ -82,17 +82,17 @@
                 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
               {% elif(lot == 'Lot 4') %}
                 <p class="govuk-body">{{data.g_cloud_desc1_lot4}}</p>
-                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-2">
                 <p class="govuk-body">{{data.g_cloud_desc2_lot4}}
                   <a href="/fca/supplier/list" class="govuk-linkgovuk-link--no-visited-state">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
                 </p>
-                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-bottom-2">
               {% else %}
                 <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
                 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
               {% endif %}
               
-              <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-9">
+              <div class="govuk-!-margin-top-2 govuk-!-margin-bottom-9">
               <p class="govuk-body">{{data.g_cloud_desc2}}</p>
               <p class="govuk-body">{{data.g_cloud_desc3}}</p>
               </div>
@@ -259,9 +259,9 @@
                   <strong>Decide the approach and stages to your procurement. These may include:</strong>
                   <ul>
                     <li>
-                      <strong>Request for Information (RfI):</strong> Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them</li>
+                      <p><strong>Request for Information (RfI):</strong> Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them</p></li>
                     <li>
-                      <strong>Further competition:</strong> You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted</li>
+                      <p><strong>Further competition:</strong> You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted</p></li>
                   </ul>
                 </p>
               {% else %}
@@ -371,8 +371,8 @@
                     <p class="govuk-body">Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement.</p>
                   </li>
                   <li data-label="2" class="govuk-list--number-custome-list">
-                    <h3 class="proc-task-list__section">Do pre-tender market engagement</h3>
-                    <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-tender market engagement in the following way:</p>
+                    <h3 class="proc-task-list__section">Do pre-market engagement</h3>
+                    <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-market engagement in the following way:</p>
                     <strong>Request for Information (RfI)</strong>
                     <p class="govuk-body">Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.</p>
                   </li>
@@ -383,7 +383,6 @@
                     <p class="govuk-body">For the lot you selected, you can run your procurement in the following way:</p>
                     <strong>Further competition</strong>
                     <p class="govuk-body">You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.</p>
-                    <p class="govuk-body">This is also known as one-stage further competition.</p>
                   </li>
                   <li data-label="4" class="govuk-list--number-custome-list">
                     <h3 class="proc-task-list__section">Do evaluation</h3>
