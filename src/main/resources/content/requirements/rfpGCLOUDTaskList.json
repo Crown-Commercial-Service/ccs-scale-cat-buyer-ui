@@ -22,7 +22,7 @@
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfp/name-your-project",
