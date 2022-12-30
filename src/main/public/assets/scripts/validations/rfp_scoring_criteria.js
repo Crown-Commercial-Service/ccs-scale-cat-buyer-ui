@@ -791,6 +791,7 @@ const ccsZvalidateScoringCriteria2 = event => {
   var group_id = urlParams.get("group_id");
   var criterion = urlParams.get("id"); 
   var lID=document.getElementById('lID').value;
+  const pageHeading = document.getElementById('page-heading').innerHTML;
 
   if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
     errorStore = [];
@@ -798,7 +799,7 @@ const ccsZvalidateScoringCriteria2 = event => {
     errorStore = emptyFieldCheckRfpScore2();
   }
 
-  if (errorStore.length === 0) {
+  if (errorStore.length === 0 && !pageHeading.includes("The people who will use your product or service (Optional)")) {
     document.forms['service_user_type_form'].submit();
   }
   else {

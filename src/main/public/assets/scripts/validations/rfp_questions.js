@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let percentageval = $('#fc_question_precenate_'+textboxCount).val();
 
-            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && percentageval != 0){
+            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && errorStore.length !=0){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
            
