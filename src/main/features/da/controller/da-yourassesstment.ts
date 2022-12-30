@@ -104,10 +104,10 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       };
       // let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
-      let flag35 = await ShouldEventStatusBeUpdated(eventId, 34, req);
-      if(flag35){
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
-      }
+      // let flag35 = await ShouldEventStatusBeUpdated(eventId, 34, req);
+      // if(flag35){
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+      // }
       /*let flag37 = await ShouldEventStatusBeUpdated(eventId, 37, req);
       
       
