@@ -15,21 +15,45 @@ const rollbar_access_token = process.env.ROLLBAR_ACCESS_TOKEN
  */
 export class LoggTracer {
   /**
-   *
    * @param errorLog
    * @param res
    */
+  static infoLogger = async (dataSet: any, message: any, req: express.Request): Promise<void> => {
+    let body = null;
+    if(dataSet?.config?.data!=undefined && dataSet?.config?.data!=null && dataSet?.config?.data!='') {
+      body = JSON.parse(dataSet?.config?.data)
+    }
+    const LogMessage = {
+      "environment": "null",
+      "logType": "CAS_INFO",
+      "level": "info",
+      "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
+      "message": message,
+      "baseUrl":dataSet?.config?.baseURL,
+      "api": dataSet?.config?.url,
+      "method":dataSet?.config?.method,
+      "body": body,
+      "startTime": (dataSet?.config?.metadata?.startTime !=undefined) ? dataSet?.config?.metadata?.startTime : null,
+      "endTime": (dataSet?.config?.metadata?.endTime !=undefined) ? dataSet?.config?.metadata?.endTime : null,
+      "duration":(dataSet?.duration !=undefined) ? dataSet?.duration : null,
+      "time": new Date()
+    }     
+    await LoggerInstance.Instance.post('', LogMessage);
+  }
+  
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
   //  const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
  
- let body=null;
- if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
-   body = JSON.parse(errorLog?.exception?.config?.data)
- }
+  let body=null;
+  if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
+    body = JSON.parse(errorLog?.exception?.config?.data)
+  }
+  let req = express.request;
   const LogMessage = { 
-    "environment1": "null",
-    "logType": "CAS-ERROR",
+    "environment": "null",
+    "logType": "CAS_ERROR",
     "level": "error",
+    "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
     "message": errorLog?.errorRoot,
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
@@ -38,6 +62,7 @@ export class LoggTracer {
     "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
     "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
     "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
+    "time": new Date()
     // "others":{
     //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
     // }
@@ -61,13 +86,13 @@ export class LoggTracer {
     // const LogMessage = { 
     //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
     //  };
-    let body=null;
- if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
-   body = JSON.parse(errorLog?.exception?.config?.data)
- }
+    let body = null;
+    if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
+      body = JSON.parse(errorLog?.exception?.config?.data)
+    }
     const LogMessage = { 
       "environment": "null",
-      "logType": "CAS-ERROR",
+      "logType": "CAS_ERROR",
       "level": "error",
       "message": errorLog?.errorRoot,
       "baseUrl":errorLog?.exception?.config?.baseURL,
@@ -76,7 +101,8 @@ export class LoggTracer {
       "body": body,
       "startTime": (errorLog?.exception?.config?.metadata?.startTime !=undefined) ? errorLog?.exception?.config?.metadata?.startTime : null,
       "endTime": (errorLog?.exception?.config?.metadata?.endTime !=undefined) ? errorLog?.exception?.config?.metadata?.endTime : null,
-      "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null
+      "duration":(errorLog?.exception?.duration !=undefined) ? errorLog?.exception?.duration : null,
+      "time": new Date()
       // "others":{
       //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog 
       // }
@@ -95,6 +121,7 @@ export class LoggTracer {
     error_reason: string,
     redirect?: boolean,
   ): Promise<void> => {
+    
     delete errorLog?.config?.['headers'];
     let Logmessage = {
       Person_id: userId,
@@ -112,9 +139,8 @@ export class LoggTracer {
       Logmessage.exception,
       errorLog?.response?.status,
     );
+
     logger.error('Exception logged in Logit: ' + error_reason);
-   
-    
     
     const LogMessage = {
       AppName: 'Contract Award Service (CAS) frontend',
@@ -125,6 +151,7 @@ export class LoggTracer {
       platform: res.req.headers["sec-ch-ua-platform"],
       userAgent: res.req.headers["user-agent"]
     };
+
     if (rollbar_access_token) {
       const rollbar = new Rollbar({
         accessToken: rollbar_access_token,
@@ -134,12 +161,12 @@ export class LoggTracer {
       })
       rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot, res.req)
     }
+
     if (redirect) {
-    
       LoggTracer.errorTracer(Log, res);
     } else {
-     
       LoggTracer.errorTracerWithoutRedirect(Log);
     }
+
   };
 }
