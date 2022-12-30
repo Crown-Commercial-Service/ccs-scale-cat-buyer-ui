@@ -229,7 +229,18 @@
                 <span class="govuk-visually-hidden">Error:</span> 
                 {{message.subjectErrorMessage}}
               </span>
-              <input class="govuk-input govuk-input--error" id="create_subject_input" name="create_subject_input" type="text" aria-describedby="create_subject_input-error">
+              {{ CCSCharacterCount({           
+                id: "create_subject_input",
+                maxlength: 500,
+                name: "create_subject_input",
+                value: message.create_subject_input,
+                label: {
+                  text: "",
+                  classes: "govuk-label"
+                },
+                classes: "govuk-input govuk-input-textcount rfpterm govuk-input--error"
+                })
+              }}
               </div>
              
             {% else %}
