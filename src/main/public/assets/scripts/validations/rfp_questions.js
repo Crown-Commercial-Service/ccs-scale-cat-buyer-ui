@@ -486,8 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
            
-           
-          
+              
            let rootEl = document.getElementById('fc_question_' + textboxCount);
            
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19 && with_value_count == 20){
@@ -497,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
             }
+
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
