@@ -5,6 +5,7 @@ import { ReleatedContent } from '../model/related-content';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -25,6 +26,10 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
     }else{
       const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`;
       const { data: retrieveAgreementLot } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(retrieveAgreementLot, logConstant.lotDetailsFromAggrement, req);
+
       req.session.agreementLotName = retrieveAgreementLot.name;
       lotRelatedName = retrieveAgreementLot.name;
     }
