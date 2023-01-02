@@ -81,8 +81,8 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
         name: name,
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+      
       //CAS-INFO-LOG
-      console.log("********** Before post name")
       LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
 
     //  const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
