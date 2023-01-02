@@ -14,5 +14,10 @@ export enum logConstant {
     procurementCreated = 'Procurement created',
     procurementPage = 'Procurement page reached',
     postSaveEventsToProject = 'Selected events update to the project',
-    criteriaDetailFetch='Feached criteria details from Tender API'
+    criteriaDetailFetch = 'Feached criteria details from Tender API',
+    exportDetailFetch = 'Download project details from Tender API',
+    questionsFetch = 'Feached criterian group questions details from Tender API',
+    documentsFetch = 'Feached Ir35 documents from Tender API',
+    documentsSave = 'Saved Ir35 documents from Tender API',
+    saveLeadProcurement = 'Saved Lead Procurement from Tender API'
 }
