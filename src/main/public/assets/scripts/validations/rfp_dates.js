@@ -888,7 +888,7 @@ function isProjectExtensionValid() {
   let durationMessage='Expected contract length must be 2 years or less';
   if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
    durationYears='3';
-   durationMessage='Expected contract length must be 3 years or less';
+   durationMessage='Expected contract length must be 36 months or less';
   }
    
    if (YearProjectRun != null && YearProjectRun != "") {
@@ -1091,7 +1091,7 @@ function isProjectStartDateValid()
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
+         if (getTimeOfFormDate > getMSOfExpiryDate && document.getElementById('agreementID').value != 'RM1557.13') {
           // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');

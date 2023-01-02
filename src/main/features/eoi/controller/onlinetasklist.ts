@@ -93,21 +93,22 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
+          //if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
             let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
-            let item1 = questionOptions.find(i => i.selected === true);
+           // let item1 = questionOptions.find(i => i.selected === true);
+           let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
             if(item1){
               select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
             }
 
-          } else {
+          // } else {
             
-            if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
+          //   if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               
-              select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
-            } else {
-            }
-          }
+          //     select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
+          //   } else {
+          //   }
+          // }
         }
 
       }

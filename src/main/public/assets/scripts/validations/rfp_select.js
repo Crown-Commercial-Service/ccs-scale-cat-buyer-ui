@@ -245,8 +245,8 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
     } else {
       document.forms['rfp_singleselect'].submit();
     }
