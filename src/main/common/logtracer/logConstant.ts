@@ -26,4 +26,12 @@ export enum logConstant {
     rfichangeLeadProcurementUpdate = 'Change who will lead the procurement Updated',
 
 
+    rfpNameAProjectLog = 'Name your project page reached',
+    rfpNameAProjectUpdated = 'Name your project updated',
+    getUserDetails = 'Get logged user detail',
+    getUserOrgProfile = 'Get logged user organisation profiles detail',
+    changeLeadProcurementPage = 'Change who will lead the procurement reached',
+    changeLeadProcurementUpdate = 'Change who will lead the procurement Updated',
+    addColleaguesPage = 'Add colleagues to your project reached',
+    addColleaguesUpdated = 'Add colleagues to your project reached Updated'
 }

@@ -21,7 +21,7 @@ export class LoggTracer {
   static infoLogger = async (dataSet: any, message: any, req: express.Request): Promise<void> => {
     let body = null;
     if(dataSet?.config?.data!=undefined && dataSet?.config?.data!=null && dataSet?.config?.data!='') {
-      body = JSON.parse(dataSet?.config?.data)
+      body = dataSet?.config?.data;//JSON.parse(dataSet?.config?.data)
     }
     const LogMessage = {
       "environment": "null",
@@ -37,7 +37,8 @@ export class LoggTracer {
       "endTime": (dataSet?.config?.metadata?.endTime !=undefined) ? dataSet?.config?.metadata?.endTime : null,
       "duration":(dataSet?.duration !=undefined) ? dataSet?.duration : null,
       "time": new Date()
-    }     
+    }    
+    
     await LoggerInstance.Instance.post('', LogMessage);
   }
   
