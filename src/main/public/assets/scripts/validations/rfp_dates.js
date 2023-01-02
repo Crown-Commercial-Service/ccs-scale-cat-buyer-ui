@@ -1091,7 +1091,7 @@ function isProjectStartDateValid()
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
+         if (getTimeOfFormDate > getMSOfExpiryDate && document.getElementById('agreementID').value != 'RM1557.13') {
           // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
@@ -1328,7 +1328,7 @@ $(".yearlimit").keypress(function(e) {
 });
 
 const removeErrorFieldsdates = () => {
-   $('.govuk-error-message').remove();
+   $('.govuk-error-message').removeClass('govuk-error-message');
    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
    $('.govuk-error-summary').remove();
    $('.govuk-input').removeClass('govuk-input--error');
