@@ -117,7 +117,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
  */
 
 export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
-  
+ 
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
   try {
@@ -151,7 +151,7 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
 };
 
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
-  
+ 
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
   if(rfi_collaborators === ""){
@@ -175,9 +175,9 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       try{
 
         await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-        
+      
         //CAS-INFO-LOG
-        //LoggTracer.infoLogger(resData, logConstant.rfiaddColleaguesUpdated, req);
+        LoggTracer.infoLogger(null, logConstant.rfiaddColleaguesUpdated, req);
 
         req.session['searched_user'] = [];
         res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
@@ -243,11 +243,14 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
 
     try{
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.rfiaddColleaguesUpdated, req);
+
       req.session['searched_user'] = [];
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
     }catch(err){
       req.session['isJaggaerError'] = true;
-      res.redirect('/eoi/add-collaborators');
+      res.redirect('/rfi/add-collaborators');
     }
 
   } catch (err) {
@@ -270,7 +273,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
 
 // /rfi/proceed-collaborators
 export const POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
-  
+ 
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/9`, 'Completed');
