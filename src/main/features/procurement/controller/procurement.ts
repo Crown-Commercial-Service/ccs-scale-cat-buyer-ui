@@ -81,8 +81,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
     appendData = { types,lotId, ...appendData };
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    console.log('******** elementCached')
-    console.log(elementCached)
+    
     let procurement: Procurement;
     if (!elementCached) {
       const _body = {
@@ -252,7 +251,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,
