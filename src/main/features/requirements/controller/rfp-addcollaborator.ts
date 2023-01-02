@@ -11,6 +11,7 @@ import * as cmsData from '../../../resources/content/requirements/addcollaborato
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/addcollaborator.json';
 import * as doscmsData from '../../../resources/content/MCF3/requirements/dosaddcollaborator.json';
 import * as gcloudcmsData from '../../../resources/content/requirements/gcloudAddCollaborator.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // RFI ADD_Collaborator
 /**
@@ -90,6 +91,10 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       error: isJaggaerError,
       releatedContent: releatedContent,
     };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
+
     res.render('add-collaborator-rfp', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -163,7 +168,11 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
       };
 
       try{
-        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        const updateRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(updateRaw, logConstant.addColleaguesUpdated, req);
+
         req.session['searched_user'] = [];
         res.redirect('/rfi/add-collaborators');
       }catch(err){
