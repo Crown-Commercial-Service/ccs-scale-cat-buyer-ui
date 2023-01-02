@@ -17,19 +17,19 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 
   const url = `/tenders/projects/${projectId}/users`;
   try {
-    const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
-    //getUserDetails = 'Get logged user detail',
+    const usersTempData  = await TenderApi.Instance(SESSION_ID).get(url);
     
+    let usersTemp=usersTempData.data;
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(response, logConstant.rfigetUserDetails, req);
+    LoggTracer.infoLogger(usersTempData, logConstant.rfigetUserDetails, req);
       
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    const dataRaw  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(response, logConstant.rfigetUserOrgProfile, req);
+    LoggTracer.infoLogger(dataRaw, logConstant.rfigetUserOrgProfile, req);
     
-    const { pageCount } = dataRaw;
+    const { pageCount } = dataRaw.data;
     let usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
@@ -76,6 +76,11 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       error: isJaggaerError,
       releatedContent,
     };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.rfichangeLeadProcurementPageLog, req);
+
+
     res.render('procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -100,9 +105,9 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       userType: 'PROJECT_OWNER',
     };
     let addLead = await TenderApi.Instance(SESSION_ID).put(url, _body);
-    
+   
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(response, logConstant.rfichangeLeadProcurementUpdate, req);
+    LoggTracer.infoLogger(addLead, logConstant.rfichangeLeadProcurementUpdate, req);
     
     if(addLead){
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');

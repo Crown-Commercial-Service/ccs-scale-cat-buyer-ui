@@ -51,7 +51,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   };
 
   //CAS-INFO-LOG
-  LoggTracer.infoLogger(null, logConstant.rfiNameAProjectLog, req);
+  LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
 
   res.render('nameAProjectRfi', viewData);
 };
@@ -78,7 +78,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(response, logConstant.rfiNameAProjectTitleUpdated, req);
+      LoggTracer.infoLogger(response, logConstant.NameAProjectTitleUpdated, req);
       
       const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
