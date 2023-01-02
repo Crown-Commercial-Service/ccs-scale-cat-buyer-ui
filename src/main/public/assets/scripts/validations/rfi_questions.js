@@ -4,8 +4,9 @@ let totalCountindex = 21;
 
 document.addEventListener('DOMContentLoaded', () => {
 const queryString = window.location.search;
+
 const urlParams = new URLSearchParams(queryString);
-  if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+  if(urlParamsDefault.get('agreement_id') == 'RM1557.13' || urlParamsDefault.get('agreement_id') == 'RM6187'){
     totalCount = 10;
     totalCountindex = 11;
   }
@@ -299,7 +300,7 @@ const urlParams = new URLSearchParams(queryString);
 
     let length = totalCountindex;
     while (--length) {
-      console.log(length);
+     
       let element = document.querySelector("#rfi_question_" + length);
       element.addEventListener('focusout', (event) => {
         let eleValue = event.target.value;
