@@ -1328,7 +1328,7 @@ $(".yearlimit").keypress(function(e) {
 });
 
 const removeErrorFieldsdates = () => {
-   $('.govuk-error-message').removeClass('govuk-error-message');
+   $('.govuk-error-message').remove();
    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
    $('.govuk-error-summary').remove();
    $('.govuk-input').removeClass('govuk-input--error');
