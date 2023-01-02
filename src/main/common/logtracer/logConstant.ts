@@ -18,5 +18,12 @@ export enum logConstant {
     fetchAssesmentDetails = 'Fetched assessment details',
     fetchAssesmentDimentionDetails = 'Fetched assessment dimensions details',
     writePublishPage = 'Write and publish your requirements reached',
-    criteriaDetailFetch='Feached criteria details from Tender API'
+    criteriaDetailFetch='Feached criteria details from Tender API',
+    rfiNameAProjectLog = 'Name your projec page reached',
+    rfiNameAProjectTitleUpdated = 'Name your projec title updated',
+    rfigetUserDetails="Get logged user detail",
+    rfigetUserOrgProfile ="Get logged user organisation profiles detail",
+    rfichangeLeadProcurementUpdate = 'Change who will lead the procurement Updated',
+
+
 }
