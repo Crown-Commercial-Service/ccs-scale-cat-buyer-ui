@@ -20,8 +20,9 @@ export enum logConstant {
     writePublishPage = 'Write and publish your requirements reached',
     criteriaDetailFetch='Feached criteria details from Tender API',
     
-    rfiNameAProjectLog = 'Name your projec page reached',
-    rfiNameAProjectTitleUpdated = 'Name your projec title updated',
+    
+    NameAProjectLog = 'Name your projec page reached',
+    NameAProjectTitleUpdated = 'Name your projec title updated',
     rfichangeLeadProcurementPageLog='Change who will lead the procurement page reached',
     rfigetUserDetails="Get logged user detail",
     rfigetUserOrgProfile ="Get logged user organisation profiles detail",
@@ -30,8 +31,7 @@ export enum logConstant {
     rfiaddColleaguesUpdated = 'Add colleagues to your project reached Updated',
 
 
-    rfpNameAProjectLog = 'Name your project page reached',
-    rfpNameAProjectUpdated = 'Name your project updated',
+   
     getUserDetails = 'Get logged user detail',
     getUserOrgProfile = 'Get logged user organisation profiles detail',
     changeLeadProcurementPage = 'Change who will lead the procurement reached',
