@@ -50,7 +50,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
     releatedContent: releatedContent,
   };
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(null, logConstant.rfiNameAProjectLog, req);
+    LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
     res.render('nameAProject-rfp', viewData);
 };
 
@@ -83,7 +83,7 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       //CAS-INFO-LOG
       console.log("********** Before post name")
-      LoggTracer.infoLogger(response, logConstant.rfiNameAProjectUpdated, req);
+      LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
 
     //  const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
