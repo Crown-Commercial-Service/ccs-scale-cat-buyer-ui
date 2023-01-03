@@ -168,7 +168,13 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if(ChoosenAgreement == 'RM1043.8' && req.session?.lotId == '1' && group_id == 'Group 9') {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
-    }else {
+    }
+    else if(ChoosenAgreement == 'RM1557.13' && req.session?.lotId == '4' && (group_id == 'Group 1' || group_id == 'Group 2' || group_id == 'Group 3'|| group_id == 'Group 6' )){
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+    }
+    
+    else {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
     }
