@@ -52,15 +52,15 @@
             <p class="govuk-body">{{ExpiryBefore}} Expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
-
-          {# <div class="govuk-inset-text">
+          {% if (agreement_id == 'RM1557.13') %}
+          <div class="govuk-inset-text">
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
               <br>
               <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
-          </div> #}
-
+          </div>
+          {% endif %}
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
               {% if (agreement_id == 'RM1557.13') %}
