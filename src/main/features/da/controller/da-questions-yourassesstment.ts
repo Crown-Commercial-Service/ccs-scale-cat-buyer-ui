@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 /**
@@ -32,6 +33,8 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.fetchedQuestions, req);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
