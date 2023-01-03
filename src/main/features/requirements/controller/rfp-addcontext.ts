@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 /**
  *
  * @param req
@@ -41,6 +42,8 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
     operations.isUndefined(req.query, 'proc_id') ||
     operations.isUndefined(req.query, 'event_id')
   ) {
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
     const RedirectURL = `/rfp/add-context?agreement_id=${req.session.agreement_id}&proc_id=${req.session.projectId}&event_id=${req.session.eventId}`;
     res.redirect(RedirectURL);
   } else {
@@ -199,6 +202,8 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
         }
       }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

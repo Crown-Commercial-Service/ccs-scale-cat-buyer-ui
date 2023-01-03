@@ -25,6 +25,11 @@ export enum logConstant {
     writePublishPage = 'Write and publish your requirements reached',
     criteriaDetailFetch='Feached criteria details from Tender API',
     fetchedQuestions ='Feached assesstments questions from Tender API',
+    addContectRequirementPage ='Add context and requirements reached',
+    questionDetail ='Question detail',
+    questionGroupDetail ='Question group detail',
+    questionPage ='Question page reached',
+    questionUpdated ='Question updated',
 
     
    
