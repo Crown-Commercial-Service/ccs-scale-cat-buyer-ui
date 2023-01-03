@@ -46,7 +46,7 @@ const ccsZvalidateRfPStrategy = event => {
   var urlParams = new URLSearchParams(window.location.search);
   var agreement_id = urlParams.get("agreement_id");
   var group_id = urlParams.get("group_id");
-
+  var criterion = urlParams.get('id'); 
 
   if ($('#ccs_vetting_type') !== undefined) {
     var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
@@ -98,7 +98,16 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
+ 
+          if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
+          }
+          else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
+          }
+          else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }

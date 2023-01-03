@@ -23,7 +23,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
-  const {fileDuplicateError}=req.session;
+  const {fileDuplicateError,RfiUploadError}=req.session;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -76,7 +76,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
       } else { 
         forceChangeDataJson = cmsData;
       }
-
+      if(RfiUploadError){
+        errorList.push({ text: "Please attach the file before upload. ", href: "#rfi_offline_document" })
+      }
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -84,7 +86,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        agreementId_session:req.session.agreement_id
+        agreementId_session:req.session.agreement_id,
+        RfiUploadError,
+        errorlist: errorList
       };
 
       if (fileDuplicateError) {

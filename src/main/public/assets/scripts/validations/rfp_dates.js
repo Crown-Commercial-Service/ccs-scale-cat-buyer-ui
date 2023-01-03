@@ -541,7 +541,13 @@ function checkResourceStartDate()
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
             if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
-               error_msg = 'Enter a day and month'
+              
+               if(rfpResourceStartYear.val().length < 4){
+                  error_msg = 'Enter a day and month with valid Year(YYYY Format)'
+               }else{
+                  error_msg = 'Enter a day and month'
+               }
+              
                rfpResourceStartMonth.addClass('govuk-form-group--error');
 
             }
@@ -888,7 +894,7 @@ function isProjectExtensionValid() {
   let durationMessage='Expected contract length must be 2 years or less';
   if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
    durationYears='3';
-   durationMessage='Expected contract length must be 3 years or less';
+   durationMessage='Expected contract length must be 36 months or less';
   }
    
    if (YearProjectRun != null && YearProjectRun != "") {
@@ -961,7 +967,7 @@ function isProjectExtensionValid() {
       }
       projectRunInDays = projectRunInDays + Number(DaysProjectRun)
    }
-   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun)) ) {
+   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun) == 0) ) {
       if(Number(projectRunInDays) == 0 )
       {
          isValid = false;
@@ -1091,7 +1097,7 @@ function isProjectStartDateValid()
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
+         if (getTimeOfFormDate > getMSOfExpiryDate && document.getElementById('agreementID').value != 'RM1557.13') {
           // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');

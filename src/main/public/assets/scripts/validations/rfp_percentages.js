@@ -191,7 +191,11 @@ const ccsZvalidateRfpPercentages = (event) => {
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
 
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    if(agrement_id == 'RM1043.8') {
+      errorStore.push(["Question 3", "The weightings must add up to 100% in total"]);
+    }else{
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }
     
     //var fieldCheck = ccsZvalidateWithRegex('Question 3-hint', "Your total percentage must be 100%", /\w+/);
     //errorStore.push(fieldCheck);
