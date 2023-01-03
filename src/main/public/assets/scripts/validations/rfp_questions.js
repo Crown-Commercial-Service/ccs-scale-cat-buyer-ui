@@ -1116,7 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
-
+                          
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
@@ -1217,11 +1217,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(document.getElementById('lID') !== null) {
             LOTID_VAR = document.getElementById('lID').value;
         }
-        let errorStoreforOptional = '';
-        if(urlParams.get('agreement_id') == 'RM1557.13'){
-        errorStoreforOptional = emptyFieldCheckgl4('submit');
-        }
-        
+       let errorStoreforOptional = '';
+       if(urlParams.get('agreement_id') == 'RM1557.13'){
+       errorStoreforOptional = emptyFieldCheckgl4('submit');
+       }
+     
         if (errorStoreforOptional.length == 0) {
 
         var weightLoop = document.getElementsByClassName("weightage");
@@ -1498,7 +1498,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else { ccsZPresentErrorSummary(errorStore); }
         }
 
-        } else ccsZPresentErrorSummary(errorStoreforOptional);
+         } else ccsZPresentErrorSummary(errorStoreforOptional);
     });
 
     
