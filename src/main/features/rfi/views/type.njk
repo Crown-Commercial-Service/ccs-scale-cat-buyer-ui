@@ -4,9 +4,36 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
+{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: "/projects/create-or-choose"
+      },
+      {
+         text: "Request for Information",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Choose how to build your RfI",
+         href: "#"
+      }
+    ]
+      }) }}
+{% else %}
+{{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -23,8 +50,12 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-
+        {% if agreementId_session == "RM1557.13" %}
+          <p>You can build your RfI by entering the necessary information online. You will also have the option to upload documents as part of this journey.</p><br>
+          <p> In future, you will have the option to prepare your RfI offline and then upload it.</p>
+        {% else %}
         <p class="govuk-body">{{ data.form.question }}</p>
+        {% endif %}
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
@@ -37,6 +68,11 @@
       {% set form_Options_Altered = [] %}
 
       {% for item in formOptions %}
+      {% if item.value == ccs_rfi_type %}
+          {% set radioCheckSession = 'checked' %}
+      {% else %}
+          {% set radioCheckSession = '' %}
+      {% endif %}
         {% if item.disabled != 'true' %}
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
@@ -44,7 +80,8 @@
               html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
               hint : {
                 text: item.hint.text
-              }
+              },
+              checked: radioCheckSession
               }
              ), form_Options_Altered) 
              
@@ -82,7 +119,11 @@
         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                {% if agreementId_session=="RM1557.13" %}
+        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+        {% else %}
+<a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+        {% endif %}
       </div>
     </form>
   </div>

@@ -21,8 +21,8 @@
     "subtitle": null,
     "events": [{
             "eventno": 1,
-            "eventTitle": "Project details",
-            "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
+            "eventTitle": "Project and colleagues",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfp/name-your-project",
@@ -33,7 +33,7 @@
                 {
                     "Task": 2,
                     "link": "/rfp/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead the project",
                     "required": "optional",
                     "status": "Optional"
                 },
@@ -82,7 +82,7 @@
 
         {
             "eventno": 4,
-            "eventTitle": "Upload pricing schedules and other documents",
+            "eventTitle": "Upload documentation",
             "eventDescription": "Upload your pricing schedule, terms and conditions, and any additional information that will help suppliers understand your project.",
             "eventTask": [{
                     "Task": 1,

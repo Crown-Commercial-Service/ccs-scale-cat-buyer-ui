@@ -7,7 +7,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 //import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+//import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 // eoi TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
@@ -44,12 +44,12 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
   const { SESSION_ID } = req.cookies;
   try {
    
-    let flag = await ShouldEventStatusBeUpdated(eventId, 19, req);
+    //let flag = await ShouldEventStatusBeUpdated(eventId, 19, req);
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');
-    if (flag) {
+    //if (flag) {
       
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');
-    }
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'Completed');
+    //}
     // if (response.status == HttpStatusCode.OK) {
     //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/20`, 'Not started');
     // }

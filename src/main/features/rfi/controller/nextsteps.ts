@@ -9,7 +9,7 @@ import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Response) => {
 
     //cmsData.breadCrumbs[1].href=cmsData.breadCrumbs[1].href+req.session.eventId;
-    const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
+    const { agreementLotName, agreementName, agreement_id, releatedContent, project_name, projectId } =
     req.session;
     const lotid = req.session?.lotId;
     const agreementId_session = agreement_id;
@@ -36,6 +36,7 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
     res.locals.agreement_header = {
         agreementName,
         project_name,
+        projectId,
         agreementId_session,
         agreementLotName,
         lotid,

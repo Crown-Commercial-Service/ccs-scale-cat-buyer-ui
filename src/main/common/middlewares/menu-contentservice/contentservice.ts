@@ -26,7 +26,7 @@ export class ContentFetchMiddleware {
             const menuItemsStorage: Array<any> = [];
             for (const menuId of allMenuIdentifiersId) {
                 const BaseURL = `/wp-json/wp-api-menus/v2/menus/${menuId}`;
-                const newInstance = contentAPI.Instance;
+                const newInstance = contentAPI.Instance(null);
                 newInstance.defaults.timeout = Number(config.get('settings.fetch-timelimit'));
                 const fetchMenuItems = await newInstance.get(BaseURL);
                 const { ID, name }: menuFetchItems = fetchMenuItems?.data;

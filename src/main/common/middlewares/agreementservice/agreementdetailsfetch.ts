@@ -21,7 +21,7 @@ export class AgreementDetailsFetchMiddleware {
             const agreementLotName = req.session.agreementLotName;
             const lotid = req.session?.lotId;
             const BaseURL = `agreements/${agreementId_session}`;
-            const retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
+            const retrieveAgreementPromise = AgreementAPI.Instance(null).get(BaseURL);
             retrieveAgreementPromise.then((data) => {
                 const containedData = data?.data;
                 logger.info("Feached agreement details from Agreement service API")

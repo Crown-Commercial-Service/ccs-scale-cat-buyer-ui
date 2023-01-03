@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { Procurement } from '../model/project';
 import { ccsStatusOverride } from '../../../utils/ccsStatusOverride';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -71,20 +72,27 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if(agreementId_session == 'RM1557.13' && lotId=='All') {
       types='';
     }else{
-      const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
-      types = typesRaw.map((typeRaw: any) => typeRaw.type);
+      const typesRaw = await AgreementAPI.Instance(null).get(eventTypesURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(typesRaw, logConstant.evenTypeFromAggrementLot, req);
+      const typeRawData = typesRaw.data;
+      types = typeRawData.map((typeRaw: any) => typeRaw.type);
     }
     appendData = { types,lotId, ...appendData };
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-
+    
     let procurement: Procurement;
     if (!elementCached) {
       const _body = {
         agreementId: agreementId_session,
         lotId: (agreementId_session == 'RM1557.13' && lotId=='All')?'All':lotId,
       };
-      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
-      procurement = procurementRaw;
+      const procurementRaw = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(procurementRaw, logConstant.procurementCreated, req);
+
+      procurement = procurementRaw.data;
       req.session.procurements.push(procurement);
       req.session.project_name = procurement['defaultName']['name'];
 
@@ -92,6 +100,9 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       procurement = elementCached;
       req.session.project_name = req.session.project_name;
     }
+
+    
+
     logger.info('procurement.created', procurement);
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.projectId = procurement['procurementID'];
@@ -229,6 +240,9 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}
     
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.procurementPage, req);
+
     appendData = { ...appendData, agreementName, releatedContent, agreementId_session, stepstocontinueDAA,ScrollTo };
    if (agreementId_session == 'RM1557.13' && lotId=='4') {
       res.render('gcloud_lot4-procurement', appendData);
@@ -237,7 +251,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,
