@@ -44,7 +44,7 @@
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if(error) %}
-            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "One option must be selected." }] }) }}
+            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "One option must be selected", href: "#fca_next_steps_form" }] }) }}
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -99,7 +99,7 @@
                                 items:form_Options,
                                 error: error,
                                 errorMessage: {
-                                    text: 'One option must be selected.'
+                                    text: 'One option must be selected'
                                 } 
                             }) 
                         }}
