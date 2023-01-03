@@ -9,9 +9,14 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+   
+  //CAS-INFO-LOG 
+   LoggTracer.infoLogger(null, logConstant.setYourTimeLinePageLog, req);
+
   RESPONSEDATEHELPER(req, res);
 };
 
@@ -77,6 +82,10 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       };
       const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
@@ -353,6 +362,10 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
         res.redirect('/rfi/response-date');
       } catch (error) {
         delete error?.config?.['headers'];
