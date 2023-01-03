@@ -609,6 +609,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
               const { percentage } = req.body;
+              
               if (dataList != undefined) {
                 var optins = dataList?.filter(val => val !== '')
                   .map(val => {
@@ -633,6 +634,10 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 } 
                 
               } else if (percentage != undefined && percentage != null) {
+                const socialvaluePercentage = percentage[2];
+                if(socialvaluePercentage == 0){
+                  
+                }
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
