@@ -9,6 +9,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 // RFI TaskList
 /**
  * 
@@ -51,7 +53,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             fetch_dynamic_api_data = fetch_dynamic_api?.data;
          }
-         
+      
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.buildYourRfiQuestionList, req);
+
          const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
          let criterianStorage: any = [];
          for (const aURI of extracted_criterion_based) {
@@ -166,6 +171,9 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             releatedContent: releatedContent
          }
          
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.buildYourRfiPageLog, req);
+
          res.render('onlinetasklist', display_fetch_data);
          // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
          // if (response.status == HttpStatusCode.OK){
