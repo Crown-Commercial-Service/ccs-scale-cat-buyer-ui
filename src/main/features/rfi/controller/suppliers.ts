@@ -13,6 +13,7 @@ import { Parser } from 'json2csv';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // RFI Suppliers
 export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -26,6 +27,10 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
   const { download,previous,next,fromMessage } = req.query
   let supplierList = [];
   supplierList = await GetLotSuppliers(req);
+
+  //CAS-INFO-LOG 
+  LoggTracer.infoLogger(supplierList, logConstant.supplierList, req);
+
   //27-08-2022
   if(agreementId_session == 'RM6187' || agreementId_session =='RM1557.13') { //MCF3 or Gcloud
     const {data: getSuppliersPushed} = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`);
@@ -257,6 +262,9 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
       appendData= Object.assign({}, { ...appendData, enablebtn: false})	
       
     }
+
+     //CAS-INFO-LOG 
+     LoggTracer.infoLogger(null, logConstant.rfiViewSuppliersPageLog, req);
 
   res.render('supplier', appendData);
   }

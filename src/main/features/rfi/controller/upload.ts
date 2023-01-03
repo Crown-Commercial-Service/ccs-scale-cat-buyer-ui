@@ -8,6 +8,7 @@ import FormData from 'form-data';
 import { FileValidations } from '../util/file/filevalidations';
 import { FILEUPLOADHELPER } from '../helpers/upload';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // RFI Upload document
 /**
@@ -92,6 +93,10 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
                   ...formHeaders,
                 },
               });
+              
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+
             }
             } catch (error) {
               LoggTracer.errorLogger(
@@ -158,6 +163,10 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
                 ...formHeaders,
               },
             });
+           
+            //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+
             res.redirect('/rfi/upload-doc');
             }
           } catch (error) {
@@ -219,5 +228,6 @@ export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Reques
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId,agreement_id } = req.session;
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
+   
   res.redirect('/rfi/suppliers');
 });
