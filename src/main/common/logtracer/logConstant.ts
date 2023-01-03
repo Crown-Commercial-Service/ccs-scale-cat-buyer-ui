@@ -51,6 +51,7 @@ export enum logConstant {
     yourTimeLineUpdate="Rfi Tmeline updated",
     reviewAndPublishPageLog="Review and publish your RFI page reached",
     rfiEventDetails="Fetched the event details",
-    rfiPublishLog="Rfi sucessfully published"
+    rfiPublishLog="Your RfI has been published",
+    rfiPublishPageLog="Rfi published page reached",
     
 }

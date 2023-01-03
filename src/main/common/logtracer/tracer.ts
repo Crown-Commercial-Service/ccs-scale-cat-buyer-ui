@@ -25,7 +25,7 @@ export class LoggTracer {
     }
     const LogMessage = {
       "environment": "null",
-      "logType": "CAS_INFO",
+      "logType": "CAS_INFOFINALPUB",
       "level": "info",
       "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
       "message": message,
