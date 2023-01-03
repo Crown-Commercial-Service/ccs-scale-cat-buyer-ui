@@ -541,7 +541,13 @@ function checkResourceStartDate()
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             removeErrorFieldsdates();
             if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
-               error_msg = 'Enter a day and month'
+              
+               if(rfpResourceStartYear.val().length < 4){
+                  error_msg = 'Enter a day and month with valid Year(YYYY Format)'
+               }else{
+                  error_msg = 'Enter a day and month'
+               }
+              
                rfpResourceStartMonth.addClass('govuk-form-group--error');
 
             }
