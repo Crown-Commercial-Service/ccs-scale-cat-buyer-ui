@@ -734,12 +734,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            $('.govuk-error-summary').remove();
-                            $('.govuk-form-group--error').remove();
-                            removeErrorFieldsRfpScoreQuestion();
-                           var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, 'The total weighting is 100% so you can not add more questions', /\wd+/);
-                            errorStore.push(percentageCheck)
-                            // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                        errorStore = emptyQuestionFieldCheckRfp();
+                        errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
                         $('.govuk-form-group--error').remove();
