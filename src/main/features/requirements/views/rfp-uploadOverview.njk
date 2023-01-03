@@ -43,7 +43,9 @@
                 <b class="govuk-heading-s">Pricing schedule</b>
                 {% endif %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
+                {% if agreementId_session != 'RM1557.13' %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description2}}</p>
+                {% endif %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description3}}</p>
                 {% if agreementId_session == 'RM1557.13' %}
                 <b class="govuk-heading-s">Core terms, call-off order form and schedules (terms and conditions)</b>

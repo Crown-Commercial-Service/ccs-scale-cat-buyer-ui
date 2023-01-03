@@ -150,7 +150,7 @@ let ccs_vetting = document.querySelectorAll('.ccs_vetting');
 let rfp_term_definition_new = document.querySelectorAll('.rfp_term_definition_new');
 rfp_vetting.forEach(ele => {
   ele.addEventListener('keydown', (event) => {
-    removeErrorFieldsRfpSelect();
+    // removeErrorFieldsRfpSelect();
   });
 });
 rfp_term_percentage.forEach(ele => {
@@ -245,8 +245,8 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
     } else {
       document.forms['rfp_singleselect'].submit();
     }
@@ -258,7 +258,14 @@ $('#rfp_singleselect').on('submit', event => {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        let urlParamsData = new URLSearchParams(window.location.search);
+        if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('group_id') == 'Group 21'){
+          ccsZPresentErrorSummary([['ccs_vetting_type', 'Select whether you need a contracted out service or a supply of resource']]);
+        }else{
+          ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        }
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZPresentErrorSummary([['There is a problem', 'Choose if this is a new, replacement or expanded service.']]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
@@ -268,6 +275,8 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
       }
@@ -278,5 +287,5 @@ $('#rfp_singleselect').on('submit', event => {
 });
 
 $('#rfp_security_confirmation').on('input', function() {
-  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+  $(this).val($(this).val().replace(/[^a-z0-9,]/gi, ''));
 });

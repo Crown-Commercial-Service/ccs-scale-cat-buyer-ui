@@ -6,6 +6,8 @@ import { LoggTracer } from '../../logtracer/tracer';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('PreMarketEngagementMiddleware');
 import * as journyData from './../../../features/procurement/model/tasklist.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 /**
  *
  * @Middleware
@@ -27,7 +29,12 @@ export class PreMarketEngagementMiddleware {
       let newEvent = false;
       let newEventId = false;
       try {
-        const { data: newEventData } = await TenderApi.Instance(SESSION_ID).post(BaseURL, body_);
+        const newEventRaw = await TenderApi.Instance(SESSION_ID).post(BaseURL, body_);
+        const newEventData = newEventRaw.data;
+
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(newEventRaw, logConstant.postSaveEventsToProject, req);
+
         if (newEventData != null && newEventData != undefined) {
           newEvent = true;
           newEventId = newEventData.id;
@@ -181,7 +188,12 @@ export class PreMarketEngagementMiddleware {
             
             
 
-            const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+            const dataRaw = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+            const data = dataRaw.data;
+            
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(dataRaw, logConstant.procurementCreated, req);
+
             req.session.currentEvent = data;
 
             if (eventType === 'FC') {
@@ -223,7 +235,12 @@ export class PreMarketEngagementMiddleware {
             }
 
             
-            const { data } = await TenderApi.Instance(SESSION_ID).post(eventTypeURL, nonOCDS_body);
+            const dataRaw = await TenderApi.Instance(SESSION_ID).post(eventTypeURL, nonOCDS_body);
+            const data = dataRaw.data;
+            
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(dataRaw, logConstant.procurementCreated, req);
+
             req.session.currentEvent = data;
             const currentProcNum = procurements.findIndex(
               (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,

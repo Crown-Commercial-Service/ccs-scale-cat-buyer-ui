@@ -18,7 +18,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
  */
 
 export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  FILEUPLOADHELPER(req, res, false, null);
+  FILEUPLOADHELPER(req, res, false, []);
 };
 
 /**
@@ -33,11 +33,14 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  const journeyStatus = req.session['journey_status'];
-
+  req.session.RfiUploadError=false;
   if (!req.files) {
-    const journey = journeyStatus.find(journey => journey.step === 11)?.state;
-    const routeRedirect = journey === 'Optional' ? '/rfi/suppliers' : '/rfi/upload-doc';
+    const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+    const journeyStatus = JourneyStatusUpload?.data;
+    const journey = journeyStatus?.find(journey => journey.step === 11)?.state;
+    
+    const routeRedirect = journey === 'Optional' ? '/rfi/upload-doc' : '/rfi/upload-doc';
+    req.session.RfiUploadError=true;
     res.redirect(routeRedirect);
   } else {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
@@ -217,10 +220,6 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
 export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId,agreement_id } = req.session;
-  if(agreement_id == 'RM1557.13'){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
-  }else{
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
-  }
   res.redirect('/rfi/suppliers');
 });

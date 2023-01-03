@@ -4,7 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("service_user_type_form") !== null) {
 
+        var urlParam = new URLSearchParams(window.location.search);
+        var agreement_Id = urlParam.get("agreement_id");
+       
+       if(agreement_Id == "RM1557.13"){
         document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+       }
 
         let with_value_count = 10,
             prev_input = 0,
@@ -51,25 +56,26 @@ document.addEventListener('DOMContentLoaded', () => {
             var group_id = urlParams.get("group_id");
             var criterion = urlParams.get("id");
             let last_value = with_value_count - 1;
+        for (var x = 1; x < 11; x++) {
             let groupName='',groupDetails='';
-            const group_name = document.querySelector('#rfp_term_service_group_' + last_value).value;
-            const group_details =  document.querySelector('#rfp_term_more_details_' + last_value).value;
-            const hidden = document.querySelector(".acronym_service_" + last_value).classList.contains("ccs-dynaform-hidden")
-        if( (group_name == '' || group_details == '') ){
+            const group_name = document.querySelector('#rfp_term_service_group_' + x).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + x).value;
+            const hidden = document.querySelector(".acronym_service_" + x).classList.contains("ccs-dynaform-hidden")
+        if( (group_name == '' || group_details == '') && !hidden ){
             if(group_name == '') {
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type", /\w+/);
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + x , "Enter a user type", /\w+/);
                 }
                 else{
-                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
+                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + x , "You must enter information here", /\w+/);
                 }
             }
             if(group_details == ''){
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users", /\w+/);
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + x , "Enter details about your users", /\w+/);
                 }
                 else{
-                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + x , "You must enter information here", /\w+/);
                 }
             }  
            
@@ -84,21 +90,29 @@ document.addEventListener('DOMContentLoaded', () => {
             ccsZPresentErrorSummary(errorStore);
             }
             
-
-        }else if(errorStore.length ==0) {
+        }
+        }
+        if(errorStore.length ==0) {
             removeErrorFieldsRfpScoreQuestion()
             document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
         }
+
             // if (with_value_count > 2) {
             //     prev_input = with_value_count - 1;
             //     document.querySelector(".acronym_service_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
             // }
 
            
-            // console.log('with_value_count',with_value_count)
-            if (with_value_count === 10) {
-                document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+
+            if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                if (errorStore.length == 0 && with_value_count === 10) {
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+            }else{
+                if (with_value_count === 10) {
+                  document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
             }
             if(errorStore.length == 0){
                 if($("#deleteButton_service_useer_type_" + last_value)){
@@ -410,7 +424,7 @@ const emptyFieldCheckgcloud = (type) => {
         let term_field = document.getElementById('rfp_term_service_group_' + x);
         let definition_field = document.getElementById("rfp_term_more_details_" + x);
 
-        if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
+        if (term_field != null && term_field.value !== undefined && definition_field != null && definition_field !== undefined) {
             
             if(type == 'addmore'){
                 const field1 = countWords1(term_field.value) > 50;

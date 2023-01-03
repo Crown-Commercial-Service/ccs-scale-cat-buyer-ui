@@ -279,8 +279,9 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
 
         const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
         let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
-        
-        
+        //SCAT-8083
+        SUPPLIER_DATA = SUPPLIER_DATA.suppliers.sort((a: any, b: any) => (a.name < b.name ? -1 : 1));
+
         const message: CreateMessage = {
             create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
@@ -303,7 +304,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
             data = inboxData;
           }
           
-        const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+        const appendData = { supplierList:SUPPLIER_DATA,data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         
         
         res.render('MessaginSupplierCreate', appendData)

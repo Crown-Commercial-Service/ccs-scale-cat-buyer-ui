@@ -17,7 +17,7 @@ export class ChooseAgreementMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (req.session.agreement_id) {
             const BaseURL = "/agreements/" + req.session.agreement_id + "/lots";
-            const retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL)
+            const retrieveAgreementPromise = AgreementAPI.Instance(null).get(BaseURL)
             const { state, SESSION_ID } = req.cookies;
             retrieveAgreementPromise.then(async (data) => {
                 const containedData = data?.data;
@@ -26,7 +26,7 @@ export class ChooseAgreementMiddleware {
                 // getting supplier count for the lot
                 for (const lot of draft) {
                     const BaseUrlAgreementSuppliers = `/agreements/${req.session.agreement_id}/lots/${lot.number}/suppliers`;
-                    const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers);
+                    const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance(null).get(BaseUrlAgreementSuppliers);
                     lot.suppliers = retrieveAgreementSuppliers.length + " suppliers";
                 }
 

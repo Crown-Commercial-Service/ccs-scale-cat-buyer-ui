@@ -11,7 +11,7 @@
   }
 ] %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -23,11 +23,11 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Inbox",
+      "text": "Your inbox",
       "href": "/message/inbox?type=received"
     },
     {
-      "text": "Compose message",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -120,7 +120,7 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
-      <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+      <a href="{{data.backlink}}">back</a>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
@@ -138,7 +138,7 @@
 
             {% if message.IsClassificationNotDefined %}
               <div class="govuk-form-group govuk-form-group--error">
-                <label class="govuk-label govuk-label govuk-label--m" for="create_message">
+                <label class="govuk-label govuk-label" for="create_message">
                   Message Classification
                 </label>
                 <span id="create_message-error" class="govuk-error-message">
@@ -167,14 +167,26 @@
 
             {% if message.IsSubjectNotDefined %}
             <div class="govuk-form-group govuk-form-group--error">
-              <label class="govuk-label govuk-label govuk-label--s" for="create_subject_input">
+              <label class="govuk-label govuk-label" for="create_subject_input">
                 Subject
               </label>
               <span id="create_subject_input-error" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> 
                 {{message.subjectErrorMessage}}
               </span>
-              <input class="govuk-input govuk-input--error" id="create_subject_input" name="create_subject_input" type="text" aria-describedby="create_subject_input-error">
+              {{ CCSCharacterCount({           
+                id: "create_subject_input",
+                maxlength: 500,
+                name: "create_subject_input",
+                value: message.create_subject_input,
+                label: {
+                  text: "",
+                  classes: "govuk-label"
+                },
+                classes: "govuk-input govuk-input-textcount rfpterm govuk-input--error"
+                })
+              }}
+
               </div>
              
             {% else %}
@@ -195,7 +207,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label govuk-label" for="create_message_input">{{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
@@ -222,7 +234,7 @@
                   }}
               {% else %}
                   {{ CCSButton({
-                      text: data.btnText,
+                      text: data.btnText2,
                       action:"submit"
                   })
                   }}

@@ -63,7 +63,12 @@
      {% endif %}
   {% else %}
     <p>
-      {{data.subtitle}}<br>
+       
+          {% if agreementId_session ==='RM1557.13' %}
+              {{data.subtitle_gcloud}}<br>
+          {% else %}   
+              {{data.subtitle}}<br>
+          {% endif %}
        {% if (status!="CLOSED") %}
       <br>
       {{data.subtitle1}}
@@ -254,7 +259,7 @@
   <div class="govuk-grid-column-full">
 
     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
-        {% if agreementId_session == "RM6187" %}
+        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
             Number of suppliers who may respond to your published project </h2>
@@ -282,7 +287,7 @@
     <p class="govuk-grid-column-one-half">
       <strong>{{data.subsection4_title3_eval_task1}} </strong>
       <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-          {% if agreementId_session == 'RM6187' %}
+          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}
           {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
@@ -290,10 +295,14 @@
         <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-          <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+            {% if (agreementId_session == 'RM1557.13') %}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}
+            {% else %}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+            {% endif %}
             <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
             {% else %}
-                {% if agreementId_session == 'RM6187' %}
+                {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                       {% if status.toLowerCase() === 'published' %}
                           <h2 class="govuk-heading-m">
                           <span class="proc-task-list__section-number">3.</span>
@@ -312,7 +321,7 @@
                     <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
                 {% endif %}
             {% if (projectStatus==2) %}
-                {% if agreementId_session == 'RM6187' %}
+                {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                     <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                 {% else %}
                     <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
@@ -327,7 +336,7 @@
             <p class="govuk-grid-column-one-half">
               <strong>{{data.subsection4_title3_task1}} </strong>
               <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-                  {% if agreementId_session == 'RM6187' %}
+                  {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_mcf}}
                   {% else %}
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
@@ -336,7 +345,11 @@
                 <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
                 <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
                   <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                  <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                      {% if (agreementId_session == 'RM1557.13') %}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}
+                      {% else %}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                      {% endif %}
                     <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                     {% endif %}
                   </div>
@@ -396,7 +409,7 @@
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
 
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %} 
-                         {% if agreementId_session != "RM6187" %}
+                         {% if (agreementId_session != "RM6187") and (agreementId_session != "RM1557.13") %}
                             <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
                          {% else  %}
                             <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
@@ -416,7 +429,7 @@
                           <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
                           <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
-                            {% if agreementId_session != 'RM6187' %}
+                            {% if (agreementId_session != 'RM6187') and (agreementId_session != 'RM1557.13') %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
                             {% else %}
                               <th scope="col" class="govuk-table__header">Supplier name</th>
@@ -442,7 +455,7 @@
                               {% endif %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
-                                  {% if agreementId_session != 'RM6187' %}
+                                  {% if (agreementId_session != 'RM6187') %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
                                   {% else %}
                               <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}} (%)</th>
@@ -790,8 +803,9 @@
                                       <li>start another pre-market enagagement project</li>
                                   </ul>
                               {% endif %}
-                        <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to Procurement overview</a>
-
+                              <div class="govuk-!-margin-bottom-7">
+                            <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to Procurement overview</a>
+                          </div>
                       </div>
                     </div>
                     {% endif %}
@@ -899,7 +913,7 @@
           </form>
 
           {% elseif status.toUpperCase() == 'EVALUATED' and (agreementId_session ==='RM6187' or  agreementId_session == 'RM1557.13')  %}
-              {% if agreementId_session == 'RM1557.13' %}
+              {% if (agreementId_session != 'RM1557.13') and (agreementId_session != 'RM6187') %}
                     <h2 class="govuk-heading-m"><span class="proc-task-list__section-number">5.</span> Evaluate Suppliers</h2>
                     <p>You have completed your supplier evaluation.</p>
               {% else %}
@@ -927,7 +941,9 @@
                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline. </p>
                   {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
-                  <p>You can start supplier evaluation after downloading supplier responses. </p>
+                      {% if agreementId_session != "RM1557.13" %}
+                          <p>You can start supplier evaluation after downloading supplier responses. </p>
+                      {% endif %}    
                   {% endif %}
               {% else %}           
                   <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project. You will need to provide feedback and a score for each answer from each supplier, as well as an overall evaluation summary and score.</p>
@@ -1006,4 +1022,9 @@
           </div>
 
           {% endif %}
+          <div class="govuk-!-margin-top-6">
+            {% if agreementId_session == "RM1557.13" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+          </div>
           {% endblock %}

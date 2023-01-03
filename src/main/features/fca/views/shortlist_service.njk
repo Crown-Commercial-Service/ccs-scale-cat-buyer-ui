@@ -71,21 +71,60 @@
     </form>
 
     {% if suppliers_list | length %}
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      <div class="govuk-form-group ccs-page-section">
         <p>
-          <a href="/fca/shortlisted/suppliers?download=1">{{data.line14}}</a>
+          <a href="/fca/shortlisted/suppliers?download=1" class="govuk-link govuk-link--no-visited-state">{{data.line14}}</a>
         </p>
+      </div>
       {% for value in suppliers_list -%}
+      <div class="govuk-form-group ccs-page-section">
+        <h3 class="govuk-heading-m">{{value.organization.name}}</h3>
+        <p>{{value.organization.name}}</p>
         <p>
-          <b>{{value.organization.name}}</b>
+          <a href="/fca/supplier/ratecard?supplierId={{value.organization.id}}&supplierName={{value.organization.name}}" class="govuk-link govuk-link--no-visited-state">{{data.line17}}</a>
         </p>
-        <span>{{value.organization.name}}</span><br>
-        <p>
-          <a href="/fca/supplier/ratecard?supplierId={{value.organization.id}}&supplierName={{value.organization.name}}">{{data.line17}}</a>
-        </p>
-     
+      </div>
       {%- endfor %}
     {% endif %}
-
+    <div class="govuk-grid-column-full govuk-!-padding-bottom-5">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+            <div>
+              &nbsp;
+            {% if(showPrevious) %}
+            <p class="govuk-body govuk-!-margin-0">
+              <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                  <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                </svg>
+                Previous Page</a>
+            </p>
+            <p class="govuk-body govuk-!-margin-0">
+              <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+            </p>
+            {% endif %}
+            </div>
+        </div>
+        <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+            <div>
+              &nbsp;
+            {% if(showNext) %}
+            <p class="govuk-body govuk-!-margin-0">
+              <a href="suppliers?next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                  <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                </svg>
+                Next Page</a>
+            </p>
+            <p class="govuk-body govuk-!-margin-0">
+              <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+            </p>
+            {% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
         
 
 
@@ -94,44 +133,7 @@
         {{ CCSReleatedContent(releatedContent) }}
       </div>
 
-      <div class="govuk-grid-column-full govuk-!-padding-bottom-5">
-                <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-one-half">
-                      <div>
-                        &nbsp;
-                      {% if(showPrevious) %}
-                      <p class="govuk-body govuk-!-margin-0">
-                        <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
-                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                          </svg>
-                          Previous Page</a>
-                      </p>
-                      <p class="govuk-body govuk-!-margin-0">
-                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
-                      </p>
-                      {% endif %}
-                      </div>
-                  </div>
-                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                      <div>
-                        &nbsp;
-                      {% if(showNext) %}
-                      <p class="govuk-body govuk-!-margin-0">
-                        <a href="suppliers?next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
-                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-                          </svg>
-                          Next Page</a>
-                      </p>
-                      <p class="govuk-body govuk-!-margin-0">
-                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
-                      </p>
-                      {% endif %}
-                      </div>
-                  </div>
-                </div>
-              </div>
+      
     </div>
     
 
