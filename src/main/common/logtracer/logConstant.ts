@@ -23,8 +23,17 @@ export enum logConstant {
     fetchAssesmentDetails = 'Fetched assessment details',
     fetchAssesmentDimentionDetails = 'Fetched assessment dimensions details',
     writePublishPage = 'Write and publish your requirements reached',
-    criteriaDetailFetch='Feached criteria details from Tender API',
-    fetchedQuestions ='Feached assesstments questions from Tender API',
+    criteriaDetailFetch =' Feached criteria details from Tender API',
+    fetchedAssesstmentsQuestions = 'Feached Assesstments Questions from Tender API',
+    yourassesstments = 'Your Assesstments page reached',
+    saveassesstments = 'Saved Assesstments from Tender API',
+    fetchedQuestions = 'Feached Questions from Tender API',
+    savequestions = 'Saved Questions from Tender API',
+    keyDates = 'Feached Dates from Tender API',
+    ResponseDateLog = 'Response Date page reached',
+    saveKeyDates = 'Saved Response Date from Tender API',
+    ReviewLog = 'Review page reached',
+    ReviewSave = 'Published the project from Tender API',
 
     
    
