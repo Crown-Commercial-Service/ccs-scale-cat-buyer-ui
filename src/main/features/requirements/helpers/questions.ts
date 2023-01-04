@@ -146,10 +146,14 @@ export class QuestionHelper {
                   innerMandatoryNum += 1;
                 }
 
-                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 14' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
 
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4 && gid == 'Group 14' && value !== undefined && (value == 'No' || value == 'Yes') && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
+                
               }
             } else if (questionType === 'Date') {
               let dateValidation = 0;
@@ -263,6 +267,7 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
         }
       } else if(agreement_id == 'RM1557.13'){
+        
         console.log("mandatoryGroupList.length",mandatoryGroupList.length);
         console.log("mandatoryNum",mandatoryNum);
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum )) {//all questions answered
@@ -275,7 +280,9 @@ export class QuestionHelper {
           }
         }
         else {
+         
           let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
+          console.log('else ',flag)
           if (flag) {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
           }
