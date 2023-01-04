@@ -131,17 +131,10 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                {% if (agreement_header['agreementId_session'] == 'RM6187') or (agreement_header['agreementId_session'] == 'RM1557.13') %} 
-                  <th scope="col" class="govuk-table__header">Supplier name</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
-                {% else %}  
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
-                {% endif %}  
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}
