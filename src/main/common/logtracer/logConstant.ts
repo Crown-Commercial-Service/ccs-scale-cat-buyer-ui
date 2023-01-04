@@ -16,6 +16,7 @@ export enum logConstant {
     postSaveEventsToProject = 'Selected events update to the project',
     exportDetailFetch = 'Download project details from Tender API',
     questionsFetch = 'Feached criterian group questions details from Tender API',
+    questionsGroupFetch = 'Feached question group details from Tender API',
     documentsFetch = 'Feached Ir35 documents from Tender API',
     documentsSave = 'Saved Ir35 documents from Tender API',
     saveLeadProcurement = 'Saved Lead Procurement from Tender API',
@@ -23,13 +24,23 @@ export enum logConstant {
     fetchAssesmentDetails = 'Fetched assessment details',
     fetchAssesmentDimentionDetails = 'Fetched assessment dimensions details',
     writePublishPage = 'Write and publish your requirements reached',
-    criteriaDetailFetch='Feached criteria details from Tender API',
-    fetchedQuestions ='Feached assesstments questions from Tender API',
+    criteriaDetailFetch =' Feached criteria details from Tender API',
+    fetchedAssesstmentsQuestions = 'Feached Assesstments Questions from Tender API',
+    yourassesstments = 'Your Assesstments page reached',
+    saveassesstments = 'Saved Assesstments from Tender API',
+    fetchedQuestions = 'Feached Questions from Tender API',
+    savequestions = 'Saved Questions from Tender API',
+    keyDates = 'Feached Dates from Tender API',
     addContectRequirementPage ='Add context and requirements reached',
     questionDetail ='Question detail',
     questionGroupDetail ='Question group detail',
     questionPage ='Question page reached',
     questionUpdated ='Question updated',
+    ResponseDateLog = 'Response Date page reached',
+    saveKeyDates = 'Saved Response Date from Tender API',
+    ReviewLog = 'Review page reached',
+    ReviewSave = 'Published the project from Tender API',
+    criterianEventFetch = 'Feached event criteria details from Tender API',
 
     
    
@@ -89,7 +100,10 @@ export enum logConstant {
     getUploadDocument="Fetched Upload Documents From Tender Api",
 
     eoirfiViewSuppliersPageLog="View suppliers page reached",
-    
+
+    setYourTimeLinePage="Set your timeline page reached",
+    setYourTimeLineUpdated="Set your timeline updated",
+
     eoiSetYourTimeLinePageLog="Set your Eoi timeline page reached",
     eoiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
      eoiyourTimeLineUpdate="Eoi Tmeline updated",

@@ -9,6 +9,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const DA_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -34,6 +35,8 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
   const keyDateselector = 'Key Dates';
   try {
     const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.keyDates, req);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
     let criterianStorage = [];
@@ -53,6 +56,8 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
     const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(fetchQuestions, logConstant.keyDates, req);
     const fetchQuestionsData = fetchQuestions.data;
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
@@ -81,7 +86,9 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      let responses = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+       //CAS-INFO-LOG
+        LoggTracer.infoLogger(responses, logConstant.saveKeyDates, req);
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
