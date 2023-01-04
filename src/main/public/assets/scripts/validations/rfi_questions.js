@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const queryString = window.location.search;
 
 const urlParams = new URLSearchParams(queryString);
-  if(urlParamsDefault.get('agreement_id') == 'RM1557.13' || urlParamsDefault.get('agreement_id') == 'RM6187'){
+  if(urlParamsDefault.get('agreement_id') == 'RM6187'){
     totalCount = 10;
     totalCountindex = 11;
   }
