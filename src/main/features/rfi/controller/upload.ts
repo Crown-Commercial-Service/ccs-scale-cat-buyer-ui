@@ -207,7 +207,11 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
   const { file_id } = req.query
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
-    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentDeleted, req);
+
     res.redirect('/rfi/upload-doc')
   } catch (error) {
     LoggTracer.errorLogger(
