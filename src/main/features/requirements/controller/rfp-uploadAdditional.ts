@@ -10,6 +10,7 @@ import { ADDITIONALUPLOADHELPER } from '../helpers/uploadAdditional';
 import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
 // import Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additional.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 let tempArray = [];
