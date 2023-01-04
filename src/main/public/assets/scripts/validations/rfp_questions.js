@@ -539,7 +539,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                     // $('.govuk-error-summary').remove();
                     // $('.govuk-form-group--error').remove();
-                    console.log('inside >100')
                     // removeErrorFieldsRfpScoreQuestion();
                     errorStore = emptyQuestionFieldCheckRfp();
                     let count =1;
@@ -668,7 +667,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                             // $('.govuk-error-summary').remove();
                             // $('.govuk-form-group--error').remove();
-                            console.log('inside >101')
                             // removeErrorFieldsRfpScoreQuestion();
                             errorStore = emptyQuestionFieldCheckRfp();
                             let count =1;
@@ -1292,8 +1290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     l++
                 });*/
-                console.log('urlParams group id',urlParams.get('group_id'))
-                console.log('urlParams LOTID_VAR',LOTID_VAR)
+                
                 if((urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5){
                     var textareaVal = $('#fc_question_'+1+ '_1').val();
                     var percentageval = $('#fc_question_precenate_'+1).val();
