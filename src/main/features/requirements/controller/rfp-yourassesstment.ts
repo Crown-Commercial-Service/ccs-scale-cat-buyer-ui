@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -34,6 +35,10 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.criterianEventFetch, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       if(agreement_id==='RM1557.13'){
@@ -150,6 +155,9 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.yourassesstments, req);
 
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {

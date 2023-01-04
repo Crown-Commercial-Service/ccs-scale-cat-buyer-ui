@@ -39,6 +39,7 @@ export enum logConstant {
     saveKeyDates = 'Saved Response Date from Tender API',
     ReviewLog = 'Review page reached',
     ReviewSave = 'Published the project from Tender API',
+    criterianEventFetch = 'Feached event criteria details from Tender API',
 
     
    
