@@ -45,6 +45,7 @@
 
       <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong>
       </p>
+      <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
     </div>
   </div>
 </div>
@@ -77,7 +78,7 @@
   {% endif %}  
     <div>
       <h2 class="govuk-heading-m">
-        {{projectName}}
+        {{agreement_header['projectId']+" & "+projectName}}
         <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
       </h2>
       <p class="govuk-body">
@@ -1022,9 +1023,4 @@
           </div>
 
           {% endif %}
-          <div class="govuk-!-margin-top-6">
-            {% if agreementId_session == "RM1557.13" %}
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            {% endif %}
-          </div>
           {% endblock %}

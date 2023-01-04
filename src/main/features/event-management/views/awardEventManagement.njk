@@ -41,6 +41,7 @@
   </strong></p>
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong>
           </p>
+          <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
         </div>
       </div>
     </div>
@@ -71,7 +72,7 @@
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">
           {{data.subsection3_title}}<br>
-          ({{unreadMessage}} messages)</h2>
+          ({{unreadMessage}} unread messages)</h2>
         <p class="govuk-body">
           <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
         </p>
