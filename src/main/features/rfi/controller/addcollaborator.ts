@@ -209,6 +209,10 @@ export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
     
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+     
+    //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.addColleaguesDeleted, req);
+
     req.session['searched_user'] = [];
     res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {

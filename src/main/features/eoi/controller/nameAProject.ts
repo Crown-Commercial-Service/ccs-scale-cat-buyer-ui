@@ -7,6 +7,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -43,6 +44,10 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     releatedContent: releatedContent,
     agreementId_session: agreementId_session,
   };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
+
   res.render('nameAProjectEoi', viewData);
 };
 
@@ -67,6 +72,10 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
           name: name,
         };
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
+        
         //const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
         if (response.status == HttpStatusCode.OK) req.session.project_name = name;
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/16`, 'Completed');

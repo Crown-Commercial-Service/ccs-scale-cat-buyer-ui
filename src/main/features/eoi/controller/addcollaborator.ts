@@ -9,6 +9,7 @@ import { EOI_PATHS } from '../model/eoiconstant';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/eoi/addcollaborator.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/addcollaborator.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // EOI ADD_Collaborator
 /**
@@ -27,6 +28,10 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
       organisation_user_endpoint,
     );
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(organisation_user_data, logConstant.getUserDetails, req);
+
     organisation_user_data = organisation_user_data?.data;
     const { pageCount } = organisation_user_data;
     const allUserStorge = [];
@@ -85,6 +90,10 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       releatedContent: req.session.releatedContent,
       agreementId_session: req.session.agreement_id,
     };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
+
     res.render('add-collaborator-eoi', windowAppendData);
   } catch (error) {
 
@@ -115,6 +124,10 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
       const user_profile = eoi_collaborators;
       const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(organisation_user_data, logConstant.getUserOrgProfile, req);
+
       const userData = organisation_user_data?.data;
       const { userName, firstName, lastName, telephone } = userData;
       let userdetailsData = { userName, firstName, lastName };
@@ -158,6 +171,10 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       };
       try{
         await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+
         req.session['searched_user'] = [];
         res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
       }catch(err){
@@ -192,6 +209,10 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
 
       try{
         await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+
+        //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+
         req.session['searched_user'] = [];
         res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
       }catch(err){
@@ -226,6 +247,10 @@ export const GET_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, re
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${userid}`;
     
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addColleaguesDeleted, req);
+    
     req.session['searched_user'] = [];
     res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {

@@ -56,6 +56,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.rfiGetTimeLineQuestions, req);
+    
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
       .map(aQuestion => aQuestion.OCDS.id);
