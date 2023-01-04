@@ -9,6 +9,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import util from 'util';
 import stream from 'stream';
 import fileSystem from 'fs';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const FILEUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -66,6 +67,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
@@ -94,6 +98,10 @@ export const FILEUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
+        
+       //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
+
       res.render('uploadDocumentEoi', windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

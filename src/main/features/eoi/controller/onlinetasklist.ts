@@ -8,6 +8,7 @@ import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // eoi TaskList
 /**
@@ -40,6 +41,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
   }
   
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.buildYourEoiQuestionList, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
 
@@ -122,6 +127,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent
       };
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.buildYourEoiPageLog, req);
+
       res.render('onlinetasklistEoi', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

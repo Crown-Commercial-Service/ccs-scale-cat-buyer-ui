@@ -8,6 +8,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../../eoi/util/fetch/dyanmicframeworkInstance';
 import { TenderApi } from './../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 let tempArray = [];
 
@@ -94,6 +95,10 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
                 ...formHeaders,
               },
             });
+
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentUpdated, req);
+
           }
           } catch (error) {
             LoggTracer.errorLogger(
@@ -160,6 +165,10 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
               ...formHeaders,
             },
           });
+           
+          //CAS-INFO-LOG 
+           LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
           res.redirect('/eoi/upload-doc');
         }
         } catch (error) {
@@ -200,6 +209,10 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
+
     res.redirect('/eoi/upload-doc')
   } catch (error) {
     LoggTracer.errorLogger(

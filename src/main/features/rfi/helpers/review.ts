@@ -53,7 +53,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       const ReviewData = FetchReviewData.data;
       
       //CAS-INFO-LOG 
-      LoggTracer.infoLogger(ReviewData, logConstant.rfiEventDetails, req);
+      LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
 
       //Buyer Questions
       const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions;
