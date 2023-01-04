@@ -16,6 +16,7 @@ export enum logConstant {
     postSaveEventsToProject = 'Selected events update to the project',
     exportDetailFetch = 'Download project details from Tender API',
     questionsFetch = 'Feached criterian group questions details from Tender API',
+    questionsGroupFetch = 'Feached question group details from Tender API',
     documentsFetch = 'Feached Ir35 documents from Tender API',
     documentsSave = 'Saved Ir35 documents from Tender API',
     saveLeadProcurement = 'Saved Lead Procurement from Tender API',
@@ -83,5 +84,7 @@ export enum logConstant {
     rfiEventDetails="Fetched the event details",
     rfiPublishLog="Your RfI has been published",
     rfiPublishPageLog="Rfi published page reached",
+    setYourTimeLinePage="Set your timeline page reached",
+    setYourTimeLineUpdated="Set your timeline updated",
     
 }

@@ -10,6 +10,7 @@ import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-r
 import * as DOScmsData from '../../../resources/content/MCF3/requirements/DOSrfp-response-date.json';
 import * as DOS2cmsData from '../../../resources/content/MCF3/requirements/DOSstage2-response-date.json';
 import * as GCloudData from '../../../resources/content/requirements/Gcloudrfp-response-date.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 import config from 'config';
 
@@ -493,6 +494,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         req.session.timeline.supplierstartdate = supplier_start_date != undefined && supplier_start_date != null ? moment(supplier_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : null;
 
      }
+
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      
       res.render('rfp-responsedate.njk', appendData);
     }
@@ -601,6 +605,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         req.session.timeline.clarificationPeriodEnd = rfp_clarification_period_end;
       }
+      //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
+
       res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 3'){
@@ -709,6 +716,8 @@ if (errorTriggered) {
   req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
 }
 
+//CAS-INFO-LOG
+LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
 
 res.render('rfp-responsedate.njk', appendData);
     }
@@ -819,6 +828,10 @@ if (errorTriggered) {
   req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
  
 }
+
+//CAS-INFO-LOG
+LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
+
 res.render('rfp-responsedate.njk', appendData);
           }
     else if(req.session.questionID=='Question 5'){
@@ -924,6 +937,9 @@ if (errorTriggered) {
   req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
  
 }
+
+//CAS-INFO-LOG
+LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
 res.render('rfp-responsedate.njk', appendData);
       
     }
@@ -1032,6 +1048,9 @@ let appendData = {
       
      }
      
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
+
      res.render('rfp-responsedate.njk', appendData);
 
     }
@@ -1139,6 +1158,8 @@ let appendData = {
        req.session.timeline.evaluationProcessStartDate = evaluation_process_start_date;
      
      }
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 8'){
@@ -1246,6 +1267,8 @@ let appendData = {
        req.session.timeline.bidderPresentationsDate = bidder_presentations_date;
       
      }
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 9'){
@@ -1354,6 +1377,8 @@ let appendData = {
        req.session.timeline.standstillPeriodStartsDate = standstill_period_starts_date;
       
      }
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 10'){
@@ -1463,6 +1488,8 @@ let appendData = {
       req.session.timeline.proposedAwardDate = proposed_award_date;
      
     }
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
     res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 11'){
@@ -1579,7 +1606,8 @@ let appendData = {
       req.session.timeline.expectedSignatureDate = expected_signature_date;
     }
 
-     
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
     res.render('rfp-responsedate.njk', appendData);
     
 
@@ -1695,7 +1723,8 @@ let appendData = {
        req.session.timeline.expectedSignatureDate = expected_signature_date;
      }
  
-      
+      //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      res.render('rfp-responsedate.njk', appendData);
      
  
@@ -1808,7 +1837,9 @@ let appendData = {
      } else {
        req.session.timeline.expectedSignatureDate = expected_signature_date;
      }
- 
+     
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
       
      res.render('rfp-responsedate.njk', appendData);
      
