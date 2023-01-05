@@ -150,7 +150,11 @@
 
           </p>
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+            {% else %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
       {% endif %}

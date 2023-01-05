@@ -228,7 +228,11 @@
      
     </p>
   </h2>
-  <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+      {% if agreementId_session == "RM1557.13" %}
+        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+      {% else %}
+        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+      {% endif %}
 
     <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
 
@@ -347,7 +351,11 @@
                 <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
                   <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
                       {% if (agreementId_session == 'RM1557.13') %}
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}
+                          {% if status.toLowerCase() == 'published' %}
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                          {% else %}
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}
+                          {% endif %}
                       {% else %}
                         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
                       {% endif %}
@@ -1021,6 +1029,11 @@
           <div class="govuk-!-margin-top-6">
             
           </div>
+          
+            {% if agreementId_session == "RM1557.13" %}
+              <br><br>
+              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
 
           {% endif %}
           {% endblock %}
