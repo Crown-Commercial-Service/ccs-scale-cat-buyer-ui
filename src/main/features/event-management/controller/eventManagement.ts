@@ -1115,8 +1115,17 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
         }
       }
+      //SELECTED EVENT DETAILS FILTER FORM LIST
+      const baseurl = `/tenders/projects/${projectId}/events`
+      const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+      //status=apidata.data[0].dashboardStatus;
+      const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+      status = selectedEventData[0].dashboardStatus;
       //Page navigation 
       let redirectUrl = '/event/management?id=' + eventId
+      if(status == 'COMPLETE'){
+        redirectUrl = '/event/management_close?id=' + eventId
+      }
       //const pageType = req.session['pageType'];
       if (Type != undefined && Type != null) {
         switch (Type) {
@@ -1134,12 +1143,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
             break
         }
       }
-      //SELECTED EVENT DETAILS FILTER FORM LIST
-      const baseurl = `/tenders/projects/${projectId}/events`
-      const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-      //status=apidata.data[0].dashboardStatus;
-      const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
-      status = selectedEventData[0].dashboardStatus;
+      
       const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
       //Rendor method
       res.render('evaluateSuppliersReadonly', appendData);
