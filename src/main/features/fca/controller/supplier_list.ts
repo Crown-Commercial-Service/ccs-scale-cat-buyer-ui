@@ -59,7 +59,7 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
       relatedOverride = new Object({
         title: 'Related content',
         lotUrl: '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'), 
-        name: 'G-Cloud 13, 4 : GC13 Lot4',
+        name: 'G-Cloud 13',
         lotName: agreementLotNames
       });
     }
