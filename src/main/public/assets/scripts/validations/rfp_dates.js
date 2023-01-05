@@ -393,6 +393,7 @@ $('.btn-sendmsg').on('click', (e) => {
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
+   removeErrorFieldsdates();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
    if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
