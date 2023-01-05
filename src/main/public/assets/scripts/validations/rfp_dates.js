@@ -539,7 +539,7 @@ function checkResourceStartDate()
       {
         
          let error_msg = 'Enter a valid date'
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
             removeErrorFieldsdates();
             if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
               
@@ -612,7 +612,7 @@ function checkResourceStartDate()
       else if(rfpResourceStartMonth.val() =='')
       {
           error_msg = 'Enter a valid month'
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
             removeErrorFieldsdates();
             if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() == ''){
                error_msg = 'Enter a month and year'
@@ -1238,6 +1238,7 @@ $(".textlimit").keyup(function(e) {
    var keyCode = e.which;
    
    if (maxLen >= 1) {
+      removeErrorFieldsdates();
        return false; 
    }
 
@@ -1250,6 +1251,7 @@ $(".textlimit").keypress(function(e) {
   
    var keyCode = e.which;
    if (maxLen >= 1) {
+      removeErrorFieldsdates();
       return false;
    }
 
@@ -1261,6 +1263,7 @@ $(".daylimit").keyup(function(e) {
    var keyCode = e.which;
    
    if (maxLen >= 2 && (Number(value)>0 || Number(value) < 31)) {
+      removeErrorFieldsdates();
        return false; 
    }
 
@@ -1273,6 +1276,7 @@ $(".daylimit").keypress(function(e) {
   
    var keyCode = e.which;
    if (maxLen >= 2 && (Number(value)>0 || Number(value) <31)) {
+      removeErrorFieldsdates();
       return false;
    }
 
@@ -1285,6 +1289,7 @@ $(".daymonthlimit").keyup(function(e) {
    var keyCode = e.which;
    
    if (maxLen >= 2) {
+      removeErrorFieldsdates();
        return false; 
    }
 
@@ -1297,6 +1302,7 @@ $(".daymonthlimit").keypress(function(e) {
   
    var keyCode = e.which;
    if (maxLen >= 2) {
+      removeErrorFieldsdates();
       return false;
    }
 
@@ -1308,6 +1314,7 @@ $(".startdateyearlimit").keyup(function(e) {
    var keyCode = e.which;
    
    if (maxLen >= 4) {
+      removeErrorFieldsdates();
        return false; 
    }
 
@@ -1319,6 +1326,7 @@ $(".startdateyearlimit").keypress(function(e) {
    let value = $(this).val();
    var keyCode = e.which;
    if (maxLen >= 4) {
+      removeErrorFieldsdates();
       return false;
    }
 
@@ -1330,6 +1338,7 @@ $(".yearlimit").keyup(function(e) {
    var keyCode = e.which;
    
    if (maxLen >= 1) {
+      removeErrorFieldsdates();
        return false; 
    }
 
@@ -1341,6 +1350,7 @@ $(".yearlimit").keypress(function(e) {
    let value = $(this).val();
    var keyCode = e.which;
    if (maxLen >= 1) {
+      removeErrorFieldsdates();
       return false;
    }
 
