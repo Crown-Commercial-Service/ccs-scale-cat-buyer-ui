@@ -290,6 +290,11 @@ Change<span class="govuk-visually-hidden">RFI type</span>
               </dt>
               <dd class="govuk-summary-list__value">&nbsp;</dd>
               <dd class="govuk-summary-list__actions">
+                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
+                  <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+                    Change<span class="govuk-visually-hidden">RFI type</span>
+                  </a>
+                {% endif %}
               </dd>
             </div>
             {%for i in item.answer%}
@@ -318,7 +323,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   {%else%}
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
-                    {% if agreementId_session == "RM1557.13" %}
+                    {% if agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
                       <p class="govuk-body">{{organizationName}}<p>
                     {%else%}
                       <p class="govuk-body">You have not answered this question<p>
@@ -329,13 +334,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
               {%endif%}
               </dd>
               <dd class="govuk-summary-list__actions">
-                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
-                  {% if i.question != 'Name of the organisation doing the procurement' %}
-                  <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
-                    Change<span class="govuk-visually-hidden">RFI type</span>
-                  </a>
-                  {%endif%}
-                {% endif %}
+                
               </dd>
             </div>
             {% endfor %}
