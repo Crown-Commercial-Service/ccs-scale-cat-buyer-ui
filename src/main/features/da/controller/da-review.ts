@@ -16,6 +16,7 @@ import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -883,6 +884,9 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
         
    
       }
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
       res.render('daw-review', appendData);
    
   } catch (error) {
@@ -968,7 +972,9 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
 
   if (review_publish == 1) {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
       
      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       

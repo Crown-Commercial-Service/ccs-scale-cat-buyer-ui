@@ -15,7 +15,7 @@ import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { reverse } from 'dns';
 import common from 'mocha/lib/interfaces/common';
-
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 
@@ -51,13 +51,18 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     try {
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
+
       const organizationID = req.session.user.payload.ciiOrgId;
       const organisationBaseURL = `/organisation-profiles/${organizationID}`;
       const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
       const name = getOrganizationDetails.data.identifier.legalName;
       const organizationName = name;
 
+
       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
+
       //Buyer Questions
       const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions;
       const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -295,6 +300,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
     console.log("appendData",JSON.stringify(appendData));
     
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublishPageLog, req);
+
       res.render('review', appendData);
     } catch (error) {
       delete error?.config?.['headers'];

@@ -10,6 +10,7 @@ import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json'
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const momentCssHolidays = async () => {
   let basebankURL = `/bank-holidays.json`;
@@ -76,7 +77,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+    
     let fetchQuestionsData = fetchQuestions.data;
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.rfiGetTimeLineQuestions, req);
+   
+
     let DeadlinePeriodDate;
     let SupplierPeriodDate;
     let rfi_clarification_date;
