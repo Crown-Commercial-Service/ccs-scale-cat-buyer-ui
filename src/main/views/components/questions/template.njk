@@ -37,7 +37,7 @@
                     {% endif %}
                     {% if agreement_id == 'RM1043.8' %}
                           {{ CCSTable({
-                          caption: table.optiontableDefination.rows.length+' tier scoring criteria',
+                          caption: table.optiontableDefination.rows.length+' level scoring criteria',
                           captionClasses: "govuk-table__caption--m",
                           firstCellIsHeader: true,
                           head: table.optiontableDefination.head,
@@ -287,16 +287,27 @@
                         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible ">
                        {% endcall %}
                     {%- endfor %}
-                    
-                    <p class="govuk-body">
-                        {{ CCSButton({
-                        text: "Add another tier",
-                        attributes: {
-                        id: "ccs_rfp_score_criteria_add"
-                        },
-                        classes: "govuk-button--secondary ccs-dynaform-hidden"
-                    }) }}
-                    </p>
+                    {% if (agreement_id == 'RM1043.8') %}
+                      <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another level",
+                          attributes: {
+                          id: "ccs_rfp_score_criteria_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                      }) }}
+                      </p>
+                    {%else%}
+                      <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another tier",
+                          attributes: {
+                          id: "ccs_rfp_score_criteria_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                      }) }}
+                      </p>
+                    {%endif%}
        
   {%endif%}   
 {%endblock%}
@@ -1093,10 +1104,17 @@
                 }}
 
                   {% else %}
+
+                    {% if (agreement_id == 'RM1043.8' and group_id == "Group 9" and lotId == '3') %}
+                      {% set countL = 500 %}
+                    {% else %}
+                      {% set countL = 5000 %}
+                    {% endif %}
+
                  {{  CCSCharacterCount({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
-                      maxlength: 5000,
+                      maxlength: countL,
                       id: "rfp_prob_statement_"+word | last,
                       value: requirement.nonOCDS.options[0].value,
                       classes:"rfp_term_definition",

@@ -70,7 +70,6 @@
   ]
 }) }}
     {%endif %}
-
     <div class="govuk-grid-row">
       <h1 class="govuk-heading-xl">
         <strong>
@@ -92,27 +91,44 @@
           </p>
 
         {% else %}
-            <p class="govuk-body">{{data.content.p1}}</p>
-        {% if agreementId_session == 'RM1043.8' %}
+            {% if(agreementId_session == 'RM1043.8' and lotId == '3') %}
+              <p class="govuk-body">{{data.content.p1l3}}</p>
+            {% else %}
+              <p class="govuk-body">{{data.content.p1}}</p>
+            {% endif %}
+              
+        {# {% if agreementId_session == 'RM1043.8' %}
           <p class="govuk-body">{{data.content.p5}}</p>
-        {% endif %}
+        {% endif %} #}
+
         {% if agreementId_session == "RM6187" %}
           <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register">Public Procurement Gateway and Contract Award Service.</a></p>
         {% else %}
-          <p class="govuk-body">{{data.content.p2}}
+            {% if(agreementId_session == 'RM1043.8' and lotId == '3') %}
+             <p class="govuk-body">{{data.content.p2l3}}
+            {% else %}
+              <p class="govuk-body">{{data.content.p2}}
+            {% endif %}
           <a class="govuk-link govuk-link--no-visited-state"
            href="{{data.content.a1.href}}">{{data.content.a1.text}}</a>
         {% endif %}
-        
-        <p class="govuk-body">{{data.content.p3}}</p>
+
+            {% if(agreementId_session == 'RM1043.8' and lotId == '3') %}
+            <p class="govuk-body">{{data.content.p3l3}}</p>
+            {% else %}
+            <p class="govuk-body">{{data.content.p3}}</p>
+            {% endif %}
 
         {% if agreementId_session !== 'RM6187' and agreementId_session !== 'RM1043.8' %}
           <p class="govuk-body">If you are the lead on this project you can add four colleagues.
           If you are not the lead you can add three colleagues.</p>
         {% endif %}
 
-        <p class="govuk-body">{{data.content.p4}}
-        </p>
+            {% if(agreementId_session == 'RM1043.8' and lotId == '3') %}
+            <p class="govuk-body">{{data.content.p4l3}}</p>
+            {% else %}
+            <p class="govuk-body">{{data.content.p4}}</p>
+            {% endif %}
 
         {% endif %}
 
