@@ -45,46 +45,44 @@ export enum logConstant {
     
    
 
+    
+
+
+
+    NameAProjectLog = 'Name your project page reached',
+    NameAProjectUpdated = 'Name your project updated',
     rfichangeLeadProcurementPageLog='Change who will lead the procurement page reached',
     rfigetUserDetails="Get logged user detail",
     rfigetUserOrgProfile ="Get logged user organisation profiles detail",
     rfichangeLeadProcurementUpdate = 'Change who will lead the procurement Updated',
     rfiaddColleaguesPageLog = 'Add colleagues to your project reached',
     rfiaddColleaguesUpdated = 'Add colleagues to your project reached Updated',
-
-
-
-    NameAProjectLog = 'Name your project page reached',
-    NameAProjectUpdated = 'Name your project updated',
-
-
-    getUserDetails = 'Get logged user detail',
+     getUserDetails = 'Get logged user detail',
     getUserOrgProfile = 'Get logged user organisation profiles detail',
     changeLeadProcurementPage = 'Change who will lead the procurement reached',
     changeLeadProcurementUpdate = 'Change who will lead the procurement Updated',
     addColleaguesPage = 'Add colleagues to your project reached',
     addColleaguesUpdated = 'Add colleagues to your project reached Updated',
-    addColleaguesDeleted = 'Add colleagues to your project deleted',
-
+    addColleaguesDeleted = 'Delete collaborator from Tender API',
     chooseHowBuildYourRfiPageLog = 'Choose how to build your RfI page reached',
     chooseHowBuildYourRfiUpdated = 'Choose how to build your RfI Updated',
     rfiTaskListPageLog = 'Request for Information tasklist page reached',
     buildYourRfiPageLog = 'build your RfI page reached',
-    buildYourRfiQuestionList= 'Fetched Rfi Questions',
+    buildYourRfiQuestionList= 'Fetched Rfi Questions From Tender Api',
     rfiQuestionPageLog= 'Rfi Question page reached',
     rfiQuestionDetails= 'Fetched Question details from Tender Api',
     rfiQuestionUpdated="Question updated",
     rfiUploadDocumentPageLog="Upload documents page reached",
-    rfigetUploadDocument="Fetched Upload documents",
-    rfiUploadDocumentUpdated="New document uploaded",
-    rfiUploadDocumentDeleted="Document deleted",
+    rfigetUploadDocument="Fetched Upload Documents From Tender Api",
+    rfiUploadDocumentUpdated="New document Uploaded from Tender Api",
+    rfiUploadDocumentDeleted="Document deleted From Tender Api",
     rfiViewSuppliersPageLog="View suppliers page reached",
     supplierList="Fetched supplier List From Agreements Api",
     setYourTimeLinePageLog="Set your RfI timeline page reached",
     yourTimeLineUpdate="Rfi Tmeline updated",
     rfiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
     reviewAndPublishPageLog="Review and publish your RFI page reached",
-    eventDetails="Fetched the event details",
+    eventDetails="Fetched the event details from tender api",
     rfiPublishLog="Your RfI has been published",
     rfiPublishPageLog="Rfi published page reached",
 
@@ -98,18 +96,13 @@ export enum logConstant {
     UploadDocumentUpdated="New document uploaded From Tender Api",
     UploadDocumentDeleted="Document deleted From Tender Api",
     getUploadDocument="Fetched Upload Documents From Tender Api",
-
     eoirfiViewSuppliersPageLog="View suppliers page reached",
-
     setYourTimeLinePage="Set your timeline page reached",
     setYourTimeLineUpdated="Set your timeline updated",
-
-    
     eoiSetYourTimeLinePageLog="Set your Eoi timeline page reached",
     eoiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
      eoiyourTimeLineUpdate="Eoi Tmeline updated",
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
-    // rfiEventDetails="Fetched the event details",
      eoiPublishLog="Your RfI has been published",
      eoiPublishPageLog="Eoi published page reached",
 }
