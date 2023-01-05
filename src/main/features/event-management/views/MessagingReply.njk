@@ -109,8 +109,8 @@
     </div>
     
     
-      {%if (replyto == 'all' and agreementId == 'RM1043.8')  or agreementId == 'RM1557.13'%}
-        <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply?replyto=all" method="POST">
+      {%if (replyto == 'all' and agreementId == 'RM1043.8')  or (replyto == 'all' and agreementId == 'RM1557.13')%}
+        <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/Reply?replyto=all" method="POST">
       {%else%}
         <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply" method="POST">
       {%endif%}

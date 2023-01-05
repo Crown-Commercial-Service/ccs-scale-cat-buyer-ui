@@ -24,7 +24,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
-  const {fileDuplicateError}=req.session;
+  const {fileDuplicateError,UploadError}=req.session;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -80,7 +80,10 @@ export const FILEUPLOADHELPER: express.Handler = async (
       } else { 
         forceChangeDataJson = cmsData;
       }
-
+if(UploadError){
+  
+  errorList.push({ text: "Please attach the file before upload. ", href: "#eoi_offline_document" })
+}
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -88,13 +91,16 @@ export const FILEUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        agreementId_session:req.session.agreement_id
+        agreementId_session:req.session.agreement_id,
+        UploadError, 
+        errorlist: errorList
       };
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The chosen file already exist ", href: "#eoi_offline_document" })
         delete req.session["fileDuplicateError"];
       }
+
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
@@ -104,6 +110,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
 
       res.render('uploadDocumentEoi', windowAppendData);
     } catch (error) {
+      
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),

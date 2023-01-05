@@ -53,6 +53,7 @@
 
 
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
         </div>
       </div>  
 </div>
@@ -61,7 +62,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-         {{ agreement_header['project_name'] }}
+         {{ agreement_header['projectId']+" & "+agreement_header['project_name'] }}
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">

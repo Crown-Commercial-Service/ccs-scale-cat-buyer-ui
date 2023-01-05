@@ -254,8 +254,8 @@
                           {% endif %}  
                           {% endfor %}
                         {% else %}
-
-                        {% if i.question != 'Name of the organisation doing the procurement' %}
+                       
+                        {% if  i.question != 'Name of the organisation doing the procurement' and i.question != 'Enter a definition for the term acronym explaining what it means' %}
                           <p class="govuk-body-s">You have not answered this question<p>
                           {% endif %}
 

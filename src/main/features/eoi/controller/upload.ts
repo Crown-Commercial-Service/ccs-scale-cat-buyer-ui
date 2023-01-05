@@ -21,7 +21,7 @@ let tempArray = [];
  */
 
 export const GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
-  FILEUPLOADHELPER(req, res, false, null, 'eoi');
+  FILEUPLOADHELPER(req, res, false, [], 'eoi');
 };
 
 /**
@@ -37,12 +37,21 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const journeyStatus = req.session['journey_status'];
-
+  req.session.UploadError=false;
+  
   if (!req.files) {
-    const journey = journeyStatus.find(journey => journey.step === 21)?.state;
+    const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+    const journeyStatus = JourneyStatusUpload?.data;
+    const journey = journeyStatus?.find(journey => journey.step === 21)?.state;
     const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+    req.session.UploadError=true;
     res.redirect(routeRedirect);
-  }
+    // const journey = journeyStatus.find(journey => journey.step === 21)?.state;
+    // const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+    // res.redirect(routeRedirect);
+  }else{
+
+  
 
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
   const FileFilterArray = [];
@@ -199,6 +208,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
       }
     }
   } else res.render('error/500');
+}
 };
 
 export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {

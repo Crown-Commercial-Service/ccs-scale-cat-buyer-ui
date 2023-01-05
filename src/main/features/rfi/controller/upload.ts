@@ -19,7 +19,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  */
 
 export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  FILEUPLOADHELPER(req, res, false, null);
+  FILEUPLOADHELPER(req, res, false, []);
 };
 
 /**
@@ -34,12 +34,14 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  
+  req.session.RfiUploadError=false;
   if (!req.files) {
     const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
     const journeyStatus = JourneyStatusUpload?.data;
     const journey = journeyStatus?.find(journey => journey.step === 11)?.state;
-    const routeRedirect = journey === 'Optional' ? '/rfi/suppliers' : '/rfi/upload-doc';
+    
+    const routeRedirect = journey === 'Optional' ? '/rfi/upload-doc' : '/rfi/upload-doc';
+    req.session.RfiUploadError=true;
     res.redirect(routeRedirect);
   } else {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;

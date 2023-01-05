@@ -133,29 +133,36 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          //    const fetch = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURLFetch);
          //    let fetchData = fetch?.data;
          //    ExcludingKeyDates[i].push({'questionStatus': 'Done'});
-         // });         
+         // });      
+
          for (let index = 0; index < ExcludingKeyDates.length; index++) {
             ExcludingKeyDates[index].questionStatus = 'todo';
             const baseURLQ: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${ExcludingKeyDates[index].criterianId}/groups/${ExcludingKeyDates[index].OCDS.id}/questions`;            
+           
+            
             const fetch_dynamic_api2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURLQ);
             let fetch_dynamic_api_data2 = fetch_dynamic_api2?.data;
             fetch_dynamic_api_data2 = fetch_dynamic_api_data2.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
             for (let j = 0; j < fetch_dynamic_api_data2.length; j++) {
-              if (fetch_dynamic_api_data2[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data2[j].nonOCDS.questionType == 'MultiSelect') {
+             // if (fetch_dynamic_api_data2[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data2[j].nonOCDS.questionType == 'MultiSelect') {
                 let questionOptions = fetch_dynamic_api_data2[j].nonOCDS.options;
-                let item1 = questionOptions.find(i => i.selected === true);
+                //let item1 = questionOptions.find(i => i.selected === true);
+              
+                let item1 = fetch_dynamic_api_data2[j].nonOCDS.answered;
+
+              
                 if(item1){
                   ExcludingKeyDates[index].questionStatus = 'Done';
                 }
     
-              } else {
+            //   } else {
                 
-                if (fetch_dynamic_api_data2[j].nonOCDS.options.length > 0) {
+            //     if (fetch_dynamic_api_data2[j].nonOCDS.options.length > 0) {
                   
-                  ExcludingKeyDates[index].questionStatus = 'Done';
-                } else {
-                }
-              }
+            //       ExcludingKeyDates[index].questionStatus = 'Done';
+            //     } else {
+            //     }
+            //   }
             }
     
           }
