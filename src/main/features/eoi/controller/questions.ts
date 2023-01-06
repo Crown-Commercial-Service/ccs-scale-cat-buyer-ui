@@ -184,9 +184,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-
-   //CAS-INFO-LOG 
-   LoggTracer.infoLogger(null, logConstant.questionPage, req);
+ 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.eoiTitle, req);
 
    res.render('questionsEoi', data);
    
