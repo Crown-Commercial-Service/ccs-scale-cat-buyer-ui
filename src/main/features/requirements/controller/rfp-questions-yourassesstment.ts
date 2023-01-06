@@ -16,6 +16,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 /**
@@ -51,6 +52,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
      const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
     
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const groupSixRelated = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Your social value question');
@@ -168,7 +172,13 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if(ChoosenAgreement == 'RM1043.8' && req.session?.lotId == '1' && group_id == 'Group 9') {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
-    }else {
+    }
+    else if(ChoosenAgreement == 'RM1557.13' && req.session?.lotId == '4' && (group_id == 'Group 1' || group_id == 'Group 2' || group_id == 'Group 3'|| group_id == 'Group 6' )){
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+    }
+    
+    else {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
     }
@@ -272,7 +282,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    console.log('data for assessment',JSON.stringify(data))
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.rfpTitle, req);
+
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -364,7 +377,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
           };          
           // const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 1`;
-          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
+
           QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
@@ -760,11 +777,15 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined) {
                   if(answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                    const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                    //CAS-INFO-LOG
+                    LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                   } else {
                     if(agreement_id==='RM1043.8' && id === 'Criterion 2' && ((group_id === 'Group 10' && req.session.lotId == '3') || (group_id === 'Group 12' && req.session.lotId == '1'))) {
                       
-                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                      const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                      //CAS-INFO-LOG
+                      LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                     }
                   }
                 }

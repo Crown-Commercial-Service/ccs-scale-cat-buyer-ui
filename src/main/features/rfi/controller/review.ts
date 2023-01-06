@@ -9,6 +9,8 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -53,6 +55,10 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   if (review_publish == '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       
+      //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
+       
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');

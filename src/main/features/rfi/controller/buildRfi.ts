@@ -4,6 +4,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 /**
  *
  * @Rediect
@@ -27,6 +28,10 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
   const projectId = req.session.projectId;
   res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid };
+  
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourRfiPageLog, req);
+
   res.render('chooseBuildrfi',appendData );
  }
 
@@ -46,6 +51,10 @@ export const POST_BUILD_RFI  = async (req: express.Request, res: express.Respons
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Completed');
         }
       
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourRfiUpdated, req);
+
+
       res.redirect('/rfi/online-task-list');
     }
   }catch (error) {

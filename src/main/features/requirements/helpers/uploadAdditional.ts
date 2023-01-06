@@ -9,6 +9,7 @@ import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additio
 import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-upload-additional.json';
 import * as dosData from '../../../resources/content/requirements/dos-rfp-upload-attachment.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-upload-assessment.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ADDITIONALUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -221,6 +222,9 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
           }
         }
       }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentPageLog, req);
+
       res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
     } catch (error) {
       console.log(error);
