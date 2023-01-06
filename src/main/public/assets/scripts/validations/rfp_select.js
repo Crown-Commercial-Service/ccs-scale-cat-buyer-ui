@@ -272,7 +272,7 @@ $('#rfp_singleselect').on('submit', event => {
     }
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a project phase');
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
