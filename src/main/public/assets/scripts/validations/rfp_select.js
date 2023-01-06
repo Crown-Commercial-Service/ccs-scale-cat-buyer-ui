@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var headerText = document.getElementById('page-heading').innerHTML;
             var msg = 'You must choose one option from list before proceeding';
             if(headerText.includes('Set your budget')){
-              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
               msg = 'Select whether you need a contracted out service or a supply of resource'
             }
@@ -272,7 +272,7 @@ $('#rfp_singleselect').on('submit', event => {
     }
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a project phase');
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){

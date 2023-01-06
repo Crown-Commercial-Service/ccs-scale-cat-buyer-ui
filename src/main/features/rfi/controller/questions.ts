@@ -132,8 +132,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     
-    //CAS-INFO-LOG 
-   LoggTracer.infoLogger(null, logConstant.rfiQuestionPageLog, req);
+   //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, data.rfiTitle, req);
 
     res.render('questions', data);
   } catch (error) {
