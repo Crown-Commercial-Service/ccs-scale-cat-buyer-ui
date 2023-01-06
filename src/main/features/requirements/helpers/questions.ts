@@ -452,7 +452,6 @@ export class QuestionHelper {
             let selectedLocation;
            // console.log('socialvalueAccess', socialvalueAccess)
             if (questionType == 'Text' || questionType == 'Percentage') {
-
               if (question_api_data[k]?.nonOCDS.questionType == 'Percentage'){
                    if (gid === 'Group 3' && id === 'Criterion 2'){
                    if (question_api_data[k]?.nonOCDS.order == 3){
