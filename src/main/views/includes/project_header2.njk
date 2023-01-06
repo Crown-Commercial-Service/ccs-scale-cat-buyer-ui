@@ -1,17 +1,10 @@
 <div class="project-overview">
   <p class="govuk-body">Selected agreement: <strong>
-    
-    {% if(agreement_header['agreementId_session'] != 'RM1043.8') %}
-      {%if agreement_header !=undefined and agreement_header !=null %}
-        {{agreement_header['agreementName']}},
-      {%endif%}
-    {%endif%} 
-
     {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
       {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
-        Lot 4
+        {{agreement_header['agreementName']}} Lot 4
       {% else %}
-         {{agreement_header['agreementName']}}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+        {{agreement_header['agreementName']}}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
       {% endif %} 
     {% endif %} 
   </strong>
