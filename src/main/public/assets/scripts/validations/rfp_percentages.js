@@ -75,10 +75,10 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Essential skills and experience")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for essential skills and experience", false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for essential skills and experience", false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for technical questions", false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
           }
           else if(agrement_id == 'RM1043.8'){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
@@ -192,7 +192,8 @@ const ccsZvalidateRfpPercentages = (event) => {
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
 
     if(agrement_id == 'RM1043.8') {
-      errorStore.push(["Question 3", "The weightings must add up to 100% in total"]);
+      //errorStore.push(["Question 3", "The weightings must add up to 100% in total"]);
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
     }else{
       errorStore.push(["#", "The weightings must add up to 100% in total"]);
     }

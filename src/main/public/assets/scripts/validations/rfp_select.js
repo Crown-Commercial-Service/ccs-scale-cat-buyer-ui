@@ -265,7 +265,7 @@ $('#rfp_singleselect').on('submit', event => {
           ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Choose if this is a new, replacement or expanded service.']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }

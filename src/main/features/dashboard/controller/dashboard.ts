@@ -6,8 +6,12 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import { ActiveEvents } from '@common/middlewares/models/active-events';
 import { eventStatus } from '@common/util/eventStatus';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 export const DASHBOARD = (req: express.Request, res: express.Response) => {
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
+  
   req.session.unpublishedeventmanagement = 'false';
   const searchText = req.session.searchText;
   // Active and Historical events is getting feached from API via 'src/main/common/middlewares/event-management/activeevents.ts'
