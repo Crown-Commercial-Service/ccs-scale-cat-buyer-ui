@@ -39,6 +39,12 @@ export enum logConstant {
     saveKeyDates = 'Saved Response Date from Tender API',
     ReviewLog = 'Review page reached',
     ReviewSave = 'Published the project from Tender API',
+    fetchEvents = 'Feached Events from Tender API',
+    fetchSupplierScoreList = 'Feached Supplier Score List from Tender API',
+    selectedService = 'Service page reached',
+    saveAssesmentDetails = 'Saved assesment from Tender API',
+    savesupplier = 'Saved supplier from Tender API',
+    supplierRateCard='Supplier Rate Card page reached',
 
     
    
