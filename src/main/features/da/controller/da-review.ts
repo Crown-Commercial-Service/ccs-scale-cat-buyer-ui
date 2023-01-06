@@ -1139,7 +1139,8 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
 
