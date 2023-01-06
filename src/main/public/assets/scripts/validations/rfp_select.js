@@ -278,7 +278,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
       }else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+        ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
       }
 
     }
