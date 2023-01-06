@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
+
 /**
  * @Controller
  * @GET

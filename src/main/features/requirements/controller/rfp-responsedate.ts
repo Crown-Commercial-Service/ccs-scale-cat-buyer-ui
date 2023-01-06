@@ -10,6 +10,8 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { Console } from 'console';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
@@ -105,7 +107,9 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
 
     if (agreement_id=='RM6187') {

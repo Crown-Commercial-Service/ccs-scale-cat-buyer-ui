@@ -40,15 +40,15 @@
         },
         {
             "eventno": 2,
-            "eventTitle": "Do pre-tender market engagement",
-            "buttonText": "Start pre-tender market engagement",
+            "eventTitle": "Do pre-market engagement",
+            "buttonText": "Start pre-market engagement",
             "note": "",
             "buttonDisable": true,
 
             "href": "/projects/events/choose-route",
             "sections": [
                 "You can refine your needs by asking questions before formally publishing your requirements. You cannot run a Request for Information and Further Competition at the same time, in the same project.",
-                "You can do pre-tender market engagement in the following way:"
+                "You can do pre-market engagement in the following way:"
             ],
             "subsections": [
                 [

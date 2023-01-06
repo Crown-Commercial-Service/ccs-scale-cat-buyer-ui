@@ -34,7 +34,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SENT = async (req: express.Request, res:
             }
         }
         let data;
-        if(agreementId == 'RM1043.8') { //DOS6
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6InboxData;
           } else { 
             data = inboxData;

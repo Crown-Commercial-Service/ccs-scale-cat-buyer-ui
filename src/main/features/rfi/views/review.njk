@@ -158,7 +158,7 @@ Change<span class="govuk-visually-hidden">project name</span>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-
+<dt class="govuk-summary-list__key">
               {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
 
               <p class="govuk-body">
@@ -283,7 +283,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
           {#rfi_data#}
           {%for item in rfi_data%}
-            {% if (item.title == "Who the buying organization is") or(item.title == "Who the buying organization is (Optional)") %}
+            {% if (item.title == "Who the buying organization is") or(item.title == "Who the buying organization is (Optional)") or (item.title == "Who the organisation using the products or services is") %}
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__key">
                 <strong>The buying organisation (optional)</strong>
@@ -318,7 +318,11 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   {%else%}
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
-                    <p class="govuk-body">You have not answered this question<p>
+                    {% if agreementId_session == "RM1557.13" %}
+                      <p class="govuk-body">{{organizationName}}<p>
+                    {%else%}
+                      <p class="govuk-body">You have not answered this question<p>
+                    {%endif%}
                    {%endif%}
 
                   {%endif%}
@@ -340,11 +344,11 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                 <dt class="govuk-summary-list__key">
                   <p class="govuk-body">
                   {% if item.mandatory == false %}
-                  {% if item.title == "Who the organisation using the products or services is" %}
+                  {# {% if item.title == "Who the organisation using the products or services is" %} #}
                     <strong>{{item.title}} (optional)</strong>
-                      {% else %}
-                      {{item.title}}
-                      {% endif %}
+                      {# {% else %} #}
+                      {# {{item.title}} #}
+                      {# {% endif %} #}
                       {% else %}
                     {{item.title}}
                   {% endif %}

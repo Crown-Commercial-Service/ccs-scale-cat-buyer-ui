@@ -120,7 +120,7 @@
                   })
               }}
               <p><label id="rfi_label_question_1"></label></p>#}
-          {% if agreement_id == 'RM6187' %}
+          {% if (agreement_id == 'RM6187') %}
               {% set numberWord = [
               'Zero',
               'First',
@@ -169,7 +169,7 @@
                 'twentieth'
             ] %}
             {% endif %}
-              {% if agreement_id == "RM1557.13"  %}
+              {% if agreement_id == "RM6187"  %}
                 {% set loopRange=11 %}
               {% else %}
                 {% set loopRange=21 %}
@@ -300,13 +300,13 @@
           {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
           {% set maxlength = '5000' %}
            {% set className = 'removeErr messagesendcount' %}
-{% if agreement_id == "RM1557.13" %}
+{% if agreement_id == "RM1557.13" or  agreement_id == "RM6187" %}
 {% set maxlength = '10000' %}
  {% set className = 'removeErr rfp_term_definition' %}
 {% endif %}
 {{ CCSCharacterCount({
                               label: {
-                                text: "Write your key background information here",
+                                text: "Enter your project background",
                                 classes: "govuk-label"
                                 },
                               id: "rfi_prob_statement",

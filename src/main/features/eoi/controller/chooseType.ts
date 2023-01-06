@@ -18,7 +18,10 @@ export const GET_EOI_CHOOSE_TYPE = async (req: express.Request, res: express.Res
     forceChangeDataJson = Mcf3cmsData;
   }
   const windowAppendData = { data: forceChangeDataJson,error: isEmptyChooseTypeError, lotId, agreementLotName, releatedContent, agreement_id };
-   res.render('chooseType',windowAppendData);
+    
+
+    
+  res.render('chooseType',windowAppendData);
 }
 
 export const POST_EOI_CHOOSE_TYPE = async (req: express.Request, res: express.Response) => {
@@ -32,6 +35,8 @@ export const POST_EOI_CHOOSE_TYPE = async (req: express.Request, res: express.Re
   if(chooseType.choose_type){
     const windowAppendData = { data: forceChangeDataJson, lotId, agreementLotName, releatedContent, agreement_id };
  
+     
+
     res.render('chooseType', windowAppendData);
   }else{
     req.session['isEmptyChooseTypeError'] = true;
