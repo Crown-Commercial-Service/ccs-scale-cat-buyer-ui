@@ -309,7 +309,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -326,7 +325,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
     let question_idsFilrtedList = [];
-
+ 
     question_ids.forEach(x => {
       if (question_idsFilrtedList.length > 0) {
         let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
@@ -634,10 +633,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 } 
                 
               } else if (percentage != undefined && percentage != null) {
-                const socialvaluePercentage = percentage[2];
-                if(socialvaluePercentage == 0){
-                  
-                }
+             
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
