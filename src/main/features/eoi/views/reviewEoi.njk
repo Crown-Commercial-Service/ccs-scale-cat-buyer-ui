@@ -130,9 +130,15 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
+          {% if agreementId_session == 'RM6187' %}
             <dt class="govuk-summary-list__key">
-              Change who will lead the project
+              Change who will lead the project (optional)
             </dt>
+            {% else %}
+            <dt class="govuk-summary-list__key">
+              Change who will lead the procurement
+            </dt>
+            {% endif %}            
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--none">
                 <li>
@@ -236,21 +242,20 @@
                     {% if i.values | length > 0 %}
                       {% for answer in i.values %}
                              {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
-                                  <p class="govuk-body-s">{{ answer.value }}
-                                  <p>
+                                  <p class="govuk-body-s content_review_length">{{ answer.value }}</p>
                               {% else %}
                                   <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}
                                   <p>
                               {% endif %}
                           {% if i.question != undefined %}
-                            <p class="govuk-body-s">{{ answer.text | safe }}
+                            <p class="govuk-body-s content_review_length">{{ answer.text | safe }}
                             </p>
                             <br/>
                           {% endif %}  
                           {% endfor %}
                         {% else %}
-
-                        {% if i.question != 'Name of the organisation doing the procurement' %}
+                       
+                        {% if  i.question != 'Name of the organisation doing the procurement' and i.question != 'Enter a definition for the term acronym explaining what it means' %}
                           <p class="govuk-body-s">You have not answered this question<p>
                           {% endif %}
 

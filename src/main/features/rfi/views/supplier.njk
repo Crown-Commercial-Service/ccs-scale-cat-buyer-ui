@@ -68,8 +68,9 @@
                 {% endif %}
               </h2>
               <br>
+             
               {% if(enablebtn) %}
-              <div class="govuk-button-group govuk-!-margin-bottom-7">
+               <div class="govuk-button-group govuk-!-margin-bottom-7">
                 {{ CCSButton({
                     text: "Save and continue",
                     classes: "govuk-button-dark"
@@ -79,8 +80,10 @@
               {% else %}      
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
               {% endif %}  
-              </div>
+              </div> 
               {% endif %}
+             
+
               <div class="govuk-form-group ccs-page-section govuk-!-margin-0"></div>
               <div id="page1" >
                 <div id="supplier-list">
@@ -93,7 +96,7 @@
                   {% endif %}
                   {% for supplier in suppliers_list %}
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-9 govuk-!-margin-bottom-5">
-                      <h3 class="govuk-heading-m">Company name: {{supplier.organization.name}}</h3>
+                      <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
                       <div id="rfi_required_suppliers-item-hint" class="govuk-hint">
                         {% if supplier.organization.identifier.legalName | length > 0 %}
                           <label>Trading name: {{supplier.organization.identifier.legalName}}</label>
@@ -159,7 +162,7 @@
                   </div>
                 </div>
               </div>
-              {% if agreementId_session != 'RM6187' %}
+             {# {% if agreementId_session != 'RM6187' %}
                   <div class="govuk-button-group">
                     {{ CCSButton({
                         text: "Save and continue"
@@ -170,7 +173,7 @@
                       <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
                     {% endif %} 
                 </div> 
-            {% endif %}
+            {% endif %} #}
             </form>
           </div>
         </div>

@@ -6,7 +6,8 @@ import { LotDetail } from '../../../common/middlewares/models/lot-detail'
 import { AgreementDetail } from '../../../common/middlewares/models/agreement-detail'
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('choose-agreement')
-import { LoggTracer } from '../../../common/logtracer/tracer'
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 /**
@@ -22,6 +23,10 @@ export const CHOOSE_AGREEMENT = async (req: express.Request, res: express.Respon
   // If we need to get MCF agreement include the id in below line : getAgreements(['RM6263', 'RM6187'], req, res)
   const agreements = await getAgreements(['RM6187','RM1043.8','RM1557.13'], req, res)
   const appendData = { data: agreementScreenContent, agreement_id, agreements }
+  
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.chooseCommercialLandLog, req);
+
   res.render('agreement', appendData)
 }
 
@@ -34,17 +39,25 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
       // POST MVP this base URL needs to be changed to GET /agreements to retrieve active agreements applicable for the CAS
       const BaseURL = `agreements/${agreement}`
       const LotBaseURL = `agreements/${agreement}/lots`
-      const retrieveAgreementPromise = await AgreementAPI.Instance.get(BaseURL);
+      const retrieveAgreementPromise = await AgreementAPI.Instance(null).get(BaseURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(retrieveAgreementPromise, logConstant.aggrementDetailFetch, req);
+
       logger.info("Feached agreement details from Agreement service API")
       draftAgreementDetails[i] = retrieveAgreementPromise?.data
-      const retrieveLotPromise = await AgreementAPI.Instance.get(LotBaseURL);
+      const retrieveLotPromise = await AgreementAPI.Instance(null).get(LotBaseURL);
+      
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(retrieveLotPromise, logConstant.lotDetailsFromAggrement, req);
+
       logger.info("Feached Lot details from Agreement service API")
 
       const draft: LotDetail[] = retrieveLotPromise?.data
       // getting supplier count for the lot
       for (const lot of draft) {
         const BaseUrlAgreementSuppliers = `/agreements/${agreement}/lots/${lot.number}/suppliers`
-        const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers)
+        const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance(null).get(BaseUrlAgreementSuppliers)
         lot.suppliers = retrieveAgreementSuppliers.length + " suppliers"
       }
 

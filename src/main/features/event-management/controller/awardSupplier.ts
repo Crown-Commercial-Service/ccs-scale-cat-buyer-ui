@@ -18,7 +18,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
         let supplierDetails = {} as SupplierDetails;
         //agreements/{agreement-id}/lots/{lot-id}/suppliers
         const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-        const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+        const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
   
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;

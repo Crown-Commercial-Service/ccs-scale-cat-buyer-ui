@@ -17,7 +17,7 @@ $(document).ready(function () {
     
   }
 
-
+  
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
@@ -42,7 +42,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region, or the “No specific location...',
+    'You must select at least one region',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -346,7 +346,49 @@ if (document.getElementById('ccs_da_project_name_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
   //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
+  
+  let noOfCharac = 200;
+    let contents = document.querySelectorAll(".content_review_length");
+   // if (document.getElementsByClassName('rfp_percentage_form') !== null){
+          contents.forEach((content,index) => {
+              //If text length is less that noOfCharac... then hide the read more button
+              if(content.textContent.length < noOfCharac){
+                //content.nextElementSibling.style.display = "none";
+              }
+              else{
+                  //let that = this;
+                  let displayText = content.textContent.slice(0,noOfCharac);
+                  let moreText = content.textContent.slice(noOfCharac);
+                  content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+                // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+              }
+        
+          });
+   //   }
 
+  function readMoreWithLength(){
+    document.querySelectorAll(".content_review_length").forEach(function(event) {
+      event.addEventListener('click', function(e) {
+         let targetId = e.target.id;
+          //$('#moreValue'+targetId).show();
+          let btn = document.querySelector('#content-'+targetId);
+          let HtmlBtn = $('#'+targetId).html();       
+        if(HtmlBtn=='Read more'){
+          $('#moreValue'+targetId).removeClass("hide");
+          $('#'+targetId).html("Read less");
+          $('#moreValue'+targetId).show();
+          $('#dots-'+targetId).hide();
+        }else{
+          $('#moreValue'+targetId).addClass("hide");
+          $('#'+targetId).html("Read more");
+          $('#moreValue'+targetId).hide();
+          $('#dots-'+targetId).show();
+        }
+      });
+    });
+  }
+  readMoreWithLength();
+  
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
@@ -473,7 +515,7 @@ setInputFilter(
   document.getElementById('clarification_date-month_6'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter(
+setInputFilter( 
   document.getElementById('clarification_date-year_6'),
   value => /^\d*$/.test(value),
 );
@@ -1529,6 +1571,62 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
      
     })
+
+
+    document.querySelectorAll(".download").forEach(function(event) {
+      event.addEventListener('click', function(event) {   
+        var $this = $(this);
+        var url=$this.attr('data-url');
+        $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            xhrFields: {
+                responseType: 'blob' // to avoid binary data being mangled on charset conversion
+            },
+            beforeSend: function(){
+              var bodytg = document.body;
+              bodytg.classList.add("pageblur");
+            },
+           success: function(blob, status, xhr) {
+            // check for a filename
+            var bodytg = document.body;
+              bodytg.classList.remove("pageblur");
+            var filename = "";
+            var disposition = xhr.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+            }
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+                if (filename) {
+                    // use HTML5 a[download] attribute to specify filename
+                    var a = document.createElement("a");
+                    // safari doesn't support this yet
+                    if (typeof a.download === 'undefined') {
+                        window.location.href = downloadUrl;
+                    } else {
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                } else {
+                    window.location.href = downloadUrl;
+                }
+    
+                setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
+            }
+        }
+          });
+       })
+  });
 
 
 

@@ -9,7 +9,7 @@ export const GET_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.R
 
     try {
       const BaseUrlAgreement=`/agreements/${agreement_id}/lots`;
-      let { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+      let { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
       retrieveAgreement = retrieveAgreement.sort((a:any, b:any) => (a.number < b.number ? -1 : 1));
       
 

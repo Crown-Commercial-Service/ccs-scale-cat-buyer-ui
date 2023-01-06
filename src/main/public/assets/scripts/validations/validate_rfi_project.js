@@ -6,6 +6,9 @@ const ccsZvalidateRfiProject = (event) => {
     errorStore = [];
     if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your project");
+    }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
+
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
@@ -27,11 +30,11 @@ const ccsZCountRfiProject = (event) => {
     let labelElement=document.getElementById("rfi_label_prob_statement");
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+    // if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
       labelElement.innerText="You have "+count+" characters remaining";
-    }else{
-      labelElement.innerText=count + " remaining of "+maxlength;
-    }
+    // }else{
+    //   labelElement.innerText=count + " remaining of "+maxlength;
+    // }
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

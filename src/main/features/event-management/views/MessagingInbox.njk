@@ -65,7 +65,7 @@
 </p>
 {% endset %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -126,13 +126,18 @@
             {% if createdreply == 'true' %}	
                 {% set CreatedReplyCustomhtml %}	
                     <h3 class="govuk-notification-banner__heading">
-                        {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                        {% if msgfor == 'all' and agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %} 
                             Your message was sent  to all suppliers
                         {% else %}
                             Your message was sent to the supplier
                         {% endif %}
                     </h3>
                     {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+                    </p>
+                    {% endif %}
+                    {% if agreementId == 'RM1557.13' %} 
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
                     </p>

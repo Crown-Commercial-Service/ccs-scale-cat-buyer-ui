@@ -65,6 +65,7 @@ export class EventEngagementMiddleware {
     req.session['UIDate'] = null;
     req.session['isRFIComplete']=false;
     req.session['searchText']='';
+    req.session['ccs_rfi_type']='';
     // Retrive active events
     
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
@@ -77,8 +78,6 @@ export class EventEngagementMiddleware {
           
           let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
           let getEventsData = getEvents.data;
-          console.log('events[i].projectId',events[i].projectId)
-          console.log('events[i].projectName',events[i].projectName)
 
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;

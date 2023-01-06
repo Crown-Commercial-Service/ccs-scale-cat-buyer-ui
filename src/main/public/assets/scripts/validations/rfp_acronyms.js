@@ -281,14 +281,40 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
+    $(".govuk-select").removeClass("govuk-select--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error1');
 
 }
 let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+let subjecterror = document.querySelectorAll('#create_subject_input');
+let classification_input = document.querySelectorAll('#create_message');
+let supplier_error = document.querySelectorAll('#create_supplier_message');
 let removeErr = document.querySelectorAll('.removeErr');
+let removeErrCheckbox = document.querySelectorAll('.removeErrCheckbox');
 removeErr.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+removeErrCheckbox.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+classification_input.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+supplier_error.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+subjecterror.forEach(ele => {
     ele.addEventListener('keydown', (event) => {
         removeErrorFieldsRfp1();
     });
@@ -314,7 +340,7 @@ const emptyFieldCheckdos = (type) => {
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
-    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
         fieldMsg = 'You must enter term or acronym'
         descMsg = 'You must enter definition for the term or acronym';
     }else{
