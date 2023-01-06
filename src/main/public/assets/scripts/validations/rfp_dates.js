@@ -1134,7 +1134,6 @@ function isProjectStartDateValid()
             ccsZPresentErrorSummary();
          }
          if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
-
            // $('#event-name-error-date').html('Start date must be a valid future date');
            removeErrorFieldsdates();
            var message = 'Start date must be a valid future date'
@@ -1176,7 +1175,7 @@ function isProjectStartDateValid()
          $('.resource_start_date').html('Enter a project start date');
          return false;
       } 
-      else if (startDate>new Date(2025,07,23)) {
+      else if (startDate>new Date(2025,07,23) && document.getElementById('agreementID').value != 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
           return false;

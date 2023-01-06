@@ -20,16 +20,56 @@
               ] %}
 {% set numberWordSmall = [
                 'Zero',
-                ' first',
-                ' second',
-                ' third',
-                ' fourth',
-                ' fifth',
-                ' sixth',
-                ' seventh',
-                ' eight',
-                ' ninth',
-                ' tenth'
+                'first',
+                'second',
+                'third',
+                'fourth',
+                'fifth',
+                'sixth',
+                'seventh',
+                'eighth',
+                'ninth',
+                'tenth',
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentyth',
+                'twenty first',
+                'twenty second',
+                'twenty third',
+                'twenty fourth',
+                'twenty fifth',
+                'twenty sixth',
+                'twenty seventh',
+                'twenty eighth',
+                'twenty ninth',
+                'thirtieth',
+                'thirty first',
+                'thirty second',
+                'thirty third',
+                'thirty fourth',
+                'thirty fifth',
+                'thirty sixth',
+                'thirty seventh',
+                'thirty eighth',
+                'thirty ninth',
+                'fortieth',
+                'fourty first',
+                'fourty second',
+                'fourty third',
+                'fourty fourth',
+                'fourty fifth',
+                'fourty sixth',
+                'fourty seventh',
+                'fourty eighth',
+                'fourty ninth',
+                'fiftieth'
               ] %}
 {% block breadCrumb %}
 {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
@@ -205,7 +245,7 @@
                                 </dd>
                               {% else %}
                                 <dd class="govuk-summary-list__value">
-                                  You have not added anyone so far in your team
+                                  <p class="govuk-body">You have not added anyone so far in your team</p>
                                 </dd>
                               {% endif %}
                               <dd class="govuk-summary-list__actions">
@@ -321,7 +361,7 @@
                                   <dt class="govuk-summary-list__key">
                                     <ul>
                                       {% for serviceInfo in selectedServices %}
-                                        <li>{{ serviceInfo.name }}</li>
+                                        <li><p class="govuk-body">{{ serviceInfo.name }}</p></li>
                                       {% endfor %}
                                     </ul>
                                   </dt>
@@ -794,7 +834,7 @@
                           {% set i=1 %}
                           {% if agreementId_session == 'RM6187' %}
                             {% for data in reqGroup %}
-                            {% set text = "Name of the" +numberWordSmall[i]+" requirement" %}
+                            {% set text = "Name of the "+numberWordSmall[i]+" requirement" %}
                             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                               <dt class="govuk-summary-list__value"><p>{{ text }}</p></dt>
                               <dd class="govuk-summary-list__value content_review_length"><p>{{ data.title }}</p></dd>
@@ -808,7 +848,7 @@
                             {% endfor %}
                           {% else %}
                           {% for data in reqGroup %}
-                            {% set text = "Name of the" +numberWordSmall[i]+" requirement group" %}
+                            {% set text = "Name of the "+numberWordSmall[i]+" requirement group" %}
                             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                               <dt class="govuk-summary-list__value"><p>{{ text }}</p></dt>
                               <dd class="govuk-summary-list__value"><p>{{ data.title }}</p></dd>
@@ -1328,14 +1368,14 @@
               </div>
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__value">
-                  <p>
+                  <p class="govuk-body">
                     Number of suppliers available</p>
                 </dt>
                 <dd class="govuk-summary-list__value">
                   {% if(supplierList !=undefined  and supplierList !=null and supplierList | length >0) %}
-                    {{ supplierList.length }} suppliers
+                  <p class="govuk-body">{{ supplierList.length }} suppliers</p>
                   {% else %}
-                    0 suppliers
+                  <p class="govuk-body">0 suppliers</p>
                   {% endif %}
                 </dd>
                 <dd class="govuk-summary-list__actions">

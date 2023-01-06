@@ -38,16 +38,14 @@
                 <h1 class="govuk-heading-xl">
           <strong>Your project</strong>
         </h1>
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}
-    
-    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
-             Lot 4
-    {% else %}
-             , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
-    {% endif %} 
-    {% endif %} 
+        <p class="govuk-body">Selected agreement: <strong>
+          {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+            {{ agreement_header['agreementName'] }} Lot 4
+            {% else %}
+            {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+            {% endif %} 
+          {% endif %} 
     
   </strong></p>
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
@@ -118,11 +116,7 @@
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
-                  {% if agreement_header['agreementId_session'] == 'RM6187' %}
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
-                  {% else %}
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
-                  {% endif %}
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}
