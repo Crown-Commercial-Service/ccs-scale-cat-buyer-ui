@@ -31,6 +31,10 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       organisation_user_endpoint,
     );
     organisation_user_data = organisation_user_data?.data;
+     
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.getUserDetails, req);
+
     const { pageCount } = organisation_user_data;
     const allUserStorge = [];
     for (let a = 1; a <= pageCount; a++) {
@@ -212,6 +216,10 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
     
     try{
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+       
+      //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+
       req.session['searched_user'] = [];
       res.redirect('/rfp/add-collaborators');
     }catch(err){
@@ -247,6 +255,10 @@ export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Reques
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
     
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addColleaguesDeleted, req);
+
     req.session['searched_user'] = [];
     res.redirect('/rfp/add-collaborators');
   } catch (err) {
