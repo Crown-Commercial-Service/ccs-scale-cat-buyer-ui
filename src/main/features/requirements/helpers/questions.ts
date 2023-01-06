@@ -462,6 +462,7 @@ export class QuestionHelper {
             let selectedLocation;
            // console.log('socialvalueAccess', socialvalueAccess)
             if (questionType == 'Text' || questionType == 'Percentage') {
+              if (agreement_id == 'RM1043.8') {
               if (question_api_data[k]?.nonOCDS.questionType == 'Percentage'){
                    if (gid === 'Group 3' && id === 'Criterion 2'){
                    if (question_api_data[k]?.nonOCDS.order == 3){
@@ -476,6 +477,7 @@ export class QuestionHelper {
                    }
                }
              }
+            }
               let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
               let textNum = 0;
               if (textMandatoryNum != null && textMandatoryNum > 0) {
@@ -638,7 +640,7 @@ export class QuestionHelper {
        let check_for_overflowing: Boolean = current_cursor < heading_fetch_dynamic_api_data.length - 1;
         if (check_for_overflowing && current_cursor != -1) {
         let next_cursor;
-        if(((req.session.lotId == 1 && group_id === 'Group 8') || (req.session.lotId == 3 && group_id === 'Group 7')) && id === 'Criterion 2'&& socialvalueAccess == true){
+        if(agreement_id == 'RM1043.8' && ((req.session.lotId == 1 && group_id === 'Group 8') || (req.session.lotId == 3 && group_id === 'Group 7')) && id === 'Criterion 2'&& socialvalueAccess == true){
           next_cursor = current_cursor + 2;
         }
         else{

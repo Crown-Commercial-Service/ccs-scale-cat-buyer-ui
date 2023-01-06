@@ -121,6 +121,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
             }
 
           } else {
+            if(agreement_id == 'RM1043.8'){
             if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'Percentage'){
                 if (ExcludingKeyDates[index].OCDS.id === 'Group 3' && ExcludingKeyDates[index].criterianId === 'Criterion 2'){
                 if (fetch_dynamic_api_data[j].nonOCDS.order == 3){
@@ -135,6 +136,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
                 }
             }
           }
+        }
             if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               
               ExcludingKeyDates[index].questionStatus = 'Done';
