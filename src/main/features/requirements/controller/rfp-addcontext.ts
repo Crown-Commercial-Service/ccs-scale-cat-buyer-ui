@@ -53,6 +53,9 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.criteriaDetailFetch, req);
+
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
