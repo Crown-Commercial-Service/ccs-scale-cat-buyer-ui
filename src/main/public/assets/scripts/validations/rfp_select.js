@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var headerText = document.getElementById('page-heading').innerHTML;
             var msg = 'You must choose one option from list before proceeding';
             if(headerText.includes('Set your budget')){
-              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
               msg = 'Select whether you need a contracted out service or a supply of resource'
             }
