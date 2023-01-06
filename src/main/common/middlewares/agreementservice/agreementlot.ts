@@ -21,9 +21,9 @@ export class AgreementLotMiddleware {
         const BaseUrlAgreementLotNum = `/agreements/${agreement_id}/lots/${lotNum}`;
         const BaseUrlAgreementSuppliers = `/agreements/${agreement_id}/lots/${lotNum}/suppliers`;
         try {
-            const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
-            const { data: retrieveAgreementLotNum } = await AgreementAPI.Instance.get(BaseUrlAgreementLotNum);
-            const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers);
+            const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+            const { data: retrieveAgreementLotNum } = await AgreementAPI.Instance(null).get(BaseUrlAgreementLotNum);
+            const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance(null).get(BaseUrlAgreementSuppliers);
             const endDate = retrieveAgreement.endDate;
             const agreementDescription = retrieveAgreementLotNum.description;
             const agreementName = retrieveAgreement.name;

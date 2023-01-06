@@ -6,7 +6,7 @@ export const GetLotSuppliers = async (req: express.Request) => {
   const lotSuppliersEndpoint = `agreements/${agreement_id}/lots/${lotId}/suppliers`;
   console.log(lotSuppliersEndpoint);
   try {
-    const { data: suppliers } = await AgreementAPI.Instance.get(lotSuppliersEndpoint);
+    const { data: suppliers } = await AgreementAPI.Instance(null).get(lotSuppliersEndpoint);
     return suppliers;
   } catch (err) {}
 };

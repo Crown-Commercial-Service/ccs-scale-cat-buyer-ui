@@ -17,7 +17,8 @@
             "href": "/fca/create-supplier-shortlist"
         },
         {
-            "text": "View or download your supplier shortlist"
+            "text": "View or download your supplier shortlist",
+            "href": "/fca/shortlisted/suppliers"
         },
         {
             "text": "Rate card and Contact details",

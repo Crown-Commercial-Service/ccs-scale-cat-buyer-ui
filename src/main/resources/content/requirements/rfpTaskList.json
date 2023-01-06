@@ -36,7 +36,7 @@
         {
           "Task": 2,
           "link": "/rfp/procurement-lead",
-          "title": "Change who is going to lead the procurement",
+          "title": "Change who is going to lead the project",
           "required": "optional",
           "status": "Optional"
         },

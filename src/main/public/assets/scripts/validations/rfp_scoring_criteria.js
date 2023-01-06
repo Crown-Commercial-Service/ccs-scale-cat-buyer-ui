@@ -147,8 +147,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }else if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1557.13'){ 
             rowsAndHead.rows.reverse();
+            var rowLength,rowLengthValue;
+            if(rowsAndHead.rows.length == 6){
+              rowLength = 4
+              rowLengthValue = 5
+            }else{
+              rowLength = 3
+              rowLengthValue = 4
+            }
               for (let i = 0; i < rowsAndHead.rows.length; i++) {
-              if (i !== 5) {
+              if (i !== rowLengthValue) {
                const ii = i + 1;
                var elements = document.getElementsByClassName("score_criteria_" + ii);
                 elements[0].classList.remove("ccs-dynaform-hidden");
@@ -157,6 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).focus();
                 document.getElementById("rfp_score_criteria_name_" + ii).focus();
+              }
+              
+              if(i>rowLength){
+                var eleI = i + 1;
+                var elements = document.getElementsByClassName("score_criteria_" + eleI);
+                elements[0].classList.add("ccs-dynaform-hidden");
               }
               if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
@@ -523,10 +537,19 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [focusField.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(point_field, 'Enter a valid number.');
-        ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+          fieldCheck = [focusField.id, 'You must add information in all fields'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields');
+          ccsZaddErrorMessage(point_field, 'Enter a valid number');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields');
+        }else{
+          fieldCheck = [focusField.id, 'You must add information in all fields.'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        }
+
+
         errorStore.push(fieldCheck);
       } 
       else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
@@ -640,7 +663,11 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+      errorStore.push(["There is a problem", 'You must add minmum 2 tiers'])
+    }else{
+      errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    }
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
@@ -764,6 +791,7 @@ const ccsZvalidateScoringCriteria2 = event => {
   var group_id = urlParams.get("group_id");
   var criterion = urlParams.get("id"); 
   var lID=document.getElementById('lID').value;
+  const pageHeading = document.getElementById('page-heading').innerHTML;
 
   if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
     errorStore = [];
@@ -771,7 +799,7 @@ const ccsZvalidateScoringCriteria2 = event => {
     errorStore = emptyFieldCheckRfpScore2();
   }
 
-  if (errorStore.length === 0) {
+  if (errorStore.length === 0 && !pageHeading.includes("The people who will use your product or service (Optional)")) {
     document.forms['service_user_type_form'].submit();
   }
   else {

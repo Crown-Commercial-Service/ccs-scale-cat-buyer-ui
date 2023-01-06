@@ -45,7 +45,7 @@
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Write message to supplier",
+        "text4": "Write message",
         "href4": "/message/create/supplier"
     }
 }

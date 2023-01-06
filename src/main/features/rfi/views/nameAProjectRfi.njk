@@ -94,7 +94,7 @@
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
      {% include "includes/project_header.njk" %}
 
-     {% if agreementId_session == 'RM6187' %}
+     {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
         <br>
         <br>
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
@@ -108,16 +108,13 @@
         <p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
        {% endif %}
-        {% if agreementId_session != "RM6187" %}
-          {% if agreementId_session == "RM1557.13" %}
-              <p class="govuk-body">{{data.caption}}</p>
-          {% else %}
+        {% if agreementId_session != "RM6187" and agreementId_session != "RM1557.13" %}
+          
               <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can 
       
               <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a>
 
               </p>
-          {% endif %}
         {% endif %}
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}

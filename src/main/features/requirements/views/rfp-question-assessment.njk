@@ -191,13 +191,17 @@
                       {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}<a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
                     </label> #}
                   <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
-                      {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
-                        Enter a
-                        {% elseif (agreement_id == 'RM1043.8')%}
-                        Enter your
+                    {% if(agreement_id == 'RM1043.8') %}                        
+                        {% if(group_id == 'Group 7' and lotId == '1') %}
+                          Enter a
                         {% else%}
-                        Enter an
-                      {%endif%}
+                          Enter your
+                        {%endif%}
+                        {% elseif (agreement_id == 'RM6187' and group_id == 'Group 4')%}
+                          Enter your                                
+                        {% else%}                    
+                          Enter an                    
+                    {%endif%}
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
                       {{shortTitle | replace("questions", "question")}}
                       {% else%}

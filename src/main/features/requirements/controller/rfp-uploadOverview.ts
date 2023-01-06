@@ -84,6 +84,15 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
 
   const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
+    if(agreementId_session == 'RM6187') { 
+    let flags = await ShouldEventStatusBeUpdated(eventId, 32, req);
+   
+          if(flags) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
+          } 
+
+        }
+
     let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
     if(flag)
     {

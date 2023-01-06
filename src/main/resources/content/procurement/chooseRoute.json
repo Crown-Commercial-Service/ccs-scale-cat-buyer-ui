@@ -23,7 +23,7 @@
     "subtitle":null,
     
     "form": {
-        "question": "Choose from the options below",
+        "question": "Choose from the options below.",
         "radioOptions": {
             "idPrefix": "ccs_chose_route",
             "name": "ccs_rfi_type",
