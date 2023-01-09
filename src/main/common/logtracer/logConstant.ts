@@ -79,6 +79,10 @@ export enum logConstant {
     rfiQuestionPageLog= 'Rfi Question page reached',
     rfiQuestionDetails= 'Fetched Question details from Tender Api',
     rfiQuestionUpdated="Question updated",
+    uploadPricingDocument ="Upload your pricing schedule page reached",
+    uploadTermsAndConditionsPageLog="Upload Terms And Conditions Page Reached",
+    uploadAdditionalPageLog="Upload additional documents page reached",
+
     rfiUploadDocumentPageLog="Upload documents page reached",
     rfigetUploadDocument="Fetched Upload Documents From Tender Api",
     rfiUploadDocumentUpdated="New document Uploaded from Tender Api",
