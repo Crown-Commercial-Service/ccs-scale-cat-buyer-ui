@@ -51,8 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyQuestionFieldCheckRfp();
                 if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7' ||  urlParamsData.get('group_id') == 'Group 8')  && urlParamsData.get('section') == 5) {
                     let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                    var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
+                    var percentageCheck;
+                    if(errorStore.length == 0){
+                    percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
                     errorStore.push(percentageCheck)
+                    }
                 }
                 else{
                 errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
@@ -1268,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-
+        
         if(weightArr == 0) {
             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8')) ) {
               
@@ -1405,12 +1408,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
-
+                        if(urlParams.get('agreement_id') == 'RM1043.8'){
+                            if($('#fc_question_precenate_' + 1).val() != '' && $('#fc_question_precenate_' + 1).val() < 100){
+                                var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+        
+                                errorStore.push(percentageCheck)
+                                }
+                        }
+                        else{
                         if($('#fc_question_precenate_' + 1).val() == ''){
                         var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
 
                         errorStore.push(percentageCheck)
                         }
+                    }
         
                     }
                     // else{
@@ -1443,14 +1454,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
            
-    
+            
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
 
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != ''){
+                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 && errorStore.length == 0 ){
 
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
                 errorStore.push(percentageCheck)
@@ -1462,12 +1473,12 @@ document.addEventListener('DOMContentLoaded', () => {
              //Remain Agreement
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                 errorStore = emptyQuestionFieldCheckRfp(); 
-                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 9'  && urlParams.get('section') == 5) {
+                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
+                // if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 9'  && urlParams.get('section') == 5) {
                     let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
                     var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is more than 100% ",Number($('#totalPercentage').text()), /\w+/);
                     errorStore.push(percentageCheck)
-                    
-    
+             
                 }
                 else{
                      errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
