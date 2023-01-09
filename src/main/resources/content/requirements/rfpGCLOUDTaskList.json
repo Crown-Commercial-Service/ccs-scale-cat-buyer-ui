@@ -122,22 +122,16 @@
             "eventno": 6,
             "eventTitle": "Review and publish",
             "eventDescription": "Review the information you've entered,ensuring that you have included all relevant context, requirements, evaluation criteria and weightings.",
-            "eventTask": [{
-                    "Task": 1,
-                    "title": "View suppliers",
-                    "required": "optional",
-                    "status": "Cannot start yet",
-                    "link": "/rfp/suppliers"
-                },
+            "eventTask": [
                 {
-                    "Task": 2,
+                    "Task": 1,
                     "title": "Set your timeline",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/response-date"
                 },
                 {
-                    "Task": 3,
+                    "Task": 2,
                     "title": "Review and publish",
                     "required": "mandatory",
                     "status": "Cannot start yet",
