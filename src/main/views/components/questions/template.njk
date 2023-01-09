@@ -1266,12 +1266,18 @@
                             {%else%}
                             <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
                             {%endif%}
+                            {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') %}
+                            <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </label>
+                            {%else%}
                             <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
                             <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
                               {{requirement.nonOCDS.options[i].text | safe}}
                             </div>
+                            {%endif%}
                           </div>
                           {% if requirement.nonOCDS.options[i].value === 'Yes'%}
                             {# <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
@@ -1323,12 +1329,18 @@
                                 {%else%}
                                 <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" >
                               {% endif %}
+                              {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') %}
+                              <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
+                                {{requirement.nonOCDS.options[i].text |safe}}
+                              </label>
+                              {%else%}
                               <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
                                 <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                               </label>
                               <div id="ccs_vetting_type-{{i+1}}-item-hint" class="govuk-hint govuk-radios__hint">
                                 {{requirement.nonOCDS.options[i].text |safe}}
                               </div>
+                              {% endif %}
                             </div>
                             {%endif%}
                           {%- endfor %}
