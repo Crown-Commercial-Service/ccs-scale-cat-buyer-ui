@@ -114,4 +114,19 @@ export enum logConstant {
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
      eoiPublishLog="Your RfI has been published",
      eoiPublishPageLog="Eoi published page reached",
+
+     chooseACategoryLog = 'Choose a category page reached',
+     exportGcloud = 'Export Gcloud documents From Tender Service Api',
+     assessmentDetail = 'Fetched Gcloud Assessment Details From Tender Api',
+     downloadYourSearch = 'Download Your Search page Reached',
+     exportResults = 'Export Results page Reached',
+     exportResultsUpdate = 'Export Resultes Updated From Tender Api',
+     newSearch = 'New Search page reached',
+     savedSearches = 'Saved Search page reached',
+     deleteSavedSearch = 'Saved Search deleted From Tender Api',
+     saveYourSearch = 'Save Your Page Reached',
+     saveSearch = 'Saved Search From Tender Api',
+     gcSearch = 'Gcloud Search Page Reached',
+     gcServices = 'Gcloud Services Page Reached',
+
 }
