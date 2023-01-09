@@ -118,4 +118,14 @@ export enum logConstant {
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
      eoiPublishLog="Your RfI has been published",
      eoiPublishPageLog="Eoi published page reached",
+     supplierDetails="Fetched Supplier details from Aggrement Api",
+     getReceivedMessage="Fetched Received messagegs from Tender Api",
+     getSupplierResponse="Fetched Supplier Response From Tender Api",
+     getSupplierScore="Fetched Supplier Score from tender Api",
+     getSupplierAwardDetails="Fetched Supplier Award Details From Tender Api",
+     getContractDetails="Fetched Supplier Award Details From Tender Api",
+     getQuestionAndAnsDetails="Fetched Questions and answere From Tender Api",
+     awardPageLogger="Award Page Reached",
+     publishPageLogger="Publish Page Reached",
+     
 }
