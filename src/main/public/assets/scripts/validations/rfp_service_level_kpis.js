@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("service_levels_kpi_form") !== null) {
 
     if(document.getElementById("kpiKeyLevel").textContent == 0) {
-      document.getElementById("kpiKeyLevel").textContent = '1';
+      document.getElementById("kpiKeyLevel").textContent = '0';
     }
     
     let with_value_count = 10,
@@ -197,8 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
+
+        
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        document.getElementById("kpiKeyLevel").textContent = with_value_count-1;
+        $("#rfp_term_service_levels_KPI_10").keypress(function(e) {
+          document.getElementById("kpiKeyLevel").textContent = 10
+       });
+        
         with_value_count++;
 
 
@@ -479,3 +485,4 @@ for (var x = 1; x < 11; x++) {
 $("input[name='percentage']").on('input', function() {
   $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
 });
+
