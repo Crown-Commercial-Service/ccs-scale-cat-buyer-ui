@@ -16,6 +16,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 /**
@@ -51,6 +52,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
      const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
     
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const groupSixRelated = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Your social value question');
@@ -278,7 +282,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    console.log('data for assessment',JSON.stringify(data))
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.rfpTitle, req);
+
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -315,7 +322,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -332,7 +338,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
     let question_idsFilrtedList = [];
-
+ 
     question_ids.forEach(x => {
       if (question_idsFilrtedList.length > 0) {
         let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
@@ -371,7 +377,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
           };          
           // const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 1`;
-          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
+
           QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
@@ -615,6 +625,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
               const { percentage } = req.body;
+              
               if (dataList != undefined) {
                 var optins = dataList?.filter(val => val !== '')
                   .map(val => {
@@ -639,6 +650,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 } 
                 
               } else if (percentage != undefined && percentage != null) {
+             
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
@@ -765,11 +777,15 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined) {
                   if(answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                    const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                    //CAS-INFO-LOG
+                    LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                   } else {
                     if(agreement_id==='RM1043.8' && id === 'Criterion 2' && ((group_id === 'Group 10' && req.session.lotId == '3') || (group_id === 'Group 12' && req.session.lotId == '1'))) {
                       
-                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                      const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                      //CAS-INFO-LOG
+                      LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                     }
                   }
                 }

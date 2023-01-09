@@ -49,11 +49,24 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-         <strong> {{data.title}}</strong>
+            {% if (agreement_id =='RM1557.13') %}
+              <strong> Your project</strong>
+            {% else %}
+              <strong> {{data.title}}</strong>
+            {% endif %}
         </h1>
         <div class="project-overview">
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
-  </strong></p>
+        <p class="govuk-body">Selected agreement: <strong>
+          {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+            {{ agreement_header['agreementName'] }} Lot 4
+            {% else %}
+            {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+            {% endif %} 
+          {% endif %} 
+
+        </strong>
+      </p>
   {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
   <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>

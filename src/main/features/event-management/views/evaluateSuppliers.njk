@@ -34,17 +34,14 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
             <div class="project-overview">
-                   <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}
-    
-    {% if(agreementId_session=='RM1557.13' and agreement_header['lotid']=='4') %}
-
-             Lot 4
-    {% else %}
-             , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
-    {% endif %} 
-    {% endif %} 
+                   <p class="govuk-body">Selected agreement: <strong>
+                    {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+                      {% if(agreementId_session=='RM1557.13' and agreement_header['lotid']=='4') %}
+                      {{ agreement_header['agreementName'] }} Lot 4
+                      {% else %}
+                      {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                      {% endif %} 
+                    {% endif %} 
     
   </strong></p>
                     <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
@@ -169,7 +166,7 @@
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             
-            {% if agreementId_session == 'RM6187' %}
+            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
            
            {% else %}
            <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>
