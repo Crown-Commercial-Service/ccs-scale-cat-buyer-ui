@@ -114,6 +114,7 @@ export enum logConstant {
     setYourTimeLineUpdated="Set your timeline updated",
     eoiSetYourTimeLinePageLog="Set your Eoi timeline page reached",
     eoiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
+
      eoiyourTimeLineUpdate="Eoi Tmeline updated",
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
      eoiPublishLog="Your RfI has been published",
@@ -145,6 +146,8 @@ export enum logConstant {
      saveSearch = 'Saved Search From Tender Api',
      gcSearch = 'Gcloud Search Page Reached',
      gcServices = 'Gcloud Services Page Reached',
-
-
+     reviewAndPublishStageOne="Review and publish stage 1 - page reached",
+     reviewAndPublishStageTwo="Review and publish stage 2 - page reached",
+     reviewAndPublish="Review and publish page reached",
+     agreementPublished="Agreement published",
 }
