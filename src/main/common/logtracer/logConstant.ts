@@ -45,6 +45,8 @@ export enum logConstant {
     fetchSupplierScoreList = 'Feached Supplier Score List from Tender API',
     selectedService = 'Service page reached',
     criterianEventFetch = 'Feached event criteria details from Tender API',
+    TaskListPageLog = 'Tasklist page reached',
+    typePageLog = 'Type page reached',
 
     
     saveAssesmentDetails = 'Saved assesment from Tender API',

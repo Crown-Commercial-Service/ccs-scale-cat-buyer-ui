@@ -269,6 +269,8 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     // }
 
     // console.log("data",JSON.stringify(data));
+    //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.questionPage, req);
     res.render('daw-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
