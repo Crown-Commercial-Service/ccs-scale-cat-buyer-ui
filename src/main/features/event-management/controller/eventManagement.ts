@@ -82,7 +82,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier)).data;
 
            //CAS-INFO-LOG 
-           LoggTracer.infoLogger(supplierDataList, logConstant.supplierDetails, req);
+           //LoggTracer.infoLogger(supplierDataList, logConstant.supplierDetails, req);
 
         }
     
@@ -91,7 +91,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       
       //CAS-INFO-LOG 
-      LoggTracer.infoLogger(apidata, logConstant.eventDetails, req);
+      //LoggTracer.infoLogger(apidata, logConstant.eventDetails, req);
 
       //status=apidata.data[0].dashboardStatus;
       status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
@@ -142,7 +142,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
        
       //CAS-INFO-LOG 
-       LoggTracer.infoLogger(data, logConstant.eventDetails, req);
+       //LoggTracer.infoLogger(data, logConstant.eventDetails, req);
       
        const assessmentId = data.data.nonOCDS.assessmentId
       let assessmentSupplierTarget;
@@ -320,7 +320,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
           
           //CAS-INFO-LOG 
-          LoggTracer.infoLogger(scontractAwardDetail, logConstant.getContractDetails, req);
+         // LoggTracer.infoLogger(scontractAwardDetail, logConstant.getContractDetails, req);
 
           if(agreementId_session=='RM1043.8'){
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
@@ -359,7 +359,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       collaboratorData = collaboratorData.data;
       
       //CAS-INFO-LOG 
-      LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
+      //LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
 
       let filtervalues;
       if(agreementId_session=='RM1557.13' && lotid=='All'){
@@ -394,7 +394,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const stage2_dynamic_api_data = stage2_dynamic_api.data;
       
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+      //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
 
       const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
       let stage2_value = 'Stage 1';
@@ -410,7 +410,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
           
         //CAS-INFO-LOG
-        LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.fetchEventDetails, req);
+        //LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.fetchEventDetails, req);
 
         const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
         let criterianStorage = [];
@@ -437,7 +437,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         let fetchQuestionsData = fetchQuestions?.data;
        
          //CAS-INFO-LOG
-         LoggTracer.infoLogger(fetchQuestions, logConstant.questionDetail, req);
+         //LoggTracer.infoLogger(fetchQuestions, logConstant.questionDetail, req);
 
         let standstill='';
         if(agreementId_session=='RM6187' && (eventType=='FC' || eventType=='DA')){

@@ -137,10 +137,14 @@ export enum logConstant {
      getQuestionAndAnsDetails="Fetched Questions and answere From Tender Api",
      awardPageLogger="Award Page Reached",
      publishPageLogger="Publish Page Reached",
+
+     messageCreatePagelogger="Message Create Page reached",
+
      
      saveYourSearch = 'Save Your Page Reached',
      saveSearch = 'Saved Search From Tender Api',
      gcSearch = 'Gcloud Search Page Reached',
      gcServices = 'Gcloud Services Page Reached',
+
 
 }
