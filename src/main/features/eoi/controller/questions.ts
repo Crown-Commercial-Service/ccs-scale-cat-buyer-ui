@@ -246,7 +246,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     //CAS-INFO-LOG
      LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
 
-    const agreementExpiryDate = retrieveAgreement.endDate;
+    const agreementExpiryDate = retrieveAgreement.data.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
 
