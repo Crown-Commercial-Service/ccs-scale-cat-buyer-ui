@@ -752,8 +752,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                        errorStore = emptyQuestionFieldCheckRfp();
-                        errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                        if((urlParams.get('agreement_id') == 'RM1557.13') && (urlParams.get('group_id') == 'Group 4' ))
+                        {
+                            errorStore = emptyQuestionFieldCheckRfp();
+                            errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
+                        }
+                        else{
+                            errorStore = emptyQuestionFieldCheckRfp();
+                            errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                        }
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
                         $('.govuk-form-group--error').remove();
