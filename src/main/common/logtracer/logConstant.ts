@@ -45,6 +45,8 @@ export enum logConstant {
     fetchSupplierScoreList = 'Feached Supplier Score List from Tender API',
     selectedService = 'Service page reached',
     criterianEventFetch = 'Feached event criteria details from Tender API',
+    TaskListPageLog = 'Tasklist page reached',
+    typePageLog = 'Type page reached',
 
     
     saveAssesmentDetails = 'Saved assesment from Tender API',
@@ -117,6 +119,16 @@ export enum logConstant {
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
      eoiPublishLog="Your RfI has been published",
      eoiPublishPageLog="Eoi published page reached",
+
+     chooseACategoryLog = 'Choose a category page reached',
+     exportGcloud = 'Export Gcloud documents From Tender Service Api',
+     assessmentDetail = 'Fetched Gcloud Assessment Details From Tender Api',
+     downloadYourSearch = 'Download Your Search page Reached',
+     exportResults = 'Export Results page Reached',
+     exportResultsUpdate = 'Export Resultes Updated From Tender Api',
+     newSearch = 'New Search page reached',
+     savedSearches = 'Saved Search page reached',
+     deleteSavedSearch = 'Saved Search deleted From Tender Api',
      supplierDetails="Fetched Supplier details from Aggrement Api",
      getReceivedMessage="Fetched Received messagegs from Tender Api",
      getSupplierResponse="Fetched Supplier Response From Tender Api",
@@ -126,6 +138,15 @@ export enum logConstant {
      getQuestionAndAnsDetails="Fetched Questions and answere From Tender Api",
      awardPageLogger="Award Page Reached",
      publishPageLogger="Publish Page Reached",
+
      messageCreatePagelogger="Message Create Page reached",
      messageCreated="New message Created for all supplier",
+
+     
+     saveYourSearch = 'Save Your Page Reached',
+     saveSearch = 'Saved Search From Tender Api',
+     gcSearch = 'Gcloud Search Page Reached',
+     gcServices = 'Gcloud Services Page Reached',
+
+
 }

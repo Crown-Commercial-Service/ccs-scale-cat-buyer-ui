@@ -4,6 +4,7 @@ import * as cmsData from '../../../resources/content/gcloud/exportResults.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 export const GET_EXPORT_RESULTS = async (req: express.Request, res: express.Response) => {
@@ -19,7 +20,13 @@ export const GET_EXPORT_RESULTS = async (req: express.Request, res: express.Resp
       
         const baseURL=`/assessments/${req.session.savedassessmentID}/gcloud`;
         
-        let {data:assessmentDetails} = await TenderApi.Instance(SESSION_ID).get(baseURL);
+        let assessmentDetail = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+        //CAS-INFO-LOG
+       LoggTracer.infoLogger(assessmentDetail, logConstant.assessmentDetail, req);
+
+       let assessmentDetails = assessmentDetail.data;
+
         let searchResults=assessmentDetails.resultsSummary;
         if(req.query.ass_id !==undefined){
           req.session.searchResultsUrl=assessmentDetails.dimensionRequirements;
@@ -35,7 +42,8 @@ export const GET_EXPORT_RESULTS = async (req: express.Request, res: express.Resp
         returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
         
       };
-      
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.exportResults, req);
      res.render('exportResults',appendData );
     } catch (error) {
       
@@ -53,7 +61,12 @@ export const POST_EXPORT_RESULTS = async (req: express.Request, res: express.Res
     if(exportassessment !== undefined){
       var lastUpdate =moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }),'DD/MM/YYYY hh:mm:ss',).format('YYYY-MM-DDTHH:mm:ss')+'Z';
      const baseURL=`/assessments/${savedassessmentID}/gcloud`;
-     let {data:assessmentDetails} = await TenderApi.Instance(SESSION_ID).get(baseURL);
+     let assessmentDetail = await TenderApi.Instance(SESSION_ID).get(baseURL);
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(assessmentDetail, logConstant.assessmentDetail, req);
+
+       let assessmentDetails = assessmentDetail.data;
+
       const _requestBody = {
         "assessmentName": assessmentDetails.assessmentName,
         "external-tool-id": "14",
@@ -66,7 +79,9 @@ export const POST_EXPORT_RESULTS = async (req: express.Request, res: express.Res
 
       
 
-      await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
+      let response = await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(response, logConstant.exportResultsUpdate, req);
       
      
         res.redirect('/g-cloud/download-your-search?assessmentID=' +savedassessmentID);
