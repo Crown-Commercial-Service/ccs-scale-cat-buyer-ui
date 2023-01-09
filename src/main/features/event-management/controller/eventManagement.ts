@@ -78,7 +78,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           supplierDataList ='';
         }else{
           const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
-          console.log("baseurl_Supplier",baseurl_Supplier);
+          
           supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier)).data;
 
            //CAS-INFO-LOG 
@@ -177,7 +177,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       if (status.toLowerCase() == "to-be-evaluated" || status.toLowerCase() == "evaluating" || status.toLowerCase() == "evaluated" || status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
-        console.log("supplierInterestURL",supplierInterestURL);
+      
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
         //CAS-INFO-LOG 
@@ -432,7 +432,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const Criterian_ID = criterianStorage?.[0]?.criterianId;
         const prompt = criterianStorage?.[0]?.nonOCDS?.prompt;
         const apiData_baseURL = `/tenders/projects/${projectId}/events/${req.session.eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-        console.log("apiData_baseURL123456",apiData_baseURL);
 
         const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
         let fetchQuestionsData = fetchQuestions?.data;
@@ -446,8 +445,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }else if(agreementId_session=='RM1557.13' && eventType=='FC' && lotid=='4'){
 
           standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-          console.log('standstill');
-          console.log(standstill);
+         
        }else{
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
         }
@@ -874,7 +872,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
          
           if (status.toLowerCase() == "pre-award") {
-            console.log("test3 PREAWARD")
+            
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
