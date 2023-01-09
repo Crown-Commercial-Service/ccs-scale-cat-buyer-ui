@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 /**
@@ -32,14 +33,20 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.fetchedAssesstmentsQuestions, req);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(heading_fetch_dynamic_api, logConstant.fetchedAssesstmentsQuestions, req);
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(getOrganizationDetails, logConstant.collaboratorDetailFetch, req);
+
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
 
@@ -196,6 +203,9 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
+
     res.render('daw-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -243,7 +253,10 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    let retrieveAgreement  = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
+    retrieveAgreement = retrieveAgreement.data;
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -289,7 +302,9 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
               },
             };
             let ReadmeBaseURL = `/tenders/projects/${req.query.proc_id}/events/${req.query.event_id}/criteria/${req.query.id}/groups/${req.query.group_id}/questions/${readmeQuestionID}`;
-            await DynamicFrameworkInstance.Instance(SESSION_ID).put(ReadmeBaseURL, ReadmeBody);
+            let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(ReadmeBaseURL, ReadmeBody);
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(response, logConstant.saveassesstments, req);
           }
 
           QuestionHelper.AFTER_UPDATINGDATA_DA_Assessment(
@@ -621,7 +636,9 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(response, logConstant.saveassesstments, req);
                 }
               } catch (error) {
                 LoggTracer.errorLogger(

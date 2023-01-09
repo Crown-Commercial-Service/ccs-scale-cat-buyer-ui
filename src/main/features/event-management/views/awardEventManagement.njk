@@ -26,21 +26,19 @@
             {{data.title}}</strong>
         </h1>
         <div class="project-overview">
-          <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
-              {% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}
-    
-    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
-             Lot 4
-    {% else %}
-             , 
-        {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
-    {% endif %} 
-    {% endif %} 
+          <p class="govuk-body">Selected agreement: <strong>
+              {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+                {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                {{ agreement_header['agreementName'] }} Lot 4
+                {% else %}
+                {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                {% endif %} 
+              {% endif %} 
     
   </strong></p>
           <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong>
           </p>
+          <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
         </div>
       </div>
     </div>
@@ -53,7 +51,7 @@
         {% endif %}
         <div>
           <h2 class="govuk-heading-m">
-          {{projectName}}
+          {{agreement_header['projectId']+" & "+projectName}}
           <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
         </h2>
         <p class="govuk-body">
@@ -71,7 +69,7 @@
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">
           {{data.subsection3_title}}<br>
-          ({{unreadMessage}} messages)</h2>
+          ({{unreadMessage}} unread messages)</h2>
         <p class="govuk-body">
           <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
         </p>
@@ -149,7 +147,11 @@
 
           </p>
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+            {% else %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
       {% endif %}
@@ -233,7 +235,7 @@
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Score (%)</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
                   {% else %}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>

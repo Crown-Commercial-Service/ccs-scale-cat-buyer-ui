@@ -129,6 +129,8 @@
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
                               {{shortTitle}} questions entered so far
+                          {% elseif agreement_id == 'RM1557.13' and group_id == 'Group 6' %}
+                              {{shortTitle}} questions entered so far
                           {% else %}
                               {{shortTitle}} questions entered
                           {% endif %}
@@ -142,7 +144,7 @@
                         <h2> Total for the {{shortTitle}}{{ ' category' if (group_id == 'Group 9') else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% endif %}
                     {% else %} 
-                          {% if agreement_id == 'RM6187' %}
+                          {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
                               <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
                           {% else %}
                               <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
@@ -197,9 +199,11 @@
                         {% else%}
                           Enter your
                         {%endif%}
-                        {% elseif (agreement_id == 'RM6187' and group_id == 'Group 4')%}
+                    {% elseif (agreement_id == 'RM6187' and group_id == 'Group 4')%}
                           Enter your                                
-                        {% else%}                    
+                    {% elseif (agreement_id == 'RM1557.13' and group_id == 'Group 6')%}
+                          Enter a
+                    {% else %}
                           Enter an                    
                     {%endif%}
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}

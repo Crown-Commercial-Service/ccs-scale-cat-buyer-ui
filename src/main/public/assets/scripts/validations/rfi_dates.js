@@ -149,7 +149,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
-            } else {
+            } else if (hour.val() != undefined && hour.val() == "") {
+                hour.addClass("govuk-input--error")
+                ccsZaddErrorMessage(document.getElementById(parentID), "Hour should not be empty");
+                const errorStore = [
+                    [parentID, "Hour should not be empty"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            }else if (minutes.val() != undefined && minutes.val() == "") {
+                minutes.addClass("govuk-input--error")
+                ccsZaddErrorMessage(document.getElementById(parentID), "Minutes should not be empty");
+                const errorStore = [
+                    [parentID, "Minutes should not be empty"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            }else {
                 if (!isValidDate(year.val(), month.val(), day.val())) {
                     day.addClass("govuk-input--error")
                     ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
@@ -165,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future");
+                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future"); 
                         const errorStore = [
                             [parentID, "Date should be in future"]
                         ]

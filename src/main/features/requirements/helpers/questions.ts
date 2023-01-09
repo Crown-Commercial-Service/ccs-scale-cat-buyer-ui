@@ -146,10 +146,14 @@ export class QuestionHelper {
                   innerMandatoryNum += 1;
                 }
 
-                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 14' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4  && (gid === 'Group 13' || gid === 'Group 17') && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
 
+                if (agreement_id == 'RM1557.13' && req.session.lotId == 4 && gid == 'Group 14' && value !== undefined && (value == 'No' || value == 'Yes') && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
+                
               }
             } else if (questionType === 'Date') {
               let dateValidation = 0;
@@ -263,9 +267,11 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
         }
       } else if(agreement_id == 'RM1557.13'){
+    
         console.log("mandatoryGroupList.length",mandatoryGroupList.length);
         console.log("mandatoryNum",mandatoryNum);
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum )) {//all questions answered
+
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
             let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
@@ -275,7 +281,9 @@ export class QuestionHelper {
           }
         }
         else {
+         
           let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
+          console.log('else ',flag)
           if (flag) {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
           }
@@ -389,10 +397,12 @@ export class QuestionHelper {
     //let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       //#region Check Mandatory group and question
+      
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       const lotid = req.session?.lotId;
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
+     
       if (agreement_id == 'RM1043.8' && lotid == '3') {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter(
           (a: any) => a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 11',
@@ -413,6 +423,7 @@ export class QuestionHelper {
         (n1: { nonOCDS: { mandatory: any } }) => n1.nonOCDS?.mandatory,
       );
       let mandatoryNum = 0;
+      let socialvalueAccess = false;
       for (let i = 0; i < mandatoryGroupList.length; i++) {
         let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
         if (isMandatory) {
@@ -449,7 +460,24 @@ export class QuestionHelper {
             //if (isInnerMandatory) {
             let answer = '';
             let selectedLocation;
+           // console.log('socialvalueAccess', socialvalueAccess)
             if (questionType == 'Text' || questionType == 'Percentage') {
+              if (agreement_id == 'RM1043.8') {
+              if (question_api_data[k]?.nonOCDS.questionType == 'Percentage'){
+                   if (gid === 'Group 3' && id === 'Criterion 2'){
+                   if (question_api_data[k]?.nonOCDS.order == 3){
+                   let optiondata =   question_api_data[k]?.nonOCDS.options;
+                   if(optiondata.length > 0){
+                    if(optiondata[0].value == 0){
+                     socialvalueAccess = true;
+                     }
+                    
+                   }
+               
+                   }
+               }
+             }
+            }
               let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
               let textNum = 0;
               if (textMandatoryNum != null && textMandatoryNum > 0) {
@@ -609,10 +637,15 @@ export class QuestionHelper {
       let current_cursor = heading_fetch_dynamic_api_data?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
-
-      let check_for_overflowing: Boolean = current_cursor < heading_fetch_dynamic_api_data.length - 1;
-      if (check_for_overflowing && current_cursor != -1) {
-        let next_cursor = current_cursor + 1;
+       let check_for_overflowing: Boolean = current_cursor < heading_fetch_dynamic_api_data.length - 1;
+        if (check_for_overflowing && current_cursor != -1) {
+        let next_cursor;
+        if(agreement_id == 'RM1043.8' && ((req.session.lotId == 1 && group_id === 'Group 8') || (req.session.lotId == 3 && group_id === 'Group 7')) && id === 'Criterion 2'&& socialvalueAccess == true){
+          next_cursor = current_cursor + 2;
+        }
+        else{
+         next_cursor = current_cursor + 1;
+        }
         let next_cursor_object = heading_fetch_dynamic_api_data[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = id; //next_cursor_object['criterianId'];

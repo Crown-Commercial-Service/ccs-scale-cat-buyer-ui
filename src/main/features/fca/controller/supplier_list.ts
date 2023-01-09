@@ -55,6 +55,14 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
           lotName: agreementLotNames
         });
     }    
+    if (req.session.agreement_id == 'RM1557.13'){
+      relatedOverride = new Object({
+        title: 'Related content',
+        lotUrl: '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'), 
+        name: 'G-Cloud 13',
+        lotName: agreementLotNames
+      });
+    }
   }
   else {
     relatedOverride = req.session.releatedContent;
