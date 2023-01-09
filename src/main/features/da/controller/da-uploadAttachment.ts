@@ -9,6 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { ATTACHMENTUPLOADHELPER } from '../helpers/uploadAttachment';
 import { FileValidations } from '../util/file/filevalidations';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 let tempArray = [];
 
@@ -73,6 +74,9 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
             try {
               // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+
             const FETCH_FILEDATA = FetchDocuments.data;
 
             let duplicateFile = false;
@@ -93,11 +97,13 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
               });
               ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
             }else{
-              await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+              let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
                 headers: {
                   ...formHeaders,
                 },
               });
+               //CAS-INFO-LOG
+               LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
               }
             } catch (error) {
               LoggTracer.errorLogger(
@@ -142,6 +148,9 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
           try {
             // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+             //CAS-INFO-LOG
+             LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+
             const FETCH_FILEDATA = FetchDocuments.data;
             let duplicateFile = false;
             for(const item of FETCH_FILEDATA){
@@ -161,11 +170,13 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
               });
               ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
             }else{
-            await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+              let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
               headers: {
                 ...formHeaders,
               },
             });
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
             req.session['isTcUploaded'] = true
            // res.redirect(`/${selRoute}/upload-attachment`);
            res.redirect(`/da/upload-attachment`);
@@ -216,7 +227,9 @@ export const DA_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (req: exp
   const { file_id } = req.query
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
-    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    let response =  await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(response, logConstant.UploadDocumentDeleted, req);
     res.redirect(`/da/upload-attachment`)
   } catch (error) {
     LoggTracer.errorLogger(
@@ -248,6 +261,9 @@ export const DA_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+    
     const FETCH_FILEDATA = FetchDocuments?.data;
     let fileNameStorageTermsnCond = [];
     let fileNameStoragePricing = [];

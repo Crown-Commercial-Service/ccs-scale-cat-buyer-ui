@@ -83,6 +83,9 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       error: isJaggaerError,
       releatedContent: releatedContent,
     };
+
+     //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
     res.render('daw-add-collaborator', windowAppendData);
   } catch (error) {
     console.log(error);

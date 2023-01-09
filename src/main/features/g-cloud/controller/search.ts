@@ -8,6 +8,7 @@ import { gCloudServiceQueryResults } from '../util/filter/serviceQueryResults';
 import { gCloudCountQueryFliter } from '../util/filter/countQueryFliter';
 import { gCloudServiceQueryReplace } from '../util/filter/serviceQueryReplace';
 import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourSearch.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // @ts-ignore
 // const gCloudServiceQueryFliter = (reqUrl: any, baseUrl: any, overUrl: any) => {
@@ -161,6 +162,9 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       
       const releatedContent = req.session.releatedContent;
       const appendData = { data: servicesList,njkDatas,filters:filterDatas,releatedContent: releatedContent, lotId:req.session.lotId,agreementLotName:req.session.agreementLotName,clearFilterURL:clearFilterURL,jsondata: saveYourSearchData,};
+      
+       //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.gcSearch, req);
       res.render('search',appendData);
     } catch (error) {
       console.log(error);
