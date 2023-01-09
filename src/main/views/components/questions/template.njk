@@ -978,7 +978,12 @@
                   {% if (agreement_id == 'RM1557.13') %}
                       <div class="govuk-inset-text">
                         <p><b> The total weighting is : <span id='totalPercentage'>0</span>% </b></p>
-                      </div>  
+                      </div> 
+                  {% elseif (agreement_id == 'RM1043.8') %}
+                    <div class="govuk-inset-text">
+                      <h3 class="govuk-heading-m govuk-!-margin-bottom-1"> The total weighting is : <span id='totalPercentage'>0</span>% </h3>
+                      <p class="govuk-body">You can add the specific weightings for your individual questions in the next steps.</p>
+                    </div> 
                   {% else %}
                       <div>
                           {{ CCSInsetText({
