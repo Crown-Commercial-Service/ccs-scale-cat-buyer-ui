@@ -208,6 +208,8 @@
                     {%endif%}
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
                       {{shortTitle | replace("questions", "question")}}
+                      {% elseif (agreement_id == 'RM1043.8' and group_id == 'Group 8' and lotId == '1') %}
+                      {{numberWord[i]}} {{shortTitle}} question
                       {% else%}
                       {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
                       {%endif%}
