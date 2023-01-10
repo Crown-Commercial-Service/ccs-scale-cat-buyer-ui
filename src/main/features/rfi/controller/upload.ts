@@ -234,6 +234,9 @@ export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Reques
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId,agreement_id } = req.session;
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
-   
-  res.redirect('/rfi/suppliers');
+  if(agreement_id != 'RM1557.13'){
+    res.redirect('/rfi/suppliers');
+  }else{
+    res.redirect('/rfi/response-date');
+  }  
 });
