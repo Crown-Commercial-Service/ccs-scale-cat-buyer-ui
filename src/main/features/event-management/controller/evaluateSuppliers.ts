@@ -11,6 +11,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import * as stage1ShortListEvaluationData from '../../../resources/content/event-management/stage1ShortListEvaluationData.json'
 import * as stage2ShortListEvaluationData from '../../../resources/content/event-management/stage2ShortListEvaluationData.json'
 import moment from 'moment-business-days';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 
@@ -94,8 +95,16 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     //Cpmpletion Status
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(ScoresAndFeedbackURLdata, logConstant.getSupplierScore, req);
+
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata= await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
     var submittedCount = 0
      for (let i = 0; i < supplierdata.data.responders.length; i++) {
        if(supplierdata.data.responders[i].responseState == 'Submitted')
@@ -169,7 +178,11 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     }
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);
 
+    
     res.render('evaluateSuppliers',appendData);     
     
   } catch (err) {
