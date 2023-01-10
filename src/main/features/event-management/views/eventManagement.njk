@@ -1023,7 +1023,7 @@
             
           </div>
           
-            {% if agreementId_session == "RM1557.13" and status.toUpperCase() == 'EVALUATED' %}
+            {% if (agreementId_session == "RM6187" or agreementId_session == "RM1557.13") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED')  %}
               <br><br>
               <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %}
