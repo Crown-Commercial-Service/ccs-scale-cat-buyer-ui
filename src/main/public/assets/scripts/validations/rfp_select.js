@@ -99,12 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (this.value == 'other') {
       $('.otherTextArea').removeClass('ccs-dynaform-hidden');
       $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
     }
   });
   $('input[type="checkbox"]:not(:checked)').each(function () {
     if (this.value == 'other') {
       $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').addClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').html('');
     }
   });
@@ -113,12 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.value == 'other') {
         $('.otherTextArea').removeClass('ccs-dynaform-hidden');
         $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
+    }
       }
     });
     $('input[type="checkbox"]:not(:checked)').each(function () {
       if (this.value == 'other') {
         $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').addClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').html('');
       }
     });
