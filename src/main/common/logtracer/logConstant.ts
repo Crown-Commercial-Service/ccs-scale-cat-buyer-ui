@@ -91,6 +91,7 @@ export enum logConstant {
     rfiUploadDocumentDeleted="Document deleted From Tender Api",
     rfiViewSuppliersPageLog="View suppliers page reached",
     supplierList="Fetched supplier List From Agreements Api",
+    messageSupplierList="Fetched supplier List From Tender Api",
     setYourTimeLinePageLog="Set your RfI timeline page reached",
     yourTimeLineUpdate="Rfi Tmeline updated",
     rfiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
@@ -140,6 +141,7 @@ export enum logConstant {
      publishPageLogger="Publish Page Reached",
 
      messageCreatePagelogger="Message Create Page reached",
+     messageCreated="New message Created for all supplier",
 
      
      saveYourSearch = 'Save Your Page Reached',
