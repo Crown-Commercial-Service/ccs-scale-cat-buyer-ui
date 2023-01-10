@@ -132,6 +132,7 @@ export enum logConstant {
      supplierDetails="Fetched Supplier details from Aggrement Api",
      getReceivedMessage="Fetched Received messagegs from Tender Api",
      getSupplierResponse="Fetched Supplier Response From Tender Api",
+     getAwardTemplateDetails="Fetched Award Template Details From Tender Api",
      getSupplierScore="Fetched Supplier Score from tender Api",
      getSupplierAwardDetails="Fetched Supplier Award Details From Tender Api",
      getContractDetails="Fetched Supplier Award Details From Tender Api",
@@ -146,7 +147,19 @@ export enum logConstant {
 
      messageSent="Fetched Sent messages From Tender Api",
      messageSentPageLogger="Message Sent Page Received",
+     evaluateSuppliers="Evaluate Supplier Page Received",
+     evaluateFinalScorePageLogg="Enter the supplier’s final score Page Reached",
+     evaluateScoreUpdated="Score updated",
+     supplierToBeAwardedPageLogg="Supplier to be awarded page reached",
+     awardDocuments="Award documents page reached",
+     awardSupplierPageLogg="Award supplier page reached",
+     standsStillPageLogg="Choose if you want a standstill period page reached",
+     standsStillSelected="standstill period selected and updated",
      
+     
+
+
+
      saveYourSearch = 'Save Your Page Reached',
      saveSearch = 'Saved Search From Tender Api',
      gcSearch = 'Gcloud Search Page Reached',
