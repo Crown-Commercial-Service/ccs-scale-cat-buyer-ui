@@ -74,13 +74,12 @@
                                                 {# <strong>{{items.OCDS.description}}</strong> #}
                                             </strong>
                                         </span>
-                                       
                                         {% if (items.questionStatus == 'todo') %}
                                         {% if (lotId == 3) and (items.OCDS.id === 'Group 8') and (socialvalueAccess == true) %}
                                            {% elseif (lotId == 1) and (items.OCDS.id === 'Group 9') and (socialvalueAccess == true) %}    
                                             {% elseif (items.nonOCDS.mandatory) %}
                                                 <strong class="govuk-tag govuk-tag--grey app-task-list__tag">TO DO</strong>
-                                            {% elseif (items.nonOCDS.mandatory == false) and (socialvalueAccess == false) %}
+                                            {% elseif (items.nonOCDS.mandatory == false) %}
                                                 <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Optional</strong>
                                             {% else %}
                                                 <strong class="govuk-tag govuk-tag--green app-task-list__tag" >Done</strong>
