@@ -1,4 +1,4 @@
-const countWords1 = (str) => { return  str ? str.trim().split(/\s+/).length : false };
+const countWords1 = (str) => { return str?str.trim().split(/\s+/).length:false };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -362,7 +362,7 @@ const emptyFieldCheckdos = (type) => {
                             fieldCheck = [term_field.id, fieldMsg];
                             ccsZaddErrorMessage(term_field, fieldMsg);
                             errorStore.push(fieldCheck);
-                        }
+                        } 
                         if (definition_field.value.trim() === '') {
                             fieldCheck = [definition_field.id, descMsg];
                             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
