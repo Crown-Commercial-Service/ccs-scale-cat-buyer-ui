@@ -119,9 +119,9 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       }
     }
     else if (agreement_id=='RM1557.13') {
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
       if (response.status == HttpStatusCode.OK) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
       }
     }  
     else if (agreement_id=='RM1043.8') {
