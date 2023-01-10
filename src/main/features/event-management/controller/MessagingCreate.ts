@@ -86,7 +86,6 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
           
           
         const appendData = { data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
-        console.log("Help1")
         
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
@@ -200,8 +199,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             data = inboxData;
           }
             const appendData = { data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
-            console.log("Help2")
-             
+            
             //CAS-INFO-LOG 
              LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
 
@@ -225,7 +223,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
-            console.log("UPDATEDDDDDDDDDDD")
+           
             //CAS-INFO-LOG 
             LoggTracer.infoLogger(response, logConstant.messageCreated, req);
             
@@ -328,7 +326,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
 
-        console.log("Help3")
+      
         res.render('MessaginSupplierCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -462,7 +460,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
               }
 
             const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
-            console.log("Help4")
+           
              
             //CAS-INFO-LOG 
              LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
@@ -512,7 +510,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
              req.session['SupplierNameforMessagereply'] = MatchedSupplierIDS[0];
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
-
+                
              //CAS-INFO-LOG 
              LoggTracer.infoLogger(response, logConstant.messageCreated, req);
 
