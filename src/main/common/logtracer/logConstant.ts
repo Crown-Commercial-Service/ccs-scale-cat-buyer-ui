@@ -141,7 +141,11 @@ export enum logConstant {
 
      messageCreatePagelogger="Message Create Page reached",
      messageCreated="New message Created for all supplier",
+     messageReceived="Fetched Received messages From Tender Api",
+     messageInboxPageLogger="Message Inbox Page Received",
 
+     messageSent="Fetched Sent messages From Tender Api",
+     messageSentPageLogger="Message Sent Page Received",
      
      saveYourSearch = 'Save Your Page Reached',
      saveSearch = 'Saved Search From Tender Api',
