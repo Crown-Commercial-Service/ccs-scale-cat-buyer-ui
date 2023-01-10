@@ -66,20 +66,13 @@
                 },
                 {
                     "Task": 2,
-                    "title": "View Suppliers",
-                    "required": "optional",
-                    "status": "Cannot start yet",
-                    "link": "/rfi/suppliers"
-                },
-                {
-                    "Task": 3,
                     "title": "Set your RfI timeline",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfi/response-date"
                 },
                 {
-                    "Task": 4,
+                    "Task": 3,
                     "title": "Review and publish your RfI",
                     "required": "mandatory",
                     "status": "Cannot start yet",
