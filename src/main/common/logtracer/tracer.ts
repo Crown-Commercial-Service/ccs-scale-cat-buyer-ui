@@ -49,12 +49,11 @@ export class LoggTracer {
   if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
     body = JSON.parse(errorLog?.exception?.config?.data)
   }
-  let req = express.request;
+  // let req = express.request;
   const LogMessage = { 
     "environment": "null",
     "logType": "CAS_ERROR",
     "level": "error",
-    "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
     "message": errorLog?.errorRoot,
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
