@@ -267,7 +267,26 @@ text: bcTitleText
                     })}}
                 </div>
                 {%elseif(section !=='5')%}
-                    {% if agreement_id != "RM6187" %}
+                   {% if (agreement_id == 'RM1043.8') and (lotId == '3') and (criterian_id == 'Criterion 3') %}
+                   {% if(group_id == 'Group 15') %}
+                        <div class="ccs-page-section">
+                            {{ CCSButton({ 
+                            text: "Add another item",
+                            type:"button",
+                            classes:"add-another-btn question_count govuk-button--secondary"
+                            })}}
+                        </div>
+                        {% endif %}
+                         {% if(group_id == 'Group 17') %}
+                            <div class="ccs-page-section">
+                                {{ CCSButton({ 
+                                text: "Add another special term or condition",
+                                type:"button",
+                                classes:"add-another-btn question_count govuk-button--secondary"
+                                })}}
+                            </div>
+                        {% endif %}
+                    {% elseif agreement_id != "RM6187" %}
                        <div class="ccs-page-section">
                             {{ CCSButton({ 
                             text: "Add another question",
