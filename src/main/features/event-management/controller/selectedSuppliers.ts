@@ -16,7 +16,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
-  console.log("SUPLIER 1212")
+  
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
     const agreementId_session = req.session.agreement_id

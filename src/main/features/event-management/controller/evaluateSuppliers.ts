@@ -288,7 +288,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
 
 }
 export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {
-  console.log("EVVVV")
+  
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
