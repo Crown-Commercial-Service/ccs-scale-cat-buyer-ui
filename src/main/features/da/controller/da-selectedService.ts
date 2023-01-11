@@ -32,6 +32,7 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
   const releatedContent = req.session.releatedContent;
+  const agreementId_session = req.session.agreement_id;
 
   let checkCheckbox = [];
   let other_text = '';
@@ -151,7 +152,8 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
     // services:ScaleData.data,
     checkCheckbox,
     other_text,
-    isDisable
+    isDisable,
+    agreementId_session
   };
    //CAS-INFO-LOG
    LoggTracer.infoLogger(null, logConstant.selectedService, req);

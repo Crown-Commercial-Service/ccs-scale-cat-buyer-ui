@@ -1431,6 +1431,11 @@ p + .govuk-heading-s,
   font-size: 84px !important;
 }
 
+.govuk-radios__label_custom p {
+  display: inline-block;
+  color: #0b0c0c;
+}
+
 @media print {
   .js-enabled .govuk-accordion__section-button {
     font-family: sans-serif;
