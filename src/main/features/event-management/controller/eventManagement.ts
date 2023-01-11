@@ -764,11 +764,17 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
 
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
        
+       //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
 
         let supplierDataList = [];
         supplierDataList = await GetLotSuppliers(req);
@@ -852,7 +858,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
        
           const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-          
+           
+          //CAS-INFO-LOG 
+           LoggTracer.infoLogger(supplierAwardDetail, logConstant.getSupplierAwardDetails, req);
           
           if (supplierDetailsDataList.length > 0) {
             supplierAwardDetail?.suppliers?.map((item: any) => {
@@ -1010,6 +1018,16 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         res.redirect(redirectUrl)
       }
       else {
+        
+        if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(null, logConstant.awardPageLogger, req);
+         }
+         else {
+           //CAS-INFO-LOG
+          LoggTracer.infoLogger(null, logConstant.publishPageLogger, req);
+         }
+
         let redirectUrl_: string
         switch (eventType) {
           case "RFI":
@@ -1200,6 +1218,10 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
       const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
+
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.reviewYourSupplierEvaluationPageLogg, req);
+
       //Rendor method
       res.render('evaluateSuppliersReadonly', appendData);
     }
@@ -1618,6 +1640,7 @@ export const INVITE_SUPPLIERS = async (req: express.Request, res: express.Respon
 
 export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  
   try {
             const releatedContent = req.session.releatedContent;
             const project_name = req.session.Projectname 
@@ -1650,7 +1673,11 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
               supplierData,
               eventId
               
-            };            
+            };
+             
+              //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.inviteSelectedSuppliersPageLogg, req);
+
             res.render('selectedSuppliers',appendData);
       } catch (error) {
         LoggTracer.errorLogger(
@@ -1699,6 +1726,11 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
          
           const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const response= await TenderApi.Instance(SESSION_ID).post(BASEURL, supplierBody); 
+          
+          //CAS-INFO-LOG 
+          LoggTracer.infoLogger(response, logConstant.inviteSelectedSuppliers, req);
+
+          
 
           if (response.status == Number(HttpStatusCode.OK)) {
               req.session.selectedRoute = 'FC';

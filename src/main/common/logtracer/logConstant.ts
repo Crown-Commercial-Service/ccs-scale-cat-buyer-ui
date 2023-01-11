@@ -155,6 +155,13 @@ export enum logConstant {
      awardSupplierPageLogg="Award supplier page reached",
      standsStillPageLogg="Choose if you want a standstill period page reached",
      standsStillSelected="standstill period selected and updated",
+     inviteSelectedSuppliersPageLogg="Invite selected suppliers to stage 2 page reached",
+     inviteSelectedSuppliers="Confirm selected suppliers for stage 2 Further Competition updated",
+     furtherAssesmentPageLogg="Further assessment evaluation page reached",
+     reviewYourSupplierEvaluationPageLogg="Review your supplier evaluation page reached",
+     closeYourProjectPageLogg="Close your project page reached",
+     projectCloseYourProjectPageLogg="Your project has been closed Page reached ",
+     
      
      
 

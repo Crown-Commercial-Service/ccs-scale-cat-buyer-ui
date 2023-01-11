@@ -4,6 +4,7 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as selectedSuppliersData from '../../../resources/content/event-management/selectedSuppliers.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -15,6 +16,7 @@ import * as localData from '../../../resources/content/event-management/local-SO
 
 
 export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
+  console.log("SUPLIER 1212")
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
     const agreementId_session = req.session.agreement_id
@@ -37,6 +39,10 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
     for(var m=0;m<supplierdata.data.length;m++)
     {    if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
     {
@@ -49,6 +55,10 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = { releatedContent,data: selectedSuppliersData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData , agreementId_session }
           res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.inviteSelectedSuppliers, req);
+
     res.render('selectedSuppliers',appendData);     
     
   } catch (err) {
