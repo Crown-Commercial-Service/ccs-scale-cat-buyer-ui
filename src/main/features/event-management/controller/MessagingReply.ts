@@ -6,6 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as replyData from '../../../resources/content/event-management/messaging-reply.json'
 import * as dos6ReplyData from '../../../resources/content/event-management/messaging-reply dos6.json'
 import { MessageDetails } from '../model/messgeDetails'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
    
@@ -32,6 +33,8 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
     try {
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(draftMessage, logConstant.messageReceived, req);
 
         const messageReply: MessageReply = draftMessage.data
         messageThreadingList= [];
@@ -69,8 +72,8 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
 
         const appendData = {replyto,msgThreadList:messageThreadingList, data, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.locals.agreement_header = req.session.agreement_header
-        console.log("Hi",JSON.stringify(appendData));
-        
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.MessagingReplyLogger, req);
         res.render('MessagingReply', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -115,6 +118,8 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
         }
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(draftMessage, logConstant.messageReceived, req);
 
         const messageReply: MessageReply = draftMessage.data
         if (validationError) {
@@ -184,6 +189,10 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
             req.session['SupplierNameforMessagereply'] = draftMessage.data.OCDS.author.name;
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+
+            //CAS-INFO-LOG 
+        LoggTracer.infoLogger(response, logConstant.saveMessages, req);
+
             if (response.status == 200) {
                 if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
                     res.redirect('/message/inbox?createdreply=true&msgfor=all')
