@@ -156,6 +156,14 @@ export enum logConstant {
      awardSupplierPageLogg="Award supplier page reached",
      standsStillPageLogg="Choose if you want a standstill period page reached",
      standsStillSelected="standstill period selected and updated",
+
+     qaAdd1stStepLogger = 'QA Add 1st Step Page Reached',
+     qaAdd2ndStepLogger = 'QA Add 2nd Step Page Reached',
+     saveQuestionAndAnsDetails = 'QA Updated From Tender Api',
+     saveMessages = 'Messages Updated From Tender Api',
+     QAEditLogger = 'QA Edit Page Reached',
+     QAViewLogger = 'QA View Page Reached', 
+     MessagingReplyLogger = 'Messaging Reply Page Reached',
      
      
 
