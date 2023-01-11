@@ -109,12 +109,12 @@ try{
                 }
               ];
               
-              await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              let responseScore = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
             
               //CAS-INFO-LOG 
-              LoggTracer.infoLogger(null, logConstant.evaluateScoreUpdated, req);
+              LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
               req.session.isEmptyProjectError = false;
               res.redirect('/evaluate-suppliers'); 

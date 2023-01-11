@@ -288,6 +288,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
 
 }
 export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
@@ -313,6 +314,9 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
       
     const appendData = { data: cmsData,projectId,eventId,agreement_id}
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.furtherAssesmentPageLogg, req);
+
     res.render('shorlistEvaluation',appendData);  
     
     

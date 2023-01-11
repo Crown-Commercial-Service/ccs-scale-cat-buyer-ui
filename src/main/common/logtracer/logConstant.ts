@@ -157,6 +157,15 @@ export enum logConstant {
      standsStillPageLogg="Choose if you want a standstill period page reached",
      standsStillSelected="standstill period selected and updated",
 
+     inviteSelectedSuppliersPageLogg="Invite selected suppliers to stage 2 page reached",
+     inviteSelectedSuppliers="Confirm selected suppliers for stage 2 Further Competition updated",
+     furtherAssesmentPageLogg="Further assessment evaluation page reached",
+     reviewYourSupplierEvaluationPageLogg="Review your supplier evaluation page reached",
+     closeYourProjectPageLogg="Close your project page reached",
+     projectCloseYourProjectPageLogg="Your project has been closed Page reached ",
+     
+
+
      qaAdd1stStepLogger = 'QA Add 1st Step Page Reached',
      qaAdd2ndStepLogger = 'QA Add 2nd Step Page Reached',
      saveQuestionAndAnsDetails = 'QA Updated From Tender Api',
@@ -164,6 +173,7 @@ export enum logConstant {
      QAEditLogger = 'QA Edit Page Reached',
      QAViewLogger = 'QA View Page Reached', 
      MessagingReplyLogger = 'Messaging Reply Page Reached',
+
      
      
 
