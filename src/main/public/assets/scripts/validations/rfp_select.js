@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $('.otherTextArea').removeClass('ccs-dynaform-hidden');
         $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
         $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
-    }
+    
       }
     });
     $('input[type="checkbox"]:not(:checked)').each(function () {
