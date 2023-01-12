@@ -2,6 +2,7 @@ import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
@@ -21,7 +22,10 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
         showCloseProject = false;
       }
    const appendData = { projectName,isError,supplierName, eventId,agreement_id,showCloseProject};
- 
+     
+     //CAS-INFO-LOG 
+     LoggTracer.infoLogger(null, logConstant.standsStillPageLogg, req);
+
     res.render('standstillPeriodDecision', appendData)
 }
 
@@ -67,9 +71,11 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
           
        //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards`
        const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`
+       await TenderApi.Instance(SESSION_ID).post(awardURL,body);
        
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.standsStillSelected, req);
 
-        await TenderApi.Instance(SESSION_ID).post(awardURL,body);
        res.redirect('/event/management?id='+eventId);
 
     } catch (error) {

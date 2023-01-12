@@ -7,6 +7,8 @@ import * as inboxData from '../../../resources/content/event-management/messagin
 import * as dos6InboxData from '../../../resources/content/event-management/messaging-createdos6.json'
 //import { GetLotSuppliers } from '../../shared/supplierService';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 export class ValidationErrors {
     static readonly SUPPLIER_REQUIRED: string = 'message cannot be broadcast unless a Supplier has been defined - broadcast cannot be completed'
@@ -85,6 +87,9 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
           
         const appendData = { data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
+
         res.render('MessagingCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -194,6 +199,10 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             data = inboxData;
           }
             const appendData = { data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
+            
+            //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
+
             res.render('MessagingCreate', appendData)
         } else {
            
@@ -214,6 +223,10 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+           
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(response, logConstant.messageCreated, req);
+            
             if (response.status == 200) {
                 res.redirect('/message/inbox?created=true')
             } else {
@@ -279,6 +292,10 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
 
         const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
         let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
+
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(SUPPLIER_DATA, logConstant.messageSupplierList, req);
+
         //SCAT-8083
         SUPPLIER_DATA = SUPPLIER_DATA.suppliers.sort((a: any, b: any) => (a.name < b.name ? -1 : 1));
 
@@ -306,7 +323,10 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
           
         const appendData = { supplierList:SUPPLIER_DATA,data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         
-        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
+
+      
         res.render('MessaginSupplierCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -383,7 +403,9 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
         const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
         let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
         
-
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(SUPPLIER_DATA, logConstant.messageSupplierList, req);
+         
         const message: CreateMessage = {
             create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
@@ -438,6 +460,11 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
               }
 
             const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
+           
+             
+            //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.messageCreatePagelogger, req);
+
             res.render('MessaginSupplierCreate', appendData)
         } else {
            
@@ -455,6 +482,8 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
             const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
         let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
      
+           //CAS-INFO-LOG 
+         LoggTracer.infoLogger(SUPPLIER_DATA, logConstant.messageSupplierList, req);
         
         const MatchedSupplierIDS : any = [];
         for(let i=0;i<SUPPLIER_DATA.suppliers.length;i++){
@@ -481,6 +510,10 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
              req.session['SupplierNameforMessagereply'] = MatchedSupplierIDS[0];
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+                
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(response, logConstant.messageCreated, req);
+
             if (response.status == 200) {
                 res.redirect('/message/inbox?createdreply=true')
             } else {

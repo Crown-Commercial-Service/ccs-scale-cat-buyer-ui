@@ -9,6 +9,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -88,7 +89,9 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
 
-
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+      
       let fileNameStoragePricing = [];
       FETCH_FILEDATA?.map(file => {
         if (file.description === "mandatoryfirst") {
@@ -117,6 +120,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
     }
     const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
     const stage2_dynamic_api_data = stage2_dynamic_api.data;
     const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == EventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
     
@@ -202,6 +209,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         }
       }
       
+      
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.uploadPricingDocument, req);
+
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
       
     } catch (error) {

@@ -7,6 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -31,6 +32,9 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+
       const file = FetchDocuments;
       let fileNameStoragePricing = [];
       FetchDocuments.data?.map(file => {
@@ -78,6 +82,8 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
     try {
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
       const FETCH_FILEDATA = FetchDocuments.data;
       let fileNameStoragePricing = [];
       FETCH_FILEDATA?.map(file => {
@@ -153,6 +159,8 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       // selectedRoute.toUpperCase() = 'DA';
       
       // res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
       res.render(`daw-uploadAttachment`, windowAppendData);
     } catch (error) {
       
