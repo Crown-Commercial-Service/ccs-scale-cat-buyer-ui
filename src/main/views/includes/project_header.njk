@@ -13,7 +13,11 @@
   <p class="govuk-body">Agreement ID: 
     {%if(agreement_header !=undefined and   agreement_header !=null) %}
     <strong>
-    {{ agreement_header['agreementId_session'] }}
+        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementId_session']}}-L4
+        {% else %}
+          {{ agreement_header['agreementId_session'] }}
+        {% endif %}
     </strong>
     {%endif%}
     </p>
