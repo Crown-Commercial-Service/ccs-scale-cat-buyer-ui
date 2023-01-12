@@ -23,11 +23,14 @@ export class LoggTracer {
     if(dataSet?.config?.data!=undefined && dataSet?.config?.data!=null && dataSet?.config?.data!='') {
       body = dataSet?.config?.data;//JSON.parse(dataSet?.config?.data)
     }
+    
+
     const LogMessage = {
       "environment": "null",
       "logType": "CAS_INFO",
       "level": "info",
       "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
+      "statusCode":dataSet?.statusCode,
       "message": message,
       "baseUrl":dataSet?.config?.baseURL,
       "api": dataSet?.config?.url,
@@ -50,10 +53,12 @@ export class LoggTracer {
     body = JSON.parse(errorLog?.exception?.config?.data)
   }
   // let req = express.request;
+
   const LogMessage = { 
     "environment": "null",
     "logType": "CAS_ERROR",
     "level": "error",
+    "statusCode":errorLog?.statusCode,
     "message": errorLog?.errorRoot,
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
@@ -90,10 +95,13 @@ export class LoggTracer {
     if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
       body = JSON.parse(errorLog?.exception?.config?.data)
     }
+    
+
     const LogMessage = { 
       "environment": "null",
       "logType": "CAS_ERROR",
       "level": "error",
+      "statusCode":errorLog?.statusCode,
       "message": errorLog?.errorRoot,
       "baseUrl":errorLog?.exception?.config?.baseURL,
       "api": errorLog?.exception?.config?.url,
