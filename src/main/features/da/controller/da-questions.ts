@@ -494,13 +494,15 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
 
              
               const slideObj = object_values.slice(0, 3);
+              let dayval = slideObj[0].length == 2?slideObj[0]:'0'+slideObj[0];
+              let monthval = slideObj[1].length == 2?slideObj[1]:'0'+slideObj[1];
               let newArraryForDate = [];
               if (slideObj != null && slideObj.length > 0) {
 
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: slideObj[2]+'-'+slideObj[1]+'-'+slideObj[0], selected: true }],
+                    options: [{ value: slideObj[2]+'-'+monthval+'-'+dayval, selected: true }],
                   },
                 };
                 
