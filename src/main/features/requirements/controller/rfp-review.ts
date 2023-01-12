@@ -17,7 +17,8 @@ import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
-import { sortObject } from '../../../common/util/operators/sortObject'
+import { sortObject } from '../../../common/util/operators/sortObject';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -514,6 +515,8 @@ let scoringData = [];
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageTwo, req);
     res.render('rfp-review-stage', appendData);
   } catch (error) {
 
@@ -2054,9 +2057,12 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
     if(agreementId_session == 'RM1043.8') { //DOS
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageOne, req);
       res.render('rfp-dos-review', appendData);
     } else { 
-
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
       res.render('rfp-review', appendData);
     }
     
@@ -2134,13 +2140,17 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
-       TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       const agreementPublishedRaw = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
-     }
-      else{
-        await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+     } else {
+        const agreementPublishedRaw =  await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
         res.redirect('/rfp/rfp-eventpublished');
 
       }
@@ -3183,7 +3193,8 @@ const IR35selected='';
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -3826,6 +3837,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-gcloudreview', appendData);
   } catch (error) {
     delete error?.config?.['headers'];

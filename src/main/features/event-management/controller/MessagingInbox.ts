@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Message } from '../model/messages'
 import * as inboxData from '../../../resources/content/event-management/messaging-inbox.json'
 import * as dos6InboxData from '../../../resources/content/event-management/messaging-inboxdos6.json'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -31,6 +32,9 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         const baseReceivedMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
        
         const draftReceivedMessage = await TenderApi.Instance(SESSION_ID).get(baseReceivedMessageURL)
+        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(draftReceivedMessage, logConstant.messageReceived, req);
 
         const receivedMessages: Message[] = draftReceivedMessage.data.messages
         
@@ -58,6 +62,10 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
 
         const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,msgfor,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
         res.locals.agreement_header = req.session.agreement_header
+         
+        //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.messageInboxPageLogger, req);
+
         res.render('MessagingInbox', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

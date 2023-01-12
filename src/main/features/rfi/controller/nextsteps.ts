@@ -4,6 +4,7 @@ import * as cmsmcf3DosData from '../../../resources/content/RFI/mcf3dosnextsteps
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 //@GET /rfi/event-sent
 export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Response) => {
@@ -44,6 +45,10 @@ export const RFI_GET_NEXT_STEPS  = async (req: express.Request, res: express.Res
       };
 
 try {
+  
+  //CAS-INFO-LOG 
+  LoggTracer.infoLogger(null, logConstant.closeYourProjectPageLogg, req);
+
   if ((agreement_id == 'RM1043.8' || agreement_id == 'RM6187' || agreement_id == 'RM1557.13')) {
       res.render('closeyourproject.njk', appendData)
     }else{

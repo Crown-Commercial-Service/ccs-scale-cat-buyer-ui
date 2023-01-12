@@ -4,6 +4,8 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import * as savedSearchsjson from '../../../resources/content/gcloud/savedSearchs.json';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import moment from 'moment-business-days';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 export const GET_SAVED_SEARCHES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -15,7 +17,12 @@ export const GET_SAVED_SEARCHES = async (req: express.Request, res: express.Resp
     req.session['isJaggaerError'] = false;
 
        const baseURL=`/assessments`;
-      let {data: assessments} = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      let assessment = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(assessment, logConstant.assessmentDetail, req);
+      let assessments = assessment.data;
+
       assessments = assessments.sort((a:any, b:any) => (a['assessment-id'] < b['assessment-id'] ? -1 : 1));
       const savedDetails = assessments?.filter((item:any) => item.assessmentName !== undefined && item['external-tool-id'] === '14' && item.status === "active");
       const exportedDetails = assessments?.filter((item:any) => item.assessmentName !== undefined && item['external-tool-id'] === '14' && item.status === "complete");
@@ -64,7 +71,8 @@ export const GET_SAVED_SEARCHES = async (req: express.Request, res: express.Resp
       savedData,
       exportedData
     };
-
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.savedSearches, req);
     res.render('savedSearches', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -86,8 +94,10 @@ export const DELETE_SAVED_SEARCHES = async (req: express.Request, res: express.R
     if(req.query.ass_id !==undefined){
      const baseURL=`/assessments/${req.query.ass_id}`;
      
-      await TenderApi.Instance(SESSION_ID).delete(baseURL);
-     
+      let response = await TenderApi.Instance(SESSION_ID).delete(baseURL);
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(response, logConstant.deleteSavedSearch, req);
+
       res.redirect('/g-cloud/saved-searches');
     }else{
       req.session['isJaggaerError'] = true;

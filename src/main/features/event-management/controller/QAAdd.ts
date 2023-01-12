@@ -8,6 +8,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { MessageDetails } from '../model/messgeDetails';
 import { QuestionAndAnswer } from '../model/qaModel';
 import { config } from 'dotenv';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
     static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined'
@@ -55,6 +56,9 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
           }
 
         const appendData = { data,QAs:clerificationDataList, message: messageDetails, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.qaAdd1stStepLogger, req);
         
         res.render('QAAdd1stStep', appendData);
     } catch (err) {
@@ -99,7 +103,10 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
 
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
         const appendData = { data, message: messageDetails,QaContents:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
-       
+
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.qaAdd2ndStepLogger, req);
+
         res.render('QAAdd2ndStep', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -193,6 +200,9 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     
             const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
             const appendData = { data, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+
+            //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.qaAdd2ndStepLogger, req);
             res.render('QAAdd2ndStep', appendData);
         }
 else{
@@ -207,6 +217,9 @@ else{
             
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`
         const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+
+        //CAS-INFO-LOG 
+       LoggTracer.infoLogger(response, logConstant.saveQuestionAndAnsDetails, req);
 
         var host = req.get('host');
         var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
@@ -229,6 +242,8 @@ else{
         const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
         
        const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(responses, logConstant.saveMessages, req);
 
         if (response.status == 200) {
             req.session["createdqa"]=true;
