@@ -37,7 +37,7 @@
                     {% endif %}
                     {% if agreement_id == 'RM1043.8' %}
                           {{ CCSTable({
-                          caption: table.optiontableDefination.rows.length+' tier scoring criteria',
+                          caption: table.optiontableDefination.rows.length+' level scoring criteria',
                           captionClasses: "govuk-table__caption--m",
                           firstCellIsHeader: true,
                           head: table.optiontableDefination.head,
@@ -287,16 +287,27 @@
                         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible ">
                        {% endcall %}
                     {%- endfor %}
-                    
-                    <p class="govuk-body">
-                        {{ CCSButton({
-                        text: "Add another tier",
-                        attributes: {
-                        id: "ccs_rfp_score_criteria_add"
-                        },
-                        classes: "govuk-button--secondary ccs-dynaform-hidden"
-                    }) }}
-                    </p>
+                    {% if (agreement_id == 'RM1043.8') %}
+                      <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another level",
+                          attributes: {
+                          id: "ccs_rfp_score_criteria_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                      }) }}
+                      </p>
+                    {%else%}
+                      <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another tier",
+                          attributes: {
+                          id: "ccs_rfp_score_criteria_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                      }) }}
+                      </p>
+                    {%endif%}
        
   {%endif%}   
 {%endblock%}
@@ -967,7 +978,12 @@
                   {% if (agreement_id == 'RM1557.13') %}
                       <div class="govuk-inset-text">
                         <p><b> The total weighting is : <span id='totalPercentage'>0</span>% </b></p>
-                      </div>  
+                      </div> 
+                  {% elseif (agreement_id == 'RM1043.8') %}
+                    <div class="govuk-inset-text">
+                      <h3 class="govuk-heading-m govuk-!-margin-bottom-1"> The total weighting is : <span id='totalPercentage'>0</span>% </h3>
+                      <p class="govuk-body">You can add the specific weightings for your individual questions in the next steps.</p>
+                    </div> 
                   {% else %}
                       <div>
                           {{ CCSInsetText({
@@ -1093,10 +1109,20 @@
                 }}
 
                   {% else %}
+
+                    {% if (agreement_id == 'RM1043.8' and group_id == "Group 9" and lotId == '3') %}
+                      {% set countL = 500 %}
+                      {% set rowL = 1 %}
+                    {% else %}
+                      {% set countL = 5000 %}
+                      {% set rowL = 5 %}
+                    {% endif %}
+
                  {{  CCSCharacterCount({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
-                      maxlength: 5000,
+                      maxlength: countL,
+                      rows: rowL,
                       id: "rfp_prob_statement_"+word | last,
                       value: requirement.nonOCDS.options[0].value,
                       classes:"rfp_term_definition",
@@ -1248,12 +1274,18 @@
                             {%else%}
                             <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
                             {%endif%}
+                            {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') or (agreement_id == 'RM1043.8' and group_id == 'Group 18' and lotId == '3') %}
+                            <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </label>
+                            {%else%}
                             <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
                             <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
                               {{requirement.nonOCDS.options[i].text | safe}}
                             </div>
+                            {%endif%}
                           </div>
                           {% if requirement.nonOCDS.options[i].value === 'Yes'%}
                             {# <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
@@ -1305,12 +1337,18 @@
                                 {%else%}
                                 <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" >
                               {% endif %}
+                              {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') or (agreement_id == 'RM1043.8' and group_id == 'Group 18' and lotId == '3') %}
+                              <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
+                                {{requirement.nonOCDS.options[i].text |safe}}
+                              </label>
+                              {%else%}
                               <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
                                 <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                               </label>
                               <div id="ccs_vetting_type-{{i+1}}-item-hint" class="govuk-hint govuk-radios__hint">
                                 {{requirement.nonOCDS.options[i].text |safe}}
                               </div>
+                              {% endif %}
                             </div>
                             {%endif%}
                           {%- endfor %}
@@ -1603,7 +1641,7 @@
                           {% endif %}
                           {% if (agreement_id == 'RM1043.8') %}
                               {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                  {% set explaintermtext = 'Explain your term or acronym' %}
+                                  {% set explaintermtext = 'Explain the term or acronym' %}
                               {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                                 {% else %}
@@ -1781,7 +1819,7 @@
                             {% endif %}
                             {% if (agreement_id == 'RM1043.8') %}
                             {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                {% set explaintermtext = 'Explain your term or acronym' %}
+                                {% set explaintermtext = 'Explain the term or acronym' %}
                             {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                               {% else %}
@@ -1932,7 +1970,7 @@
                               name: "value",
                               id: "rfp_term_more_details_1",
                               label: {
-                                text: 'Enter details about your service users'
+                                text: 'Enter more details about this user type'
                               },
                               maxlength:5000,
                               classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
@@ -2006,7 +2044,7 @@
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
                                 label: {
-                                  text: 'Enter details about your service users'
+                                  text: 'Enter more details about this user type'
                                 },
                                 maxlength:5000,
                                 classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
