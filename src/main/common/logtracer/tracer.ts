@@ -23,14 +23,15 @@ export class LoggTracer {
     if(dataSet?.config?.data!=undefined && dataSet?.config?.data!=null && dataSet?.config?.data!='') {
       body = dataSet?.config?.data;//JSON.parse(dataSet?.config?.data)
     }
-    
+
+
 
     const LogMessage = {
       "environment": "null",
       "logType": "CAS_INFO",
       "level": "info",
       "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
-      "statusCode":dataSet?.statusCode,
+      "statusCode":(dataSet?.statusCode !=undefined) ? dataSet?.statusCode : null,
       "message": message,
       "baseUrl":dataSet?.config?.baseURL,
       "api": dataSet?.config?.url,
@@ -58,7 +59,7 @@ export class LoggTracer {
     "environment": "null",
     "logType": "CAS_ERROR",
     "level": "error",
-    "statusCode":errorLog?.statusCode,
+    "statusCode":(errorLog?.statusCode !=undefined) ? errorLog?.statusCode : null,
     "message": errorLog?.errorRoot,
     "baseUrl":errorLog?.exception?.config?.baseURL,
     "api": errorLog?.exception?.config?.url,
@@ -101,7 +102,7 @@ export class LoggTracer {
       "environment": "null",
       "logType": "CAS_ERROR",
       "level": "error",
-      "statusCode":errorLog?.statusCode,
+      "statusCode":(errorLog?.statusCode !=undefined) ? errorLog?.statusCode : null,
       "message": errorLog?.errorRoot,
       "baseUrl":errorLog?.exception?.config?.baseURL,
       "api": errorLog?.exception?.config?.url,
