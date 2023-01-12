@@ -4,6 +4,7 @@ import * as daData from '../../../resources/content/da/da-Eventpublished.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 //@GET /rfp/event-sent
@@ -38,6 +39,8 @@ try {
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(FetchDocuments, logConstant.exportDetailFetch, req);
       const file = FetchDocuments;
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
@@ -53,6 +56,8 @@ try {
       res.send(fileData);
     }
     else{
+        //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
       res.render('daw-eventpublished.njk', appendData)
     }
 }catch (error) {

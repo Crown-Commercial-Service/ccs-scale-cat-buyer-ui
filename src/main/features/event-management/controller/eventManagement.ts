@@ -16,6 +16,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import process from 'node:process';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 process.on('uncaughtException', (error, origin) => {
   console.log('----- Uncaught exception -----')
@@ -77,12 +78,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           supplierDataList ='';
         }else{
           const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
+          
           supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier)).data;
+
+           //CAS-INFO-LOG 
+           //LoggTracer.infoLogger(supplierDataList, logConstant.supplierDetails, req);
+
         }
     
       //#endregion
       const baseurl = `/tenders/projects/${projectId}/events`
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+      
+      //CAS-INFO-LOG 
+      //LoggTracer.infoLogger(apidata, logConstant.eventDetails, req);
+
       //status=apidata.data[0].dashboardStatus;
       status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
       let supplierDetails = {} as SupplierDetails;
@@ -120,16 +130,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       // Releated content session values
       const releatedContent: ReleatedContent = new ReleatedContent();
       releatedContent.name = agreementName
-    releatedContent.lotName = (agreementId_session=='RM1557.13' && lotid=='All')?'Find cloud hosting, software and support':lotid + " : " + agreementLotName
+    releatedContent.lotName = (agreementId_session=='RM1557.13' && lotid=='All')?'Find cloud hosting, software and support':agreementLotName
     releatedContent.lotUrl = (agreementId_session=='RM1557.13' && lotid=='All')?'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=':'/agreement/lot?agreement_id=' + agreementId_session + '&lotNum=' + req.session.lotId.replace(/ /g, '%20');
 
-      releatedContent.title = 'Related content'
+      releatedContent.title = 'Related content'      
       req.session.releatedContent = releatedContent
 
       //Related to AssessmentID
       const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
+      
       const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
-      const assessmentId = data.data.nonOCDS.assessmentId
+       
+      //CAS-INFO-LOG 
+       //LoggTracer.infoLogger(data, logConstant.eventDetails, req);
+      
+       const assessmentId = data.data.nonOCDS.assessmentId
       let assessmentSupplierTarget;
       if(agreementId_session==='RM1043.8'){
          assessmentSupplierTarget = data.data.nonOCDS.assessmentSupplierTarget
@@ -142,6 +157,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       // Get unread Message count
       const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
       const message = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(message, logConstant.getReceivedMessage, req);
+
       let unreadMessage = 0
       const msg: Message[] = message.data.messages
       if (message.data.counts != undefined) {
@@ -158,11 +177,19 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       if (status.toLowerCase() == "to-be-evaluated" || status.toLowerCase() == "evaluating" || status.toLowerCase() == "evaluated" || status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
+      
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
         
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(supplierScore, logConstant.getSupplierScore, req);
 
         let supplierDataList = [];
         supplierDataList = await GetLotSuppliers(req);
@@ -241,7 +268,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
           
           const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-         
+          
+          //CAS-INFO-LOG 
+          LoggTracer.infoLogger(supplierAwardDetail, logConstant.getSupplierAwardDetails, req);
+
           if (supplierDetailsDataList.length > 0) {
             supplierAwardDetail?.suppliers?.map((item: any) => {
               let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
@@ -289,6 +319,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
           
+          //CAS-INFO-LOG 
+         // LoggTracer.infoLogger(scontractAwardDetail, logConstant.getContractDetails, req);
+
           if(agreementId_session=='RM1043.8'){
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
           }else{
@@ -306,6 +339,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
+
       if (fetchData.data != undefined) {
         qasCount = fetchData.data.QandA;
         qasCount = qasCount.length;
@@ -320,7 +357,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
       collaboratorData = collaboratorData.data;
-    
+      
+      //CAS-INFO-LOG 
+      //LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
+
       let filtervalues;
       if(agreementId_session=='RM1557.13' && lotid=='All'){
          filtervalues = "";
@@ -352,6 +392,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
       const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
       const stage2_dynamic_api_data = stage2_dynamic_api.data;
+      
+      //CAS-INFO-LOG
+      //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
       const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
       let stage2_value = 'Stage 1';
       if(stage2_data.length > 0){
@@ -364,6 +408,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         rspbaseURL = rspbaseURL + '/criteria';
         const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(rspbaseURL);
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+          
+        //CAS-INFO-LOG
+        //LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.fetchEventDetails, req);
+
         const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
         let criterianStorage = [];
         for (const aURI of extracted_criterion_based) {
@@ -384,10 +432,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const Criterian_ID = criterianStorage?.[0]?.criterianId;
         const prompt = criterianStorage?.[0]?.nonOCDS?.prompt;
         const apiData_baseURL = `/tenders/projects/${projectId}/events/${req.session.eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+
         const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
         let fetchQuestionsData = fetchQuestions?.data;
        
-        
+         //CAS-INFO-LOG
+         //LoggTracer.infoLogger(fetchQuestions, logConstant.questionDetail, req);
 
         let standstill='';
         if(agreementId_session=='RM6187' && (eventType=='FC' || eventType=='DA')){
@@ -395,8 +445,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }else if(agreementId_session=='RM1557.13' && eventType=='FC' && lotid=='4'){
 
           standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-          console.log('standstill');
-          console.log(standstill);
+         
        }else{
            standstill = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
         }
@@ -489,6 +538,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         res.redirect(redirectUrl)
       }
       else {
+
+        if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+         //CAS-INFO-LOG
+         LoggTracer.infoLogger(null, logConstant.awardPageLogger, req);
+        }
+        else {
+          //CAS-INFO-LOG
+         LoggTracer.infoLogger(null, logConstant.publishPageLogger, req);
+        }
+
         let redirectUrl_: string
         switch (eventType) {
           
@@ -705,11 +764,17 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
 
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
        
+       //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
 
         let supplierDataList = [];
         supplierDataList = await GetLotSuppliers(req);
@@ -793,7 +858,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
        
           const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-          
+           
+          //CAS-INFO-LOG 
+           LoggTracer.infoLogger(supplierAwardDetail, logConstant.getSupplierAwardDetails, req);
           
           if (supplierDetailsDataList.length > 0) {
             supplierAwardDetail?.suppliers?.map((item: any) => {
@@ -813,7 +880,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
          
           if (status.toLowerCase() == "pre-award") {
-            console.log("test3 PREAWARD")
+            
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
@@ -951,6 +1018,16 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         res.redirect(redirectUrl)
       }
       else {
+        
+        if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(null, logConstant.awardPageLogger, req);
+         }
+         else {
+           //CAS-INFO-LOG
+          LoggTracer.infoLogger(null, logConstant.publishPageLogger, req);
+         }
+
         let redirectUrl_: string
         switch (eventType) {
           case "RFI":
@@ -1115,8 +1192,17 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
         }
       }
+      //SELECTED EVENT DETAILS FILTER FORM LIST
+      const baseurl = `/tenders/projects/${projectId}/events`
+      const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+      //status=apidata.data[0].dashboardStatus;
+      const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+      status = selectedEventData[0].dashboardStatus;
       //Page navigation 
       let redirectUrl = '/event/management?id=' + eventId
+      if(status == 'COMPLETE'){
+        redirectUrl = '/event/management_close?id=' + eventId
+      }
       //const pageType = req.session['pageType'];
       if (Type != undefined && Type != null) {
         switch (Type) {
@@ -1134,13 +1220,12 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
             break
         }
       }
-      //SELECTED EVENT DETAILS FILTER FORM LIST
-      const baseurl = `/tenders/projects/${projectId}/events`
-      const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-      //status=apidata.data[0].dashboardStatus;
-      const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
-      status = selectedEventData[0].dashboardStatus;
+      
       const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
+
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.reviewYourSupplierEvaluationPageLogg, req);
+
       //Rendor method
       res.render('evaluateSuppliersReadonly', appendData);
     }
@@ -1559,6 +1644,7 @@ export const INVITE_SUPPLIERS = async (req: express.Request, res: express.Respon
 
 export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  
   try {
             const releatedContent = req.session.releatedContent;
             const project_name = req.session.Projectname 
@@ -1591,7 +1677,11 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
               supplierData,
               eventId
               
-            };            
+            };
+             
+              //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.inviteSelectedSuppliersPageLogg, req);
+
             res.render('selectedSuppliers',appendData);
       } catch (error) {
         LoggTracer.errorLogger(
@@ -1640,6 +1730,11 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
          
           const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const response= await TenderApi.Instance(SESSION_ID).post(BASEURL, supplierBody); 
+          
+          //CAS-INFO-LOG 
+          LoggTracer.infoLogger(response, logConstant.inviteSelectedSuppliers, req);
+
+          
 
           if (response.status == Number(HttpStatusCode.OK)) {
               req.session.selectedRoute = 'FC';

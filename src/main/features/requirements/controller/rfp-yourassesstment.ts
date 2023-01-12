@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -32,8 +33,13 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
     const{eventId} = req.session;
 
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
+    let socialvalueAccess = false;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.criterianEventFetch, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       if(agreement_id==='RM1557.13'){
@@ -99,7 +105,6 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       }else{
         cmsData = fileDataDOS;
       }
-
       for (let index = 0; index < ExcludingKeyDates.length; index++) {
         ExcludingKeyDates[index].questionStatus = 'todo';
         const baseURLQ: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${ExcludingKeyDates[index].criterianId}/groups/${ExcludingKeyDates[index].OCDS.id}/questions`;
@@ -116,7 +121,22 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
             }
 
           } else {
+            if(agreement_id == 'RM1043.8'){
+            if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'Percentage'){
+                if (ExcludingKeyDates[index].OCDS.id === 'Group 3' && ExcludingKeyDates[index].criterianId === 'Criterion 2'){
+                if (fetch_dynamic_api_data[j].nonOCDS.order == 3){
+                let optiondata =   fetch_dynamic_api_data[j].nonOCDS.options;
+                if(optiondata.length > 0){
+                  if(optiondata[0].value == 0){
+                  socialvalueAccess = true;
+                  }
+                 
+                }
             
+                }
+            }
+          }
+        }
             if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               
               ExcludingKeyDates[index].questionStatus = 'Done';
@@ -127,9 +147,6 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
 
       }
 
-      
-
-      
       const display_fetch_data = {
         data: ExcludingKeyDates,
         agreement_id: agreement_id,
@@ -139,6 +156,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         lotId,
         agreementLotName,
         releatedContent: releatedContent,
+        socialvalueAccess :socialvalueAccess
       };
       let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
@@ -150,6 +168,9 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.yourassesstments, req);
 
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {

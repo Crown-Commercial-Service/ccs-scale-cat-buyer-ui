@@ -6,10 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var urlParam = new URLSearchParams(window.location.search);
         var agreement_Id = urlParam.get("agreement_id");
-       
-       if(agreement_Id == "RM1557.13"){
-        document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
-       }
+        if(agreement_Id == "RM1557.13"){
+            document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+        }
 
         let with_value_count = 10,
             prev_input = 0,

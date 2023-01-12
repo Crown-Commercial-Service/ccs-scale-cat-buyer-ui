@@ -30,12 +30,12 @@
           {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
               <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} </p>
            {% else %}
-            <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
+            <p class="govuk-body">Selected agreement: <strong>
             {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
               {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
-                Lot 4
+              {{ agreement_header['agreementName'] }} Lot 4
               {% else %}
-                ,{{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+              {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
               {% endif %} 
             {% endif %} 
             </strong>
@@ -61,7 +61,7 @@
         {% endif %}
         <div>
           <h2 class="govuk-heading-m">
-            {{projectName}}
+            {{agreement_header['projectId']+" & "+projectName}}
             <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
           </h2>
           <p class="govuk-body">

@@ -4,7 +4,21 @@
 {% set title = 'Lot details | Contract Award Service' %}
 {% block content %}
   <div class="ccs-width-container ">
-
+    {% if (agreement_id == 'RM1557.13') and (lot == 'Lot 4') %}
+    <div class="govuk-breadcrumbs">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="/">Home</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}">{{agreement.name}}</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item" aria-current="page">
+          {{agreement_lot.name}}
+        </li>
+      </ol>
+    </div>
+    {% else %}
     <div class="govuk-breadcrumbs">
       <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
@@ -18,6 +32,7 @@
         </li>
       </ol>
     </div>
+    {% endif %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -39,8 +54,13 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <div class="project-overview govuk-!-padding-bottom-3">
-            <p class="govuk-body">Selected agreement: <strong>{{agreement.name}}</strong>
-            </p>
+              {% if (agreement_id == 'RM1557.13') and (lot == 'Lot 4') %}
+                <p class="govuk-body">Agreement name: <strong>{{agreement_lot.name}}</strong>
+                </p>
+              {% else %}
+                <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
+                </p>
+              {% endif %}
             <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
             </p>
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
@@ -371,7 +391,7 @@
                     <p class="govuk-body">Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement.</p>
                   </li>
                   <li data-label="2" class="govuk-list--number-custome-list">
-                    <h3 class="proc-task-list__section">Do pre-market engagement</h3>
+                    <h3 class="proc-task-list__section">Do pre-market engagement (optional)</h3>
                     <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-market engagement in the following way:</p>
                     <strong>Request for Information (RfI)</strong>
                     <p class="govuk-body">Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.</p>

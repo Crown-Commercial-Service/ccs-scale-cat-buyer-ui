@@ -16,6 +16,7 @@ import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -743,6 +744,13 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     //   forceChangeDataJson = cmsData;
     // }
     const customStatus = ReviewData.OCDS.status;
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+      useGrouping: false
+  });
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -814,8 +822,8 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
       incentive1: incentive1 != undefined && incentive1 != null ? incentive1 : null,
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
-      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
-      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1).replace(/^(\D+)/, '$1 ') : null,
+      bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2).replace(/^(\D+)/, '$1 ') : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -876,6 +884,9 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
         
    
       }
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
       res.render('daw-review', appendData);
    
   } catch (error) {
@@ -961,7 +972,9 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
 
   if (review_publish == 1) {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
       
      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       
@@ -1126,7 +1139,8 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
 

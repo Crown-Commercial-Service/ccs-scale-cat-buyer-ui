@@ -10,6 +10,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const FILEUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -77,6 +78,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
       let fileNameStorageTermsNcond = [];
 
       fileNameStorageTermsNcond=[];
@@ -186,9 +190,11 @@ export const FILEUPLOADHELPER: express.Handler = async (
         }
       }
       
+      console.log("upload");
+       
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.uploadTermsAndConditionsPageLog, req);
 
-
-      
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

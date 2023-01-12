@@ -14,6 +14,7 @@ import { Parser } from 'json2csv';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // RFI Suppliers
 export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -47,7 +48,10 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
     //supplierList = await GetLotSuppliers(req);
     
     const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-    const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL); 
+    let suppliers  = await TenderApi.Instance(SESSION_ID).get(supplierURL); 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(suppliers, logConstant.supplierList, req);
+    suppliers = suppliers.data;
     let radioSelected;
     if(req.session.selectedSuppliersDA != undefined) {
       radioSelected = req.session.selectedSuppliersDA;
@@ -285,6 +289,8 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
       appendData= Object.assign({}, { ...appendData, enablebtn: false})	
       
     }
+    //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.rfiViewSuppliersPageLog, req);
     res.render('daw-suppliers', appendData);
   }
   } catch (error) {
