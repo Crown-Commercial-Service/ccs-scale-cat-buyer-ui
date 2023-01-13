@@ -811,13 +811,9 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
                 }
 
               } catch (error) {
-                
-                if (error.response?.status < 500) {
-                  logger.info(error.response.data.errors[0].detail)
-                } else {
-                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-                }
+                // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
               }
             }
           }
