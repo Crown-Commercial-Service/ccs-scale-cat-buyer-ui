@@ -65,12 +65,9 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
     }
 
   } catch (error) {
-    if (error.response?.status == 404) {
-      logger.info(error.response.data.errors[0].detail)
-    } else {
-      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-        TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-    }
+    // if (error.response?.status == 404) { logger.info(error.response.data.errors[0].detail) } else { }
+    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+        TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
   }
   return draftAgreementDetails
 }
