@@ -2102,7 +2102,7 @@
                           })
                         %}
 
-                        {% if (agreement_id == 'RM6187') %}
+                      {% if (agreement_id == 'RM6187') %}
                             {{ CCSCharacterCount({
                               label: {
                                 text: "Name of service level or KPI",
@@ -2118,13 +2118,27 @@
                               value: requirement.nonOCDS.options[0][0].value
                             })
                             }}
-                        {% else %}
 
-                        {% if (agreement_id == 'RM1557.13') %}
-                      {% set rows = 1 %}
-                    {% else %}
+                      {% elseif (agreement_id == 'RM1557.13') %}
+                            {{ CCSCharacterCount({
+                              label: {
+                                text: "Name of service level or KPI",
+                                classes: "govuk-!-font-weight-bold"
+                              },
+                              hint: {
+                                text: "For example, ‘Delivery timescales’"
+                              },
+                              id: "rfp_term_service_levels_KPI_1",
+                              maxlength:500,
+                              name: "term",
+                              classes: "govuk-!-width-two-thirds rfp_term_1 rfpterm",
+                              value: requirement.nonOCDS.options[0][0].value,
+                              rows:"1"
+                            })
+                            }}
+                      {% else %}
+
                        {% set rows = 5 %}
-                    {% endif %}
                         {{ CCSCharacterCount({
 
                               label: {
@@ -2142,7 +2156,7 @@
                               rows:rows
                             })
                             }}
-                        {% endif %}   
+                      {% endif %}
 
               {% if (agreement_id == 'RM1043.8') %}
 
