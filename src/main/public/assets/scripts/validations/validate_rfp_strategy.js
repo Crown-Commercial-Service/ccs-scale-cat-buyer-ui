@@ -187,6 +187,10 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);

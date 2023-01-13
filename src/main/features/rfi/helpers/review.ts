@@ -231,7 +231,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
       else
       {
-        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
       }
     };
         //RFI_ANSWER_STORAGE[3].answer.reverse()
