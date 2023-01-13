@@ -8,7 +8,7 @@ export function getToken () {
     "client_secret": "qW5Fl8VeJfF8JANFTFB8D4k_atevoBXVs3as5O-mDI2cG56eLqGiZtV0oMPgdt3T"
   };
 
-    axios({
+  return axios({
       method: 'post',
       url: 'https://tst.api.crowncommercial.gov.uk/security/test/oauth/token',
       headers: {
