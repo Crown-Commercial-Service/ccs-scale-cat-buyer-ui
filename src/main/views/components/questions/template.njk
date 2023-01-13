@@ -942,7 +942,7 @@
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
                   {%if(agreement_id == 'RM1557.13') %}
-                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} % - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
                   {%endif%}
