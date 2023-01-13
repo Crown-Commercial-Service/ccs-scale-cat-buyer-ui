@@ -52,7 +52,13 @@
   </strong></p>
 
 
-  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+  <p class="govuk-body">Agreement ID: <strong>
+        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementId_session']}}-L4
+        {% else %}
+          {{ agreement_header['agreementId_session'] }}
+        {% endif %}
+  </strong></p>
   <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
         </div>
       </div>  
