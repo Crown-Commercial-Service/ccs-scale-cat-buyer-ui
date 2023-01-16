@@ -382,10 +382,10 @@ function daysInYear(year) {
 }
 
 // For DOS6 message create single supplier
-   document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
-   document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
-   document.forms['ccs_message_create_form'].submit();
-})
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
 
 // For MCF3 message create
 $('.btn-sendmsg').on('click', (e) => {
