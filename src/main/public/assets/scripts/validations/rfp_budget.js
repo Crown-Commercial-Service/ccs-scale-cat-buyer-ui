@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //   document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
 //   document.forms['ccs_message_create_form'].submit();
 // })
-// });
+});
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
     errorStore = [];
