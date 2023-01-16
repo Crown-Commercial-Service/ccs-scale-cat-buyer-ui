@@ -445,8 +445,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
       errorText='Date invalid or empty. Please enter the valid date';
-    }
-    if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    }else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
     {
       errorText='Time invalid or empty. Please enter the valid time';
     }

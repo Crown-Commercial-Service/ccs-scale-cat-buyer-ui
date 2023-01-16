@@ -14,6 +14,9 @@ export async function gCloudCountQueryFliter(reqUrl: any, baseUrl: any, overUrl:
     queryObj.forEach((el: any, i: any) => {
         let key = el.key;
         let value = el.value;
+        if(key=='q'){
+            value = encodeURIComponent(value); 
+        }
         if(key=='page' || key=='q'){
             key=key;  
         }else{
