@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // For DOS6 message create multi supplier
+  document.getElementsByClassName("btn-msgmultisupplier")[0].addEventListener('click',function(){
+  document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
+  document.forms['ccs_message_create_form'].submit();
+})
 });
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
