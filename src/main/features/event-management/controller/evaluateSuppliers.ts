@@ -261,16 +261,24 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     
 //publisheddoc?download=1
 }catch (error) {
-  console.log(error)
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
-    true,
-  );
+  console.log("***********error.response.status - ",error.response.status);
+  if(error.response.status === 504){
+    if(agreement_id != 'RM1043.8'){
+      res.redirect('/dashboard');
+    }else{
+      res.redirect('/shortlist_evaluation');
+    }
+  }else{
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
+      true,
+    );
+  }
 }
 
 }
