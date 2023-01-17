@@ -28,7 +28,7 @@
         </h1>
         <div class="project-overview">
           {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
-              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} </p>
+              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong> </p>
            {% else %}
             <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
             {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
@@ -558,4 +558,10 @@
                                 
 
                               {% endif %}
+                              <div class="loader-container">
+                                <div class="loader-division">
+                                  <img src="/assets/images/loader.gif" alt="Loading">
+                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
+                                </div>
+                              </div>
                             {% endblock %}
