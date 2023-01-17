@@ -222,16 +222,14 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
 
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             
-            const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
-           
-            //CAS-INFO-LOG 
-            LoggTracer.infoLogger(response, logConstant.messageCreated, req);
-            
-            if (response.status == 200) {
-                res.redirect('/message/inbox?created=true')
-            } else {
-                res.redirect('/message/inbox?created=false')
-            }
+            // const response =  
+            TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            res.redirect('/message/inbox?created=true')
+            // if (response.status == 200) {
+            //     res.redirect('/message/inbox?created=true')
+            // } else {
+            //     res.redirect('/message/inbox?created=false')
+            // }
 
         }
     } catch (err) {
@@ -509,16 +507,16 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
                 
              req.session['SupplierNameforMessagereply'] = MatchedSupplierIDS[0];
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
-            const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
-                
-             //CAS-INFO-LOG 
-             LoggTracer.infoLogger(response, logConstant.messageCreated, req);
 
-            if (response.status == 200) {
-                res.redirect('/message/inbox?createdreply=true')
-            } else {
-                res.redirect('/message/inbox?createdreply=false')
-            }
+            // const response = 
+            TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            res.redirect('/message/inbox?createdreply=true')
+            // if (response.status == 200) {
+            //     res.redirect('/message/inbox?createdreply=true')
+            // } else {
+            //     res.redirect('/message/inbox?createdreply=false')
+            // }
+
         }
     } catch (err) {
         LoggTracer.errorLogger(
