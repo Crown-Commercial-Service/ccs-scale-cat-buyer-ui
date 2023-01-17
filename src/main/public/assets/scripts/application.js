@@ -1623,7 +1623,14 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
                 setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          var bodytg = document.body;
+          bodytg.classList.remove("pageblur");
+          // console.log(jqXHR.status)
         }
+
+
           });
        })
   });
