@@ -4,6 +4,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { gCloudApi } from '../util/fetch/apiInstance';
 import * as downloadYourSearchData from '../../../resources/content/gcloud/downloadYourSearch.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
 
 export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: express.Response) => {
@@ -22,6 +23,8 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
       const FetchDocuments = await gCloudApi.file_dowload_Instance(SESSION_ID).get(downloadURL, {
         responseType: 'arraybuffer',
       });
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.exportGcloud, req);
       const file = FetchDocuments;
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
@@ -40,7 +43,12 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
 
       const baseURL=`/assessments/${req.session.downloadassessmentID}/gcloud`;
 
-      let {data:assessmentDetails} = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      let assessmentDetail = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(assessmentDetail, logConstant.assessmentDetail, req);
+
+       let assessmentDetails = assessmentDetail.data;
 
        let exporteddate =assessmentDetails.lastUpdate!=undefined?`${moment(assessmentDetails.lastUpdate).format('dddd DD MMMM YYYY')} at ${new Date(assessmentDetails.lastUpdate).toLocaleTimeString('en-GB',
       { timeStyle: 'short', hour12: true, timeZone: 'Europe/London' })} BST`:'';
@@ -56,7 +64,8 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
         returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
         
       };
-    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.downloadYourSearch, req);
       res.render('downloadYourSearch', appendData);
     }
 
