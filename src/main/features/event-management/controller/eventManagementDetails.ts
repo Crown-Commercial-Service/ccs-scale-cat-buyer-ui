@@ -20,6 +20,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
     const { id,attachmentId } = req.query
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
+    
     req.session['messageID']=req.query
     const {type}=req.query;
     try {
@@ -60,16 +61,32 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             const appendData = {type, data, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId }
             res.render('eventManagementDetails', appendData)
         }
-    } catch (err) {
-        LoggTracer.errorLogger(
-            res,
-            err,
-            `${req.headers.host}${req.originalUrl}`,
-            null,
-            TokenDecoder.decoder(SESSION_ID),
-            'Event management page',
-            true,
-        );
+    } catch (error) {
+        // LoggTracer.errorLogger(
+        //     res,
+        //     err,
+        //     `${req.headers.host}${req.originalUrl}`,
+        //     null,
+        //     TokenDecoder.decoder(SESSION_ID),
+        //     'Event management page',
+        //     true,
+        // );
+
+        if(error.response.status === 504){
+            
+              res.redirect('/message/inbox');
+            
+          }else{
+            LoggTracer.errorLogger(
+              res,
+              error,
+              `${req.headers.host}${req.originalUrl}`,
+              null,
+              TokenDecoder.decoder(SESSION_ID),
+              'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
+              true,
+            );
+          }
     }
 }
 
