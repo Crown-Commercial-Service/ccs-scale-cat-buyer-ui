@@ -11,6 +11,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import * as stage1ShortListEvaluationData from '../../../resources/content/event-management/stage1ShortListEvaluationData.json'
 import * as stage2ShortListEvaluationData from '../../../resources/content/event-management/stage2ShortListEvaluationData.json'
 import moment from 'moment-business-days';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 
@@ -94,8 +95,16 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     //Cpmpletion Status
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(ScoresAndFeedbackURLdata, logConstant.getSupplierScore, req);
+
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata= await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
     var submittedCount = 0
      for (let i = 0; i < supplierdata.data.responders.length; i++) {
        if(supplierdata.data.responders[i].responseState == 'Submitted')
@@ -169,7 +178,11 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     }
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);
 
+    
     res.render('evaluateSuppliers',appendData);     
     
   } catch (err) {
@@ -239,7 +252,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
   const { agreement_id } = req.session;
   var ScoresAndFeedbackURLdata_: any[] = []
 
-  try{
+  try{    
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
     for(var i=0;i<ScoresAndFeedbackURLdata.data.length;i++)
@@ -251,7 +264,6 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
       }
     }
     let body=ScoresAndFeedbackURLdata_
-    
     await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
     if(agreement_id != 'RM1043.8'){
       res.redirect('/event/management?id='+eventId);
@@ -262,20 +274,30 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     
 //publisheddoc?download=1
 }catch (error) {
-  console.log(error)
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
-    true,
-  );
+  console.log("***********error.response.status - ",error.response.status);
+  if(error.response.status === 504){
+    if(agreement_id != 'RM1043.8'){
+      res.redirect('/event/management?id='+eventId);
+    }else{
+      res.redirect('/shortlist_evaluation');
+    }
+  }else{
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
+      true,
+    );
+  }
+  
 }
 
 }
 export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
@@ -301,6 +323,9 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
       
     const appendData = { data: cmsData,projectId,eventId,agreement_id}
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.furtherAssesmentPageLogg, req);
+
     res.render('shorlistEvaluation',appendData);  
     
     

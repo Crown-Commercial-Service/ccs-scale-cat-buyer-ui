@@ -4,6 +4,7 @@ import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/qa.json'
 import * as dos6InboxData from '../../../resources/content/event-management/qa dos6.json'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -57,6 +58,11 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
         const baseURL = `/tenders/projects/${projectIds}/events/${eventIds}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
+
+
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
@@ -75,6 +81,9 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
           res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
           
         appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAViewLogger, req);
         res.render('viewQA', appendData)	
     } catch (err) {	
         LoggTracer.errorLogger(	
@@ -102,6 +111,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
         if (eventId != undefined && projectId != undefined) {
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
             const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+             //CAS-INFO-LOG 
+        LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
             let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
@@ -115,6 +127,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
                 appendData = { data, QAs: fetchData.data.QandA, eventId: eventId,eventName:req.session.eventManagement_eventType, eventType: req.session.eventManagement_eventType, isSupplierQA: true, agreementId}
             }
         }
+
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.QAViewLogger, req);
         res.render('viewQA', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

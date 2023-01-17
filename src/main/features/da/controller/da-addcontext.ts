@@ -188,6 +188,9 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
       }
+       //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
+
       res.render('daw-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
