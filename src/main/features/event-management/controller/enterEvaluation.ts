@@ -135,7 +135,7 @@ try{
               console.log(rawData.config.metadata.endTime);
               console.log(rawData.duration);
               console.log('*****************************');
-              console.log(JSON.stringify(rawData.config));
+              console.log(SESSION_ID);
               console.log(JSON.stringify(rawData.config.metadata));
               // console.log(JSON.stringify(rawData));
               console.log('*************** END **************');
