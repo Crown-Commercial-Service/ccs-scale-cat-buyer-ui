@@ -104,31 +104,33 @@ try{
               console.log(`URL: https://pre-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`)
               console.log(`METHOD: put`);
               console.log(`BODY PARSE: ${JSON.stringify(body)}`);
-              // const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
-              //   body,
-              // );
-              const rawData: any = await fetch(`https://pre-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`, {
-                method: "PUT",
-                keepalive: true,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${SESSION_ID}`
-                },
-                body: JSON.stringify(body),
-              }).catch((error) => {
-                console.log('Fetch Error catch *****')
-                console.log(error)
-                  //CAS-INFO-LOG
-                  LoggTracer.errorLogger(
-                    res,
-                    error,
-                    `${req.headers.host}${req.originalUrl}`,
-                    null,
-                    TokenDecoder.decoder(SESSION_ID),
-                    'PRE09121211',
-                    true,
-                  );
-              })
+              const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+                body,
+              );
+              
+              // const rawData: any = await fetch(`https://pre-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`, {
+              //   method: "PUT",
+              //   keepalive: true,
+              //   headers: {
+              //     'Content-Type': 'application/json',
+              //     'Authorization': `Bearer ${SESSION_ID}`
+              //   },
+              //   body: JSON.stringify(body),
+              // }).catch((error) => {
+              //   console.log('Fetch Error catch *****')
+              //   console.log(error)
+              //     //CAS-INFO-LOG
+              //     LoggTracer.errorLogger(
+              //       res,
+              //       error,
+              //       `${req.headers.host}${req.originalUrl}`,
+              //       null,
+              //       TokenDecoder.decoder(SESSION_ID),
+              //       'PRE09121211',
+              //       true,
+              //     );
+              // })
+
               //CAS-INFO-LOG
               LoggTracer.infoLogger(rawData, 'PRE09121210', req);
               console.log(rawData.config.metadata.startTime);
