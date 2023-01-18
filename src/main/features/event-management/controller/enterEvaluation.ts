@@ -8,6 +8,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as eventManagementData from '../../../resources/content/event-management/enterEvaluation.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+// import { logConstant } from '../../../common/logtracer/logConstant';
 //simport { idText } from 'typescript'
 /**
  * 
@@ -99,11 +100,24 @@ try{
                   score: evaluation_score,
                 }
               ];
-              
-              await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              console.log('*************** START **************');
+              console.log(`URL: https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`)
+              console.log(`METHOD: put`);
+              console.log(`BODY PARSE: ${JSON.stringify(body)}`);
+              const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-            
+              //CAS-INFO-LOG
+              LoggTracer.infoLogger(rawData, 'PRE09121210', req);
+              console.log(rawData.config.metadata.startTime);
+              console.log(rawData.config.metadata.endTime);
+              console.log(rawData.duration);
+              console.log('*****************************');
+              console.log(JSON.stringify(rawData.config));
+              console.log(JSON.stringify(rawData.config.metadata));
+              // console.log(JSON.stringify(rawData));
+              console.log('*************** END **************');
+              
               req.session.isEmptyProjectError = false;
               res.redirect('/evaluate-suppliers'); 
             } else {
@@ -112,7 +126,14 @@ try{
             }
    
 }catch (error) {
-  console.log("***********error.response.status - ",error.response.status);
+
+  if(error.response.status !== undefined) {
+    console.log("*********** error.response.status - ",error.response.status);
+  }
+  console.log(error.config.metadata.startTime);
+  console.log(error.config.metadata.endTime);
+  console.log(error.duration);
+
   if(error.response.status === 504){
     req.session.isEmptyProjectError = false;
     res.redirect('/evaluate-suppliers');
