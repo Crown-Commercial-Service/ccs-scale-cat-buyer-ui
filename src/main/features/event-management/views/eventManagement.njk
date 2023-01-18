@@ -84,7 +84,11 @@
     <div>
       <h2 class="govuk-heading-m">
         {{agreement_header['projectId']+" & "+projectName}}
-        <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
+            {% if (agreementId_session == 'RM1557.13') and (eventType == 'RFI') and (status.toUpperCase() == 'TO-BE-EVALUATED') %}
+                <strong class="app-task-list__tag custom_tag" id="suppliers-status">To-be-reviewed</strong>
+            {% else %}
+                <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
+            {% endif %}        
       </h2>
       <p class="govuk-body">
 
