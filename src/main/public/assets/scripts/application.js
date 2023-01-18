@@ -61,6 +61,9 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
   
 });
 
+$(".loaderClick").click(function(){
+  $('.loader-container').addClass('loader-block');
+});
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
