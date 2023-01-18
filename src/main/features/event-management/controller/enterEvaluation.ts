@@ -115,7 +115,20 @@ try{
                   'Authorization': `Bearer ${SESSION_ID}`
                 },
                 body: JSON.stringify(body),
-              });
+              }).catch((error) => {
+                console.log('Fetch Error catch *****')
+                console.log(error)
+                  //CAS-INFO-LOG
+                  LoggTracer.errorLogger(
+                    res,
+                    error,
+                    `${req.headers.host}${req.originalUrl}`,
+                    null,
+                    TokenDecoder.decoder(SESSION_ID),
+                    'PRE09121211',
+                    true,
+                  );
+              })
               //CAS-INFO-LOG
               LoggTracer.infoLogger(rawData, 'PRE09121210', req);
               console.log(rawData.config.metadata.startTime);
