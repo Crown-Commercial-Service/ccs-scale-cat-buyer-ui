@@ -148,28 +148,30 @@ try{
             }
    
 }catch (error) {
+  console.log('Fetch Catch Error *******************');
+  console.log(error);
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Event Management - Tenders Service Api cannot be connected',
+    true,
+  );
+  // if(error.response.status !== undefined) {
+  //   console.log("*********** error.response.status - ",error.response.status);
+  // }
+  // console.log(error.config.metadata.startTime);
+  // console.log(error.config.metadata.endTime);
+  // console.log(error.duration);
 
-  if(error.response.status !== undefined) {
-    console.log("*********** error.response.status - ",error.response.status);
-  }
-  console.log(error.config.metadata.startTime);
-  console.log(error.config.metadata.endTime);
-  console.log(error.duration);
-
-  if(error.response.status === 504){
-    req.session.isEmptyProjectError = false;
-    res.redirect('/evaluate-suppliers');
-  }else{
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Event Management - Tenders Service Api cannot be connected',
-      true,
-    );
-  }
+  // if(error.response.status === 504){
+  //   req.session.isEmptyProjectError = false;
+  //   res.redirect('/evaluate-suppliers');
+  // }else{
+    
+  // }
 }
 
 }
