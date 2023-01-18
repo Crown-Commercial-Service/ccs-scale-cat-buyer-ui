@@ -29,6 +29,7 @@
     "Subject": "Subject",
     "Message": "Your message",
     "btnText": "Send to all",
+    "btnText2": "Send to all",
     "btnTextSupplier": "Send to supplier",
     "Cancel": {
         "text": "Cancel",

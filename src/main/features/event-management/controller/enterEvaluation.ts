@@ -124,16 +124,21 @@ try{
             }
    
 }catch (error) {
-  
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event Management - Tenders Service Api cannot be connected',
-    true,
-  );
+  console.log("***********error.response.status - ",error.response.status);
+  if(error.response.status === 504){
+    req.session.isEmptyProjectError = false;
+    res.redirect('/evaluate-suppliers');
+  }else{
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event Management - Tenders Service Api cannot be connected',
+      true,
+    );
+  }
 }
 
 }
