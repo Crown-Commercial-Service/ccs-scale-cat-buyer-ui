@@ -156,7 +156,7 @@ try{
     `${req.headers.host}${req.originalUrl}`,
     null,
     TokenDecoder.decoder(SESSION_ID),
-    'Event Management - Tenders Service Api cannot be connected',
+    'PRE09121211',
     true,
   );
   // if(error.response.status !== undefined) {
