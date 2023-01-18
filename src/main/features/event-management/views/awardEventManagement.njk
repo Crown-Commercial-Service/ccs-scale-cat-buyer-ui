@@ -241,10 +241,12 @@
                   {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Supplier answer</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                    {% if eventType != 'RFI' and eventType != 'EOI' %}
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                    {% endif %}
                   {% else %}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
                   <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2_dos}}</th>
@@ -268,23 +270,24 @@
                           </p>
 
                         </th>
-                        <td class="govuk-text-align govuk-!-text-align-centre">
+                        <th class="govuk-text-align govuk-!-text-align-centre">
                           <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
-                        </td>
+                        </th>
+                        {% if eventType != 'RFI' and eventType != 'EOI' %}
+                          <td class="govuk-text-align govuk-!-text-align-centre">
+                            <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
+                          </td>
 
-                        <td class="govuk-text-align govuk-!-text-align-centre">
-                          <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
-                        </td>
-
-                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
-                        </th>
-                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
-                        </th>
-                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
-                        </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
+                          </th>
+                        {% endif %}
                       </tr>
                         {% endif %}
                       {% endfor %}
@@ -292,10 +295,12 @@
                       <tr class="govuk-table__row">
                         <td class="govuk-text-align govuk-!-text-align-centre"></td>
                         <td class="govuk-text-align govuk-!-text-align-centre"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
-                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
-                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
-                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
-                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        {% if eventType != 'RFI' and eventType != 'EOI' %}
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        {% endif %}
                       </tr>
                       {% endif %}
                   </tbody>
