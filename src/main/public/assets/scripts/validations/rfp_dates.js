@@ -1185,7 +1185,7 @@ function isProjectStartDateValid()
          $('.resource_start_date').html('Project cannot start after: 28 May 2025');
           return false;
       } 
-      else if (startDate>new Date(2025,07,23)) {
+      else if (startDate>new Date(2025,08,23)) {
          $('.durations').addClass('govuk-form-group--error');
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
