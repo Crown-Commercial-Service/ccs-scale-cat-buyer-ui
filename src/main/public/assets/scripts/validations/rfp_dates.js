@@ -1172,15 +1172,22 @@ function isProjectStartDateValid()
                  
       }
 
-      const startDate = new Date(Number(Year.val()), Number(Month.val() - 1), Number(Day.val()));
+      const startDate = new Date(Number(Year.val()), Number(Month.val()), Number(Day.val()));
       
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Enter a project start date');
          return false;
-      } 
-      else if (startDate>new Date(2025,07,23) && document.getElementById('agreementID').value != 'RM1557.13') {
+      }
+      else if (startDate>new Date(2025,05,28) && document.getElementById('agreementID').value == 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 28 May 2025")
+         $('.resource_start_date').html('Project cannot start after: 28 May 2025');
+          return false;
+      } 
+      else if (startDate>new Date(2025,07,23)) {
+         $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
           return false;
       }
