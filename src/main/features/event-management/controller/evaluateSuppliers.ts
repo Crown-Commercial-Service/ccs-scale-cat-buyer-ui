@@ -240,8 +240,25 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
   var ScoresAndFeedbackURLdata_: any[] = []
 
   try{
+
+    console.log('*************** Confirm Score START **************');
+    console.log(`URL: tenders/projects/${projectId}/events/${eventId}/scores`)
+    console.log(`METHOD: GET`);
+    
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
-    const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
+    const ScoresAndFeedbackURLdata : any = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
+    //CAS-INFO-LOG
+     LoggTracer.infoLogger(ScoresAndFeedbackURLdata, 'PRE09121210', req);
+      console.log('*************** GET SCORE START **************');
+      console.log(ScoresAndFeedbackURLdata.config.metadata.startTime);
+      console.log(ScoresAndFeedbackURLdata.config.metadata.endTime);
+      console.log(ScoresAndFeedbackURLdata.duration);
+      console.log('*****************************');
+      console.log(JSON.stringify(ScoresAndFeedbackURLdata.config));
+      console.log(JSON.stringify(ScoresAndFeedbackURLdata.config.metadata));
+      //console.log(JSON.stringify(ScoresAndFeedbackURLdata));
+      console.log('*************** GET SCORE END **************');
+
     for(var i=0;i<ScoresAndFeedbackURLdata.data.length;i++)
     {
       if(ScoresAndFeedbackURLdata.data[i].score !== undefined)
@@ -251,8 +268,25 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
       }
     }
     let body=ScoresAndFeedbackURLdata_
+
+    console.log('*************** Confirm Score PUT **************');
+    console.log(`URL: /tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`)
+    console.log(`METHOD: PUT`);
+    console.log(`BODY PARSE: ${JSON.stringify(body)}`);
     
-    await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
+    const rawData: any = await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
+
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(ScoresAndFeedbackURLdata, 'PRE09121210', req);
+    console.log(rawData.config.metadata.startTime);
+    console.log(rawData.config.metadata.endTime);
+    console.log(rawData.duration);
+    console.log('*****************************');
+    console.log(JSON.stringify(rawData.config));
+    console.log(JSON.stringify(rawData.config.metadata));
+    //console.log(JSON.stringify(rawData));
+    console.log('*************** END **************');
+
     if(agreement_id != 'RM1043.8'){
       res.redirect('/dashboard');
     }else{
@@ -262,6 +296,9 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
 //publisheddoc?download=1
 }catch (error) {
   console.log("***********error.response.status - ",error.response.status);
+  console.log(error.config.metadata.startTime);
+  console.log(error.config.metadata.endTime);
+  console.log(error.duration);
   if(error.response.status === 504){
     if(agreement_id != 'RM1043.8'){
       res.redirect('/dashboard');
