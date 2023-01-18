@@ -191,12 +191,14 @@
                        {% if stage2_value == 'Stage 2' %}
                         {{ CCSButton({
                             text: "Save supplier score",
-                            action:"submit"
+                            action:"submit",
+                            classes: " individualScoreBtn"
                         }) }}
                       {%else%}
                         {{ CCSButton({
                             text: "Save supplier score",
-                            action:"submit"
+                            action:"submit",
+                            classes: " individualScoreBtn"
                         }) }}
                       {% endif %}
                         {% set returnLink = "/evaluate-suppliers" %}
@@ -213,4 +215,10 @@
     </div>
     </div>
   </main>
+  <div class="loader-container">
+                                <div class="loader-division">
+                                  <img src="/assets/images/loader.gif" alt="Loading">
+                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait...</h2>
+                                </div>
+                              </div>
         {% endblock %}
