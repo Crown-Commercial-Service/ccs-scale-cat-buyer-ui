@@ -104,9 +104,18 @@ try{
               console.log(`URL: https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`)
               console.log(`METHOD: put`);
               console.log(`BODY PARSE: ${JSON.stringify(body)}`);
-              const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
-                body,
-              );
+              // const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              //   body,
+              // );
+              const rawData: any = await fetch(`tenders/projects/${projectId}/events/${eventId}/scores`, {
+                method: "PUT",
+                keepalive: true,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${SESSION_ID}`
+                },
+                body: JSON.stringify(body),
+              });
               //CAS-INFO-LOG
               LoggTracer.infoLogger(rawData, 'PRE09121210', req);
               console.log(rawData.config.metadata.startTime);
