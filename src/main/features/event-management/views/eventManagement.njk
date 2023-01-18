@@ -295,20 +295,20 @@
 <div class="govuk-grid-row ccs-page-section">
   <div>
     <p class="govuk-grid-column-one-half">
-      <strong>{{data.subsection4_title3_eval_task1}} </strong>
+      <strong>{{data.subsection4_title3_eval_task1}} </strong></p>
       <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
           {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}</p>
           {% else %}
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
           {% endif %}
         <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
             {% if (agreementId_session == 'RM1557.13') %}
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
             {% else %}
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
             {% endif %}
             <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
             {% else %}
@@ -337,32 +337,31 @@
                     <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                 {% endif %}
             {% endif %}
-            <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues}}</strong>
-            </p>
+            <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues}}</strong></p>
           </div>
         </div>
         <div class="govuk-grid-row ccs-page-section">
           <div>
             <p class="govuk-grid-column-one-half">
-              <strong>{{data.subsection4_title3_task1}} </strong>
+              <strong>{{data.subsection4_title3_task1}} </strong></p>
               <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
                   {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
-                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_mcf}}
+                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_mcf}}</p>
                   {% else %}
-                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
+                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}</p>
                   {% endif %}
               
                 <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
+                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                   <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
                       {% if (agreementId_session == 'RM1557.13') %}
                           {% if status.toLowerCase() == 'published' %}
-                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
                           {% else %}
-                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}</p>
                           {% endif %}
                       {% else %}
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
                       {% endif %}
                     <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                     {% endif %}
