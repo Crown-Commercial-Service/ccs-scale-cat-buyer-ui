@@ -101,13 +101,13 @@ try{
                 }
               ];
               console.log('*************** START **************');
-              console.log(`URL: https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`)
+              console.log(`URL: https://pre-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`)
               console.log(`METHOD: put`);
               console.log(`BODY PARSE: ${JSON.stringify(body)}`);
               // const rawData: any = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
               //   body,
               // );
-              const rawData: any = await fetch(`tenders/projects/${projectId}/events/${eventId}/scores`, {
+              const rawData: any = await fetch(`https://pre-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/scores`, {
                 method: "PUT",
                 keepalive: true,
                 headers: {
