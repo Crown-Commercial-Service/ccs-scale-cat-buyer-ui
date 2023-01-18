@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             $('#totalPercentage').html(weightageSum);
+            $('#totalPercentageDown').html(weightageSum);
         };
         
         textboxelements.forEach(ele => {

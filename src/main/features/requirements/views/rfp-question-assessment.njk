@@ -240,6 +240,9 @@
                       })}}
                 </div>
                 {%endif%}
+                {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
+                  <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentageDown">{{totalPercentage    }}</span>% of 100%</h2>
+                {% endif %}
               {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
                   {{recurseRequirements(requirement,form_name,loop.index)}}
