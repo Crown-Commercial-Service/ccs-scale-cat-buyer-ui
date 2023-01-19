@@ -12870,6 +12870,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // For DOS6 message create multi supplier
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].addEventListener('click',function(){
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
+//   document.forms['ccs_message_create_form'].submit();
+// })
 });
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
@@ -13433,15 +13439,19 @@ function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For DOS6 message create single supplier
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
+
 // For MCF3 message create
 $('.btn-sendmsg').on('click', (e) => {
    e.preventDefault();
-   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
-                           
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;                      
    document.forms['ccs_message_create_form'].submit();
 });
 
-//
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
@@ -14168,10 +14178,10 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
          }
          if(errorStore.length>0){
             ccsZPresentErrorSummary(errorStore);
@@ -14491,7 +14501,7 @@ if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val(
                   const getTimeOfFormDate = FormDate.getTime();
                   const todayDate = new Date();
                   if (getTimeOfFormDate > getMSOfExpiryDate) {
-                     isValid = 'Start date cannot be after agreement expiry date';
+                     isValid = 'It is recommended that your project does not start after lot expiry date';
                   }
                   
                   if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) {
@@ -15674,7 +15684,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            if((urlParams.get('agreement_id') == 'RM1557.13') && (urlParams.get('group_id') == 'Group 4' ))
+                            if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
                                 errorStore = emptyQuestionFieldCheckRfp();
                                 errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
@@ -20331,6 +20341,10 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -20419,7 +20433,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -22109,7 +22123,14 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
                 setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          var bodytg = document.body;
+          bodytg.classList.remove("pageblur");
+          // console.log(jqXHR.status)
         }
+
+
           });
        })
   });
