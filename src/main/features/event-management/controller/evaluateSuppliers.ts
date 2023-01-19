@@ -277,7 +277,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     const rawData: any = await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
 
      //CAS-INFO-LOG
-     LoggTracer.infoLogger(ScoresAndFeedbackURLdata, 'PRE09121210', req);
+     LoggTracer.infoLogger(rawData, 'PRE09121210', req);
     console.log(rawData.config.metadata.startTime);
     console.log(rawData.config.metadata.endTime);
     console.log(rawData.duration);
