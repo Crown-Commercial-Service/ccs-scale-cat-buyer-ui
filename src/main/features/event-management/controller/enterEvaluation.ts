@@ -109,7 +109,7 @@ try{
                 }
               ];
               
-              let responseScore = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              let responseScore = await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
             

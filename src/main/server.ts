@@ -21,16 +21,19 @@ if (app.locals.ENV === 'development') {
     logger.info(`Application started: https://localhost:${port}`);
   });
 } else {
-  const ELB = app.listen(port, () => {
-    logger.info(`Application started: http://localhost:${port}`);
-  });
+  const server = https.createServer({}, app).listen(port);
+  server.keepAliveTimeout = (80 * 1000) + 1000;
+  server.headersTimeout = (80 * 1000) + 2000;
+  // const ELB = app.listen(port, () => {
+  //   logger.info(`Application started: http://localhost:${port}`);
+  // });
+
   // ELB.setTimeout(0);
   // ELB.keepAliveTimeout = 60 * 100000;
   // ELB.headersTimeout = 61 * 100000;
   // ELB.requestTimeout = 61 * 100000;
-  ELB.on('connection', function(socket) {
-    console.log("A new connection was made by a client.");
-    socket.setTimeout(30 * 100000); 
-    // 50 mints timeout. Change this as you see fit.
-  });
+  // ELB.on('connection', function(socket) {
+  //   console.log("A new connection was made by a client.");
+  //   socket.setTimeout(30 * 100000); 
+  // });
 }
