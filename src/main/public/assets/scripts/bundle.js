@@ -14672,7 +14672,7 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
           }
           else{
-               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
@@ -14689,13 +14689,13 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
           
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -21203,6 +21203,10 @@ function parseQueryG13(query) {
       key = decodeURIComponent(pair[0]);
       if (key.length == 0) continue;
       value = decodeURIComponent(pair[1].replace("+"," "));
+      if(key=='q'){
+        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
+        value = encodeURIComponent(decodeValue);
+      }
       if (object[key] == undefined) object[key] = value;
       else if (object[key] instanceof Array) object[key].push(value);
       else object[key] = [object[key],value];
@@ -21376,7 +21380,6 @@ document.querySelectorAll(".g13Check").forEach(function(event) {
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
       let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
-
       //url change
       const baseSearchUrl = '/g-cloud/search';
       window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
@@ -21600,7 +21603,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
+      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -21654,7 +21657,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
+      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -21935,7 +21938,7 @@ document.addEventListener('readystatechange', event => {
       queryParamObj.forEach((el, i) => {
         console.log(el);
         //Search
-        if(el.key === 'q') { $('.g13_search').val(el.value); }
+        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
         $('.g13Check').each(function(){
           if($(this).attr('name') == el.key && $(this).val() == el.value){
             $(this).attr("checked", "checked");
@@ -21979,7 +21982,7 @@ function getCriterianDetails(totalresult=0){
       
        let search = queryParamObj.filter(el => el.key === 'q');
        if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
+        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
        }
      
        let lot = queryParamObj.filter(el => el.key === 'lot');

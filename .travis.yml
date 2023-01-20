@@ -39,36 +39,36 @@ deploy:
     skip_cleanup: true
     script: CF_ENVIRONMENT=int bash ./deploy.sh
     on:
-      branch: release/int
+      branch: release/sit
 
   # NFT
   - provider: script
     skip_cleanup: true
     script: CF_ENVIRONMENT=nft bash ./deploy.sh
     on:
-      branch: release/nft
+      branch: release/nftnew
 
   # UAT
   - provider: script
     skip_cleanup: true
     script: CF_ENVIRONMENT=uat bash ./deploy.sh
     on:
-      branch: release/uat
+      branch: release/uatnew
 
   # PRE-PRD
   - provider: script
     skip_cleanup: true
     script: CF_ENVIRONMENT=pre bash ./deploy.sh
     on:
-      branch: release/pre
+      branch: release/pre-prod
 
 # WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments 
 env:
   global:
     # AWS_ACCESS_KEY_ID
-    - secure: "OlTvaeWHYcj2fRyfSljoEFwGmLhCladH+jN4juyiV0c8B2/fHUvS66jH/mNYnbD0AMvCH1b1w1BDIaJHdjNzjYz3pzsu1cYpfuNZLz4Ln8kOmPbPplvZt7QgTDxQZW1ib9VUlxgp13a90j/7Bgyz3gtpjh/knday5zm4c5u5g9N1Q5aWoyW9Ufy0T1eFAltQu/QMsCLSvGWs0KVIInUINC9/dUmoMt+rSm9Y9x5wx9JVPJfSzGXMBzxCmoaVEwJldg+HAr3cY67X1Tl0uQgjY3oL8VMylaQTdpMTnEqNAWr9bl9fRiJdU4RM/ny05vl41jYz8JM8ZqNjnUPLBCkLtptwlTm4ZaEaHwMWWWy/Cmfx50YxXndlphJav8u38AgskVwUJMgPoCBsBgmrg/WHUEgPpq1lf/zZ+9D64SlhcCD0XHgxMBwYE1Z4aVoX0DPzFKrZlHrI8VQvlZhWk3V0tKk2CnqJXLVQ4corMJRCWQg1EYZEWjn0gX1tK4wFS+iH5mOAkM9uM54gNrzHo76Lcd9ln4uvyX3mr+3WWvE8Rdc1hzC53Z2ROEuHamBMGdtrvMj2Uge4JyejFTDwW5P05AoMM9cIXVwTaM+VHlR4JueZFSYpIW6j7D5uLpx7VlaB92Z1aa6ZbEV2Ni1cLZz4JeNfHifneqbZHEpEKOEG+44="
+    - secure: "OydwvQs6lHEaMvgu4ZJ06BcJMUmiaSvlOPOBExMAcYNvrwtjuQ2C7DzzxC/ZxHnlBB3T3CK4ZYXDfnoEuFX6gXkpxrlywkHivv26jGUVX2xzU2myzBu5jwmCARssv9nbMoRgwQIOqMOqowgBV9BlCjBkhOZihRR3iNLqU+ddN71Uy1yWQHaB0DRP/1fVH9d3HN8HWz4hswYzt6t52xAyPXpCBPrxaBjfNkAx73/egT1MVdGqlU5ruF1tl4ENDIBNbxM2dX6eAIJ0GrL7YMLQRvr0qkW+/+wnHs5iWkQx5Ie+Y13euSLm/L6G2ckY+Ornt2odOvGUyB2R6xN9np7fCIUPrw8wLjj7jePr5D7rlaAsSiMvzCL6eAMDYWfjVQMh0+gpT/QVHaw5IHP08BOXR71Y82GeyswYGKr5kpJ5EDrOvPPtwEACEZZBzukPsHF03mrWtp6HeCCYfQCJpG91BOoAPtL1Mq91vsglgJSXdS7oYHrToohbrjfGusl9LXGSJAj613ViZ3kr4Yp/EFFkFdGglsZbQCTcXsUs6Djkgm34b44i76geHgaluKJh3eBcZMFHuL2pOT2xap9TlhtNfbZ1C+1jtncaz/gxk7aQbYJTQFzyffKY59uUMiOSeV3T0vF+mUUyDKkl6H2qj06Z5qy964/zU3Br25xhmTLVyWw="
     # AWS_SECRET_ACCESS_KEY
-    - secure: "dme+4rqV/SVNHSWOuMRmAX/iSJOn3sy1zuJVDBb4m/pj2TZ/m8hkDHnyVAEwEc+1JK4hRqcm+XuNjLcF+LA9+kTJxvcHd+U6JX6u06GHkIKEy6dWgot0pnnwV2zWJnw5gm1Ezf9jXr9WUKH13yNAynerSTpkhCohZcXk7i/gOYJWaxz26EiJ3yu6bJNJr5Puyni3DB69nTZGPFiIRnaBOV0yi7gLr4bpgyLW1Pkqiu2vaj4G8AdrsNDPcbCq2Sjc1+L09pFCsyb+VUdLdZxvxk+TOV2zKBSxEA8GgNyHf1lbomSJ5Ad5wPgnAVT6FlwJlJ2kiTI0UicOj5LNEJcrKJq8YoRlrXh3jcvYfztrGlw9eZCNgWZz0S1Q64XpziJ8DbSxbYEIuobh1ea4z/fDcO2jp0wouzA4fqWm0I3WYRU3zlVzLLlxWiN3uYA4hPIisFH2m7as3OnA2Ccl13FkqpzPxUxvUFwBqo4P5MaEE4RyS7HVLXqKruCP/mHY6MeCvaScOJfjQdSGeG7DNc/g2W74mo9ZZ/8qtRB2PukmmWvhbSdZbuFw+4FN3ut96qaArrbgQOQMawqQa3V5Wzn2rodt5lGfp3BZjWwTvsCP0aEEw81rwMaUY6EY47sJ9XThYHl4c2rrRm4RnyCrBKCTQy48xXKLllVlxGdmHmSaFME="
+    - secure: "BXzZT+oAyhoDGwqCRbNaoGGjlQ3w8FKtMYHeQWqcMXnh3Y3+BZAkp3pkuKhHuC3D15q+6+EpHjQDhzzpYOdREsIZHwEF6JVHNco/Qe2Bs18d2ukeR+4QBaRO1useGElbbWeh2EGfj0SaqysZQyuwt7fLiy3POOFiDrCzleYMrdiQogoQ4fEWz+fjl1bc7dngfJWWGp/KyynjoZVTGj+/y1vaEa+44qTA+D0Vii3tGRZD7a7VI9vOjPQBmpXjEAGJIeJ26VzIhcMXr9rCrGhoyTL38gvawbHcsvZybt51kDkMKPFMEwRdInnaISF25NGgP1chLdSxBkmLmxcnRzG5HtKDsWeaOFuvHEZOa0fFnwrcYzogx/SVGcNCGG/hN8J/XcduVEdDEQe8/CEU/nPLa01/c4pVTDff1NPC9XzsUbyDfdtQ8lxE4DbHuhP1yMx0HH6FZdv7/C3GHnw63jbHk88WmPvpYme4fbsAdtB8bnii6fZ14zwqyOhmT8YohZKRnp9Am6lvyMmIZmaL+9DVOAs47LLvvdeRomjrsE6SHLbvbFQwce42JujlJzX2Xh4ge+kVmH0kJIqXKeI0w+DqE2p5xh2dRXp+e12lo8KyQzhJHai2+U6Zel/b9CBhq6J0di/E3ItTchvGh4x/GDKc/voFm9iAWF42DnWZIy+pQYU="
     # S3_STATE_BUCKET_NAME
     - secure: "X+f8b9Q9BHnemZU6RA62w1grF9kTPBsk3CSTqCacmBw8nfcuUK6TC7Q3k0ZZVTgu5+jHHDPOJs6sjKrp0gvEypqa7niJQjyd2NuqoSxDTISZUBouikW83gxIyyW5PBwUhF+51xwmrRHI8moh6TEbf5lNvU+0td7DdK+LMkYpyr2xmO4jg5qGv6BjdCQdMrLxA6Yev32MkZVcDUcrLd5cWa7yqMypu9Y1KzgU5iUYnNsgJw1gTI4S6DIE6RoK7nEfdXFhtz0zMp5d65b9d1yhb7iwckkE4Y703y77tYsOer1uNj9DoiF8ZlpdL5fpfYcWxCXhJ0NW9GptYik4YWuAYVZu8M1N9S1Ft95zesAHa4tY5ntBm5ep0899npTxUhqbrvwpHt7iSuhln5CWVi+45TXSeX2WgHoNYlPl4d9imc64xxwMoHWriDTkktMxjYQXwRc67AOlHj0JIlTr9J4nJOZ4ZxYzaoICsaCvQPzkZ96AKfEZrthejo3b+qLOt+3aEaywVs8gloFv+iPVfzU2aeBFqOA20Blg96sanXhH6aS0pyAikX5MbzgcNfKfGrM15jvItBHnBh9SX98tIRPm0vn9kQln6ra+GGGNk2fDYXR5AXepGIMjN8mFpRgxbXytxWUxyuMKT3oW9bpOPzDlbSgdKMU9Le6RJIiuFh91vjw="
     # DDB_LOCK_TABLE_NAME

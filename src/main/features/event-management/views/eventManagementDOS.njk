@@ -28,7 +28,7 @@
         </h1>
         <div class="project-overview">
           {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
-              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} </p>
+              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong> </p>
            {% else %}
             <p class="govuk-body">Selected agreement: <strong>
             {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
@@ -68,7 +68,8 @@
         <div>
           <h2 class="govuk-heading-m">
             {{agreement_header['projectId']+" & "+projectName}}
-            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
+             <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{status}}</strong>
+            {# <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong> #}
           </h2>
           <p class="govuk-body">
 
@@ -174,13 +175,13 @@
       <div class="govuk-grid-row ccs-page-section">
         <div>
           <p class="govuk-grid-column-one-half">
-            <strong>{{data.subsection4_title3_eval_task1}}</strong>
+            <strong>{{data.subsection4_title3_eval_task1}}</strong></p>
             <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
               <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
                 <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
                   <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                 {% else %}
                   <h2 class="govuk-heading-m">
@@ -194,20 +195,19 @@
                   {% if (projectStatus == 2) %}
                     <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                   {% endif %}
-                  <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>
-                  </p>
+                  <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong></p>
                 </div>
               </div>
               <div class="govuk-grid-row ccs-page-section">
                 <div>
                   <p class="govuk-grid-column-one-half">
-                    <strong>{{data.subsection4_title3_task1}}</strong>
+                    <strong>{{data.subsection4_title3_task1}}</strong></p>
                     <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
+                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}</p>
                       <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
+                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                         <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
                           <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                         {% endif %}
                       </div>
@@ -437,7 +437,7 @@
                               </div>
                             </div>
 
-                          </main>
+                          
                           {#<div class="govuk-grid-row ccs-page-section">#}
                           <div>
                             {% if (eventType == 'FC') %}
@@ -457,7 +457,7 @@
                               <p> You now need to begin the award process. To do so, please select the supplier you wish to award within ‘Supplier responses’ above.</p>
                               </div>
                               <div class="govuk-!-padding-top-4">
-                                          <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                          <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                               </div>
                               {% else %}
                                 {% if status.toUpperCase() !== 'PUBLISHED' %}
@@ -486,7 +486,7 @@
                                         }}
 
                                       </div>
-                                      <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                      <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                     </form>
                                   {% endif %}
                                   {% if status.toUpperCase() != 'EVALUATED' %}
@@ -515,12 +515,12 @@
                                           {% endif %}
                                       </div>
                                       <div class="govuk-!-padding-top-6">
-                                  <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                  <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                 </div>
                                     {% elseif status.toUpperCase() === 'PUBLISHED' %}
                                       <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
                                      <div class="govuk-!-padding-top-6">
-                                  <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                  <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                 </div>
                                     {% endif %}
                                   {% endif %}
@@ -549,13 +549,13 @@
                                                 </div>
                                        {% endif %}
                                        <div class="govuk-!-padding-top-6">
-                                          <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                          <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                        </div>
                                 </div>
                                     {% elseif status.toUpperCase() === 'PUBLISHED' %}
                                       <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
                                        <div class="govuk-!-padding-top-6">
-                                        <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
+                                        <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                       </div>
                                     {% endif %}
                                   {% endif %}
@@ -570,4 +570,5 @@
                                   <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
                                 </div>
                               </div>
+                            </main>
                             {% endblock %}

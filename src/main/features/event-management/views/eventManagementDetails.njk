@@ -141,16 +141,87 @@
           <form id="event_supplier_message_form" name="event_supplier_message_form" class="form event_supplier_message_form" action="/message/details" method="POST">
             {{ csrfProtection(csrf) }}
             {%if(type==='received')%}
-              <a href="{{data.backlink}}">back</a>
+              <a href="{{data.backlink}}">Back</a>
             </br>
           </br>
         </br>
         {%else%}
-        <a href="/message/sent?type=sent">back</a>
+        <a href="/message/sent?type=sent">Back</a>
       </br>
     </br>
   </br>
   {%endif%}
+           {%if agreementId == 'RM1043.8' or agreementId == 'RM1557.13'%} 
+          {%if msgThreadList.length >0%}
+          <div class="govuk-!-margin-bottom-9">
+            <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+                <details class="govuk-details" data-module="govuk-details">
+                  {%for msgItem in msgThreadList%}
+                    <summary class="govuk-details__summary govuk-details__summary_msgthread">
+                      <span class="govuk-details__summary-text">
+                        {{msgItem.OCDS.title}}
+                      </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                    <span class="govuk-details__summary-text">
+                        Date:<strong> {{msgItem.OCDS.date | dateddmmyyyy}}</strong>
+                      </span>
+                    </div>
+                    <div class="govuk-details__text govuk-!-margin-bottom-7">
+                      <span class="govuk-details__summary-text">
+                      Message: {{msgItem.OCDS.description}}
+                      </span>
+                    </div>
+                {% endfor %}
+                </details>
+              
+
+          </div>
+          {%else%}
+          <div class="govuk-!-margin-bottom-9">
+          <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                {{message.OCDS.title}}
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+            <span class="govuk-details__summary-text">
+                Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong>
+              </span>
+            </div>
+            <div class="govuk-details__text govuk-!-margin-bottom-7">
+              <span class="govuk-details__summary-text">
+              Message: {{message.OCDS.description}}
+              </span>
+            </div>
+        </details>
+      </div>
+          {%endif%}
+        {%else%}
+        {%if msgThreadList.length >0%}
+          {%for msgItem in msgThreadList%}
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Subject: {{msgItem.OCDS.title}}
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+             <span class="govuk-details__summary-text">
+                Date: {{msgItem.OCDS.date | dateddmmyyyy}}
+              </span>
+            </div>
+            <div class="govuk-details__text govuk-!-margin-bottom-7">
+              <span class="govuk-details__summary-text">
+               Message: {{msgItem.OCDS.description}}
+              </span>
+            </div>
+        </details>
+         {% endfor %}
+        {%endif%}
+         {%endif%}
   <label class="govuk-label govuk-label govuk-label--m">{{messageDetails.OCDS.title}}</label>
   <label class="govuk-label govuk-label govuk-label--m">{{data.line4}}{{messageDetails.OCDS.author.name}}</label>
   <p class="govuk-body">{{data.line1}} : {{messageDetails.nonOCDS.classification}}</p>

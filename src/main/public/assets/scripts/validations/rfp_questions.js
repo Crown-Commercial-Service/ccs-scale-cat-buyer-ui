@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             $('#totalPercentage').html(weightageSum);
+            $('#totalPercentageDown').html(weightageSum);
         };
         
         textboxelements.forEach(ele => {
@@ -388,6 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(agreement_id_Default=='RM1043.8'){
         var total_countva=20;
         var withValue=21;
+    }
+    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+        var total_countva=20;
+        var withValue=21;
+        with_value_count = 20
     }
     else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
         var total_countva=5;
@@ -752,7 +758,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            if((urlParams.get('agreement_id') == 'RM1557.13') && (urlParams.get('group_id') == 'Group 4' ))
+                            if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
                                 errorStore = emptyQuestionFieldCheckRfp();
                                 errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);

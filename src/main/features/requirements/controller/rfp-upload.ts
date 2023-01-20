@@ -9,6 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { FILEUPLOADHELPER } from '../helpers/upload';
 import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 let tempArray = [];
@@ -79,7 +80,10 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
             const FETCH_FILEDATA = FetchDocuments.data;
-
+            
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+            
             let duplicateFile = false;
             for(const item of FETCH_FILEDATA){
               // if (item.description === "mandatorysecond") {
@@ -104,6 +108,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
                 },
               });
               req.session['isTcUploaded'] = true
+            //CAS-INFO-LOG 
+           LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
             }
             } catch (error) {
               LoggTracer.errorLogger(
@@ -157,6 +164,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
             const FETCH_FILEDATA = FetchDocuments.data;
 
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
             let duplicateFile = false;
             for(const item of FETCH_FILEDATA){
               // if (item.description === "mandatorysecond") {
@@ -180,6 +190,10 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
                 ...formHeaders,
               },
             });
+            
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
             res.redirect(`/${selRoute}/upload-doc`);
           }
           } catch (error) {
@@ -235,6 +249,10 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
+
     if(agreementId_session == 'RM1043.8'){
       res.redirect(`/rfp/upload-additional`)
     }else{
@@ -270,6 +288,10 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments?.data;
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
     let fileNameStorageTermsnCond = [];
     let fileNameStoragePricing = [];
     let additionalfile=[];
