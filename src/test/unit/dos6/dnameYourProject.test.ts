@@ -10,13 +10,13 @@ import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
 const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
+import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 chais.should();
 chais.use(chaiHttp);
 
 describe('Dos6 : Name your Project', async () => {
   let parentApp;
-  const jwtUser = 'dummyEmail@dummyServer.com';
   let OauthToken;
   let procId = 17717;
   const eventId = 12;
@@ -32,6 +32,7 @@ describe('Dos6 : Name your Project', async () => {
         lotId: 1,
         eventId,
         agreementLotName: 'test',
+        agreement_id: 'RM1043.8',
         access_token: OauthToken,
         cookie: {},
         procurements: [procurementDummy],
@@ -42,18 +43,22 @@ describe('Dos6 : Name your Project', async () => {
     parentApp.use(app);
   });
 
-  it('Backend : should redirect to procurement lead if name fulfilled', async () => {
-    const testName = 'testname';
-    chais.request(process.env.TENDERS_SERVICE_API_URL)
-    .put(`/tenders/projects/${procId}/name`)
-    .set('Authorization', `Bearer ${OauthToken}`)
-    .send({"name":testName})
-    .end((response) => {
-      expect(response.statusCode).to.equal(200);
-    });
+  it('should render `nameAproject` page when everything is fine', async () => {
+    await request(parentApp)
+      .get('/rfp/name-your-project')
+      .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+      .expect(res => {
+        expect(res.status).to.equal(200);
+        const dom = new JSDOM(res.text);
+        const { textContent } = dom.window.document.querySelector('.govuk-heading-xl strong');
+       // expect(textContent).to.equal(`Your unique project ID is ${projectId}`);
+        //expect(textContent).to.equal(`Name your project`);
+        expect(textContent).contains('Name your project');
+      });
   });
 
-  it('Intenal : should redirect to procurement lead if name fulfilled', async () => {
+
+  it('should redirect to procurement lead if name fulfilled', async () => {
     const dummyName = 'dummyName';
     nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
     nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/27`).reply(200, true);
@@ -67,4 +72,31 @@ describe('Dos6 : Name your Project', async () => {
       });
   });
 
+  it('should redirect to name your project if name not fulfilled', async () => {
+    await request(parentApp)
+      .post(`/rfp/name?procid=${procId}`)
+      .send({ rfi_projLongName: '' })
+      .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+      .expect(res => {
+        expect(res.status).to.equal(302);
+        expect(res.header.location).to.be.equal('/rfp/name-your-project');
+      });
+  });
+
+  it('should redirect to error page if something goes wrong with external service when post', async () => {
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(500, {
+      msg: 'Internal Server Error',
+    });
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/27`).reply(200, true);
+    await request(parentApp)
+      .post(`/rfp/name?procid=${procId}`)
+      .send({ rfi_projLongName: 'nameExample' })
+      .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+      .expect(res => {
+        expect(res.status).to.equal(200);
+        const dom = new JSDOM(res.text);
+        const { textContent } = dom.window.document.querySelector('h1.page-title');
+        expect(textContent).to.equal('Sorry, there is a problem with the service');
+      });
+  });
 });
