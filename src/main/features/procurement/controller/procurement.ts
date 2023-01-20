@@ -44,23 +44,11 @@ const journeyOverwrite = async (SESSION_ID, eventId) => {
   }
 }
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  console.log("1111111111111111",JSON.stringify(req.session));
-
   const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
-  console.log("lotId",lotId);
-  console.log("agreementLotName",agreementLotName)
-  console.log("agreementName",agreementName)
-  console.log("stepstocontinueDAA",stepstocontinueDAA);
-  console.log("showPreMarket",showPreMarket);
-  console.log("showWritePublish",showWritePublish);
-  
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
-  console.log("agreement_id",agreementId_session)
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
-  console.log("eventTypesURL",eventTypesURL);
-
   let forceChangeDataJson;
   if(agreementId_session == 'RM6187') { //MCF3
     forceChangeDataJson = dataMCF3;
@@ -77,7 +65,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   }else{//DSP
     forceChangeDataJson = dataDSP;
   }
-  console.log("test16");
   const data = forceChangeDataJson;
   let appendData: any = { ...data, SESSION_ID };
   try {
@@ -86,24 +73,17 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       types='';
     }else{
       const typesRaw = await AgreementAPI.Instance(null).get(eventTypesURL);
-      console.log("test14");
-      console.log("TEST11111")
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(typesRaw, logConstant.evenTypeFromAggrementLot, req);
-      console.log("TEST11122")
       const typeRawData = typesRaw.data;
-      console.log("TEST1111133")
       types = typeRawData.map((typeRaw: any) => typeRaw.type);
-      console.log("TEST11144")
     }
-    console.log("TEST11111555")
     appendData = { types,lotId, ...appendData };
-    console.log("TEST11111666",JSON.stringify(req.session.procurements))
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    console.log("TEST11111777")
+    
     let procurement: Procurement;
     if (!elementCached) {
-      console.log("test13");
       const _body = {
         agreementId: agreementId_session,
         lotId: (agreementId_session == 'RM1557.13' && lotId=='All')?'All':lotId,
@@ -115,15 +95,14 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       procurement = procurementRaw.data;
       req.session.procurements.push(procurement);
       req.session.project_name = procurement['defaultName']['name'];
-      console.log("test11");
+
     } else {
-      console.log("test12");
       procurement = elementCached;
       req.session.project_name = req.session.project_name;
     }
 
     
-    console.log("test10",procurement['eventId']);
+
     logger.info('procurement.created', procurement);
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.projectId = procurement['procurementID'];
@@ -131,22 +110,15 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName;
-    console.log("fromStepsToContinue",req.session.fromStepsToContinue);
-    console.log("isRFIComplete",req.session['isRFIComplete']);
-    console.log("eventId",req.session.eventId);
-    
     if(req.session['isRFIComplete'] || req.session.fromStepsToContinue!=null)
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/2`, 'Optional');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/3`, 'Not started');
     }
     try {
-      console.log("test8",req.session.eventId);
-      console.log("URL",`/journeys/${req.session.eventId}/steps`)
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
-      console.log("test9");
       const _body = {
         'journey-id': req.session.eventId,
         states: journyData.states,
@@ -158,12 +130,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     }
     if(agreementId_session == 'RM1557.13' && lotId=='All') { //G-cloud 13
-      console.log("test6");
-      console.log("ProjectID",req.session.projectId);
-
       await ccsStatusOverride(appendData, SESSION_ID, agreementId_session, req.session.projectId, req.session.eventId);
     } else {
-      console.log("test7",req.session.projectId);
       const {data: getEventsData} = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${req.session.projectId}/events`);
       data.events.forEach(async event => {
       if (event.eventno == 1) {
@@ -206,10 +174,9 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         }
       }
     });
-    console.log("test5");
+
     //24-08-2022
     if(agreementId_session == 'RM6187') { //MCF3
-      console.log("test4");
       const objIndexEventOne = appendData.events.findIndex(obj => obj.eventno === 1);
       const overWritePaJoury = getEventsData.find(item => item.eventType == 'PA' && (item.dashboardStatus == 'CLOSED' || item.dashboardStatus == 'COMPLETE'));
       if(overWritePaJoury)  {
@@ -235,9 +202,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       req.session.caSelectedRoute = 'FC';
       req.session.selectedRoute = 'FC';
     }
-    console.log("test3");
-    console.log("req.session.selectedRoute",req.session.selectedRoute);
-    console.log("req.session.choosenViewPath",req.session.choosenViewPath);
     //BALWINDER 17-06-2022 
     const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
     if ((req.session.selectedRoute !== undefined && req.session.selectedRoute !== null) || (req.session.choosenViewPath !== undefined && req.session.choosenViewPath !== null)) {
@@ -265,7 +229,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       appendData.events[objIndex].href = "/requirements/choose-route";
     } 
   }
-  console.log("test2");
+
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;    
     const projectId = req.session.projectId;    
@@ -275,7 +239,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     let ScrollTo=""
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}
-    console.log("test1");
+    
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.procurementPage, req);
 
@@ -287,7 +251,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
-    console.log("ERROR",JSON.stringify(error))
     LoggTracer.errorLogger(
       res,
       error,
