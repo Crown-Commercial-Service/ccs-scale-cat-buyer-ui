@@ -63,7 +63,7 @@ $(document).ready(function () {
                 else if(!checkFileValidMimeType){
                     let fileExt = file.name.split(".").pop();
                     fileExt = fileExt?fileExt:undefined;
-                    if(fileExt == 'kml'){
+                    if(fileExt == 'kml' || fileExt == 'zip'){
                         ErrorCheckArray.push({
                             type: "none"
                         })

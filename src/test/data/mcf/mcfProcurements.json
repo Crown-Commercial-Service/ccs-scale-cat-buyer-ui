@@ -1,0 +1,23 @@
+{
+    "lotId": "Lot 2",
+    "agreementLotName": "test",
+    "agreementName": "test",
+    "agreement_id": "RM6187",
+    "isRFIComplete": false,
+    "cookie": {},
+    "procurements": [
+      {
+        "procurementID": 17983,
+        "eventId": "ocds-pfhb7i-18742",
+        "defaultName": {
+          "name": "RM6187-Lot 2-TENSHIN SHINYO CONSULTING LTD",
+          "components": {
+            "agreementId": "RM6187",
+            "lotId": "Lot 2",
+            "org": "COGNIZANT BUSINESS SERVICES UK LIMITED"
+          }
+        },
+        "started": false
+      }
+    ]
+  }
