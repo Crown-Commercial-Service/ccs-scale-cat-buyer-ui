@@ -108,6 +108,8 @@ try{
                   score: evaluation_score,
                 }
               ];
+              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
+              console.log(JSON.stringify(body));
               console.log('Start ****************************');
               let responseScore = await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
