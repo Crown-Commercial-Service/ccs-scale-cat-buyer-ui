@@ -108,11 +108,11 @@ try{
                   score: evaluation_score,
                 }
               ];
-              
+              console.log('Start ****************************');
               let responseScore = await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-            
+              console.log('End ****************************');
               //CAS-INFO-LOG 
               LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
