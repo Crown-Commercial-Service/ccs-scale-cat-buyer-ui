@@ -12870,6 +12870,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // For DOS6 message create multi supplier
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].addEventListener('click',function(){
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
+//   document.forms['ccs_message_create_form'].submit();
+// })
 });
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
@@ -13433,15 +13439,19 @@ function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For DOS6 message create single supplier
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
+
 // For MCF3 message create
 $('.btn-sendmsg').on('click', (e) => {
    e.preventDefault();
-   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
-                           
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;                      
    document.forms['ccs_message_create_form'].submit();
 });
 
-//
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
@@ -14220,15 +14230,22 @@ function isProjectStartDateValid()
                  
       }
 
-      const startDate = new Date(Number(Year.val()), Number(Month.val() - 1), Number(Day.val()));
+      const startDate = new Date(Number(Year.val()), Number(Month.val()), Number(Day.val()));
       
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Enter a project start date');
          return false;
-      } 
-      else if (startDate>new Date(2025,07,23) && document.getElementById('agreementID').value != 'RM1557.13') {
+      }
+      else if (startDate>new Date(2025,05,28) && document.getElementById('agreementID').value == 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 28 May 2025")
+         $('.resource_start_date').html('Project cannot start after: 28 May 2025');
+          return false;
+      } 
+      else if (startDate>new Date(2025,08,23)) {
+         $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
           return false;
       }
@@ -14617,6 +14634,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       
       $("#totalPercentage").text(percentage);
+      $("#totalPercentageDown").text(percentage);
     };
     
     // for (let k = 0; k < allTextBox.length; k++){
@@ -14985,6 +15003,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             $('#totalPercentage').html(weightageSum);
+            $('#totalPercentageDown').html(weightageSum);
         };
         
         textboxelements.forEach(ele => {
@@ -15310,6 +15329,11 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(agreement_id_Default=='RM1043.8'){
         var total_countva=20;
         var withValue=21;
+    }
+    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+        var total_countva=20;
+        var withValue=21;
+        with_value_count = 20
     }
     else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
         var total_countva=5;
@@ -15674,7 +15698,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            if((urlParams.get('agreement_id') == 'RM1557.13') && (urlParams.get('group_id') == 'Group 4' ))
+                            if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
                                 errorStore = emptyQuestionFieldCheckRfp();
                                 errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
@@ -20331,6 +20355,10 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -20419,7 +20447,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -22109,7 +22137,14 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
                 setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          var bodytg = document.body;
+          bodytg.classList.remove("pageblur");
+          // console.log(jqXHR.status)
         }
+
+
           });
        })
   });
