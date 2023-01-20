@@ -13,15 +13,15 @@
         "href": "/projects/create-or-choose"
       },
       {
-        "text": "Write and publish your requirements",
-        "href": "/rfp/task-list"
+        "text": "Request for Information",
+        "href": "/rfi/rfi-tasklist"
       },
       {
-        "text": "See the available suppliers"
+        "text": "View suppliers"
       }
     ],
   
-    "title": "See the available suppliers ",
+    "title": "View suppliers ",
     "subtitle": "Your opportunity will be sent to all suppliers on this agreement. If they do not respond they will not be allowed to bid for your project.",
     "data": {
       "supplier": {
@@ -32,8 +32,8 @@
       "Inset": "You will need to add the suppliers you want to send your RfI to. Any suppliers you don’t add at this stage will not remove them from future steps in your procurement."
     },
     "backJump": {
-      "title": "Return to write and publish your requirements",
-      "href": "/rfp/task-list"
+      "title": "Return to Request for Information",
+      "href": "/rfi/rfi-tasklist"
     }
   }
   

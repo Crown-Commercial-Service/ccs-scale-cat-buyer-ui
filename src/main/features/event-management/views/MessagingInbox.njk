@@ -65,7 +65,7 @@
 </p>
 {% endset %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -94,7 +94,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -104,6 +104,7 @@
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <div class="govuk-grid-row">
         {% if created == 'true' %}
             <div class="govuk-grid-column-one-half">
 
@@ -125,13 +126,18 @@
             {% if createdreply == 'true' %}	
                 {% set CreatedReplyCustomhtml %}	
                     <h3 class="govuk-notification-banner__heading">
-                        {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                        {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %} 
                             Your message was sent  to all suppliers
                         {% else %}
                             Your message was sent to the supplier
                         {% endif %}
                     </h3>
                     {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+                    </p>
+                    {% endif %}
+                    {% if agreementId == 'RM1557.13' %} 
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
                     </p>
@@ -206,7 +212,7 @@
                 }) }}
             </div>
         {% endif %}
-       
+    </div>
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -219,18 +225,28 @@
       </div>
     </div>
 
-        <div class="govuk-grid-row messaging-navigation">
+        <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
+                <div class="messaging-navigation">
                 <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
                     <ul class="nav-list messaging-nav-list--primary">
-                        
-                         <li class="nav-list__item">
-             <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text4 }}</a>
-            </li>
+                    {% if agreementId == 'RM6187' %}
+                        <li class="nav-list__item">
+                           <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text5 }}</a>
+                        </li>
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.text6 }}</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text4 }}</a>
+                        </li>
                         <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.text1 }}</a>
                         </li>
+                    {% endif %}
+                        
                         <li class="nav-list__item selected">
                             {{data.tabs.text2}}
                         </li>
@@ -239,6 +255,7 @@
                         </li>
                     </ul>
                 </nav>
+                </div>
             </div>
         </div>
 
@@ -255,7 +272,7 @@
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
-                                {# <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th> #}
+                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th> 
                             </tr>
                         </thead>
                         <tbody class="govuk-table__body">
@@ -269,21 +286,25 @@
                                         </th>
                                         <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
                                         <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
-                                        {# <td class="govuk-table__cell">
+                                         <td class="govuk-table__cell">
                                             {% if message.nonOCDS.read == true %}
                                                 <strong class="govuk-tag govuk-tag--green">Read</strong>
                                             {% else %}
                                                 <strong class="govuk-tag govuk-tag--blue">Unread</strong>
                                             {% endif %}
-                                        </td> #}
+                                        </td> 
                                     </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr class="govuk-table__row">
                                     <td scope="row" class="govuk-table__cell">
                                         <strong class="govuk-tag govuk-tag--blue">
-                                        You don't have any Received messages
-                                    </strong>
+                                            {% if agreementId == 'RM6187' or agreementId == 'RM1043.8' %}
+                                                You have not received any messages
+                                            {% else %}
+                                                You don't have any Received messages
+                                            {% endif %}
+                                        </strong>
                                     </td>
                                     <td class="govuk-table__cell"></td>
                                     <td class="govuk-table__cell"></td>

@@ -23,16 +23,47 @@ const buttonTermsHidden = () => {
   }
 }
 
+let rfi_term_def = document.querySelectorAll('.rfitermdef');
+rfi_term_def.forEach(ele => {
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
+  });
+}); 
+let rfitermtext = document.querySelectorAll('.rfitermtext');
+rfitermtext.forEach(ele => {
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
+  });
+});
+const urlParams = new URLSearchParams(window.location.search);
+const agrement_id = urlParams.get('agreement_id');
 document.addEventListener('DOMContentLoaded', () => {
+  
 
   if (document.getElementById("ccs_rfi_acronyms_form") !== null) {
-    let with_value_count = 10,
-      prev_input = 0,
+    let with_value_count;
+    let total_count;
+    let total_count_index;
+    let prev_input;
+    let deleteButtons;
+    if(agrement_id == 'RM1557.13' || agrement_id == 'RM6187'){
+      with_value_count = 20;
+      total_count = 20;
+      total_count_index = 21;
+      prev_input = 0;
       deleteButtons = document.querySelectorAll("a.del");
+    }else{
+      with_value_count = 10;
+      total_count = 10;
+      total_count_index = 11;
+      prev_input = 0;
+      deleteButtons = document.querySelectorAll("a.del");
+    }
+    
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
     // document.getElementById("rfi_term_1").addEventListener('input', ccsZCountRfiTerms);
     document.getElementById("rfi_term_definition_1").addEventListener('input', ccsZCountRfiAcronyms);
-    for (var acronym_fieldset = 10; acronym_fieldset >= 1; acronym_fieldset--) {
+    for (var acronym_fieldset = total_count; acronym_fieldset >= 1; acronym_fieldset--) {
 
 
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
@@ -49,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
-        if (acronym_fieldset === 10) {
+        if (acronym_fieldset === total_count) {
           document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -64,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-
+      
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -87,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         with_value_count++;
 
-        if (with_value_count === 11) {
+        if (with_value_count === total_count_index) {
           document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -108,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
-          for (var k=1;k<=10;k++)
+          for (var k=1;k<=total_count;k++)
           {
-            document.getElementById("rfi_label_term_"+k).innerText="";
-            document.getElementById("rfi_label_acronym_"+k).innerText="";
+            // document.getElementById("rfi_label_term_"+k).innerText="";
+            // document.getElementById("rfi_label_acronym_"+k).innerText="";
           }
-          for (var i=target;i<11;i++){
+          for (var i=target;i<total_count_index;i++){
             var j=Number(i)+1;
            //let nextelmnt= document.getElementById('rfi_term_' + j);
            let nextelmnt=document.getElementsByClassName('term_acronym_fieldset acronym_'+j);
@@ -123,20 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
            {
             document.getElementById('rfi_term_' + i).value=document.getElementById('rfi_term_' + j).value;
             document.getElementById('rfi_term_definition_' + i).value=document.getElementById('rfi_term_definition_' + j).value;
-            document.getElementById("rfi_label_term_"+i).innerText="";
-            document.getElementById("rfi_label_acronym_"+i).innerText="";
+            // document.getElementById("rfi_label_term_"+i).innerText="";
+            // document.getElementById("rfi_label_acronym_"+i).innerText="";
           }
            else
            {
              target=i;
-             document.getElementById("rfi_label_acronym_"+i).innerText="";
+            //  document.getElementById("rfi_label_acronym_"+i).innerText="";
              break;
            }
           }
           else
         {
           target=i;
-           document.getElementById("rfi_label_acronym_"+i).innerText="";
+          //  document.getElementById("rfi_label_acronym_"+i).innerText="";
            break;
         }
           }
@@ -216,10 +247,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   buttonTermsHidden();
 });
-
+let with_value_count;
+let total_count;
+let total_count_index;
+let prev_input;
+let deleteButtons;
+if(agrement_id == 'RM1557.13' || agrement_id == 'RM6187'){
+  with_value_count = 20;
+  total_count = 20;
+  total_count_index = 21;
+  prev_input = 0;
+  deleteButtons = document.querySelectorAll("a.del");
+}else{
+  with_value_count = 10;
+  total_count = 10;
+  total_count_index = 11;
+  prev_input = 0;
+  deleteButtons = document.querySelectorAll("a.del");
+}
 const checkFields = () => {
   const start = 1;
-  const end = 10;
+  const end = total_count;
 
   for (var a = start; a <= end; a++) {
     let input = $(`#rfi_term_${a}`)
@@ -252,35 +300,53 @@ const removeErrorFields = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+$('.rfi_term_definition').keyup(function(e) {
+  var tlength = $(this).val().length;
+  $(this).val($(this).val().substring(0, maxchars));
+  var tlength = $(this).val().length;
+  remain = maxchars - parseInt(tlength);
+  $(this).text(remain);
 
+});
+$(".rfi_term_definition").keypress(function(e) {
+  var maxLen = $(this).val().length;
+  var keyCode = e.which;
+
+  if (maxLen >= 10000 && (keyCode != 8) && (keyCode < 48 || keyCode > 57)) {
+      return false;
+  }
+
+});
 
     
 const emptyFieldCheck = (add_more='') => {
   let fieldCheck = "",
     errorStore = [];
-  for (var x = 1; x < 11; x++) {
+  for (var x = 1; x < total_count_index; x++) {
     let term_field = document.getElementById('rfi_term_' + x);
     let definition_field = document.getElementById("rfi_term_definition_" + x);
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
-        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
+        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must enter the definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must enter the definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
+        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym.'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must enter the term or acronym.');
-        fieldCheck = [term_field.id, 'You must enter the term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
+        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
         errorStore.push(fieldCheck);
       }
     }
@@ -296,14 +362,15 @@ const ccsZCountRfiTerms = (event) => {
   const arr=inputId.split("rfi_term_");
   // if(element.value.length<500)
   // {
-    for(var i=1;i<=10;i++)
+    for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_term_"+i).innerText="";
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining2 of 500";
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -320,15 +387,16 @@ const ccsZCountRfiAcronyms = (event) => {
   const arr=inputId.split("rfi_term_definition_");
   // if(element.value.length<500)
   // {
-    for(var i=1;i<=10;i++)
+    for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
-      document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining1 of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else

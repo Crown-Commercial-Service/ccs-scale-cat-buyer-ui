@@ -93,26 +93,24 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   {% include "includes/project_header.njk" %}
-      <div class="govuk-inset-text">
+      {% if agreementId_session == 'RM6187' %}
             <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
-            <p class="govuk-body">
-              {% if agreementId_session == 'RM6187' %}
-                You should include this ID every time you contact CCS.
-              {% else %}
+            <p class="govuk-body"> You should include this ID every time you contact CCS.</p><br><br>
+            <p class="govuk-body">Please name your project. This will be the name of your contract. </p>
+      {% else %}
+        <div class="govuk-inset-text">
+            <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
+            <p class="govuk-body">             
                 You should include this ID in any correspondence with CCS. 
-              {% endif %}
-              </p>
-      </div>
-    
-      
-      <p class="govuk-body">You can change the name of your project. Enter the new name below. 
-If you don’t want to change the name of your project you can 
-{% if agreementId_session == "RM6187" %}
-    <a href="/eoi/eoi-tasklist">return to Expression of Interest.</a>
-{% else %}
-    <a href="/eoi/eoi-tasklist">return to Do pre-market engagement.</a> 
-{% endif %}    
-</p>
+            </p>
+        </div>
+        <p class="govuk-body">You can change the name of your project. Enter the new name below.
+          If you don’t want to change the name of your project you can <a href="/eoi/eoi-tasklist">return to Do pre-market engagement.</a> 
+        </p>  
+
+      {% endif %}
+     
+
       <form id="ccs_eoi_project_name_form" name="ccs_eoi_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">      
         {{ csrfProtection(csrf) }} 
           

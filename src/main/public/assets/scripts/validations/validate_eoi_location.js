@@ -6,7 +6,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region, or the “No specific location...");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -21,35 +21,50 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if(cl.value === "No specific location, for example they can work remotely") {
         noLocationtagideoi = cl.id;
-        console.log('va from rfi onload>>>>',noLocationtagideoi);
+       
+      }
+      if(cl.value === "Overseas") {
+        overSeesid = cl.id;
+        // console.log('va from rfi onload>>>>',noLocationtagid);
       }
       
     })
+
+    let allCheckboxOverSees = document.getElementById(overSeesid);
     let allCheckbox = document.getElementById(noLocationtagideoi),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+        if (cb.value != allCheckbox.value && cb.value != allCheckboxOverSees.value) {
+         
+          //cb.disabled = true;
+        }
+        
 
       });
     }
 
     document.getElementById(noLocationtagideoi).addEventListener('change', () => {
+      let alloverSeesid = document.getElementById(overSeesid);
       let allCb = document.getElementById(noLocationtagideoi),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
         // console.log('va from eoi>>>>');
       locationCheckboxes.forEach((cb) => {
 
-        if (allCb.checked && cb.value != allCb.value) {
-          cb.checked = false;
-          cb.disabled = true;
+        if (allCb.checked && cb.value != allCb.value && cb.value != alloverSeesid.value) {
+          // cb.checked = false;
+          // cb.disabled = true;
         }
 
         if (!allCb.checked && cb.value != allCb.value) {
-          cb.disabled = false;
+          //cb.disabled = false;
         }
+
+        if (!allCb.checked && cb.value != alloverSeesid.value) {
+          // cb.disabled = false;
+         }
 
       });
 

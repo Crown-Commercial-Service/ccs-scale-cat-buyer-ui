@@ -1,4 +1,4 @@
-const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+const countWords1 = (str) => { return str?str.trim().split(/\s+/).length:false };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
             checkFieldsRfp1();
             e.preventDefault();
-            errorStoreforOptional = emptyFieldCheckdos();
+            errorStoreforOptional = emptyFieldCheckdos('addmore');
             if (errorStoreforOptional.length == 0) {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
@@ -281,14 +281,40 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
+    $(".govuk-select").removeClass("govuk-select--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error1');
 
 }
 let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+let subjecterror = document.querySelectorAll('#create_subject_input');
+let classification_input = document.querySelectorAll('#create_message');
+let supplier_error = document.querySelectorAll('#create_supplier_message');
 let removeErr = document.querySelectorAll('.removeErr');
+let removeErrCheckbox = document.querySelectorAll('.removeErrCheckbox');
 removeErr.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+removeErrCheckbox.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+classification_input.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+supplier_error.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+subjecterror.forEach(ele => {
     ele.addEventListener('keydown', (event) => {
         removeErrorFieldsRfp1();
     });
@@ -308,13 +334,13 @@ messagesendcountEle.forEach(ele => {
         removeErrorFieldsRfp1();
     });
 });
-const emptyFieldCheckdos = () => {
+const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
-    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
         fieldMsg = 'You must enter term or acronym'
         descMsg = 'You must enter definition for the term or acronym';
     }else{
@@ -326,20 +352,42 @@ const emptyFieldCheckdos = () => {
         let definition_field = document.getElementById("rfp_term_definition_" + x);
 
         if (term_field != null && term_field.value !== undefined && definition_field !== undefined) {
-            const field1 = countWords1(term_field.value) > 50;
-            const field2 = countWords1(definition_field.value) > 150;
-            if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-                checkFieldsRfp1();
-                     if (term_field.value.trim() === '') {
-                        fieldCheck = [term_field.id, fieldMsg];
-                        ccsZaddErrorMessage(term_field, fieldMsg);
-                        errorStore.push(fieldCheck);
-                    } else if (definition_field.value.trim() === '') {
-                        fieldCheck = [definition_field.id, descMsg];
-                        //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                        ccsZaddErrorMessage(definition_field, descMsg);
-                        errorStore.push(fieldCheck);                        
-                    } 
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfp1();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } 
+                        if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
             }
         }
 
@@ -458,6 +506,9 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
     // }
 
     // return false;
+
+    errorStoreforOptional = emptyFieldCheckdos('submit');
+        if (errorStoreforOptional.length == 0) {
     
     errorStore = emptyFieldCheckRfp1();
 
@@ -488,6 +539,7 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
   }else {
     ccsZPresentErrorSummary(errorStore);
   }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
     //errorStore = emptyFieldCheckRfp();
 
     //if (errorStore.length === 0) {

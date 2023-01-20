@@ -68,10 +68,40 @@
           <div class="ccs-page-section">
         
 
-              <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{supplierDetails.supplierName}}</h2></p>
+              <p class="govuk-body"><h2><strong>Supplier name :</strong>{{supplierDetails.supplierName}}</h2></p>
+                    {% if (agreementId_session == "RM6187") or (agreementId_session == "RM1557.13") %}
                         {{ CCSInput({
                               label: {
-                                text: "Score ",
+                                text: "Final score ",
+                                classes: "govuk-label--m",
+                                id: "enter_evaluation_Score",
+                                name: "enter_evaluation"
+                              },
+                              attributes: {
+                                readonly:true
+                              },
+                              value:supplierDetails.score,
+                              suffix: {
+                                text: ""
+                              },
+                              id: "enter_evaluation_score_readOnly",
+                              name: "enter_evaluation_score",
+                              classes: "govuk-input--width-4 dimensions",
+                              maxlength: "6",
+                              type:"number",
+                              min:"0.00",
+                                max:"100.00",
+                                step:"0.01",
+                                hint: {
+                                  text: ""
+                                }
+
+                          })
+                        }}
+                    {% else %}
+                        {{ CCSInput({
+                              label: {
+                                text: "Final Score ",
                                 classes: "govuk-label--m",
                                 id: "enter_evaluation_Score",
                                 name: "enter_evaluation"
@@ -97,6 +127,7 @@
 
                           })
                         }}
+                    {% endif %}
           
 
   <br/>

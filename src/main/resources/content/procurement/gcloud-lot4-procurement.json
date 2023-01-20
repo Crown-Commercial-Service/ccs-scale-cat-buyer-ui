@@ -41,14 +41,14 @@
         {
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
-            "buttonText": "Start pre-tender market engagement",
+            "buttonText": "Start pre-market engagement",
             "note": "",
             "buttonDisable": true,
 
             "href": "/projects/events/choose-route",
             "sections": [
                 "You can refine your needs by asking questions before formally publishing your requirements. You cannot run a Request for Information and Further Competition at the same time, in the same project.",
-                "You can do pre-tender market engagement in the following way:"
+                "You can do pre-market engagement in the following way:"
             ],
             "subsections": [
                 [
@@ -77,8 +77,8 @@
             "subsections": [
                 [
                     "<b>Further competition</b>",
-                    "You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.",
-                    "This is also known as one-stage further competition."
+                    "You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+                    
                 ]
             ],
             "list": [

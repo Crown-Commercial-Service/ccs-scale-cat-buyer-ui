@@ -6,7 +6,7 @@
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
-{% if agreementId_session == 'RM6187' %}
+{% if agreementId_session == 'RM6187' or agreementId_session=="RM1557.13" %}
 {{ CCSBreadcrumbs({
         items: [
         {
@@ -63,13 +63,23 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
     {% include "includes/project_header.njk" %} 
+
+  {% if(agreementId_session=="RM6187" or agreementId_session=="RM1557.13") %}
     <p class="govuk-body">{{data.line1}}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{data.line2}} </li>
-      <li>{{data.line3}}</li>
-      <li>{{data.line4}}</li>
-      <li>{{data.line5}}</li>
-    </ul>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{data.line2}} </li>
+        <li>{{data.line3}}</li>
+        <li>{{data.line4}}</li>
+      </ul>
+  {% else %}
+    <p class="govuk-body">{{data.line1}}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{data.line2}}</li>
+        <li>{{data.line3}}</li>
+        <li>{{data.line4}}</li>
+        <li>{{data.line5}}</li>
+      </ul>
+  {% endif %}
     <br>
     <ol class="app-task-list">
     {% for item in data.events %}
@@ -85,10 +95,18 @@
                           <strong>
                             {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
                                 <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                  {% if Tasks.title == 'Review and publish your RfI' and agreementId_session=="RM1557.13" %}
+                                    Review and publish
+                                  {% else %}
                                     {{Tasks.title}}
+                                  {% endif %}
                                 </a>
                             {% else %}
-                            {{Tasks.title}}
+                            {% if Tasks.title == 'Review and publish your RfI' and agreementId_session=="RM1557.13" %}
+                                    Review and publish
+                                  {% else %}
+                                    {{Tasks.title}}
+                                  {% endif %}
                             {% endif %} 
                           </strong>
                         </span>

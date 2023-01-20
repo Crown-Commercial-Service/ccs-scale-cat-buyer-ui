@@ -13,11 +13,11 @@
             "href": "#"
         },
         {
-            "text": "Inbox",
+            "text": "Your inbox",
             "href": "#"
         }
     ],
-    "title": "Inbox",
+    "title": "Your inbox",
     "subsection2_table_th_1": "Subject",
     "subsection2_table_th_2": "Recipient",
     "subsection2_table_th_3": "Date",
@@ -33,7 +33,7 @@
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Write message to supplier",
+        "text4": "Write message to a supplier",
         "href4": "/message/create/supplier?type=received"
     }
 }

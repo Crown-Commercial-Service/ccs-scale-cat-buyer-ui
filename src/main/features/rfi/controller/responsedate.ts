@@ -8,9 +8,15 @@ import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+   
+  //CAS-INFO-LOG 
+   LoggTracer.infoLogger(null, logConstant.setYourTimeLinePageLog, req);
+
   RESPONSEDATEHELPER(req, res);
 };
 
@@ -50,6 +56,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.rfiGetTimeLineQuestions, req);
+    
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
       .map(aQuestion => aQuestion.OCDS.id);
@@ -76,13 +85,17 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       };
       const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
+      let flag=await ShouldEventStatusBeUpdated(eventId,13,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
     }
     }
 
@@ -100,7 +113,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   }
 };
 
-function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
+function isValidQuestion(questionId: number, questionNewDate: string, timeline: any, bankholidaydata:any,day: number,
+  month: number,
+  year: number) {
   const dayOfWeek = new Date(questionNewDate).getDay();
 
   let isValid = true,
@@ -111,7 +126,19 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     error = 'You can not set a date in weekend';
   }
   
-  console.log("questionId",questionId);
+  let bankHolidayEnglandWales;
+  if(bankholidaydata){
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+      bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+      bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  }
+  const questionInputDate = new Date(year, month, day);
+ 
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
   
   switch (questionId) {
     case 'Question 1':
@@ -166,6 +193,20 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
   return { isValid, error, errorSelector };
 }
 
+function checkBankHoliday(questionInputDate,bankHolidayEnglandWales) {
+  let isBankHoliday = false; 
+ if(bankHolidayEnglandWales.length>0){
+  let currentyearHolidays =  bankHolidayEnglandWales.filter(holiday=>new Date(holiday.date).getFullYear() == questionInputDate.getFullYear())
+  currentyearHolidays.forEach(data=>{
+
+      if(questionInputDate.setHours(0, 0, 0, 0) === new Date(data.date).setHours(0, 0, 0, 0)){
+          isBankHoliday = true;
+      }
+  })
+ }
+return isBankHoliday;
+}
+
 // @POST "/rfi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
@@ -184,6 +225,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
+
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
 
   if (clarification_date_day == 0 || isNaN(clarification_date_day) || clarification_date_month == 0 || isNaN(clarification_date_month) || clarification_date_year == 0 || isNaN(clarification_date_year)) {
     const errorItem = {
@@ -230,7 +274,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     
     let nowDate = new Date();
 
-    const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
+    const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline, bankholidaydata, clarification_date_day,
+    clarification_date_month,
+    clarification_date_year);
 
     if (date.getTime() >= nowDate.getTime() && isValid) {
       date = moment(date).format('DD MMMM YYYY, HH:mm');
@@ -319,6 +365,10 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
         res.redirect('/rfi/response-date');
       } catch (error) {
         delete error?.config?.['headers'];

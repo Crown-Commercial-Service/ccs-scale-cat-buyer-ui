@@ -145,7 +145,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
               }
             }
-          }else{
+          }else if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1557.13'){ 
+            rowsAndHead.rows.reverse();
+            var rowLength,rowLengthValue;
+            if(rowsAndHead.rows.length == 6){
+              rowLength = 4
+              rowLengthValue = 5
+            }else{
+              rowLength = 3
+              rowLengthValue = 4
+            }
+              for (let i = 0; i < rowsAndHead.rows.length; i++) {
+              if (i !== rowLengthValue) {
+               const ii = i + 1;
+               var elements = document.getElementsByClassName("score_criteria_" + ii);
+                elements[0].classList.remove("ccs-dynaform-hidden");
+                document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+                document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                document.getElementById("rfp_score_criteria_name_" + ii).focus();
+              }
+              
+              if(i>rowLength){
+                var eleI = i + 1;
+                var elements = document.getElementsByClassName("score_criteria_" + eleI);
+                elements[0].classList.add("ccs-dynaform-hidden");
+              }
+              if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              } else {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+              }
+            }
+          }
+          else{
             for (let i = 0; i < rowsAndHead.rows.length; i++) {
               if (i !== 0) {
                 //const ii = i + 1;
@@ -482,6 +516,7 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
+    let descerrorFlag = false;
     let agreement_id = document.getElementById('agreement_id');
         
   removeErrorFieldsRfpScore();
@@ -503,11 +538,34 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [focusField.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(point_field, 'Enter a valid number.');
-        ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
-        errorStore.push(fieldCheck);
+        if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+          
+          if(name_field.value.trim() === ''){   
+          fieldCheck = [name_field.id, 'You must add name for this level'];
+          errorStore.push(fieldCheck);
+          }
+          if(point_field.value.trim() === '') {
+            fieldCheck = [point_field.id, 'You must add score for this level'];
+            errorStore.push(fieldCheck);
+          }
+          if(desc_field.value.trim() === ''){  
+            fieldCheck = [desc_field.id, 'You must add description for this level'];
+            errorStore.push(fieldCheck); 
+          }
+          ccsZaddErrorMessage(name_field, 'You must add name for this level');
+          ccsZaddErrorMessage(point_field, 'You must add score for this level');
+          ccsZaddErrorMessage(desc_field, 'You must add description for this level');
+         
+        }else{
+          fieldCheck = [focusField.id, 'You must add information in all fields.'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+          errorStore.push(fieldCheck);
+        }
+
+
+        
       } 
       else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
@@ -521,12 +579,12 @@ const emptyFieldCheckRfpScore = () => {
           field: point_field,
           isError: false,
         };
-        fieldCheck = [point_field.id, 'Enter valid score.'];
-        ccsZaddErrorMessage(point_field, 'Enter valid score.');
+        fieldCheck = [point_field.id, 'Enter valid score'];
+        ccsZaddErrorMessage(point_field, 'Enter valid score');
         errorObj.isError = true;
         errorObj.field = point_field;
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'Enter valid score.'];
+          fieldCheck = [errorObj.field.id, 'Enter valid score'];
           errorStore.push(fieldCheck);
         }
       }else {
@@ -556,26 +614,33 @@ const emptyFieldCheckRfpScore = () => {
         }
 
         if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
-          ccsZaddErrorMessage(name_field,'you must add name for this level.');
+          ccsZaddErrorMessage(name_field,'You must add name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
         if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
-          ccsZaddErrorMessage(point_field, 'Enter a valid number');
+          ccsZaddErrorMessage(point_field, 'You must add score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
         
         if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
-            ccsZaddErrorMessage(point_field,'Enter valid score.');
+            ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
         
         if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
-          ccsZaddErrorMessage(desc_field,'you must add description for this level');
-          errorObj.isError = true;
+          ccsZaddErrorMessage(desc_field,'You must add description for this level');
+          
           errorObj.field = desc_field;
+          if(agreement_id.value.trim() == 'RM1043.8'){
+          descerrorFlag = true;
+          }
+          else{
+            errorObj.isError = true;
+          }
+          
         }
         if(agreement_id.value.trim() == 'RM6187'){
           if (errorObj.isError) {
@@ -587,22 +652,29 @@ const emptyFieldCheckRfpScore = () => {
         let errMsg = '';
         if (name_field.value.trim() === '') {
           errorObj.field = name_field;
-          errMsg = 'you must add name for this level.';
+          errMsg = 'You must add name for this level';
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
-          errMsg = 'you must add score for this level';
+          errMsg = 'You must add score for this level';
         }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
           errorObj.field = point_field;
-          errMsg = 'Enter valid score.';
-        }else if (desc_field.value.trim() === '') {
+          errMsg = 'Enter valid score';
+        }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
           errorObj.field = desc_field;
-          errMsg = 'you must add description for this level';
+          errMsg = 'You must add description for this level';
         }
-
+       
+        console.log('errMsg',errMsg)
+        console.log('errorObj.isError',errorObj.isError)
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, errMsg == ''?'You must add information in all fields.':errMsg];
           errorStore.push(fieldCheck);
         }
+        if(agreement_id.value.trim() == 'RM1043.8' && descerrorFlag == true){
+            fieldCheck = [desc_field.id, 'You must add description for this level'];
+            errorStore.push(fieldCheck);
+          }
+
        }
         
       }
@@ -620,7 +692,11 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+    }else{
+      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+    }
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
@@ -682,10 +758,10 @@ const emptyFieldCheckRfpScore2 = () => {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
         if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-        fieldCheck = [name_field.id, 'Enter a user type.'];
-        ccsZaddErrorMessage(name_field, 'Enter a user type.');
-        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
-        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        fieldCheck = [name_field.id, 'Enter a user type'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users');
         errorStore.push(fieldCheck);
         errorStore.push(fieldCheck1);
         }
@@ -703,8 +779,8 @@ const emptyFieldCheckRfpScore2 = () => {
         };
         if (name_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-            fieldCheck = [name_field.id, 'Enter a user type.'];
-            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+            fieldCheck = [name_field.id, 'Enter a user type'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type');
            errorStore.push(fieldCheck);
           }
           else{
@@ -715,8 +791,8 @@ const emptyFieldCheckRfpScore2 = () => {
                   }
         if (desc_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-             fieldCheck = [desc_field.id, 'Enter details about your users.'];
-             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+             fieldCheck = [desc_field.id, 'Enter details about your users'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users');
             errorStore.push(fieldCheck);
            }
            else{
@@ -739,9 +815,20 @@ const emptyFieldCheckRfpScore2 = () => {
 const ccsZvalidateScoringCriteria2 = event => {
   event.preventDefault();
   errorStore = [];
-  errorStore = emptyFieldCheckRfpScore2();
+  
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
+  var lID=document.getElementById('lID').value;
+  const pageHeading = document.getElementById('page-heading').innerHTML;
 
-  if (errorStore.length === 0) {
+  if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
+    errorStore = [];
+  }else{
+    errorStore = emptyFieldCheckRfpScore2();
+  }
+
+  if (errorStore.length === 0 && !pageHeading.includes("The people who will use your product or service (Optional)")) {
     document.forms['service_user_type_form'].submit();
   }
   else {
@@ -760,3 +847,7 @@ const  deletePost = (url) => {
       window.location.href = window.location.origin+url;
   }
 }
+
+$("input[name='score_criteria_points']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});

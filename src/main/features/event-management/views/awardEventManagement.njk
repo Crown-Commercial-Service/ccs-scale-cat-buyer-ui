@@ -26,32 +26,40 @@
             {{data.title}}</strong>
         </h1>
         <div class="project-overview">
-          <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
-              {% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}{% endif %}
-                {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}
-              </strong>
-            </p>
-          {%endif %}
-          <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong>
+          <p class="govuk-body">Selected agreement: <strong>
+              {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+                {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                {{ agreement_header['agreementName'] }} Lot 4
+                {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+                {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                {% else %}
+                {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                {% endif %} 
+              {% endif %} 
+    
+  </strong></p>
+          <p class="govuk-body">Agreement ID: <strong>
+        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementId_session']}}-L4
+        {% else %}
+          {{ agreement_header['agreementId_session'] }}
+        {% endif %}
+          </strong>
           </p>
+          <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
         </div>
       </div>
     </div>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
-        {% if agreementId_session == 'RM1043.8' %}
-          <br>
-          <br>
-          {% endif %}
-          {% if agreementId_session != 'RM1043.8' %}
-            <p>You can close this project using the link under the project name below.</p>
-          </br>
-        </br>
-      {% endif %}
-      <div>
-        <h2 class="govuk-heading-m">
-          {{projectName}}
+
+      <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
+        {%if status.toLowerCase() == "pre-award" %}
+          <p>You can close this project using the link under the project name below.</p></br></br>
+        {% endif %}
+        <div>
+          <h2 class="govuk-heading-m">
+          {{agreement_header['projectId']+" & "+projectName}}
           <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
         </h2>
         <p class="govuk-body">
@@ -69,7 +77,7 @@
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">
           {{data.subsection3_title}}<br>
-          ({{unreadMessage}} messages)</h2>
+          ({{unreadMessage}} unread messages)</h2>
         <p class="govuk-body">
           <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
         </p>
@@ -77,7 +85,7 @@
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">
           {{data.subsection3_title2}}<br>
-         ({{ QAs.length }} messages )</h2>
+         ({{ QAs }} messages )</h2>
         <p class="govuk-body">
           <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
         </p>
@@ -147,7 +155,11 @@
 
           </p>
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+            {% else %}
+                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
       {% endif %}
@@ -168,24 +180,47 @@
     </div>
   </div>
 
-  <div class="govuk-grid-row ccs-page-section">
-    <div class="govuk-grid-column-full">
-      <h2 class="govuk-heading-m">
-        <span class="proc-task-list__section-number">3.</span>
-        {{data.subsection4_title3_award}}</h2>
-      <p class="govuk-body">{{ data.subsection4_title3_award_description_dos }}</p>
-      <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
-      <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
-      <p class="govuk-body govuk-grid-column-one-half">
-        <strong>{{data.subsection4_title3_eval_task1}}</strong>
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
-          <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-          <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      
+        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+          <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_eval_mcf}}</h2>
+          <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption_mcf }}</p>
+        {% else %}  
+          <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_eval}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title3_award_description_dos }}</p>
+        {% endif %}
+
+        <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
+
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong></p>
+        
+        {% if agreementId_session == "RM1557.13" %}
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
-              <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
-            </div>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+        {% else %}
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+        {% endif %}
+        
           </div>
 
           <div class="govuk-grid-row ccs-page-section">
@@ -195,29 +230,41 @@
                 {{data.subsection4_title4}}</h2>
             </br>
           </br>
-
+{% if agreementId_session != "RM1557.13" %}
           <h1 class="govuk-heading-s">
             <strong> Result of award</strong>
           </h1>
-
-          <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
-            <div class="govuk-grid-column-full">
-              <table class="govuk-table">
-                <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
-                <thead class="govuk-table__head">
-                  <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
-                    <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2_dos}}</th>
-                    <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
-                    <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
-                    <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
-                    <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
-                  </tr>
-                </thead>
-                {% for supplier in supplierDetailsDataList %}
-                  {% if supplier.responseState == 'Submitted' %}
+{% endif %}
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Supplier answer</th>
+                    {% if eventType != 'RFI' and eventType != 'EOI' %}
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
+                      <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                    {% endif %}
+                  {% else %}
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2_dos}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                  {% endif %}
+                </tr>
+              </thead>
+                
+                
                     <tbody class="govuk-table__body">
-
+                      {% for supplier in supplierDetailsDataList %}
+                        {% if supplier.responseState == 'Submitted' %}
                       <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__cell">
 
@@ -226,37 +273,44 @@
                           </p>
 
                         </th>
-                        <td class="govuk-text-align govuk-!-text-align-centre">
+                        <th class="govuk-text-align govuk-!-text-align-centre">
                           <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
-                        </td>
-
-                        <td class="govuk-text-align govuk-!-text-align-centre">
-                          <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
-                        </td>
-
-                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
                         </th>
-                        <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                          <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
-                        </th>
+                        {% if eventType != 'RFI' and eventType != 'EOI' %}
+                          <td class="govuk-text-align govuk-!-text-align-centre">
+                            <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
+                          </td>
 
-                      </th>
-                      <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                        <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
-                      </th>
-                    </tr>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
+                          </th>
+                        {% endif %}
+                      </tr>
+                        {% endif %}
+                      {% endfor %}
+                      {% if (showallDownload) %}
+                      <tr class="govuk-table__row">
+                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        <td class="govuk-text-align govuk-!-text-align-centre"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
+                        {% if eventType != 'RFI' and eventType != 'EOI' %}
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                          <td class="govuk-text-align govuk-!-text-align-centre"></td>
+                        {% endif %}
+                      </tr>
+                      {% endif %}
                   </tbody>
-                {% endif %}
-              {% endfor %}
+                
             </table>
           </div>
         </div>
-        {% if (showallDownload) %}
-          <p class="govuk-body govuk-!-text-align-centre">
-            <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a>
-          </p>
-        {% endif %}
       </div>
     </div>
     {% if eventType != 'RFI' and eventType != 'EOI' %}
@@ -270,11 +324,14 @@
       </br>
     </div>
   </div>
-</main>
+
 
 <div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
-    {% if agreementId_session == 'RM1043.8' %}
+
+
+    {% if agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13' or agreementId_session == 'RM6187' %}
+
       <h1 class="govuk-heading-m">
         <span class="proc-task-list__section-number">6.</span>
           Award 
@@ -291,11 +348,10 @@
     <p>Your project is now complete.</p>
   {% else %}
 
-    {% if agreementId_session == 'RM6187' %}
+    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
 
       {% if status.toLowerCase() == "awarded" %}
         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
-
       {% else %}
         <p id="dialog-description">Your awarded supplier will now enter the agreed standstill period.</p>
         <p id="dialog-description">Once the standstill period has ended, you will need to confirm the awarded supplier below.</p>
@@ -358,7 +414,7 @@
 {% elif status.toLowerCase() == "complete" %}
 {# <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p> #}
 {% if eventType != 'RFI' and eventType != 'EOI' %}
-{% if agreementId_session == 'RM1043.8' %}
+{% if agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13' %}
 <p>There is a legal requirement to publish certain contracts. You may need to publish the contract on:</p>
 <ul>
 
@@ -410,11 +466,15 @@
 <div class="govuk-grid-column-full">
 
 {% if status.toLowerCase() =="complete"%}
-<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+<div class="govuk-button-group">
+<div class="govuk-!-margin-top-6">
+&nbsp; &nbsp;&nbsp; &nbsp;<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+</div>
+</div>
 {% else %}
 {% if status.toUpperCase() =="AWARDED"%}
 {{ CCSWarningText({
-    text: "I acknowledge the responsibility to confirm receipt of the contract signed by supplier.",
+    text: "I acknowledge the responsibility to confirm receipt of the contract signed by the supplier.",
     iconFallbackText: "Warning"
     }) }}
 {% else %}
@@ -428,7 +488,7 @@
                     }) }}
 
 {%else%}
-{%if (agreement_header['agreementId_session'] == 'RM6187') %}
+{%if (agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == "RM1557.13") %}
   {% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
   {%endif%}
   {{ CCSWarningText({
@@ -549,5 +609,5 @@
 
     </form>
   {% endif %}
-
+</main>
 {% endblock %}

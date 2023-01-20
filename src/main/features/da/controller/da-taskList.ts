@@ -7,6 +7,8 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 /**
  *
  * @Rediect
@@ -40,13 +42,43 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   ];
 
 
+ 
+    let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
+    if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
+    let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+   
+    let nameJourneysts = journeySteps.filter((el: any) => {
+      if(el.step == 27 && el.state == 'Completed') return true;
+      return false;
+    });
+  
+    if(nameJourneysts.length > 0){
+      
+      let addcontsts = journeySteps.filter((el: any) => { 
+        if(el.step == 30) return true;
+        return false;
+      });
+     
+      if(addcontsts[0].state == 'Cannot start yet'){
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+      }
+      
+    }else{
+      let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+      if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+    }
+  
+
   if(req.session.selectedSuppliersDA == undefined  ||  req.session.selectedSuppliersDA == null) {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     let actualStatus = journeySteps.find(d=>d.step == 34)?.state;
     if(actualStatus === 'Completed') {
       let supplierList = [];
       const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-      const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL); 
+      let suppliers  = await TenderApi.Instance(SESSION_ID).get(supplierURL); 
+      //CAS-INFO-LOG
+       LoggTracer.infoLogger(suppliers, logConstant.supplierList, req);
+      suppliers = suppliers.data;
       supplierList = suppliers.suppliers;
       if(supplierList.length != 1) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
@@ -56,10 +88,10 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     }
   }
   
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype=req.session.selectedeventtype;
-  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype };
+  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype , agreementId_session };
   try {
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Optional');
@@ -92,11 +124,17 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(ALL_ASSESSTMENTS, logConstant.fetchAssesmentDetails, req);
+
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(CAPACITY_DATA, logConstant.fetchAssesmentDetails, req);
+
     const CAPACITY_DATASET = CAPACITY_DATA.data;
 
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
@@ -163,6 +201,9 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
     req.session.tableItems = [...ITEMLIST];
     req.session.dimensions = [...CAPACITY_DATASET];
+
+    //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.TaskListPageLog, req);
 
     res.render('daw-taskList', appendData);
   } catch (error) {

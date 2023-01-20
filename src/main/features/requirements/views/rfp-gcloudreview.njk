@@ -96,11 +96,20 @@
     href: "/rfp/review?download=1"
     }) }}
                     {% else %}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
+
                       {{ CCSButton({
     text: "Export your draft further competition",
     classes: "govuk-button--secondary",
     href: "/rfp/review?download=1"
     }) }}
+                    {% else %}
+{{ CCSButton({
+    text: "Export your Published further competition",
+    classes: "govuk-button--secondary",
+    href: "/rfp/review?download=1"
+    }) }}
+                    {% endif %}
                     {% endif %}
                     <br>
                       <br></div>
@@ -146,7 +155,7 @@
                             <div class="govuk-summary-list__row">
                               <dt class="govuk-summary-list__value">
                                
-                                  <p>Change who will lead the procurement</p>
+                                  <p>Change who will lead the project</p>
                                 
                               </dt>
                               <dd class="govuk-summary-list__value">
@@ -228,6 +237,7 @@
                                 </div>
                                 <div class="govuk-summary-list__row">
                                   <dt class="govuk-summary-list__key">
+                                    <p>The services you selected.</p>
                                     <ul>
                                       {% for serviceInfo in selectedServices %}
                                         <li>{{ serviceInfo }}</li>
@@ -235,7 +245,12 @@
                                     </ul>
                                   </dt>
                                   <dd class="govuk-summary-list__value"></dd>
-                                  <dd class="govuk-summary-list__actions"></dd>
+                                  <dd class="govuk-summary-list__actions">{% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
+                                    <a class="govuk-link" href="/rfp/selected_service">
+                                      Change<span class="govuk-visually-hidden">
+                                        eoi team members</span>
+                                    </a>
+                                  {% endif %}</dd>
                                 </div>
                               </dl>
                             </div>
@@ -290,7 +305,7 @@
 
                                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                   <dt class="govuk-summary-list__key">
-                                    <h3 class="govuk-!-margin-bottom-0"><strong>Background to your procurement</strong></h3>
+                                    <h3 class="govuk-!-margin-bottom-0"><strong>Add background to your project</strong></h3>
                                   </dt>
                                   <dd class="govuk-summary-list__value">&nbsp;</dd>
                                   <dd class="govuk-summary-list__actions">
@@ -344,7 +359,8 @@
                                 </dd>
                               </div>
 
-
+                            
+                            
                              <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                   <dt class="govuk-summary-list__key">
                                     <h3 class="govuk-!-margin-bottom-0"><strong>Work done so far</strong></h3>
@@ -370,6 +386,11 @@
                                 {% endif %}
 
 
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
+                                <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
+                                <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
+                            </div>
 
                             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                   <dt class="govuk-summary-list__key">
@@ -396,7 +417,11 @@
                                 {% endif %}
                               
                               
-                              
+                              <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
+                                <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
+                                <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
+                              </div>
                               
                               <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                 <dt class="govuk-summary-list__key">
@@ -462,7 +487,7 @@
                               </div>
                               <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key">
-                                   <h3><strong>Describe any pre-market engagement you’ve done 
+                                   <h3><strong>Describe any pre-tender market engagement you’ve done 
                                   </h3></strong>
                                 </dt>
                                 <dd class="govuk-summary-list__value">
@@ -568,7 +593,11 @@
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                       <dt class="govuk-summary-list__value"><p>Your success target</p></dt>
-                                      <dd class="govuk-summary-list__value"><p>{{ data.percent }}% required target </p></dd>
+                                      <dd class="govuk-summary-list__value"><p>
+                                        {% if data.percent | length > 0 %}
+                                          {{ data.percent }}% required target 
+                                        {% endif %}
+                                        </p></dd>
                                     </div>
                                     {% set i=i+1 %}
                                   {% endfor %}
@@ -597,11 +626,19 @@
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value"><p>Maximum estimated contract value (optional)</p></dt>
-                        <dd class="govuk-summary-list__value"><p>&#163;{{ bc1 }}</p></dd>
+                        <dd class="govuk-summary-list__value"><p>
+                          {% if bc1 | length > 0 %}
+                            &#163;{{ bc1 }}
+                          {% endif %}
+                          </p></dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value"><p>Minimum estimated contract value (optional)</p></dt>
-                        <dd class="govuk-summary-list__value"><p>&#163;{{ bc2 }}</p></dd>
+                        <dd class="govuk-summary-list__value"><p>
+                             {% if bc2 | length > 0 %}
+                          &#163;{{ bc2 }}
+                          {% endif %}
+                          </p></dd>
                       </div>
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
@@ -783,7 +820,7 @@
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__key">
-                          <h3 class="govuk-!-margin-bottom-0"><strong>Set the specific weighting of quality groups</strong></h3>
+                          <h3 class="govuk-!-margin-bottom-0"><strong>Set the quality weightings</strong></h3>
                         </dt>
                         <dd class="govuk-summary-list__value">&nbsp;</dd>
                         <dd class="govuk-summary-list__actions">
@@ -868,7 +905,11 @@
                 
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                   <dt class="govuk-summary-list__value"><p>Weighting for this question</p></dt>
-                  <dd class="govuk-summary-list__value"><p>{{ data.weight }}%</p></dd>
+                  <dd class="govuk-summary-list__value"><p>
+                    {% if data.weight | length > 0 %}
+                      {{ data.weight }}%
+                    {% endif %}
+                    </p></dd>
                 </div>
                 {% endfor %}
               {% endif %}
@@ -964,7 +1005,7 @@
               </div>
               <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                 <dt class="govuk-summary-list__key">
-                  <h3 class="govuk-!-margin-bottom-0"><strong>Your timeline</strong></h3>
+                  <h3 class="govuk-!-margin-bottom-0"><strong>Set your timeline</strong></h3>
                 </dt>
                 <dd class="govuk-summary-list__value">&nbsp;</dd>
                 <dd class="govuk-summary-list__actions">
@@ -990,7 +1031,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !='' %}
-                      {{ rfp_clarification_period_end | dateddmmyyyy }}
+                      {{ rfp_clarification_period_end }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1000,7 +1041,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='') %}
-                      {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                      {{ deadline_period_for_clarification_period  }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1010,7 +1051,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !='' %}
-                      {{ supplier_period_for_clarification_period | dateddmmyyyy }}
+                      {{ supplier_period_for_clarification_period  }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1021,7 +1062,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !='' %}
-                      {{ supplier_dealine_evaluation_to_start | dateddmmyyyy }}
+                      {{ supplier_dealine_evaluation_to_start }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1031,7 +1072,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !='' %}
-                      {{ supplier_dealine_expect_the_bidders | dateddmmyyyy }}
+                      {{ supplier_dealine_expect_the_bidders }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1041,7 +1082,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !='' %}
-                      {{ supplier_dealine_for_pre_award | dateddmmyyyy }}
+                      {{ supplier_dealine_for_pre_award }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1051,7 +1092,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !='' %}
-                      {{ supplier_dealine_for_expect_to_award | dateddmmyyyy }}
+                      {{ supplier_dealine_for_expect_to_award  }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1061,7 +1102,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !='' %}
-                      {{ supplier_dealine_sign_contract | dateddmmyyyy }}
+                      {{ supplier_dealine_sign_contract }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1071,7 +1112,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !='' %}
-                      {{ supplier_dealine_for_work_to_commence | dateddmmyyyy }}
+                      {{ supplier_dealine_for_work_to_commence }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1094,8 +1135,11 @@
             </h2>
           </p>
           <div class="govuk-inset-text">
-            <p class="govuk-body">After publishing this event, you'll be able to cancel all or part of it at any stage or time, or amend, clarify, add to or withdraw all or any part of it at any time. </p>
+            <p class="govuk-body">Your further competition will now be sent to suppliers. Please be patient as this could take up to 30 seconds.  </p>
           </div>
+          <p class="govuk-body">
+                If you need to make any significant changes – including changes to scope or timelines – after publishing this further competition, you will need to cancel and start a new project.
+          </p>
           
           <br>
             <br>
@@ -1126,7 +1170,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements available above By checking this box, I confirm that I have read and confirm the statements available above </strong></label>",
+      html: "<label><strong>By checking this box, I confirm the statements above. </strong></label>",
       Checked: ""
       }
       ]

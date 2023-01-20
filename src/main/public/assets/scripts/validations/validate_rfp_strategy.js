@@ -46,7 +46,7 @@ const ccsZvalidateRfPStrategy = event => {
   var urlParams = new URLSearchParams(window.location.search);
   var agreement_id = urlParams.get("agreement_id");
   var group_id = urlParams.get("group_id");
-
+  var criterion = urlParams.get('id'); 
 
   if ($('#ccs_vetting_type') !== undefined) {
     var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
@@ -98,7 +98,16 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+ 
+          if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
+          }
+          else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
+          }
+          else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -112,7 +121,11 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_g') !== undefined && $('#rfp_prob_statement_g').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_g').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          if(pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter the business problem you need to solve');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -131,34 +144,15 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter your information and requirements');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  
 
   if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_d').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
+          if(pageHeading.trim().toLowerCase() == 'Add background to your project'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'Add background information about your procurement');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -166,6 +160,57 @@ const ccsZvalidateRfPStrategy = event => {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
+  }
+  
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter research dates');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Add background to your project")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else {
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting') && agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter management information and reporting requirements');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting')&& agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
@@ -212,17 +257,21 @@ const ccsZvalidateRfPStrategy = event => {
     
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        var error_msg = 'You must enter information here'
-        if(pageHeading.includes("Address where the work will be done")){
-          error_msg = 'Enter the address where the work will be done.'
+        if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
+        }else if(pageHeading.trim().toLowerCase() == 'Address where the work will be done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the address where the work will be done');
+        }else if(pageHeading.trim().toLowerCase() == 'The business need'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Add details about your business need')
+        }else{
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
         }
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', error_msg);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
 
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")  && agreement_id === "RM6187") {
-      if (!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('The business need')){
+      if (!pageHeading.includes('Management information and reporting') && !pageHeading.includes('The business need')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must add background information about your procurement');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -230,13 +279,13 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
-      else if(!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('Add background to your procurement')){
+      else if(!pageHeading.includes('Management information and reporting') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter the business need');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Add details about your business need');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }

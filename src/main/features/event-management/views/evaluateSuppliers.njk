@@ -34,12 +34,27 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
             <div class="project-overview">
-                   <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+                   <p class="govuk-body">Selected agreement: <strong>
+                    {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+                      {% if(agreementId_session=='RM1557.13' and agreement_header['lotid']=='4') %}
+                      {{ agreement_header['agreementName'] }} Lot 4
+                      {% elseif(agreementId_session == 'RM1043.8') %}
+                      {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                      {% else %}
+                      {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+                      {% endif %} 
+                    {% endif %} 
+    
+  </strong></p>
+                    <p class="govuk-body">Agreement ID: <strong>
+                      {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+                        {{ agreement_header['agreementId_session']}}-L4
+                      {% else %}
+                        {{ agreement_header['agreementId_session'] }}
+                      {% endif %}
                     </strong></p>
-                     {%endif %}
-                    <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
                       {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
-                    <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
+                    <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
                        {% else %}
                     <p class="govuk-body">Project name: You have not saved projects </p>
                       {% endif %}
@@ -48,12 +63,21 @@
 
               <div class="ccs-page-section">
                 {% if agreementId_session != 'RM1043.8' %}
-                    <p>{{data.subtitle}}</p>
+                  {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+                    <p>{{data.subtitle_mcf1}}</p>
+                    <p>{{data.subtitle_mcf2}}</p>
+                    <p>{{data.subtitle_mcf3}}</p>
+                    <p class="govuk-!-padding-bottom-9">
+                    You may wish to download <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">the Award Recommendation Report,</a> {{data.subtitle_mcf4}}
+                    </p>
+                  {% else %}
+                    <p>{{data.subtitle}}</p>                   
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
                          {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
                     </p>
+                  {% endif %}
                     {%else%}
                       {% if stage2_value == 'Stage 2'%}
                           <p>{{data.subtitle_dos}}</p>
@@ -83,7 +107,7 @@
           {% if agreementId_session == 'RM6187' %}
            
            {% else %}
-           <p> The suppliers below have responded to your published project. You can download individual supplier's answers or all answers.</p> 
+           <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
         {% endif %}
           
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -92,11 +116,19 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
+                {% if agreementId_session == 'RM6187' %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header">Response date</th>
+                  <th scope="col" class="govuk-table__header">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% endif %}
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
@@ -142,7 +174,7 @@
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             
-            {% if agreementId_session == 'RM6187' %}
+            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
            
            {% else %}
            <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>
@@ -193,7 +225,7 @@
     <div class="govuk-grid-column-full">
       {% if stage2_value == 'Stage 1'%}
       
-       {% if agreementId_session == 'RM6187' %}
+       {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
            <h1 id="dialog-title">You are about to complete your evaluation<p></p>
            {% else %}
           <h1 id="dialog-title">You are about to complete your shortlisting evaluation<p></p>
@@ -204,8 +236,8 @@
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       {%endif%}
 
-      {% if agreementId_session == 'RM6187' %}
-     <p id="dialog-description">Click Continue, or click Return to further edit your scores. After this point, you will be unable to edit your evaluation.</p>
+      {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+     <p id="dialog-description">Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation.</p>
       {%else%}
       {% if stage2_value == 'Stage 2'%}
        <p id="dialog-description">Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation.</p>

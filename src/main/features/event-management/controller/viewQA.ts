@@ -4,6 +4,7 @@ import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/qa.json'
 import * as dos6InboxData from '../../../resources/content/event-management/qa dos6.json'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -38,25 +39,18 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         //const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
          
         let isSupplierQA= false;
-       
+        let projectId;
             
    if(req.query.id != undefined){
-  
-    eventIds=req.query.id;
+     eventIds=req.query.id;
      projectIds = req.query.prId;
      isSupplierQA = true;
-
-     const headerbaseURL = `/tenders/projects`;  
-         const fetchHeader:any = await TenderApi.Instance(SESSION_ID).get(headerbaseURL);
-         let  fetchHeaderData:any = fetchHeader?.data;
-          fetchHeaderData = fetchHeaderData?.filter(((AField: any) => AField?.activeEvent?.id === eventIds));
-          
-          res.locals.agreement_header = fetchHeaderData[0];
-
+     projectId = req.query.prId;
    }else{
     
     eventIds=req.session.eventId;
      projectIds = req.session.projectId;
+     projectId = req.session.projectId;
      isSupplierQA= false;
      res.locals.agreement_header = req.session.agreement_header;
    }
@@ -64,14 +58,32 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
         const baseURL = `/tenders/projects/${projectIds}/events/${eventIds}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
+
+
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
           } else { 
             data = inboxData;
           }
-       
-        appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA, agreementId}	
+
+          let response=fetchData.data;
+
+          let projectName=response.projectName;
+          let agreementName=response.agreementName;
+          let agreementId_session=response.agreementId;
+          let agreementLotName=response.lotName;
+          let lotid=response.lotId;
+          
+          res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
+          
+        appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAViewLogger, req);
         res.render('viewQA', appendData)	
     } catch (err) {	
         LoggTracer.errorLogger(	
@@ -99,6 +111,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
         if (eventId != undefined && projectId != undefined) {
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
             const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+             //CAS-INFO-LOG 
+        LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
             let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
@@ -112,6 +127,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
                 appendData = { data, QAs: fetchData.data.QandA, eventId: eventId,eventName:req.session.eventManagement_eventType, eventType: req.session.eventManagement_eventType, isSupplierQA: true, agreementId}
             }
         }
+
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.QAViewLogger, req);
         res.render('viewQA', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

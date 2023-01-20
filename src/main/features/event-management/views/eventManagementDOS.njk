@@ -27,14 +27,29 @@
             {{data.title}}</strong>
         </h1>
         <div class="project-overview">
-          <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
-              {% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}{% endif %}
-                {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}
-              </strong>
+          {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+              <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong> </p>
+           {% else %}
+            <p class="govuk-body">Selected agreement: <strong>
+            {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
+              {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+              {{ agreement_header['agreementName'] }} Lot 4
+              {% else %}
+              {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+              {% endif %} 
+            {% endif %} 
+            </strong>
             </p>
-          {%endif %}
-          <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
-          <p class="govuk-body">Project ID / Name: <strong>{{ projectName }}</strong></p>
+          {% endif %} 
+
+          <p class="govuk-body">Agreement ID: <strong>
+              {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+                {{ agreement_header['agreementId_session']}}-L4
+              {% else %}
+                {{ agreement_header['agreementId_session'] }}
+              {% endif %}
+          </strong></p>
+          <p class="govuk-body">Project ID & Name: <strong>{{projectId+" & "+projectName }}</strong></p>
         </div>
       </div>
     </div>
@@ -52,14 +67,14 @@
         {% endif %}
         <div>
           <h2 class="govuk-heading-m">
-            {{projectName}}
+            {{agreement_header['projectId']+" & "+projectName}}
             <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
           </h2>
           <p class="govuk-body">
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
               {% else %}
                 <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
               {% endif %}
@@ -159,13 +174,13 @@
       <div class="govuk-grid-row ccs-page-section">
         <div>
           <p class="govuk-grid-column-one-half">
-            <strong>{{data.subsection4_title3_eval_task1}}</strong>
+            <strong>{{data.subsection4_title3_eval_task1}}</strong></p>
             <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
               <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
                 <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
                   <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                 {% else %}
                   <h2 class="govuk-heading-m">
@@ -179,20 +194,19 @@
                   {% if (projectStatus == 2) %}
                     <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                   {% endif %}
-                  <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>
-                  </p>
+                  <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong></p>
                 </div>
               </div>
               <div class="govuk-grid-row ccs-page-section">
                 <div>
                   <p class="govuk-grid-column-one-half">
-                    <strong>{{data.subsection4_title3_task1}}</strong>
+                    <strong>{{data.subsection4_title3_task1}}</strong></p>
                     <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
+                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}</p>
                       <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
+                      <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                         <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
                           <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                         {% endif %}
                       </div>
@@ -272,7 +286,7 @@
                                     {% endif %}
                                   </tr>
                                 </thead>
-                                {% set rows = 0 %}
+                                {% set rows = 1 %}
                                 {% for supplier in supplierDetailsDataList %}
                                   <tbody class="govuk-table__body">
                                     {% if supplier
@@ -292,7 +306,12 @@
                                             {{ supplier.responseDate }}
                                           </td>
                                           <td class="govuk-text-align govuk-!-text-align-left">
+                                            {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
+                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
+                                            {%else%}
                                             <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                                            {%endif%}
+
                                           </td>
 
                                           {%endif%}
@@ -346,7 +365,11 @@
                                               {% if (showallDownload) %}
 
                                                 {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
+                                                  {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
+                                                     <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
+                                                    {% else%}
                                                   <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                                  {% endif %}
                                                 {% endif %}
 
                                               {% endif %}
@@ -413,7 +436,7 @@
                               </div>
                             </div>
 
-                          </main>
+                          
                           {#<div class="govuk-grid-row ccs-page-section">#}
                           <div>
                             {% if (eventType == 'FC') %}
@@ -471,14 +494,24 @@
                                     Evaluate suppliers</h2>
                                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
+                                  {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                                  <p>You can start supplier evaluation after downloading supplier responses. </p>
+                                  {% endif %}
                                   {% if (status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING') %}
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
                                       <div class="govuk-button-group">
-                                        {{ CCSButton({
-                                            text: "Start supplier evaluation", 
+                                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                                            {{ CCSButton({
+                                            text: "Start supplier evaluation",
+                                            disabled: true
+                                          }) }}
+                                          {% else %}
+                                          {{ CCSButton({
+                                            text: "Start supplier evaluation",
                                             href:"/eventStateChange?StateChange=1"
                                           }) }}
+                                          {% endif %}
                                       </div>
                                       <div class="govuk-!-padding-top-6">
                                   <a class="govuk-link" href="/dashboard">Return to your dashboard</a>
@@ -530,4 +563,11 @@
                                 
 
                               {% endif %}
+                              <div class="loader-container">
+                                <div class="loader-division">
+                                  <img src="/assets/images/loader.gif" alt="Loading">
+                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
+                                </div>
+                              </div>
+                            </main>
                             {% endblock %}

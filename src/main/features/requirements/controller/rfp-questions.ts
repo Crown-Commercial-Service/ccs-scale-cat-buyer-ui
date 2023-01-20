@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * @Controller
@@ -37,15 +38,19 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
     //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
-    console.log('*********************************baseURL');
-    console.log(baseURL);
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionDetail, req);
 
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-    
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(heading_fetch_dynamic_api, logConstant.questionGroupDetail, req);
+
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
@@ -82,6 +87,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         multiAnswer: aSelector.nonOCDS.multiAnswer,
         length: aSelector.nonOCDS.length,
       };
+      
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_singleselect';
@@ -117,7 +123,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       }
     });
     const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
@@ -396,6 +402,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       }
     }
     
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.rfpTitle, req);
+    
     res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -450,7 +459,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -496,7 +505,11 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 1`;
-          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          const qData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(qData, logConstant.questionUpdated, req);
+
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
@@ -1067,20 +1080,17 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }
-                  // console.log('log6',answerValueBody);
-                  // console.log('log7======',options);
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  
+                  const qData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(qData, logConstant.questionUpdated, req);
 
                 }
 
               } catch (error) {
-                if (error.response?.status < 500) {
-                  logger.info(error.response.data.errors[0].detail)
-                } else {
-                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-                }
-                
+                // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
               }
             }
           }
@@ -1113,6 +1123,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     }
   } catch (err) {
     delete err?.config?.['headers'];
+    const { SESSION_ID } = req.cookies;
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
       error_location: `${req.headers.host}${req.originalUrl}`,
@@ -1296,7 +1307,7 @@ function changeTitle(title) {
       text = 'Tell us if there is an existing supplier';
       break;
     case 'Management information and reporting':
-      text = 'Management information and reporting requirements';
+      text = 'Management information and reporting';
       break;
     case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';

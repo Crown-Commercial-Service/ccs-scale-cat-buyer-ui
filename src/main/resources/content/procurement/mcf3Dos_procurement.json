@@ -45,7 +45,7 @@
         },
         {
             "eventno": 2,
-            "eventTitle": "Do pre-market engagement",
+            "eventTitle": "Do pre-tender market engagement",
             "sections": [
                 "You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-tender market engagement (PTME). Most buyers who need a digital outcome do this.",
 
@@ -78,8 +78,7 @@
 
                 "The agreement uses a two-stage further competition process.",
                 
-                "Stage 1: shortlisting. You will need to assess and score suppliers against their responses to your essential and nice-to-have questions to create a shortlist. You must give feedback to all suppliers who were not shortlisted.",
-                "Stage 2: further assessment. You will invite all shortlisted suppliers to further assessment. You will assess and score each supplier’s full proposal to identify your preferred supplier."
+                "<ul class='govuk-list govuk-list--number govuk-!-padding-left-6'><li>Stage 1: shortlisting. You will need to assess and score suppliers against their responses to your essential and nice-to-have questions to create a shortlist. You must give feedback to all suppliers who were not shortlisted.</li><li>Stage 2: further assessment. You will invite all shortlisted suppliers to further assessment. You will assess and score each supplier’s full proposal to identify your preferred supplier.</li></ul>"
                 
                 
             ],

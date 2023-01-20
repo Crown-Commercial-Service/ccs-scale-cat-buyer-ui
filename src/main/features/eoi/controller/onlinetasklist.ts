@@ -7,6 +7,8 @@ import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // eoi TaskList
 /**
@@ -27,7 +29,22 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
     const { SESSION_ID } = req.cookies;
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
+      
+      if(agreement_id == 'RM6187'){
+       
+      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+    const journeys=journeySteps.find(item => item.step == 20);
+    
+    if(journeys.state !='Completed'){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+    }
+  }
+  
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.buildYourEoiQuestionList, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
 
@@ -81,21 +98,22 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
+          //if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
             let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
-            let item1 = questionOptions.find(i => i.selected === true);
+           // let item1 = questionOptions.find(i => i.selected === true);
+           let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
             if(item1){
               select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
             }
 
-          } else {
+          // } else {
             
-            if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
+          //   if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               
-              select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
-            } else {
-            }
-          }
+          //     select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
+          //   } else {
+          //   }
+          // }
         }
 
       }
@@ -110,6 +128,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent
       };
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.buildYourEoiPageLog, req);
+
       res.render('onlinetasklistEoi', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

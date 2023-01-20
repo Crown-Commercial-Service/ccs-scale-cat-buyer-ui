@@ -9,6 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -35,7 +36,9 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
   const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
@@ -53,6 +56,11 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   if (review_publish == '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.eoiPublishLog, req);
+      
+
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
@@ -106,6 +114,9 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
+
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -240,7 +251,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     // to get suppliers count
   let supplierList = [];
@@ -293,7 +305,9 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
     
-    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.eoireviewAndPublishPageLog, req);
+
     res.render('reviewEoi', appendData);
     
     

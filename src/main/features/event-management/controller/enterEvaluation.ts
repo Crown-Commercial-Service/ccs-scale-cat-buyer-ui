@@ -7,6 +7,8 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 // import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/enterEvaluation.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 //simport { idText } from 'typescript'
 /**
@@ -34,7 +36,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: project_name, projectId,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
    
   try{
     //Supplier of interest
@@ -51,6 +53,10 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
     for(var m=0;m<supplierdata.data.length;m++)
     {
       // if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
@@ -65,6 +71,9 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
+
     res.render('enterEvaluation',appendData);     
     
   } catch (err) {
@@ -100,10 +109,13 @@ try{
                 }
               ];
               
-              await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              let responseScore = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
             
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
+
               req.session.isEmptyProjectError = false;
               res.redirect('/evaluate-suppliers'); 
             } else {
@@ -112,16 +124,21 @@ try{
             }
    
 }catch (error) {
-  
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event Management - Tenders Service Api cannot be connected',
-    true,
-  );
+  console.log("***********error.response.status - ",error.response.status);
+  if(error.response.status === 504){
+    req.session.isEmptyProjectError = false;
+    res.redirect('/evaluate-suppliers');
+  }else{
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event Management - Tenders Service Api cannot be connected',
+      true,
+    );
+  }
 }
 
 }

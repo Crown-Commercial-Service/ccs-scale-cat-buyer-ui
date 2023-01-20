@@ -9,6 +9,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 // RFI TaskList
 /**
  * 
@@ -27,7 +29,19 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
 
       const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria`;
       
+     // let response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
+        
+
       try {
+         
+          let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+        let journeys=journeySteps.find(item => item.step == 10);
+        
+        if(journeys.state !='Completed'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
+        }
+      
+
          let fetch_dynamic_api_data;
          if(agreement_id == 'RM6263') {   //DSP
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -39,7 +53,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             fetch_dynamic_api_data = fetch_dynamic_api?.data;
          }
-         
+      
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.buildYourRfiQuestionList, req);
+
          const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
          let criterianStorage: any = [];
          for (const aURI of extracted_criterion_based) {
@@ -116,29 +133,36 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          //    const fetch = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURLFetch);
          //    let fetchData = fetch?.data;
          //    ExcludingKeyDates[i].push({'questionStatus': 'Done'});
-         // });         
+         // });      
+
          for (let index = 0; index < ExcludingKeyDates.length; index++) {
             ExcludingKeyDates[index].questionStatus = 'todo';
             const baseURLQ: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${ExcludingKeyDates[index].criterianId}/groups/${ExcludingKeyDates[index].OCDS.id}/questions`;            
+           
+            
             const fetch_dynamic_api2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURLQ);
             let fetch_dynamic_api_data2 = fetch_dynamic_api2?.data;
             fetch_dynamic_api_data2 = fetch_dynamic_api_data2.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
             for (let j = 0; j < fetch_dynamic_api_data2.length; j++) {
-              if (fetch_dynamic_api_data2[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data2[j].nonOCDS.questionType == 'MultiSelect') {
+             // if (fetch_dynamic_api_data2[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data2[j].nonOCDS.questionType == 'MultiSelect') {
                 let questionOptions = fetch_dynamic_api_data2[j].nonOCDS.options;
-                let item1 = questionOptions.find(i => i.selected === true);
+                //let item1 = questionOptions.find(i => i.selected === true);
+              
+                let item1 = fetch_dynamic_api_data2[j].nonOCDS.answered;
+
+              
                 if(item1){
                   ExcludingKeyDates[index].questionStatus = 'Done';
                 }
     
-              } else {
+            //   } else {
                 
-                if (fetch_dynamic_api_data2[j].nonOCDS.options.length > 0) {
+            //     if (fetch_dynamic_api_data2[j].nonOCDS.options.length > 0) {
                   
-                  ExcludingKeyDates[index].questionStatus = 'Done';
-                } else {
-                }
-              }
+            //       ExcludingKeyDates[index].questionStatus = 'Done';
+            //     } else {
+            //     }
+            //   }
             }
     
           }
@@ -154,19 +178,17 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             releatedContent: releatedContent
          }
          
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.buildYourRfiPageLog, req);
+
          res.render('onlinetasklist', display_fetch_data);
          // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
          // if (response.status == HttpStatusCode.OK){
             // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Completed');
             // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
             
-            let flag=await ShouldEventStatusBeUpdated(eventId,10,req);
-    if(flag)
-    {
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
-          }
+           
       } catch (error) {
-         console.log("error",error);
          
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "RFI Online Task List - Tenders Service Api cannot be connected", true)

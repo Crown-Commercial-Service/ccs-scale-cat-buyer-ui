@@ -21,8 +21,8 @@
     "subtitle": null,
     "events": [{
             "eventno": 1,
-            "eventTitle": "Project details",
-            "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
+            "eventTitle": "Project and colleagues",
+            "eventDescription": "Name your project, change who leads the project, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfp/name-your-project",
@@ -33,7 +33,7 @@
                 {
                     "Task": 2,
                     "link": "/rfp/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead the project",
                     "required": "optional",
                     "status": "Optional"
                 },
@@ -64,7 +64,7 @@
             "eventTitle": "Add context and requirements",
             "eventDescription": "You can include the following:",
             "eventdescriptionlist": [{
-                "description1": "any pre-tender market engagement you’ve done",
+                "description1": "any pre-market engagement you’ve done",
                 "description2": "the terms and acronyms you use",
                 "description3": "your service levels and KPIs",
                 "description4": "how long you expect the contract to run",
@@ -82,8 +82,8 @@
 
         {
             "eventno": 4,
-            "eventTitle": "Upload pricing schedules and other documents",
-            "eventDescription": "In this section you’ll also need to confirm if you require a contracted out service or a supply of resource. Note that resources that fall within scope of IR35 are not permitted through this agreement.",
+            "eventTitle": "Upload documentation",
+            "eventDescription": "Upload your pricing schedule, terms and conditions, and any additional information that will help suppliers understand your project.",
             "eventTask": [{
                     "Task": 1,
                     "title": "Upload your pricing schedule and other documents",
@@ -122,22 +122,16 @@
             "eventno": 6,
             "eventTitle": "Review and publish",
             "eventDescription": "Review the information you've entered,ensuring that you have included all relevant context, requirements, evaluation criteria and weightings.",
-            "eventTask": [{
-                    "Task": 1,
-                    "title": "See the available suppliers",
-                    "required": "optional",
-                    "status": "Cannot start yet",
-                    "link": "/rfp/suppliers"
-                },
+            "eventTask": [
                 {
-                    "Task": 2,
+                    "Task": 1,
                     "title": "Set your timeline",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/response-date"
                 },
                 {
-                    "Task": 3,
+                    "Task": 2,
                     "title": "Review and publish",
                     "required": "mandatory",
                     "status": "Cannot start yet",

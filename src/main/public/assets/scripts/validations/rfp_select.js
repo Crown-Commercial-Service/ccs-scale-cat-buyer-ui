@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var headerText = document.getElementById('page-heading').innerHTML;
             var msg = 'You must choose one option from list before proceeding';
             if(headerText.includes('Set your budget')){
-              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
               msg = 'Select whether you need a contracted out service or a supply of resource'
             }
@@ -99,12 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (this.value == 'other') {
       $('.otherTextArea').removeClass('ccs-dynaform-hidden');
       $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
     }
   });
   $('input[type="checkbox"]:not(:checked)').each(function () {
     if (this.value == 'other') {
       $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').addClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').html('');
     }
   });
@@ -113,12 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.value == 'other') {
         $('.otherTextArea').removeClass('ccs-dynaform-hidden');
         $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
+    
       }
     });
     $('input[type="checkbox"]:not(:checked)').each(function () {
       if (this.value == 'other') {
         $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').addClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').html('');
       }
     });
@@ -150,7 +155,7 @@ let ccs_vetting = document.querySelectorAll('.ccs_vetting');
 let rfp_term_definition_new = document.querySelectorAll('.rfp_term_definition_new');
 rfp_vetting.forEach(ele => {
   ele.addEventListener('keydown', (event) => {
-    removeErrorFieldsRfpSelect();
+    // removeErrorFieldsRfpSelect();
   });
 });
 rfp_term_percentage.forEach(ele => {
@@ -166,6 +171,12 @@ rfp_term_definition_new.forEach(ele => {
 ccs_vetting.forEach(ele => {
   ele.addEventListener('click', (event) => {
     removeErrorFieldsRfpSelect();
+  });
+});
+let removeErrRfi = document.querySelectorAll('.removeErr');
+removeErrRfi.forEach(ele => {
+  ele.addEventListener('keydown', (event) => {
+    ccsZremoveErrorMessage();
   });
 });
 // $("#rfp_security_confirmation").keypress(function(e) {
@@ -239,8 +250,8 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
     } else {
       document.forms['rfp_singleselect'].submit();
     }
@@ -249,24 +260,37 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-
-      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
-        ccsZPresentErrorSummary([['There is a problem', 'Select a pricing model']]);
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        let urlParamsData = new URLSearchParams(window.location.search);
+        if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('group_id') == 'Group 21'){
+          ccsZPresentErrorSummary([['ccs_vetting_type', 'Select whether you need a contracted out service or a supply of resource']]);
+        }else{
+          ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        }
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
+      }else{
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
-      else{
-        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
-      } 
     }
     if (ccs_vetting_type) {
-      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
-      }
-      else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
-
+      if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a project phase');
+      }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
+      }else{
+        ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
       }
 
     }
   }
 }
+});
+
+$('#rfp_security_confirmation').on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9,]/gi, ''));
 });

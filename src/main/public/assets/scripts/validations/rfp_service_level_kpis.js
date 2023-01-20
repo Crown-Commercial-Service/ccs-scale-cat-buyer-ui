@@ -4,6 +4,10 @@ const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("service_levels_kpi_form") !== null) {
 
+    if(document.getElementById("kpiKeyLevel").textContent == 0) {
+      document.getElementById("kpiKeyLevel").textContent = '0';
+    }
+    
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
@@ -12,30 +16,120 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.add('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
 
+      db.addEventListener('click', (e) => {
+            
+         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
 
-        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        
-        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+        let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+        console.log(`target: ${target}`)
+        if(target != 20) {
+            let ml = 1;
+            
+            let next_coll = Number(target);
+            let nextLevel_coll = Number(target);
+            let eptArr = [];
+            while (Sibling) {
+                
+                let siblingClassList = Sibling.classList;
+                if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                  let current_col = nextLevel_coll;  
+                  nextLevel_coll = (nextLevel_coll + 1);
+                  eptArr.push(nextLevel_coll)
+                    if(ml == 1) {
+                        console.log(`First: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + current_col).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + current_col).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + current_col).value = percentage.value;
+                        // target_fieldset.querySelector("[name='term']").value = first.value;
+                        // target_fieldset.querySelector("[name='value']").value = last.value;
+                        // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
+                    } else {
+                        next_coll = next_coll + 1;
+                        console.log(`Usual: ${ml} - ${next_coll}`)
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + next_coll).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + next_coll).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
+                    }
 
-        document.getElementById("kpiKeyLevel").textContent = prev_coll;
-        if (prev_coll > 1) {
-          document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    console.log(Sibling.classList);
+                    Sibling = Sibling.nextElementSibling;
+                } else {
+                    Sibling = false;
+                }
+            ml++;}
+            if(eptArr.length > 0) {
+                console.log(eptArr);
+                let removeLogic = eptArr.at(-1);
+                console.log(`removeLogic: ${removeLogic}`);
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+            } else {
+                target_fieldset.classList.add("ccs-dynaform-hidden");
+                document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                if (prev_coll > 1) {
+                    document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                }
+                document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+            }
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
-      });
+        if (with_value_count != 11) {
+         
+          document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
+    });
+
+      // db.addEventListener('click', (e) => {
+      //   e.preventDefault();
+
+      //   let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_coll = Number(target) - 1,
+      //     target_fieldset = db.closest("fieldset");
+
+
+      //   document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+      //   target_fieldset.classList.add("ccs-dynaform-hidden");
+        
+      //   document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+
+      //   document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //   if (prev_coll > 1) {
+      //     document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //     document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+
+      //   document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+      // });
     });
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
@@ -48,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
-        document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
+        //document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
         deleteButtonCount.push(kpi_fieldset);
         if (kpi_fieldset === 10) {
           
@@ -103,11 +197,18 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
+
+        
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        document.getElementById("kpiKeyLevel").textContent = with_value_count-1;
+        $("#rfp_term_service_levels_KPI_10").keypress(function(e) {
+          document.getElementById("kpiKeyLevel").textContent = 10
+       });
+        
         with_value_count++;
 
 
-        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        
         if (with_value_count === 11) {
          
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -200,28 +301,39 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if (term_field.value.trim() == '' && definition_field.value.trim() == '' && target_field.value.trim() == '') {
          
         }else{
-          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
+
+          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '0' || target_field.value.trim() == '')) {
             let isErrorSingle = false;
+            let errField;
             if (term_field.value.trim() == ''){
+                errField = term_field;
                isErrorSingle = true;
               ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
           }
           if (definition_field.value.trim() == ''){
+            errField = definition_field;
              isErrorSingle = true;
             ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
           }
           if (target_field.value.trim() == ''){
+            errField = target_field;
              isErrorSingle = true;
             ccsZaddErrorMessage(target_field, 'You must enter your success target.');
           }
+
+          if (target_field.value.trim() == '0'){
+            errField = target_field;
+             isErrorSingle = true;
+            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+          }
+
           if (isErrorSingle) {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            fieldCheck = [errField.id, 'You must add information in all fields.'];
             errorStore.push(fieldCheck);
           }
         }
         }
        
-      
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
@@ -256,6 +368,14 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
               fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
               errorStore.push(fieldCheck);
             }
+
+            if (target_field.value.trim() == '0'){
+              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+              isError = true;
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1.'];
+              errorStore.push(fieldCheck);
+            }
+            
             if (field1) {
               ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
               isError = true;
@@ -311,6 +431,7 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   let errorStore = [];
   var percentageElement = document.getElementsByName("percentage");
   for (let index = 0; index < percentageElement.length; index++) {
+   
     totalPercentage += Number(percentageElement[index].value);
     
     if (Number(percentageElement[index].value) > 100) {
@@ -351,3 +472,17 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     ccsZPresentErrorSummary(errorStore);
   }
 });
+
+
+
+for (var x = 1; x < 11; x++) {
+  termbox = document.getElementById("rfp_term_service_levels_KPI_" + x);
+  if (termbox != undefined && termbox != null && termbox.value !== "") {
+    document.getElementById("kpiKeyLevel").textContent = x;
+  }
+}
+
+$("input[name='percentage']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
+

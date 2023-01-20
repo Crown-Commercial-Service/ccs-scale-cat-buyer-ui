@@ -10,6 +10,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 /**
  *
  * @param req
@@ -41,6 +42,9 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.criteriaDetailFetch, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       
@@ -184,6 +188,9 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
       }
+       //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
+
       res.render('daw-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

@@ -9,8 +9,8 @@ const ccsZvalidateEoiProject = (event) => {
 
   // fieldCheck = ccsZvalidateTextArea( "rfi_why_this_work", "Describe why this work is required" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "You must enter information here");
+  
+  fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "Enter your project background");
   
   if (fieldCheck !== true) {
     

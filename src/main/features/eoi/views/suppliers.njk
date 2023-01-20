@@ -39,15 +39,13 @@
             <p class="govuk-body">The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
             {% endif %}
             {% if agreementId_session == 'RM6187' %}
-            <p class="govuk-body">Your EoI will be sent to all suppliers on this list. If they do not respond to your EoI they wil not be allowed to bid for your project</p>
+            <p class="govuk-body">Your opportunity will be sent to the suppliers listed below. If they do not respond to your EoI they will not be allowed to bid for your project.</p>
              {% else %}
             <p class="govuk-body">Your RfI will be sent to all suppliers on this list but some may not respond.</p>
             {% endif %}
              {% if agreementId_session == 'RM6187' %}
-                <p class="govuk-body">For details of each supplier, visit the
-                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
-                  <span class="govuk-visually-hidden">opens in a new window</span> page on the CCS website.</a><br>
-                  (The page will open in a new tab)</p>
+                <p class="govuk-body">For more information on each supplier on the
+                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">CCS website (opens in a new tab)</a><br></p>
             {% else %}
                         <p class="govuk-body">If you'd like to look at the details for each
                   suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
@@ -66,7 +64,13 @@
               <h2 class="govuk-heading-l govuk-!-font-size-48 govuk-!-margin-bottom-9 govuk-!-font-weight-regular">
                 <span id="added_suppliers_count">
                   {{supplierLength}}
-                </span>  suppliers will receive your EOI </h2>
+                </span>  
+                {% if agreementId_session == 'RM6187' %}
+                suppliers
+                {% else %}
+                suppliers will receive your EOI 
+                {% endif %}
+                </h2>
               <br>
               {% if(enablebtn) %}
               <div class="govuk-button-group govuk-!-margin-bottom-7">

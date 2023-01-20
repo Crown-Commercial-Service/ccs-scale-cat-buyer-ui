@@ -15,6 +15,8 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 /**
  * @Controller
@@ -27,11 +29,26 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
 
   try {
+
+    if(agreement_id == 'RM6187'){
+     
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+    const journeys=journeySteps.find(item => item.step == 20);
+    
+    if(journeys.state !='Completed'){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+    }
+  }
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     
-
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+       
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.questionDetails, req);
+
+
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -90,7 +107,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     });
     
     const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
     
     req.session?.nonOCDSList = nonOCDSList;
@@ -135,7 +152,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         TemporaryObjStorage.push(ITEM);
       }
     }
-    
     const data = {
       data: fetch_dynamic_api_data,
       agreement: AgreementEndDate,
@@ -168,8 +184,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+ 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.eoiTitle, req);
 
-   
    res.render('questionsEoi', data);
    
   } catch (error) {
@@ -207,7 +225,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
-   console.log("req.body",req.body);
    
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
     const journeys=journeySteps.find(item => item.step == 20);
@@ -224,8 +241,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
-    const agreementExpiryDate = retrieveAgreement.endDate;
+    const retrieveAgreement = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+     
+    //CAS-INFO-LOG
+     LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
+
+    const agreementExpiryDate = retrieveAgreement.data.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
 
@@ -314,9 +335,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               break;
             } else if (
               selectedOptionToggle[0].find(
-                x => x.value === 'No specific location, for example they can work remotely',
+                x => x.value === 'Not No specific location, for example they can work remotely',
               ) &&
-              selectedOptionToggle[0].length > 1
+              selectedOptionToggle[0].length > 2
             ) {
               validationError = true;
               req.session['isLocationError'] = true;
@@ -400,6 +421,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             };
           } 
           else if (questionNonOCDS.questionType === 'SingleSelect') {
+            
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
@@ -408,8 +430,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               nonOCDS: {
                 answered: true,
                 multiAnswer: questionNonOCDS.multiAnswer,
-                options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
-                //options: [{ value: req.body["ccs_vetting_type"], selected: true }],
+                //options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                options: [{ value: req.body["ccs_vetting_type"], selected: true }],
               },
             };
           }
@@ -484,14 +506,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
 
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
+
             } catch (error) {
-              if (error.response?.status < 500) {
-                logger.info(error.response.data.errors[0].detail)
-              } else {
-                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                  TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-              }
+              // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+              LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                  TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
             }
           }
         }
@@ -632,7 +655,7 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
         req.session.fieldLengthError = [keyErrorIndex, keyValueErrorIndex];
         const { term, value } = req.body;
         const TAStorage = [];
-        for (let item = 0; item < 10; item++) {
+        for (let item = 0; item < 20; item++) {
           const termObject = { value: term[item], text: value[item], selected: true };
           TAStorage.push(termObject);
         }
@@ -653,8 +676,13 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
     if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
       errorText.push({ text: 'You must be 10000 characters or fewer' });
-      else
-      errorText.push({ text: 'You must add at least one objective' });
+      else{
+        if(req.session.agreement_id == 'RM6187'){
+          errorText.push({ text: 'Enter at least 1 project objective' });
+        }else{
+          errorText.push({ text: 'You must add at least one objective' });
+        }
+      }
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
 
     if (req.session.fieldLengthError?.length !== 1 ){

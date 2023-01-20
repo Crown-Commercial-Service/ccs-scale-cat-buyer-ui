@@ -49,38 +49,49 @@
                         {# {% if (items.OCDS.id != 'Group 11') and (agreement_id == 'RM1043.8')  %} #}
                         {% if agreement_id == 'RM1043.8' %}
                             {% if (items.OCDS.id != DOS_LOTID) %}
+                            {% if (lotId == 3) and (items.OCDS.id === 'Group 8') and (socialvalueAccess == true) %}
+                                           {% elseif (lotId == 1) and (items.OCDS.id === 'Group 9') and (socialvalueAccess == true) %}    
+                                    {%else%}       
                                 <li class="app-task-list__item govuk-!-padding-bottom-4 govuk-!-padding-top-4">
                                     <span class="app-task-list__task-name">
                                         <strong class="govuk-!-font-size-24">
                                             {% set hreflink = items.OCDS.description | replace(" ", "_") %}
                                             {% set criterion_id = items.id | replace(" ", "_") %}
-                                            {% if (lotId == 3) and (items.step ===48)%}
+                                           {% if (lotId == 3) and (items.OCDS.id === 'Group 8') and (socialvalueAccess == true) %}
+                                           {% elseif (lotId == 1) and (items.OCDS.id === 'Group 9') and (socialvalueAccess == true) %}    
+                                           {% elseif (lotId == 3) and (items.step ===48) and (socialvalueAccess != true)%}
                                                 <a class="app-task-list__tag" href="/rfp/assessment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.OCDS.description}}</a>
                                             {% elseif (lotId == 1) and (items.step ===48)%}
                                                 <a class="app-task-list__tag" href="/rfp/assessment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.OCDS.description}}</a>
-                                            {% elseif(items.step ===48) %}
+                                            {% elseif(items.step ===48)%}
                                                 <a class="app-task-list__tag" href="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.OCDS.description}}</a>
                                             {% elseif(items.step ===40) %}
                                                 <a class="app-task-list__tag" href="/rfp/assessment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.OCDS.description}}</a>
-                                                {%else%}
+                                            {%else%}
                                                 <a class="app-task-list__tag" href="/rfp/assessment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.OCDS.description}}</a>
                                                 {%endif%}
                                                 {# <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="eoi-questions">{{items.OCDS.description}}</a> #}
                                                 {# <strong>{{items.OCDS.description}}</strong> #}
                                             </strong>
                                         </span>
-
                                         {% if (items.questionStatus == 'todo') %}
-                                            {% if (items.nonOCDS.mandatory) %}
+                                        {% if (lotId == 3) and (items.OCDS.id === 'Group 8') and (socialvalueAccess == true) %}
+                                           {% elseif (lotId == 1) and (items.OCDS.id === 'Group 9') and (socialvalueAccess == true) %}    
+                                            {% elseif (items.nonOCDS.mandatory) %}
                                                 <strong class="govuk-tag govuk-tag--grey app-task-list__tag">TO DO</strong>
-                                            {% elseif items.nonOCDS.mandatory == false %}
+                                            {% elseif (items.nonOCDS.mandatory == false) %}
                                                 <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Optional</strong>
                                             {% else %}
                                                 <strong class="govuk-tag govuk-tag--green app-task-list__tag" >Done</strong>
                                             {% endif %}
                                         {% else %}
+                                            {% if (lotId == 3) and (items.OCDS.id === 'Group 8') and (socialvalueAccess == true) %}
+                                           {% elseif (lotId == 1) and (items.OCDS.id === 'Group 9') and (socialvalueAccess == true) %}
+                                           {%else%}
                                             <strong class="govuk-tag govuk-tag--green app-task-list__tag">Done</strong>
+                                              {% endif %}
                                         {% endif %}
+                                        
                                     </li>
 
                                     {# <li class="app-task-list__item govuk-!-font-size-24 govuk-!-padding-bottom-4 govuk-!-padding-top-4">
@@ -97,6 +108,7 @@
                                 <a class="app-task-list__tag" href="/rfp/assessment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Add/ edit link]</a>
                             {%endif%}
                         </li> #}
+                        {%endif%}
                                     {%endif%}
                                 {% else %}
                                     <li class="app-task-list__item govuk-!-padding-bottom-4 govuk-!-padding-top-4">

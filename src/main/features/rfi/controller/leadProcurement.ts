@@ -4,6 +4,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const organization_id = req.session.user.payload.ciiOrgId;
@@ -16,10 +17,19 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 
   const url = `/tenders/projects/${projectId}/users`;
   try {
-    const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
+    const usersTempData  = await TenderApi.Instance(SESSION_ID).get(url);
+    
+    let usersTemp=usersTempData.data;
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(usersTempData, logConstant.rfigetUserDetails, req);
+      
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
-    const { pageCount } = dataRaw;
+    const dataRaw  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(dataRaw, logConstant.rfigetUserOrgProfile, req);
+    
+    const { pageCount } = dataRaw.data;
     let usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
@@ -66,6 +76,11 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       error: isJaggaerError,
       releatedContent,
     };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.rfichangeLeadProcurementPageLog, req);
+
+
     res.render('procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -89,10 +104,18 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');
-
-    res.redirect('/rfi/add-collaborators');
+    let addLead = await TenderApi.Instance(SESSION_ID).put(url, _body);
+   
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(addLead, logConstant.rfichangeLeadProcurementUpdate, req);
+    
+    if(addLead){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');
+      res.redirect('/rfi/add-collaborators');
+    }else{
+      req.session['isJaggaerError'] = true;
+      res.redirect('/rfi/procurement-lead');
+    }
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -107,7 +130,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       !isJaggaerError,
     );
 
-    req.session['isJaggaerError'] = isJaggaerError;
+    req.session['isJaggaerError'] = true;
     res.redirect('/rfi/procurement-lead');
   }
 };

@@ -27,7 +27,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   const { isJaggaerError } = req.session;
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   
     
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
@@ -44,7 +44,11 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
 
     
     uploadDatas.taskList[0].taskStatus="To do";
-    uploadDatas.taskList[1].taskStatus="To do";
+    if(agreementId_session == 'RM1557.13') { //GCloud
+      uploadDatas.taskList[1].taskStatus="To do";
+    }else{
+      uploadDatas.taskList[1].taskStatus="Cannot start yet";
+    }
     uploadDatas.taskList[2].taskStatus="Optional";
    
     FETCH_FILEDATA?.map(file => {
@@ -80,6 +84,15 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
 
   const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
+    if(agreementId_session == 'RM6187') { 
+    let flags = await ShouldEventStatusBeUpdated(eventId, 32, req);
+   
+          if(flags) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
+          } 
+
+        }
+
     let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
     if(flag)
     {

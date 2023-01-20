@@ -44,7 +44,7 @@
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if(error) %}
-            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "One option must be selected." }] }) }}
+            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "One option must be selected", href: "#fca_next_steps_form" }] }) }}
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -59,19 +59,38 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body"><a href="/fca/supplier-filtering/export">{{data.subtitle}}</a></p>                 
-                {{ CCSInsetText({ html:data.subtitle2 }) }}
+                    {% if agreementId_session == "RM6187" %}
+                        <div class="govuk-inset-text">
+                            <p class="govuk-body">{{data.subtitle2}} </p>
+                        </div>
+                    {% else %}
+                        {{ CCSInsetText({ html:data.subtitle2 }) }}
+                    {% endif %}
 
                 <form id="fca_next_steps_form" name="fca_next_steps_form" action="/fca/next-step" method="POST">
                     {{ csrfProtection(csrf) }}
                     {% set form_Options = [] %}
-                    {% set form_Options = (form_Options.push({
-                        value: "goto_next",
-                        html: "<label class='govuk-label' for='fca_next_steps'><h3 class='govuk-heading-m'>I’d like to continue to pre-market engagement or write and publish my requirements</h3></label><div id='fca_next_steps-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be taken back to the procurement overview for this project and progress with your procurement activities. If you start any pre-market engagement or begin writing your requirements and then decide you don’t want to use the list of suppliers you created with this tool, you’ll have to close the project and restart from the beginning. </div>"}), form_Options) 
-                    %}
-                    {% set form_Options = (form_Options.push({
-                        value: "goto_dashboard",
-                        html: "<label class='govuk-label' for='fca_next_steps-2'><h3 class='govuk-heading-m'>Return to my dashboard</h3></label><div id='fca_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be able to resume your journey from there. </div>"}), form_Options) 
-                    %}
+                        {% if agreementId_session == "RM6187" %}
+                            {% set form_Options = (form_Options.push({
+                                value: "goto_next",
+                                html: "<label class='govuk-label' for='fca_next_steps'><h3 class='govuk-heading-m'>I want to continue </h3></label><div id='fca_next_steps-item-hint' class='govuk-hint govuk-radios__hint'>You’ll be able to progress with your procurement activities.  </div>"}), form_Options) 
+                            %}
+
+                            {% set form_Options = (form_Options.push({
+                                value: "goto_dashboard",
+                                html: "<label class='govuk-label' for='fca_next_steps-2'><h3 class='govuk-heading-m'>I don’t want to continue</h3></label><div id='fca_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be returned to your dashboard </div>"}), form_Options) 
+                            %}
+                        {% else %}
+                            {% set form_Options = (form_Options.push({
+                                value: "goto_next",
+                                html: "<label class='govuk-label' for='fca_next_steps'><h3 class='govuk-heading-m'>I’d like to continue to pre-market engagement or write and publish my requirements</h3></label><div id='fca_next_steps-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be taken back to the procurement overview for this project and progress with your procurement activities. If you start any pre-market engagement or begin writing your requirements and then decide you don’t want to use the list of suppliers you created with this tool, you’ll have to close the project and restart from the beginning. </div>"}), form_Options) 
+                            %}
+
+                            {% set form_Options = (form_Options.push({
+                                value: "goto_dashboard",
+                                html: "<label class='govuk-label' for='fca_next_steps-2'><h3 class='govuk-heading-m'>Return to my dashboard</h3></label><div id='fca_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be able to resume your journey from there. </div>"}), form_Options) 
+                            %}
+                        {% endif %}
                     {% if(error) %}
                         {{ 
                             CCSRadios({
@@ -80,7 +99,7 @@
                                 items:form_Options,
                                 error: error,
                                 errorMessage: {
-                                    text: 'One option must be selected.'
+                                    text: 'One option must be selected'
                                 } 
                             }) 
                         }}

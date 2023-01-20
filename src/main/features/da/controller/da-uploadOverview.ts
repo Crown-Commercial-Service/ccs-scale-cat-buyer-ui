@@ -7,6 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -28,10 +29,12 @@ export const DA_UPLOAD = async (req: express.Request, res: express.Response) => 
   const { isJaggaerError } = req.session;
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   
-  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${ eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
     const FETCH_FILEDATA = FetchDocuments?.data;
     
   Mcf3uploadData.taskList[0].taskStatus="To do";
@@ -70,6 +73,8 @@ export const DA_UPLOAD = async (req: express.Request, res: express.Response) => 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
     }
     //37 changes to 30 BALWINDER 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
     res.render('daw-uploadOverview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

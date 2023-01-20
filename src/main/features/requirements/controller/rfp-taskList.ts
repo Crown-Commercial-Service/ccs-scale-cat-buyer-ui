@@ -11,6 +11,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 /**
  *
  * @Rediect
@@ -34,6 +35,10 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const proc_id = req.session.projectId;
   const stage2BaseUrl = `/tenders/projects/${proc_id}/events`
   const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
   const stage2_dynamic_api_data = stage2_dynamic_api.data;
   const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
   let stage2_value = 'Stage 1';
@@ -53,6 +58,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     'User Centred Design',
     'No DDaT Cluster Mapping',
   ];
+  
   let cmsData;
   if(agreementId_session == 'RM6187') {
     //MCF3
@@ -71,7 +77,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     cmsData = chooseRouteDataGCLOUD;
   }
 
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype;
   if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid=='4')){
@@ -84,7 +90,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
 
   try {
 
-    if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
+    if(agreementId_session == 'RM6187' || agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid == '4')) {
       // name your project for dos
       let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
       if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
@@ -147,10 +153,18 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     if(agreementId_session != 'RM1043.8'){ // For DOS
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(ALL_ASSESSTMENTS, logConstant.fetchAssesmentDetails, req);
+
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(CAPACITY_DATA, logConstant.fetchAssesmentDimentionDetails, req);
+
     const CAPACITY_DATASET = CAPACITY_DATA.data;
 
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
@@ -219,6 +233,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     req.session.dimensions = [...CAPACITY_DATASET];
   }
 
+//CAS-INFO-LOG
+LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
 
 // res.write('Welcome');
 // res.end();

@@ -19,7 +19,11 @@
          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
             <div class="govuk-grid-row">
                <div class="govuk-grid-column-full">
-                  {% include "includes/project_header.njk" %}
+                  {% if (agreementId_session == 'RM1043.8') %}
+                     {% include "includes/project_header2.njk" %}
+                  {% else %}
+                     {% include "includes/project_header.njk" %}
+                  {% endif %}
                </div>
             </div>
             <br>
@@ -64,7 +68,17 @@
                         {% endif %}
                      </h2>
                      {% for section in event.sections %}
+                        
+                        {% if agreementId_session == 'RM6187' and event.eventno == 6 %}
+                        <p class="govuk-body">{{event.mcf_sections | safe }}</p>
+                           <ul class="govuk-list govuk-list--bullet">
+                           {% for uli in event.ul %}
+                              <li>{{uli.li | safe }}</li>
+                           {% endfor %}
+                           </ul>
+                        {% else %}
                         <p class="govuk-body">{{section | safe }}</p>
+                        {% endif %}
                         {% if event.eventno == 1 %}
                            {% if agreementId_session == 'RM6263' %}
                               <p class="govuk-body">This section is optional</p>

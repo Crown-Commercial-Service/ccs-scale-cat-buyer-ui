@@ -6,9 +6,40 @@
 
 
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
+  {% if agreement_id == 'RM6187' %}
+      {{ CCSBreadcrumbs({
+        items: [
+            {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "/da/task-list"
+        },
+        {
+            "text": "Upload documentation",
+            "href": "upload"
+        },
+        {
+            "text": "Upload your core terms, call-off order form and schedules (terms and conditions)",
+            "href": "#"
+        }
+        ]
+      }) }}
+  {% else %}
+      {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+  {% endif %}
 
 {% endblock %}
 
@@ -37,7 +68,11 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">
-          <strong>{{data.title}}</strong>
+          {% if agreement_id == 'RM6187' %}
+              <strong>{{data.title_mcf}}</strong>
+          {% else %}
+              <strong>{{data.title}}</strong>
+          {% endif %}
         </h1>
       </div>
     </div>
@@ -48,16 +83,24 @@
           {% include "includes/project_header.njk" %}
  
         <div class="govuk-inset-text">
-          <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-            {% if agreement_id == 'RM6187' %}
-        <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
-        {% endif %}
+          {% if agreement_id != 'RM6187' %}
+              <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+          {% else %}
+              <p class="govuk-body govuk-!-margin-bottom-0">
+                {{data.subtitle1_mcf}} <br><br>
+                {{data.subtitle2_mcf}}
+              </p>
+          {% endif %}
         </div>
           <br/>
           <div id="upload_doc_form">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full" id="documents_upload">
-                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">{{data.subtitle5}}</label>
+                {% if agreement_id == 'RM6187' %}
+                  <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">{{data.subtitle5_mcf}}</label>
+                {% else %}
+                  <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">{{data.subtitle5}}</label>
+                {% endif %}
                 <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
                 <p class="govuk-body-s">
                   {{data.filedesc}}</p>

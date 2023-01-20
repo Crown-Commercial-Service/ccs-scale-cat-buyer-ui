@@ -5,7 +5,7 @@
 {% set title = 'Message Sent ' %}
 
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -17,7 +17,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Inbox",
+      "text": "Your inbox",
       "href": "#"
     }
   ]
@@ -34,7 +34,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -56,11 +56,21 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row messaging-navigation">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        <div class="messaging-navigation">
         <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
           <ul class="nav-list messaging-nav-list--primary">
+          {% if agreementId == 'RM6187' %}
+            <li class="nav-list__item ">
+              <a class="nav-list__link " href="{{data.tabs.href4}}?type=create">{{data.tabs.text5}}</a>
+            </li>
+
+            <li class="nav-list__item ">
+              <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text6}}</a>
+            </li>
+          {% else %}
              <li class="nav-list__item ">
               <a class="nav-list__link " href="{{data.tabs.href4}}?type=create">{{data.tabs.text4}}</a>
             </li>
@@ -68,6 +78,7 @@
             <li class="nav-list__item ">
               <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
             </li>
+          {% endif %}
             <li class="nav-list__item">
               <a class="nav-list__link " href="{{data.tabs.href2}}?type=received">{{data.tabs.text2}}</a>
             </li>
@@ -76,12 +87,13 @@
             </li>
           </ul>
         </nav>
+        </div>
       </div>
     </div>
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
-        {% if agreementId != 'RM1043.8' %}
+        {% if agreementId != 'RM1043.8' and agreementId != 'RM1557.13' %}
       <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
         {% endif %}
         {% if messages.length > 5 %}
@@ -107,7 +119,7 @@
                       </p>
                     </th>
                       {% if message.nonOCDS.isBroadcast %}
-                    <td class="govuk-table__cell">Broadcasted to all suppliers</td>
+                    <td class="govuk-table__cell">Sent to all suppliers</td>
                     {% else %}
                      <td class="govuk-table__cell">{{message.nonOCDS.receiverList[0].name}}</td>
                     {% endif %}
@@ -119,8 +131,14 @@
                 <tr class="govuk-table__row">
                   <td scope="row" class="govuk-table__cell">
                     <strong class="govuk-tag govuk-tag--blue">
-                                        You don't have any Sent messages
-                                    </strong>
+                        {% if agreementId == 'RM6187' %}
+                            You have not send any messages
+                        {% elseif agreementId == 'RM1043.8' %}
+                            You have not sent any messages
+                        {% else %}
+                            You don't have any Sent messages
+                        {% endif %}               
+                    </strong>
                   </td>
                   <td class="govuk-table__cell"></td>
                   <td class="govuk-table__cell"></td>

@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
+
+    addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9\.]/g, '');
+    });
+
     let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
      
       let percentage = 0
       let errorList = [];
-      removeErrorFieldsRfpPercentage();
+      //removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         
 
@@ -23,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       
       $("#totalPercentage").text(percentage);
+      $("#totalPercentageDown").text(percentage);
     };
     
     // for (let k = 0; k < allTextBox.length; k++){
@@ -63,24 +70,30 @@ const checkPercentagesCond = () => {
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
-        if (subTitle!= 'Social value'){
+        if (subTitle!= 'Social value'){ 
 
           if(agrement_id == 'RM6187'){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Essential skills and experience")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for essential skills and experience", false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for essential skills and experience", false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for technical questions", false);
-          }else{
-               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
+          }
+          else if(agrement_id == 'RM1043.8'){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+          }
+          else{
+               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
         }
-        else {
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for"+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+        else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+        }else {
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       } else if (Number(allTextBox[k].value) >= 0 && subTitle!= 'Social value') {
@@ -89,13 +102,13 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
           
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -105,7 +118,7 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
@@ -161,15 +174,15 @@ const ccsZvalidateRfpPercentages = (event) => {
  
   errorStore = errorStore == null || errorStore.length <= 0 ? checkPercentagesCond() : errorStore;
   checkPercentagesCond()
-  if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
+  if ((pageHeading.includes('Set the overall weighting between quality and price') || pageHeading.includes('Set the quality weightings')) && (percentage > 100 || percentage < 100)) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
     ccsZPresentErrorSummary(errorStore)
   }
-  if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && agrement_id == 'RM6187') {
+  if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
@@ -179,7 +192,12 @@ const ccsZvalidateRfpPercentages = (event) => {
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
 
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    if(agrement_id == 'RM1043.8') {
+      //errorStore.push(["Question 3", "The weightings must add up to 100% in total"]);
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }else{
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }
     
     //var fieldCheck = ccsZvalidateWithRegex('Question 3-hint', "Your total percentage must be 100%", /\w+/);
     //errorStore.push(fieldCheck);
@@ -205,6 +223,7 @@ const removeErrorFieldsRfpPercentage = () => {
 };
 
 $('.questionweightagelimit').on('keypress', function (evt) {
+  removeErrorFieldsRfpPercentage();
   let value = $(this).val();
   evt = (evt) ? evt : window.event;
       var charCode = (evt.which) ? evt.which : evt.keyCode;

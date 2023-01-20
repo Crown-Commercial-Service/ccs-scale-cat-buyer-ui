@@ -6,6 +6,7 @@ import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel'
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
@@ -25,13 +26,21 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+      
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
+
     //agreements/{agreement-id}/lots/{lot-id}/suppliers
     const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-    const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+    const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
     console.log('log1',baseurl_Supplier);
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierScore, logConstant.getSupplierScore, req);
 
     for (let i = 0; i < supplierdata.data.responders.length; i++) {
       let id = supplierdata.data.responders[i].supplier.id;
@@ -95,6 +104,10 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     }
 
     const appendData = { eventManagementData, contentData: localContent, supplierDetailsList, projectName, stage2_value };
+     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.supplierToBeAwardedPageLogg, req);
+
     res.render('confirmSupplier', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

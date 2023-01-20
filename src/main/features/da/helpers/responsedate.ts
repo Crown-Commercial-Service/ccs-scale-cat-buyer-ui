@@ -6,6 +6,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import * as Mcf3cmsData from '../../../resources/content/da/da-response-date.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
 
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
@@ -56,6 +57,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.keyDates, req);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
     let criterianStorage = [];
@@ -76,6 +79,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetchQuestions, logConstant.fetchedQuestions, req);
     let fetchQuestionsData = fetchQuestions.data;
     let rfp_clarification;
     let  rfp_clarification_date;
@@ -237,7 +242,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const agreementId_session = req.session.agreement_id;
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+      const projectId = req.session.projectId;
+      res.locals.agreement_header = { agreementName, projectId, project_name, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -302,7 +308,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         req.session.timeline.expectedSignatureDate = expected_signature_date;
         
       }
-      
+       //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
       res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 2'){ 
@@ -343,7 +350,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const agreementId_session = req.session.agreement_id;
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+      const projectId = req.session.projectId;
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
       let forceChangeDataJson;
       if(agreementId_session == 'RM6187') { //MCF3
         forceChangeDataJson = Mcf3cmsData;
@@ -374,7 +382,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         req.session.timeline.clarificationPeriodEnd = rfp_clarification_period_end;
       }
-      
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
       res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 3'){
@@ -418,7 +427,8 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+const projectId = req.session.projectId;
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 let forceChangeDataJson;
 if(agreementId_session == 'RM6187') { //MCF3
   forceChangeDataJson = Mcf3cmsData;
@@ -448,6 +458,8 @@ if (errorTriggered) {
 } else {
   req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
 }
+ //CAS-INFO-LOG
+ LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
 res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 4'){
@@ -493,7 +505,8 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+const projectId = req.session.projectId;
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 let forceChangeDataJson;
 if(agreementId_session == 'RM6187') { //MCF3
   forceChangeDataJson = Mcf3cmsData;
@@ -525,6 +538,8 @@ if (errorTriggered) {
   req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
  
 }
+ //CAS-INFO-LOG
+ LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
 res.render('daw-responsedate.njk', appendData);
           }
     else if(req.session.questionID=='Question 5'){
@@ -568,7 +583,8 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+const projectId = req.session.projectId;
+res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 let forceChangeDataJson;
 if(agreementId_session == 'RM6187') { //MCF3
   forceChangeDataJson = Mcf3cmsData;
@@ -599,6 +615,8 @@ if (errorTriggered) {
   req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
  
 }
+ //CAS-INFO-LOG
+ LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
 res.render('daw-responsedate.njk', appendData);
       
     }
@@ -642,7 +660,8 @@ res.render('daw-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     const projectId = req.session.projectId;
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
@@ -674,6 +693,8 @@ res.render('daw-responsedate.njk', appendData);
        req.session.timeline.deadlineForSubmissionOfStageOne = deadline_for_submission_of_stage_one;
       
      }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
      res.render('daw-responsedate.njk', appendData);
 
     }
@@ -717,7 +738,8 @@ res.render('daw-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     const projectId = req.session.projectId;
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
@@ -749,6 +771,8 @@ res.render('daw-responsedate.njk', appendData);
        req.session.timeline.evaluationProcessStartDate = evaluation_process_start_date;
      
      }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
      res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 8'){
@@ -792,7 +816,8 @@ res.render('daw-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     const projectId = req.session.projectId;
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
@@ -824,6 +849,8 @@ res.render('daw-responsedate.njk', appendData);
        req.session.timeline.bidderPresentationsDate = bidder_presentations_date;
       
      }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
      res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 9'){
@@ -867,7 +894,8 @@ res.render('daw-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+     const projectId = req.session.projectId;
+     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
        forceChangeDataJson = Mcf3cmsData;
@@ -899,6 +927,8 @@ res.render('daw-responsedate.njk', appendData);
        req.session.timeline.standstillPeriodStartsDate = standstill_period_starts_date;
       
      }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
      res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 10'){
@@ -943,7 +973,8 @@ res.render('daw-responsedate.njk', appendData);
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -974,6 +1005,8 @@ res.render('daw-responsedate.njk', appendData);
       req.session.timeline.proposedAwardDate = proposed_award_date;
      
     }
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
     res.render('daw-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 11'){
@@ -1018,7 +1051,8 @@ res.render('daw-responsedate.njk', appendData);
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1048,6 +1082,8 @@ res.render('daw-responsedate.njk', appendData);
     } else {
       req.session.timeline.expectedSignatureDate = expected_signature_date;
     }
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
     res.render('daw-responsedate.njk', appendData);
     
 

@@ -62,7 +62,7 @@
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           <strong>
-            {% if (agreementId_session == 'RM1043.8') %}
+            {% if (agreementId_session == 'RM1043.8' or agreementId_session == 'RM1557.13') %}
               {{data.title | replace("(Optional)", "") }}
             {% else %}
               {{data.title }}
@@ -80,18 +80,18 @@
             <p class="govuk-body govuk-!-margin-bottom-2">Your unique project ID is <strong>{{projectLongName}}</strong>
             </p>
             {% if agreementId_session != 'RM1043.8' %}
-              {% if agreementId_session != 'RM1557.13' %}
-              <p class="govuk-body govuk-!-margin-bottom-2">Make sure you include this ID everytime you contact CCS. </p>
-              {% else %}
-              <p class="govuk-body govuk-!-margin-bottom-2">You should include this ID every time you contact CCS.
-    </p>
-            {% endif %}
+                {% if agreementId_session != 'RM1557.13' and agreementId_session != 'RM6187' %}
+                  <p class="govuk-body govuk-!-margin-bottom-2">Make sure you include this ID everytime you contact CCS. </p>
+                {% else %}
+                  <p class="govuk-body govuk-!-margin-bottom-2">You should include this ID every time you contact CCS.
+                  </p>
+                {% endif %}
             {% else %}
               <p class="govuk-body govuk-!-margin-bottom-2">You should include this ID every time you contact CCS. </p>
             {% endif %}
           </div>
         </div>
-        {% if agreementId_session != 'RM1557.13' %}
+        {% if agreementId_session != 'RM1557.13' and agreementId_session != 'RM6187' %}
           <p class="govuk-body govuk-!-margin-bottom-2">{{data.caption1}}</p>
           <p class="govuk-body">If you don't want to change the name of  your project you can return to <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">Write and publish your requirements</a>
           </p>

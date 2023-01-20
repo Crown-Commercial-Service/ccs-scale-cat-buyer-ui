@@ -17,7 +17,8 @@ import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
-import { sortObject } from '../../../common/util/operators/sortObject'
+import { sortObject } from '../../../common/util/operators/sortObject';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -508,11 +509,14 @@ let scoringData = [];
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageTwo, req);
     res.render('rfp-review-stage', appendData);
   } catch (error) {
 
@@ -2046,15 +2050,19 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
     if(agreementId_session == 'RM1043.8') { //DOS
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageOne, req);
       res.render('rfp-dos-review', appendData);
     } else { 
-
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
       res.render('rfp-review', appendData);
     }
     
@@ -2089,11 +2097,14 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   
   
   const agreement_id = req.session.agreement_id;
+  const lot_id =   req.session.lotId;
+
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
-    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+
+     CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2117,27 +2128,58 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
           review_publish = 1;
         }
       }
+      const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+      const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+      const stage2_dynamic_api_data = stage2_dynamic_api.data;
+      const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+        let stage2_value = 'Stage 1';
+      if(stage2_data.length > 0){
+        stage2_value = 'Stage 2';
+      }
     
   if (review_publish == 1) {
     try {
       
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      if (agreement_id=='RM6187') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
+      }else if (agreement_id=='RM1557.13') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Completed');
+      }
+      else if (agreement_id=='RM1043.8') {
+        if(stage2_value == 'Stage 2'){
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+        }
+       
+      }
+      else{
+        
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+      }
+     if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
+       const agreementPublishedRaw = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+
+       setTimeout(function(){
+        res.redirect('/rfp/rfp-eventpublished');
+        }, 5000);
+     } else {
+        const agreementPublishedRaw =  await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+        res.redirect('/rfp/rfp-eventpublished');
+
+      }
+
+     
      
       // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       // if (response.status == Number(HttpStatusCode.OK)) {
       //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
       // }
-      if (agreement_id=='RM6187') {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
-      }else if (agreement_id=='RM1557.13') {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Completed');
-      }else{
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
-      }
-      
-      res.redirect('/rfp/rfp-eventpublished');
+
+     
     } catch (error) {
-      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFP_REVIEW_RENDER_TEST(req, res, true, true);
@@ -2147,15 +2189,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
     const agreementId_session = req.session.agreement_id;
     const { eventId, projectId } = req.session;
     const { SESSION_ID } = req.cookies;
-  const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
-    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
-    const stage2_dynamic_api_data = stage2_dynamic_api.data;
-    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
-      let stage2_value = 'Stage 1';
-    if(stage2_data.length > 0){
-      stage2_value = 'Stage 2';
-    }
-    
+     
     req.session['checkboxerror'] = 1;
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
@@ -2304,7 +2338,8 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
@@ -3062,7 +3097,13 @@ const IR35selected='';
     } else { 
       forceChangeDataJson = cmsData;
     }
-   
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+      useGrouping: false
+  });
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -3138,8 +3179,8 @@ const IR35selected='';
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
       incentive1: incentive1 != undefined && incentive1 != null ? incentive1 : null,
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
-      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
-      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1).replace(/^(\D+)/, '$1 ') : null,
+      bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2).replace(/^(\D+)/, '$1 ') : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -3153,12 +3194,15 @@ const IR35selected='';
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -3188,7 +3232,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies;
   const proc_id = req.session['projectId'];
   const event_id = req.session['eventId'];
-  
+  const projectId = req.session['projectId'];
 
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
@@ -3720,16 +3764,27 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
       //rfp_clarification_date,
       rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
-      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
-      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
-      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? supplier_period_for_clarification_period : null,
-      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? supplier_dealine_for_clarification_period : null,
-      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? supplier_dealine_evaluation_to_start : null,
-      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? supplier_dealine_expect_the_bidders : null,
-      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? supplier_dealine_for_pre_award : null,
-      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? supplier_dealine_for_expect_to_award : null,
-      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? supplier_dealine_sign_contract : null,
-      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? supplier_dealine_for_work_to_commence : null,
+      // rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
+      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? moment(rfp_clarification_period_end,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? moment(deadline_period_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? moment(supplier_period_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? moment(supplier_dealine_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? moment(supplier_dealine_evaluation_to_start,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? moment(supplier_dealine_expect_the_bidders,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? moment(supplier_dealine_for_pre_award,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? moment(supplier_dealine_sign_contract,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+
+      // deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
+      // supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? supplier_period_for_clarification_period : null,
+      // supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? supplier_dealine_for_clarification_period : null,
+      // supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? supplier_dealine_evaluation_to_start : null,
+      // supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? supplier_dealine_expect_the_bidders : null,
+      // supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? supplier_dealine_for_pre_award : null,
+      // supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? supplier_dealine_for_expect_to_award : null,
+      // supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? supplier_dealine_sign_contract : null,
+      // supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? supplier_dealine_for_work_to_commence : null,
       resourceQuntityCount: resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
       resourceQuantity: resourceQuantity != undefined && resourceQuantity != null ? resourceQuantity : null,
       StorageForSortedItems: StorageForSortedItems != undefined && StorageForSortedItems != null ? StorageForSortedItems : null,
@@ -3775,7 +3830,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
        //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
-      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
       agreementId_session
     };
@@ -3785,11 +3840,13 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-gcloudreview', appendData);
   } catch (error) {
     delete error?.config?.['headers'];

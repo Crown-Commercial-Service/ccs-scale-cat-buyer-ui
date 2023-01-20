@@ -7,6 +7,9 @@ import * as cmsData from '../../../resources/content/eoi/suppliers.json';
 import Mcf3cmsData from '../../../resources/content/MCF3/eoi/suppliers.json';
 import config from 'config';
 import { Parser } from 'json2csv';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 // RFI Suppliers
 export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -27,6 +30,11 @@ export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Respo
   let supplierList = [];
 
   supplierList = await GetLotSuppliers(req);
+    
+  //CAS-INFO-LOG 
+  LoggTracer.infoLogger(supplierList, logConstant.supplierList, req);
+
+
   //27-08-2022
   if (agreementId_session == 'RM6187') { //MCF3
     const { data: getSuppliersPushed } = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`);
@@ -226,6 +234,10 @@ export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Respo
     if (fromMessage != undefined) {
       appendData = Object.assign({}, { ...appendData, enablebtn: false })
     }
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.eoirfiViewSuppliersPageLog, req);
+
     res.render('suppliers', appendData);
   }
 } catch (error){

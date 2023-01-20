@@ -13,11 +13,13 @@
         }
     ],
     "title": "Your Project",
-    "subtitle": "Manage your project from this page including responding to supplier's clarification questions or messages in your inbox. See supplier's answers to your published project.",
+    "subtitle_gcloud":"Manage your project  from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.",
+    "subtitle": "Manage your project from this page including responding to supplier clarification questions or messages in your inbox. See supplier answers to your published project.",
     "subtitle1": "You can close this project using the link under the project name below.",
     "subsection2_title": "Project ID/name",
     "subsection2_content": "Close your event",
-    "subsection3_title": "Your Inbox",
+    "subsection2_content2": "Close this project",
+    "subsection3_title": "Your inbox",
     "subsection3_linkText": "Open my inbox",
     "subsection3_linkURL": "/message/inbox",
     "subsection3_title2": "Clarification questions",
@@ -32,6 +34,8 @@
     }],
     "subsection4_title2_1": "Your published project",
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
+    "subsection4_title2_2_mcf":"Your published project",
+    "subsection4_title2_1_descriiption_gcloud":"Read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_2_descriiption": "[ Description for this section ]",
     "subsection4_title2_1_task": [{
@@ -65,6 +69,8 @@
     "subsection4_title3_task2": "Number of suppliers who responded",
     "subsection4_title3_task3": "Number of suppliers who do not want to respond",
     "subsection4_title3_task4": "Number of suppliers who have not responded",
+    "subsection4_title3_task2_mcf": "Number of suppliers who intend to respond",
+    "subsection4_title3_task4_gcloud":"Remaining suppliers with no response",
 
     "subsection4_title3_eval": "How many suppliers will respond to your published project",
     "subsection4_title3_award": "Suppliers who responded to your published project",
@@ -76,6 +82,8 @@
     "subsection4_title3_eval_task2": "Number of suppliers who responded",
     "subsection4_title3_eval_task3": "Number of suppliers who do not want to respond",
     "subsection4_title3_eval_task4": "Number of suppliers who have not responded",
+    "subsection4_title3_eval_task2_mcf":"Number of suppliers who intend to respond",
+    "subsection4_title3_eval_task4_gcloud":"Remaining suppliers with no response",
 
 
     "subsection4_title4": "Supplier responses",
@@ -84,8 +92,14 @@
     "subsection4_title4_descriiption_evaluate": "The suppliers below have responded to your published project. You can download individual supplier’s answers or all answers.",
     "subsection4_title4_descriiption_evaluated_text": "You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers when awarding.<br> Make sure you have documentation supporting your choice. This documentation needs to be produced offline.",
     
+    
+    "subsection4_title4_descriiption_evaluated_text_mcf": "You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers in your bid pack.<br> Make sure you have documentation supporting your decision. This documentation needs to be produced offline.",
+    "subsection4_title3_eval_mcf":"Suppliers who responded to your published project",
+    "subsection4_title3_eval_descriiption_mcf":"Find out how many suppliers responded to your project in the section below.",
+
+
     "subsection4_title4_1": "Responses received - interest to participate",
-    "subsection4_table_th1_1": "Supplier Name",
+    "subsection4_table_th1_1": "Supplier name",
     "subsection4_table_th1_2": "Date the supplier responded",
     "subsection4_table_th1_3": "Supplier's Answer",
 
@@ -113,5 +127,14 @@
     }],
     "backJump": {
         "title": "Download all responses"
-    }
+    },
+    "mcf_sections": [
+        "There is a legal requirement to publish certain contracts. You may need to publish the contract on:"
+    ],
+    "ul": [
+        {"li": "<a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder</a>"},
+        {"li": "<a href='http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx' target='_blank'>Public Contracts Scotland</a>"},
+        {"li": "<a href='http://www.sell2wales.gov.uk/' target='_blank'>Sell2Wales</a>"},
+        {"li": "<a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a>"}
+    ]
 }

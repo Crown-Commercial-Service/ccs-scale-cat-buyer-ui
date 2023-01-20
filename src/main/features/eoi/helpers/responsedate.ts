@@ -9,6 +9,7 @@ import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -32,6 +33,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   let day,time;
 
   try {
+    
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
@@ -51,10 +53,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
-    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
+    let prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
+    prompt = prompt.replace('<p class="govuk-body"><strong>', '<p class="govuk-body govuk-inset-text"><strong>');
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+ 
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
+       
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.eoiGetTimeLineQuestions, req);
+    
     let DeadlinePeriodDate;
     let SupplierPeriodDate;
     let eoi_clarification_date;
