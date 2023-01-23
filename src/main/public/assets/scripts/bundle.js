@@ -3699,7 +3699,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -3746,6 +3745,22 @@ const showEvaluateSuppliersPopup = (event) => {
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
   };
+
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    if ($(this).hasClass('selected')) {
+        deselect($(this));
+        $(".backdrop-evaluatesuppliers").fadeOut(200);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+      } else {
+        $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+        document.getElementById("suppliersName").innerHTML = suppliername;
+        $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+        $(this).addClass('selected');
+        $('.pop').slideFadeToggle();
+      }
+  };
+
 const showPopup = (event) => {
     debugger;
     event.preventDefault();
@@ -20736,7 +20751,14 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 
    if (document.getElementById('supplierMsgCancel') !== null)
    document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
+  //showsuppliersAwardPopup
+  
 
+  if(document.getElementById('suppliersAwardConfirm') !== null){
+    console.log('suppliersAwardConfirm ==>', document.getElementById('suppliersAwardConfirm'))
+    document.getElementById('suppliersAwardConfirm').addEventListener('click', showSuppliersAwardPopup);
+  }
+    
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
@@ -21367,7 +21389,29 @@ if(document.querySelectorAll('.parentCategory')) {
     });
   });
 }
-
+//Kamal
+if(document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function(event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function() {
+      console.log('----suppliersAwardConfirm-----')
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      var details = document.querySelector(`[data-type="supplierName${supplierId}"]`);
+      console.log(details.textContent);
+      //console.log(supplier)
+      let score = this.getAttribute('data-value');
+      if(score < maxScore ){ 
+        showSuppliersAwardPopup(details.textContent, redirectUrl)
+      }else{
+        window.location.href = redirectUrl;
+      }
+    })
+  })
+}
+//Kamal
 function titleCase(str) {
   return str.toLowerCase().split(' ').map(function(word) {
     return word.replace(word[0], word[0].toUpperCase());
@@ -22148,8 +22192,5 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
           });
        })
   });
-
-
-
 
 

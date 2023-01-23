@@ -225,7 +225,14 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 
    if (document.getElementById('supplierMsgCancel') !== null)
    document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
+  //showsuppliersAwardPopup
+  
 
+  if(document.getElementById('suppliersAwardConfirm') !== null){
+    console.log('suppliersAwardConfirm ==>', document.getElementById('suppliersAwardConfirm'))
+    document.getElementById('suppliersAwardConfirm').addEventListener('click', showSuppliersAwardPopup);
+  }
+    
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
@@ -1638,7 +1645,22 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
        })
   });
 
-
-
-
+if(document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function(event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function() {
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      var supplier = document.querySelector(`[data-type="supplierName_${supplierId}"]`);
+      let score = this.getAttribute('data-value');
+      if(score < maxScore ){ 
+        showSuppliersAwardPopup(supplier.textContent, redirectUrl)
+      }else{
+        window.location.href = redirectUrl;
+      }
+    })
+  })
+}
 

@@ -100,7 +100,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -146,4 +145,19 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+  };
+
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    if ($(this).hasClass('selected')) {
+        deselect($(this));
+        $(".backdrop-evaluatesuppliers").fadeOut(200);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+      } else {
+        $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+        document.getElementById("suppliersName").innerHTML = suppliername;
+        $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+        $(this).addClass('selected');
+        $('.pop').slideFadeToggle();
+      }
   };
