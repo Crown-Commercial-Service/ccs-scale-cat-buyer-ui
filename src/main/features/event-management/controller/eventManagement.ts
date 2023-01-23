@@ -306,10 +306,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      if (fetchData.data != undefined) {
+      console.log("FetchData",fetchData.data)
+      if (fetchData?.data != undefined) {
+        console.log("inside");
         qasCount = fetchData.data.QandA;
         qasCount = qasCount.length;
       }
+      console.log("qasCount",qasCount);
+      
     }
 
       let showCloseProject = true;
