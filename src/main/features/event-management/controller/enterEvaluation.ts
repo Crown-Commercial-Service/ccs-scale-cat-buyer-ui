@@ -109,11 +109,14 @@ try{
                   score: evaluation_score,
                 }
               ];
+              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
+              console.log(body);
               req.session.individualScore = body[0];
               //let responseScore = 
               TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
+              console.log('Action made! ****************')
               //CAS-INFO-LOG 
               // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
@@ -130,6 +133,7 @@ try{
                   let sessionScore = req.session.individualScore;
                   let resScore: any = [];
                   resScore = await scoreApis();
+                  console.log(resScore);
                   if(resScore.length > 0) {
                     let scoreFliter = resScore.filter((el: any) => {
                       return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
@@ -137,6 +141,7 @@ try{
                     if(scoreFliter.length > 0) {
                       scoreIndividualGetState = false;
                     }
+                    console.log(scoreIndividualGetState);
                   }
                 } while(scoreIndividualGetState);
                 
