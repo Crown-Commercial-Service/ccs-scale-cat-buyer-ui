@@ -303,7 +303,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       fetchData='';
       qasCount = 0;
     }else{
-      const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+      console.log("********************AGAIN********************")
+      const baseQandAURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
+     console.log("********************START********************")
+     console.log("baseQandAURL",baseQandAURL)
+     console.log("********************START********************")
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       console.log("FetchData",fetchData.data)
@@ -313,7 +317,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         qasCount = qasCount.length;
       }
       console.log("qasCount",qasCount);
-      
     }
 
       let showCloseProject = true;
