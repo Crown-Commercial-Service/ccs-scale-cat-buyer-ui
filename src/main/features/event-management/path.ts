@@ -167,6 +167,13 @@ export default function (app: Application): void {
     AUTH,
     EVENT_MANAGEMENT_CONTROLLER.SHORTLIST_EVALUATION,
   );
+
+    //SCORE LOADING
+  app.get(
+    EVENT_MANAGEMENT_PATHS.SCORE_INDIVIDUAL_GET,
+    AUTH,
+    EVENT_MANAGEMENT_CONTROLLER.SCORE_INDIVIDUAL_GET,
+  );
   
   
 }
