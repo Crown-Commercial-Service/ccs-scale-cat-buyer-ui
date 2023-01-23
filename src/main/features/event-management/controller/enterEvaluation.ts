@@ -120,40 +120,7 @@ try{
               //CAS-INFO-LOG 
               // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
-              if(req.session.individualScore !== undefined) {
-
-                async function scoreApis() {
-                  const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
-                  const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 5000)))
-                  return scoreCompare.data;
-                }
-                
-                var scoreIndividualGetState: boolean = true;
-                do {
-                  let sessionScore = req.session.individualScore;
-                  let resScore: any = [];
-                  resScore = await scoreApis();
-                  console.log(resScore);
-                  if(resScore.length > 0) {
-                    let scoreFliter = resScore.filter((el: any) => {
-                      return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
-                    });
-                    if(scoreFliter.length > 0) {
-                      scoreIndividualGetState = false;
-                    }
-                    console.log(scoreIndividualGetState);
-                  }
-                } while(scoreIndividualGetState);
-                
-                if(!scoreIndividualGetState) {
-                  req.session.isEmptyProjectError = false;
-                  res.redirect('/evaluate-suppliers'); 
-                }
-                
-              } else {
-                req.session.isEmptyProjectError = false;
-                res.redirect('/evaluate-suppliers'); 
-              }
+              res.redirect('/score-individual'); 
 
             } else {
               req.session.isEmptyProjectError = true;
@@ -178,6 +145,47 @@ try{
   }
 }
 
+}
+
+export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  console.log('Temp ***************');
+  if(req.session.individualScore !== undefined) {
+
+    async function scoreApis() {
+      const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+      const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 5000)))
+      return scoreCompare.data;
+    }
+    
+    var scoreIndividualGetState: boolean = true;
+    do {
+      let sessionScore = req.session.individualScore;
+      let resScore: any = [];
+      resScore = await scoreApis();
+      console.log(resScore);
+      if(resScore.length > 0) {
+        let scoreFliter = resScore.filter((el: any) => {
+          return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
+        });
+        if(scoreFliter.length > 0) {
+          scoreIndividualGetState = false;
+        }
+        console.log(scoreIndividualGetState);
+      }
+    } while(scoreIndividualGetState);
+    
+    if(!scoreIndividualGetState) {
+      req.session.isEmptyProjectError = false;
+      res.redirect('/evaluate-suppliers'); 
+    }
+    
+  } else {
+    req.session.isEmptyProjectError = false;
+    res.redirect('/evaluate-suppliers'); 
+  }
 }
 //publisheddoc?download=1
 
