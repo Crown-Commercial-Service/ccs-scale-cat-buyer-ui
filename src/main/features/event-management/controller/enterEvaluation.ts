@@ -51,9 +51,10 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
       stage2_value = 'Stage 2';
     }
     
-    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
+    console.log(supplierInterestURL);
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
-    
+    console.log(supplierdata.data);
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
 
@@ -108,18 +109,47 @@ try{
                   score: evaluation_score,
                 }
               ];
-              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
-              console.log(JSON.stringify(body));
-              console.log('Start ****************************');
-              let responseScore = await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              req.session.individualScore = body[0];
+              //let responseScore = 
+              TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              console.log('End ****************************');
               //CAS-INFO-LOG 
-              LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
+              // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
-              req.session.isEmptyProjectError = false;
-              res.redirect('/evaluate-suppliers'); 
+              if(req.session.individualScore !== undefined) {
+
+                async function scoreApis() {
+                  const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+                  const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 5000)))
+                  return scoreCompare.data;
+                }
+                
+                var scoreIndividualGetState: boolean = true;
+                do {
+                  let sessionScore = req.session.individualScore;
+                  let resScore: any = [];
+                  resScore = await scoreApis();
+                  if(resScore.length > 0) {
+                    let scoreFliter = resScore.filter((el: any) => {
+                      return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
+                    });
+                    if(scoreFliter.length > 0) {
+                      scoreIndividualGetState = false;
+                    }
+                  }
+                } while(scoreIndividualGetState);
+                
+                if(!scoreIndividualGetState) {
+                  req.session.isEmptyProjectError = false;
+                  res.redirect('/evaluate-suppliers'); 
+                }
+                
+              } else {
+                req.session.isEmptyProjectError = false;
+                res.redirect('/evaluate-suppliers'); 
+              }
+
             } else {
               req.session.isEmptyProjectError = true;
               res.redirect('/enter-evaluation?'+"supplierid="+supplierid+"&suppliername="+suppliername);
