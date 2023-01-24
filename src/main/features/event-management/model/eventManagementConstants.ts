@@ -54,5 +54,6 @@ export enum EVENT_MANAGEMENT_PATHS {
     SAVE_INVITE_SELECTED_SUPPLIERS = "/event/save-invite-selected-suppliers",
     SHORTLIST_EVALUATION = "/shortlist_evaluation",
 
-    SCORE_INDIVIDUAL_GET='/score-individual'
+    SCORE_INDIVIDUAL_GET='/score-individual',
+    CONFIRM_SCORE_GET='/confirm-score'
 }
