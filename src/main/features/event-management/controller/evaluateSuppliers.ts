@@ -300,7 +300,7 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
 
     async function statusApis() {
       const baseurl = `/tenders/projects/${projectId}/events`
-     const apidata: any = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new   Promise(resolve => setTimeout(() => resolve(x), 5000)))
+     const apidata: any = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new   Promise(resolve => setTimeout(() => resolve(x), 6000)))
       return apidata.data;
     }
     
@@ -308,14 +308,11 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
     do {
       let statusResponse: any = [];
       statusResponse = await statusApis();
-      console.log('*************************statusResponse');
-      console.log(statusResponse);
       var status = statusResponse.filter((d: any) => d.id == eventId)[0].dashboardStatus;
         if(status.toLowerCase() == "evaluated") {
           evaluateStatus = false;
         }
-        console.log('*************************evaluateStatus');
-        console.log(evaluateStatus);
+        
       
     } while(evaluateStatus);
     
