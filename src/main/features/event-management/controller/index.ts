@@ -17,7 +17,7 @@ import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { EVALUATE_SUPPLIERS,SHORTLIST_EVALUATION } from './evaluateSuppliers'
 import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
-import { EVALUATE_SUPPLIERS_POPUP } from './evaluateSuppliers'   
+import { EVALUATE_SUPPLIERS_POPUP,CONFIRM_SCORE_GET } from './evaluateSuppliers' 
 import { ENTER_EVALUATION } from './enterEvaluation'
 import { ENTER_EVALUATION_POST } from './enterEvaluation'
 import { SCORE_INDIVIDUAL_GET } from './enterEvaluation'
@@ -85,5 +85,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     SAVE_INVITE_SELECTED_SUPPLIERS,
     SHORTLIST_EVALUATION,
 
-    SCORE_INDIVIDUAL_GET
+    SCORE_INDIVIDUAL_GET,
+    CONFIRM_SCORE_GET
 }
