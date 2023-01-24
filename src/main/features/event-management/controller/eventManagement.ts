@@ -303,20 +303,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       fetchData='';
       qasCount = 0;
     }else{
-      console.log("********************AGAIN********************")
-      const baseQandAURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
-     console.log("********************START********************")
-     console.log("baseQandAURL",baseQandAURL)
-     console.log("********************START********************")
+      const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      console.log("FetchData",fetchData.data)
+     
       if (fetchData?.data != undefined) {
-        console.log("inside");
+       
         qasCount = fetchData.data.QandA;
         qasCount = qasCount.length;
       }
-      console.log("qasCount",qasCount);
+     
     }
 
       let showCloseProject = true;
@@ -820,7 +816,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
          
           if (status.toLowerCase() == "pre-award") {
-            console.log("test3 PREAWARD")
+           
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
