@@ -174,6 +174,13 @@ export default function (app: Application): void {
     AUTH,
     EVENT_MANAGEMENT_CONTROLLER.SCORE_INDIVIDUAL_GET,
   );
+
+  //CONFIRM SCORE LOADING
+  app.get(
+    EVENT_MANAGEMENT_PATHS.CONFIRM_SCORE_GET,
+    AUTH,
+    EVENT_MANAGEMENT_CONTROLLER.CONFIRM_SCORE_GET,
+  );
   
   
 }
