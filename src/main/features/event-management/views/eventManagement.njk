@@ -273,11 +273,17 @@
   <div class="govuk-grid-column-full">
 
     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
-        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+        {% if agreementId_session == "RM6187" %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
             Number of suppliers who may respond to your published project </h2>
           <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in the section below. </p>  
+        {% elif agreementId_session == "RM1557.13" %}
+          <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+            Suppliers who responded to your published project </h2>
+          <p class="govuk-body">Find out how many suppliers responded to your project in the section below. </p>  
+
         {% else %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
