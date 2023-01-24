@@ -3746,6 +3746,11 @@ const showEvaluateSuppliersPopup = (event) => {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
   };
 
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
   const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
     if ($(this).hasClass('selected')) {
         deselect($(this));
@@ -21389,29 +21394,7 @@ if(document.querySelectorAll('.parentCategory')) {
     });
   });
 }
-//Kamal
-if(document.querySelectorAll('.suppliersAwardConfirm')) {
-  let scores = [];
-  document.querySelectorAll(".suppliersAwardConfirm").forEach(function(event) {
-    scores.push(event.getAttribute('data-value'))
-    let maxScore = Math.max.apply(Math, scores);
-    event.addEventListener('click', function() {
-      console.log('----suppliersAwardConfirm-----')
-      let redirectUrl = this.getAttribute('data-url');
-      let supplierId = this.getAttribute('data-name');
-      var details = document.querySelector(`[data-type="supplierName${supplierId}"]`);
-      console.log(details.textContent);
-      //console.log(supplier)
-      let score = this.getAttribute('data-value');
-      if(score < maxScore ){ 
-        showSuppliersAwardPopup(details.textContent, redirectUrl)
-      }else{
-        window.location.href = redirectUrl;
-      }
-    })
-  })
-}
-//Kamal
+
 function titleCase(str) {
   return str.toLowerCase().split(' ').map(function(word) {
     return word.replace(word[0], word[0].toUpperCase());
@@ -22193,4 +22176,25 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
        })
   });
 
+/**
+ * Find the supplier with the highest score, and if a low score supplier is chosen, show the popup and obtain buyer confirmation.
+ */
+if(document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function(event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function() {
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      let supplier = document.querySelector(`[data-type="supplierName_${supplierId}"]`);
+      let score = this.getAttribute('data-value');
+      if(score < maxScore ){ 
+        showSuppliersAwardPopup(supplier.textContent, redirectUrl)
+      }else{
+        window.location.href = redirectUrl;
+      }
+    })
+  })
+}
 

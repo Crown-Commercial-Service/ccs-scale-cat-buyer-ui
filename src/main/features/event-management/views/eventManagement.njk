@@ -512,7 +512,7 @@
                                                 <p class="govuk-body govuk-!-margin-bottom-0">{{ supplier.score }}</p>
                                               </th>
                                               <td class="govuk-text-align govuk-!-text-align-left">
-                                                <a class="govuk-link suppliersAwardConfirm" href="#" data-url="/confirm-supplier?supplierid={{ supplier.supplierId }}" data-name={{supplier.supplierId}} data-value={{supplier.score}} >Select</a>
+                                                <a class="govuk-link suppliersAwardConfirm" href="javascript:void(0)" data-url="/confirm-supplier?supplierid={{ supplier.supplierId }}" data-name={{supplier.supplierId}} data-value={{supplier.score}} >Select</a>
                                               </td>
                                             {% endif %}
                                           {% endif %}
@@ -975,7 +975,7 @@
                         </div>
                       </div>
                     </main>
-                    {# KAMAL #}
+                    {# Confiramtion popup for a low-scoring supplier #}
                     <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
                       <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
                           <div class="pop_logo govuk-grid-column-full">
@@ -991,14 +991,11 @@
                               <h2 id="suppliersName"></h2>
                               <p id="dialog-description">Confirm you wish to award to this supplier.</p>
                               <div class="govuk-button-group">
-                                {# <button id="redirect-button-confirmsuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">
-                                    Continue</button> #}
                                 <a href="#" id="redirect-button-confirmsuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">
                                     Continue</a>
-                                <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
+                                <a href="/event/management" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
                               </div>
                           </div>
                       </div>
                     </div>
-                  {# Kamal #}
                 {% endblock %}

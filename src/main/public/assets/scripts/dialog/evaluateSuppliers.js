@@ -147,6 +147,11 @@ const showEvaluateSuppliersPopup = (event) => {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
   };
 
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
   const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
     if ($(this).hasClass('selected')) {
         deselect($(this));
