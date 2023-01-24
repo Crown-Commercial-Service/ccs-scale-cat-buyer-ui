@@ -31,7 +31,9 @@
                    {%if(table.text !=='Create your own scoring criteria')%}
                    <div class="govuk-custom-table">
                     {%if agreement_id != 'RM1043.8' %}
-                      <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                    <div class="govuk-!-margin-top-4">
+                      <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}} level scoring criteria</a>
+                    </div>
                     {% endif %}
                     {% if (agreement_id == 'RM1557.13') %}
                       {% set criteriatext = 'level' %}
@@ -313,7 +315,7 @@
                     {%else%}
                       <p class="govuk-body">
                           {{ CCSButton({
-                          text: "Add another tier",
+                          text: "Add another level",
                           attributes: {
                           id: "ccs_rfp_score_criteria_add"
                           },
