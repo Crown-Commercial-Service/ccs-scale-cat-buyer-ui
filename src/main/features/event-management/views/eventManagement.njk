@@ -200,9 +200,10 @@
         {% endif %}
       </p>
     </h2>
-    <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+    
+      <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
       <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
-    </p>
+      
     {% endif %}
 
     {% if agreementId_session == 'RM6263' %}
@@ -237,7 +238,7 @@
      
     </p>
   </h2>
-      {% if agreementId_session == "RM1557.13" %}
+      {% if agreementId_session == "RM1557.13" or agreementId_session == 'RM6187' %}
         <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
       {% else %}
         <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -292,9 +293,9 @@
         {% endif %}
     {% if (projectStatus==2) %}
         {% if agreementId_session ==='RM6187' %}
-            <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
-        {% else %}
             <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+        {% else %}
+            <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
         {% endif %}
     {% else %}
    <p class="govuk-body">To see the clarification questions suppliers have submitted.</p>
@@ -315,7 +316,7 @@
         <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            {% if (agreementId_session == 'RM1557.13') %}
+            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
             {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
@@ -370,8 +371,8 @@
                           {% else %}
                             <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}</p>
                           {% endif %}
-                      {% else %}
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
+                      {% elseif (agreementId_session == 'RM6187') %}
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}</p>
                       {% endif %}
                     <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                     {% endif %}
@@ -812,14 +813,14 @@
                                   <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                       <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                                       <li>copy all the details of this project to procure from your own platform</li>
-                                      <li>start another pre-tender market engagement event</li>
+                                      <li>start another pre-market engagement event</li>
                                   </ul>
                               {% else %}
                                   <p>When you have the supplier responses, you can close this RfI event and then:</p>
                                   <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                       <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                                       <li>copy all the details of this project to procure from your own platform</li>
-                                      <li>start another pre-market engagement event</li>
+                                      <li>start another pre-tender market engagement event</li>
                                   </ul>
                               {% endif %}
                               <div class="govuk-!-margin-bottom-7">
@@ -852,13 +853,13 @@
                         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                           <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                           <li>copy all the details of this project to procure from your own platform</li>
-                          <li>start another pre-tender market engagement event</li>
+                          <li>start another pre-market engagement event</li>
                         </ul>
                     {% else %}
                         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                           <li>start the next stage of your project(from the procurement overview page)</li>
                           <li>copy all the details of this project to procure from your own platform</li>
-                          <li>start another pre-market enagagement project</li>
+                          <li>start another pre-tender market enagagement project</li>
                         </ul>
                     {% endif %}
                 {% if (projectStatus==2) %}
