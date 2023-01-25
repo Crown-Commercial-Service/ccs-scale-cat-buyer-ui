@@ -56,5 +56,6 @@ export enum EVENT_MANAGEMENT_PATHS {
 
     SCORE_INDIVIDUAL_GET='/score-individual',
     CONFIRM_SCORE_GET='/confirm-score',
-    START_EVALUATION='/start-evaluation'
+    START_EVALUATION='/start-evaluation',
+    START_EVALUATION_REDIRECT='/start-evaluation-redirect'
 }
