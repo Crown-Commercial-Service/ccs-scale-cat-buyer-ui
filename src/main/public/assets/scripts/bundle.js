@@ -22089,6 +22089,7 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
       event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       });
