@@ -78,7 +78,7 @@ describe('MCF3: Add colleagues to your project', async () => {
    .get(`/rfi/delete-collaborators?id=${collaboratorDummy}`)
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
-        console.log("res.header.location",res.header.location)
+        
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfi/add-collaborators');
       });

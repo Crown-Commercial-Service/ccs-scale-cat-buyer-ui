@@ -10,7 +10,7 @@
           "procurementID": 18041,
           "eventId": "ocds-pfhb7i-18800",
           "defaultName": {
-            "name": "RM6187-Lot 2-FIANNN",
+            "name": "RM6187-Lot 2-ANAND UNIT",
             "components": {
               "agreementId": "RM6187",
               "lotId": "Lot 2",
@@ -20,6 +20,9 @@
           "started": true
         }
       ],
+      "searched_user":
+        { "userName": "dummyName", "firstName": "dummyFirst", "lastName": "dummyLast" }
+      ,
       "user": {
         "payload": {
           "iat": 1674466741,
