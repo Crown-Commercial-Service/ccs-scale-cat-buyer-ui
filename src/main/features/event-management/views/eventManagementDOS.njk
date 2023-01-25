@@ -163,7 +163,15 @@
         {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">3.</span>
-            {{data.subsection4_title3_eval_dos}}</h2>
+            {% if status.toUpperCase() == 'EVALUATING' %}
+              {{data.subsection4_title3_eval_dos_after}}
+            {% else %}
+              {{data.subsection4_title3_eval_dos}}
+            {% endif %}
+          </h2>
+          {% if status.toUpperCase() == 'EVALUATING' %}
+            <p class="govuk-body">{{data.subsection4_para3_eval_dos_after}}</p>
+          {% endif %}
           {% if (projectStatus == 2) %}
             <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
           {% else %}
@@ -246,7 +254,12 @@
                                 <p class="govuk-body govuk-!-margin-bottom-0">{{ data.subsection4_dos_eval_descr_stg2 }}</p> 
                                 <p class="govuk-body">{{ data.subsection4_dos_eval_descr_stg2_text2 }}</p>  
                             {% elif status.toUpperCase() ==='TO-BE-EVALUATED' %}
-                              <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos}}</p>     
+                              {# SCAT-8465-START #}
+                              {# <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos}}</p> #}
+                              <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos_startEval}}
+                                <a class="govuk-link app-task-list__tag" href="/start-evaluation">{{data.DosViewsupplierResponses}}</a>
+                              </p>
+                              {# SCAT-8465-END #}     
                             {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' %}
                             <p class="govuk-body">{{data.subsection4_dos_eval_descr_stg1_dos}}</p>
                             {% else %}
@@ -258,6 +271,8 @@
                           {# {% if(stage2_value == 'Stage 2')  %}
                           <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
                           {% endif %} #}
+
+                          {% if status.toUpperCase() !== 'TO-BE-EVALUATED' and stage2_value == 'Stage 1' %}
                           <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                             <div class="govuk-grid-column-full">
                               <table class="govuk-table">
@@ -289,10 +304,10 @@
                                 </thead>
                                 {% set rows = 1 %}
                                 {% for supplier in supplierDetailsDataList %}
-                                  <tbody class="govuk-table__body">
-                                    {% if supplier
+                                {% if supplier
                                       .responseState
                                       .toLowerCase() === 'submitted' %}
+                                  <tbody class="govuk-table__body">
                                       <tr class="govuk-table__row">
                                         <th scope="row" class="govuk-table__cell">
 
@@ -353,8 +368,9 @@
 
                                               {%endif%}
                                             </tr>
-                                            {%endif%}
+                                            
                                           </tbody>
+                                          {%endif%}
                                           {% set rows = rows + 1 %}
                                         {% endfor %}
                                         <tbody class="govuk-table__body">
@@ -389,6 +405,7 @@
                                       </table>
                                     </div>
                                   </div>
+                                  {% endif %}
 
                                 {% elif status.toLowerCase() != 'published' %}
 

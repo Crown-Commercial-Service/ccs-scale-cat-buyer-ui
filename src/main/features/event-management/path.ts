@@ -182,5 +182,11 @@ export default function (app: Application): void {
     EVENT_MANAGEMENT_CONTROLLER.CONFIRM_SCORE_GET,
   );
   
+  //START EVALUATION
+  app.get(
+    EVENT_MANAGEMENT_PATHS.START_EVALUATION,
+    AUTH,
+    EVENT_MANAGEMENT_CONTROLLER.START_EVALUATION,
+  );
   
 }
