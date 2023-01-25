@@ -12,12 +12,12 @@ import { EVENT_MANAGEMENT_MESSAGE_REPLY } from './MessagingReply'
 import { POST_EVENT_MANAGEMENT_MESSAGE_REPLY } from './MessagingReply'
 import { EVENT_MANAGEMENT_GET_QA_ADD,EVENT_MANAGEMENT_POST_QA_ADD,EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP } from './QAAdd'
 import { EVENT_MANAGEMENT_GET_QA_Edit,EVENT_MANAGEMENT_POST_QA_Edit } from './QAEdit'
-import { EVENT_MANAGEMENT_DOWNLOAD } from './eventManagement'
+import { EVENT_MANAGEMENT_DOWNLOAD, START_EVALUATION } from './eventManagement'
 import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { EVALUATE_SUPPLIERS,SHORTLIST_EVALUATION } from './evaluateSuppliers'
 import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
-import { EVALUATE_SUPPLIERS_POPUP,CONFIRM_SCORE_GET } from './evaluateSuppliers' 
+import { EVALUATE_SUPPLIERS_POPUP,CONFIRM_SCORE_GET } from './evaluateSuppliers'   
 import { ENTER_EVALUATION } from './enterEvaluation'
 import { ENTER_EVALUATION_POST } from './enterEvaluation'
 import { SCORE_INDIVIDUAL_GET } from './enterEvaluation'
@@ -86,5 +86,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     SHORTLIST_EVALUATION,
 
     SCORE_INDIVIDUAL_GET,
-    CONFIRM_SCORE_GET
+    CONFIRM_SCORE_GET,
+    START_EVALUATION
 }

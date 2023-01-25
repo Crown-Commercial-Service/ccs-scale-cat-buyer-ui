@@ -55,5 +55,6 @@ export enum EVENT_MANAGEMENT_PATHS {
     SHORTLIST_EVALUATION = "/shortlist_evaluation",
 
     SCORE_INDIVIDUAL_GET='/score-individual',
-    CONFIRM_SCORE_GET='/confirm-score'
+    CONFIRM_SCORE_GET='/confirm-score',
+    START_EVALUATION='/start-evaluation'
 }
