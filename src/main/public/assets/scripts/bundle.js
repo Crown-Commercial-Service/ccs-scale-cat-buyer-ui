@@ -22086,6 +22086,13 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
     document.querySelectorAll(".download").forEach(function(event) {
       event.addEventListener('click', function(event) {   
