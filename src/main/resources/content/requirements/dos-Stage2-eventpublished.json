@@ -8,11 +8,15 @@
     "btntext":"Export your 2-stage further competition",
     "board": {
         "headerRFP": "Your shortlisted suppliers have been sent the further assessment documents",
-        "headerRFPResponse": "We are now publishing your event. This can take a few minutes. We recommend you to check your dashboard after few minutes to see your published event.",
+        "headerRFPResponse": "Your shortlisted suppliers are being sent the further assessment documents.  This process may take a few minutes. Once the process is finished, you can access your published event on your dashboard.",
         "headerDA":"Your direct award has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
-        "email": "info@crowncommercial.gov.uk"
+        "email": "info@crowncommercial.gov.uk",
+        "next": [
+            {"li": "Suppliers can read your requirements and ask questions."},
+            {"li": "Suppliers can submit their responses to your further assessment by the stage 2 deadline."}
+        ]
     },
         "dashboard": {
             "title": "Go to your project dashboard",

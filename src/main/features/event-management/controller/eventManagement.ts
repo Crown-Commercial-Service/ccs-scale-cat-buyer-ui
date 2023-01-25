@@ -1764,5 +1764,25 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       }
 }
 
+export const START_EVALUATION = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId } = req.session;
+  try {
+    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/startEvaluation`;
+    const response = await TenderApi.Instance(SESSION_ID).post(BASEURL); 
+    res.redirect('/event/management?id='+eventId);
+  } catch (error) {
+    LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Event management - Start Evaluation Endpoit issue',
+        true,
+      );
+  }
+}
+
 
 
