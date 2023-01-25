@@ -44,22 +44,29 @@ describe('MCF3: ProcurementLead page render', async () => {
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
-
-  it('MCF3 Change who will lead the Project Updated', async () => {
-    const dummyName = 'test';
-    let userMail = "cas_uat_28@yopmail.com";
-    let projectId = mcfData.projectId;
-   
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${projectId}/users/${userMail}`).reply(200, true);
+  }).timeout(0);
+  
+  it('Selected the project lead Updated ', async () => {
+    let testValue = 'andrew.watts@crowncommercial.gov.uk';
     await request(parentApp)
-      .post(`/rfi/procurement-lead`)
-      .send({"userType":"PROJECT_OWNER"})
+    .get(`/rfi/users-procurement-lead?id=${testValue}`)
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
-        expect(res.status).to.equal(302);
-        
+        expect(res.status).to.equal(200);
       });
-  });
+  }).timeout(0);
+  
+  it('should be able to proceed to add collaborators', async () => {
+    const bodyDummyValue = {"rfi_procurement_lead_input":"andrew.watts@crowncommercial.gov.uk"}
+    await request(parentApp)
+      .post(`/rfi/procurement-lead`)
+      .send(bodyDummyValue)
+      .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+      .expect(res => {
+        console.log("res.header.location",res.header.location)
+        expect(res.status).to.equal(302);
+        expect(res.header.location).to.be.equal('/rfi/add-collaborators'); 
+      });
+  }).timeout(0);
 
 });
