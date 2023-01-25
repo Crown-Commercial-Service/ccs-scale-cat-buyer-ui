@@ -329,7 +329,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
       if(req.session.agreement_id=='RM1043.8'&&req.session?.stage2_value !== undefined && req.session?.stage2_value === "Stage 2"){
         rfp_confirm_upload="confirm";
       }
-      if(req.session.agreement_id=='RM1557.13'){
+      if(req.session.agreement_id=='RM1557.13' || req.session.agreement_id ==='RM6187'){
         rfp_confirm_upload="confirm";
       }
   
