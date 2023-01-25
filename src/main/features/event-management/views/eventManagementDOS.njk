@@ -257,7 +257,7 @@
                               {# SCAT-8465-START #}
                               {# <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos}}</p> #}
                               <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos_startEval}}
-                                <a class="govuk-link app-task-list__tag" href="/start-evaluation">{{data.DosViewsupplierResponses}}</a>
+                                <a class="govuk-link app-task-list__tag startEvalDos6Btn" href="/start-evaluation">{{data.DosViewsupplierResponses}}</a>
                               </p>
                               {# SCAT-8465-END #}     
                             {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' %}
@@ -584,7 +584,7 @@
                               <div class="loader-container">
                                 <div class="loader-division">
                                   <img src="/assets/images/loader.gif" alt="Loading">
-                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
+                                  <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2>
                                 </div>
                               </div>
                             </main>
