@@ -54,13 +54,9 @@
     {% endblock %}
 
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','{{GOOGLE_TAG_MANAGER_ID}}');</script>
-    <!-- End Google Tag Manager -->
+    <!-- GLASSBOX SCRIPT -->
+    <script type="text/javascript" id="_cls_injector"> var script = document.createElement('script'); script.id = "_cls_detector"; script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); document.head.appendChild(script);  </script>
+    <!-- End GLASSBOX SCRIPT -->
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
     <!-- Google Tag Manager (noscript) -->
