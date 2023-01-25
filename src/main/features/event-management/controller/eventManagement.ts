@@ -1801,9 +1801,7 @@ export const START_EVALUATION_REDIRECT = async (req: express.Request, res: expre
     do {
       let eventStatusRaw: any = [];
       eventStatusRaw = await GetEventStatusApis();
-      console.log(eventStatusRaw);
       let statusOut = eventStatusRaw.filter((el: any) => el.id == eventId)[0].dashboardStatus;
-      console.log(statusOut.toLowerCase())
       
       if(statusOut.toLowerCase() === 'evaluating') {
         doRaw = false;
