@@ -31,7 +31,8 @@ describe('MCF3: Set your RfI review page render', async () => {
     parentApp = express();
     parentApp.use(function (req, res, next) {
     req.session = mcfData
-    req.session.access_token=OauthToken;    
+    req.session.access_token=OauthToken;
+    req.session.endDate="Question 4*10 February 2023, 16:00";
       next();
     });
     parentApp.use(app);

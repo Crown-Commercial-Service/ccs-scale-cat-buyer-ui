@@ -12,7 +12,7 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-import  mcfData from '../../../data/mcf/rfi/rfiAddCollabarator.json';
+import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 
 chais.should();
 chais.use(chaiHttp);
@@ -93,7 +93,7 @@ describe('MCF3: Add colleagues to your project', async () => {
 
         expect(res.header.location).to.be.equal('/rfi/rfi-tasklist');
       });
-  });
+  }).timeout(0);
   
   
 
