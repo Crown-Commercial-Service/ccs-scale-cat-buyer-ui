@@ -1575,6 +1575,13 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
     //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
       event.addEventListener('click', function(event) {

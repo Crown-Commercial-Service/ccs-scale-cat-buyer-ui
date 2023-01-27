@@ -52,9 +52,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     }
     
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
-    console.log(supplierInterestURL);
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
-    console.log(supplierdata.data);
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
 
@@ -109,14 +107,12 @@ try{
                   score: evaluation_score,
                 }
               ];
-              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
-              console.log(body);
+              
               req.session.individualScore = body[0];
               //let responseScore = 
               TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              console.log('Action made! ****************')
               //CAS-INFO-LOG 
               // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
@@ -128,7 +124,6 @@ try{
             }
    
 }catch (error) {
-  console.log("***********error.response.status - ",error.response.status);
   if(error.response.status === 504){
     req.session.isEmptyProjectError = false;
     res.redirect('/evaluate-suppliers');
@@ -151,7 +146,7 @@ export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Re
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  console.log('Temp ***************');
+  
   if(req.session.individualScore !== undefined) {
 
     async function scoreApis() {
@@ -165,7 +160,7 @@ export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Re
       let sessionScore = req.session.individualScore;
       let resScore: any = [];
       resScore = await scoreApis();
-      console.log(resScore);
+      
       if(resScore.length > 0) {
         let scoreFliter = resScore.filter((el: any) => {
           return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
@@ -173,7 +168,6 @@ export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Re
         if(scoreFliter.length > 0) {
           scoreIndividualGetState = false;
         }
-        console.log(scoreIndividualGetState);
       }
     } while(scoreIndividualGetState);
     

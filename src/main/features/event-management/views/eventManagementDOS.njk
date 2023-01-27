@@ -272,7 +272,7 @@
                           <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
                           {% endif %} #}
 
-                          {% if status.toUpperCase() !== 'TO-BE-EVALUATED' and stage2_value == 'Stage 1' %}
+                          {% if status.toUpperCase() !== 'TO-BE-EVALUATED' %}
                           <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                             <div class="govuk-grid-column-full">
                               <table class="govuk-table">
@@ -325,7 +325,7 @@
                                             {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
                                               <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
                                             {%else%}
-                                            <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                                            <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
                                             {%endif%}
 
                                           </td>
@@ -385,7 +385,7 @@
                                                   {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
                                                      <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                                                     {% else%}
-                                                  <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                                  <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                                                   {% endif %}
                                                 {% endif %}
 
