@@ -380,9 +380,9 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
           const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
 
           //CAS-INFO-LOG
-          LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
+          await LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
 
-          QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
+          await QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
             proc_id,
@@ -798,7 +798,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
+            await QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
               ErrorView,
               DynamicFrameworkInstance,
               proc_id,

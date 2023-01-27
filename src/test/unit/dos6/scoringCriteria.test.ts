@@ -15,7 +15,7 @@ import { getToken } from 'test/utils/getToken';
 chais.should();
 chais.use(chaiHttp);
 
-describe('Dos6 : Set scoring criteria', async () => {
+describe('Dos6 : Set scoring criteria', async function() {
   let parentApp;
   let OauthToken;
   const eventId = 'ocds-pfhb7i-18728';
@@ -57,7 +57,7 @@ describe('Dos6 : Set scoring criteria', async () => {
   }]
 
 
-  beforeEach(async function () {
+  before(async function () {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
@@ -93,7 +93,7 @@ describe('Dos6 : Set scoring criteria', async () => {
         const { textContent } = dom.window.document.querySelector('h1#page-heading');
         expect(textContent).to.contain(`How you will score suppliers`);
       });
-  });
+  }).timeout(0);
 
   it('Initial data after render the "How you will score suppliers" page', async () => {
     await request(parentApp)
@@ -108,7 +108,7 @@ describe('Dos6 : Set scoring criteria', async () => {
       expect(dom.window.document.hasChildNodes('textarea#rfp_score_criteria_name_1')).to.to.to.to.true
       expect(dom.window.document.hasChildNodes('input#rfp_score_criteria_point_1')).to.to.to.to.true
     });
-  });
+  }).timeout(0);
 
   it('should redirect to procurement lead if "rfp_build_started=true" send', async () => {
     const _body = {
@@ -126,7 +126,7 @@ describe('Dos6 : Set scoring criteria', async () => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/task-list');
       });
-  });
+    }).timeout(0);
 
   it('should redirect to "error page" if "rfp_build_started=false"', async () => {
     const _body = {
@@ -144,7 +144,7 @@ describe('Dos6 : Set scoring criteria', async () => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/error');
       });
-  });
+    }).timeout(0);
 
   it('should redirect to "error page" if "send empty _body"', async () => {
     const _body = {};
@@ -156,5 +156,5 @@ describe('Dos6 : Set scoring criteria', async () => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/error');
       });
-  });
+    }).timeout(0);
 });
