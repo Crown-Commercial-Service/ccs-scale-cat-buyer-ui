@@ -22156,7 +22156,10 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
         error: function (jqXHR, textStatus, errorThrown) {
           var bodytg = document.body;
           bodytg.classList.remove("pageblur");
-          // console.log(jqXHR.status)
+          console.log(jqXHR.status)
+          console.log(jqXHR)
+          console.log(textStatus)
+          console.log(errorThrown)
         }
 
 
