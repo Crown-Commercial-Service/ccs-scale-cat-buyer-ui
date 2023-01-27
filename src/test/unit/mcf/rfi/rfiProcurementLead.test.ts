@@ -63,7 +63,7 @@ describe('MCF3: ProcurementLead page render', async () => {
       .send(bodyDummyValue)
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
-        console.log("res.header.location",res.header.location)
+      
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfi/add-collaborators'); 
       });

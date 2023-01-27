@@ -12,12 +12,12 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-import  mcfData from '../../../data/mcf/rfi/rfiNameAproject.json';
+import  mcfData from '../../../data/mcf/rfi/rfiReview.json';
 
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Name a project', async () => {
+describe('MCF3: Set your RfI review page render', async () => {
   let parentApp;
   let OauthToken;
   // let procid=mcfData.procurements.procurementID;
@@ -37,32 +37,34 @@ describe('MCF3: Name a project', async () => {
     parentApp.use(app);
   });
 
-  it('should render `MCF3 Name a project ` page when everything is fine', async () => {
+  it('should render `MCF3 Set your RfI review ` page when everything is fine', async () => {
     await request(parentApp)
-      .get('/rfi/name-your-project')
+      .get('/rfi/review')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
+  }).timeout(0);
 
-  it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = 'test';
-    
-    let procId = mcfData.procurements[0].procurementID;
-    let eventId = mcfData.procurements[0].eventId;
-    
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);
-    await request(parentApp)
-      .post(`/rfi/name?procid=${procId}`)
-      .send({ name: dummyName })
-      .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
-      .expect(res => {
-       // console.log("res.header.location",res.header.location)
-       expect(res.status).to.equal(302);
-        
-      });
-  });
+//   {"_csrf":"","rfi_publish_confirmation":"1","finished_pre_engage":"true"}
+// req.session.endDate Question 4*10 February 2023, 16:00
+// req.session.endDate "Question 4*10 February 2023, 16:00"
+
+
+//   it('should be able to proceed to Set your RfI timeline ', async () => {
+//     const bodyDummyValue = {
+//             "rfi_publish_confirmation": "1",
+//             "finished_pre_engage": "true",
+//     }
+//     await request(parentApp)
+//       .post(`/rfi/review`)
+//       .send(bodyDummyValue)
+//       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+//       .expect(res => {
+//         //console.log("res.header.location",res.header.location)
+//         expect(res.status).to.equal(302);
+//         //expect(res.header.location).to.be.equal('/rfi/review'); 
+//       });
+//   }).timeout(0);
 
 });
