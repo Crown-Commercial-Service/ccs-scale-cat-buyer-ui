@@ -1,0 +1,42 @@
+{
+    "lotId": "Lot 2",
+    "agreementLotName": "test",
+    "agreementName": "test",
+    "agreement_id": "RM6187",
+    "isRFIComplete": false,
+    "cookie": {},
+    "procurements": [
+        {
+          "procurementID": 18041,
+          "eventId": "ocds-pfhb7i-18800",
+          "defaultName": {
+            "name": "RM6187-Lot 2-FIANNN",
+            "components": {
+              "agreementId": "RM6187",
+              "lotId": "Lot 2",
+              "org": "COGNIZANT BUSINESS SERVICES UK LIMITED"
+            }
+          },
+          "started": true
+        }
+      ],
+      "user": {
+        "payload": {
+          "iat": 1674466741,
+          "jti": "29dc4062-4312-4974-bef5-e4aec5570484",
+          "uid": "12762",
+          "caller": "user",
+          "ciiOrgId": "669821636384259971",
+          "sid": "kyEdzMySgFvLxFx2wznHXTSqUixqniKstdmwC7tfXXdBJdgm+a/PkkOfq4MWseEF/EpOjEbgmIsfNLhP0aU6PA==",
+          "roles": "CAT_USER",
+          "sub": "cas_uat_28@yopmail.com",
+          "exp": 1674467641,
+          "iss": "https://tst.api.crowncommercial.gov.uk/security",
+          "aud": "zyicrDa0oJsH4hULIWTNdadxQV477w45"
+        }
+      
+    },
+    "projectId": 18041,
+    "eventId": "ocds-pfhb7i-18800",
+    "isJaggaerError": false
+  }
