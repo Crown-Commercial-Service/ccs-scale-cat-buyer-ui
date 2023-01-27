@@ -315,10 +315,17 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
     do {
       let statusResponse: any = [];
       statusResponse = await statusApis();
+      console.log('*********************statusResponse');
+      console.log(statusResponse);
       var status = statusResponse.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+      console.log('*********************status');
+      console.log(status);
         if(status.toLowerCase() == "evaluated") {
           evaluateStatus = false;
         }
+
+        console.log('*********************evaluateStatus');
+      console.log(evaluateStatus);
       
     } while(evaluateStatus);
     
