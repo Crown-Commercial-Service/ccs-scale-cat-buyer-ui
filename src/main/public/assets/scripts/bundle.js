@@ -19857,7 +19857,6 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const classLength = classList.length;
   const pageHeading = document.getElementById('page-heading').innerHTML;
   errorStore = [];
-  console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
@@ -19867,12 +19866,24 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
     }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
+  var errorMsg = 'Supplier must be minimum 3';
+  if($('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+    if(rfp_contracting_auth.value.length > 0 &&
+      textPatternNew.test(rfp_contracting_auth.value) !== true){
+      errorMsg = 'Please enter only character';
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+      if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    }
+    
+  }
 
     
 
   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
-      ccsZaddErrorMessage('#ccs_rfp_who_form', 'Supplier must be minimum 3');
+      ccsZaddErrorMessage(rfp_contracting_auth, errorMsg);
   } else {
     errorStore = [];
     document.forms['ccs_rfp_who_form'].submit();

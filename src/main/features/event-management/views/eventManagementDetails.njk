@@ -152,7 +152,7 @@
   </br>
   {%endif%}
            {%if agreementId == 'RM1043.8' or agreementId == 'RM1557.13'%} 
-          {%if msgThreadList.length >0%}
+          {%if msgThreadList.length >0  and (type !="sent")%}
           <div class="govuk-!-margin-bottom-9">
             <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
                 <details class="govuk-details" data-module="govuk-details">
@@ -177,16 +177,9 @@
               
 
           </div>
-          {%else%}
-          <div class="govuk-!-margin-bottom-9">
-          <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
-          <details class="govuk-details" data-module="govuk-details">
-            
-        </details>
-      </div>
           {%endif%}
         {%else%}
-        {%if msgThreadList.length >0%}
+        {%if msgThreadList.length > 0 and (type !="sent")%}
           {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
@@ -210,8 +203,8 @@
          {%endif%}
   <label class="govuk-label govuk-label govuk-label--m">{{messageDetails.OCDS.title}}</label>
   <label class="govuk-label govuk-label govuk-label--m">{{data.line4}}{{messageDetails.OCDS.author.name}}</label>
-  <p class="govuk-body">{{data.line1}} : {{messageDetails.nonOCDS.classification}}</p>
-  <p class="govuk-body">{{data.line2}} : {{messageDetails.OCDS.date | dateddmmyyyy}}</p>
+  <p class="govuk-body">{{data.line1}} : <strong>{{messageDetails.nonOCDS.classification}}</strong></p>
+  <p class="govuk-body">{{data.line2}} : <strong>{{messageDetails.OCDS.date | dateddmmyyyy}}</strong></p>
   <p class="govuk-body">
     {% for attachemnt in messageDetails.nonOCDS.attachments%}
       <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}&id={{id}}">{{attachemnt.name}}</a>
