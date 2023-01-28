@@ -2156,9 +2156,9 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
-       const agreementPublishedRaw = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
 
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');

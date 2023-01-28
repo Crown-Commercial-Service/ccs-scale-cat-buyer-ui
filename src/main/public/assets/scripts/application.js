@@ -1575,6 +1575,21 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
     document.querySelectorAll(".download").forEach(function(event) {
       event.addEventListener('click', function(event) {   
@@ -1630,7 +1645,10 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
         error: function (jqXHR, textStatus, errorThrown) {
           var bodytg = document.body;
           bodytg.classList.remove("pageblur");
-          // console.log(jqXHR.status)
+          console.log(jqXHR.status)
+          console.log(jqXHR)
+          console.log(textStatus)
+          console.log(errorThrown)
         }
 
 

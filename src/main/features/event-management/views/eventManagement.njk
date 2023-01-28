@@ -315,8 +315,10 @@
         <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
         <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
           <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            {% if (agreementId_session == 'RM1557.13') %}
+            {% if (agreementId_session == 'RM1557.13') and (eventType != 'RFI') %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
+            {% elseif (agreementId_session == 'RM1557.13') and (status.toUpperCase() == 'TO-BE-EVALUATED') and (eventType == 'RFI')%}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
             {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
             {% endif %}
