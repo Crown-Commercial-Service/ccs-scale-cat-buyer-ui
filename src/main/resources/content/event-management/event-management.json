@@ -55,7 +55,7 @@
             "disable": true
         },
         {
-            "line_1_text": "Download document sent to supplier",
+            "line_1_text": "Download my published project",
             "line_1_link": "/publisheddoc?download=1",
             "disable": true
         }
