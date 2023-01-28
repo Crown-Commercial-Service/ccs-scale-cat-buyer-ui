@@ -319,6 +319,8 @@
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
             {% elseif (agreementId_session == 'RM1557.13') and (status.toUpperCase() == 'TO-BE-EVALUATED') and (eventType == 'RFI')%}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
+            {% elseif (agreementId_session == 'RM6187') and (eventType == 'EOI') and  (status.toUpperCase() == 'TO-BE-EVALUATED') %}
+              <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
             {% else %}
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
             {% endif %}
@@ -368,12 +370,12 @@
                   <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
                       {% if (agreementId_session == 'RM1557.13') %}
                           {% if status.toLowerCase() == 'published' %}
-                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}J1</p>
                           {% else %}
                             <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}</p>
                           {% endif %}
                       {% else %}
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
+                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}J</p>
                       {% endif %}
                     <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                     {% endif %}
@@ -849,7 +851,7 @@
                 <h2 class="govuk-heading-m">
                   <span class="proc-task-list__section-number">5.</span>
                 Complete EoI</h2>
-                <p>When you have the supplier responses,you can close this project and then:</p>
+                <p>When you have the supplier responses, you can close this EoI event and then:</p>
                     {% if agreementId_session ==='RM6187' %}
                         <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                           <li>start the next stage of your project (from the 'Procurement overview' page)</li>
