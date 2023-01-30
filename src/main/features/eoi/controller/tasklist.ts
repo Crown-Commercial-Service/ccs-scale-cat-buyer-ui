@@ -7,6 +7,7 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // eoi TaskList
 /**
@@ -68,6 +69,8 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     }
    
 
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.eoiTaskListPageLog, req);
 
     res.render('TasklistEoi', windowAppendData);
   } catch (error) {

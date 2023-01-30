@@ -9,9 +9,14 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+   
+  //CAS-INFO-LOG 
+   LoggTracer.infoLogger(null, logConstant.setYourTimeLinePageLog, req);
+
   RESPONSEDATEHELPER(req, res);
 };
 
@@ -51,6 +56,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.rfiGetTimeLineQuestions, req);
+    
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
       .map(aQuestion => aQuestion.OCDS.id);
@@ -77,13 +85,17 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       };
       const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
+      let flag=await ShouldEventStatusBeUpdated(eventId,13,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
     }
     }
 
@@ -353,6 +365,10 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.yourTimeLineUpdate, req);
+
         res.redirect('/rfi/response-date');
       } catch (error) {
         delete error?.config?.['headers'];
