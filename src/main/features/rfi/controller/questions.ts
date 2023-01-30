@@ -13,6 +13,8 @@ const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 /**
  * @Controller
@@ -33,6 +35,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+     
+    //CAS-INFO-LOG 
+     LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.rfiQuestionDetails, req);
+
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -125,6 +131,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
+    
+   //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, data.rfiTitle, req);
+
     res.render('questions', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -248,7 +258,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             
             try {
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+
               if (stop_page_navigate == null || stop_page_navigate == undefined) {
                 QuestionHelper.AFTER_UPDATINGDATA(
                   ErrorView,
@@ -304,8 +318,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
 
             try {
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
 
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+              
               if (stop_page_navigate == null || stop_page_navigate == undefined) {
                 QuestionHelper.AFTER_UPDATINGDATA(
                   ErrorView,
@@ -367,7 +384,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                
                 try {
                   const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  
+                  //CAS-INFO-LOG 
+                  LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+              
+
                   QuestionHelper.AFTER_UPDATINGDATA(
                     ErrorView,
                     DynamicFrameworkInstance,
@@ -434,7 +456,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     },
                   };
                   const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  
+                  //CAS-INFO-LOG 
+                  LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+
                 } else if (
                   selectedOptionToggle[0].find(
                     x => x.value === 'Not No specific location, for example they can work remotely',
@@ -468,7 +494,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         };
                         answerBody.nonOCDS.options[0]['selected'] = true;
                         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iterationMcf3.questionNo}`;
-                        await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                        let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                      
+                        //CAS-INFO-LOG 
+                        LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+
                       }
                     } else {
                      
@@ -479,7 +509,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         },
                       };
                       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                      let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+
+                       //CAS-INFO-LOG 
+                       LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+
                     }
                   } else {
                     
@@ -490,7 +524,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                       },
                     };
                     const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                    let questionResponse= await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                    
+                    //CAS-INFO-LOG 
+                    LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+
                   }
                 }
                 if (req.session['isLocationError'] === false) {

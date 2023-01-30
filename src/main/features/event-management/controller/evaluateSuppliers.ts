@@ -273,7 +273,8 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
  
   if(error.response.status === 504){
     if(agreement_id != 'RM1043.8'){
-      res.redirect('/dashboard');
+      res.redirect('/event/management?id='+eventId);
+      // res.redirect('/dashboard');
     }else{
       res.redirect('/shortlist_evaluation');
     }

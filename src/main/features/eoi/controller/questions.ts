@@ -15,6 +15,8 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 /**
  * @Controller
@@ -42,6 +44,11 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+       
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.questionDetails, req);
+
+
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -177,8 +184,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+ 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.eoiTitle, req);
 
-   
    res.render('questionsEoi', data);
    
   } catch (error) {
@@ -232,8 +241,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
-    const agreementExpiryDate = retrieveAgreement.endDate;
+    const retrieveAgreement = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+     
+    //CAS-INFO-LOG
+     LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
+
+    const agreementExpiryDate = retrieveAgreement.data.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
 
@@ -493,7 +506,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
 
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+              
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
+
             } catch (error) {
               if (error.response?.status < 500) {
                 logger.info(error.response.data.errors[0].detail)

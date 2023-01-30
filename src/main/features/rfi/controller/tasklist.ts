@@ -9,6 +9,8 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 // RFI TaskList
 /**
  *
@@ -84,6 +86,9 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     const releatedContent = req.session.releatedContent;
     const windowAppendData = { data: cmsData, lotId, agreementLotName, releatedContent, agreementId_session };
     
+     //CAS-INFO-LOG 
+     LoggTracer.infoLogger(null, logConstant.rfiTaskListPageLog, req);
+
     res.render('Tasklist', windowAppendData);
   } catch (error) {    
     LoggTracer.errorLogger(

@@ -35,6 +35,7 @@
     "subsection4_title2_1": "Your published project",
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
     "subsection4_title2_2_mcf":"Your published project",
+    "subsection4_title2_1_descriiption_gcloud":"Read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_2_descriiption": "[ Description for this section ]",
     "subsection4_title2_1_task": [{
@@ -100,7 +101,7 @@
 
 
     "subsection4_title4_1": "Responses received - interest to participate",
-    "subsection4_table_th1_1": "Supplier Name",
+    "subsection4_table_th1_1": "Supplier name",
     "subsection4_table_th1_2": "Date the supplier responded",
     "subsection4_table_th1_3": "Supplier's Answer",
 
