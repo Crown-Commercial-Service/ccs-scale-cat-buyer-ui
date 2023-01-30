@@ -19113,6 +19113,8 @@ $("#enter_evaluation").submit(function(){
     console.log("errorStore",errorStore);
   }
   if (errorStore.length === 0) {
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.forms["enter_evaluation"].submit();
   }else { ccsZPresentErrorSummary(errorStore);
   return false;
@@ -22110,12 +22112,12 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
-    document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
-      event.addEventListener('click', function(event) {
-        var bodytg = document.body;
-        bodytg.classList.add("pageblur");
-      });
-    });
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
 
     //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
