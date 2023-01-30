@@ -46,8 +46,23 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             res.send(fileData);
         }
         else{
+            console.log('*************** START **************');
+              console.log(`URL: https://dev-ccs-scale-cat-service.london.cloudapps.digital//tenders/projects/${projectId}/events/${eventId}/messages/`+id)
+              console.log(`METHOD: GET`);
+              
             const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
-            const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+            const draftMessage: any = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+
+               //CAS-INFO-LOG
+               LoggTracer.infoLogger(draftMessage, 'PRE09121210', req);
+               console.log(draftMessage.config.metadata.startTime);
+               console.log(draftMessage.config.metadata.endTime);
+               console.log(draftMessage.duration);
+               console.log('*****************************');
+               console.log(JSON.stringify(draftMessage.config));
+               console.log(JSON.stringify(draftMessage.config.metadata));
+             //  console.log(JSON.stringify(draftMessage));
+               console.log('*************** END **************');
 
             const message: MessageDetails = draftMessage.data
             const agreementId = req.session.agreement_id;  
@@ -61,6 +76,14 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             res.render('eventManagementDetails', appendData)
         }
     } catch (err) {
+        
+        if(err.response.status !== undefined) {
+            console.log("*********** error.response.status - ",err.response.status);
+          }
+          console.log(err.config.metadata.startTime);
+          console.log(err.config.metadata.endTime);
+          console.log(err.duration);
+
         LoggTracer.errorLogger(
             res,
             err,

@@ -5038,10 +5038,52 @@ display: inline-block;
   pointer-events: none;
 }
 .pageblur {
-  opacity: .25;
   pointer-events: none;
   overflow: hidden;
   height: 100%;
+}
+
+.loader-container.loader-block {
+display: flex;
+}
+
+.pageblur .loader-container {
+  display: flex;
+}
+.loader-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,0.9);  
+  z-index: 2;  
+  cursor: default;
+  display: none;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .dm-attachment__thumbnail-image {
   display: block;
