@@ -238,7 +238,7 @@ Change<span class="govuk-visually-hidden"> rfi team members</span>
             <dd class="govuk-summary-list__value"></dd>
             <dd class="govuk-summary-list__actions"></dd>
           </div>
-{% if agreementId_session == "RM1557.13" %}  
+{% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}  
           <div class="govuk-summary-list__row">
 <dt class="govuk-summary-list__key">
   <p class="govuk-body">
@@ -425,10 +425,7 @@ Upload documents
                                 <ul class="govuk-list govuk-list--none">
                                   {% for document in documents%}
                                     <li>
-                                      <span>Uploaded file: &nbsp;</span>
-                                      <a href="/rfi/upload-doc">
-                                        {{ document }}
-                                      </a>
+                                      <p class="govuk-body">Uploaded file: &nbsp;<a href="/rfi/upload-doc" class="govuk-link">{{ document }}</a></p>
                                     </li>
 
                                     {%endfor%}
