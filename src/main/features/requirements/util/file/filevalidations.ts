@@ -10,8 +10,11 @@ export class FileValidations{
         }
 
         static formatValidation = (mimeType ) => {
+                console.log('**********************mimetype');
+                console.log(mimeType);
                 const allMimeTypes = Object.values(FileMimeType);
-                const checkForFileMimeType = allMimeTypes.filter(aMimeType => aMimeType === mimeType).length > 0;
-               return checkForFileMimeType;
+                const mergeMimeTypes = allMimeTypes.flat(1);
+                const checkForFileMimeType = mergeMimeTypes.filter(aMimeType => aMimeType === mimeType).length > 0;
+                return checkForFileMimeType;
         }
 }

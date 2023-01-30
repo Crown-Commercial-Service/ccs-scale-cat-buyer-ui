@@ -1076,7 +1076,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                       return x;
                     }
                   });
-                  answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [{ value: null, selected: true }];
+                  answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [];
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }
@@ -1088,13 +1088,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 }
 
               } catch (error) {
-                if (error.response?.status < 500) {
-                  logger.info(error.response.data.errors[0].detail)
-                } else {
-                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-                }
-                
+                // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
               }
             }
           }

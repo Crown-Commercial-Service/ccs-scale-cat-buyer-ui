@@ -1764,5 +1764,63 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       }
 }
 
+export const START_EVALUATION = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId } = req.session;
+  try {
+    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/startEvaluation`;
+    TenderApi.Instance(SESSION_ID).post(BASEURL); 
+    res.redirect('/start-evaluation-redirect');
 
+  } catch (error) {
+    LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Event management - Start Evaluation Endpoit issue',
+        true,
+      );
+  }
+}
+
+export const START_EVALUATION_REDIRECT = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId } = req.session;
+  try {
+
+    async function GetEventStatusApis() {
+      const baseurl = `/tenders/projects/${projectId}/events`;
+      const rawData = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 10000)));
+      return rawData.data;
+    }
+    
+    var doRaw: boolean = true;
+    
+    do {
+      let eventStatusRaw: any = [];
+      eventStatusRaw = await GetEventStatusApis();
+      let statusOut = eventStatusRaw.filter((el: any) => el.id == eventId)[0].dashboardStatus;
+      
+      if(statusOut.toLowerCase() === 'evaluating') {
+        doRaw = false;
+      }
+    } while(doRaw);
+    
+    if(!doRaw) {
+      res.redirect('/event/management?id='+eventId);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Event management - Start Evaluation Redirect Endpoit issue',
+        true,
+      );
+  }
+}
 

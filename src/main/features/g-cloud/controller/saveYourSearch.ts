@@ -126,7 +126,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
       if(savesearch !== undefined){
         let sessionsearchUrl= searchUrl;
          searchUrl=await gCloudServiceQueryReplace(searchUrl, "filter_");
-        if(savesearch=='new' && search_name !== ''){
+         if(savesearch=='new' && search_name !== ''){
           if(search_name.length <= 250){
           const assessmentsBaseURL=`/assessments`;
           let {data: assessments} = await TenderApi.Instance(SESSION_ID).get(assessmentsBaseURL);
