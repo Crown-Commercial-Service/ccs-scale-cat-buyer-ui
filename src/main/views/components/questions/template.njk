@@ -241,6 +241,23 @@
                                 classes: 'govuk-label govuk-label--m'
                             }
                         }) }}
+
+                        {% if (agreement_id == 'RM1557.13') %}
+                        {{ CCSInput({
+                            label: {
+                                text: 'Enter the score for this level',
+                                classes: 'govuk-label govuk-date-input__label govuk-label--m'
+                            },                            
+                            hint: {
+                              text: 'Make sure your scoring system does not overlap or cause confusion. Use whole numbers.'
+                          },
+                            id: 'rfp_score_criteria_point_'+i,
+                            name: 'score_criteria_points',
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 weightagelimit",
+                            type: "number",
+                            inputmode:"numeric"
+                          }) }}
+                        {% else %}
                         {{ CCSInput({
                             label: {
                                 text: 'Enter the score for this level',
@@ -255,6 +272,8 @@
                             type: "number",
                             inputmode:"numeric"
                           }) }}
+                      {% endif %}
+                      
                         {% if (agreement_id == 'RM1043.8') %}
                
                 {{  CCSCharacterCount({
