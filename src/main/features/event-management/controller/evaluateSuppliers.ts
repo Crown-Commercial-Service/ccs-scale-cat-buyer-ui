@@ -240,8 +240,13 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
   var ScoresAndFeedbackURLdata_: any[] = []
 
   try{
+
+ 
+    
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
-    const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
+    const ScoresAndFeedbackURLdata : any = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL)
+   
+
     for(var i=0;i<ScoresAndFeedbackURLdata.data.length;i++)
     {
       if(ScoresAndFeedbackURLdata.data[i].score !== undefined)
@@ -251,29 +256,78 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
       }
     }
     let body=ScoresAndFeedbackURLdata_
+  
     
-    await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
+     TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
+
+     res.redirect('/confirm-score');
+
+    // if(agreement_id != 'RM1043.8'){
+    //   res.redirect('/dashboard');
+    // }else{
+    //   res.redirect('/shortlist_evaluation');
+    // }
+    
+//publisheddoc?download=1
+}catch (error) {
+ 
+  if(error.response.status === 504){
     if(agreement_id != 'RM1043.8'){
       res.redirect('/dashboard');
     }else{
       res.redirect('/shortlist_evaluation');
     }
-    
-//publisheddoc?download=1
-}catch (error) {
-  console.log(error)
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
-    true,
-  );
+  }else{
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
+      true,
+    );
+  }
 }
 
 }
+
+export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { agreement_id } = req.session;
+
+    async function statusApis() {
+      const baseurl = `/tenders/projects/${projectId}/events`
+     const apidata: any = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new   Promise(resolve => setTimeout(() => resolve(x), 6000)))
+      return apidata.data;
+    }
+    
+    var evaluateStatus: boolean = true;
+    do {
+      let statusResponse: any = [];
+      statusResponse = await statusApis();
+      var status = statusResponse.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+        if(status.toLowerCase() == "evaluated") {
+          evaluateStatus = false;
+        }
+        
+      
+    } while(evaluateStatus);
+    
+    if(!evaluateStatus) {
+      if(agreement_id != 'RM1043.8'){
+      res.redirect('/event/management?id='+eventId);
+      // res.redirect('/dashboard');
+      }else{
+        res.redirect('/shortlist_evaluation');
+      }
+    }
+    
+  
+}
+
 export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
