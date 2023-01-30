@@ -51,7 +51,7 @@ console.log("CID",cid);
             const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
               const questionNonOCDS = {
                 groupId: groupDatas[i].OCDS.id,
-                questionId: aSelector.OCDS.id,
+                question_id: aSelector.OCDS.id,
                 questionType: aSelector.nonOCDS.questionType,
                 mandatory: aSelector.nonOCDS.mandatory,
                 multiAnswer: aSelector.nonOCDS.multiAnswer,
