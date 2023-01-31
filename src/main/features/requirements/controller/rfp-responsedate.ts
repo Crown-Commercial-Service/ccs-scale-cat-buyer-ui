@@ -288,7 +288,7 @@ const questionInputDate = new Date(year, month, day);
     //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
       if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
           isValid = false;
-          error = 'DDD You cannot set a date and time that is greater than the next milestone in the timeline';
+          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
@@ -354,7 +354,7 @@ const questionInputDate = new Date(year, month, day);
       }
       errorSelector = 'standstill_period_starts_date';
       break;
-    case 'Question 10': standstillPeriodStartsDate
+    case 'Question 10': 
       if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
