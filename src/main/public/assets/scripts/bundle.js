@@ -11614,7 +11614,7 @@ const emptyQuestionFieldCheck = () => {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        if(urlParams.get('agreement_id') == 'RM6187'){
+        if((urlParams.get('agreement_id') == 'RM6187') || (urlParams.get('agreement_id') == 'RM1557.13')){
           errText = "You must ask at least one question";
         }else{
           errText = "You must add at least one question";
@@ -11622,7 +11622,12 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-      fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must add question", /\w+/);
+        }
+        else{
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        }
       }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
@@ -17316,7 +17321,7 @@ const emptyFieldCheckRfpScore = () => {
         }else{
           fieldCheck = [focusField.id, 'You must add information in all fields.'];
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(point_field, 'Enter valid score');
           ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
           errorStore.push(fieldCheck);
         }
