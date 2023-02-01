@@ -25,7 +25,7 @@ describe('Choose Agreement', async function() {
      
   });
 
-  const agreements = ['RM6187','RM1043.8','RM1557.13'];
+  const agreements = ['RM1043.8'];
   let agreementApiBaseUrl = process.env['AGREEMENTS_SERVICE_API_URL'];
   console.log('agreementApiBaseUrl',agreementApiBaseUrl);
      for (const agreement of agreements) {

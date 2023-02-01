@@ -7,19 +7,17 @@ let chaiHttp = require("chai-http");
 import { app } from '../../../main/app';
 import nock from 'nock';
 import express from 'express';
-import { createDummyJwt } from 'test/utils/auth';
-const path = require('path');
-const environentVar = require('dotenv').config({path:path.join(__dirname, '../../../../.env')})
+const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-const assessmentgroups = require('test/utils/qsData').assessment_datas
+import { activeevents } from 'test/data/dos/activeEvents.json';
 
 
 chais.should();
 chais.use(chaiHttp);
 
-describe('Dos6 :  Your assessment criteria Get', async function() {
+describe('Dos6 : Evaluate Suppliers', async function() {
   this.timeout(0);
   let parentApp;
   let OauthToken;
@@ -28,8 +26,18 @@ describe('Dos6 :  Your assessment criteria Get', async function() {
   const procurementId = process.env.proc_id;
   const projectId = process.env.projectId;
   const agreementLotName = process.env.agreementLotName;
+  const project_name = process.env.project_name;
   const lotId = process.env.lotid;
   const organizationId = 234;
+
+  const agreement_header = {
+    project_name: project_name,
+    projectId: projectId,
+    agreementName: 'Digital Outcomes 6',
+    agreement_id: 'RM1043.8',
+    agreementLotName: agreementLotName,
+    lotid: lotId
+  }
 
   before(async function () {
     OauthToken = await getToken();
@@ -42,48 +50,50 @@ describe('Dos6 :  Your assessment criteria Get', async function() {
         agreement_id: 'RM1043.8',
         agreementLotName: `${agreementLotName}`,
         access_token: OauthToken,
+        openProjectActiveEvents:activeevents,
         cookie: {},
         procurements: [procurementDummy],
         user: { payload: { ciiOrgId: organizationId } },
         projectId,
         searched_user: { userName: 'dummyName', firstName: 'dummyFirst', lastName: 'dummyLast' },
+        agreement_header:agreement_header
       };
       next();
     });
     parentApp.use(app);
+
   });
 
-  for(let i=1;i < assessmentgroups.length;i++){
-    it(`expect Controller at endpoint ${assessmentgroups[i]?.OCDS?.id} to return success status`, async () => {
-        await request(parentApp)
-        .get(`/rfp/assessment-question?agreement_id=RM1043.8&proc_id=${projectId}&event_id=${eventId}&id=Criterion 2&group_id=${assessmentgroups[i]?.OCDS?.id}`)
-        .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
-        .expect(res => {
-          expect(res.status).to.equal(200);
-        });
-    });
-  }
-
-  it('should redirect to `/rfp/your-assessment?agreement_id=RM1043.8&proc_id...` page when everything is fine', async () => {
+  it('should render `Evaluate Suppliers` page when everything is fine', async () => {
     await request(parentApp)
-    .get('/rfp/your-assessment')
+    .get(`/evaluate-suppliers`)
     .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
     .expect(res => {
-        expect(res.status).to.equal(302);
-        expect(res.header.location).to.be.equal(`/rfp/your-assessment?agreement_id=RM1043.8&proc_id=${projectId}&event_id=${eventId}`)
+        expect(res.status).to.equal(200);
     });
   });
 
-  it('should render `Your assessment criteria` page when everything is fine', async () => {
+  it('should render `Enter the supplier’s final score` page when everything is fine', async () => {
     await request(parentApp)
-    .get(`/rfp/your-assessment?agreement_id=RM1043.8&proc_id=${projectId}&event_id=${eventId}`)
+    .get(`/enter-evaluation?supplierid=US-DUNS-364807771&suppliername=Deloitte LLP`)
     .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
     .expect(res => {
-      expect(res.status).to.equal(200);
-      // const dom = new JSDOM(res.text);
-      // const { textContent } = dom.window.document.querySelector('h1.govuk-heading-l');
-      // expect(textContent).to.contains(`Your assessment criteria`);
+        expect(res.status).to.equal(200);
     });
   });
+
+  // it('should redirect to `Enter the supplier’s final score` page when everything is fine', async () => {
+  //   await request(parentApp)
+  //   .post(`/enter-evaluation?supplierid=US-DUNS-364807771&suppliername=Deloitte LLP`)
+  //   .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+  //   .send({'enter_evaluation_score':3})
+  //   .expect(res => {
+  //       expect(res.status).to.equal(200);
+  //       const dom = new JSDOM(res.text);
+  //       const { textContent } = dom.window.document.querySelector('h1.govuk-heading-xl strong');
+  //       expect(textContent).to.contains(`Enter the supplier’s final score`);
+  //   });
+  // });
+  
 
 });

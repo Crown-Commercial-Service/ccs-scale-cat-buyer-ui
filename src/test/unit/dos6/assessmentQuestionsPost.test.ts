@@ -12,7 +12,7 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-import { postData } from 'test/data/dos/assessmentQuestions.json';
+import { postData ,postData_lot3} from 'test/data/dos/assessmentQuestions.json';
  const assessmentnonOCDS = require('test/utils/qsData').assessment_nonOCDS
 
 chais.should();
@@ -22,11 +22,15 @@ describe('Dos6 : Your assessment criteria Post', async function() {
   let parentApp;
   let OauthToken;
   let questionsInfo = [];
-  const eventId = 'ocds-pfhb7i-18728';
-  const procurementId = 23;
-  const projectId = 17972;
+  const eventId = process.env.eventId;
+  const procurementId = process.env.proc_id;
+  const projectId = process.env.projectId;
+  const agreementLotName = process.env.agreementLotName;
+  const lotId = process.env.lotid;
+  let postData = lotId == 1 ? postData : postData_lot3;
   const organizationId = 234;
 
+  beforeEach(() => nock.cleanAll())
   before(async function () {
     OauthToken = await getToken();
     parentApp = express();
@@ -52,9 +56,9 @@ describe('Dos6 : Your assessment criteria Post', async function() {
   });
 
   for(let i=0;i < postData.length;i++){
-    it(`Post : assessment question ${postData[i]?.OCDS?.id} `, async () => {
+    it(`Post : assessment question ${postData[i]?.OCDS?.description} `, async () => {
         await request(parentApp)
-        .post(`/rfp/assessment-question?agreement_id=RM1043.8&proc_id=${projectId}&event_id=${eventId}&id=Criterion 2&group_id=${postData[i]?.OCDS?.id}`)
+        .post(`/rfp/assessment-question?agreement_id=RM1043.8&proc_id=${procurementId}&event_id=${eventId}&id=Criterion 2&group_id=${postData[i]?.OCDS?.id}`)
         .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
         .send(postData[i]?._body)
         .expect(res => {
@@ -64,4 +68,5 @@ describe('Dos6 : Your assessment criteria Post', async function() {
         });
     }).timeout(0);
   }
+
 });

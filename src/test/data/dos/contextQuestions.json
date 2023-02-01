@@ -441,5 +441,392 @@
               "rfp_build_started": "true"
           }
       }
+    ],
+    "postData_lot3" : [
+        {
+          "nonOCDS": {
+            "prompt": "<p>Well-written requirements make it easier for a supplier to understand your needs and propose a solution.<br><br>Long, complex briefs can be hard to understand and respond to.<br><br>Help suppliers decide whether to apply by:\n\n<ul><li>providing a clear and specific summary of the work</li><li>explaining the problem you want to solve</li><li>describing who the  users are and what they need to do</li><li>detailing any work that has already been done</li><li>focusing on the outcome</li><li>describing the budget</li><li>telling suppliers about any pre-tender market engagement</li></ul></p>",
+            "task": "Add context",
+            "mandatory": false,
+            "order": 1
+          },
+          "OCDS": {
+            "id": "Group 1",
+            "description": " About adding context and requirements "
+          },
+          "_body":{
+            "question_id": "Question 1",
+            "rfp_read_me": "true",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Explain any terms and acronyms that you use. This will help suppliers to understand your requirements and reduce the number of supplier questions.",
+            "task": "Add terms and acronyms1",
+            "mandatory": false,
+            "order": 2
+          },
+          "OCDS": {
+            "id": "Group 2",
+            "description": "Terms and acronyms"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1", "Question 2" ],
+            "term": [
+              "1",  "2",  "3",  "4",  "5",
+              "6",  "7",  "8",  "9",  "10",
+              "11", "12", "13", "14", "15",
+              "16", "17", "18", "19", "20"
+            ],
+            "value": [
+              "1",  "2",  "3",  "4",  "5",
+              "6",  "7",  "8",  "9",  "10",
+              "11", "12", "13", "14", "15",
+              "16", "17", "18", "19", "20"
+            ],
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Help suppliers decide whether or not to view your requirements and make a bid.<br>Provide a high level summary of the project goals and the problem you are trying to solve.</p>",
+            "task": "Add Summary of work",
+            "mandatory": true,
+            "order": 3
+          },
+          "OCDS": {
+            "id": "Group 3",
+            "description": "Summary of work"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "Write_a_summary_of_the_expected_scope_of_work_and_activities_for_this_project_here": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Select the locations where you would expect the the research will take place. You can select multiple locations.",
+            "task": "Add Where the supplied staff will work",
+            "mandatory": true,
+            "order": 4
+          },
+          "OCDS": {
+            "id": "Group 4",
+            "description": "Where the research will take place"
+          },
+          "_body":{
+            "question_id": [ "Question 6", "Question 6" ],
+            "required_locations": [ "East Midlands", "West Midlands" ],
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Tell suppliers if you are buying products and services on behalf of another organisation.</p>",
+            "task": "Add buyer details",
+            "mandatory": false,
+            "order": 5
+          },
+          "OCDS": {
+            "id": "Group 5",
+            "description": "Who the organisation using the products or services is"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "The_organisation_using_the_products_or_services": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Tell the supplier if you have done any pre-market engagement, and give details about the outcome. You can include any recommendations or suggestions you received.",
+            "task": "Add market engagement",
+            "mandatory": false,
+            "order": 6
+          },
+          "OCDS": {
+            "id": "Group 6",
+            "description": "Pre-market engagement"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_t": "sdsadsad",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Each round  can have several participants.<br><br>A research round often lasts for a day.</p>",
+            "task": "Number of research rounds",
+            "mandatory": true,
+            "order": 7
+          },
+          "OCDS": {
+            "id": "Group 7",
+            "description": "Number of research rounds"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Include details of any spare participants in each round.<br><br>A spare participant is someone who will be there to stand in for any cancellations.</p>",
+            "task": "Number of participants per round",
+            "mandatory": true,
+            "order": 8
+          },
+          "OCDS": {
+            "id": "Group 8",
+            "description": "Number of participants per round"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "If you do not have exact dates, say when you expect research to start and end.",
+            "task": "Research dates",
+            "mandatory": true,
+            "order": 9
+          },
+          "OCDS": {
+            "id": "Group 9",
+            "description": "Research dates"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Include the days or dates you expect research to happen; for example: Tuesdays, every 2 weeks.",
+            "task": "How often research will happen",
+            "mandatory": true,
+            "order": 10
+          },
+          "OCDS": {
+            "id": "Group 10",
+            "description": "How often research will happen"
+          }         ,
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_n": "test",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Tell the supplier if you need the research to happen outside the standard working day.<br><br>Select all that apply. ",
+            "task": "Evening or weekend research",
+            "mandatory": false,
+            "order": 11
+          },
+          "OCDS": {
+            "id": "Group 11",
+            "description": "Evening or weekend research"
+          },
+          "_body":{
+            "question_id": [ "Question 6", "Question 6" ],
+            "required_locations": "Weekday evenings",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Provide the exact location where the research will happen. Include:<br><ul><li>the town or city where the research will take place</li><li>more than  one address if appropriate</li><li>a description of the research environment, such as whether the research will happen in a research studio, at a participant’s home, or in a neutral location like a community centre</li></ul></p>",
+            "task": "Research location",
+            "mandatory": true,
+            "order": 12
+          },
+          "OCDS": {
+            "id": "Group 12",
+            "description": "Research location"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_n": "test locat",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Describe any access restrictions at the research location that may affect participants, such as a lack of wheelchair access. </p>",
+            "task": "Access restrictions at location",
+            "mandatory": false,
+            "order": 13
+          },
+          "OCDS": {
+            "id": "Group 13",
+            "description": "Access restrictions at location"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "test access",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Describe any skills, behaviour or attributes participants should, and should not, have.<br><br>Say if they must:<ul><li>be from a particular demographic, such as women under 30 years of age</li><li>be from a specific target user group, such as small business owners</li><li>have experience of a particular situation, such as users who have recently moved home</li><li>have a specific level of digital skills or use of digital technology, such as users who have basic online skills</li><li>meet specific research requirements, such  as must not have participated in user research in the last 3 months or must be prepared to be recorded or filmed</li></ul><br>Always try to recruit a representative sample of your users. A representative sample is a subset of a population that accurately reflects  the population&#39;s characteristics.",
+            "task": "Description of your participants",
+            "mandatory": true,
+            "order": 14
+          },
+          "OCDS": {
+            "id": "Group 14",
+            "description": "Description of your participants"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "test Describe your participant",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>Describe any assisted digital, digital inclusion and accessibility needs participants might have, such as users who rely on a screen reader, magnifier, mouth stick or head wand. </p>",
+            "task": "Assisted digital and accessibility requirements",
+            "mandatory": false,
+            "order": 15
+          },
+          "OCDS": {
+            "id": "Group 15",
+            "description": "Assisted digital and accessibility requirements"
+          },
+          "_body":{
+            "Question 1": [
+              "test accessibility requirements",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "question_id": [
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1",
+              "Question 1", "Question 1"
+            ],
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "Describe your research plan and how it might change.",
+            "task": "Research plan",
+            "mandatory": false,
+            "order": 16
+          },
+          "OCDS": {
+            "id": "Group 16",
+            "description": "Research plan"
+          },
+          "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_n": "test research plan",
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>You should use the standard contract unless your organisation needs to include any special terms and conditions that the supplier will be required to meet. <br>Enter any special terms or conditions you wish to include.<br><br>Add up to 20 special terms or conditions.</p>",
+            "task": "Add another  special term or condition",
+            "mandatory": false,
+            "order": 17
+          },
+          "OCDS": {
+            "id": "Group 17",
+            "description": "Special terms and conditions"
+          },
+          "_body":{
+            "Question 2": [
+              "1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",
+              "9",  "10", "11", "12", "13", "14", "15", "16",
+              "17", "18", "19", "20", "",   "",   "",   "",
+              "",   "",   "",   "",   "",   "",   "",   "",
+              "",   "",   "",   "",   "",   "",   "",   "",
+              "",   "",   "",   "",   "",   "",   "",   "",
+              "",   ""
+            ],
+            "question_id": [
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2", "Question 2",
+              "Question 2", "Question 2"
+            ],
+            "rfp_build_started": "true"
+          }
+        },
+        {
+          "nonOCDS": {
+            "prompt": "<p>It would be helpful to provide a budget range so that suppliers can understand the scope and size of the project.\nYou can also provide context for the figures you enter.<br><br>The following is an example indicative maximum with a context statement:<br><br>The maximum budget is up to £2.5 million for the combined Alpha and Beta deliverables. It is expected that the Alpha can be delivered for £650,000. Funding for the Beta will be conditional on the successful completion of the Alpha phase and internal budget approvals.</p>",
+            "mandatory": true,
+            "order": 18
+          },
+          "OCDS": {
+            "id": "Group 18",
+            "description": "Set your budget "
+          },
+          "_body":{
+            "question_id": [
+              "Question 1",
+              "Question 1",
+              "Question 2",
+              "Question 2",
+              "Question 3",
+              "Question 3",
+              "Question 4",
+              "Question 4"
+            ],
+            "ccs_vetting_type": "No",
+            "rfp_prob_statement_m": [ "", "" ],
+            "rfp_prob_statement_n": "",
+            "rfp_build_started": "true"
+          }
+        }
     ]
   }

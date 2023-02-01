@@ -301,5 +301,296 @@
               "rfp_build_started": "true"
         }
     }
-]
+    ],
+    "postData_lot3" :[
+      {
+        "nonOCDS": {
+          "prompt": "<p>Your assessment criteria will help you to make sure you are getting the best value for money, while fairly and compliantly evaluating suppliers.This will include technical competence and price.<br><h2>About assessment criteria</h2><br>You can only evaluate a supplier on the criteria you have included in the following sections.<br>You will write a series of questions based on key themes like:<br><br><ul><li>technical competence (the essential, nice-to-have and technical questions)</li><li>cultural fit</li><li>social value</li></ul><br>You need to have a clear understanding of what you want to achieve in your project, including any outcomes and deliverables, before you write and publish these questions.<br><br>Determine which skills and experience are &#39;essential&#39; and which are &#39;nice-to-have&#39; so you can shortlist supplier responses.The more specific you are with these questions, the easier it will be to find a supplier who meets your needs.<br><br>Your assessment criteria will help you to evaluate the capabilities of suppliers equally. Your criteria must be relevant to the project, and the outcomes you want to achieve, and must not be written in a way that would disadvantage one supplier from another.<br><br>You will need to apply weightings. The weightings can be used to ensure that you are clear about what is most important to your project and the outcomes you want from it. Weightings will also help you identify the best supplier in terms of skills and capabilities, knowledge and if they meet your social value objectives.<br><br>If your project is highly technical, it is advisable to give technical criteria a higher weighting. This will help you to identify a supplier who best meets your needs.<br><br>When you have simple requirements and know that many suppliers can meet them, price may be more important to you than technical competence.<br><br>If you need user research participants and your user research dates are fixed, availability may be more important to you than technical competence. <h2>Price assessment criteria</h2><br>You will need to apply a weighting for price.</p>\n          ",
+          "task": "Add context",
+          "mandatory": false,
+          "order": 1
+        },
+        "OCDS": {
+          "id": "Group 1",
+          "description": "About assessment criteria and evaluation weightings"
+        },
+        "_body":{
+          "rfp_read_me": "true", "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "<p>Enter the number of suppliers you will take forward to the further assessment stage. You must evaluate at least 3 suppliers.<br><br>You should consider the complexity of your project, the resource you have available for evaluating suppliers, and your general procurement timelines.</p>",
+          "mandatory": true,
+          "order": 2
+        },
+        "OCDS": {
+          "id": "Group 2",
+          "description": "How many suppliers to evaluate"
+        },
+        "_body":{
+          "question_id": [ "Question 1", "Question 1" ],
+          "Enter_the_quantity,_minimum_3": "4",
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "Enter a weighting for each category to indicate how important each is to your procurement.<br><br>Technical competence is a combination of essential, nice-to-have, and technical questions.<br><br>Cultural fit refers to how well you and the supplier work together.<br><br>Social value refers to how the supplier can contribute to the wider community or public benefit when delivering the project. If you are buying on behalf of a central government department, you must include a social value weighting of at least 10% of your overall evaluation weighting.<br><br>Price is evaluated based on how close each suppliers quote is to the cheapest quote.<br><br>The weightings must add up to 100% in total.</p>",
+          "task": "Add overall ratio",
+          "mandatory": true,
+          "order": 3
+        },
+        "OCDS": {
+          "id": "Group 3",
+          "description": "Set the overall weighting"
+        },
+        "_body":{
+          "question_id": [
+            "Question 1",
+            "Question 1",
+            "Question 2",
+            "Question 2",
+            "Question 3",
+            "Question 3",
+            "Question 4",
+            "Question 4"
+          ],
+          "percentage": [ "40", "20", "0", "40" ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "<p>Technical competence refers to how well the supplier can perform the work you require.<br>If a supplier has the necessary skills and experience, a thorough understanding of your requirements, and works in an agile manner, they should be able to complete the work.<br><br>Essential skills and experience should have a higher weighting than nice-to-have skills and experience. <br><br> You should keep the majority of the weighting for technical questions. This is where the supplier will explain how they intend to deliver your bespoke solution and the value they can add.<br>The weightings must add up to 100% in total.</p>\n      ",
+          "task": "Define quality group ratios",
+          "mandatory": true,
+          "order": 4
+        },
+        "OCDS": {
+          "id": "Group 4",
+          "description": "Technical competence"
+        },
+        "_body":{
+          "question_id": [
+            "Question 1",
+            "Question 1",
+            "Question 2",
+            "Question 2",
+            "Question 3",
+            "Question 3"
+          ],
+          "percentage": [ "50", "0", "50" ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "<p>These are the skills and experience that suppliers must have in order to do the work you need. Suppliers who do not meet one or more of your essential criteria can be excluded at the shortlisting stage.<br><br>Add up to 20 questions.</p>",
+          "task": "Essential skills and experience",
+          "mandatory": true,
+          "order": 5
+        },
+        "OCDS": {
+          "id": "Group 5",
+          "description": "Essential skills and experience"
+        },
+        "_body":{
+          "Question 1": [
+            "errere", "werwer", "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", "",
+            "",       "",       "", "", ""
+          ],
+          "question_id": [
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+          ],
+          "Question 2": [
+            "2", "98", "", "", "", "", "", "", "",
+            "",  "",   "", "", "", "", "", "", "",
+            "",  "",   "", "", "", "", "", "", "",
+            "",  "",   "", "", "", "", "", "", "",
+            "",  "",   "", "", "", "", "", "", "",
+            "",  "",   "", "", ""
+          ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "These skills and experience would be nice for suppliers to have, but are not essential to do the work you need. <br><br> Add up to 20 questions.<br><br>You should only enter nice-to-have skills and experience if you have given them a weighting on the \"Technical competence\" page.",
+          "task": "Nice-to-have skills and experience",
+          "mandatory": false,
+          "order": 6
+        },
+        "OCDS": {
+          "id": "Group 6",
+          "description": "Nice-to-have skills and experience"
+        },
+        "_body":{
+          "Question 1": [
+            "asdad", "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      "", "", "", "", "",
+            "",      ""
+          ],
+          "question_id": [
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+          ],
+          "Question 2": [
+            "100", "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            ""
+          ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "Technical questions are used to evaluate shortlisted suppliers on the technical competence of their proposal.<br><br>\nDifferent criteria can be used to help determine if the supplier understands your project; for example:<br><ul><li>technical solution</li><li>approach and methodology</li><li>how the approach or solution meets user needs</li><li>how the approach or solution meets your organisation&#39;s policy or goal</li><li>estimated timeframes for the work</li><li>how they have identified risks and dependencies, and offered approaches to manage them</li><li>team structure</li><li>value for money</li></ul> <br><br>Add up to 20 questions.",
+          "task": "Technical questions",
+          "mandatory": true,
+          "order": 7
+        },
+        "OCDS": {
+          "id": "Group 7",
+          "description": "Technical questions"
+        },
+        "_body":{
+          "Question 1": [
+            "wewrwe", "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", "",
+            "",       "", "", "", ""
+          ],
+          "question_id": [
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+            "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+            "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+          ],
+          "Question 2": [
+            "100", "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            "",    "", "", "", "", "", "",
+            ""
+          ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "Social value questions are used to assess how the supplier can contribute to the wider social objectives that are relevant to the product or service you are buying.<br><br>Suggested themes for criteria:<br><br><ul><li>approach to diversity and inclusion and ability to manage wellbeing of team</li>\n<li>how encourage under-represented groups to join workforce / apply for positions</li><li>how address and report gender pay-gap differences</li><li>create employment opportunities through Digital apprentices and T Levels</li><li>encourage a diverse supply chain and support for local firms</li></ul><br>Add up to 20 questions.<br>You should only enter social value questions if you have given them a weighting on the \"Set your overall weighting\" page.",
+          "task": "social value question",
+          "mandatory": false,
+          "order": 9
+        },
+        "OCDS": {
+          "id": "Group 9",
+          "description": "Write your social value questions"
+        },
+        "_body":{
+          "question_id": [ "Question 1", "Question 1" ],
+          "required_locations": [ "Reference", "Interview" ],
+          "rfp_build_started": "true"
+        }
+      },
+      {
+        "nonOCDS": {
+          "prompt": "You should choose the pricing model that best fits the way you work and provides the best value for money.",
+          "task": "Pricing Models",
+          "mandatory": true,
+          "order": 10
+        },
+        "OCDS": {
+          "id": "Group 10",
+          "description": "Select your pricing model"
+        },
+        "_body":{
+          "question_id": [ "Question 1", "Question 1" ],
+          "rfp_prob_statement_s": "test last qs",
+          "rfp_build_started": "true"
+        }
+      } 
+    ]
 }

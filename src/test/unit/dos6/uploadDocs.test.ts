@@ -18,9 +18,12 @@ chais.use(chaiHttp);
 describe('Dos6 : Upload documents', async function() {
   let parentApp;
   let OauthToken;
-  const eventId = 'ocds-pfhb7i-18728';
-  const procurementId = 23;
-  const projectId = 17972;
+  const eventId = process.env.eventId;
+  const procurementId = process.env.proc_id;
+  const projectId = process.env.projectId;
+  const agreementLotName = process.env.agreementLotName;
+  const project_name = process.env.project_name;
+  const lotId = process.env.lotid;
   const organizationId = 234;
 
   before(async function () {
@@ -28,12 +31,12 @@ describe('Dos6 : Upload documents', async function() {
     parentApp = express();
     parentApp.use(function (req, res, next) {
       // lets stub session middleware
-      const procurementDummy = { procurementID: 123, defaultName: { components: { lotId: 1 } } };
+      const procurementDummy = { procurementID: procurementId, defaultName: { components: { lotId: lotId } } };
       req.session = {
-        lotId: 1,
+        lotId: lotId,
         eventId,
         agreement_id: 'RM1043.8',
-        agreementLotName: 'test',
+        agreementLotName: `${agreementLotName}`,
         access_token: OauthToken,
         stage2_value:'stage 1',
         cookie: {},
