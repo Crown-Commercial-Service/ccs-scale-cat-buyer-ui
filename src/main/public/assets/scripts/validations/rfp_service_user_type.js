@@ -91,9 +91,44 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }
         }
+       
         if(errorStore.length ==0) {
             removeErrorFieldsRfpScoreQuestion()
-            document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+            const group_name = document.querySelector('#rfp_term_service_group_' + with_value_count).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + with_value_count).value;
+            if(group_name != '' && group_details != ''){
+                if(with_value_count == 10){
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+                else{
+                    with_value_count++;
+                    document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    if (with_value_count === 10 ) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+
+            }
+            else{
+                document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    if (errorStore.length == 0 && with_value_count === 10) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }else{
+                    if (with_value_count === 10) {
+                      document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+                if(errorStore.length == 0){
+                    if($("#deleteButton_service_useer_type_" + last_value)){
+                        $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
+                    }
+                    with_value_count++;
+                }
+            }
+            
+            
 
         }
 
@@ -104,21 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
            
 
-            if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                if (errorStore.length == 0 && with_value_count === 10) {
-                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }else{
-                if (with_value_count === 10) {
-                  document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }
-            if(errorStore.length == 0){
-                if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
-                }
-                with_value_count++;
-            }
+            
         });
 
         // delete buttons
