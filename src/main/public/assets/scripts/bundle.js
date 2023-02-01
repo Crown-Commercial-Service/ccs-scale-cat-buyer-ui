@@ -13641,6 +13641,11 @@ function checkResourceStartDate()
                rfpResourceStartYear.addClass('govuk-form-group--error');
 
             }
+            else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartMonth.val() != ''){
+               error_msg = 'Enter a Day with valid Year(YYYY Format)'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+            }
             else if(rfpResourceStartDay.val() =='') {
 
                error_msg = 'Enter a Day'
@@ -13648,9 +13653,9 @@ function checkResourceStartDate()
                var urlParamsDefault = new URLSearchParams(window.location.search);
                if(document.getElementById('lID') !== null){
                   lotId = document.getElementById('lID').value;
-                  if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
-                     error_msg = 'Enter a Day with valid Year(YYYY Format)'
-                  }   
+                  // if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
+                  //    error_msg = 'Enter a Day with valid Year(YYYY Format)'
+                  // }   
                }
 
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
@@ -13704,14 +13709,20 @@ function checkResourceStartDate()
 
 
             }
+            else if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''  &&  rfpResourceStartYear.val().length < 4){
+               error_msg = 'Enter a Month with valid Year(YYYY Format)'
+               rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+            }
             else if(rfpResourceStartMonth.val() =='') {
                error_msg = 'Enter a Month'
                var urlParamsDefault = new URLSearchParams(window.location.search);
                if(document.getElementById('lID') !== null){
                   lotId = document.getElementById('lID').value;
-                  if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
-                     error_msg = 'Enter a Month with valid Year(YYYY Format)'
-                  }   
+                  // if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
+                  //    error_msg = 'Enter a Month with valid Year(YYYY Format)'
+                  // }   
                }
                rfpResourceStartYear.removeClass('govuk-form-group--error');
             }
