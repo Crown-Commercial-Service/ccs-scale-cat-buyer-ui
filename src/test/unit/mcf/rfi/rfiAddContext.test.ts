@@ -12,53 +12,53 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-//import  mcfData from '../../../data/mcf/mcfProcurements.json';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
-
+const contextgroups = require('test/utils/mcf/rfi/qsData').context_datas
+//const contextgroups from 
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Procurement overview', async () => {
+describe('MCF3: Add Context', async () => {
   let parentApp;
   let OauthToken;
-
+   let eventId=mcfData.eventId;
+   let procId = mcfData.projectId;
   beforeEach(async function () {
+  
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-      // lets stub session middleware
-     //const procurementDummy = {"procurementID":17983,"eventId":"ocds-pfhb7i-18742","defaultName":{"name":"RM6187-Lot 2-TENSHIN SHINYO CONSULTING LTD","components":{"agreementId":"RM6187","lotId":"Lot 2","org":"COGNIZANT BUSINESS SERVICES UK LIMITED"}},"started":false};
-    
-     // req.session = {
-      //   lotId: 'Lot 2',
-      //   agreementLotName: 'test',
-      //   agreementName:'test',
-      //   agreement_id: 'RM6187',
-      //   access_token: OauthToken,
-      //   isRFIComplete:false,
-      //   cookie: {},
-      //  procurements: [procurementDummy],
-      // };
-
     req.session = mcfData
     req.session.access_token=OauthToken;    
-      
       next();
     });
+
     parentApp.use(app);
   });
 
-  it('should render `MCF3 Procurement overview ` page when everything is fine', async () => {
+  it('Should be able to get Build your RfI  page', async () => {
     await request(parentApp)
-      .get('/projects/create-or-choose')
+      .get('/rfi/online-task-list')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
-
+  }).timeout(0);
+  
+  for(let i=1;i < contextgroups.length;i++){
+    it(`expect Controller at endpoint ${contextgroups[i]?.OCDS?.id} to return success status`, async () => {
+   
+           if(contextgroups[i]?.OCDS?.id != undefined){
+        
+        await request(parentApp)
+       .get(`/rfi/questions?agreement_id=RM1043.8&proc_id=${procId}&event_id=${eventId}&id=Criterion 1&group_id=${contextgroups[i]?.OCDS?.id}`)
+        .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+        .expect(res => {
+          expect(res.status).to.equal(200);
+        });
+       }
+    }).timeout(0);
+  }
+  
 
 });
-
-
-

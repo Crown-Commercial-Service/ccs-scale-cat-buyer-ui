@@ -1,0 +1,158 @@
+{
+    "postData" : [
+    {
+        "nonOCDS": {
+            "prompt": "Ask questions to help you to write clearer needs. These may include:</p> <ul class=\"govuk-list govuk-list--bullet\">\n      <li>what you need</li>\n      <li>how much this work may cost</li>\n    <li> how long this work may take</li>\n </ul>\n\n Add up to 10 questions.",
+            "task": "Add up to 20 questions for suppliers to answer",
+            "mandatory": true,
+            "order": 1
+        },
+        "OCDS": {
+            "id": "Group 3",
+            "description": "Ask suppliers questions"
+        },
+        "_body": 
+        {
+        "rfi_question_1":"ASK  supplier",
+        "rfi_question_2":"",
+        "rfi_question_3":"",
+        "rfi_question_4":"",
+        "rfi_question_5":"",
+        "rfi_question_6":"",
+        "rfi_question_7":"",
+        "rfi_question_8":"",
+        "rfi_question_9":"",
+        "rfi_question_10":"",
+        "questionType":"Valuetrue",
+        "question_id":"Question 4",
+        "rfi_build_started":"true"
+            }
+       
+    },
+    {
+        "nonOCDS": {
+            "prompt": "<p>Tell suppliers if you are buying products and services on behalf of another organisation.</p>",
+            "task": "Add buyer details",
+            "mandatory": false,
+            "order": 4
+        },
+        "OCDS": {
+            "id": "Group 4",
+            "description": "Who the organisation using the products or services is"
+        },
+        "_body":{
+            "The_organisation_using_the_products_or_services": "who the organization",
+            "question_id": "Question 6",
+            "rfi_build_started": "true"
+          }
+    },
+    {
+        "nonOCDS": {
+            "prompt": "Explain any terms or acronyms in your project.<br><br>Add up to 20 terms or acronyms.",
+            "task": "Add another term or acronym",
+            "mandatory": false,
+            "order": 2
+        },
+        "OCDS": {
+            "id": "Group 2",
+            "description": "Terms and acronyms"
+        },
+        "_body":{
+           "term": [
+              "TEST acronyms",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "value": [
+              "ACRONYMS DEFITION",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "questionType": "KeyValuePairtrue",
+            "question_id": "Question 2",
+            "rfi_build_started": "true"
+          }
+    },
+    {
+        "nonOCDS": {
+            "prompt": "Select the locations where you want the supplier to work. You can select multiple options.",
+            "task": "Add location",
+            "mandatory": true,
+            "order": 6
+        },
+        "OCDS": {
+            "id": "Group 5",
+            "description": "Where the supplier will work"
+        },
+        "_body": {
+            "required_locations": "North East England",
+            "question_id": "Question 7",
+            "questionType": "MultiSelecttrue",
+            "rfi_build_started": "true"
+          }
+    },
+    {
+        "nonOCDS": {
+            "prompt": "  <p class=\"govuk-body\">A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p> \n        \n        <p class=\"govuk-body\">There are:\n           </p><ul class=\"govuk-list govuk-list--bullet\" style=\"margin-left: 10px;margin-top: -13px;\"><li> 4 working days from publishing until the clarification period closes</li> \n           <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>\n        <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li></ul><p></p>\n\n        <p class=\"govuk-body\">The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.</p>\n\n        <p class=\"govuk-body\"><strong>You can change the length of time for each section to more suitable times for you.</strong></p>\n       <br>",
+            "task": "Set your RfI timeline",
+            "mandatory": true,
+            "order": 7
+        },
+        "OCDS": {
+            "id": "Key Dates",
+            "description": "Your RfI timeline"
+        }
+    },
+    {
+        "nonOCDS": {
+            "prompt": "<p>To help suppliers understand your project, you will need to give them more information, for example:</p> <ul class=\"govuk-list govuk-list--bullet\">\n      <li>information about your organisation or the users</li>\n      <li>reason for the project</li>\n      <li>the timeframes for completing the work</li>\n    <li> any issues, risks or challenges they need to be aware of and their potential impact</li>\n </ul>",
+            "task": "Add information about the project",
+            "mandatory": true,
+            "order": 3
+        },
+        "OCDS": {
+            "id": "Group 1",
+            "description": "Add background to your project"
+        },
+        "_body":{
+            "rfi_prob_statement":"Background",
+            "question_id":"Question 1",
+            "rfi_build_started":"true"
+            }
+    }
+]
+}

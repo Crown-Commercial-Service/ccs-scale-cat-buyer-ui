@@ -508,9 +508,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           const qData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
           
           //CAS-INFO-LOG
-          LoggTracer.infoLogger(qData, logConstant.questionUpdated, req);
+         await LoggTracer.infoLogger(qData, logConstant.questionUpdated, req);
 
-          QuestionHelper.AFTER_UPDATINGDATA(
+          await QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
             proc_id,
@@ -1098,7 +1098,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            QuestionHelper.AFTER_UPDATINGDATA(
+           await QuestionHelper.AFTER_UPDATINGDATA(
               ErrorView,
               DynamicFrameworkInstance,
               proc_id,

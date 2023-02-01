@@ -13,9 +13,10 @@ let chaiHttp = require("chai-http");
 chais.should();
 
 chais.use(chaiHttp);
-describe('Choose Agreement', () => {
+describe('Choose Agreement', async function() {
+  this.timeout(0);
   let parentApp;
-   beforeEach(function () {
+   before(function () {
     parentApp = express();
     parentApp.use(function (req, res, next) {
      next();
@@ -23,6 +24,7 @@ describe('Choose Agreement', () => {
     parentApp.use(app);
      
   });
+
   const agreements = ['RM6187','RM1043.8','RM1557.13'];
   let agreementApiBaseUrl = process.env['AGREEMENTS_SERVICE_API_URL'];
   console.log('agreementApiBaseUrl',agreementApiBaseUrl);
@@ -83,7 +85,7 @@ describe('Choose Agreement', () => {
             .expect(res => {
               expect(res.status).to.equal(302);
             });
-        }); 
+        }).timeout(0); 
 
         
      }

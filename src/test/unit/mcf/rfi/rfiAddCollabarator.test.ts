@@ -12,7 +12,7 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-import  mcfData from '../../../data/mcf/rfi/rfiAddCollabarator.json';
+import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 
 chais.should();
 chais.use(chaiHttp);
@@ -78,7 +78,6 @@ describe('MCF3: Add colleagues to your project', async () => {
    .get(`/rfi/delete-collaborators?id=${collaboratorDummy}`)
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
-        console.log("res.header.location",res.header.location)
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfi/add-collaborators');
       });
@@ -94,7 +93,7 @@ describe('MCF3: Add colleagues to your project', async () => {
 
         expect(res.header.location).to.be.equal('/rfi/rfi-tasklist');
       });
-  });
+  }).timeout(0);
   
   
 

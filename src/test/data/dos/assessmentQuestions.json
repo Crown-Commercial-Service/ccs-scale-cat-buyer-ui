@@ -1,0 +1,305 @@
+{
+    "postData" : [
+    {
+        "OCDS": {
+            "id": "Group 2",
+            "description": "How many suppliers to evaluate"
+        },
+        "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "Enter_the_quantity,_minimum_3": "4",
+            "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 8",
+            "description": "Write your cultural fit questions"
+        },
+        "_body":{
+            "Question 1": [
+                "weqwewq", "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", ""
+              ],
+              "question_id": [
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4",
+                "Question 1", "Question 4", "Question 1", "Question 4", "Question 1",
+                "Question 4", "Question 1", "Question 4", "Question 1", "Question 4"
+              ],
+              "Question 4": [
+                "100", "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                ""
+              ],
+              "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 3",
+            "description": "Set the overall weighting"
+        },
+        "_body":{
+            "question_id": [
+                "Question 1",
+                "Question 1",
+                "Question 2",
+                "Question 2",
+                "Question 3",
+                "Question 3",
+                "Question 4",
+                "Question 4"
+              ],
+              "percentage": [ "50", "10", "0", "40" ],
+              "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 10",
+            "description": "Select your pricing model"
+        },
+        "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "ccs_vetting_type": "Fixed price",
+            "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 11",
+            "description": "How you will assess suppliers"
+        },
+        "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "required_locations": [ "Presentation", "Reference" ],
+            "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 7",
+            "description": "Technical questions"
+        },
+        "_body":{
+            "Question 1": [
+                "awewewq", "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", ""
+              ],
+              "question_id": [
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+              ],
+              "Question 2": [
+                "100", "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                ""
+              ],
+              "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 4",
+            "description": "Technical competence"
+        },
+        "_body":{
+            "question_id": [
+                "Question 1",
+                "Question 1",
+                "Question 2",
+                "Question 2",
+                "Question 3",
+                "Question 3"
+              ],
+              "percentage": [ "50", "0", "50" ],
+              "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 1",
+            "description": "About assessment criteria and evaluation weightings"
+        },
+        "_body":{ "rfp_read_me": "true", "rfp_build_started": "true" }
+    },
+    {
+        "OCDS": {
+            "id": "Group 6",
+            "description": "Nice-to-have skills and experience"
+        },
+        "_body":{
+            "Question 1": [
+                "wqeqwe", "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", "",
+                "",       "", "", "", ""
+              ],
+              "question_id": [
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+              ],
+              "Question 2": [
+                "100", "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                ""
+              ],
+              "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 12",
+            "description": "Describe the question and answer session"
+        },
+        "_body":{
+            "question_id": [ "Question 1", "Question 1" ],
+            "rfp_prob_statement_s": "rewrwer",
+            "rfp_build_started": "true"
+        }
+    },
+    {
+        "OCDS": {
+            "id": "Group 5",
+            "description": "Essential skills and experience"
+        },
+        "_body":{
+            "Question 1": [
+                "weqweqw", "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", "",
+                "",        "", "", "", ""
+              ],
+              "question_id": [
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2",
+                "Question 1", "Question 2", "Question 1", "Question 2", "Question 1",
+                "Question 2", "Question 1", "Question 2", "Question 1", "Question 2"
+              ],
+              "Question 2": [
+                "100", "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                "",    "", "", "", "", "", "",
+                ""
+              ],
+              "rfp_build_started": "true"
+        }
+    }
+]
+}

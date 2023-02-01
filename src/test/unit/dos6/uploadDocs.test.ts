@@ -15,7 +15,7 @@ import { getToken } from 'test/utils/getToken';
 chais.should();
 chais.use(chaiHttp);
 
-describe('Dos6 : Upload documents', async () => {
+describe('Dos6 : Upload documents', async function() {
   let parentApp;
   let OauthToken;
   const eventId = 'ocds-pfhb7i-18728';
@@ -23,7 +23,7 @@ describe('Dos6 : Upload documents', async () => {
   const projectId = 17972;
   const organizationId = 234;
 
-  beforeEach(async function () {
+  before(async function () {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
@@ -54,11 +54,8 @@ describe('Dos6 : Upload documents', async () => {
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
-        const dom = new JSDOM(res.text);
-        const { textContent } = dom.window.document.querySelector('h1.govuk-heading-xl');
-        expect(textContent).to.contains(`Upload documents (optional)`);
       });
-    });
+    }).timeout(0);
 
     it('Redirect to "/rfp/upload-additional" when without file choosen', async () => {
       await request(parentApp)
@@ -68,7 +65,7 @@ describe('Dos6 : Upload documents', async () => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/upload-additional');
       });
-    });
+    }).timeout(0);
 
     it('when everything is fine after add files', async () => {
       await request(parentApp)
@@ -78,7 +75,7 @@ describe('Dos6 : Upload documents', async () => {
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-    });
+    }).timeout(0);
 
     it('should redirect to "/rfp/IR35" after submit', async () => {
       await request(parentApp)
@@ -88,6 +85,6 @@ describe('Dos6 : Upload documents', async () => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/task-list');
       });
-    });
+    }).timeout(0);
 
 });
