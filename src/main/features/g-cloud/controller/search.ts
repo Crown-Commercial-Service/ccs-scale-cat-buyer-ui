@@ -35,7 +35,8 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
     const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
      
-    var keywordsQuery= q!= undefined ?`&q=${q}`:'';
+    let searchKeywordsQuery:any = q;
+    var keywordsQuery= q!= undefined ?`&q=${encodeURIComponent(searchKeywordsQuery)}`:'';
     var lotsQuery= lot!= undefined ?`&lot=${lot}`:'';
    
     let serviceCategoriesQuery='';
@@ -185,7 +186,8 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
     const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
        
-    var keywordsQuery= q!= undefined ?`&q=${q}`:'';
+    let searchKeywordsQuery:any = q;
+    var keywordsQuery= q!= undefined ?`&q=${encodeURIComponent(searchKeywordsQuery)}`:'';
     var lotsQuery= lot!= undefined ?`&lot=${lot}`:'';
   
     let serviceCategoriesQuery='';

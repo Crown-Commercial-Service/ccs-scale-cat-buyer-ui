@@ -723,6 +723,10 @@ function parseQueryG13(query) {
       key = decodeURIComponent(pair[0]);
       if (key.length == 0) continue;
       value = decodeURIComponent(pair[1].replace("+"," "));
+      if(key=='q'){
+        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
+        value = encodeURIComponent(decodeValue);
+      }
       if (object[key] == undefined) object[key] = value;
       else if (object[key] instanceof Array) object[key].push(value);
       else object[key] = [object[key],value];
@@ -1120,7 +1124,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
+      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -1174,7 +1178,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
+      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -1455,7 +1459,7 @@ document.addEventListener('readystatechange', event => {
       queryParamObj.forEach((el, i) => {
         console.log(el);
         //Search
-        if(el.key === 'q') { $('.g13_search').val(el.value); }
+        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
         $('.g13Check').each(function(){
           if($(this).attr('name') == el.key && $(this).val() == el.value){
             $(this).attr("checked", "checked");
@@ -1499,7 +1503,7 @@ function getCriterianDetails(totalresult=0){
       
        let search = queryParamObj.filter(el => el.key === 'q');
        if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
+        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
        }
      
        let lot = queryParamObj.filter(el => el.key === 'lot');

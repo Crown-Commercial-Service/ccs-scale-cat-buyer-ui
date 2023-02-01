@@ -15,7 +15,9 @@ export async function gCloudServiceQueryResults(reqUrl: any, baseUrl: any, type:
         let key = el.key;
         
         let value = el.value;
-       
+        if(key=='q'){
+            value = encodeURIComponent(value); 
+        }
         if(i == 0) {
             if(key != '') {
                 outQueryUrl += `?${key}=${value}`;
