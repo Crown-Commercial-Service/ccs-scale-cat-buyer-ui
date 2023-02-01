@@ -23,30 +23,18 @@ export const AUTH: express.Handler = async (
 ) => {
   const { SESSION_ID, state } = req.cookies;
   let requestURL = req.url;	
-  console.log('indexOf url ********************');
-  console.log(requestURL.indexOf('event/qa'));
-  if (requestURL.indexOf('event/qa') == 1) {	
-    console.log('Condition 1 *********************');
-    console.log('requestURL *******************');
-    console.log(requestURL);
+  if (requestURL.indexOf('event/qa-supplier') ==1) {	
     req.session["supplier_qa_url"] = requestURL;	
   }	
   /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')	
-  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa') == 1) {	
-    console.log('Condition 2 *********************');
-    console.log('requestURL *******************');
-    console.log(requestURL);
+  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa-supplier') == 1) {	
     req.session["supplier_qa_url"] = requestURL;	
     res.redirect('/oauth/login');	
   }	
   else if (SESSION_ID === undefined) {	
-    console.log('Condition 3 *********************');
     res.redirect('/oauth/login');	
   }	
   else {
-    console.log('Condition 4 *********************');
-    console.log('Session of supplier_qa_url **************');
-    console.log(req.session["supplier_qa_url"]);
     //Session ID
     console.log(SESSION_ID);
     const decoded: any = jwt.decode(req.session['access_token'], { complete: true });
