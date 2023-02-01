@@ -41,7 +41,7 @@
               {% if lot !== 'Lot 4' %}
                 {{lot}} {{agreement_lot.name}}
               {% else %}
-                {{lot}}
+                {{lot}}: {{agreement.agreementDescription}}
               {% endif %}
             </h1>
           {% else %}
@@ -55,14 +55,16 @@
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <div class="project-overview govuk-!-padding-bottom-3">
               {% if (agreement_id == 'RM1557.13') and (lot == 'Lot 4') %}
-                <p class="govuk-body">Agreement name: <strong>{{agreement_lot.name}}</strong>
+                <p class="govuk-body">Agreement name: <strong>{{agreement.name}} {{lot}}</strong>
                 </p>
+                <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}L4</strong>
+            </p>
               {% else %}
                 <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
                 </p>
-              {% endif %}
-            <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
+                <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
             </p>
+              {% endif %}
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
             {% if (agreement_id == 'RM1557.13') %}
               {% set ExpiryBefore = 'Lot' %}
@@ -321,7 +323,37 @@
                 
 
               {% else %}
-                {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+               {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+                 <div class="govuk-inset-text">
+                                <p class="govuk-body">
+                                    <b>Please note that this journey is not available on CAS.</b>
+                                </p>
+                 </div>
+                {% endif %}
+                
+              <p class="govuk-body">
+                <strong>Refer to the requirements template</strong>
+              </p>
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/images/outcomes requirements template v1.1.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% endif %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/images/studios requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for user research studios.</p>
+              {% endif %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/images/participants requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% endif %}
+                {% if (lot == 'Lot 1' or (agreement_id == 'RM1043.8' and (lot == "Lot 2" or lot == "Lot 3"))) %}
+                  <p>
+                    <strong>Get budget approval</strong>
+                  </p>
+              <p>You must get budget approval before you start the buying process.<br><br>
+              If you’re buying for central government, you have to go through the <a href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br><br>
+              If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
+
+                </p>
+              {% endif %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
                   <p class="govuk-body">
                     <strong>Write your requirements</strong>
                   </p>
@@ -340,12 +372,12 @@
                     <li>how long suppliers will have to respond to your requirements</li>
                     <li>how and when you’ll run an optional question and answer session (so you can talk to suppliers and quickly answer any questions they have about the requirements)</li>
                   </ul>
-                  <p class="govuk-body">
+                  {# <p class="govuk-body">
                     <strong>Get budget approval</strong>
                   </p>
                   <p>You must get budget approval before you start the buying process.</p>
                   <p>If you’re buying for central government, you have to go through the digital and IT spend control process before you publish your requirements.</p>
-                  <p>If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
+                  <p>If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p> #}
                   <p class="govuk-body">
                     <strong>Set evaluation criteria</strong>
                   </p>
@@ -356,28 +388,6 @@
                   </ul>
                   <p>You must evaluate on price and technical competence, for example, whether they have the facilities you need.</p>
                 {% endif %}
-              <p class="govuk-body">
-                <strong>Refer to the requirements template</strong>
-              </p>
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") %}
-              <p>The <a href="{{ assetPath | default('/assets') }}/images/outcomes requirements template v1.1.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
-              {% endif %}
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
-              <p>The <a href="{{ assetPath | default('/assets') }}/images/studios requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for user research studios.</p>
-              {% endif %}
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
-              <p>The <a href="{{ assetPath | default('/assets') }}/images/participants requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
-              {% endif %}
-                {% if (lot == 'Lot 1') %}
-                  <p>
-                    <strong>Get budget approval</strong>
-                  </p>
-              <p>You must get budget approval before you start the buying process.<br>
-              If you’re buying for central government, you have to go through the <a href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br>
-              If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
-
-                </p>
-              {% endif %}
             {% endif %}
           {% endif %}
 

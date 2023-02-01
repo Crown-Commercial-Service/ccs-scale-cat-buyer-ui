@@ -169,7 +169,7 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -720,6 +720,10 @@ function parseQueryG13(query) {
       key = decodeURIComponent(pair[0]);
       if (key.length == 0) continue;
       value = decodeURIComponent(pair[1].replace("+"," "));
+      if(key=='q'){
+        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
+        value = encodeURIComponent(decodeValue);
+      }
       if (object[key] == undefined) object[key] = value;
       else if (object[key] instanceof Array) object[key].push(value);
       else object[key] = [object[key],value];
@@ -893,7 +897,6 @@ document.querySelectorAll(".g13Check").forEach(function(event) {
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
       let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
-
       //url change
       const baseSearchUrl = '/g-cloud/search';
       window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
@@ -1117,7 +1120,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
+      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -1171,7 +1174,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
+      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -1452,7 +1455,7 @@ document.addEventListener('readystatechange', event => {
       queryParamObj.forEach((el, i) => {
         console.log(el);
         //Search
-        if(el.key === 'q') { $('.g13_search').val(el.value); }
+        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
         $('.g13Check').each(function(){
           if($(this).attr('name') == el.key && $(this).val() == el.value){
             $(this).attr("checked", "checked");
@@ -1496,7 +1499,7 @@ function getCriterianDetails(totalresult=0){
       
        let search = queryParamObj.filter(el => el.key === 'q');
        if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
+        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
        }
      
        let lot = queryParamObj.filter(el => el.key === 'lot');
@@ -1572,6 +1575,21 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
     document.querySelectorAll(".download").forEach(function(event) {
       event.addEventListener('click', function(event) {   
@@ -1623,7 +1641,17 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
                 setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          var bodytg = document.body;
+          bodytg.classList.remove("pageblur");
+          console.log(jqXHR.status)
+          console.log(jqXHR)
+          console.log(textStatus)
+          console.log(errorThrown)
         }
+
+
           });
        })
   });

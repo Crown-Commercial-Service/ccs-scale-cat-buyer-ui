@@ -2128,6 +2128,14 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
           review_publish = 1;
         }
       }
+      const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+      const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+      const stage2_dynamic_api_data = stage2_dynamic_api.data;
+      const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+        let stage2_value = 'Stage 1';
+      if(stage2_data.length > 0){
+        stage2_value = 'Stage 2';
+      }
     
   if (review_publish == 1) {
     try {
@@ -2136,13 +2144,21 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
       }else if (agreement_id=='RM1557.13') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Completed');
-      }else{
+      }
+      else if (agreement_id=='RM1043.8') {
+        if(stage2_value == 'Stage 2'){
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+        }
+       
+      }
+      else{
+        
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
-       const agreementPublishedRaw = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
 
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
@@ -2173,15 +2189,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
     const agreementId_session = req.session.agreement_id;
     const { eventId, projectId } = req.session;
     const { SESSION_ID } = req.cookies;
-  const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
-    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
-    const stage2_dynamic_api_data = stage2_dynamic_api.data;
-    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
-      let stage2_value = 'Stage 1';
-    if(stage2_data.length > 0){
-      stage2_value = 'Stage 2';
-    }
-    
+     
     req.session['checkboxerror'] = 1;
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
@@ -3756,16 +3764,27 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
       //rfp_clarification_date,
       rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
-      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
-      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
-      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? supplier_period_for_clarification_period : null,
-      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? supplier_dealine_for_clarification_period : null,
-      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? supplier_dealine_evaluation_to_start : null,
-      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? supplier_dealine_expect_the_bidders : null,
-      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? supplier_dealine_for_pre_award : null,
-      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? supplier_dealine_for_expect_to_award : null,
-      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? supplier_dealine_sign_contract : null,
-      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? supplier_dealine_for_work_to_commence : null,
+      // rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
+      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? moment(rfp_clarification_period_end,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? moment(deadline_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? moment(supplier_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? moment(supplier_dealine_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? moment(supplier_dealine_evaluation_to_start,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? moment(supplier_dealine_expect_the_bidders,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? moment(supplier_dealine_for_pre_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? moment(supplier_dealine_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+
+      // deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
+      // supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? supplier_period_for_clarification_period : null,
+      // supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? supplier_dealine_for_clarification_period : null,
+      // supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? supplier_dealine_evaluation_to_start : null,
+      // supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? supplier_dealine_expect_the_bidders : null,
+      // supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? supplier_dealine_for_pre_award : null,
+      // supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? supplier_dealine_for_expect_to_award : null,
+      // supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? supplier_dealine_sign_contract : null,
+      // supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? supplier_dealine_for_work_to_commence : null,
       resourceQuntityCount: resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
       resourceQuantity: resourceQuantity != undefined && resourceQuantity != null ? resourceQuantity : null,
       StorageForSortedItems: StorageForSortedItems != undefined && StorageForSortedItems != null ? StorageForSortedItems : null,
