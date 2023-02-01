@@ -15926,7 +15926,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
-                $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
+                //$('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
