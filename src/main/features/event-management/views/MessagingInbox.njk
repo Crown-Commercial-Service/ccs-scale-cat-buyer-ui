@@ -141,6 +141,12 @@
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
                     </p>
+                     {% elseif agreementId == 'RM1043.8' %} 
+                       {% if msgfor != 'all' %}  
+                        <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification2.linkText}}</a>
+                       </p>
+                       {% endif %}
                      {% else %}
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification2.linkText}}</a>

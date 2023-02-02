@@ -442,10 +442,15 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
   {
     let errorText='';
-    if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
+    if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
+    {
+      errorText='Date and Time invalid or empty. Please enter the valid date and time';
+    }
+    else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
       errorText='Date invalid or empty. Please enter the valid date';
-    }else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    }
+    else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
     {
       errorText='Time invalid or empty. Please enter the valid time';
     }
