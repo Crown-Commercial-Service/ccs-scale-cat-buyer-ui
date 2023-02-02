@@ -7487,6 +7487,7 @@ if(totalVetting<100 || totalVetting>100)
 $('#ccs_collab_view').hide();
 
 let formURL = "/eoi/get-collaborator-detail/js-enabled";
+$('#potential-collaborator').hide()
 
 if (document.getElementById("eoi_collaborators") !== null) {
   document.getElementById('eoi_collaborators').addEventListener('change', function () {
@@ -7501,7 +7502,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
         let { userName, firstName, lastName, tel } = data;
         let collegueName = firstName + " " + lastName;
         let id = userName;
-
+        $('#potential-collaborator').show()
         $('#eoi_show_collab_name').html(collegueName)
         $('#eoi_show_collab_email').html(id)
         $('#eoi_show_collab-phone').html(tel)
@@ -10367,6 +10368,7 @@ $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfi_collaborators').on('change', function () {
   let id = this.value;
@@ -10381,6 +10383,8 @@ $('#rfi_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
+
+      $('#potential-collaborator').show()
 
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
@@ -11614,7 +11618,7 @@ const emptyQuestionFieldCheck = () => {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        if(urlParams.get('agreement_id') == 'RM6187'){
+        if((urlParams.get('agreement_id') == 'RM6187') || (urlParams.get('agreement_id') == 'RM1557.13')){
           errText = "You must ask at least one question";
         }else{
           errText = "You must add at least one question";
@@ -11622,7 +11626,12 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-      fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must add question", /\w+/);
+        }
+        else{
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        }
       }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
@@ -11801,6 +11810,7 @@ $('#ccs_collab_view').hide();
 
 let rfpFormURL = "/rfp/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfp_collaborators').on('change', function () {
   let id = this.value;
@@ -11815,7 +11825,7 @@ $('#rfp_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
-
+      $('#potential-collaborator').show()
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
       $('#show_collab-phone').html(tel)
@@ -12141,6 +12151,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
                     removeErrorFieldsRfp1();
+                    let termvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                    if(with_value_count == 20){
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    else{
+                    with_value_count++;
+                    document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+                    if (with_value_count === 20 ) {
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    }
+                  }
+                  else{
                     document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
                     $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
                     // if(agreementID == 'RM1043.8' && q_mandatory != true) {
@@ -12150,6 +12176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //     }
                     // }
                     with_value_count++;
+                  }
                     // let hideBtnCount = agreementID == 'RM1043.8' && lID == '1' ? 17 : 21 ;
                     if (with_value_count === 21 ) {
                         document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -13257,6 +13284,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const MonthCheck = (rfpMonth) => {
+         alert("MonthCheck")
          const value = rfpMonth;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
@@ -13298,8 +13326,8 @@ document.addEventListener('DOMContentLoaded', () => {
                // }
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
@@ -13333,19 +13361,19 @@ document.addEventListener('DOMContentLoaded', () => {
                // }
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
          else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-            $(`#${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).addClass('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('Enter a valid month');
          }
          else {
-            $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-            $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
@@ -13364,13 +13392,13 @@ document.addEventListener('DOMContentLoaded', () => {
          if (document.getElementById('agreementID').value === 'RM6187') {
 
             if ((matchValue || startyearCheck) && value.val() != '') {
-               $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a valid year');
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+              //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
@@ -15325,8 +15353,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
-                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){  
-                   document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+                    if(document.getElementById("del_fc_question_" + box_num)){
+                       document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    }
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
                     
@@ -15397,8 +15427,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-           
-              
+                  
            let rootEl = document.getElementById('fc_question_' + textboxCount);
            
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19 && with_value_count == 20){
@@ -15437,6 +15466,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
+        if(percentageCheck){
+        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+        }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -15459,6 +15491,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                     errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                        }
                     // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                 } else if (textboxCount == (withValue-1)) {
 
@@ -15582,11 +15617,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             // removeErrorFieldsRfpScoreQuestion();
                             errorStore = emptyQuestionFieldCheckRfp();
                             let count =1;
-                    if(textboxCount >0){
-                      count = textboxCount;
+                            if(textboxCount >0){
+                              count = textboxCount;
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+                            if(percentageCheck){
+                                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                            }
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -15741,6 +15779,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
+                
                         document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
@@ -15768,6 +15807,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
+                
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
                     $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -15855,7 +15895,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
-                $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
+                //$('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
@@ -18449,9 +18489,44 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }
         }
+       
         if(errorStore.length ==0) {
             removeErrorFieldsRfpScoreQuestion()
-            document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+            const group_name = document.querySelector('#rfp_term_service_group_' + with_value_count).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + with_value_count).value;
+            if(group_name != '' && group_details != ''){
+                if(with_value_count == 10){
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+                else{
+                    with_value_count++;
+                    document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    if (with_value_count === 10 ) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+
+            }
+            else{
+                document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    if (errorStore.length == 0 && with_value_count === 10) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }else{
+                    if (with_value_count === 10) {
+                      document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+                if(errorStore.length == 0){
+                    if($("#deleteButton_service_useer_type_" + last_value)){
+                        $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
+                    }
+                    with_value_count++;
+                }
+            }
+            
+            
 
         }
 
@@ -18462,21 +18537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
            
 
-            if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                if (errorStore.length == 0 && with_value_count === 10) {
-                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }else{
-                if (with_value_count === 10) {
-                  document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }
-            if(errorStore.length == 0){
-                if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
-                }
-                with_value_count++;
-            }
+            
         });
 
         // delete buttons
@@ -19076,6 +19137,8 @@ $("#enter_evaluation").submit(function(){
     console.log("errorStore",errorStore);
   }
   if (errorStore.length === 0) {
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.forms["enter_evaluation"].submit();
   }else { ccsZPresentErrorSummary(errorStore);
   return false;
@@ -19768,8 +19831,21 @@ const ccsZvalidateRfiWho = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  // fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
+  // if (fieldCheck !== true) errorStore.push(fieldCheck);
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
+  var errorMsg = '';
+  if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
+    if(rfi_contracting_auth.value.length > 0 &&
+      textPatternNew.test(rfi_contracting_auth.value) !== true){
+      errorMsg = 'Please enter only character';
+      fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+      if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    }
+    
+  }
 
   if (errorStore.length === 0) document.forms["ccs_rfi_who_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
@@ -19820,7 +19896,6 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const classLength = classList.length;
   const pageHeading = document.getElementById('page-heading').innerHTML;
   errorStore = [];
-  console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
@@ -19830,12 +19905,24 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
     }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
+  var errorMsg = 'Supplier must be minimum 3';
+  if($('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+    if(rfp_contracting_auth.value.length > 0 &&
+      textPatternNew.test(rfp_contracting_auth.value) !== true){
+      errorMsg = 'Please enter only character';
+      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+      if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    }
+    
+  }
 
     
 
   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
-      ccsZaddErrorMessage('#ccs_rfp_who_form', 'Supplier must be minimum 3');
+      ccsZaddErrorMessage(rfp_contracting_auth, errorMsg);
   } else {
     errorStore = [];
     document.forms['ccs_rfp_who_form'].submit();
@@ -20643,7 +20730,7 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -22049,6 +22136,21 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
     document.querySelectorAll(".download").forEach(function(event) {
       event.addEventListener('click', function(event) {   
@@ -22104,7 +22206,10 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
         error: function (jqXHR, textStatus, errorThrown) {
           var bodytg = document.body;
           bodytg.classList.remove("pageblur");
-          // console.log(jqXHR.status)
+          console.log(jqXHR.status)
+          console.log(jqXHR)
+          console.log(textStatus)
+          console.log(errorThrown)
         }
 
 

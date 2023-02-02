@@ -240,8 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
                // }
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
@@ -275,19 +275,19 @@ document.addEventListener('DOMContentLoaded', () => {
                // }
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
          else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-            $(`#${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).addClass('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('Enter a valid month');
          }
          else {
-            $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-            $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
@@ -306,13 +306,13 @@ document.addEventListener('DOMContentLoaded', () => {
          if (document.getElementById('agreementID').value === 'RM6187') {
 
             if ((matchValue || startyearCheck) && value.val() != '') {
-               $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a valid year');
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+              //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
