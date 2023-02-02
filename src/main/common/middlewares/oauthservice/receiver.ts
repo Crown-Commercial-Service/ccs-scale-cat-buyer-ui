@@ -24,7 +24,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  console.log('************* Entered Oauth receiver middleware');
+  console.log('************* Entered Oauth receiver middleware jam');
   const { code, state } = req.query;
   if (Query.isUndefined(code)) {
     console.log('*************** condition 1');
@@ -101,7 +101,6 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         res.redirect('/oauth/logout');
       }
     } catch (error) {
-      
       console.log('Oauth receiver middleware error **********************');
       console.log(error);
       if (error.response.status === 401) {
