@@ -40,7 +40,7 @@
   </strong></p>
           <p class="govuk-body">Agreement ID: <strong>
         {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}-L4
+          {{ agreement_header['agreementId_session']}}L4
         {% else %}
           {{ agreement_header['agreementId_session'] }}
         {% endif %}
@@ -273,9 +273,15 @@
                           </p>
 
                         </th>
-                        <th class="govuk-text-align govuk-!-text-align-centre">
-                          <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
-                        </th>
+                        {% if agreementId_session == "RM1557.13" %}
+                            <td class="govuk-text-align govuk-!-text-align-centre">
+                              <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                            </td>
+                        {% else %}
+                            <th class="govuk-text-align govuk-!-text-align-centre">
+                              <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                            </th>
+                        {% endif %}
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
                           <td class="govuk-text-align govuk-!-text-align-centre">
                             <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
@@ -311,8 +317,7 @@
             </table>
           </div>
         </div>
-      </div>
-    </div>
+      
     {% if eventType != 'RFI' and eventType != 'EOI' %}
       <div class="govuk-grid-row ccs-page-section">
         <div class="govuk-grid-column-full">
@@ -467,9 +472,9 @@
 
 {% if status.toLowerCase() =="complete"%}
 <div class="govuk-button-group">
-<div class="govuk-!-margin-top-6">
-&nbsp; &nbsp;&nbsp; &nbsp;<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
-</div>
+    <div class="govuk-!-margin-top-6">
+        <a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+    </div>
 </div>
 {% else %}
 {% if status.toUpperCase() =="AWARDED"%}

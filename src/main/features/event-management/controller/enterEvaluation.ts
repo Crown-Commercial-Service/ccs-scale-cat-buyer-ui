@@ -51,9 +51,8 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
       stage2_value = 'Stage 2';
     }
     
-    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
-    
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
 
@@ -108,23 +107,30 @@ try{
                   score: evaluation_score,
                 }
               ];
-              
-              let responseScore = await TenderApi.InstanceKeepAlive(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              console.log('************* State 1');
+              console.log(JSON.stringify(body))
+              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
+              req.session.individualScore = body[0];
+              console.log('************* State 1.1 session init');
+              console.log(req.session.individualScore);
+              //let responseScore = 
+              TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-            
+              console.log('************* State 1.2 after put without await');
               //CAS-INFO-LOG 
-              LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
+              // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
+              console.log('************* State 1.3 going to redirect at /score-individual');
+              res.redirect('/score-individual'); 
 
-              req.session.isEmptyProjectError = false;
-              res.redirect('/evaluate-suppliers'); 
             } else {
               req.session.isEmptyProjectError = true;
               res.redirect('/enter-evaluation?'+"supplierid="+supplierid+"&suppliername="+suppliername);
             }
    
 }catch (error) {
-  console.log("***********error.response.status - ",error.response.status);
+  console.log('****************** error state 1');
+  console.log(error);
   if(error.response.status === 504){
     req.session.isEmptyProjectError = false;
     res.redirect('/evaluate-suppliers');
@@ -135,12 +141,70 @@ try{
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Event Management - Tenders Service Api cannot be connected',
+      'Event Management - Evaluate post - APIs one error occured',
       true,
     );
   }
 }
 
+}
+
+export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  try {
+    console.log('************* State 2');
+    if(req.session.individualScore !== undefined) {
+      console.log('************* State 2.1 session condition true');
+      async function scoreApis() {
+        const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+        const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 10000)))
+        return scoreCompare.data;
+      }
+      
+      var scoreIndividualGetState: boolean = true;
+      do {
+        let sessionScore = req.session.individualScore;
+        let resScore: any = [];
+        console.log('************* State 2.2 DO ******');
+        resScore = await scoreApis();
+        console.log(resScore);
+        if(resScore.length > 0) {
+          let scoreFliter = resScore.filter((el: any) => {
+            return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
+          });
+          if(scoreFliter.length > 0) {
+            console.log('************* State 2.3 false init');
+            scoreIndividualGetState = false;
+          }
+        }
+      } while(scoreIndividualGetState);
+      
+      if(!scoreIndividualGetState) {
+        console.log('************* State 2.4 success to last step');
+        req.session.isEmptyProjectError = false;
+        res.redirect('/evaluate-suppliers'); 
+      }
+      
+    } else {
+      console.log('************* State 2.1 session condition false');
+      req.session.isEmptyProjectError = false;
+      res.redirect('/evaluate-suppliers'); 
+    }
+  } catch (error) {
+    console.log('****************** error state 2');
+    console.log(error);
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event Management - Score individual get - APIs two error occured',
+      true,
+    );
+  }
 }
 //publisheddoc?download=1
 
