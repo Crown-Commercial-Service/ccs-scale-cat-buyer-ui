@@ -50,6 +50,7 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
      projectId = req.query.prId;
    }else{
     console.log('******************* Con 2');
+    
     eventIds=req.session.eventId;
      projectIds = req.session.projectId;
      projectId = req.session.projectId;
