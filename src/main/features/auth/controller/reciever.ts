@@ -21,9 +21,10 @@ export const Receiver = (req: express.Request, res: express.Response) => {
     console.log('************ Receiver condition 1');
     console.log(supplier_qa_url);
     res.redirect(supplier_qa_url);
-  } else
+  } else {
     console.log('************ Receiver condition 2');
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.loginSuccess, req);
     res.redirect('/dashboard');
+  }
 }
