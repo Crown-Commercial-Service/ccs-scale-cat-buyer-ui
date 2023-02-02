@@ -24,10 +24,13 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.log('************* Entered Oauth receiver middleware jam');
   const { code, state } = req.query;
   if (Query.isUndefined(code)) {
+    console.log('*************** condition 1');
     res.redirect(ErrorView.notfound);
   } else {
+    console.log('*************** condition 2');
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
     //@ Create the authentication credetial to to allow the re-direct
     let auth_credentails: any = {
@@ -41,6 +44,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
     //@ Grant Authorization with the token to re-direct to the callback page
 
     try {
+      console.log('*************** condition 3');
       const PostAuthCrendetails = await Oauth_Instance.Instance.post(Oauth_check_endpoint, auth_credentails);
       const data = PostAuthCrendetails?.data;
       const containedData = data;
@@ -50,6 +54,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
       const check_token_validation = await AuthCheck_Instance.post('');
       const auth_status_check = check_token_validation?.['data'];
       if (auth_status_check) {
+        console.log('*************** condition 4');
         let cookieExpiryTime = Number(config.get('Session.time'));
         cookieExpiryTime = cookieExpiryTime * 60 * 1000; //milliseconds
         const timeforcookies = cookieExpiryTime;
@@ -88,13 +93,16 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['errorTextSumary'] = [];
         req.session['CapAss'] = {};
         req.session['isTcUploaded'] = true;
-
+        console.log('*************** condition 5');
         next();
       } else {
+        console.log('*************** condition 4 else');
         logger.info('User redirected to logout');
         res.redirect('/oauth/logout');
       }
     } catch (error) {
+      console.log('Oauth receiver middleware error **********************');
+      console.log(error);
       if (error.response.status === 401) {
         LoggTracer.errorLogger(
           res,

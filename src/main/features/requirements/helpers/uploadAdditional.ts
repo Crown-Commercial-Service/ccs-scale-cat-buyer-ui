@@ -160,10 +160,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         if (errorList==null) {
           errorList=[];
         }
-        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
-          fileError=true;
-        }
+        
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
           errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
           fileError=true;
@@ -171,7 +168,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {
