@@ -473,11 +473,11 @@
                                 </dd>
                               </div>
                               <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                <dt class="govuk-summary-list__value"><p>Name of the Contracting Authority</p></dt>
+                                <dt class="govuk-summary-list__value"><p>Name of the organisation doing the procurement</p></dt>
                                 <dd class="govuk-summary-list__value"><p>{{ buyingorg1 }}</p></dd>
                               </div>
                               <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                <dt class="govuk-summary-list__value"><p>The organisation using the products or services</p></dt>
+                                <dt class="govuk-summary-list__value"><p>Name of the organisation using the products or services</p></dt>
                                 <dd class="govuk-summary-list__value"><p>{{ buyingorg2 }}</p></dd>
                               </div>
                               <div class="govuk-summary-list__row">
@@ -950,15 +950,15 @@
               {% if tierData !=undefined  and tierData !=null and tierData | length >0 %}
                 {% for data in tierData %}
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                  <dt class="govuk-summary-list__value"><p>Level name</p></dt>
+                  <dt class="govuk-summary-list__value"><p>Name for this level</p></dt>
                   <dd class="govuk-summary-list__value"><p>{{ data.name }}</p></dd>
                 </div>
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                  <dt class="govuk-summary-list__value"><p>Score</p></dt>
+                  <dt class="govuk-summary-list__value"><p>Score for this level</p></dt>
                   <dd class="govuk-summary-list__value"><p>{{ data.id }}</p></dd>
                 </div>
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                  <dt class="govuk-summary-list__value"><p>Description</p></dt>
+                  <dt class="govuk-summary-list__value"><p>Description for this level</p></dt>
                   <dd class="govuk-summary-list__value"><p>{{ data.text }}</p></dd>
                 </div>
                 {% endfor %}

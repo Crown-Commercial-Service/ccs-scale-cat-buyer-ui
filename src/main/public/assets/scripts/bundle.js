@@ -17338,7 +17338,7 @@ const emptyFieldCheckRfpScore = () => {
         }else{
           fieldCheck = [focusField.id, 'You must add information in all fields.'];
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(point_field, 'Enter valid score');
           ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
           errorStore.push(fieldCheck);
         }
