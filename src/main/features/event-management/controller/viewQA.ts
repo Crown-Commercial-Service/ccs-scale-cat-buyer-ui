@@ -60,12 +60,13 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
     
 
         const baseURL = `/tenders/projects/${projectIds}/events/${eventIds}/q-and-a`;
+        console.log(baseURL)
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
 
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
 
-
+        console.log(fetchData.data)
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
@@ -89,6 +90,7 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         LoggTracer.infoLogger(null, logConstant.QAViewLogger, req);
         res.render('viewQA', appendData)	
     } catch (err) {	
+      console.log(err);
         LoggTracer.errorLogger(	
             res,	
             err,	
