@@ -40,13 +40,13 @@ export class AuthorizationRedirect {
             console.log('***************** Redirect_Oauth_URL condition 1');
             console.log(returnURl);
         } else {
-            returnURl = redirectral_url + '?urlId=' + encodeURIComponent(supplier_qa_url);
+            returnURl = redirectral_url;// + '?urlId=' + encodeURIComponent(supplier_qa_url);
             console.log('***************** Redirect_Oauth_URL condition 2');
             console.log(returnURl);
         }
         console.log('returnURl final *****************');
         console.log(returnURl);
-        return supplier_qa_url == undefined ? redirectral_url : redirectral_url + '?urlId=' + encodeURIComponent(supplier_qa_url)	
+        return returnURl;//supplier_qa_url == undefined ? redirectral_url : redirectral_url + '?urlId=' + encodeURIComponent(supplier_qa_url)	
         //NOTE UNCOMMENT ABOVE LINE AND CONNENT BELOW LINE	
         //return redirectral_url + '?projectId_122222_eId_333333';
     }
