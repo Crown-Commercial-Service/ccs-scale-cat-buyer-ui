@@ -37,8 +37,6 @@ export class AuthorizationRedirect {
         return supplier_qa_url == undefined ? redirectral_url : redirectral_url + '?urlId=' + encodeURIComponent(supplier_qa_url)	
         //NOTE UNCOMMENT ABOVE LINE AND CONNENT BELOW LINE	
         //return redirectral_url + '?projectId_122222_eId_333333';
-    
-
     }
 
 
