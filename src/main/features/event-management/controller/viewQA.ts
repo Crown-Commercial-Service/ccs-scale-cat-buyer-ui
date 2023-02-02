@@ -14,7 +14,6 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  * @param res 
  */
 export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Response) => {
-  console.log('******************* QA expected page');
     const { SESSION_ID } = req.cookies
     const agreementId = req.session.agreement_id;
     let appendData: any;
@@ -25,7 +24,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
 
     try {  
-      console.log('******************* QA expected page try');
 
        // https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects
         
@@ -43,13 +41,11 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         let projectId;
             
    if(req.query.id != undefined){
-    console.log('******************* Con 1');
      eventIds=req.query.id;
      projectIds = req.query.prId;
      isSupplierQA = true;
      projectId = req.query.prId;
    }else{
-    console.log('******************* Con 2');
     
     eventIds=req.session.eventId;
      projectIds = req.session.projectId;
@@ -64,7 +60,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
-
 
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
