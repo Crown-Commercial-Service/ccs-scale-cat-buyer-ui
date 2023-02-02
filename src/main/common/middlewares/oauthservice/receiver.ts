@@ -101,6 +101,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         res.redirect('/oauth/logout');
       }
     } catch (error) {
+      
       console.log('Oauth receiver middleware error **********************');
       console.log(error);
       if (error.response.status === 401) {
