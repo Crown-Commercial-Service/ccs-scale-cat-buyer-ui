@@ -640,6 +640,18 @@
                           {% endif %}
                           </p></dd>
                       </div>
+
+                      {% if further_info != ''  %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                          <dt class="govuk-summary-list__value">
+                            <p>Further information</p>
+                          </dt>
+                          <dd class="govuk-summary-list__value">
+                            <p>{{ further_info }} </p>
+                          </dd>
+                        </div>
+                      {% endif %}
+
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
                         <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
