@@ -31,7 +31,9 @@
                    {%if(table.text !=='Create your own scoring criteria')%}
                    <div class="govuk-custom-table">
                     {%if agreement_id != 'RM1043.8' %}
-                      <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                    <div class="govuk-!-margin-top-4">
+                      <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}} level scoring criteria</a>
+                    </div>
                     {% endif %}
                     {% if (agreement_id == 'RM1557.13') %}
                       {% set criteriatext = 'level' %}
@@ -239,6 +241,23 @@
                                 classes: 'govuk-label govuk-label--m'
                             }
                         }) }}
+
+                        {% if (agreement_id == 'RM1557.13') %}
+                        {{ CCSInput({
+                            label: {
+                                text: 'Enter the score for this level',
+                                classes: 'govuk-label govuk-date-input__label govuk-label--m'
+                            },                            
+                            hint: {
+                              text: 'Make sure your scoring system does not overlap or cause confusion. Use whole numbers.'
+                          },
+                            id: 'rfp_score_criteria_point_'+i,
+                            name: 'score_criteria_points',
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 weightagelimit",
+                            type: "number",
+                            inputmode:"numeric"
+                          }) }}
+                        {% else %}
                         {{ CCSInput({
                             label: {
                                 text: 'Enter the score for this level',
@@ -253,6 +272,8 @@
                             type: "number",
                             inputmode:"numeric"
                           }) }}
+                      {% endif %}
+                      
                         {% if (agreement_id == 'RM1043.8') %}
                
                 {{  CCSCharacterCount({
@@ -313,7 +334,7 @@
                     {%else%}
                       <p class="govuk-body">
                           {{ CCSButton({
-                          text: "Add another tier",
+                          text: "Add another level",
                           attributes: {
                           id: "ccs_rfp_score_criteria_add"
                           },
@@ -926,7 +947,7 @@
           {% block Percentage%}
             {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
             {% set qhint = "" %}
-            {% if(requirement.OCDS.title === 'Social value criteria' and agreement_id == 'RM6187') %}
+            {% if(requirement.OCDS.title === 'Social value criteria' and ((agreement_id == 'RM6187') or (agreement_id == 'RM1557.13'))) %}
             {% set qhint = "If you are buying on behalf of a central government department, this must be a minimum of 10% of your overall weighting. For example, if you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). For all other buyers, this weighting is discretionary and in some cases can be 0%." %}
             {% elseif(requirement.OCDS.title === 'Social value criteria') %}
             {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). -test" %}
@@ -2094,7 +2115,7 @@
                   
                       {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
 
-                          {% if (agreement_id != 'RM6187') %}
+                          {% if (agreement_id != 'RM6187') and (agreement_id != 'RM1557.13') %}
                               <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
                               Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p>
                           {% endif %}

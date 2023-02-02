@@ -169,7 +169,7 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -1572,6 +1572,21 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
   $('#invite_suppliers').val(evaluateSupplier);
 })
 
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
 document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
   event.addEventListener('click', function (event) {
