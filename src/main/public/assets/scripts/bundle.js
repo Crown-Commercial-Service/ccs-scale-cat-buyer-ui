@@ -7487,6 +7487,7 @@ if(totalVetting<100 || totalVetting>100)
 $('#ccs_collab_view').hide();
 
 let formURL = "/eoi/get-collaborator-detail/js-enabled";
+$('#potential-collaborator').hide()
 
 if (document.getElementById("eoi_collaborators") !== null) {
   document.getElementById('eoi_collaborators').addEventListener('change', function () {
@@ -7501,7 +7502,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
         let { userName, firstName, lastName, tel } = data;
         let collegueName = firstName + " " + lastName;
         let id = userName;
-
+        $('#potential-collaborator').show()
         $('#eoi_show_collab_name').html(collegueName)
         $('#eoi_show_collab_email').html(id)
         $('#eoi_show_collab-phone').html(tel)
@@ -10367,6 +10368,7 @@ $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfi_collaborators').on('change', function () {
   let id = this.value;
@@ -10381,6 +10383,8 @@ $('#rfi_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
+
+      $('#potential-collaborator').show()
 
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
@@ -11806,6 +11810,7 @@ $('#ccs_collab_view').hide();
 
 let rfpFormURL = "/rfp/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfp_collaborators').on('change', function () {
   let id = this.value;
@@ -11820,7 +11825,7 @@ $('#rfp_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
-
+      $('#potential-collaborator').show()
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
       $('#show_collab-phone').html(tel)
