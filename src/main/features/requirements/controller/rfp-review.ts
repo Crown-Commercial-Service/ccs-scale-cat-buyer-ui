@@ -127,7 +127,10 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'In progress');
       }
     }
-    
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
@@ -465,8 +468,8 @@ let scoringData = [];
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
-      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
-      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? pounds.format(budgetMaximum) : null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? pounds.format(budgetMinimum) : null,
       furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
@@ -2010,8 +2013,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
-      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
-      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? pounds.format(budgetMaximum) : null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? pounds.format(budgetMinimum) : null,
       furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
@@ -3751,7 +3754,11 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     } else { 
       forceChangeDataJson = cmsData;
     }
-   
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
+  
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -3834,8 +3841,9 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       newreplace: newreplace != undefined && newreplace != null ? newreplace : null,
       incumbentoption: incumbentoption != undefined && incumbentoption != null ? incumbentoption : null,
       suppliername: suppliername != undefined && suppliername != null ? suppliername : null,
-      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
-      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+
+      bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1) : null,
+      bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2) : null,
       further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
