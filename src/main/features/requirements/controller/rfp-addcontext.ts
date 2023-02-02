@@ -162,7 +162,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
+          // if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
             let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
             // let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
             // let item1 = questionOptions.find(i => i.selected === true);
@@ -170,14 +170,14 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
               excludingIR35andSkills[index].questionStatus = 'Done';
             }
 
-          } else {
+          // } else {
             
-            if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
+          //   if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               
-              excludingIR35andSkills[index].questionStatus = 'Done';
-            } else {
-            }
-          }
+          //     excludingIR35andSkills[index].questionStatus = 'Done';
+          //   } else {
+          //   }
+          // }
         }
 
       }
