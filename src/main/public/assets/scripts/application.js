@@ -900,7 +900,6 @@ document.querySelectorAll(".g13Check").forEach(function(event) {
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
       let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
-
       //url change
       const baseSearchUrl = '/g-cloud/search';
       window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
@@ -1659,7 +1658,6 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
             bodytg.classList.remove("pageblur");
             // console.log(jqXHR.status)
           }
-          
           });
        })
   });

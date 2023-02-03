@@ -6,6 +6,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIRMENT_DA_PATHS } from '../model/daConstants'
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('RFP TYP');
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -35,6 +36,8 @@ export const DA_TYPE = (req: express.Request, res: express.Response) => {
     res.redirect(redirect_address);
   } else {
  
+    //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.typePageLog, req);
     res.render('daw-type', appendData);
 }
 

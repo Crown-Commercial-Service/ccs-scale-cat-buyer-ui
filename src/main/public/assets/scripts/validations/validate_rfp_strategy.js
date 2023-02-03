@@ -187,6 +187,10 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -275,7 +279,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }

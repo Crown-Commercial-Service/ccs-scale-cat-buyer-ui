@@ -152,7 +152,7 @@
                     {% endif %}
                   </p>
                 </div>
-                {% if agreement_id == 'RM1043.8'  %}
+                {% if (agreement_id == 'RM1043.8') or (agreement_id == 'RM1557.13')  %}
                   {% set numberWord = [
                   'Zero',
                   'first',
@@ -201,8 +201,8 @@
                         {%endif%}
                     {% elseif (agreement_id == 'RM6187' and group_id == 'Group 4')%}
                           Enter your                                
-                    {% elseif (agreement_id == 'RM1557.13' and group_id == 'Group 6')%}
-                          Enter a
+                    {% elseif (agreement_id == 'RM1557.13' and ((group_id == 'Group 4') or (group_id == 'Group 6') ))%}
+                          Enter your
                     {% else %}
                           Enter an                    
                     {%endif%}
@@ -240,6 +240,9 @@
                       })}}
                 </div>
                 {%endif%}
+                {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
+                  <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentageDown">{{totalPercentage    }}</span>% of 100%</h2>
+                {% endif %}
               {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
                   {{recurseRequirements(requirement,form_name,loop.index)}}

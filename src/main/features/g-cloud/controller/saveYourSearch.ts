@@ -5,6 +5,7 @@ import { gCloudApi } from '../util/fetch/apiInstance';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourSearch.json';
 import { gCloudServiceQueryReplace } from '../util/filter/serviceQueryReplace';
+import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
 
 
@@ -78,7 +79,11 @@ export const GET_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.Re
       req.session['isJaggaerError'] = false;
       req.session['isJaggaerErrorsearchname'] = false;
       const baseURL=`/assessments`;
-      let {data: assessments} = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      let assessment = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(assessment, logConstant.assessmentDetail, req);
+
+      let assessments = assessment.data;
       assessments = assessments.sort((a:any, b:any) => (a['assessment-id'] < b['assessment-id'] ? -1 : 1));
       const savedDetails = assessments?.filter((item:any) => item.assessmentName !== undefined && item.status === "active" && item['external-tool-id'] === '14');
        
@@ -96,6 +101,8 @@ export const GET_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.Re
         returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
       };
 
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.saveYourSearch, req);
 
       res.render('saveYourSearch', appendData);
         
@@ -119,7 +126,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
       if(savesearch !== undefined){
         let sessionsearchUrl= searchUrl;
          searchUrl=await gCloudServiceQueryReplace(searchUrl, "filter_");
-        if(savesearch=='new' && search_name !== ''){
+         if(savesearch=='new' && search_name !== ''){
           if(search_name.length <= 250){
           const assessmentsBaseURL=`/assessments`;
           let {data: assessments} = await TenderApi.Instance(SESSION_ID).get(assessmentsBaseURL);
@@ -141,6 +148,9 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             };
             const baseURL='/assessments/gcloud';
             let response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            //CAS-INFO-LOG
+             LoggTracer.infoLogger(response, logConstant.saveSearch, req);
+
             if (response.status == 200) {
               req.session.savedassessmentID=response.data;
               req.session.searchUrl=false;
@@ -181,6 +191,9 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           };
           
           let response = await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(response, logConstant.saveSearch, req);
+          
           if (response.status == 200) {
             req.session.savedassessmentID=savesearch;
            req.session.searchUrl=false;

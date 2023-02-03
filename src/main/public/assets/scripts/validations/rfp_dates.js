@@ -381,15 +381,19 @@ function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For DOS6 message create single supplier
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
+
 // For MCF3 message create
 $('.btn-sendmsg').on('click', (e) => {
    e.preventDefault();
-   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
-                           
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;                      
    document.forms['ccs_message_create_form'].submit();
 });
 
-//
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
@@ -1168,15 +1172,22 @@ function isProjectStartDateValid()
                  
       }
 
-      const startDate = new Date(Number(Year.val()), Number(Month.val() - 1), Number(Day.val()));
+      const startDate = new Date(Number(Year.val()), Number(Month.val()), Number(Day.val()));
       
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Enter a project start date');
          return false;
-      } 
-      else if (startDate>new Date(2025,07,23) && document.getElementById('agreementID').value != 'RM1557.13') {
+      }
+      else if (startDate>new Date(2025,05,28) && document.getElementById('agreementID').value == 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 28 May 2025")
+         $('.resource_start_date').html('Project cannot start after: 28 May 2025');
+          return false;
+      } 
+      else if (startDate>new Date(2025,08,23)) {
+         $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
           return false;
       }

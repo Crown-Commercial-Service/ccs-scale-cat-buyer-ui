@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       
       $("#totalPercentage").text(percentage);
+      $("#totalPercentageDown").text(percentage);
     };
     
     // for (let k = 0; k < allTextBox.length; k++){

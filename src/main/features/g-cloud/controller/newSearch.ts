@@ -2,6 +2,7 @@ import * as express from 'express';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import * as cmsData from '../../../resources/content/gcloud/newSearch.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 export const GET_NEW_SEARCH = async (req: express.Request, res: express.Response) => {
@@ -19,7 +20,9 @@ export const GET_NEW_SEARCH = async (req: express.Request, res: express.Response
         error:isJaggaerError,
         returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
       };
-      
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(null, logConstant.newSearch, req);
+          
      res.render('newSearch',appendData );
     } catch (error) {
         LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
