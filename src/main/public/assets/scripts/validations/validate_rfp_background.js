@@ -35,7 +35,7 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const textPatternNew = /^[a-zA-Z,]+$/;
   var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
   var errorMsg = 'Supplier must be minimum 3';
-  if($('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+  if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
     if(rfp_contracting_auth.value.length > 0 &&
       textPatternNew.test(rfp_contracting_auth.value) !== true){
       errorMsg = 'Please enter only character';
