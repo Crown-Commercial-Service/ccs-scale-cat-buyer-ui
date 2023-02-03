@@ -42,7 +42,8 @@ export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response
   const ProjectId = req.session['projectId'];
   let stage2_value = req.session.stage2_value;
   const agreementId_session = req.session.agreement_id;
-  const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
+  try {
+    const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
     const stage2_dynamic_api_data = stage2_dynamic_api.data;
     const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == EventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
@@ -50,6 +51,10 @@ export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response
     if(stage2_data.length > 0){
       stage2_value = 'Stage 2';
     }
+  } catch (error) {
+    console.log(error)
+  }
+
 
   if (download != undefined) {
     const ProjectId = req.session['projectId'];

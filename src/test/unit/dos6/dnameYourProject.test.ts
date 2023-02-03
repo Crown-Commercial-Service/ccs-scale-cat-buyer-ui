@@ -20,7 +20,6 @@ describe('Dos6 : Name your Project', async function() {
   this.timeout(0);
   let parentApp;
   let OauthToken;
-  console.log('process.env.eventId',process.env.eventId)
   const eventId = process.env.eventId;
   const procurementId = process.env.proc_id;
   const projectId = process.env.projectId;

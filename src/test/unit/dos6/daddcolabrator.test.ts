@@ -16,7 +16,7 @@ chais.should();
 chais.use(chaiHttp);
 
 describe('DOS6 : Add collaborator', async function() {
-  this.timeout(0);
+    this.timeout(0);
     let parentApp;
     let OauthToken;
     const eventId = process.env.eventId;
@@ -50,6 +50,8 @@ describe('DOS6 : Add collaborator', async function() {
     parentApp.use(app);
 });
 
+  afterEach(()=> nock.cleanAll())
+
   it('should be able to get addCollaborator page', async () => {
     const dummyUsers = [
       {
@@ -61,7 +63,6 @@ describe('DOS6 : Add collaborator', async function() {
         nonOCDS: { teamMember: true, emailRecipient: true, projectOwner: true },
       },
     ];
-    nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${procurementId}/users`).reply(200, dummyUsers);
     await request(parentApp)
       .get('/rfp/add-collaborators')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
@@ -89,9 +90,6 @@ describe('DOS6 : Add collaborator', async function() {
       firstName: 'b',
       lastName: 'c',
     };
-    nock(envs.TENDERS_SERVICE_API_URL)
-      .put(`/tenders/projects/${projectId}/users/${collaboratorDummy}`)
-      .reply(200, dummyUserNoPhone);
     await request(parentApp)
       .post('/rfp/add-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
@@ -103,7 +101,6 @@ describe('DOS6 : Add collaborator', async function() {
   }).timeout(0);
 
   it('should be able to proceed to tasklist', async () => {
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/29`).reply(200, true);
     const startTime = process.hrtime();
     await request(parentApp)
       .post('/rfp/proceed-collaborators')

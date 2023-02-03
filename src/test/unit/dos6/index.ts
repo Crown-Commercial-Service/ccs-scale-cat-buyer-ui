@@ -17,6 +17,7 @@ let mocha = new Mocha({
 
 mocha.addFile(path.join(__dirname, 'chooseAgreement.test.ts'));
 mocha.addFile(path.join(__dirname, 'dnameYourProject.test.ts'));
+mocha.addFile(path.join(__dirname, 'dleadProcurement.test.ts'));
 mocha.addFile(path.join(__dirname, 'daddcolabrator.test.ts'));
 mocha.addFile(path.join(__dirname, 'contextQuestionsGet.test.ts'));
 mocha.addFile(path.join(__dirname, 'contextQuestionsPost.test.ts'));
@@ -29,8 +30,8 @@ mocha.addFile(path.join(__dirname, 'reviewAndpublish.test.ts'));
 
 Promise.all([questionSetup(3),questionSetup(2)]).then((values) => {
     mocha.run().on('fail', function(test, err) {
-        // console.log(test.title);
-        // console.log(err);
+        console.log(test.title);
+        console.log(err);
     }).on('end', function() {
         console.log('-----All done-----');
     });
