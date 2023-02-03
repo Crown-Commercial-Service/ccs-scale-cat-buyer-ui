@@ -23,6 +23,7 @@ export const AUTH: express.Handler = async (
 ) => {
   const { SESSION_ID, state } = req.cookies;
   let requestURL = req.url;	
+
   if (requestURL.indexOf('event/qa') == 1) {	
     req.session["supplier_qa_url"] = requestURL;	
   }	
