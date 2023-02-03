@@ -71,7 +71,7 @@
             {% else %}
               {% set ExpiryBefore = '' %}
             {% endif %}
-            <p class="govuk-body">{{ExpiryBefore}} Expiry date: <strong>{{agreementDate}}</strong>
+            <p class="govuk-body">{{ExpiryBefore}}{{lot}} expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
 
@@ -326,7 +326,7 @@
                {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
                  <div class="govuk-inset-text">
                                 <p class="govuk-body">
-                                    <b>Please note that this journey is not available on CAS.</b>
+                                    Please note that this journey is not available on CAS.
                                 </p>
                  </div>
                 {% endif %}
