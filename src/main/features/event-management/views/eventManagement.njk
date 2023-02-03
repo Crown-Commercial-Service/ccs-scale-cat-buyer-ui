@@ -387,7 +387,9 @@
                           </h2>
                         {% endif %}
                         {% if status.toLowerCase() == 'published' or status.toLowerCase() == 'closed' %}
+                          {% if status.toLowerCase() == 'published' %}
                           <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+                           {% endif %}
                           {#<div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                                                 <div class="govuk-grid-column-full">
                                                   <table class="govuk-table">
