@@ -34,6 +34,7 @@ console.log("__dirname",__dirname);
 // mocha.addFile(path.join(__dirname, 'timeLine.test.ts'));
 //  mocha.addFile(path.join(__dirname, 'reviewAndpublish.test.ts'));
 mocha.addFile(path.join(__dirname, 'rfiAddContext.test.ts'));
+//path1 = path.join("users/admin/files", "index.html");
 
 Promise.all([questionSetup(1)]).then((values) => {
     mocha.run()
