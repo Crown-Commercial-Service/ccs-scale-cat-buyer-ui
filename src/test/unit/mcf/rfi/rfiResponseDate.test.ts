@@ -17,7 +17,7 @@ import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Name a project', async () => {
+describe('MCF3: Set your RfI timeline page render', async () => {
   let parentApp;
   let OauthToken;
   // let procid=mcfData.procurements.procurementID;
@@ -32,37 +32,38 @@ describe('MCF3: Name a project', async () => {
     parentApp.use(function (req, res, next) {
     req.session = mcfData
     req.session.access_token=OauthToken;    
+    req.session.UIDate=null
+    
       next();
     });
     parentApp.use(app);
   });
 
-  it('should render `MCF3 Name a project ` page when everything is fine', async () => {
+  it('should render `MCF3 Set your RfI timeline ` page when everything is fine', async () => {
     await request(parentApp)
-      .get('/rfi/name-your-project')
+      .get('/rfi/response-date')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
-
-  it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = 'test';
-    
-    let procId = mcfData.procurements[0].procurementID;
-    let eventId = mcfData.procurements[0].eventId;
-    
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);
+  }).timeout(0);
+  
+  it('should be able to proceed to Set your RfI timeline ', async () => {
+    const bodyDummyValue = {
+            "rfi_clarification_date": "Question 1*27 January 2023",
+            "rfi_clarification_period_end": "Question 2*02 February 2023, 16:00",
+            "deadline_period_for_clarification_period": "Question 3*06 February 2023, 16:00",
+            "supplier_period_for_clarification_period": "Question 4*10 February 2023, 16:00",
+            "supplier_dealine_for_clarification_period": "Question 5*20 February 2023, 16:00"
+    }
     await request(parentApp)
-      .post(`/rfi/name?procid=${procId}`)
-      .send({ name: dummyName })
+      .post(`/rfi/response-date`)
+      .send(bodyDummyValue)
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
-       // console.log("res.header.location",res.header.location)
-       expect(res.status).to.equal(302);
-        
+        expect(res.status).to.equal(302);
+        expect(res.header.location).to.be.equal('/rfi/review'); 
       });
-  });
+  }).timeout(0);
 
 });

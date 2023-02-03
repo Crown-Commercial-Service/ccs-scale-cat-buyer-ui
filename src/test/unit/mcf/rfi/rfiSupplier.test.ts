@@ -17,7 +17,7 @@ import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Name a project', async () => {
+describe('MCF3: View suppliers', async () => {
   let parentApp;
   let OauthToken;
   // let procid=mcfData.procurements.procurementID;
@@ -37,32 +37,35 @@ describe('MCF3: Name a project', async () => {
     parentApp.use(app);
   });
 
-  it('should render `MCF3 Name a project ` page when everything is fine', async () => {
+  it('should render `MCF3 View suppliers` page when everything is fine', async () => {
     await request(parentApp)
-      .get('/rfi/name-your-project')
+      .get('/rfi/suppliers')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
-
-  it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = 'test';
-    
-    let procId = mcfData.procurements[0].procurementID;
-    let eventId = mcfData.procurements[0].eventId;
-    
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);
+  }).timeout(0);
+  
+//   it('Selected the project lead Updated ', async () => {
+//     let testValue = 'andrew.watts@crowncommercial.gov.uk';
+//     await request(parentApp)
+//     .get(`/rfi/users-procurement-lead?id=${testValue}`)
+//       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
+//       .expect(res => {
+//         expect(res.status).to.equal(200);
+//       });
+//   }).timeout(0);
+  
+  it('should be able to proceed to add collaborators', async () => {
     await request(parentApp)
-      .post(`/rfi/name?procid=${procId}`)
-      .send({ name: dummyName })
+      .post(`/rfi/suppliers`)
+      
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
        // console.log("res.header.location",res.header.location)
-       expect(res.status).to.equal(302);
-        
+        expect(res.status).to.equal(302);
+        expect(res.header.location).to.be.equal('/rfi/response-date'); 
       });
-  });
+  }).timeout(0);
 
 });
