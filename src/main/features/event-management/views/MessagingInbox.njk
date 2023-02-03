@@ -261,6 +261,7 @@
 
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
             <div class="govuk-grid-column-full">
+                
                 {% if messages.length > 5 %}
                     <table class="govuk-table" id="received-message">
                     {% else %}
@@ -281,8 +282,9 @@
                                     <tr class="govuk-table__row">
                                         <th scope="row" class="govuk-table__cell">
                                             <p class="govuk-body govuk-!-margin-bottom-0">
-                                                <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
+                                                <a class="govuk-link loaderClick" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
                                             </p>
+                                            
                                         </th>
                                         <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
                                         <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
@@ -315,6 +317,13 @@
                     </table>
                 </div>
             </div>
+            
+             <div class="loader-container">
+                                <div class="loader-division">
+                                  <img src="/assets/images/loader.gif" alt="Loading">
+                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait..</h2>
+                                </div>
+                              </div>
             {% if type == 'received' %}
             <p class="govuk-body">
                 <a href="{{data.backJumpDashboard.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJumpDashboard.title}}</a>
@@ -324,5 +333,8 @@
                 <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
             </p>
             {% endif %}
+
+           
+
         </main>
     {% endblock %}
