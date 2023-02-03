@@ -266,14 +266,13 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
       }
     }
     let body=ScoresAndFeedbackURLdata_
-
-  
     
      TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
 
      res.redirect('/confirm-score');
 
     // if(agreement_id != 'RM1043.8'){
+    //   res.redirect('/event/management?id='+eventId);
     //   res.redirect('/dashboard');
     // }else{
     //   res.redirect('/shortlist_evaluation');
@@ -281,7 +280,6 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     
 //publisheddoc?download=1
 }catch (error) {
- 
   if(error.response.status === 504){
     if(agreement_id != 'RM1043.8'){
       res.redirect('/event/management?id='+eventId);
@@ -301,7 +299,6 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     );
   }
 }
-
 }
 
 export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Response) => {
@@ -311,9 +308,9 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
   const { agreement_id } = req.session;
 
     async function statusApis() {
-      const baseurl = `/tenders/projects/${projectId}/events`
-     const apidata: any = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new   Promise(resolve => setTimeout(() => resolve(x), 6000)))
-      return apidata.data;
+     const baseurl = `/tenders/projects/${projectId}/events`
+     const apidata: any = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new   Promise(resolve => setTimeout(() => resolve(x), 10000)))
+     return apidata.data;
     }
     
     var evaluateStatus: boolean = true;
@@ -324,8 +321,6 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
         if(status.toLowerCase() == "evaluated") {
           evaluateStatus = false;
         }
-        
-      
     } while(evaluateStatus);
     
     if(!evaluateStatus) {
@@ -336,8 +331,6 @@ export const CONFIRM_SCORE_GET = async (req: express.Request, res: express.Respo
         res.redirect('/shortlist_evaluation');
       }
     }
-    
-  
 }
 
 export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {

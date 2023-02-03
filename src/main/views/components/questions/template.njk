@@ -31,7 +31,9 @@
                    {%if(table.text !=='Create your own scoring criteria')%}
                    <div class="govuk-custom-table">
                     {%if agreement_id != 'RM1043.8' %}
-                      <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                    <div class="govuk-!-margin-top-4">
+                      <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}} level scoring criteria</a>
+                    </div>
                     {% endif %}
                     {% if (agreement_id == 'RM1557.13') %}
                       {% set criteriatext = 'level' %}
@@ -79,6 +81,27 @@
             redirect:'javascript.void(0)',
             type:'tier-5'
         }) }} #}
+        {% if (agreement_id == 'RM6187') %}
+        <div class="govuk-!-margin-bottom-9">
+          <h2 class="govuk-heading-xl" >Create your scoring criteria</h2>
+          <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p>
+          <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p>
+        </div>
+        {% endif %}
+        {% if (agreement_id == 'RM1043.8') %}
+        <div class="govuk-!-margin-bottom-9">
+          <h2 class="govuk-heading-xl" >Create your own scoring criteria </h2>
+          <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p>
+          <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p>
+        </div>
+        {% endif %}
+        {% if (agreement_id == 'RM1557.13') %}
+        <div class="govuk-!-margin-bottom-9">
+          <h2 class="govuk-heading-xl" >Create your scoring criteria</h2>
+          <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p><br>
+          <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p>
+        </div>
+        {% endif %}
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
               {% if agreement_id == 'RM1043.8' %}
@@ -111,27 +134,7 @@
 {%endblock%}
 {% block RPFScoringCriteria %}
 {% if requirement.nonOCDS.questionType === 'Text' and  (requirement.OCDS.title === 'Enter the name for this tier' or requirement.OCDS.title === 'Create your scoring criteria' or requirement.OCDS.title === 'Enter the score for this level' or requirement.OCDS.title === 'Enter the description for this level' or requirement.OCDS.title === 'Enter the name for this level' ) and requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
-                  {% if (agreement_id == 'RM6187') %}
-                  <div class="govuk-!-margin-bottom-9">
-                    <h2 class="govuk-heading-xl" >Create your scoring criteria</h2>
-                    <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p>
-                    <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p>
-                  </div>
-                  {% endif %}
-                  {% if (agreement_id == 'RM1043.8') %}
-                  <div class="govuk-!-margin-bottom-9">
-                    <h2 class="govuk-heading-xl" >Create your own scoring criteria </h2>
-                    <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p>
-                    <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p>
-                  </div>
-                  {% endif %}
-                  {% if (agreement_id == 'RM1557.13') %}
-                  <div class="govuk-!-margin-bottom-9">
-                    <h2 class="govuk-heading-xl" >Create your scoring criteria</h2>
-                    <p  class="govuk-body" >To create your own scoring criteria please populate the levels below then click ‘Save and continue’.</p><br>
-                    <p  class="govuk-body" >You must have at least 2 and no more than 10 scoring levels.</p><br>
-                  </div>
-                  {% endif %}
+                  
 
 
                   {% if (agreement_id == 'RM1043.8') %}
@@ -238,6 +241,23 @@
                                 classes: 'govuk-label govuk-label--m'
                             }
                         }) }}
+
+                        {% if (agreement_id == 'RM1557.13') %}
+                        {{ CCSInput({
+                            label: {
+                                text: 'Enter the score for this level',
+                                classes: 'govuk-label govuk-date-input__label govuk-label--m'
+                            },                            
+                            hint: {
+                              text: 'Make sure your scoring system does not overlap or cause confusion. Use whole numbers.'
+                          },
+                            id: 'rfp_score_criteria_point_'+i,
+                            name: 'score_criteria_points',
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 weightagelimit",
+                            type: "number",
+                            inputmode:"numeric"
+                          }) }}
+                        {% else %}
                         {{ CCSInput({
                             label: {
                                 text: 'Enter the score for this level',
@@ -252,6 +272,8 @@
                             type: "number",
                             inputmode:"numeric"
                           }) }}
+                      {% endif %}
+                      
                         {% if (agreement_id == 'RM1043.8') %}
                
                 {{  CCSCharacterCount({
@@ -281,7 +303,7 @@
                                 text: 'Enter the description for this level'
                             },
                             maxlength: 500,
-                            classes:"rfpterm rpf_500"
+                            classes:"rfpterm rpf_500 govuk-!-width-two-thirds"
                         }) }}
               {% endif %}
                         
@@ -312,7 +334,7 @@
                     {%else%}
                       <p class="govuk-body">
                           {{ CCSButton({
-                          text: "Add another tier",
+                          text: "Add another level",
                           attributes: {
                           id: "ccs_rfp_score_criteria_add"
                           },
@@ -406,12 +428,12 @@
         maxlength:countLength,
         label: {
         text:requirement.OCDS.title,
-        classes: "govuk-label govuk-label--m govuk-!-width-two-thirds"
+        classes: "govuk-label govuk-label--m"
         },
         hint: {
           text: requirement.OCDS.description
         },
-        classes:"dos_question_count order_"+requirement.nonOCDS.order+" class_question_remove_"+index+" "+classnameForCount,
+        classes:"govuk-!-width-two-thirds dos_question_count order_"+requirement.nonOCDS.order+" class_question_remove_"+index+" "+classnameForCount,
         rows:rows
       }) }}
 
@@ -619,7 +641,7 @@
               <div class="govuk-!-margin-bottom-9">
                 <label class="govuk-label govuk-label--m">{{requirement.OCDS.title}}</label>
                 <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
-                  <strong>{{organizationName}}</strong>
+                  {{organizationName}}
                 </p>
               </div>
             {% else %}
@@ -684,8 +706,8 @@
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rfpterm rpf_500",
-                        rows:"2"
+                        classes: "rfpterm rpf_500 govuk-!-width-three-quarters",
+                        rows:"1"
                       })
                   }}
 
@@ -925,7 +947,7 @@
           {% block Percentage%}
             {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
             {% set qhint = "" %}
-            {% if(requirement.OCDS.title === 'Social value criteria' and agreement_id == 'RM6187') %}
+            {% if(requirement.OCDS.title === 'Social value criteria' and ((agreement_id == 'RM6187') or (agreement_id == 'RM1557.13'))) %}
             {% set qhint = "If you are buying on behalf of a central government department, this must be a minimum of 10% of your overall weighting. For example, if you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). For all other buyers, this weighting is discretionary and in some cases can be 0%." %}
             {% elseif(requirement.OCDS.title === 'Social value criteria') %}
             {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting). -test" %}
@@ -2017,7 +2039,7 @@
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
-                              classes: "closeCCS term_acronym_fieldset acronym_service_"+i,
+                              classes: "closeCCS term_acronym_fieldset govuk-!-width-two-thirds acronym_service_"+i,
                               id:"term_acronym_fieldset"
                             })
                           %}
@@ -2035,7 +2057,7 @@
                                 id: "rfp_term_service_group_"+i,
                                 maxlength:500,
                                 name: "term",
-                                classes: "closeCCS govuk-input govuk-!-width-two-thirds rfpterm rfp_term__Service_user_type_"+i,
+                                classes: "closeCCS govuk-input rfpterm rfp_term__Service_user_type_"+i,
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }} 
@@ -2047,7 +2069,7 @@
                                   text: 'Enter more details about this user type'
                                 },
                                 maxlength:10000,
-                                classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
+                                classes: "closeCCS messagesendcount rfp_term_more_details_"+i,
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
@@ -2059,7 +2081,7 @@
                                   text: 'Enter more details about this user type'
                                 },
                                 maxlength:5000,
-                                classes: "closeCCS govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
+                                classes: "closeCCS messagesendcount rfp_term_more_details_"+i,
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
@@ -2093,7 +2115,7 @@
                   
                       {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
 
-                          {% if (agreement_id != 'RM6187') %}
+                          {% if (agreement_id != 'RM6187') and (agreement_id != 'RM1557.13') %}
                               <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
                               Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p>
                           {% endif %}
@@ -2286,7 +2308,7 @@
                                 maxlength:500,
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
-                                classes: "rfpterm rfp_term rfp_term_name_requirement_KPI_"+i,
+                                classes: "govuk-!-width-two-thirds rfpterm rfp_term rfp_term_name_requirement_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][0].value,
                                 rows:rows
                               })

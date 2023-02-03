@@ -81,7 +81,7 @@
                                         <b>4</b> working days from publishing until the clarification period closes</li>
                                 {% elseif agreementId_session == 'RM1043.8' %}
                                 <li>
-                                    <b>4</b> working days from publishing your further competition until the clarification period closes</li>
+                                    4 working days from publishing your further competition until the clarification period closes</li>
                                 {% else %}
                                     {% if agreementId_session == 'RM1557.13' %}
                                         <li>4 working days from publishing until the clarification period closes</li>
@@ -92,9 +92,9 @@
                                 {% endif %}
                                 {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' %}
                                     <li>
-                                        <b>2</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
+                                        2 working days from the clarification period closing to publishing your responses to the clarification questions</li>
                                     <li>
-                                        <b>4</b> working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
+                                        4 working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
                                 {% else %}
                                     {% if agreementId_session == 'RM1043.8' %}
                                         <li>
@@ -117,13 +117,13 @@
                             </ul>
                         {% endif %}
                         <p class="govuk-body">{{data.subtitle2}}</p>
-                        {% if agreementId_session != 'RM1043.8' %}
+                        {# {% if agreementId_session != 'RM1043.8' %} #}
                             <div class="govuk-inset-text">
                                 <p class="govuk-body">
                                     <b>{{data.subtitle3}}</b>
                                 </p>
                             </div>
-                        {% endif %}
+                        {# {% endif %} #}
                         <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
                             <p class="govuk-body-l govuk-!-margin-top-3">
                                 <strong>
@@ -161,10 +161,10 @@
                                                 <label class="govuk-label govuk-body">
                                                     {% if ((agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') and requirement.OCDS.id == "Question 8") %}
                                                         <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
-                                    If you do not require a standstill, change this date to be the same as the date in point 8 below.</p>
+                                    If you do not require a standstill, change this date to be the same as the date in point 9 below.</p>
                                                      {%endif %}
                                                       {% if(requirement.OCDS.id == "Question 7" and agreementId_session == 'RM1557.13') %}
-                                            <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                            <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p>
                                         {%endif%}
                                     {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 4" and stage2_value == "Stage 2") %}
                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
@@ -196,7 +196,7 @@
                                                 {% elif(requirement.OCDS.id == "Question 7") %}
                                     <label class="govuk-label govuk-body">
                                         {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
-                                        <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                        <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p>
                                         {%endif%}
                                         <strong id="evaluation_process_start_date" class="clarification_7">{{evaluation_process_start_date}}</strong>
                                     </label>
@@ -204,7 +204,7 @@
                                     <label class="govuk-label govuk-body">
                                         {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
                                         <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision.</p>
-                                        <p>If you do not require a standstill, change this date to be the same as the date in point 8 below.</p>
+                                        <p>If you do not require a standstill, change this date to be the same as the date in point 9 below.</p>
                                                                 {%endif%}
                                                                 {% if (agreementId_session == 'RM1043.8') %}
                                                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
