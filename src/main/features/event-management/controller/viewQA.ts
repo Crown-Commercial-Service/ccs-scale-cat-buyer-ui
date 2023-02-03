@@ -24,7 +24,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
 
     try {  
-        
 
        // https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects
         
@@ -62,7 +61,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
 
-
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6InboxData;
@@ -97,8 +95,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         );	
     }	
 }
-
-
 
 export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: express.Response) => {
     const { supplier_qa_url } = req.session;

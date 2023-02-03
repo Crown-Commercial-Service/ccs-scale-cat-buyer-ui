@@ -1771,6 +1771,7 @@ export const START_EVALUATION = async (req: express.Request, res: express.Respon
     const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/startEvaluation`;
     TenderApi.Instance(SESSION_ID).post(BASEURL); 
     res.redirect('/start-evaluation-redirect');
+
   } catch (error) {
     LoggTracer.errorLogger(
         res,
@@ -1784,12 +1785,10 @@ export const START_EVALUATION = async (req: express.Request, res: express.Respon
   }
 }
 
-
 export const START_EVALUATION_REDIRECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId } = req.session;
   try {
-
     async function GetEventStatusApis() {
       const baseurl = `/tenders/projects/${projectId}/events`;
       const rawData = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 10000)));

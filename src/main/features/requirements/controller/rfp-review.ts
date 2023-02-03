@@ -127,7 +127,10 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'In progress');
       }
     }
-    
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
@@ -372,7 +375,7 @@ let scoringData = [];
 
     //budget constraints
       //Commented - 03-08-2022
-      let bc1, bc2;
+      let bc1, bc2, further_info;
     let reqGroup = [];
     //section 3
 
@@ -465,8 +468,8 @@ let scoringData = [];
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
-      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
-      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? pounds.format(budgetMaximum) : null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? pounds.format(budgetMinimum) : null,
       furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
@@ -493,6 +496,7 @@ let scoringData = [];
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
       bc1: bc1 != undefined && bc1 != null ? bc1 : null,
       bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -1733,7 +1737,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
 
     //budget constraints
       //Commented - 03-08-2022
-      let bc1, bc2;
+      let bc1, bc2, further_info ;
       if(agreementId_session != 'RM1043.8' && req.session.lotId == 3){  //XBN00121
       sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 21/questions`;
     
@@ -1743,9 +1747,11 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
 
     bc1 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 1)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
     bc2 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 2)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
+    further_info = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 3)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
       } else {
         bc1 = undefined;
         bc2 = undefined;
+        further_info = undefined;
       }
     let reqGroup = [];
     if(agreementId_session != 'RM1043.8'){  //XBN00121
@@ -1924,6 +1930,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
       bc1: bc1 != undefined && bc1 != null ? bc1 : null,
       bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -2006,8 +2013,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
-      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
-      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? pounds.format(budgetMaximum) : null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? pounds.format(budgetMinimum) : null,
       furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
@@ -2034,6 +2041,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
       bc1: bc1 != undefined && bc1 != null ? bc1 : null,
       bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -2155,9 +2163,9 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
-       const agreementPublishedRaw = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
 
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
@@ -3016,6 +3024,7 @@ const IR35selected='';
 
     let bc1 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 1)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
     let bc2 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 2)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
+    let further_info = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 3)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
     
     //add your req
     
@@ -3180,6 +3189,7 @@ const IR35selected='';
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
       bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1).replace(/^(\D+)/, '$1 ') : null,
       bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2).replace(/^(\D+)/, '$1 ') : null,
+      further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
@@ -3695,6 +3705,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
 
     let bc1 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 2)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
     let bc2 = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 3)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
+    let further_info = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 4)?.map(o => o.nonOCDS)?.[0]?.options?.[0]?.value;
+    
 
     //service level
     // Commented - 03-08-2022
@@ -3741,7 +3753,11 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     } else { 
       forceChangeDataJson = cmsData;
     }
-   
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
+  
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -3764,16 +3780,16 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       //rfp_clarification_date,
       rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
       // rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
-      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? moment(rfp_clarification_period_end,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? moment(deadline_period_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? moment(supplier_period_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? moment(supplier_dealine_for_clarification_period,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? moment(supplier_dealine_evaluation_to_start,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? moment(supplier_dealine_expect_the_bidders,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? moment(supplier_dealine_for_pre_award,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? moment(supplier_dealine_sign_contract,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
-      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD H:m',).format('DD/MM/YYYY, H:m') : null,
+      rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? moment(rfp_clarification_period_end,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? moment(deadline_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? moment(supplier_period_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null ? moment(supplier_dealine_for_clarification_period,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_evaluation_to_start: supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null ? moment(supplier_dealine_evaluation_to_start,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_expect_the_bidders: supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null ? moment(supplier_dealine_expect_the_bidders,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_pre_award: supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null ? moment(supplier_dealine_for_pre_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? moment(supplier_dealine_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
 
       // deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
       // supplier_period_for_clarification_period: supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null ? supplier_period_for_clarification_period : null,
@@ -3824,8 +3840,10 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       newreplace: newreplace != undefined && newreplace != null ? newreplace : null,
       incumbentoption: incumbentoption != undefined && incumbentoption != null ? incumbentoption : null,
       suppliername: suppliername != undefined && suppliername != null ? suppliername : null,
-      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
-      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+
+      bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1) : null,
+      bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2) : null,
+      further_info: further_info != undefined && further_info != null ? further_info : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
        //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',

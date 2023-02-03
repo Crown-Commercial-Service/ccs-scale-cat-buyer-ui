@@ -252,7 +252,7 @@ export const DA_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   const { projectId } = req.session;
     const { eventId } = req.session;
   let { selectedRoute } = req.session;
-  const rfp_confirm_upload = req.body.rfp_confirm_upload;
+  //const rfp_confirm_upload = req.body.rfp_confirm_upload;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   if (selectedRoute === 'DA') selectedRoute = 'DA';
   // if (req.session.selectedRoute === 'DA')  selectedRoute = 'DA';
@@ -304,7 +304,7 @@ export const DA_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   
   
   
-  if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
+  if (req.session['isTcUploaded'] ) {
   // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'In progress');
   //     let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
   //   if(flag)

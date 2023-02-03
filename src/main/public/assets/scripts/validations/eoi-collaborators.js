@@ -1,6 +1,7 @@
 $('#ccs_collab_view').hide();
 
 let formURL = "/eoi/get-collaborator-detail/js-enabled";
+$('#potential-collaborator').hide()
 
 if (document.getElementById("eoi_collaborators") !== null) {
   document.getElementById('eoi_collaborators').addEventListener('change', function () {
@@ -15,7 +16,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
         let { userName, firstName, lastName, tel } = data;
         let collegueName = firstName + " " + lastName;
         let id = userName;
-
+        $('#potential-collaborator').show()
         $('#eoi_show_collab_name').html(collegueName)
         $('#eoi_show_collab_email').html(id)
         $('#eoi_show_collab-phone').html(tel)

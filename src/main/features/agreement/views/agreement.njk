@@ -25,7 +25,7 @@
                   {% if agreement_id != 'RM1557.13' %}
                     {{selectedAgreement.name}}
                   {% else %}
-                    {{selectedAgreement.name}} ({{agreement_id}}, {{agreement_id}}-L4)
+                    {{selectedAgreement.name}} ({{agreement_id}}, {{agreement_id}}L4)
                   {% endif %}
                 <span>Agreement number: {{agreement_id}}</span>
               </h2>
@@ -104,7 +104,7 @@
                       {% if agreement.number != 'RM1557.13' %}
                         {{agreement.name}} ({{agreement.number}})
                       {% else %}
-                        {{agreement.name}} ({{agreement.number}}, {{agreement.number}}-L4)
+                        {{agreement.name}} ({{agreement.number}}, {{agreement.number}}L4)
                       {% endif %}
                     </span>
                   </h2>
