@@ -423,7 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){  
-                   document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    if(document.getElementById("del_fc_question_" + box_num)){
+                       document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    }
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
                     
@@ -534,6 +536,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
+        if(percentageCheck){
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+        }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -556,6 +561,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                     errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                        }
                     // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                 } else if (textboxCount == (withValue-1)) {
 
@@ -684,6 +692,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                    }
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
