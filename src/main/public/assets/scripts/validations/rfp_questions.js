@@ -422,7 +422,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
+
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
                     if(document.getElementById("del_fc_question_" + box_num)){
                        document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                     }
@@ -536,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
         if(percentageCheck){
-        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
         }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
@@ -691,9 +693,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+
                             if(percentageCheck){
                                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                             }
+
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();

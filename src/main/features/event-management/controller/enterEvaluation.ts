@@ -10,6 +10,7 @@ import * as localData from '../../../resources/content/event-management/local-SO
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+// import { logConstant } from '../../../common/logtracer/logConstant';
 //simport { idText } from 'typescript'
 /**
  * 
@@ -107,20 +108,17 @@ try{
                   score: evaluation_score,
                 }
               ];
-              console.log('************* State 1');
-              console.log(JSON.stringify(body))
-              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
+              
               req.session.individualScore = body[0];
-              console.log('************* State 1.1 session init');
-              console.log(req.session.individualScore);
+              
               //let responseScore = 
               TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              console.log('************* State 1.2 after put without await');
+              
               //CAS-INFO-LOG 
               // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
-              console.log('************* State 1.3 going to redirect at /score-individual');
+
               res.redirect('/score-individual'); 
 
             } else {
@@ -129,24 +127,56 @@ try{
             }
    
 }catch (error) {
-  console.log('****************** error state 1');
-  console.log(error);
-  if(error.response.status === 504){
-    req.session.isEmptyProjectError = false;
-    res.redirect('/evaluate-suppliers');
-  }else{
     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Event Management - Evaluate post - APIs one error occured',
+      'Event management page',
       true,
     );
   }
 }
 
+export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  
+  if(req.session.individualScore !== undefined) {
+
+    async function scoreApis() {
+      const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+      const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 6000)))
+      return scoreCompare.data;
+    }
+    
+    var scoreIndividualGetState: boolean = true;
+    do {
+      let sessionScore = req.session.individualScore;
+      let resScore: any = [];
+      resScore = await scoreApis();
+      
+      if(resScore.length > 0) {
+        let scoreFliter = resScore.filter((el: any) => {
+          return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
+        });
+        if(scoreFliter.length > 0) {
+          scoreIndividualGetState = false;
+        }
+      }
+    } while(scoreIndividualGetState);
+    
+    if(!scoreIndividualGetState) {
+      req.session.isEmptyProjectError = false;
+      res.redirect('/evaluate-suppliers'); 
+    }
+    
+  } else {
+    req.session.isEmptyProjectError = false;
+    res.redirect('/evaluate-suppliers'); 
+  }
 }
 
 export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
