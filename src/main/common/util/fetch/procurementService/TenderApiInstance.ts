@@ -9,6 +9,7 @@ export class TenderApi {
         const httpsAgent = new https.Agent({ keepAlive: true });
         let API = axios.default.create({
             baseURL: process.env.TENDERS_SERVICE_API_URL,
+            timeout: 1800000,
             httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
             httpsAgent,
             headers: {
