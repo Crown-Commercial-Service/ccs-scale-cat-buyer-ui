@@ -96,8 +96,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
     }	
 }
 
-
-
 export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: express.Response) => {
     const { supplier_qa_url } = req.session;
     const { SESSION_ID } = req.cookies;
