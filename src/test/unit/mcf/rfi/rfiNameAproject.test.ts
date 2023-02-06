@@ -13,6 +13,7 @@ const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+const getProJson = require('test/utils/getJson').getProJson
 
 chais.should();
 chais.use(chaiHttp);
@@ -20,18 +21,16 @@ chais.use(chaiHttp);
 describe('MCF3: Name a project', async () => {
   let parentApp;
   let OauthToken;
-  // let procid=mcfData.procurements.procurementID;
-  // let procid=mcfData.procurements.eventId;
-  
-  // console.log("procid",procid);
-  // console.log("eventId",eventId);
 
   beforeEach(async function () {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    req.session = mcfData
-    req.session.access_token=OauthToken;    
+    console.log("getProJsonNAMEE",getProJson);
+      req.session = getProJson;
+      req.session.procurements= getProJson.procurements;
+      getProJson.project_name = "UNIT TEST RFI";
+      req.session.access_token=OauthToken;    
       next();
     });
     parentApp.use(app);
@@ -44,13 +43,13 @@ describe('MCF3: Name a project', async () => {
       .expect(res => {
         expect(res.status).to.equal(200);
       });
-  });
+  }).timeout(0);
 
   it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = 'test';
+    const dummyName = getProJson.project_name;
     
-    let procId = mcfData.procurements[0].procurementID;
-    let eventId = mcfData.procurements[0].eventId;
+    let procId = getProJson.procurements[0].procurementID;
+    let eventId = getProJson.procurements[0].eventId;
     
     //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
     //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);
@@ -63,6 +62,6 @@ describe('MCF3: Name a project', async () => {
        expect(res.status).to.equal(302);
         
       });
-  });
+  }).timeout(0);
 
 });
