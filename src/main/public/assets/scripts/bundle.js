@@ -9880,6 +9880,16 @@ const ccsZremoveErrorMessage = (element) => {
 
 };
 
+const ccsZremoveErrorMessageRFIDate = () => {
+
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+};
+
 /**
  * Add an error message around an element, if not already present
  *  - adds 'error' classes to the 'form group' and the input and
@@ -11087,17 +11097,26 @@ document.addEventListener('DOMContentLoaded', () => {
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
-
             let parentID = getParentId(element);
             ccsZremoveErrorMessage(document.getElementById(parentID));
-
-            if ((year.val() != undefined && year.val() == "") && (month.val() != undefined && month.val() == "") && (day.val() != undefined && day.val() == "")) {
+            ccsZremoveErrorMessageRFIDate();
+            if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
+                day.addClass("govuk-input--error")
+                month.addClass("govuk-input--error")
+                year.addClass("govuk-input--error") 
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                const errorStore = [
+                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            } else if ((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
                 const errorStore = [
-                    [parentID, "Date should not be empty"]
+                    [parentID, "Date invalid or empty. Please enter the valid date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11127,17 +11146,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Hour should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Hour should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Minutes should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Minutes should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -17363,12 +17382,30 @@ const emptyFieldCheckRfpScore = () => {
 
         
       } 
-      else if((agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13') && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
+      else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
         ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
         ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
         errorStore.push(fieldCheck);
+      }
+      else if(agreement_id.value.trim() == 'RM1557.13' && (name_field.value.trim() === '' || point_field.value.trim() === '' || desc_field.value.trim() === '')) {
+        if(name_field.value.trim() === ''){
+          fieldCheck = [name_field.id, 'You must add a name for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(name_field, 'You must add a name for this level');
+        }
+        if(point_field.value.trim() === ''){
+          fieldCheck = [point_field.id, 'You must enter a score for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(point_field, 'You must enter a score for this level');
+        }
+        if(desc_field.value.trim() === ''){
+          fieldCheck = [desc_field.id, 'You must enter a description for this level'];
+          ccsZaddErrorMessage(desc_field, 'You must enter a description for this level');
+          errorStore.push(fieldCheck);
+        }
+
       }
       else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
         let errorObj = {
