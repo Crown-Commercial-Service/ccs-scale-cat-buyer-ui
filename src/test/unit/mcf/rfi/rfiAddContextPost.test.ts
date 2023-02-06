@@ -15,24 +15,28 @@ import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 import { postData } from 'test/data/mcf/rfi/rfiQuestionPosted.json';
 const contextnonOCDS = require('test/utils/mcf/rfi/qsData').context_nonOCDS
+const getProJson = require('test/utils/getJson').getProJson
+
 //const contextnonOCDS = require('test/utils/qsData').context_nonOCDS
 //const contextgroups from 
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Add Context', async () => {
+describe('MCF3: Add Context Post', async () => {
   let parentApp;
   let OauthToken;
-   let eventId=mcfData.eventId;
-   let procId = mcfData.projectId;
+   let eventId=getProJson.eventId;
+   let procId = getProJson.projectId;
   before(async function () {
    
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
     
-    req.session = mcfData;
+    req.session = getProJson;
     req.session.nonOCDSList=contextnonOCDS;
+   // getProJson.nonOCDSList=contextnonOCDS;
+    console.log("SessionPOSTTEDD",JSON.stringify(req.session.nonOCDSList));
     // req.session.isLocationMandatoryError=false;
     req.session.access_token=OauthToken; 
         

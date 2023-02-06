@@ -13,6 +13,7 @@ const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+const getProJson = require('test/utils/getJson').getProJson
 
 chais.should();
 chais.use(chaiHttp);
@@ -30,7 +31,7 @@ describe('MCF3: View suppliers', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    req.session = mcfData
+    req.session = getProJson
     req.session.access_token=OauthToken;    
       next();
     });
