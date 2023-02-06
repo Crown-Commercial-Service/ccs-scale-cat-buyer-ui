@@ -1,5 +1,7 @@
 //@ts-nocheck
 const axios = require('axios');
+const environentVar = require('dotenv').config();
+const { parsed: envs } = environentVar;
 import { getToken } from 'test/utils/getToken';
 
 module.exports.context_datas = [];
@@ -9,11 +11,13 @@ module.exports.assessment_nonOCDS = [];
 
 async function questionSetup(cid) {
 
- //return data;
+const eventId = process.env.eventId;
+const projectId = process.env.projectId;
+
  const OauthToken = await getToken();
     return axios({
       method: 'get',
-      url: `https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/13808/events/ocds-pfhb7i-14385/criteria/Criterion ${cid}/groups`,
+      url: `https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/criteria/Criterion ${cid}/groups`,
       headers: {
         'accept': 'application/json',
         'Authorization': `Bearer ${OauthToken}`,   
@@ -29,7 +33,7 @@ async function questionSetup(cid) {
           let singlenonOCDSList = [];
           let singlenonOCDSLists = await axios({
             method: 'get',
-            url: `https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/13808/events/ocds-pfhb7i-14385/criteria/Criterion ${cid}/groups/${groupDatas[i].OCDS.id}/questions`,
+            url: `https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/${projectId}/events/${eventId}/criteria/Criterion ${cid}/groups/${groupDatas[i].OCDS.id}/questions`,
             headers: {
               'accept': 'application/json',
               'Authorization': `Bearer ${OauthToken}`,   
@@ -56,7 +60,6 @@ async function questionSetup(cid) {
       //console.log('nonOCDSData',nonOCDSData)
       if(cid == '2') module.exports.assessment_nonOCDS = nonOCDSData;
       if(cid == '3') module.exports.context_nonOCDS = nonOCDSData;
-
       return nonOCDSData;
     });
 }

@@ -19,9 +19,11 @@ describe('Dos6 : Review and publish stage 1 > Review and publish', async functio
   this.timeout(0);
   let parentApp;
   let OauthToken;
-  const eventId = 'ocds-pfhb7i-18728';
-  const procurementId = 23;
-  const projectId = 17972;
+  const eventId = process.env.eventId;
+  const procurementId = process.env.proc_id;
+  const projectId = process.env.projectId;
+  const agreementLotName = process.env.agreementLotName;
+  const lotId = process.env.lotid;
   const organizationId = 234;
   
   before(async function () {
@@ -29,12 +31,12 @@ describe('Dos6 : Review and publish stage 1 > Review and publish', async functio
     parentApp = express();
     parentApp.use(function (req, res, next) {
       // lets stub session middleware
-      const procurementDummy = { procurementID: 123, defaultName: { components: { lotId: 1 } } };
+      const procurementDummy = { procurementID: procurementId, defaultName: { components: { lotId: lotId } } };
       req.session = {
-        lotId: 1,
+        lotId: lotId,
         eventId,
         agreement_id: 'RM1043.8',
-        agreementLotName: 'test',
+        agreementLotName: `${agreementLotName}`,
         endDate: new Date().toISOString(),
         access_token: OauthToken,
         stage2_value:'stage 1',
@@ -57,9 +59,6 @@ describe('Dos6 : Review and publish stage 1 > Review and publish', async functio
     .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
     .expect(res => {
       expect(res.status).to.equal(200);
-      // const dom = new JSDOM(res.text);
-      // const { textContent } = dom.window.document.querySelector('h1.govuk-heading-xl');
-      // expect(textContent).to.contain(`Review and publish`);
     });
   });
   
@@ -82,10 +81,6 @@ describe('Dos6 : Review and publish stage 1 > Review and publish', async functio
   //   .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
   //   .expect(res => {
   //     expect(res.status).to.equal(200);
-  //     const dom = new JSDOM(res.text);
-  //     console.log(dom.window.document.querySelector('#rfp_btn_publish_now'))
-  //     // const btnState = dom.window.document.querySelector('#rfp_btn_publish_now');
-  //     // expect(btnState).to.to.to.to.true
   //   });
   // });
 
@@ -97,9 +92,6 @@ describe('Dos6 : Review and publish stage 1 > Review and publish', async functio
   //   // .expect(res => {
   //   //   console.log('res',res)
   //   //   // expect(res.status).to.equal(200);
-  //   //   // const dom = new JSDOM(res.text);
-  //   //   // const { textContent } = dom.window.document.querySelector('h1.govuk-heading-xl');
-  //   //   // expect(textContent).to.contain(`Review and publish`);
   //   // });
   // });
 

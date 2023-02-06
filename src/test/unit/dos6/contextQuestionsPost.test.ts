@@ -12,7 +12,7 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-import { postData } from 'test/data/dos/contextQuestions.json';
+import { postData , postData_lot3 } from 'test/data/dos/contextQuestions.json';
 const contextnonOCDS = require('test/utils/qsData').context_nonOCDS
 chais.should();
 chais.use(chaiHttp);
@@ -22,11 +22,15 @@ describe('Dos6 : Add context and requirements Post', async function() {
   let parentApp;
   let OauthToken;
   let questionsInfo = [];
-  const eventId = 'ocds-pfhb7i-18898';
-  const procurementId = '18139';
-  const projectId = '18139';
+  const eventId = process.env.eventId;
+  const procurementId = process.env.proc_id;
+  const projectId = process.env.projectId;
+  const agreementLotName = process.env.agreementLotName;
+  const lotId = process.env.lotid;
+  let postData = lotId == 1 ? postData : postData_lot3;
   const organizationId = 234;
 
+  beforeEach(() => nock.cleanAll())
   before(async function () {
     OauthToken = await getToken();
     parentApp = express();
@@ -49,12 +53,11 @@ describe('Dos6 : Add context and requirements Post', async function() {
       next();
     });
     parentApp.use(app);
-    if (!nock.isActive()) nock.activate();
     
   });
 
   for(let i=0;i < postData.length;i++){
-    it(`Post : expect Controller at endpoint ${postData[i]?.OCDS?.id} to return success status`, async () => {
+    it(`Post : assessment question ${postData[i]?.OCDS?.description} `, async () => {
       //nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/20`).reply(200, true);
         await request(parentApp)
         .post(`/rfp/questionnaire?agreement_id=RM1043.8&proc_id=${projectId}&event_id=${eventId}&id=Criterion 3&group_id=${postData[i]?.OCDS?.id}`)
@@ -67,4 +70,5 @@ describe('Dos6 : Add context and requirements Post', async function() {
         });
     }).timeout(0);
   }
+
 });

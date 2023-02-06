@@ -16,12 +16,14 @@ chais.should();
 chais.use(chaiHttp);
 
 describe('DOS6 : Add collaborator', async function() {
-  this.timeout(0);
+    this.timeout(0);
     let parentApp;
     let OauthToken;
-    const eventId = 12;
-    const procurementId = '18125';
-    const projectId = 987;
+    const eventId = process.env.eventId;
+    const procurementId = process.env.proc_id;
+    const projectId = process.env.projectId;
+    const agreementLotName = process.env.agreementLotName;
+    const lotId = process.env.lotid;
     const organizationId = '669821636384259971';
 
   before(async function () {
@@ -29,12 +31,12 @@ describe('DOS6 : Add collaborator', async function() {
     parentApp = express();
     parentApp.use(function (req, res, next) {
       // lets stub session middleware 
-      const procurementDummy = { procurementID: procurementId, defaultName: { components: { lotId: 1 } } };
+      const procurementDummy = { procurementID: procurementId, defaultName: { components: { lotId: lotId } } };
       req.session = {
-        lotId: 1,
+        lotId: lotId,
         eventId,
         agreement_id: 'RM1043.8',
-        agreementLotName: 'test',
+        agreementLotName: `${agreementLotName}`,
         access_token: OauthToken,
         cookie: {},
         procurements: [procurementDummy],
@@ -48,6 +50,8 @@ describe('DOS6 : Add collaborator', async function() {
     parentApp.use(app);
 });
 
+  afterEach(()=> nock.cleanAll())
+
   it('should be able to get addCollaborator page', async () => {
     const dummyUsers = [
       {
@@ -59,7 +63,6 @@ describe('DOS6 : Add collaborator', async function() {
         nonOCDS: { teamMember: true, emailRecipient: true, projectOwner: true },
       },
     ];
-    nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${procurementId}/users`).reply(200, dummyUsers);
     await request(parentApp)
       .get('/rfp/add-collaborators')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
@@ -87,9 +90,6 @@ describe('DOS6 : Add collaborator', async function() {
       firstName: 'b',
       lastName: 'c',
     };
-    nock(envs.TENDERS_SERVICE_API_URL)
-      .put(`/tenders/projects/${projectId}/users/${collaboratorDummy}`)
-      .reply(200, dummyUserNoPhone);
     await request(parentApp)
       .post('/rfp/add-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
@@ -101,7 +101,6 @@ describe('DOS6 : Add collaborator', async function() {
   }).timeout(0);
 
   it('should be able to proceed to tasklist', async () => {
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/29`).reply(200, true);
     const startTime = process.hrtime();
     await request(parentApp)
       .post('/rfp/proceed-collaborators')
