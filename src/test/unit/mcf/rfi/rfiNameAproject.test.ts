@@ -26,10 +26,10 @@ describe('MCF3: Name a project', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    console.log("getProJsonNAMEE",getProJson);
+    
+      getProJson.project_name = "UNIT TEST RFI till response date com";
       req.session = getProJson;
       req.session.procurements= getProJson.procurements;
-      getProJson.project_name = "UNIT TEST RFI";
       req.session.access_token=OauthToken;    
       next();
     });
@@ -46,16 +46,14 @@ describe('MCF3: Name a project', async () => {
   }).timeout(0);
 
   it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = getProJson.project_name;
+    const dummyName = "UNIT TEST RFI till response date com";
     
     let procId = getProJson.procurements[0].procurementID;
     let eventId = getProJson.procurements[0].eventId;
-    
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
-    //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);
+   console.log("procIdNAME",procId);
     await request(parentApp)
       .post(`/rfi/name?procid=${procId}`)
-      .send({ name: dummyName })
+      .send({ rfi_projLongName: dummyName })
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
        // console.log("res.header.location",res.header.location)

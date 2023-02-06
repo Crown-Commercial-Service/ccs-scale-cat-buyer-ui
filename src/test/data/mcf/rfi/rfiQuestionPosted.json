@@ -127,18 +127,6 @@
     },
     {
         "nonOCDS": {
-            "prompt": "  <p class=\"govuk-body\">A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p> \n        \n        <p class=\"govuk-body\">There are:\n           </p><ul class=\"govuk-list govuk-list--bullet\" style=\"margin-left: 10px;margin-top: -13px;\"><li> 4 working days from publishing until the clarification period closes</li> \n           <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>\n        <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li></ul><p></p>\n\n        <p class=\"govuk-body\">The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.</p>\n\n        <p class=\"govuk-body\"><strong>You can change the length of time for each section to more suitable times for you.</strong></p>\n       <br>",
-            "task": "Set your RfI timeline",
-            "mandatory": true,
-            "order": 7
-        },
-        "OCDS": {
-            "id": "Key Dates",
-            "description": "Your RfI timeline"
-        }
-    },
-    {
-        "nonOCDS": {
             "prompt": "<p>To help suppliers understand your project, you will need to give them more information, for example:</p> <ul class=\"govuk-list govuk-list--bullet\">\n      <li>information about your organisation or the users</li>\n      <li>reason for the project</li>\n      <li>the timeframes for completing the work</li>\n    <li> any issues, risks or challenges they need to be aware of and their potential impact</li>\n </ul>",
             "task": "Add information about the project",
             "mandatory": true,
@@ -153,6 +141,19 @@
             "question_id":"Question 1",
             "rfi_build_started":"true"
             }
+    },
+    {
+        "nonOCDS": {
+            "prompt": " <p class=\"govuk-body\">A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p> \n        \n        <p class=\"govuk-body\">There are:\n           </p><ul class=\"govuk-list govuk-list--bullet\" style=\"margin-left: 10px;margin-top: -13px;\"><li> 4 working days from publishing until the clarification period closes</li> \n           <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>\n        <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li></ul><p></p>\n\n        <p class=\"govuk-body\">The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.</p>\n\n        <p class=\"govuk-body\"><strong>You can change the length of time for each section to more suitable times for you.</strong></p>\n       <br>",
+            "task": "Set your RfI timeline",
+            "mandatory": true,
+            "order": 7
+        },
+        "OCDS": {
+            "id": "Key Dates",
+            "description": "Your RfI timeline"
+        }
     }
+
 ]
 }
