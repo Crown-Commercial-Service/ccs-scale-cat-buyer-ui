@@ -131,14 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
       //   with_value_count--;
       // });
     });
-    for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
+    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+    for (var kpi_fieldset = 10; kpi_fieldset >= 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
         term_box = document.getElementById("rfp_term_service_levels_KPI_" + kpi_fieldset),
         term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + kpi_fieldset),
         term_box2 = document.getElementById("rfp_term_percentage_KPI_" + kpi_fieldset);
       //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
-
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
       }
     }
-    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+    
 
     
     document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {

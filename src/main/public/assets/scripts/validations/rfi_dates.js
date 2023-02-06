@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        responseDate.on('submit', (e) => {
+        /*responseDate.on('submit', (e) => {
             e.preventDefault();
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
-        });
+        });*/
 
         function getParentId(element) {
             let parentID = '';
