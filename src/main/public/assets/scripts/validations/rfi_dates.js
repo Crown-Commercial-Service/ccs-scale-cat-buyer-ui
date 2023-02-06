@@ -111,17 +111,26 @@ document.addEventListener('DOMContentLoaded', () => {
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
-
             let parentID = getParentId(element);
             ccsZremoveErrorMessage(document.getElementById(parentID));
-
-            if ((year.val() != undefined && year.val() == "") && (month.val() != undefined && month.val() == "") && (day.val() != undefined && day.val() == "")) {
+            ccsZremoveErrorMessageRFIDate();
+            if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
+                day.addClass("govuk-input--error")
+                month.addClass("govuk-input--error")
+                year.addClass("govuk-input--error") 
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                const errorStore = [
+                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            } else if ((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
                 const errorStore = [
-                    [parentID, "Date should not be empty"]
+                    [parentID, "Date invalid or empty. Please enter the valid date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -151,17 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Hour should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Hour should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Minutes should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Minutes should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
