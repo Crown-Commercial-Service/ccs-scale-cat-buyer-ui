@@ -57,9 +57,13 @@ const urlParams = new URLSearchParams(queryString);
     }
 
     }
-
+    
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
+      var divHide = $('div.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
       e.preventDefault();
       $(".govuk-error-summary").remove();
       errorStore = emptyQuestionFieldCheck();
