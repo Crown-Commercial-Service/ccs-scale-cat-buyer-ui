@@ -567,12 +567,30 @@ const emptyFieldCheckRfpScore = () => {
 
         
       } 
-      else if((agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13') && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
+      else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
         ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
         ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
         errorStore.push(fieldCheck);
+      }
+      else if(agreement_id.value.trim() == 'RM1557.13' && (name_field.value.trim() === '' || point_field.value.trim() === '' || desc_field.value.trim() === '')) {
+        if(name_field.value.trim() === ''){
+          fieldCheck = [name_field.id, 'You must add a name for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(name_field, 'You must add a name for this level');
+        }
+        if(point_field.value.trim() === ''){
+          fieldCheck = [point_field.id, 'You must enter a score for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(point_field, 'You must enter a score for this level');
+        }
+        if(desc_field.value.trim() === ''){
+          fieldCheck = [desc_field.id, 'You must enter a description for this level'];
+          ccsZaddErrorMessage(desc_field, 'You must enter a description for this level');
+          errorStore.push(fieldCheck);
+        }
+
       }
       else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
         let errorObj = {
