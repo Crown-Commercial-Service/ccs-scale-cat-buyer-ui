@@ -227,16 +227,17 @@ else{
         
 
         const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
-        
-       const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
-
-        if (response.status == 200) {
-            req.session["createdqa"]=true;
-            res.redirect('/message/inbox')
-        } else {
-            req.session["createdqa"]=false;
-            res.redirect('/message/inbox')
-        }
+        // const responses = await 
+       TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+       req.session["createdqa"]=true;
+       res.redirect('/message/inbox');
+        // if (response.status == 200) {
+        //     req.session["createdqa"]=true;
+        //     res.redirect('/message/inbox')
+        // } else {
+        //     req.session["createdqa"]=false;
+        //     res.redirect('/message/inbox')
+        // }
     }
     } catch (err) {
         LoggTracer.errorLogger(

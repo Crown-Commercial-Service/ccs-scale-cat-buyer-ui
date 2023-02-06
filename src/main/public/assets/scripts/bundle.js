@@ -3729,6 +3729,8 @@ const showEvaluateSuppliersPopup = (event) => {
   $('#redirect-button-evaluatesuppliers').on('click', function () {
     deselect($('.dialog-close-evaluatesuppliers'));
     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.location.href="/evaluate-confirm"//scat-5013
       return false;
     
@@ -9387,12 +9389,12 @@ $(document).ready(function () {
         "ppt": "application/vnd.ms-powerpoint",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "rdf": "application/rdf+xml", 
-        "rtf": "application/rtf",
+        "rtf": ["application/rtf","text/rtf"],
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
         "xml": "text/xml", 
-        "zip": "application/x-zip-compressed"
+        "zip": ["application/x-zip-compressed","application/zip", "application/octet-stream", "multipart/x-zip", "application/zip-compressed"]
     } 
     
     if (uploadField != null && uploadField != undefined) {
@@ -9408,7 +9410,8 @@ $(document).ready(function () {
         
             
 
-            const allValidMimeTypes = Object.values(FileMimeType);
+            const allMimeTypes = Object.values(FileMimeType);
+            const allValidMimeTypes = allMimeTypes.flat(1);
             const ErrorCheckArray = [];
 
             for(const file of FileList){
@@ -9426,7 +9429,7 @@ $(document).ready(function () {
                 else if(!checkFileValidMimeType){
                     let fileExt = file.name.split(".").pop();
                     fileExt = fileExt?fileExt:undefined;
-                    if(fileExt == 'kml' || fileExt == 'zip'){
+                    if(fileExt == 'kml'){
                         ErrorCheckArray.push({
                             type: "none"
                         })
@@ -14672,7 +14675,7 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
           }
           else{
-               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
@@ -14689,13 +14692,13 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
           
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -15339,7 +15342,9 @@ document.addEventListener('DOMContentLoaded', () => {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){  
-                   document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    if(document.getElementById("del_fc_question_" + box_num)){
+                       document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    }
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
                     
@@ -15450,6 +15455,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
+        if(percentageCheck){
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+        }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -15472,6 +15480,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                     errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                        }
                     // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                 } else if (textboxCount == (withValue-1)) {
 
@@ -15600,6 +15611,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                    }
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -19089,6 +19103,8 @@ $("#enter_evaluation").submit(function(){
     console.log("errorStore",errorStore);
   }
   if (errorStore.length === 0) {
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.forms["enter_evaluation"].submit();
   }else { ccsZPresentErrorSummary(errorStore);
   return false;
@@ -20544,6 +20560,9 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
   
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
@@ -21203,6 +21222,10 @@ function parseQueryG13(query) {
       key = decodeURIComponent(pair[0]);
       if (key.length == 0) continue;
       value = decodeURIComponent(pair[1].replace("+"," "));
+      if(key=='q'){
+        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
+        value = encodeURIComponent(decodeValue);
+      }
       if (object[key] == undefined) object[key] = value;
       else if (object[key] instanceof Array) object[key].push(value);
       else object[key] = [object[key],value];
@@ -21600,7 +21623,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
+      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -21654,7 +21677,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
       if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
+      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
         let baseUrl = window.location.href.split('?')[0];
         urlObj.forEach((el, i) => {
           let key = el.key;
@@ -21935,7 +21958,7 @@ document.addEventListener('readystatechange', event => {
       queryParamObj.forEach((el, i) => {
         console.log(el);
         //Search
-        if(el.key === 'q') { $('.g13_search').val(el.value); }
+        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
         $('.g13Check').each(function(){
           if($(this).attr('name') == el.key && $(this).val() == el.value){
             $(this).attr("checked", "checked");
@@ -21979,7 +22002,7 @@ function getCriterianDetails(totalresult=0){
       
        let search = queryParamObj.filter(el => el.key === 'q');
        if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
+        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
        }
      
        let lot = queryParamObj.filter(el => el.key === 'lot');
@@ -22055,7 +22078,30 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
      
     })
 
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
 
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+    
     document.querySelectorAll(".download").forEach(function(event) {
       event.addEventListener('click', function(event) {   
         var $this = $(this);
@@ -22106,7 +22152,13 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     
                 setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
             }
-        }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            var bodytg = document.body;
+            bodytg.classList.remove("pageblur");
+            // console.log(jqXHR.status)
+          }
+          
           });
        })
   });
