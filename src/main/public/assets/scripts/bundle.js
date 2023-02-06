@@ -3728,6 +3728,8 @@ const showEvaluateSuppliersPopup = (event) => {
   $('#redirect-button-evaluatesuppliers').on('click', function () {
     deselect($('.dialog-close-evaluatesuppliers'));
     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.location.href="/evaluate-confirm"//scat-5013
       return false;
     
@@ -9408,12 +9410,12 @@ $(document).ready(function () {
         "ppt": "application/vnd.ms-powerpoint",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "rdf": "application/rdf+xml", 
-        "rtf": "application/rtf",
+        "rtf": ["application/rtf","text/rtf"],
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
         "xml": "text/xml", 
-        "zip": "application/x-zip-compressed"
+        "zip": ["application/x-zip-compressed","application/zip", "application/octet-stream", "multipart/x-zip", "application/zip-compressed"]
     } 
     
     if (uploadField != null && uploadField != undefined) {
@@ -9429,7 +9431,8 @@ $(document).ready(function () {
         
             
 
-            const allValidMimeTypes = Object.values(FileMimeType);
+            const allMimeTypes = Object.values(FileMimeType);
+            const allValidMimeTypes = allMimeTypes.flat(1);
             const ErrorCheckArray = [];
 
             for(const file of FileList){
@@ -9447,7 +9450,7 @@ $(document).ready(function () {
                 else if(!checkFileValidMimeType){
                     let fileExt = file.name.split(".").pop();
                     fileExt = fileExt?fileExt:undefined;
-                    if(fileExt == 'kml' || fileExt == 'zip'){
+                    if(fileExt == 'kml'){
                         ErrorCheckArray.push({
                             type: "none"
                         })
@@ -15382,7 +15385,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
+
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
                     if(document.getElementById("del_fc_question_" + box_num)){
                        document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                     }
@@ -15496,7 +15501,7 @@ document.addEventListener('DOMContentLoaded', () => {
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
         if(percentageCheck){
-        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
         }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
@@ -15651,9 +15656,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+
                             if(percentageCheck){
                                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                             }
+
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -17316,7 +17323,7 @@ const emptyFieldCheckRfpScore = () => {
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
-      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
 
         let focusField; 
         if (name_field.value.trim() === '') {
@@ -17356,7 +17363,7 @@ const emptyFieldCheckRfpScore = () => {
 
         
       } 
-      else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
+      else if((agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13') && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
         ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
@@ -17381,33 +17388,33 @@ const emptyFieldCheckRfpScore = () => {
           field: name_field,
           isError: false
         };
-        if (name_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (name_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (point_field.value.trim() < 0 && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() < 0 && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'Enter a valid score');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (desc_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
           errorObj.isError = true;
           errorObj.field = desc_field;
         }
 
-        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
           ccsZaddErrorMessage(name_field,'You must add name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(point_field, 'You must add score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
@@ -17419,7 +17426,7 @@ const emptyFieldCheckRfpScore = () => {
             errorObj.field = point_field;
         }
         
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(desc_field,'You must add description for this level');
           
           errorObj.field = desc_field;
@@ -17431,13 +17438,13 @@ const emptyFieldCheckRfpScore = () => {
           }
           
         }
-        if(agreement_id.value.trim() == 'RM6187'){
+        if(agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13'){
           if (errorObj.isError) {
             fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
             errorStore.push(fieldCheck);
           }
         }
-       if(agreement_id.value.trim() != 'RM6187'){
+       if(agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13'){
         let errMsg = '';
         if (name_field.value.trim() === '') {
           errorObj.field = name_field;
@@ -19937,7 +19944,7 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const textPatternNew = /^[a-zA-Z,]+$/;
   var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
   var errorMsg = 'Supplier must be minimum 3';
-  if($('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+  if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
     if(rfp_contracting_auth.value.length > 0 &&
       textPatternNew.test(rfp_contracting_auth.value) !== true){
       errorMsg = 'Please enter only character';
@@ -20651,6 +20658,9 @@ $(".focusdata").click(function () {
 
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
 $("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
@@ -22182,10 +22192,32 @@ document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (
   event.addEventListener('click', function (event) {
     document.getElementById("invite_short_list_suppliers").submit();
   })
-
-
 })
 
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
 document.querySelectorAll(".download").forEach(function (event) {
   event.addEventListener('click', function (event) {
@@ -22234,7 +22266,7 @@ document.querySelectorAll(".download").forEach(function (event) {
           } else {
             window.location.href = downloadUrl;
           }
-
+          
           setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
         }
       },

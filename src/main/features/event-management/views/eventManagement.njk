@@ -569,8 +569,7 @@
                           </div>
                         </div>
                       {% elif status.toLowerCase() != 'published' and status.toUpperCase() !='CLOSED' %}
-                        <p class="govuk-body">The supplliers below have responded to your published project. You can download individual
-                          supplier's answers or all answers.</p>
+                        <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                         {#<h3 class="govuk-heading-m">
                                           {{data.subsection4_title4_1}}</h3>#}
                         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -683,7 +682,7 @@
                                 </div>
                               </div>
                             {% elif status.toLowerCase() != 'published' %}
-                              <p class="govuk-body">The supplliers below have responded to your published project. You can download individual supplier's answers or all answers.</p>
+                              <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                               {#<h3 class="govuk-heading-m">
                                                   {{data.subsection4_title4_1}}</h3>#}
                               <div class="govuk-grid-row govuk-!-margin-top-6">
@@ -961,28 +960,38 @@
               text: "Start supplier evaluation",
               href:"/eventStateChange?StateChange=1"
             }) }}<a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-                        </div>
-                      {% elseif status.toUpperCase() === 'PUBLISHED' %}
-                        <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
-                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-                      {% endif %}
-                    {% endif %}
-                  {% endif %}
-                  <div class="govuk-!-margin-top-6"></div>
-                  {% if (agreementId_session == "RM6187" or agreementId_session == "RM1557.13") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED') %}
-                    <br>
-                      <br>
-                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-                      {% endif %}
-                    {% endif %}
-                    <div class="loader-container">
-                      <div class="loader-division">
-                        <img src="/assets/images/loader.gif" alt="Loading">
-                          <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
-                        </div>
-                      </div>
-                    </main>
-                    {# Confiramtion popup for a low-scoring supplier #}
+          </div>
+          {% elseif status.toUpperCase() === 'PUBLISHED' %}
+          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong><a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+
+          <div class="govuk-!-margin-top-6">
+            
+          </div>
+          
+            {% if (agreementId_session == "RM6187" or agreementId_session == "RM1557.13") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED')  %}
+              <br><br>
+              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+          {% endif %}
+
+          <div class="govuk-!-margin-top-6">
+            {% if agreementId_session == "RM1557.13" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+          </div>
+
+          <div class="loader-container">
+            <div class="loader-division">
+              <img src="/assets/images/loader.gif" alt="Loading">
+              <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
+            </div>
+          </div>
+
+        </main>
+        {# Confiramtion popup for a low-scoring supplier #}
                     <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
                       <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
                           <div class="pop_logo govuk-grid-column-full">
@@ -1005,4 +1014,6 @@
                           </div>
                       </div>
                     </div>
-                {% endblock %}
+        {% endblock %}
+
+

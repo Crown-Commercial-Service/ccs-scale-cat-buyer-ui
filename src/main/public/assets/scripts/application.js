@@ -61,6 +61,9 @@ $(".focusdata").click(function () {
 
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
 $("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
@@ -1592,10 +1595,32 @@ document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (
   event.addEventListener('click', function (event) {
     document.getElementById("invite_short_list_suppliers").submit();
   })
-
-
 })
 
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
 document.querySelectorAll(".download").forEach(function (event) {
   event.addEventListener('click', function (event) {
@@ -1644,7 +1669,7 @@ document.querySelectorAll(".download").forEach(function (event) {
           } else {
             window.location.href = downloadUrl;
           }
-
+          
           setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
         }
       },

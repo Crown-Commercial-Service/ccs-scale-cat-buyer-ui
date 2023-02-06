@@ -24,12 +24,12 @@ $(document).ready(function () {
         "ppt": "application/vnd.ms-powerpoint",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "rdf": "application/rdf+xml", 
-        "rtf": "application/rtf",
+        "rtf": ["application/rtf","text/rtf"],
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
         "xml": "text/xml", 
-        "zip": "application/x-zip-compressed"
+        "zip": ["application/x-zip-compressed","application/zip", "application/octet-stream", "multipart/x-zip", "application/zip-compressed"]
     } 
     
     if (uploadField != null && uploadField != undefined) {
@@ -45,7 +45,8 @@ $(document).ready(function () {
         
             
 
-            const allValidMimeTypes = Object.values(FileMimeType);
+            const allMimeTypes = Object.values(FileMimeType);
+            const allValidMimeTypes = allMimeTypes.flat(1);
             const ErrorCheckArray = [];
 
             for(const file of FileList){
@@ -63,7 +64,7 @@ $(document).ready(function () {
                 else if(!checkFileValidMimeType){
                     let fileExt = file.name.split(".").pop();
                     fileExt = fileExt?fileExt:undefined;
-                    if(fileExt == 'kml' || fileExt == 'zip'){
+                    if(fileExt == 'kml'){
                         ErrorCheckArray.push({
                             type: "none"
                         })
