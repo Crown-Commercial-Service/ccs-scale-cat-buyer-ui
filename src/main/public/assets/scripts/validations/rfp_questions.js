@@ -983,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
-                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6'){
+                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
