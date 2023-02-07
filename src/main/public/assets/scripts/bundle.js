@@ -10541,7 +10541,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-      
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -11380,9 +11383,13 @@ const urlParams = new URLSearchParams(queryString);
     }
 
     }
-
+    
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
+      var divHide = $('div.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
       e.preventDefault();
       $(".govuk-error-summary").remove();
       errorStore = emptyQuestionFieldCheck();
@@ -15834,7 +15841,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
+                var divHide = $('div.ccs-dynaform-hidden').length;
+                if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+                  with_value_count = total_countva;
+                }
+                if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                  with_value_count = total_countva;
+                }
                 
+                    console.log("total_countva",total_countva);
+                    console.log("divHide",divHide);
+                    console.log("with_value_count",with_value_count);
                         document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
@@ -18008,7 +18025,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-        console.log(`target: ${target}`)
         if(target != 20) {
             let ml = 1;
             
@@ -18023,7 +18039,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   nextLevel_coll = (nextLevel_coll + 1);
                   eptArr.push(nextLevel_coll)
                     if(ml == 1) {
-                        console.log(`First: ${ml} - ${next_coll}`)
                         var first = Sibling.querySelector("[name='term']");
                         var last  = Sibling.querySelector("[name='value']");
                         var percentage  = Sibling.querySelector("[name='percentage']");
@@ -18037,7 +18052,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
                     } else {
                         next_coll = next_coll + 1;
-                        console.log(`Usual: ${ml} - ${next_coll}`)
                         var first = Sibling.querySelector("[name='term']");
                         var last  = Sibling.querySelector("[name='value']");
                         var percentage  = Sibling.querySelector("[name='percentage']");
@@ -18047,16 +18061,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
                     }
 
-                    console.log(Sibling.classList);
                     Sibling = Sibling.nextElementSibling;
                 } else {
                     Sibling = false;
                 }
             ml++;}
             if(eptArr.length > 0) {
-                console.log(eptArr);
                 let removeLogic = eptArr.at(-1);
-                console.log(`removeLogic: ${removeLogic}`);
                 document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
                 document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
                 document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
@@ -18163,6 +18174,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (totalPercentage < 0) {
         errorStore.push(["rfp_term_percentage_KPI_", "You must enter a positive value"]);
+      }
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 9){
+        with_value_count = 10;
       }
       // if (totalPercentage === 100) {
       //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
