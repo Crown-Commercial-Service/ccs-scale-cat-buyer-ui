@@ -490,6 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
+            console.log('with_value_count in add',with_value_count)
             totalPercentage();
             errorStore = [];
             let textboxCount =  0;
@@ -523,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && errorStore.length !=0){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
-           
+           console.log('textboxCount',textboxCount)
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {
 
          if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
@@ -863,6 +864,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("total_countva",total_countva);
                     console.log("divHide",divHide);
                     console.log("with_value_count",with_value_count);
+
+                    let termvalue = document.getElementById('fc_question_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                        if(with_value_count == 20){
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                          // document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                        }
+                        else{
+                        with_value_count++;
+                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+               
+                       
+                        if (document.getElementById("questionsCount") != undefined) {
+                            document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                        }
+                        document
+                            .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                            .classList.remove('ccs-dynaform-hidden');
+                        if (with_value_count === 20 ) {
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                        }
+                        }
+                      } 
+                      else{
                         document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
@@ -890,6 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
+            }
                 
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
@@ -1450,13 +1477,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                    
                     }
-
-                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
+                    
+                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 6') && urlParamsDefault.get('section') == 5){
                         if(urlParams.get('agreement_id') == 'RM1043.8'){
-                            if($('#fc_question_precenate_' + 1).val() != '' && $('#fc_question_precenate_' + 1).val() < 100){
-                                var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+                            if($('#fc_question_precenate_' + 1).val() == '' && $('#fc_question_precenate_' + 1).val() < 100){
+                                // var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
         
-                                errorStore.push(percentageCheck)
+                                // errorStore.push(percentageCheck)
+                                errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                                 }
                         }
                         else{
@@ -1498,17 +1526,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
            
-            
+            console.log('totalPercentage', Number($('#totalPercentage').text()))
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
 
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 && errorStore.length == 0 ){
+                let weighttage_1 = $('#fc_question_precenate_' + 1).val();
+                if(textboxCount == 0 && weighttage_1 != '' && Number(weighttage_1) != 0 ){
+                    textboxCount = 1
+                }
+                console.log('errorStore',errorStore)
+                console.log('textboxCount',textboxCount)
+                console.log('fc_question_precenate_',weighttage_1)
+                if($('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 ){
 
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
                 errorStore.push(percentageCheck)
+                }
+                else if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() == '' && Number($('#totalPercentage').text()) > 0 ){
+                    let textcount = textboxCount-1;
+                    var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textcount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
+                    errorStore.push(percentageCheck)
                 }
                 } else{
                      errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
