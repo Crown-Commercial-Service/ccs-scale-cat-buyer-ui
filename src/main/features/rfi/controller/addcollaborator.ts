@@ -95,7 +95,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
   
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.rfiaddColleaguesPageLog, req);
-
+  console.log('windowAppendData',JSON.stringify(windowAppendData));
     res.render('add-collaborator-rfi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -216,9 +216,11 @@ export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
     req.session['searched_user'] = [];
     res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {
+    console.log('error in POST_DELETE_COLLABORATOR_TO_JAGGER',err)
     const isJaggaerError = err.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
     );
+    console.log('isJaggaerError',isJaggaerError)
     LoggTracer.errorLogger(
       res,
       err,
@@ -280,6 +282,11 @@ export const POST_PROCEED_COLLABORATORS = async (req: express.Request, res: expr
  
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
+  try{
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/9`, 'Completed');
   res.redirect('/rfi/rfi-tasklist');
+  }
+  catch(err){
+    console.log('error',err)
+  }
 };

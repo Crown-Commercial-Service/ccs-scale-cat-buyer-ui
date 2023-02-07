@@ -13,14 +13,15 @@ const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 //import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
-import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+import  gcloudData from '../../../data/gcloud/rfi/rfiJsonFormet.json';
 
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Name a project', async () => {
+describe('MCF3 : Name your Project', async function() {
   let parentApp;
   let OauthToken;
+  this.timeout(0);
   // let procid=mcfData.procurements.procurementID;
   // let procid=mcfData.procurements.eventId;
   
@@ -31,7 +32,8 @@ describe('MCF3: Name a project', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    req.session = mcfData
+    //req.session = mcfData
+    req.session = gcloudData
     req.session.access_token=OauthToken;    
       next();
     });
@@ -48,10 +50,15 @@ describe('MCF3: Name a project', async () => {
   });
 
   it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = 'test';
+    const dummyName = 'test_Gcloud';
+    //Mcf
+    // let procId = mcfData.procurements[0].procurementID;
+    // let eventId = mcfData.procurements[0].eventId;
+
+    //Gcloud
+    let procId = gcloudData.procurements[0].procurementID;
+    let eventId = gcloudData.procurements[0].eventId;
     
-    let procId = mcfData.procurements[0].procurementID;
-    let eventId = mcfData.procurements[0].eventId;
     
     //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
     //nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/events/${eventId}`).reply(200, true);

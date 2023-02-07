@@ -1,19 +1,19 @@
 {
-    "lotId": "Lot 2",
+    "lotId": "Lot 4",
     "agreementLotName": "test",
     "agreementName": "test",
-    "agreement_id": "RM6187",
+    "agreement_id": "RM1557.13",
     "isRFIComplete": false,
     "cookie": {},
     "procurements": [
         {
-          "procurementID": 18206,
-          "eventId": "ocds-pfhb7i-18967",
+          "procurementID": 18526,
+          "eventId": "ocds-pfhb7i-19298",
           "defaultName": {
-            "name": "RM6187-Lot 2-FIANNN",
+            "name": "RM1557.13-4-Test L3",
             "components": {
-              "agreementId": "RM6187",
-              "lotId": "Lot 2",
+              "agreementId": "RM1557.13",
+              "lotId": "Lot 4",
               "org": "COGNIZANT BUSINESS SERVICES UK LIMITED"
             }
           },
@@ -23,23 +23,23 @@
       "searched_user":
       { "userName": "dummyName", "firstName": "dummyFirst", "lastName": "dummyLast" },
       "user": {
-        "payload": {
-          "iat": 1674466741,
-          "jti": "29dc4062-4312-4974-bef5-e4aec5570484",
+         "payload": {
+          "iat": 1675663008,
+          "jti": "39c666ca-97c6-458e-b68f-d698d9b1d172",
           "uid": "12762",
           "caller": "user",
           "ciiOrgId": "669821636384259971",
-          "sid": "kyEdzMySgFvLxFx2wznHXTSqUixqniKstdmwC7tfXXdBJdgm+a/PkkOfq4MWseEF/EpOjEbgmIsfNLhP0aU6PA==",
+          "sid": "tJhQhQ4zFOIR7ThsUHdf+R1XTqjzetz+4E0C4dTVi9F4MW+3rs1Pe4cgW7waTH66xCW5aM1JtBItGn00wHVifQ==",
           "roles": "CAT_USER",
           "sub": "cas_uat_28@yopmail.com",
-          "exp": 1674467641,
+          "exp": 1675663908,
           "iss": "https://tst.api.crowncommercial.gov.uk/security",
           "aud": "zyicrDa0oJsH4hULIWTNdadxQV477w45"
         }
       
     },
-    "projectId": 18206,
-    "eventId": "ocds-pfhb7i-18967",
+    "projectId": 18526,
+    "eventId": "ocds-pfhb7i-19298",
     "isJaggaerError": false
   }
 

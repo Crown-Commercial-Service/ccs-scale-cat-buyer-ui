@@ -21,8 +21,11 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const { isEmptyProjectError } = req.session;
   req.session['isEmptyProjectError'] = false;
   const procurements = req.session.procurements;
+  console.log('procurements',procurements)
   const lotId = req.session.lotId;
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
+  console.log('procurement',procurement)
+  console.log('req.session',req.session)
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
   const releatedContent = req.session.releatedContent;
