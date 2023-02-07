@@ -54,6 +54,7 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
+        elementSelectorClicked.find('input').val('');
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
