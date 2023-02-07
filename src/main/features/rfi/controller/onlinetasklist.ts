@@ -180,7 +180,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(null, logConstant.buildYourRfiPageLog, req);
-
+console.log('display_fetch_data',display_fetch_data)
          res.render('onlinetasklist', display_fetch_data);
          // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
          // if (response.status == HttpStatusCode.OK){

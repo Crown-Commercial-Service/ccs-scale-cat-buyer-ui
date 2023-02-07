@@ -177,7 +177,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     }
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
-   
+   console.log('req.body',req.body)
     if (operations.equals(started_progress_check, false)) {
       // const { rfi_build_started, question_id, questionType } = req.body;
       const { rfi_build_started, questionType } = req.body;
