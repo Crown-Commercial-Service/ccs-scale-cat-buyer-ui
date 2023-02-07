@@ -32,7 +32,7 @@ console.log("CID",cid);
 
     })
     .then(async function (groupDatas) {
-        console.log("11111111DATAAAA")
+        console.log("11111111DATAAAA",groupDatas)
       let nonOCDSData = [];
       for(let i=0;i<groupDatas.length;i++){
           let singlenonOCDSList = [];

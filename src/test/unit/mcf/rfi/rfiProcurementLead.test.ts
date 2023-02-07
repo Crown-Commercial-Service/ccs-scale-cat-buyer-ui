@@ -12,8 +12,13 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
+<<<<<<< HEAD
 import  gcloudData from '../../../data/gcloud/rfi/rfiJsonFormet.json';
 //import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+=======
+import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+const getProJson = require('test/utils/getJson').getProJson
+>>>>>>> c2111b3d8f3c627bd8564e15933ecdf976be2155
 
 chais.should();
 chais.use(chaiHttp);
@@ -31,8 +36,23 @@ describe('MCF3: ProcurementLead page render', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    req.session = mcfData
-    req.session.access_token=OauthToken;    
+      req.session = getProJson;
+      req.session.procurements= getProJson.procurements;
+      req.session.access_token=OauthToken;    
+      req.session.user={"payload": {
+        "iat": 1674466741,
+        "jti": "29dc4062-4312-4974-bef5-e4aec5570484",
+        "uid": "12762",
+        "caller": "user",
+        "ciiOrgId": "669821636384259971",
+        "sid": "kyEdzMySgFvLxFx2wznHXTSqUixqniKstdmwC7tfXXdBJdgm+a/PkkOfq4MWseEF/EpOjEbgmIsfNLhP0aU6PA==",
+        "roles": "CAT_USER",
+        "sub": "cas_uat_28@yopmail.com",
+        "exp": 1674467641,
+        "iss": "https://tst.api.crowncommercial.gov.uk/security",
+        "aud": "zyicrDa0oJsH4hULIWTNdadxQV477w45"
+      } }
+      getProJson.user=req.session.user;
       next();
     });
     parentApp.use(app);

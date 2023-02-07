@@ -13,7 +13,10 @@ const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
+const getProJson = require('test/utils/getJson').getProJson
 
+
+ 
 chais.should();
 chais.use(chaiHttp);
 
@@ -30,7 +33,7 @@ describe('MCF3: Set your RfI timeline page render', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-    req.session = mcfData
+    req.session = getProJson
     req.session.access_token=OauthToken;    
     req.session.UIDate=null
     
@@ -49,13 +52,15 @@ describe('MCF3: Set your RfI timeline page render', async () => {
   }).timeout(0);
   
   it('should be able to proceed to Set your RfI timeline ', async () => {
-    const bodyDummyValue = {
-            "rfi_clarification_date": "Question 1*27 January 2023",
-            "rfi_clarification_period_end": "Question 2*02 February 2023, 16:00",
-            "deadline_period_for_clarification_period": "Question 3*06 February 2023, 16:00",
-            "supplier_period_for_clarification_period": "Question 4*10 February 2023, 16:00",
-            "supplier_dealine_for_clarification_period": "Question 5*20 February 2023, 16:00"
-    }
+    // const bodyDummyValue = {
+    //         "rfi_clarification_date": "Question 1*06 January 2023",
+    //         "rfi_clarification_period_end": "Question 2*10 February 2023, 16:00",
+    //         "deadline_period_for_clarification_period": "Question 3*14 February 2023, 16:00",
+    //         "supplier_period_for_clarification_period": "Question 4*20 February 2023, 16:00",
+    //         "supplier_dealine_for_clarification_period": "Question 5*28 February 2023, 16:00"
+    // }
+    const bodyDummyValue = {"rfi_clarification_date":"Question 1*06 February 2023","rfi_clarification_period_end":"Question 2*10 February 2023, 16:00","deadline_period_for_clarification_period":"Question 3*14 February 2023, 16:00","supplier_period_for_clarification_period":"Question 4*20 February 2023, 16:00","supplier_dealine_for_clarification_period":"Question 5*28 February 2023, 16:00"}
+
     await request(parentApp)
       .post(`/rfi/response-date`)
       .send(bodyDummyValue)
