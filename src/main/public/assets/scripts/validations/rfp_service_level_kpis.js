@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
-        console.log(`target: ${target}`)
         if(target != 20) {
             let ml = 1;
             
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   nextLevel_coll = (nextLevel_coll + 1);
                   eptArr.push(nextLevel_coll)
                     if(ml == 1) {
-                        console.log(`First: ${ml} - ${next_coll}`)
                         var first = Sibling.querySelector("[name='term']");
                         var last  = Sibling.querySelector("[name='value']");
                         var percentage  = Sibling.querySelector("[name='percentage']");
@@ -55,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
                     } else {
                         next_coll = next_coll + 1;
-                        console.log(`Usual: ${ml} - ${next_coll}`)
                         var first = Sibling.querySelector("[name='term']");
                         var last  = Sibling.querySelector("[name='value']");
                         var percentage  = Sibling.querySelector("[name='percentage']");
@@ -65,16 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
                     }
 
-                    console.log(Sibling.classList);
                     Sibling = Sibling.nextElementSibling;
                 } else {
                     Sibling = false;
                 }
             ml++;}
             if(eptArr.length > 0) {
-                console.log(eptArr);
                 let removeLogic = eptArr.at(-1);
-                console.log(`removeLogic: ${removeLogic}`);
                 document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
                 document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
                 document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
@@ -181,6 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (totalPercentage < 0) {
         errorStore.push(["rfp_term_percentage_KPI_", "You must enter a positive value"]);
+      }
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 9){
+        with_value_count = 10;
       }
       // if (totalPercentage === 100) {
       //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])

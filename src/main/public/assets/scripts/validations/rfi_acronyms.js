@@ -95,7 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-      
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
