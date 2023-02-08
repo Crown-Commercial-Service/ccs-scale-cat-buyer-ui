@@ -31,7 +31,7 @@ export class LoggTracer {
       "logType": "CAS_INFO",
       "level": "info",
       "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
-      "statusCode":(dataSet?.statusCode !=undefined) ? dataSet?.statusCode : null,
+      "statusCode":(dataSet?.status !=undefined) ? dataSet?.status : null,
       "message": message,
       "baseUrl":dataSet?.config?.baseURL,
       "api": dataSet?.config?.url,
