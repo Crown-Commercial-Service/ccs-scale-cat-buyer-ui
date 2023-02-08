@@ -33,13 +33,8 @@ console.log("__dirname",__dirname);
 // mocha.addFile(path.join(__dirname, 'scoringCriteria.test.ts'));
 // mocha.addFile(path.join(__dirname, 'timeLine.test.ts'));
 //  mocha.addFile(path.join(__dirname, 'reviewAndpublish.test.ts'));
-<<<<<<< HEAD
-//mocha.addFile(path.join(__dirname, 'rfiNameAproject.test.ts'));
-mocha.addFile(path.join(__dirname, 'rfiAddCollabarator.test.ts'));
-=======
 mocha.addFile(path.join(__dirname, 'rfiAddContext.test.ts'));
 //path1 = path.join("users/admin/files", "index.html");
->>>>>>> c2111b3d8f3c627bd8564e15933ecdf976be2155
 
 Promise.all([questionSetup(1)]).then((values) => {
     mocha.run()
