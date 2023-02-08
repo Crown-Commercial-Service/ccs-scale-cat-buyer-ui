@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 let chais = require("chai");
 let chaiHttp = require("chai-http");
-import { app } from '../../../../main/app';
+import { app } from '../../../main/app';
 import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
@@ -13,7 +13,7 @@ const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
-const getProJson = require('test/utils/getJson').getProJson
+const getProJson = require('test/utils/getGcloudJson').getProJson
 
 
  
@@ -60,7 +60,7 @@ describe('MCF3: Set your RfI timeline page render', async () => {
     //         "supplier_dealine_for_clarification_period": "Question 5*28 February 2023, 16:00"
     // }
     //const bodyDummyValue = {"rfi_clarification_date":"Question 1*06 February 2023","rfi_clarification_period_end":"Question 2*10 February 2023, 16:00","deadline_period_for_clarification_period":"Question 3*14 February 2023, 16:00","supplier_period_for_clarification_period":"Question 4*20 February 2023, 16:00","supplier_dealine_for_clarification_period":"Question 5*28 February 2023, 16:00"}
-    const bodyDummyValue = {"rfi_clarification_date":"Question 1*07 February 2023","rfi_clarification_period_end":"Question 2*13 February 2023, 16:00","deadline_period_for_clarification_period":"Question 3*15 February 2023, 16:00","supplier_period_for_clarification_period":"Question 4*21 February 2023, 16:00","supplier_dealine_for_clarification_period":"Question 5*01 March 2023, 16:00"}
+    const bodyDummyValue = {"rfi_clarification_date":"Question 1*08 February 2023","rfi_clarification_period_end":"Question 2*14 February 2023, 16:00","deadline_period_for_clarification_period":"Question 3*16 February 2023, 16:00","supplier_period_for_clarification_period":"Question 4*22 February 2023, 16:00","supplier_dealine_for_clarification_period":"Question 5*02 March 2023, 16:00"}
     await request(parentApp)
       .post(`/rfi/response-date`)
       .send(bodyDummyValue)

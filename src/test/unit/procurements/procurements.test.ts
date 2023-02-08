@@ -28,8 +28,7 @@ describe('MCF3: Procurement overview', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-       console.log("SESSSSSIONNE")
-       console.log("HHHHHHHH",getProJson);
+      
    req.session = getProJson;
    req.session.access_token=OauthToken;    
       

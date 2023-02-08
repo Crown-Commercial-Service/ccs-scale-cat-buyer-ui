@@ -8,8 +8,8 @@ import * as journyData from '../data/taskList.json';
  module.exports.context_nonOCDS = [];
 // module.exports.assessment_nonOCDS = [];
 
-async function getProcurmentJson(cid=1) {
-console.log("JSONNNN");
+async function getProcurmentGcloudJson(cid=1) {
+console.log("gcloud");
 // const _body = {
 //     'journey-id': req.session.eventId,
 //     states: journyData.states,
@@ -25,8 +25,8 @@ console.log("JSONNNN");
       //url: `https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/13808/events/ocds-pfhb7i-14385/criteria/Criterion ${cid}/groups`,
       url:"https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/agreements",
       data: {
-        agreementId: 'RM6187',
-        lotId: 'Lot 2'
+        agreementId: 'RM1557.13',
+        lotId: '4'
       },
       headers: {
         'accept': 'application/json',
@@ -34,10 +34,10 @@ console.log("JSONNNN");
         },
     }).then(function (response:any) {
         let responseData = {
-            "lotId": "Lot 2",
+            "lotId": "4",
             "agreementLotName": "test",
             "agreementName": "test",
-            "agreement_id": "RM6187",
+            "agreement_id": "RM1557.13",
             "isRFIComplete": false,
             "cookie": {},
             "procurements":response.data,
@@ -115,7 +115,7 @@ console.log("update")
     
 }
 
-module.exports.getProcurmentJson = getProcurmentJson
+module.exports.getProcurmentGcloudJson = getProcurmentGcloudJson
 
 
 

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 let chais = require("chai");
 let chaiHttp = require("chai-http");
-import { app } from '../../../../main/app';
+import { app } from '../../../main/app';
 import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
@@ -15,12 +15,13 @@ import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../data/mcf/mcfProcurements.json';
 import  dosData from '../../data/dos/dosprocurements.json';
 import  gCloudData from '../../data/gcloud/procurements.json';
-const getProJson = require('test/utils/getJson').getProJson
+//const getProJson = require('test/utils/getJson').getProJson
+const getgcloudProJson = require('test/utils/getGcloudJson').getProJson
 
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Procurement overview', async () => {
+describe('MCF3: GCLOUD Procurement overview', async () => {
   let parentApp;
   let OauthToken;
 
@@ -28,10 +29,10 @@ describe('MCF3: Procurement overview', async () => {
     OauthToken = await getToken();
     parentApp = express();
     parentApp.use(function (req, res, next) {
-       
-   req.session = getProJson;
+    
+   req.session = getgcloudProJson;
    //req.session.selectedRoute="RFI";  
-   req.session.procurements= [getProJson.procurements];
+   req.session.procurements= [getgcloudProJson.procurements];
    req.session.access_token=OauthToken;    
    
       next();
@@ -49,7 +50,7 @@ describe('MCF3: Procurement overview', async () => {
   // }).timeout(0);
 
   
-  it('should render `TASKLIST ` page when everything is fine', async () => {
+  it('GCLOUD should render `TASKLIST ` page when everything is fine', async () => {
     await request(parentApp)
       .get('/rfi/rfi-tasklist')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
