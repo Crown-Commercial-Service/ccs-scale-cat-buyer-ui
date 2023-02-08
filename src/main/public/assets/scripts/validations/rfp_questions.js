@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorStore.push(percentageCheck)
                     }
                 }
+                else if(urlParamsData.get('agreement_id') == 'RM1557.13' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 4' || urlParamsData.get('group_id') == 'Group 6') && urlParamsData.get('section') == 5){
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
+                }
                 else{
                 errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
                 }
@@ -422,7 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
+
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
                     if(document.getElementById("del_fc_question_" + box_num)){
                        document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                     }
@@ -536,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
         if(percentageCheck){
-        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
         }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
@@ -691,9 +696,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+
                             if(percentageCheck){
                                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                             }
+
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -848,8 +855,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
-                
-                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+                var divHide = $('div.ccs-dynaform-hidden').length;
+                if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+                  with_value_count = total_countva;
+                }
+                if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                  with_value_count = total_countva;
+                }
+                if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
+                  with_value_count = 5;
+                }
+                document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
 
@@ -968,6 +984,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){

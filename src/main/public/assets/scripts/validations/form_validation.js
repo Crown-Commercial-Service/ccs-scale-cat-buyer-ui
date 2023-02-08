@@ -231,6 +231,16 @@ const ccsZremoveErrorMessage = (element) => {
 
 };
 
+const ccsZremoveErrorMessageRFIDate = () => {
+
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+};
+
 /**
  * Add an error message around an element, if not already present
  *  - adds 'error' classes to the 'form group' and the input and

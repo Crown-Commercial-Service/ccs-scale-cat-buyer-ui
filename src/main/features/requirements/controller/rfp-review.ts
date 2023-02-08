@@ -2149,7 +2149,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       if(stage2_data.length > 0){
         stage2_value = 'Stage 2';
       }
-    
+
   if (review_publish == 1) {
     try {
       
@@ -2165,7 +2165,6 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        
       }
       else{
-        
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
@@ -2202,7 +2201,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
     const agreementId_session = req.session.agreement_id;
     const { eventId, projectId } = req.session;
     const { SESSION_ID } = req.cookies;
-     
+
     req.session['checkboxerror'] = 1;
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2

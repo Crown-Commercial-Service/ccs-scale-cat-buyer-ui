@@ -5046,6 +5046,11 @@ display: inline-block;
   overflow: hidden;
   height: 100%;
 }
+
+.loader-container.loader-block {
+display: flex;
+}
+
 .pageblur .loader-container {
   display: flex;
 }
