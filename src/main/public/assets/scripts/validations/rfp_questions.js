@@ -1478,7 +1478,9 @@ document.addEventListener('DOMContentLoaded', () => {
                    
                     }
                     
-                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 6') && urlParamsDefault.get('section') == 5){
+                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5){
+                     
+                    
                         if(urlParams.get('agreement_id') == 'RM1043.8'){
                             if($('#fc_question_precenate_' + 1).val() == '' && $('#fc_question_precenate_' + 1).val() < 100){
                                 // var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
