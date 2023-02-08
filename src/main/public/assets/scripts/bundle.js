@@ -13907,6 +13907,14 @@ function isProjectExtensionValid() {
             }
          }
       }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "2222Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
       else {
 
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
