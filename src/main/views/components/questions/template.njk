@@ -195,7 +195,7 @@
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
-                            text: 'Describe what a supplier has or has not done to achieve this score. Be specific and detailed.'
+                            text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                         },
                         maxlength: 5000,
 
@@ -300,7 +300,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text: 'Enter the description for this level'
+                                text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                             },
                             maxlength: 500,
                             classes:"rfpterm rpf_500 govuk-!-width-two-thirds"
@@ -2302,9 +2302,12 @@
                     {% endif %}
                           {{ CCSCharacterCount({
                                 label: {
-                                  text: "Name of requirement",
+                                  text: "Name of service level or KPI",
                                   classes: "govuk-!-font-weight-bold"
                                 },
+                              hint: {
+                                text: "For example, ‘Delivery timescales’"
+                              },
                                 maxlength:500,
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
@@ -2351,6 +2354,9 @@
                                   text: "Description of the criteria",
                                   classes: "govuk-!-font-weight-bold"
                                 },
+                              hint: {
+                                text: "For example, ‘Deliveries should be received within 3 working days of when the order is placed’."
+                              },
                                 classes: "rfp_term_definition rpf_10000 govuk-!-width-two-thirds rfp_term_desription_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
@@ -2360,6 +2366,9 @@
                                     text: "Your success target",
                                     classes: "govuk-!-font-weight-bold"
                                   },
+                                hint: {
+                                  text: "For example, ‘98%’"
+                                },
                                   classes: "govuk-input--width-5 govuk-!-margin-bottom-3 rfp_term_percentage weightagelimit",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
