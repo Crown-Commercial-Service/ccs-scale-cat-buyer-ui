@@ -977,11 +977,11 @@
             {% endif %}
           {% endif %}
 
-          <div class="govuk-!-margin-top-6">
-            {% if agreementId_session == "RM1557.13" %}
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            {% endif %}
-          </div>
+            <div class="govuk-!-margin-top-6">
+              {% if agreementId_session == "RM1557.13" and (eventType != 'FC') %}
+                  <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+              {% endif %}
+            </div>
 
           <div class="loader-container">
             <div class="loader-division">
