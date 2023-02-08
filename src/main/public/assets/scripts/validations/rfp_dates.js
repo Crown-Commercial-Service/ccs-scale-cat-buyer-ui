@@ -1089,11 +1089,11 @@ function isProjectStartDateValid() {
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             } else {
-               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             }
             if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
@@ -1423,7 +1423,7 @@ function validateStartDate() {
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate) {
-            isValid = 'Start date cannot be after agreement expiry date';
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
