@@ -68,7 +68,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const newOCDSdescription = changeTitle(OCDS?.description)
     //Balwinder
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
-    const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+    const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
 
     //const splitOn = '<br>';
@@ -399,6 +399,12 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     if(agreement_id == "RM1557.13") {
       if  (group_id === "Group 17" && lotId == '4' && id === 'Criterion 3') {
           data.form_name = 'rfp_singleselect_Dos';
+      }
+    }
+    if(agreement_id == "RM1043.8") {
+      if  (group_id === "Group 6" && lotId == '1' && id === 'Criterion 3') {
+          data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+          console.log('data.rfpTitle',data.rfpTitle)
       }
     }
     
