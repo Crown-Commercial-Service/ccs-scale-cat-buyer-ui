@@ -8297,12 +8297,12 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
 
         if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
+            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
             ccsZPresentErrorSummary(errorStore);
         }
         else if (getTimeOfFormDate < todayDate.getTime()) {
@@ -8382,8 +8382,8 @@ const ccsZvalidateEoiDate = (event) => {
     var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
-        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
-          errorStore.push(["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]);
+        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "It is recommended that your project does not start after lot expiry date");
+          errorStore.push(["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]);
       }
   }
   }
@@ -14227,11 +14227,11 @@ function isProjectStartDateValid() {
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             } else {
-               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             }
             if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
@@ -14561,7 +14561,7 @@ function validateStartDate() {
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate) {
-            isValid = 'Start date cannot be after agreement expiry date';
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
@@ -15049,6 +15049,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
                     errorStore.push(percentageCheck)
                     }
+                }
+                else if(urlParamsData.get('agreement_id') == 'RM1557.13' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 4' || urlParamsData.get('group_id') == 'Group 6') && urlParamsData.get('section') == 5){
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
                 }
                 else{
                 errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
@@ -15853,11 +15856,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
                   with_value_count = total_countva;
                 }
+                if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
+                    with_value_count = 5;
+                }
                 
-                    console.log("total_countva",total_countva);
-                    console.log("divHide",divHide);
-                    console.log("with_value_count",with_value_count);
-
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
                     let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
                     if(termvalue != '' && termdefvalue != ''){
@@ -16002,6 +16004,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
@@ -16471,7 +16476,9 @@ document.addEventListener('DOMContentLoaded', () => {
                    
                     }
                     
-                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 6') && urlParamsDefault.get('section') == 5){
+                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5){
+                     
+                    
                         if(urlParams.get('agreement_id') == 'RM1043.8'){
                             if($('#fc_question_precenate_' + 1).val() == '' && $('#fc_question_precenate_' + 1).val() < 100){
                                 // var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
@@ -18169,7 +18176,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // });
     });
     document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
-    for (var kpi_fieldset = 10; kpi_fieldset >= 1; kpi_fieldset--) {
+    for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
         term_box = document.getElementById("rfp_term_service_levels_KPI_" + kpi_fieldset),
@@ -18220,6 +18227,8 @@ document.addEventListener('DOMContentLoaded', () => {
         errorStore.push(["rfp_term_percentage_KPI_", "You must enter a positive value"]);
       }
       var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      console.log("divHide",divHide);
+      console.log("with_value_count",with_value_count);
       if(divHide == 1 && with_value_count == 9){
         with_value_count = 10;
       }
@@ -18239,7 +18248,7 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
 
-        
+        if(with_value_count != 1)
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
         document.getElementById("kpiKeyLevel").textContent = with_value_count-1;
         $("#rfp_term_service_levels_KPI_10").keypress(function(e) {
@@ -18349,17 +18358,17 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() == ''){
                 errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
           }
           if (definition_field.value.trim() == ''){
             errField = definition_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
           }
           if (target_field.value.trim() == ''){
             errField = target_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+            ccsZaddErrorMessage(target_field, 'You must enter your success target');
           }
 
           if (target_field.value.trim() == '0'){
@@ -18378,35 +18387,35 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+            ccsZaddErrorMessage(target_field, 'You must enter your success target');
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target'];
             errorStore.push(fieldCheck);
           }
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
               isError = true;
-              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+              ccsZaddErrorMessage(target_field, 'You must enter your success target');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target'];
               errorStore.push(fieldCheck);
             }
 

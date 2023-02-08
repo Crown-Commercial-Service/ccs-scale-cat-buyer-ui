@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // });
     });
     document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
-    for (var kpi_fieldset = 10; kpi_fieldset >= 1; kpi_fieldset--) {
+    for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
         term_box = document.getElementById("rfp_term_service_levels_KPI_" + kpi_fieldset),
@@ -177,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
         errorStore.push(["rfp_term_percentage_KPI_", "You must enter a positive value"]);
       }
       var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      console.log("divHide",divHide);
+      console.log("with_value_count",with_value_count);
       if(divHide == 1 && with_value_count == 9){
         with_value_count = 10;
       }
@@ -196,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
 
-        
+        if(with_value_count != 1)
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
         document.getElementById("kpiKeyLevel").textContent = with_value_count-1;
         $("#rfp_term_service_levels_KPI_10").keypress(function(e) {
@@ -306,17 +308,17 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() == ''){
                 errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
           }
           if (definition_field.value.trim() == ''){
             errField = definition_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
           }
           if (target_field.value.trim() == ''){
             errField = target_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+            ccsZaddErrorMessage(target_field, 'You must enter your success target');
           }
 
           if (target_field.value.trim() == '0'){
@@ -335,35 +337,35 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+            ccsZaddErrorMessage(target_field, 'You must enter your success target');
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target'];
             errorStore.push(fieldCheck);
           }
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
               isError = true;
-              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+              ccsZaddErrorMessage(target_field, 'You must enter your success target');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target'];
               errorStore.push(fieldCheck);
             }
 
