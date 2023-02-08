@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   
@@ -17,9 +18,16 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
 
   const url = `/tenders/projects/${projectId}/users`;
   try {
-    const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
+    let usersTemp  = await TenderApi.Instance(SESSION_ID).get(url);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(usersTemp, logConstant.userDetailFetch, req);
+    usersTemp=usersTemp.data;
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    let  dataRaw  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(dataRaw, logConstant.collaboratorDetailFetch, req);
+
+    dataRaw=dataRaw.data;
     const { pageCount } = dataRaw;
     let usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
@@ -91,7 +99,10 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    await TenderApi.Instance(SESSION_ID).put(url, _body);
+    let response = await TenderApi.Instance(SESSION_ID).put(url, _body);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(response, logConstant.saveLeadProcurement, req);
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
 
     res.redirect('/da/add-collaborators');

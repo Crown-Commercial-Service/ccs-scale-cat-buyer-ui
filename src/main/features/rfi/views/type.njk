@@ -77,7 +77,7 @@
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
-              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              html: item.text,
               hint : {
                 text: item.hint.text
               },

@@ -95,10 +95,18 @@
                           <strong>
                             {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
                                 <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                  {% if Tasks.title == 'Review and publish your RfI' and agreementId_session=="RM1557.13" %}
+                                    Review and publish
+                                  {% else %}
                                     {{Tasks.title}}
+                                  {% endif %}
                                 </a>
                             {% else %}
-                            {{Tasks.title}}
+                            {% if Tasks.title == 'Review and publish your RfI' and agreementId_session=="RM1557.13" %}
+                                    Review and publish
+                                  {% else %}
+                                    {{Tasks.title}}
+                                  {% endif %}
                             {% endif %} 
                           </strong>
                         </span>

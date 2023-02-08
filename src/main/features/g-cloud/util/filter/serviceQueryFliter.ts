@@ -15,6 +15,9 @@ export async function gCloudServiceQueryFliter(reqUrl: any, baseUrl: any, type: 
         let key = el.key;
         
         let value = el.value;
+        if(key=='q'){
+            value = encodeURIComponent(value); 
+        }
         if(key=='page' || key=='q'){
             key=key;  
         }else{
