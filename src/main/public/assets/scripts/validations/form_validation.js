@@ -290,7 +290,6 @@ const ccsZaddErrorMessage = (element, message) => {
  * above the erroring input
  */
 const ccsZcreateCcsErrorMsg = (elName, message) => {
-
   let errorElement = document.createElement("span");
   errorElement.id = elName + "-error";
   errorElement.className = "govuk-error-message";
@@ -398,7 +397,6 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
   
-
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
 

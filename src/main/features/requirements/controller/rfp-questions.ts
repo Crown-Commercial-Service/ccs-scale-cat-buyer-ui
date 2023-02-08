@@ -401,6 +401,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
           data.form_name = 'rfp_singleselect_Dos';
       }
     }
+    if(agreement_id == "RM1043.8") {
+      if  (group_id === "Group 6" && lotId == '1' && id === 'Criterion 3') {
+          data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+    }
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
