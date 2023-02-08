@@ -17,7 +17,7 @@ import  gcloudData from '../../../data/gcloud/rfi/rfiJsonFormet.json';
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3 : Name your Project', async function() {
+describe('Gcloud : Name your Project', async function() {
   let parentApp;
   let OauthToken;
   this.timeout(0);
@@ -33,7 +33,7 @@ describe('MCF3 : Name your Project', async function() {
     parentApp.use(app);
   });
 
-  it('should render `MCF3 Name a project ` page when everything is fine', async () => {
+  it('should render `Gcloud Name a project ` page when everything is fine', async () => {
     await request(parentApp)
       .get('/rfi/name-your-project')
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])

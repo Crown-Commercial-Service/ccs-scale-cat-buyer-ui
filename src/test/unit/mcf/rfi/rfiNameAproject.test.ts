@@ -18,7 +18,7 @@ const getProJson = require('test/utils/getJson').getProJson
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3 : Name your Project', async function() {
+describe('MCF3: Name a project', async () => {
   let parentApp;
   let OauthToken;
 

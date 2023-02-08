@@ -12,13 +12,8 @@ const environentVar = require('dotenv').config();
 const { parsed: envs } = environentVar;
 import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
-<<<<<<< HEAD
-import  gcloudData from '../../../data/gcloud/rfi/rfiJsonFormet.json';
-//import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
-=======
 import  mcfData from '../../../data/mcf/rfi/rfiJsonFormet.json';
 const getProJson = require('test/utils/getJson').getProJson
->>>>>>> c2111b3d8f3c627bd8564e15933ecdf976be2155
 
 chais.should();
 chais.use(chaiHttp);

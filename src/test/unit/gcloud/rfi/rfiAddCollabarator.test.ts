@@ -18,7 +18,7 @@ import  gcloudData from '../../../data/gcloud/rfi/rfiJsonFormet.json';
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Add colleagues to your project', async function () {
+describe('Gcloud: Add colleagues to your project', async function () {
   let parentApp;
   let OauthToken;
   this.timeout(0);

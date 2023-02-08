@@ -22,7 +22,7 @@ const getProJson = require('test/utils/getJson').getProJson
 chais.should();
 chais.use(chaiHttp);
 
-describe('MCF3: Add Context Post', async () => {
+describe('Gcloud: Add Context Post', async () => {
   let parentApp;
   let OauthToken;
    let eventId=getProJson.eventId;
