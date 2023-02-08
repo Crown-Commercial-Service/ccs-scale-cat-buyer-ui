@@ -12789,7 +12789,7 @@ $('.percentage_limit').keyup(function(e) {
       }
 
 
-var maxless = 500;
+var maxless = 10000;
 
 $('.rfpterm').keyup(function(e) {
     var tlength = $(this).val().length;
