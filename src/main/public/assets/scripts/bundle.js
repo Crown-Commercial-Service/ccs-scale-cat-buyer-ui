@@ -15486,7 +15486,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
-            console.log('with_value_count in add',with_value_count)
             totalPercentage();
             errorStore = [];
             let textboxCount =  0;
@@ -15520,7 +15519,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && errorStore.length !=0){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
-           console.log('textboxCount',textboxCount)
+          
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {
 
          if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
@@ -16526,7 +16525,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
            
-            console.log('totalPercentage', Number($('#totalPercentage').text()))
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
@@ -16537,9 +16535,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(textboxCount == 0 && weighttage_1 != '' && Number(weighttage_1) != 0 ){
                     textboxCount = 1
                 }
-                console.log('errorStore',errorStore)
-                console.log('textboxCount',textboxCount)
-                console.log('fc_question_precenate_',weighttage_1)
+                
                 if($('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 ){
 
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
