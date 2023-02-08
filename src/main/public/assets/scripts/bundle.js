@@ -9939,8 +9939,6 @@ const ccsZaddErrorMessage = (element, message) => {
  * above the erroring input
  */
 const ccsZcreateCcsErrorMsg = (elName, message) => {
-  console.log('elName',elName)
-  console.log('message',message)
   let errorElement = document.createElement("span");
   errorElement.id = elName + "-error";
   errorElement.className = "govuk-error-message";
@@ -10048,9 +10046,6 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
   
-console.log('element',element)
-console.log('addelement',addelement)
-console.log('message',message)
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
 
@@ -13903,6 +13898,14 @@ function isProjectExtensionValid() {
 
    if (document.getElementById("rfp_duration-years_Question12") != undefined && document.getElementById("rfp_duration-years_Question12") != null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
       if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
          if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
             if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
                fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
