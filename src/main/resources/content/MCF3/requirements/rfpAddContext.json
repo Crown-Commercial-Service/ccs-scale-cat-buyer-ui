@@ -145,8 +145,8 @@
         }
     ],
     "form": {
-        "question1": "The more information you can provide about what you need, the better able suppliers will be to understand your requirements.",
-        "question2": "Some sections below are optional.",
+        "question1": "Click on the sections below to enter details about your procurement. The more specific the information you provide, the better suppliers will understand what you require.",
+        "question2": "Some sections are optional.",
         "backJump": {
             "title": "Return to Write and publish your requirements",
             "href": "/rfp/task-list"
