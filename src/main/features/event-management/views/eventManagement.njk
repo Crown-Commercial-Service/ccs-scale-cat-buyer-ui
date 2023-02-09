@@ -167,9 +167,15 @@
                               <a class="govuk-link" href="/rfi/review">{{ data.subsection4_title2_1_task[0].line_1_text }}</a>
                             </p>
                           </h2>
-                          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
-                            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{ data.subsection4_title2_1_task[1].line_1_text }}</a>
+                           {% if agreementId_session == 'RM6187' %}
+                           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+                            <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                           </p>
+                          {% else %}
+                          <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+                            <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
+                          </p>
+                          {% endif %}
                         {% endif %}
                         {% if eventType == 'EOI' %}
                           <h2 class="govuk-heading-m">
@@ -186,18 +192,18 @@
                                 {% endif %}
                               {% else %}
                                 <a class="govuk-link" href="/eoi/review">{{ data.subsection4_title2_2_task[0].line_1_text }}</a>
-                                  <p>When you have the supplier responses, you can close this RfI event and then:</p>
-                                  <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
-                                      <li>start the next stage of your project (from the 'Procurement overview' page)</li>
-                                      <li>copy all the details of this project to procure from your own platform</li>
-                                      <li>start another pre-market engagement event</li>
-                                  </ul>
                               {% endif %}
                             </p>
                           </h2>
+                           {% if agreementId_session == 'RM6187' %}
+                           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+                            <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
+                          </p>
+                          {% else %}
                           <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
                             <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                           </p>
+                         {% endif %}
                         {% endif %}
                         {% if agreementId_session == 'RM6263' %}
                           {% if (eventType == 'FC' or eventType == 'DA') %}
@@ -212,12 +218,9 @@
                               <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{ data.subsection4_title2_1_task[1].line_1_text }}</a>
                             </p>
                           </h2>
-                          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
-                            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{ data.subsection4_title2_1_task[1].line_1_text }}</a>
-                          </p>
-                        {% endif %}
-                      {% else %}
-                        {% if (eventType == 'FC') %}
+                          {% endif %}
+                        {% else %}
+                         {% if (eventType == 'FC') %}
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">2.</span>
                             {{ data.subsection4_title2_1 }}
@@ -225,13 +228,15 @@
                               <a class="govuk-link" href="/rfp/review">{{ data.subsection4_title2_1_task[0].line_1_text }}</a>
                             </p>
                           </h2>
-                          {% if agreementId_session == "RM1557.13" %}
-                            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
-                            {% else %}
-                              <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
-                              {% endif %}
-                              <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{ data.subsection4_title2_1_task[1].line_1_text }}</a>
-                            </p>
+                           {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+                           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+                            <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
+                           </p>
+                           {% else %}
+                           <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+                            <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
+                           </p>
+                           {% endif %}
                           {% endif %}
                           {% if (eventType == 'DA' ) %}
                             <h2 class="govuk-heading-m">
@@ -250,29 +255,31 @@
                     </div>
                     <div class="govuk-grid-row ccs-page-section">
                       <div class="govuk-grid-column-full">
-                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
                           {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
-                            <h2 class="govuk-heading-m">
+                            {% if eventType == 'EOI' %}
+                             <h2 class="govuk-heading-m">
                               <span class="proc-task-list__section-number">3.</span>
                               Number of suppliers who may respond to your published project
-                            </h2>
-                            <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in
+                             </h2>
+                             <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in
                               the section below.
-                            </p>
-                          {% else %}
-                            <h2 class="govuk-heading-m">
+                             </p>
+                            {% else %}
+                             <h2 class="govuk-heading-m">
                               <span class="proc-task-list__section-number">3.</span>
-                              {{ data.subsection4_title3_eval }}
-                            </h2>
-                            <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}
-                            </p>
+                              Suppliers who responded to your published project
+                             </h2>
+                             <p class="govuk-body">Find out how many suppliers responded to your project in the section below.
+                             </p>
+                          {% endif %}
                           {% endif %}
                           {% if (projectStatus==2) %}
                             {% if agreementId_session ==='RM6187' %}
-                              <p class="govuk-body">If you want to see any clarification questions suppliers have submitted,
+                             <p class="govuk-body">To see the clarification questions suppliers have submitted,
                                 <a href="/message/inbox">open your inbox</a>.</p>
                             {% else %}
-                              <p class="govuk-body">To see the clarification questions suppliers have submitted,
+                              <p class="govuk-body">If you want to see any clarification questions suppliers have submitted,
                                 <a href="/message/inbox">open your inbox</a>.</p>
                             {% endif %}
                           {% else %}
@@ -297,7 +304,7 @@
                           <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task3 }}</p>
                           <p class="govuk-grid-column-one-half">{{ supplierSummary.declined | safe }}</p>
-                          {% if (agreementId_session == 'RM1557.13') %}
+                          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                             <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
                           {% else %}
                             <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4 }}</p>
@@ -753,14 +760,14 @@
                                           <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                             <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                                             <li>copy all the details of this project to procure from your own platform</li>
-                                            <li>start another pre-tender market engagement event</li>
+                                            <li>start another pre-market engagement event</li>
                                           </ul>
                                         {% else %}
                                           <p>When you have the supplier responses,you can close this project and then:</p>
                                           <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                             <li>start the next stage of your project(from the procurement overview page)</li>
                                             <li>copy all the details of this project to procure from your own platform</li>
-                                            <li>start another pre-market enagagement project</li>
+                                            <li>start another pre-tender market enagagement project</li>
                                           </ul>
                                         {% endif %}
                                         <div class="govuk-!-margin-bottom-7">
@@ -770,6 +777,11 @@
                                     </div>
                                   {% endif %}
                                 {% endif %}
+                                    {% if agreementId_session == "RM1557.13" and (eventType == 'RFI') %}
+                                      <div>
+                                          <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                                      </div>
+                                    {% endif %}
                               </div>
                             </div>
                           {% endif %}
@@ -791,13 +803,13 @@
                                   <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                     <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                                     <li>copy all the details of this project to procure from your own platform</li>
-                                    <li>start another pre-tender market engagement event</li>
+                                    <li>start another pre-market engagement event</li>
                                   </ul>
                                 {% else %}
                                   <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                     <li>start the next stage of your project(from the procurement overview page)</li>
                                     <li>copy all the details of this project to procure from your own platform</li>
-                                    <li>start another pre-market enagagement project</li>
+                                    <li>start another pre-tender market enagagement project</li>
                                   </ul>
                                 {% endif %}
                                 {% if (projectStatus==2) %}
@@ -977,11 +989,7 @@
             {% endif %}
           {% endif %}
 
-            <div class="govuk-!-margin-top-6">
-              {% if agreementId_session == "RM1557.13" and (eventType != 'FC') %}
-                  <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-              {% endif %}
-            </div>
+            
 
           <div class="loader-container">
             <div class="loader-division">
