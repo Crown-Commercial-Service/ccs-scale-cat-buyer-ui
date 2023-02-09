@@ -693,19 +693,20 @@ function checkResourceStartDate() {
          errorStore.push(fieldCheck)
       }
    }
-   else if (rfpResourceStartYear.val() <= 1) {
+   else if(Number(rfpResourceStartYear.val()) <= 1)
+      {
+      error_msg = "Enter a valid Year(YYYY Format)"
       flag = false;
       rfpResourceStartYear.addClass('govuk-form-group--error');
       rfpResourceStartDay.addClass('govuk-form-group--error');
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
       $('#event-name-error-date').html('Enter a valid year');
-      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d$/);
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
-      } else {
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
       }
+      
    }
    else {
       flag = true;
