@@ -155,7 +155,7 @@
 
           </p>
         </h2>
-            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187" %}
+            {% if((agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
                 <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
             {% else %}
                 <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -183,7 +183,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       
-        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+        {% if(agreementId_session == "RM6187" or agreementId_session == "RM1557.13") %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval_mcf}}</h2>
@@ -203,7 +203,7 @@
     <div class="govuk-grid-row ccs-page-section">
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong></p>
         
-        {% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187"  %}
+        {% if(agreementId_session == "RM1557.13" or agreementId_session == "RM6187")  %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
