@@ -15058,7 +15058,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
                 }
                 else{
-                errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
