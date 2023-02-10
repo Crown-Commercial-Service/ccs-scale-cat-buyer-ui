@@ -80,6 +80,14 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet'); 
       }
     // }
+
+    let timelineState  = journeyStepsName?.filter((item:any) => item.step == '12');
+    if(req.session.endDate == undefined && timelineState[0].state=='Completed'){
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Cannot start yet');
+    }
+
+   
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
 
@@ -90,7 +98,8 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
      LoggTracer.infoLogger(null, logConstant.rfiTaskListPageLog, req);
 
     res.render('Tasklist', windowAppendData);
-  } catch (error) {    
+  } catch (error) {  
+    console.log(error);  
     LoggTracer.errorLogger(
       res,
       error,
