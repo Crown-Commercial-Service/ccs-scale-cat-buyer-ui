@@ -426,6 +426,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }    
       let appendData = {
         data: forceChangeDataJson,
+        lotId:lotid,
         stage2_value,
         prompt: prompt,
         framework: fetchQuestionsData,
@@ -581,6 +582,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       let appendData = {
         data: forceChangeDataJson,
+        lotid:lotid,
         prompt: prompt,
         framework: fetchQuestionsData,
         rfp_clarification_date,
@@ -691,6 +693,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -802,6 +805,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -912,6 +916,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -1021,6 +1026,7 @@ res.render('rfp-responsedate.njk', appendData);
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1132,6 +1138,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1241,6 +1248,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1351,6 +1359,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1463,6 +1472,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1581,6 +1591,7 @@ let appendData = {
     }
 let appendData = {
      data: forceChangeDataJson,
+     lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1699,6 +1710,7 @@ let appendData = {
      }
  let appendData = {
       data: forceChangeDataJson,
+      lotid:lotid,
        prompt: prompt,
        framework: fetchQuestionsData,
        rfp_clarification_date,
@@ -1814,6 +1826,7 @@ let appendData = {
      }
  let appendData = {
       data: forceChangeDataJson,
+      lotid:lotid,
        prompt: prompt,
        framework: fetchQuestionsData,
        rfp_clarification_date,

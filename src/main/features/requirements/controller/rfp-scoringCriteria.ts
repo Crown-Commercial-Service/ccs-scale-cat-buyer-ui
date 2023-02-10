@@ -252,6 +252,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
+      lotId:lotId,
       proc_id: projectId,
       event_id: eventId,
       group_id: group_id,

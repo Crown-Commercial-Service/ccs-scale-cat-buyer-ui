@@ -15062,8 +15062,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
-            $('#totalPercentage').html(weightageSum);
-            $('#totalPercentageDown').html(weightageSum);
+            $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
+            $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
         };
         
         textboxelements.forEach(ele => {
@@ -15085,10 +15085,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const totalAnswerd = () => {
+            let qCount = $('.order_1').filter(function() {
+                return this.value !== '';
+            }).length;
+            
             $('#questionsCount').html(
-                $('.order_1').filter(function() {
-                    return this.value !== '';
-                }).length,
+                qCount === 0? 'X' : qCount,
             );
         };
         
@@ -15492,6 +15494,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
             with_value_count++;
         }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -15772,8 +15777,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
 
-
-                if(textboxCount <= 20){
+                if(textboxCount <= total_countva){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                             if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
@@ -15859,13 +15863,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
                 //   with_value_count = with_value_count;
                 // }
-                if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
-                  with_value_count = total_countva;
-                }
+                // if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                //   with_value_count = total_countva;
+                // }
                 if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     with_value_count = 5;
                 }
-                
+                if(agreement_id_Default == "RM1043.8" ){
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
                     let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
                     if(termvalue != '' && termdefvalue != ''){
@@ -15918,6 +15922,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 with_value_count++;
             }
+        }else{
+            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+            //Added this condation section 5 (step 43/44/45)
+
+            if (with_value_count > 2) {
+                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                // }else {
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                // }
+            }
+            if (document.getElementById("questionsCount") != undefined) {
+                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+            }
+            document
+                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                .classList.remove('ccs-dynaform-hidden');
+            //Add question set more than 5
+            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+            //   if (with_value_count === 5) {
+            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+            //     ccsZPresentErrorSummary(errorStore);
+            //     return;
+            //   }
+            // }
+            
+            with_value_count++;
+        }
                 
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
@@ -20529,8 +20562,8 @@ const ccsZvalidateRfPStrategy = event => {
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
   }
-  
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
+ 
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && (!(pageHeading.includes("(optional)")  || pageHeading.includes("(Optional)"))) && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
@@ -20559,7 +20592,8 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }else {
+    }
+    else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }

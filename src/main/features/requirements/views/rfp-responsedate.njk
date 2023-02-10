@@ -166,7 +166,11 @@
                                                       {% if(requirement.OCDS.id == "Question 7" and agreementId_session == 'RM1557.13') %}
                                             <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p>
                                         {%endif%}
-                                    {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 4" and stage2_value == "Stage 2") %}
+                                        {% if(requirement.OCDS.id == "Question 10" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
+                                            <p> A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. 
+                                                If you do not require a standstill, change this date to be the same as the date in point 11 below.</p>
+                                        {%endif%}
+                                    {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 4" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 8" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
                                     {%endif %}
                                     <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{  requirement.nonOCDS.options[0].value   }}</strong>
@@ -469,7 +473,7 @@ value: "Question 13*"+supplier_start_date
 
                                                     </div>
                                                     <div class="govuk-grid-column-one-third">
-                                                        {{ CCSReleatedContent(releatedContent) }}
+                                                        {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
                                                     </div>
                                                 </div>
                                             </main>

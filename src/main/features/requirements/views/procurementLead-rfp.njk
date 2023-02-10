@@ -56,7 +56,7 @@
         href: "/rfp/task-list"
       },
       {
-         text: "Change who will lead the project",
+         text: "Change who will lead your project",
          href: "#"
       }
     ]
@@ -142,7 +142,7 @@
             
         {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') or (agreementId_session == 'RM1043.8') %}
           <h1 class="govuk-heading-xl"><strong>
-            Change who will lead the project (optional)
+            Change who will lead your project (optional)
          </strong> </h1>
         {% else %}
          <h1 class="govuk-heading-xl"><strong>
@@ -239,7 +239,7 @@
          </form>
       </div>
       <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
+         {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
       </div>
    </div>
 </main>
