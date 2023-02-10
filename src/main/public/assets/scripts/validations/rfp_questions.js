@@ -777,8 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
 
-
-                if(textboxCount <= 20){
+                if(textboxCount <= total_countva){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                             if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
@@ -1167,6 +1166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noOfRequirement_Group = 0;
 
         const pageHeading = document.getElementById('page-heading').innerHTML;
+        console.log("withValue",withValue);
         for (var i = 1; i < withValue; i++) {
             let rootEl = document.getElementById('fc_question_' + i);
             const divElem = document.querySelector('#fc_question_' + i);
@@ -1182,6 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (pageHeading.includes("Enter your project requirements")) {
                     const inputElements = divElem.querySelectorAll("textarea");
+                    console.log("inputElements.length",inputElements.length);
                     if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
                         for (let index = 0; index < inputElements.length; index++) {
                             const element = inputElements[index];
