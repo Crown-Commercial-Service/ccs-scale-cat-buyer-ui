@@ -777,8 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
 
-
-                if(textboxCount <= 20){
+                if(textboxCount <= total_countva){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                             if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
