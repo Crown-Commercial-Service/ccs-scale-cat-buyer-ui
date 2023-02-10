@@ -31,11 +31,20 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
   // }
+
+  //console.log("JSON",JSON.stringifyreq.session.historicalEvents);
+
+  let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
+    return agroupitem?.activeEvent?.eventType != "PA";
+  });
+
+
   const appendData = {
     data: dashboarData,
     searchText,
     events: req.session.openProjectActiveEvents,
     historicalEvents: req.session.historicalEvents,
+    withOutPaEventsData:withOutPaEventsData
   };
   res.render('dashboard', appendData);
 };
@@ -624,11 +633,16 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
   // }
+  let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
+    return agroupitem?.activeEvent?.eventType != "PA";
+  });
+
   const appendData = {
     data: dashboarData,
     searchText,
     events: req.session.openProjectActiveEvents,
     historicalEvents: req.session.historicalEvents,
+    withOutPaEventsData:withOutPaEventsData
   };
   res.render('dashboard', appendData);
 };
