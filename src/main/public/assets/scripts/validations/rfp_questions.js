@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
-            $('#totalPercentage').html(weightageSum);
-            $('#totalPercentageDown').html(weightageSum);
+            $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
+            $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
         };
         
         textboxelements.forEach(ele => {
@@ -88,10 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const totalAnswerd = () => {
+            let qCount = $('.order_1').filter(function() {
+                return this.value !== '';
+            }).length;
+            
             $('#questionsCount').html(
-                $('.order_1').filter(function() {
-                    return this.value !== '';
-                }).length,
+                qCount === 0? 'X' : qCount,
             );
         };
         
