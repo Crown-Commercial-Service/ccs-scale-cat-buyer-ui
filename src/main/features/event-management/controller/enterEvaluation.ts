@@ -69,7 +69,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     }
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
+          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session,lotid }
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);

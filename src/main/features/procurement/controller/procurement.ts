@@ -243,7 +243,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.procurementPage, req);
 
-    appendData = { ...appendData, agreementName, releatedContent, agreementId_session, stepstocontinueDAA,ScrollTo };
+    appendData = { ...appendData, agreementName, releatedContent, agreementId_session,lotid, stepstocontinueDAA,ScrollTo };
    if (agreementId_session == 'RM1557.13' && lotId=='4') {
       res.render('gcloud_lot4-procurement', appendData);
     } else{
