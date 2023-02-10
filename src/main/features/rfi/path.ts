@@ -133,6 +133,14 @@ export default function (app: Application): void {
       [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
       associatedViews.CONFIRMATION_REVIEW
   );
+
+  //@GET /rfi/confirm-review
+  app.get(RFI_PATHS.GET_CONFIRM_REVIEW,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_CONFIRM_REVIEW
+);
+
+  
   
   //@GET /rfi/choose-how-to/build-your-rfi
   app.get(RFI_PATHS.GET_BUILD_RFI, [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.BUILD_RFI);
