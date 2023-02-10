@@ -505,8 +505,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     bankholidaydata
     
   );
+	
+  let dateNewNow = new Date(req.session.timeline.publish);	
 
-  if (date.getTime() >= nowDate.getTime() && isValid) {
+  if (date.getTime() >= dateNewNow.getTime() && isValid) {
     //date = moment(date).format('DD MMMM YYYY, hh:mm a');
     date = moment(date).format('DD MMMM YYYY, HH:mm');
     
