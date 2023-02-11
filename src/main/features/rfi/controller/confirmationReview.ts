@@ -12,33 +12,6 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  *
  *
  */
- export const GET_CONFIRM_REVIEW = async (req: express.Request, res: express.Response) => {
-  
-    
-
-    const { SESSION_ID } = req.cookies; 
-    
-
-    try {
-      let isReviewed=true;
-      if(req.session.endDate == undefined ){
-        isReviewed=false;
-      }
-      const appendData = { isReviewed: isReviewed};
-      res.json(appendData);
-        
-      }catch (error) {
-        LoggTracer.errorLogger(
-          res,
-          error,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'Journey service - update the status failed - Mcf3 RFI Publish Page',
-          true,
-        );
-      }
- }
 
  export const CONFIRMATION_REVIEW = async (req: express.Request, res: express.Response) => {
   
