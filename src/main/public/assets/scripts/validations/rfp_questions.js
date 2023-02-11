@@ -66,8 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             if(urlParamsData.get('agreement_id') == 'RM6187'){
-            $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
-            $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+                $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
+                $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+            }else{
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
             }
         };
         
