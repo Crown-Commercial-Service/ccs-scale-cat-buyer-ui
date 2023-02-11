@@ -65,8 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
-            $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
-            $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
+                $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+            }else{
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
+            }
         };
         
         textboxelements.forEach(ele => {
@@ -497,6 +502,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
             with_value_count++;
         }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -863,9 +871,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
                 //   with_value_count = with_value_count;
                 // }
-                if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
-                  with_value_count = total_countva;
-                }
+                // if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                //   with_value_count = total_countva;
+                // }
                 if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     with_value_count = 5;
                 }
@@ -1211,12 +1219,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                    
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                               
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
