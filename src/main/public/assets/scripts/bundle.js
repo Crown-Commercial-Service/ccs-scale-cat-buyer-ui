@@ -15062,8 +15062,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
             $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
             $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+            }
         };
         
         textboxelements.forEach(ele => {
