@@ -134,11 +134,7 @@ export default function (app: Application): void {
       associatedViews.CONFIRMATION_REVIEW
   );
 
-  //@GET /rfi/confirm-review
-  app.get(RFI_PATHS.GET_CONFIRM_REVIEW,
-    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_CONFIRM_REVIEW
-);
+
 
   
   

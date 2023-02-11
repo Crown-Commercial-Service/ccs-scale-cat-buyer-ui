@@ -9336,14 +9336,13 @@ p,
 .backdrop-close.showpopup, .backdrop-close.showpopup .messagepop, 
 .backdrop-supplier-popup.showpopup, .backdrop-supplier-popup.showpopup .messagepop,
 .backdrop-gcloud_delete.showpopup,
-.backdrop-rfi_review_confirm.showpopup,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
 .backdrop-award.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete,.backdrop-rfi_review_confirm {
+.backdrop-nextsteps,.backdrop-gcloud_delete {
   position: fixed;
   top: 0px;
   left: 0px;

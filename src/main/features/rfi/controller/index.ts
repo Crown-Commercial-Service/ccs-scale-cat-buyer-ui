@@ -14,7 +14,7 @@ import { OFFLINE_JOURNEY_PAGE } from './offline'
 import {RFI_GET_NEXT_STEPS, RFI_POST_NEXT_STEPS} from './nextsteps'
 import {RFI_GET_CLOSE} from './closerfi'
 import { CHOOSE_YOUR_ROUTE_MARKET } from './choose_your_route_market'
-import {CONFIRMATION_REVIEW,GET_CONFIRM_REVIEW} from './confirmationReview';
+import {CONFIRMATION_REVIEW} from './confirmationReview';
 import { BUILD_RFI, POST_BUILD_RFI } from './buildRfi'
 export const associatedViews = {
     /**
@@ -40,7 +40,7 @@ export const associatedViews = {
     CHOOSE_YOUR_ROUTE_MARKET,
     BUILD_RFI,
     CONFIRMATION_REVIEW,
-    GET_CONFIRM_REVIEW,
+ 
 
 
     /**

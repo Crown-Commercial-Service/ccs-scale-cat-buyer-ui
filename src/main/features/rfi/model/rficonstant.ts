@@ -29,7 +29,7 @@ export enum RFI_PATHS {
 
   GET_CONFIRMATION_REVIEW='/rfi/confirmation-review',
   GET_BUILD_RFI='/rfi/choose-build-your-rfi',
-  GET_CONFIRM_REVIEW='/rfi/confirm-review',
+
   /**
    * @POSTROUTES
    */
