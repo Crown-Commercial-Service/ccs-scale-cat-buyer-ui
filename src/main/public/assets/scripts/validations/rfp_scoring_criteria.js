@@ -711,8 +711,7 @@ const emptyFieldCheckRfpScore = () => {
           errMsg = 'Enter a description for this level';
         }
        
-        console.log('errMsg',errMsg)
-        console.log('errorObj.isError',errorObj.isError)
+        
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, errMsg == ''?'You must add information in all fields.':errMsg];
           errorStore.push(fieldCheck);
