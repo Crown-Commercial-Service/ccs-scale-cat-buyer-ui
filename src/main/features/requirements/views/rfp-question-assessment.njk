@@ -32,6 +32,36 @@
       }
     ]
   }) }}
+  {% elseif agreement_id == 'RM1043.8' %}
+
+      {{ CCSBreadcrumbs({
+        items: [
+        {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+                text: "Procurement overview",
+                href: "/projects/create-or-choose"
+            },
+            {
+              text: "Write and publish your requirements",
+              href: "/rfp/task-list"
+            },
+            {
+              text: "Your assessment criteria",
+              href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+            },
+          {
+            text: bcTitleText
+          }
+        ]
+      }) }}
+
  {% else %}
   {{ CCSBreadcrumbs({
     items: [
@@ -282,7 +312,7 @@
                         }) }}
                   {% endif %}
 
-                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to your assessment criteria</a>
+                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Your assessment criteria</a>
                 </div>
 
               </form>
