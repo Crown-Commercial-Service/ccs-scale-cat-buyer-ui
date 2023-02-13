@@ -249,7 +249,6 @@ const questionInputDate = new Date(year, month, day);
   }
   
 
-
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
@@ -393,6 +392,7 @@ const questionInputDate = new Date(year, month, day);
 
       case 'Question 13':
       if (questionNewDate < new Date(timeline.contractsigneddate)) {
+       
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -691,6 +691,7 @@ if (agreement_id=='RM1043.8') {//DOS
 
 else if(selected_question_id=='Question 12')
 { 
+  
 req.session.rfppublishdate=timeline.publish;
 req.session.clarificationend=timeline.clarificationPeriodEnd;
 req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
@@ -703,6 +704,9 @@ req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.startdate=timeline.supplierstartdate;
+req.session.signeddate=timeline.contractsigneddate;
+
+
 req.session.UIDate=date;
 }
 
@@ -722,6 +726,8 @@ req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.signeddate=timeline.contractsigneddate;
 req.session.UIDate=date;
 }
+
+
 
 const filtervalues=moment(
   date,
