@@ -30,11 +30,11 @@
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
                    {%if(table.text !=='Create your own scoring criteria')%}
                    <div class="govuk-custom-table">
-                    {%if agreement_id != 'RM1043.8' %}
+                    {# {%if agreement_id != 'RM1043.8' %} #}
                     <div class="govuk-!-margin-top-4">
-                      <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}} level scoring criteria</a>
+                      <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-heading-l govuk-link--no-visited-state govuk-!-font-size-24" title="Tier {{table.optiontableDefination.rows.length}}">Use the {{table.optiontableDefination.rows.length}} level scoring criteria</a>
                     </div>
-                    {% endif %}
+                    {# {% endif %} #}
                     {% if (agreement_id == 'RM1557.13') %}
                       {% set criteriatext = 'level' %}
                     {% else %}
@@ -42,7 +42,6 @@
                     {% endif %}
                     {% if agreement_id == 'RM1043.8' %}
                           {{ CCSTable({
-                          caption: table.optiontableDefination.rows.length+' level scoring criteria',
                           captionClasses: "govuk-table__caption--m",
                           firstCellIsHeader: true,
                           head: table.optiontableDefination.head,
@@ -107,8 +106,8 @@
               {% if agreement_id == 'RM1043.8' %}
                 {% for table in requirement.nonOCDS.options %}
                   {%if table.optiontableDefination.rows.length>0 and table.text !=='Create your own scoring criteria' %}
-                    <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}" class="tier-popup govuk-!-display-inline-block govuk-!-margin-bottom-4 govuk-link govuk-!-margin-top-5 govuk-link--no-visited-state govuk-!-font-size-24" title="Tier4">Use the 4 level scoring criteria</a>
-                    <p class="range_none govuk-label--l"> <strong class="range_none" id="tiersAdded"> {{tierNo}} </strong> </h2>
+                    {# <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}" class="tier-popup govuk-!-display-inline-block govuk-!-margin-bottom-4 govuk-link govuk-!-margin-top-5 govuk-link--no-visited-state govuk-!-font-size-24" title="Tier4">Use the 4 level scoring criteria</a> #}
+                    <p class="govuk-label--l"> <strong class="" id="tiersAdded"> {{tierNo}} </strong> levels added so far </h2>
                   {% endif %}
                 {% endfor %}
                   {% else %}
