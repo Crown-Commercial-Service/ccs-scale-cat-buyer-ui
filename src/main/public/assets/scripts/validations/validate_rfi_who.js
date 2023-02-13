@@ -4,8 +4,21 @@ const ccsZvalidateRfiWho = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  // fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
+  // if (fieldCheck !== true) errorStore.push(fieldCheck);
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
+  var errorMsg = '';
+  if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
+    if(rfi_contracting_auth.value.length > 0 &&
+      textPatternNew.test(rfi_contracting_auth.value) !== true){
+      errorMsg = 'Please enter only character';
+      fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+      if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    }
+    
+  }
 
   if (errorStore.length === 0) document.forms["ccs_rfi_who_form"].submit();
   else ccsZPresentErrorSummary(errorStore);

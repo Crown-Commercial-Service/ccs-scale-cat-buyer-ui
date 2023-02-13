@@ -10,6 +10,7 @@ import * as localData from '../../../resources/content/event-management/local-SO
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+// import { logConstant } from '../../../common/logtracer/logConstant';
 //simport { idText } from 'typescript'
 /**
  * 
@@ -52,9 +53,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     }
     
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
-    console.log(supplierInterestURL);
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
-    console.log(supplierdata.data);
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
 
@@ -70,7 +69,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     }
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
+          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session,lotid }
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
@@ -109,14 +108,14 @@ try{
                   score: evaluation_score,
                 }
               ];
-              console.log(`tenders/projects/${projectId}/events/${eventId}/scores`);
-              console.log(body);
+              
               req.session.individualScore = body[0];
+              
               //let responseScore = 
               TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              console.log('Action made! ****************')
+              
               //CAS-INFO-LOG 
               // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
 
@@ -128,35 +127,28 @@ try{
             }
    
 }catch (error) {
-  console.log("***********error.response.status - ",error.response.status);
-  if(error.response.status === 504){
-    req.session.isEmptyProjectError = false;
-    res.redirect('/evaluate-suppliers');
-  }else{
     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Event Management - Tenders Service Api cannot be connected',
+      'Event management page',
       true,
     );
   }
-}
-
 }
 
 export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  console.log('Temp ***************');
+  
   if(req.session.individualScore !== undefined) {
 
     async function scoreApis() {
       const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
-      const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 5000)))
+      const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 6000)))
       return scoreCompare.data;
     }
     
@@ -165,7 +157,7 @@ export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Re
       let sessionScore = req.session.individualScore;
       let resScore: any = [];
       resScore = await scoreApis();
-      console.log(resScore);
+      
       if(resScore.length > 0) {
         let scoreFliter = resScore.filter((el: any) => {
           return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
@@ -173,7 +165,6 @@ export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Re
         if(scoreFliter.length > 0) {
           scoreIndividualGetState = false;
         }
-        console.log(scoreIndividualGetState);
       }
     } while(scoreIndividualGetState);
     

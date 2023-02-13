@@ -14,10 +14,10 @@ $(document).ready(function () {
     const mq = window.matchMedia('(min-width: 40.0625em)');
     mq.addListener(WidthChange);
     WidthChange(mq);
-    
+
   }
 
-  
+
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
@@ -52,33 +52,36 @@ const ccsZvalidateRfiLocation = event => {
 
 // forms validation
 
-$(".focusdata").click(function(){
-  
-  var $container = $("html,body");
-var $scrollTo = $('.focus-data');
+$(".focusdata").click(function () {
 
-$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0},300);
-  
+  var $container = $("html,body");
+  var $scrollTo = $('.focus-data');
+
+  $container.animate({ scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0 }, 300);
+
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
-$("#getId").click(function(){
+$("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
 
-   
-    if(myclass){
-      $("input[type='checkbox']").prop("checked", true);
-      $(this).removeClass("uncheck");
-      $(this).addClass("check");
-      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
-    }else{
-      $('.otherTextArea').addClass('ccs-dynaform-hidden');
-      $("input[type='checkbox']").prop("checked", false);
-      $(this).addClass("uncheck");
-      $(this).removeClass("check");      
-    } 
 
-  
+  if (myclass) {
+    $("input[type='checkbox']").prop("checked", true);
+    $(this).removeClass("uncheck");
+    $(this).addClass("check");
+    $('.otherTextArea').removeClass('ccs-dynaform-hidden');
+  } else {
+    $('.otherTextArea').addClass('ccs-dynaform-hidden');
+    $("input[type='checkbox']").prop("checked", false);
+    $(this).addClass("uncheck");
+    $(this).removeClass("check");
+  }
+
+
 });
 
 // $("#DOSgetId").click(function(){
@@ -144,17 +147,17 @@ if (document.getElementById('ccs_rfi_project_name_form') !== null)
 if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
 
-  if (document.getElementById('enter_evaluation_score') !== null)
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
 
-  
-  if (document.getElementById('enter_evaluation_score') !== null)
+
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
@@ -169,7 +172,7 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -194,7 +197,7 @@ if (document.getElementById('da_where_work_done') !== null)
 if (document.getElementById('ccs_rfp_scoring_criteria') !== null)
   document.getElementById('ccs_rfp_scoring_criteria').addEventListener('submit', ccsZvalidateScoringCriteria);
 
-  if (document.getElementById('service_user_type_form') !== null)
+if (document.getElementById('service_user_type_form') !== null)
   document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateScoringCriteria2);
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
@@ -217,20 +220,19 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
-  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-  if (document.getElementById('evaluate_suppliers') !== null)
+if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
-   if (document.getElementById('supplierMsgCancel') !== null)
-   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
-
+if (document.getElementById('supplierMsgCancel') !== null)
+  document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
-  if (document.getElementById('ca_justification') !== null)
+if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
@@ -246,7 +248,7 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
-  
+
 if (document.getElementById('ccs_eoi_questions_form') !== null)
   document.getElementById('ccs_eoi_questions_form').addEventListener('submit', ccsZvalidateEoIQuestions);
 
@@ -257,13 +259,13 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   // document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
 
 
-// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
+  // if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  //   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
 
-if (document.getElementById('ccs_rfp_about_proj') !== null)
-  document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
+  if (document.getElementById('ccs_rfp_about_proj') !== null)
+    document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
-  if (document.getElementById('ccs_rfp_who_form') !== null)
+if (document.getElementById('ccs_rfp_who_form') !== null)
   document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
@@ -275,7 +277,7 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
 //   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
 
-  if (document.getElementById('ccs_eoi_about_proj') !== null)
+if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 
@@ -303,8 +305,8 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
-  // if (document.getElementById('ccs_rfp_acronyms_form') !== null)
-  // document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
+// if (document.getElementById('ccs_rfp_acronyms_form') !== null)
+// document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
 
 
 if (document.getElementById('rfp_location') !== null)
@@ -322,73 +324,73 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
-  if (document.getElementById('fca_select_services_form') !== null)
+if (document.getElementById('fca_select_services_form') !== null)
   document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 
-  //Award
+//Award
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
-document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+  document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
 if (document.getElementById('ccs_standstill_period_form') !== null)
-document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
+  document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 if (document.getElementById('ccs_da_project_name_form') !== null)
   document.getElementById('ccs_da_project_name_form').addEventListener('submit', ccsZvalidateDaProjectName);
 
-  if (document.getElementById('da_projLongName') !== null)
+if (document.getElementById('da_projLongName') !== null)
   document.getElementById('da_projLongName').addEventListener('input', ccsZCountDaProjectName);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
-  //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
-  
-  let noOfCharac = 200;
-    let contents = document.querySelectorAll(".content_review_length");
-   // if (document.getElementsByClassName('rfp_percentage_form') !== null){
-          contents.forEach((content,index) => {
-              //If text length is less that noOfCharac... then hide the read more button
-              if(content.textContent.length < noOfCharac){
-                //content.nextElementSibling.style.display = "none";
-              }
-              else{
-                  //let that = this;
-                  let displayText = content.textContent.slice(0,noOfCharac);
-                  let moreText = content.textContent.slice(noOfCharac);
-                  content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
-                // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
-              }
-        
-          });
-   //   }
+//document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
 
-  function readMoreWithLength(){
-    document.querySelectorAll(".content_review_length").forEach(function(event) {
-      event.addEventListener('click', function(e) {
-         let targetId = e.target.id;
-          //$('#moreValue'+targetId).show();
-          let btn = document.querySelector('#content-'+targetId);
-          let HtmlBtn = $('#'+targetId).html();       
-        if(HtmlBtn=='Read more'){
-          $('#moreValue'+targetId).removeClass("hide");
-          $('#'+targetId).html("Read less");
-          $('#moreValue'+targetId).show();
-          $('#dots-'+targetId).hide();
-        }else{
-          $('#moreValue'+targetId).addClass("hide");
-          $('#'+targetId).html("Read more");
-          $('#moreValue'+targetId).hide();
-          $('#dots-'+targetId).show();
-        }
-      });
-    });
+let noOfCharac = 200;
+let contents = document.querySelectorAll(".content_review_length");
+// if (document.getElementsByClassName('rfp_percentage_form') !== null){
+contents.forEach((content, index) => {
+  //If text length is less that noOfCharac... then hide the read more button
+  if (content.textContent.length < noOfCharac) {
+    //content.nextElementSibling.style.display = "none";
   }
-  readMoreWithLength();
-  
+  else {
+    //let that = this;
+    let displayText = content.textContent.slice(0, noOfCharac);
+    let moreText = content.textContent.slice(noOfCharac);
+    content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+    // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+  }
+
+});
+//   }
+
+function readMoreWithLength() {
+  document.querySelectorAll(".content_review_length").forEach(function (event) {
+    event.addEventListener('click', function (e) {
+      let targetId = e.target.id;
+      //$('#moreValue'+targetId).show();
+      let btn = document.querySelector('#content-' + targetId);
+      let HtmlBtn = $('#' + targetId).html();
+      if (HtmlBtn == 'Read more') {
+        $('#moreValue' + targetId).removeClass("hide");
+        $('#' + targetId).html("Read less");
+        $('#moreValue' + targetId).show();
+        $('#dots-' + targetId).hide();
+      } else {
+        $('#moreValue' + targetId).addClass("hide");
+        $('#' + targetId).html("Read more");
+        $('#moreValue' + targetId).hide();
+        $('#dots-' + targetId).show();
+      }
+    });
+  });
+}
+readMoreWithLength();
+
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
@@ -515,7 +517,7 @@ setInputFilter(
   document.getElementById('clarification_date-month_6'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter( 
+setInputFilter(
   document.getElementById('clarification_date-year_6'),
   value => /^\d*$/.test(value),
 );
@@ -709,105 +711,108 @@ setInputFilter(
 //g13Check Script
 
 function parseQueryG13(query) {
-  object = {};  
-  if (query.indexOf('?') != -1){
-    query = query.split('?');		
+  object = {};
+  if (query.indexOf('?') != -1) {
+    query = query.split('?');
     query = query[1];
   }
   parseQuery = query.split("&");
   for (var i = 0; i < parseQuery.length; i++) {
-      pair = parseQuery[i].split('=');
-      key = decodeURIComponent(pair[0]);
-      if (key.length == 0) continue;
-      value = decodeURIComponent(pair[1].replace("+"," "));
-      if(key=='q'){
-        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
-        value = encodeURIComponent(decodeValue);
-      }
-      if (object[key] == undefined) object[key] = value;
-      else if (object[key] instanceof Array) object[key].push(value);
-      else object[key] = [object[key],value];
+    pair = parseQuery[i].split('=');
+    key = decodeURIComponent(pair[0]);
+    if (key.length == 0) continue;
+    value = decodeURIComponent(pair[1].replace("+", " "));
+    if (key == 'q') {
+      let decodeValue = decodeURIComponent(pair[1].replace("+", " "));
+      value = encodeURIComponent(decodeValue);
+    }
+    if (object[key] == undefined) object[key] = value;
+    else if (object[key] instanceof Array) object[key].push(value);
+    else object[key] = [object[key], value];
   }
   return object;
 };
 
 const tune = (obj) => {
   let emptyArr = [];
-  for (const key in obj) { 
-    if(typeof(obj[key]) == 'object') { 
-      let newArr = obj[key]; 
-      for(let i = 0; i < newArr.length; i++) { 
-        emptyArr.push({'key': key, 'value': newArr[i]}); } } else { emptyArr.push({'key': key, 'value': obj[key]}); } }
+  for (const key in obj) {
+    if (typeof (obj[key]) == 'object') {
+      let newArr = obj[key];
+      for (let i = 0; i < newArr.length; i++) {
+        emptyArr.push({ 'key': key, 'value': newArr[i] });
+      }
+    } else { emptyArr.push({ 'key': key, 'value': obj[key] }); }
+  }
   return emptyArr;
 }
 
 function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
-  
-    let outQueryUrl = "";
-    let overName = overUrl.name;
 
-    let overValue = overUrl.value;
-    let overType = overUrl.type;
-   
-    if(queryObj.length > 0) {
-      if(overType == 'unchecked') {
-        let compareVal = overValue;
-        let compareName = overName;
-        let finalObj = [];
-        queryObj.find((el) => {
+  let outQueryUrl = "";
+  let overName = overUrl.name;
 
-       if(el.value != compareVal || el.key != compareName) { 
-          finalObj.push(el); 
-        } 
+  let overValue = overUrl.value;
+  let overType = overUrl.type;
+
+  if (queryObj.length > 0) {
+    if (overType == 'unchecked') {
+      let compareVal = overValue;
+      let compareName = overName;
+      let finalObj = [];
+      queryObj.find((el) => {
+
+        if (el.value != compareVal || el.key != compareName) {
+          finalObj.push(el);
+        }
       });
-        queryObj = finalObj;
-      }
-  
-      queryObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  outQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              outQueryUrl += `&${key}=${value}`;
-          }
-          if(i == queryObj.length - 1) {
-            if(overType == 'checked' || overType == 'categoryClicked') {
-              if(key != '') {
-                outQueryUrl += `&${overName}=${overValue}`;
-              } else {
-                outQueryUrl += `?${overName}=${overValue}`;
-              }
-            }
-          }
-      });
-    } else {
-      if(overValue != '') {
-        outQueryUrl += `?${overName}=${overValue}`;
-      }
+      queryObj = finalObj;
     }
-    
-    
-    return outQueryUrl;
+
+    queryObj.forEach((el, i) => {
+      let key = el.key;
+      let value = el.value;
+      if (i == 0) {
+        if (key != '') {
+          outQueryUrl += `?${key}=${value}`;
+        }
+      } else {
+        outQueryUrl += `&${key}=${value}`;
+      }
+      if (i == queryObj.length - 1) {
+        if (overType == 'checked' || overType == 'categoryClicked') {
+          if (key != '') {
+            outQueryUrl += `&${overName}=${overValue}`;
+          } else {
+            outQueryUrl += `?${overName}=${overValue}`;
+          }
+        }
+      }
+    });
+  } else {
+    if (overValue != '') {
+      outQueryUrl += `?${overName}=${overValue}`;
+    }
+  }
+
+
+  return outQueryUrl;
 }
-document.querySelectorAll(".clickCategory").forEach(function(event) {
-  event.addEventListener('click', function() {
+document.querySelectorAll(".clickCategory").forEach(function (event) {
+  event.addEventListener('click', function () {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
-    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
 
-if(document.querySelectorAll('.serviceCategory')) {
-  document.querySelectorAll(".serviceCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.serviceCategory')) {
+  document.querySelectorAll(".serviceCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'serviceCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -816,20 +821,21 @@ if(document.querySelectorAll('.serviceCategory')) {
 
       let finalObj = [];
       urlObj.find((el) => {
-      if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+        if (el.key !== 'serviceCategories') { finalObj.push(el); }
+      });
       urlObj = finalObj;
-      urlObj.push({"key":"serviceCategories","value":filterValue});
+      urlObj.push({ "key": "serviceCategories", "value": filterValue });
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
-if(document.querySelectorAll('.parentCategory')) {
-  document.querySelectorAll(".parentCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.parentCategory')) {
+  document.querySelectorAll(".parentCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'parentCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -837,303 +843,304 @@ if(document.querySelectorAll('.parentCategory')) {
       urlObj = tune(urlObj);
 
       let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-      if(condtionParentCat === undefined) {
+      if (condtionParentCat === undefined) {
         let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-        urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-        urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+        urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       } else {
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       }
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
 function titleCase(str) {
-  return str.toLowerCase().split(' ').map(function(word) {
+  return str.toLowerCase().split(' ').map(function (word) {
     return word.replace(word[0], word[0].toUpperCase());
   }).join(' ');
 }
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
-  var urlparts= url.split('?');   
-  if (urlparts.length>=2) {
+  var urlparts = url.split('?');
+  if (urlparts.length >= 2) {
 
-      var prefix= encodeURIComponent(parameter)+'=';
-      var pars= urlparts[1].split(/[&;]/g);
+    var prefix = encodeURIComponent(parameter) + '=';
+    var pars = urlparts[1].split(/[&;]/g);
 
-      //reverse iteration as may be destructive
-      for (var i= pars.length; i-- > 0;) {    
-          //idiom for string.startsWith
-          if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
-              pars.splice(i, 1);
-          }
+    //reverse iteration as may be destructive
+    for (var i = pars.length; i-- > 0;) {
+      //idiom for string.startsWith
+      if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+        pars.splice(i, 1);
       }
+    }
 
-      url= urlparts[0]+'?'+pars.join('&');
-      return url;
+    url = urlparts[0] + '?' + pars.join('&');
+    return url;
   } else {
-      return url;
+    return url;
   }
 }
 
-document.querySelectorAll(".g13Check").forEach(function(event) {
-    event.addEventListener('change', function(event) {
-      let eventFilterType;
-      let filterName = this.getAttribute('name');//$(this).attr("name");
-      let filterValue = this.getAttribute('value');//$(this).attr("value");
-      if(this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
-      let urlParams=removeURLParameter(document.location.search, 'page');
-      let urlObj = parseQueryG13(urlParams);
-      urlObj = tune(urlObj);
-      let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
-      //url change
-      const baseSearchUrl = '/g-cloud/search';
-      window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
-      
-      
-      // document.getElementById('searchResultsContainer').innerHTML = '';
-      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-      document.getElementById('paginationContainer').innerHTML = '';
-      let slist = document.querySelector('.govuk-grid-sresult-right');
-      slist.classList.add('loadingres')
-      $('#criteriasavebtn').prop('disabled',true);
-      const baseAPIUrl = '/g-cloud/search-api';
-      $.ajax({
-          url: `${baseAPIUrl}${finalTriggerUrl}`,
-          type: "GET",
-          contentType: "application/json",
-      }).done(function (result) {
-       
-        $('#criteriasavebtn').prop('disabled',false);
-        $('#criteriasavebtn').removeClass('govuk-button--disabled');
-        $("#clearfilter").attr("href", result.clearFilterURL);
-        if(result.data.meta.total > 0) {
-          slist.classList.remove('loadingres')
-          getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-                
+document.querySelectorAll(".g13Check").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    let eventFilterType;
+    let filterName = this.getAttribute('name');//$(this).attr("name");
+    let filterValue = this.getAttribute('value');//$(this).attr("value");
+    if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+    let urlParams = removeURLParameter(document.location.search, 'page');
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+    //url change
+    const baseSearchUrl = '/g-cloud/search';
+    window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
 
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
-            mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
-            mainLothtml += '<strong>All Categories</strong>'
-            mainLothtml += '<ul class="govuk-list">'
-            result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
-            })
-            mainLothtml +='</ul>'
-          } 
 
-            if(result.njkDatas.haveLot){
-            mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
+    // document.getElementById('searchResultsContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('paginationContainer').innerHTML = '';
+    let slist = document.querySelector('.govuk-grid-sresult-right');
+    slist.classList.add('loadingres')
+    $('#criteriasavebtn').prop('disabled', true);
+    const baseAPIUrl = '/g-cloud/search-api';
+    $.ajax({
+      url: `${baseAPIUrl}${finalTriggerUrl}`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
+
+      $('#criteriasavebtn').prop('disabled', false);
+      $('#criteriasavebtn').removeClass('govuk-button--disabled');
+      $("#clearfilter").attr("href", result.clearFilterURL);
+      if (result.data.meta.total > 0) {
+        slist.classList.remove('loadingres')
+        getCriterianDetails(result.data.meta.total);
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+
+        var mainLothtml = '';
+        if (result.njkDatas.haveLot) {
+          mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+        } else {
+          mainLothtml += '<strong>All Categories</strong>'
+          mainLothtml += '<ul class="govuk-list">'
+          result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+            mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          })
+          mainLothtml += '</ul>'
+        }
+
+        if (result.njkDatas.haveLot) {
+          mainLothtml += '<ul class="govuk-list">'
+          if (result.njkDatas.haveserviceCategory) {
+            mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+          } else {
+            mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+          }
+          if (result.njkDatas.lotInfos.currentparentCategory) {
+            mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+          }
+
+          mainLothtml += '<li>';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          result.njkDatas.lotInfos.subservices.forEach(subservice => {
+            if (subservice.childrenssts) {
+              if (result.njkDatas.lotInfos.currentparentCategory) {
+                mainLothtml += '<li>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                    mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                  } else {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  }
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
+              } else {
+                mainLothtml += '<li>';
+                mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  var childVal = child.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
               }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
-
-            mainLothtml += '<li>';
-            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-            result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
-                } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
-                }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
               mainLothtml += '</li>';
-              mainLothtml += '</ul>';
-          }
-          document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+            } else {
 
-          });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
-          document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
-
-          var paginationHtml = ''
-          paginationHtml += '<div class="govuk-grid-row">';
-          paginationHtml += '<div class="govuk-grid-column-full">';
-          paginationHtml += '<div class="govuk-grid-column-one-half">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-              paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-              paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
-              paginationHtml += '</svg>';
-              paginationHtml += 'Previous Page</a>';
-              paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+              } else {
+                if (subservice.name !== 'supportMultiCloud') {
+                  var subserviceValue = subservice.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                }
+              }
             }
+          });
+          mainLothtml += '</ul>';
+          mainLothtml += '</ul>';
+          mainLothtml += '</li>';
+          mainLothtml += '</ul>';
+        }
+        document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+
+        var searchresultshtml = '';
+        searchresultshtml += '<div class="govuk-grid-row">';
+        searchresultshtml += '<div class="govuk-grid-column-full">';
+        searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+        result.data.documents.forEach(element => {
+          searchresultshtml += '<li class="app-search-result">'
+            + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+            + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+            + '</h2>'
+            + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+            + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+            + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+            + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+            + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+            + '</ul>'
+            + '</li>';
+
+        });
+        searchresultshtml += '<div>';
+        searchresultshtml += '<div>';
+        searchresultshtml += '<ul>';
+        document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+        var paginationHtml = ''
+        paginationHtml += '<div class="govuk-grid-row">';
+        paginationHtml += '<div class="govuk-grid-column-full">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.PrvePageUrl != '') {
+          if (result.njkDatas.CurrentPageNumber != 1) {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Previous Page</a>';
+            paginationHtml += '</p>';
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
           }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-  
-          paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+
+        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.NextPageUrl != '') {
           paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
           paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
           paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
           paginationHtml += '</svg>';
           paginationHtml += 'Next Page</a>';
           paginationHtml += '</p>';
-          }
-          //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
-          slist.classList.remove('loadingres')
-          getCriterianDetails(0);
-          document.getElementById('searchResultsContainer').innerHTML = '';
-          
-         
-
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
-          var Noresulthtml = '';
-          Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-          Noresulthtml += '</li>removing filters</li><br>';
-          Noresulthtml += '</li>choosing a different category</li><br>';
-          Noresulthtml += '</li>double-checking your spelling</li><br>';
-          Noresulthtml += '</li>using fewer keywords</li><br>';
-          Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
-          Noresulthtml += '</ul>';
-          Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
         }
+        //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+        if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        } else {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      } else {
+        $('#criteriasavebtn').prop('disabled', true);
+        slist.classList.remove('loadingres')
+        getCriterianDetails(0);
+        document.getElementById('searchResultsContainer').innerHTML = '';
 
-        loadQuerySelector();
-        
-      }).fail((res) => {
-          // let div_email = document.getElementById('eoi-lead-email');
-          // div_email.innerText = '';
-      })
 
-     // window.location.href = `${baseUrl}${finalTriggerUrl}`;
-    });
+
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+        var Noresulthtml = '';
+        Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+        Noresulthtml += '</li>removing filters</li><br>';
+        Noresulthtml += '</li>choosing a different category</li><br>';
+        Noresulthtml += '</li>double-checking your spelling</li><br>';
+        Noresulthtml += '</li>using fewer keywords</li><br>';
+        Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+        Noresulthtml += '</ul>';
+        Noresulthtml += '</ul>';
+        document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
+      }
+
+      loadQuerySelector();
+
+    }).fail((res) => {
+      // let div_email = document.getElementById('eoi-lead-email');
+      // div_email.innerText = '';
+    })
+
+    // window.location.href = `${baseUrl}${finalTriggerUrl}`;
+  });
 });
 
 window.addEventListener('DOMContentLoaded', (event) => {
-  
-  if(document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
-  
+
+  if (document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
+
   let criteriasavebtn = document.getElementById('criteriasavebtn');
-  if(criteriasavebtn){
-    criteriasavebtn.addEventListener('click',function (e) {
-      if(document.getElementById('searchQuery')){
+  if (criteriasavebtn) {
+    criteriasavebtn.addEventListener('click', function (e) {
+      if (document.getElementById('searchQuery')) {
         document.getElementById('searchQuery').value = window.location.search;
       }
     })
   }
 
   document.querySelectorAll(".paginationUrlClass").forEach(el => {
-    el.addEventListener('click',function (e) {
+    el.addEventListener('click', function (e) {
       let searchQueryUrl = "";
-      let searchValue  = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
+      let searchValue = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
-        window.location.href = `${baseUrl}${searchQueryUrl}`;
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
+      window.location.href = `${baseUrl}${searchQueryUrl}`;
     });
   });
 
@@ -1143,12 +1150,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
+
   }
 
   var Searchinput = document.getElementsByClassName("g13_search")[0];
-  if(Searchinput){
-    Searchinput.addEventListener("keypress", function(event) {
+  if (Searchinput) {
+    Searchinput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         document.getElementsByClassName("g13_search_click")[0].click();
@@ -1156,157 +1163,157 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  
-  if(document.querySelector(".g13_search_click")){
 
-    document.querySelector(".g13_search_click").addEventListener('click', function() {
+  if (document.querySelector(".g13_search_click")) {
+
+    document.querySelector(".g13_search_click").addEventListener('click', function () {
       removeErrorFieldsEoiTerms();
       let searchQueryUrl = "";
       document.getElementById('searchQuery').value = window.location.search;
-      let searchValue  = document.getElementsByClassName("g13_search");
+      let searchValue = document.getElementsByClassName("g13_search");
       let definition_field = document.getElementById("with-hint");
-      if(searchValue[0].value.length > 250){
+      if (searchValue[0].value.length > 250) {
         ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
         return false;
       }
-      let urlParams=removeURLParameter(document.location.search, 'page');
+      let urlParams = removeURLParameter(document.location.search, 'page');
       let urlObj = parseQueryG13(urlParams);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue[0].value.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue[0].value) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
 
-        //url change
-        const baseSearchUrl = '/g-cloud/search';
-        window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${searchQueryUrl}`);
-  
-        document.getElementById('searchResultsContainer').innerHTML = '';
-        document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-        document.getElementById('paginationContainer').innerHTML = '';
-        const baseAPIUrl = '/g-cloud/search-api';
-        let slist = document.querySelector('#searchResultsContainer');
-        slist.classList.add('loadingres')
-        $('#criteriasavebtn').prop('disabled',true);
-         $.ajax({
-             url: `${baseAPIUrl}${searchQueryUrl}`,
-             type: "GET",
-             contentType: "application/json",
-         }).done(function (result) {
-          $('#criteriasavebtn').prop('disabled',false);
-          $('#criteriasavebtn').removeClass('govuk-button--disabled');
-          $("#clearfilter").attr("href", result.clearFilterURL);
-          if(result.data.meta.total > 0) {
-            slist.classList.remove('loadingres')
-            getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-            
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
+      //url change
+      const baseSearchUrl = '/g-cloud/search';
+      window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
+
+      document.getElementById('searchResultsContainer').innerHTML = '';
+      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('paginationContainer').innerHTML = '';
+      const baseAPIUrl = '/g-cloud/search-api';
+      let slist = document.querySelector('#searchResultsContainer');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled', true);
+      $.ajax({
+        url: `${baseAPIUrl}${searchQueryUrl}`,
+        type: "GET",
+        contentType: "application/json",
+      }).done(function (result) {
+        $('#criteriasavebtn').prop('disabled', false);
+        $('#criteriasavebtn').removeClass('govuk-button--disabled');
+        $("#clearfilter").attr("href", result.clearFilterURL);
+        if (result.data.meta.total > 0) {
+          slist.classList.remove('loadingres')
+          getCriterianDetails(result.data.meta.total);
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+          var mainLothtml = '';
+          if (result.njkDatas.haveLot) {
             mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
+          } else {
             mainLothtml += '<strong>All Categories</strong>'
             mainLothtml += '<ul class="govuk-list">'
             result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
+              mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
             })
-            mainLothtml +='</ul>'
-          } 
+            mainLothtml += '</ul>'
+          }
 
-            if(result.njkDatas.haveLot){
+          if (result.njkDatas.haveLot) {
             mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
-              }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
+            if (result.njkDatas.haveserviceCategory) {
+              mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+            } else {
+              mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+            }
+            if (result.njkDatas.lotInfos.currentparentCategory) {
+              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+            }
 
             mainLothtml += '<li>';
             mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
             result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
+              if (subservice.childrenssts) {
+                if (result.njkDatas.lotInfos.currentparentCategory) {
+                  mainLothtml += '<li>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                      mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                    } else {
+                      var childVal = child.value.split(' ').join('+');
+                      mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                    }
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
+                  mainLothtml += '<li>';
+                  mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
-              mainLothtml += '</li>';
-              mainLothtml += '</ul>';
+                mainLothtml += '</li>';
+              } else {
+
+                if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                  mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+                } else {
+                  if (subservice.name !== 'supportMultiCloud') {
+                    var subserviceValue = subservice.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                  }
+                }
+              }
+            });
+            mainLothtml += '</ul>';
+            mainLothtml += '</ul>';
+            mainLothtml += '</li>';
+            mainLothtml += '</ul>';
           }
           document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+
+          var searchresultshtml = '';
+          searchresultshtml += '<div class="govuk-grid-row">';
+          searchresultshtml += '<div class="govuk-grid-column-full">';
+          searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+          result.data.documents.forEach(element => {
+            searchresultshtml += '<li class="app-search-result">'
+              + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+              + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+              + '</h2>'
+              + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+              + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+              + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+              + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+              + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+              + '</ul>'
+              + '</li>';
 
           });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<ul>';
           document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
 
           var paginationHtml = ''
@@ -1315,50 +1322,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
           paginationHtml += '<div class="govuk-grid-column-one-half">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
+          if (result.njkDatas.PrvePageUrl != '') {
+            if (result.njkDatas.CurrentPageNumber != 1) {
               paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+              paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
               paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
               paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
               paginationHtml += '</svg>';
               paginationHtml += 'Previous Page</a>';
               paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
             }
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
-  
+
           paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
-          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
-          paginationHtml += '</svg>';
-          paginationHtml += 'Next Page</a>';
-          paginationHtml += '</p>';
-        }
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          if (result.njkDatas.NextPageUrl != '') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Next Page</a>';
+            paginationHtml += '</p>';
+          }
+          if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+          } else {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
+        } else {
+          $('#criteriasavebtn').prop('disabled', true);
           document.getElementById('searchResultsContainer').innerHTML = '';
           getCriterianDetails(0);
           slist.classList.remove('loadingres')
-          
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
+
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
           var Noresulthtml = '';
           Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
           Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
@@ -1370,166 +1377,168 @@ window.addEventListener('DOMContentLoaded', (event) => {
           Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
           Noresulthtml += '</ul>';
           Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
+          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
         }
         loadQuerySelector();
-         }).fail((res) => {
-         })
+      }).fail((res) => {
+      })
     });
   }
 });
 
 
-function loadQuerySelector(){
-  document.querySelectorAll(".clickCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+function loadQuerySelector() {
+  document.querySelectorAll(".clickCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'categoryClicked';
       let filterName = this.getAttribute("data-name");
       let filterValue = this.getAttribute("data-value");
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
-  
-  if(document.querySelectorAll('.serviceCategory')) {
-    document.querySelectorAll(".serviceCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.serviceCategory')) {
+    document.querySelectorAll(".serviceCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'serviceCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
-  
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
-  
-  if(document.querySelectorAll('.parentCategory')) {
-    document.querySelectorAll(".parentCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.parentCategory')) {
+    document.querySelectorAll(".parentCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'parentCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-        if(condtionParentCat === undefined) {
+        if (condtionParentCat === undefined) {
           let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-          urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-          urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+          urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         } else {
           let finalObj = [];
           urlObj.find((el) => {
-          if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+            if (el.key !== 'serviceCategories') { finalObj.push(el); }
+          });
           urlObj = finalObj;
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         }
-  
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
 }
 
-document.addEventListener('readystatechange', event => { 
+document.addEventListener('readystatechange', event => {
   if (event.target.readyState === "complete") {
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      queryParamObj.forEach((el, i) => {
-        console.log(el);
-        //Search
-        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
-        $('.g13Check').each(function(){
-          if($(this).attr('name') == el.key && $(this).val() == el.value){
-            $(this).attr("checked", "checked");
-          }
-        });
-      });
-// total results
-      var totalResult=$('#totalResult').attr('data-value');
+    let queryParamObj = parseQueryG13(document.location.search);
+    queryParamObj = tune(queryParamObj);
 
-      getCriterianDetails(totalResult);
-     
+    queryParamObj.forEach((el, i) => {
+      console.log(el);
+      //Search
+      if (el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
+      $('.g13Check').each(function () {
+        if ($(this).attr('name') == el.key && $(this).val() == el.value) {
+          $(this).attr("checked", "checked");
+        }
+      });
+    });
+    // total results
+    var totalResult = $('#totalResult').attr('data-value');
+
+    getCriterianDetails(totalResult);
+
   }
 });
 
-function getCriterianDetails(totalresult=0){
-  
+function getCriterianDetails(totalresult = 0) {
+
 
   let rows_selected = [];
-        $(".g13Check:checked").each(function(){
-          var $this = $(this);
-          rows_selected.push({
-            title:$this.attr('data-title'),
-            name: $this.attr('data-name'),
-            });
-       });
+  $(".g13Check:checked").each(function () {
+    var $this = $(this);
+    rows_selected.push({
+      title: $this.attr('data-title'),
+      name: $this.attr('data-name'),
+    });
+  });
 
-       const groupBy = (array, key) => {
-        return array.reduce((result, currentValue) => {
-          (result[currentValue[key]] = result[currentValue[key]] || []).push(
-            currentValue
-          );
-          return result;
-        }, {}); 
-      };
-      const criteria = groupBy(rows_selected, 'title');
-      let criteriaDetails='<b class="govuk-!-font-size-48">'+totalresult+'</b> results found';
+  const groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue
+      );
+      return result;
+    }, {});
+  };
+  const criteria = groupBy(rows_selected, 'title');
+  let criteriaDetails = '<b class="govuk-!-font-size-48">' + totalresult + '</b> results found';
 
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      
-       let search = queryParamObj.filter(el => el.key === 'q');
-       if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
-       }
-     
-       let lot = queryParamObj.filter(el => el.key === 'lot');
-       if(lot.length > 0){
-        criteriaDetails +=' in <b>'+ capitalize(lot[0].value.replace("-", " ")) +'</b>';
-       }else{
-        criteriaDetails +=' in <b>All Categories</b>';
-       }
+  let queryParamObj = parseQueryG13(document.location.search);
+  queryParamObj = tune(queryParamObj);
 
-       let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
-       if(serviceCategories.length > 0){
-        criteriaDetails +=' in the category <b>'+ capitalize(serviceCategories[0].value.replace("+", " ")) +'</b>';
-       }
-       
 
-      Object.keys(criteria).forEach(key => {
-        if(key !==undefined){
-          criteriaDetails +=', where <b>'+ capitalize(key) +'</b> is ';
-          let values=[];
-          for (let index = 0; index < criteria[key].length; index++) {
-            values.push('<b>'+capitalize(criteria[key][index].name)+'</b>');
-          }
-          criteriaDetails +=values.join(" and ");
+  let search = queryParamObj.filter(el => el.key === 'q');
+  if (search.length > 0) {
+    criteriaDetails += ' containing <b>' + decodeURIComponent(search[0].value) + '</b>';
+  }
 
-        }
-      });
-      $('#criteriandetails').html(criteriaDetails);
-      $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48','govuk-!-font-size-24'));
-      
-      
+  let lot = queryParamObj.filter(el => el.key === 'lot');
+  if (lot.length > 0) {
+    criteriaDetails += ' in <b>' + capitalize(lot[0].value.replace("-", " ")) + '</b>';
+  } else {
+    criteriaDetails += ' in <b>All Categories</b>';
+  }
+
+  let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
+  if (serviceCategories.length > 0) {
+    criteriaDetails += ' in the category <b>' + capitalize(serviceCategories[0].value.replace("+", " ")) + '</b>';
+  }
+
+
+  Object.keys(criteria).forEach(key => {
+    if (key !== undefined) {
+      criteriaDetails += ', where <b>' + capitalize(key) + '</b> is ';
+      let values = [];
+      for (let index = 0; index < criteria[key].length; index++) {
+        values.push('<b>' + capitalize(criteria[key][index].name) + '</b>');
+      }
+      criteriaDetails += values.join(" and ");
+
+    }
+  });
+  $('#criteriandetails').html(criteriaDetails);
+  $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48', 'govuk-!-font-size-24'));
+
+
 }
 
 const capitalize = (s) => {
@@ -1538,42 +1547,40 @@ const capitalize = (s) => {
 }
 
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-event.addEventListener('change', function(event) {
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
-  })
-
-  var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-    return this.value;
     }).get().join(', ');
     $('#invite_suppliers').val(evaluateSupplier);
+  })
+
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
 })
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-  event.addEventListener('change', function(event) {
-      var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-        return this.value;
-        }).get().join(', ');
-        $('#invite_suppliers').val(evaluateSupplier);
-    })
-  
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
+    }).get().join(', ');
+    $('#invite_suppliers').val(evaluateSupplier);
   })
-  
 
-  document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function(event) {
-    event.addEventListener('click', function(event) {
-      document.getElementById("invite_short_list_suppliers").submit();
-      })
-    
-     
-    })
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
+})
+
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
 
     //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
@@ -1584,69 +1591,120 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
       });
     });
 
-    document.querySelectorAll(".download").forEach(function(event) {
-      event.addEventListener('click', function(event) {   
-        var $this = $(this);
-        var url=$this.attr('data-url');
-        $.ajax({
-            url: url,
-            type: "GET",
-            contentType: "application/json",
-            xhrFields: {
-                responseType: 'blob' // to avoid binary data being mangled on charset conversion
-            },
-            beforeSend: function(){
-              var bodytg = document.body;
-              bodytg.classList.add("pageblur");
-            },
-           success: function(blob, status, xhr) {
-            // check for a filename
-            var bodytg = document.body;
-              bodytg.classList.remove("pageblur");
-            var filename = "";
-            var disposition = xhr.getResponseHeader('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                var matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-            }
-            if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                window.navigator.msSaveBlob(blob, filename);
-            } else {
-                var URL = window.URL || window.webkitURL;
-                var downloadUrl = URL.createObjectURL(blob);
-                if (filename) {
-                    // use HTML5 a[download] attribute to specify filename
-                    var a = document.createElement("a");
-                    // safari doesn't support this yet
-                    if (typeof a.download === 'undefined') {
-                        window.location.href = downloadUrl;
-                    } else {
-                        a.href = downloadUrl;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                    }
-                } else {
-                    window.location.href = downloadUrl;
-                }
-    
-                setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          var bodytg = document.body;
-          bodytg.classList.remove("pageblur");
-          // console.log(jqXHR.status)
+document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    document.getElementById("invite_short_list_suppliers").submit();
+  })
+})
+
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+document.querySelectorAll(".download").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    var $this = $(this);
+    var url = $this.attr('data-url');
+    $.ajax({
+      url: url,
+      type: "GET",
+      contentType: "application/json",
+      xhrFields: {
+        responseType: 'blob' // to avoid binary data being mangled on charset conversion
+      },
+      beforeSend: function () {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      },
+      success: function (blob, status, xhr) {
+        // check for a filename
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        var filename = "";
+        var disposition = xhr.getResponseHeader('Content-Disposition');
+        if (disposition && disposition.indexOf('attachment') !== -1) {
+          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+          var matches = filenameRegex.exec(disposition);
+          if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
         }
+        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+          window.navigator.msSaveBlob(blob, filename);
+        } else {
+          var URL = window.URL || window.webkitURL;
+          var downloadUrl = URL.createObjectURL(blob);
+          if (filename) {
+            // use HTML5 a[download] attribute to specify filename
+            var a = document.createElement("a");
+            // safari doesn't support this yet
+            if (typeof a.download === 'undefined') {
+              window.location.href = downloadUrl;
+            } else {
+              a.href = downloadUrl;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+            }
+          } else {
+            window.location.href = downloadUrl;
+          }
+          
+          setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        // console.log(jqXHR.status)
+      }
 
 
-          });
-       })
-  });
+    });
+  })
+});
 
-
+/**
+ * Find the supplier with the highest score, and if a low score supplier is chosen, show the popup and obtain buyer confirmation.
+ */
+if (document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function (event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function () {
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      let supplier = document.querySelector(`[data-type="supplierName_${supplierId}"]`);
+      let score = this.getAttribute('data-value');
+      if (score < maxScore) {
+        showSuppliersAwardPopup(supplier.textContent, redirectUrl)
+      } else {
+        window.location.href = redirectUrl;
+      }
+    })
+  })
+}
 
 
 

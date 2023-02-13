@@ -89,6 +89,9 @@ href: "#ccs_rfi_publish_form"
 }) }}
     {% endif %}
 
+
+    
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -238,7 +241,7 @@ Change<span class="govuk-visually-hidden"> rfi team members</span>
             <dd class="govuk-summary-list__value"></dd>
             <dd class="govuk-summary-list__actions"></dd>
           </div>
-{% if agreementId_session == "RM1557.13" %}  
+{% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}  
           <div class="govuk-summary-list__row">
 <dt class="govuk-summary-list__key">
   <p class="govuk-body">
@@ -285,7 +288,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
           {%for item in rfi_data%}
             {% if (item.title == "Who the buying organization is") or(item.title == "Who the buying organization is (Optional)") or (item.title == "Who the organisation using the products or services is") %}
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-              <dt class="govuk-summary-list__key">
+              <dt class="govuk-body govuk-summary-list__key">
                 <strong>The buying organisation (optional)</strong>
               </dt>
               <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -398,11 +401,9 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                       <div>
                         <h2 class="govuk-heading-m">
-                          {% if agreementId_session == 'RM6187' %}
+                          
                               3. Review your RfI
-                          {% else %}
-                              3. Review and publish your RfI
-                          {% endif %}
+                          
                         </h2>
                         <dl class="govuk-summary-list">
 
@@ -427,10 +428,7 @@ Upload documents
                                 <ul class="govuk-list govuk-list--none">
                                   {% for document in documents%}
                                     <li>
-                                      <span>Uploaded file: &nbsp;</span>
-                                      <a href="/rfi/upload-doc">
-                                        {{ document }}
-                                      </a>
+                                      <p class="govuk-body">Uploaded file: &nbsp;<a href="/rfi/upload-doc" class="govuk-link">{{ document }}</a></p>
                                     </li>
 
                                     {%endfor%}

@@ -339,14 +339,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      
+
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
-
-      if (fetchData.data != undefined) {
+      if (fetchData?.data != undefined) {
         qasCount = fetchData.data.QandA;
         qasCount = qasCount.length;
       }
+     
     }
 
       let showCloseProject = true;
@@ -880,7 +880,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
          
           if (status.toLowerCase() == "pre-award") {
-            
+
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
@@ -1675,8 +1675,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
             const appendData: any = {
               releatedContent: releatedContent,
               supplierData,
-              eventId
-              
+              eventId,
+              agreementId_session,
+              lotid
             };
              
               //CAS-INFO-LOG 
@@ -1789,7 +1790,6 @@ export const START_EVALUATION_REDIRECT = async (req: express.Request, res: expre
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId } = req.session;
   try {
-
     async function GetEventStatusApis() {
       const baseurl = `/tenders/projects/${projectId}/events`;
       const rawData = await TenderApi.Instance(SESSION_ID).get(baseurl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 10000)));
@@ -1823,4 +1823,3 @@ export const START_EVALUATION_REDIRECT = async (req: express.Request, res: expre
       );
   }
 }
-

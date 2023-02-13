@@ -4557,6 +4557,10 @@ p + .govuk-heading-s,
   background-color: #1d70b8;
 }
 
+.ccs-page-section-btop {
+  border-top: 1px solid #b1b4b6;
+}
+
 @media print {
   .govuk-notification-banner {
     font-family: sans-serif;
@@ -5042,6 +5046,11 @@ display: inline-block;
   overflow: hidden;
   height: 100%;
 }
+
+.loader-container.loader-block {
+display: flex;
+}
+
 .pageblur .loader-container {
   display: flex;
 }

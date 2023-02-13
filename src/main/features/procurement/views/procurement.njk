@@ -30,7 +30,9 @@
             <div class="govuk-grid-row govuk-!-margin-bottom-6">
             <div class="govuk-grid-column-full">
                <p class="govuk-body">{{line1| safe}}</p>
+                {% if agreementId_session != 'RM1043.8' and agreementId_session != 'RM6187' and agreementId_session != 'RM1557.13' %}
                <p class="govuk-body">{{line2| safe}}</p>
+                {% endif %}
                {% if (agreementId_session == 'RM6187') %}
                   <p class="govuk-body">Check the terms and conditions for this lot within the <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='//www.crowncommercial.gov.uk/agreements/RM6187'>documents area</a> of the MCF3 agreement page.</p>
                {% else %}
@@ -208,7 +210,7 @@
           </p>
         </div>
             {% else %}
-                  {{ CCSReleatedContent(releatedContent) }}
+               {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
             {% endif %}
             
          </div>

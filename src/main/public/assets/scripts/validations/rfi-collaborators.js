@@ -2,6 +2,7 @@ $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfi_collaborators').on('change', function () {
   let id = this.value;
@@ -16,6 +17,8 @@ $('#rfi_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
+
+      $('#potential-collaborator').show()
 
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)

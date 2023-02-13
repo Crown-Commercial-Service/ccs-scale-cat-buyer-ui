@@ -57,13 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorStore.push(percentageCheck)
                     }
                 }
+                else if(urlParamsData.get('agreement_id') == 'RM1557.13' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 4' || urlParamsData.get('group_id') == 'Group 6') && urlParamsData.get('section') == 5){
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
+                }
                 else{
-                errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
-            $('#totalPercentage').html(weightageSum);
-            $('#totalPercentageDown').html(weightageSum);
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
+                $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+            }else{
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
+            }
         };
         
         textboxelements.forEach(ele => {
@@ -85,10 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const totalAnswerd = () => {
+            let qCount = $('.order_1').filter(function() {
+                return this.value !== '';
+            }).length;
+            
             $('#questionsCount').html(
-                $('.order_1').filter(function() {
-                    return this.value !== '';
-                }).length,
+                qCount === 0? 'X' : qCount,
             );
         };
         
@@ -422,8 +432,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
-                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){  
-                   document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
+                    if(document.getElementById("del_fc_question_" + box_num)){
+                       document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    }
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
                     
@@ -484,7 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -494,8 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-           
-              
+                  
            let rootEl = document.getElementById('fc_question_' + textboxCount);
            
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19 && with_value_count == 20){
@@ -520,7 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && errorStore.length !=0){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
-           
+          
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {
 
          if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
@@ -534,6 +553,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
          var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
         errorStore.push(percentageCheck)
+        if(percentageCheck){
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+        }
             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
@@ -556,6 +578,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                     errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                        }
                     // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                 } else if (textboxCount == (withValue-1)) {
 
@@ -679,11 +704,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             // removeErrorFieldsRfpScoreQuestion();
                             errorStore = emptyQuestionFieldCheckRfp();
                             let count =1;
-                    if(textboxCount >0){
-                      count = textboxCount;
+                            if(textboxCount >0){
+                              count = textboxCount;
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
+
+                            if(percentageCheck){
+                                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                            }
+
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -755,8 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
 
-
-                if(textboxCount <= 20){
+                if(textboxCount <= total_countva){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
                             if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
@@ -838,6 +867,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
+                
+                // if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+                //   with_value_count = with_value_count;
+                // }
+                // if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                //   with_value_count = total_countva;
+                // }
+                if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
+                    with_value_count = 5;
+                }
+                if(agreement_id_Default == "RM1043.8" ){
+                    let termvalue = document.getElementById('fc_question_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                        if(with_value_count == 20){
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                          // document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                        }
+                        else{
+                        with_value_count++;
+                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+               
+                       
+                        if (document.getElementById("questionsCount") != undefined) {
+                            document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                        }
+                        document
+                            .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                            .classList.remove('ccs-dynaform-hidden');
+                        if (with_value_count === 20 ) {
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                        }
+                        }
+                      } 
+                      else{
                         document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
@@ -865,6 +929,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
+            }
+        }else{
+            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+            //Added this condation section 5 (step 43/44/45)
+
+            if (with_value_count > 2) {
+                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                // }else {
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                // }
+            }
+            if (document.getElementById("questionsCount") != undefined) {
+                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+            }
+            document
+                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                .classList.remove('ccs-dynaform-hidden');
+            //Add question set more than 5
+            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+            //   if (with_value_count === 5) {
+            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+            //     ccsZPresentErrorSummary(errorStore);
+            //     return;
+            //   }
+            // }
+            
+            with_value_count++;
+        }
+                
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
                     $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -952,10 +1047,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
-                $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
+                //$('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
@@ -1121,12 +1219,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                    
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                               
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
@@ -1424,13 +1524,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                    
                     }
-
-                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
+                    
+                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5){
+                     
+                    
                         if(urlParams.get('agreement_id') == 'RM1043.8'){
-                            if($('#fc_question_precenate_' + 1).val() != '' && $('#fc_question_precenate_' + 1).val() < 100){
-                                var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+                            if($('#fc_question_precenate_' + 1).val() == '' && $('#fc_question_precenate_' + 1).val() < 100){
+                                // var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
         
-                                errorStore.push(percentageCheck)
+                                // errorStore.push(percentageCheck)
+                                errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                                 }
                         }
                         else{
@@ -1472,17 +1575,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
            
-            
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
 
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 && errorStore.length == 0 ){
+                let weighttage_1 = $('#fc_question_precenate_' + 1).val();
+                if(textboxCount == 0 && weighttage_1 != '' && Number(weighttage_1) != 0 ){
+                    textboxCount = 1
+                }
+                
+                if($('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 ){
 
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
                 errorStore.push(percentageCheck)
+                }
+                else if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() == '' && Number($('#totalPercentage').text()) > 0 ){
+                    let textcount = textboxCount-1;
+                    var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textcount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
+                    errorStore.push(percentageCheck)
                 }
                 } else{
                      errorStore.push(["There is a problem", "The total weighting is less than 100% "]);

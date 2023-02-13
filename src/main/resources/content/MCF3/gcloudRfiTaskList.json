@@ -20,7 +20,7 @@
                 {
                     "Task": 2,
                     "link": "/rfi/procurement-lead",
-                    "title": "Change who will lead the project",
+                    "title": "Change who will lead your project",
                     "required": "optional",
                     "status": "optional"
                 },
@@ -36,7 +36,7 @@
         {
             "eventno": 2,
             "eventTitle": "Build your RfI",
-            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+            "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and ask for more detailed information about what suppliers can offer.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfi/type",
@@ -56,7 +56,7 @@
         {
             "eventno": 3,
             "eventTitle": "Review and publish your RfI",
-            "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your RfI.",
+            "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timetable (including how long suppliers have to ask questions and when you will respond by), and then publish your RfI.",
             "eventTask": [{
                     "Task": 1,
                     "title": "Upload documents ",
