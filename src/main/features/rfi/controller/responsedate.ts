@@ -148,7 +148,7 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
       let publishDate = new Date(timeline.publish);
       let newDate = new Date(questionNewDate);
 
-      if (newDate.setHours(0, 0, 0, 0) <= publishDate.setHours(0, 0, 0, 0)) {
+      if (newDate <= publishDate) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
