@@ -97,7 +97,17 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let deadline_period_for_clarification;
     let supplier_period_for_clarification;
     if (req.session.UIDate == null) {
-      const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+      
+     // const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+     const rfi_clarification_dateNew = new Date();
+     rfi_clarification_dateNew.setHours(predefinedDays.defaultEndingHour);
+     rfi_clarification_dateNew.setMinutes(predefinedDays.defaultEndingMinutes);
+    // const rfi_clarification_date = moment(new Date(rfi_clarification_dateNew), 'DD/MM/YYYY').format('DD MMMM YYYY,HH:mm');
+     let rfi_clarification_date= moment(
+      rfi_clarification_dateNew,
+      'DD/MM/YYYY, HH:mm',
+    ).format('DD MMMM YYYY, HH:mm'
+    )
       const clarification_period_end_date = new Date();
       const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
         }-${clarification_period_end_date.getFullYear()}`;
@@ -182,7 +192,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         appendData = { ...appendData, error: true, errorMessage: errorItem };
       } else {
         req.session.timeline = {};
-        req.session.timeline.publish = new Date();
+       
+        const newDatePublish = new Date();
+        newDatePublish.setHours(predefinedDays.defaultEndingHour);
+        newDatePublish.setMinutes(predefinedDays.defaultEndingMinutes);
+         req.session.timeline.publish = moment(new Date(newDatePublish), 'DD/MM/YYYY').format('DD MMMM YYYY,HH:mm');
+
+     
+     //const rfi_clarification_date = moment(new Date(rfi_clarification_dateNew), 'DD/MM/YYYY').format('DD MMMM YYYY');
+
+
         req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
         req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
         req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
@@ -194,7 +213,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     else {
       if (req.session.questionID == 'Question 2') {
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+       rfi_clarification_date = req.session.rfipublishdate 
+       // rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+     
         rfi_clarification_period_end = req.session.UIDate;
 
         // rfp_clarification_date =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -246,8 +267,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       else if (req.session.questionID == 'Question 3') {
 
         deadline_period_for_clarification_period = req.session.UIDate;
-
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_date = req.session.rfipublishdate 
+        //rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         //deadline_period_for_clarification_period =moment(req.session.deadlinepublishresponse,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -297,8 +318,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       else if (req.session.questionID == 'Question 4') {
 
         supplier_period_for_clarification_period = req.session.UIDate;
-
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_date = req.session.rfipublishdate 
+        //rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         //supplier_period_for_clarification_period =moment(req.session.supplierresponse,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -346,8 +367,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       }
       else if (req.session.questionID == 'Question 5') {
         supplier_dealine_for_clarification_period = req.session.UIDate;
-
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_date = req.session.rfipublishdate 
+       // rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
