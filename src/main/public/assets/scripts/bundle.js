@@ -15034,11 +15034,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
         let textboxelementsorder2 = document.querySelectorAll('.order_2');
-
+        let urlParamsData = new URLSearchParams(window.location.search);
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
-            let urlParamsData = new URLSearchParams(window.location.search);
+            
             //removeErrorFieldsRfpScoreQuestion();
             elements.forEach(el => {
                 weightageSum += isNaN(el.value) ? 0 : Number(el.value);
@@ -15093,10 +15093,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let qCount = $('.order_1').filter(function() {
                 return this.value !== '';
             }).length;
-            
-            $('#questionsCount').html(
-                qCount === 0? 'X' : qCount,
-            );
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#questionsCount').html(
+                    qCount === 0? 'X' : qCount,
+                );
+            }else{
+                $('#questionsCount').html(qCount);
+            }
         };
         
 
