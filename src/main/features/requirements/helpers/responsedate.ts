@@ -130,6 +130,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let rfp_clarification_endDate;
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
+    
     if(req.session.UIDate==null){
      ////////////////////////////////    1
       let rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
@@ -505,7 +506,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-     
+  
       res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 2'){ 
@@ -1642,6 +1643,7 @@ let appendData = {
 
     else if(req.session.questionID=='Question 12'){
     
+      
       let contract_signed_date=req.session.UIDate;
       rfp_clarification_date =req.session.rfppublishdate;
        // rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
@@ -1746,7 +1748,7 @@ let appendData = {
      if (errorTriggered) {
        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
-       req.session.timeline.expectedSignatureDate = expected_signature_date;
+       req.session.timeline.contractsigneddate = contract_signed_date;
      }
  
       //CAS-INFO-LOG
@@ -1862,7 +1864,7 @@ let appendData = {
      if (errorTriggered) {
        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
-       req.session.timeline.expectedSignatureDate = expected_signature_date;
+       req.session.timeline.supplierstartdate = supplier_start_date;
      }
      
      //CAS-INFO-LOG
