@@ -1736,7 +1736,7 @@ let appendData = {
      if (errorTriggered) {
        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
-       req.session.timeline.expectedSignatureDate = expected_signature_date;
+       req.session.timeline.contractsigneddate = contract_signed_date;
      }
  
       //CAS-INFO-LOG
@@ -1851,7 +1851,8 @@ let appendData = {
      if (errorTriggered) {
        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
-       req.session.timeline.expectedSignatureDate = expected_signature_date;
+      req.session.timeline.supplierstartdate = supplier_start_date;
+      // req.session.timeline.expectedSignatureDate = expected_signature_date;
      }
      
      //CAS-INFO-LOG
