@@ -978,6 +978,7 @@
                   {%if(agreement_id == 'RM1557.13') %}
                   {%if(requirement.OCDS.title === 'Social value weighting') %}
                     <p class="govuk-body">{{requirement.OCDS.description}}</p>
+                    <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} % - {{requirement.OCDS.maxValue.amount}} % </p>
                   {%endif%}
@@ -1244,7 +1245,7 @@
 
                 </div>
                 {% else %} 
-                {% if agreement_id == 'RM6187' and group_id == 'Group 4' %}
+                {% if (agreement_id == 'RM6187' or agreement_id == 'RM1557.13') and group_id == 'Group 4' %}
                 {{  CCSCharacterCount({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
