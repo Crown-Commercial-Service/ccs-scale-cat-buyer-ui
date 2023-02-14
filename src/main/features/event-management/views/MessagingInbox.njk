@@ -163,11 +163,16 @@
                         }) }}	
                     </div>	
                 {% else %}
+                {% if createdreply == 'true' %}	
+                        {% set ttiletext = 'Message sent ' %}
+                {% else %}
+                        {% set ttiletext = 'Message successfully sent ' %}
+                {% endif %}
                     <div class="govuk-grid-column-one-half">	
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	
                         type: "success",	
-                        titleText: "Message successfully sent"	
+                        titleText: ttiletext	
                         }) }}	
                     </div>	
                 {% endif %}
