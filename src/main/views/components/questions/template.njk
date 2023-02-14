@@ -1679,7 +1679,7 @@
                           {% endif %}
                           {% if (agreement_id == 'RM1043.8') %}
                               {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                  {% set explaintermtext = 'Explain the term or acronym' %}
+                                  {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
                               {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                                 {% else %}
@@ -1692,9 +1692,9 @@
                                     label: {
                                       text: explaintermtext
                                     },
-                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition",
                                     value: requirement.nonOCDS.options[0].text,
-                                    maxlength: 5000
+                                    maxlength: 10000
                                   })
                                 }}
                                 {% else %}
@@ -1702,12 +1702,11 @@
                                     name: "value",
                                     id: "rfp_term_definition_1",
                                     label: {
-                                      text: explaintermtext,
-                                      classes:"govuk-!-font-weight-bold"
+                                      text: explaintermtext
                                     },
-                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition",
                                     value: requirement.nonOCDS.options[0].text,
-                                    maxlength: 5000
+                                    maxlength: 10000
                                   })
                                 }}
                                 {% endif %}
@@ -1857,7 +1856,7 @@
                             {% endif %}
                             {% if (agreement_id == 'RM1043.8') %}
                             {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                {% set explaintermtext = 'Explain the term or acronym' %}
+                                {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
                             {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                               {% else %}
@@ -1870,9 +1869,9 @@
                                 label: {
                                   text: explaintermtext
                                 },
-                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition"+i,
                                 value: requirement.nonOCDS.options[i-1].text,
-                                maxlength:5000
+                                maxlength:10000
                               })
                             }}
                             {% else %}
@@ -1880,12 +1879,11 @@
                                 name: "value",
                                 id: "rfp_term_definition_"+i,
                                 label: {
-                                  text: explaintermtext,
-                                  classes: "govuk-!-font-weight-bold"
+                                  text: explaintermtext
                                 },
-                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition"+i,
                                 value: requirement.nonOCDS.options[i-1].text,
-                                maxlength:5000
+                                maxlength:10000
                               })
                             }}
                             {% endif %}
