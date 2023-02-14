@@ -34,6 +34,8 @@ $("#enter_evaluation").submit(function(){
     console.log("errorStore",errorStore);
   }
   if (errorStore.length === 0) {
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.forms["enter_evaluation"].submit();
   }else { ccsZPresentErrorSummary(errorStore);
   return false;

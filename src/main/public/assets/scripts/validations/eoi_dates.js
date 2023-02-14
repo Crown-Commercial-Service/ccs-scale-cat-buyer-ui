@@ -212,12 +212,12 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
 
         if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
+            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
             ccsZPresentErrorSummary(errorStore);
         }
         else if (getTimeOfFormDate < todayDate.getTime()) {

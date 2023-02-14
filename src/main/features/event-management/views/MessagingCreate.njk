@@ -11,7 +11,7 @@
   }
 ] %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' or agreementId == 'RM6187' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -24,7 +24,7 @@
     },
     {
       "text": "Your inbox",
-      "href": "/message/inbox?type=received"
+      "href": "/message/inbox?type=create"
     },
     {
       "text": "Message",
@@ -216,7 +216,7 @@
                 </div>
               {% else %}
                 <div class="govuk-form-group">
-                  <label class="govuk-label" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label" for="create_message_input">Your {{data.Message}}</label>
                   <textarea class="govuk-textarea govuk-js-character-count messagesendcount" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{message.create_message_input}}</textarea>
                 </div>
               {% endif %}
@@ -227,7 +227,7 @@
               
               {% if agreementId == 'RM6187' %}
                   {{ CCSButton({
-                      text: data.btnText,
+                      text: data.btnText2,
                       action:"submit",
                       classes:"btn-sendmsg"
                   })

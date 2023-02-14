@@ -401,6 +401,21 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
           data.form_name = 'rfp_singleselect_Dos';
       }
     }
+    if(agreement_id == "RM1043.8") {
+      if  (group_id === "Group 6" && (lotId == '1' || lotId == '3') && id === 'Criterion 3') {
+          data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+      if  (group_id === "Group 5" && lotId == '3' && id === 'Criterion 3') {
+        data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+      if  (group_id === "Group 2" && (lotId == '1' || lotId == '3')  && id === 'Criterion 3') {
+        data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+      if  (group_id === "Group 10" && lotId == '1' && id === 'Criterion 3') {
+        data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+
+    }
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
@@ -844,17 +859,18 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               }else{
                 const TAStorage = [];
                 let monetaryData = object_values[0];
-                
+               
                 let datas=[];
                 if (monetaryData != null && monetaryData.length > 0) {
                   if(Array.isArray(monetaryData)){
-                     
+                   
                   }else{
+                  
                     datas.push(monetaryData);
                     monetaryData=[];
                     monetaryData=datas;
                   }
-  
+                 
                   monetaryData.flat();
                   answerValueBody = {
                     nonOCDS: {
@@ -863,8 +879,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                       options: [{ value: monetaryData[i] == '' ? null : monetaryData[i], selected: true }],
                     },
                   };
-  
+                 
                 } else {
+                 
                   answerValueBody = {
                     nonOCDS: {
                       answered: true,
@@ -1076,11 +1093,19 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                       return x;
                     }
                   });
-                  answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [];
+                 
+                  if(agreement_id=='RM6187'){
+                    answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [{ value: null, selected: true }];
+                  }else{
+                    answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [];
+                  } 
+
+                  
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }
                   
+                 
                   const qData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                   //CAS-INFO-LOG
                   LoggTracer.infoLogger(qData, logConstant.questionUpdated, req);

@@ -100,7 +100,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -130,6 +129,8 @@ const showEvaluateSuppliersPopup = (event) => {
   $('#redirect-button-evaluatesuppliers').on('click', function () {
     deselect($('.dialog-close-evaluatesuppliers'));
     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.location.href="/evaluate-confirm"//scat-5013
       return false;
     
@@ -146,4 +147,24 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+  };
+
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    if ($(this).hasClass('selected')) {
+        deselect($(this));
+        $(".backdrop-evaluatesuppliers").fadeOut(200);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+      } else {
+        $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+        document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+        document.getElementById("suppliersName").innerHTML = suppliername;
+        $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+        $(this).addClass('selected');
+        $('.pop').slideFadeToggle();
+      }
   };

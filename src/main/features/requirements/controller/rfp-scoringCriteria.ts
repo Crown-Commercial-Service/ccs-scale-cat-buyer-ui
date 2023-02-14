@@ -95,7 +95,15 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    let titleText;
+    titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    if(agreementId_session == 'RM1043.8'){
+      if(nonOCDS.mandatory === false){
+        titleText = "How you will score supplier responses (Optional)";
+      }else{
+        titleText = "How you will score supplier responses";
+      }
+    }
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
@@ -252,6 +260,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
+      lotId:lotId,
       proc_id: projectId,
       event_id: eventId,
       group_id: group_id,

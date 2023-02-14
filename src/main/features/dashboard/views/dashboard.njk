@@ -120,7 +120,11 @@
                     {% else %} N/A {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-!-text-align-right">
-                    {{ event.activeEvent.status }}
+                    {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
+                      To Be Reviewed
+                    {% else %}
+                      {{ event.activeEvent.status }}
+                    {% endif %}
                   </td>
                 </tr>
               {% endfor %}
@@ -173,7 +177,12 @@
                     {% else %} N/A {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-!-text-align-right">
-                    {{ event.activeEvent.status }}
+                    {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
+                      To Be Reviewed
+                    {% else %}
+                      {{ event.activeEvent.status }}
+                    {% endif %}
+
                   </td>
                 </tr>
               {% endfor %}
@@ -214,7 +223,7 @@
       <div class="govuk-grid-column-full">
         {% if historicalEvents.length > 5 %}
           <table class="govuk-table" id="historical-data">
-            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
+            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{withOutPaEventsData.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection4_table_th_1}}</th>
@@ -267,7 +276,7 @@
           </p>-->
         {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
           <table class="govuk-table">
-            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
+            <caption class="govuk-table__caption govuk-heading-m"> {{data.subsection4_title}} ({{withOutPaEventsData.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection4_table_th_1}}</th>

@@ -54,6 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
                     removeErrorFieldsRfp1();
+                    let termvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                    if(with_value_count == 20){
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    else{
+                    with_value_count++;
+                    document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+                    if (with_value_count === 20 ) {
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    }
+                  }
+                  else{
                     document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
                     $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
                     // if(agreementID == 'RM1043.8' && q_mandatory != true) {
@@ -63,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //     }
                     // }
                     with_value_count++;
+                  }
                     // let hideBtnCount = agreementID == 'RM1043.8' && lID == '1' ? 17 : 21 ;
                     if (with_value_count === 21 ) {
                         document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -625,7 +642,7 @@ $('.percentage_limit').keyup(function(e) {
       }
 
 
-var maxless = 500;
+var maxless = 10000;
 
 $('.rfpterm').keyup(function(e) {
     var tlength = $(this).val().length;

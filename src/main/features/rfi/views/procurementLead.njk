@@ -28,7 +28,7 @@
          href: "/rfi/rfi-tasklist"
       },
       {
-         text: "Change who will lead the project",
+         text: "Change who will lead your project",
          href: "#"
       }
     ]
@@ -81,10 +81,8 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
-         {% if agreementId_session=="RM1557.13" %}
-           	<strong> Change who will lead the Project (optional) </strong>
-         {% elseif agreementId_session == 'RM6187' %}
-           	<strong> Change who will lead the Project (optional) </strong>
+         {% if agreementId_session=="RM1557.13"  or agreementId_session == 'RM6187' %}
+           	<strong> Change who will lead your project (optional) </strong>
 	      {% else %}
 		      <strong> Change who will lead the procurement (optional) </strong>
          {% endif %}
@@ -102,7 +100,7 @@
 
                <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.--> 
            
-            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-tender market engagement, or continue to the next step.</p>
+            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-market engagement, or continue to the next step.</p>
             <br>
  {% elseif agreementId_session == 'RM6187' %}
   <p class="govuk-body">You are registered as the lead for this project. This means you will be the main point of contact for any questions submitted by suppliers.</p>

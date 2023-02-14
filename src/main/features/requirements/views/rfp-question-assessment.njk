@@ -32,6 +32,36 @@
       }
     ]
   }) }}
+  {% elseif agreement_id == 'RM1043.8' %}
+
+      {{ CCSBreadcrumbs({
+        items: [
+        {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+                text: "Procurement overview",
+                href: "/projects/create-or-choose"
+            },
+            {
+              text: "Write and publish your requirements",
+              href: "/rfp/task-list"
+            },
+            {
+              text: "Your assessment criteria",
+              href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+            },
+          {
+            text: bcTitleText
+          }
+        ]
+      }) }}
+
  {% else %}
   {{ CCSBreadcrumbs({
     items: [
@@ -52,7 +82,7 @@
           href: "/rfp/task-list"
         },
         {
-          text: "Your Assessment bases and evaluation weightings",
+          text: "Your assessment criteria",
           href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
         },
       {
@@ -122,15 +152,15 @@
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
                           {% if (group_id == 'Group 8') %}
-                            {{shortTitle}} questions entered so far
+                            {{shortTitle}} questions entered
                           {% else %}
-                            {{shortTitle}} entered so far
+                            {{shortTitle}} entered
                           {% endif %}
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
-                              {{shortTitle}} questions entered so far
+                              {{shortTitle}} questions entered
                           {% elseif agreement_id == 'RM1557.13' and group_id == 'Group 6' %}
-                              {{shortTitle}} questions entered so far
+                              {{shortTitle}} questions entered
                           {% else %}
                               {{shortTitle}} questions entered
                           {% endif %}
@@ -195,7 +225,7 @@
                   <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
                     {% if(agreement_id == 'RM1043.8') %}                        
                         {% if(group_id == 'Group 7' and lotId == '1') %}
-                          Enter a
+                          Enter your
                         {% else%}
                           Enter your
                         {%endif%}
@@ -204,7 +234,7 @@
                     {% elseif (agreement_id == 'RM1557.13' and ((group_id == 'Group 4') or (group_id == 'Group 6') ))%}
                           Enter your
                     {% else %}
-                          Enter an                    
+                          Enter your                
                     {%endif%}
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
                       {{shortTitle | replace("questions", "question")}}
@@ -282,7 +312,7 @@
                         }) }}
                   {% endif %}
 
-                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to your assessment criteria</a>
+                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Your assessment criteria</a>
                 </div>
 
               </form>
@@ -290,7 +320,7 @@
             </div>
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                {{ CCSReleatedContent(releatedContent, socialRelated) }}
+                {{ CCSReleatedContent(releatedContent, socialRelated,agreement_id,'',lotId,'') }}
               </div>
             </div>
 

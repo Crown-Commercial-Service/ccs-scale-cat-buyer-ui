@@ -63,7 +63,7 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -161,8 +161,8 @@ const ccsZvalidateRfPStrategy = event => {
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
   }
-  
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
+ 
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && (!(pageHeading.includes("(optional)")  || pageHeading.includes("(Optional)"))) && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
@@ -191,7 +191,8 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }else {
+    }
+    else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }

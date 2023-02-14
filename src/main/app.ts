@@ -75,27 +75,43 @@ app.use((req, res, next) => {
   res.locals.assetBundlerMode = env.trim();
   switch (process.env.ROLLBAR_HOST) {
     case 'local': {
-      process.env.ROLLBAR_ENVIRONMENT = 'local'
+      process.env.ROLLBAR_ENVIRONMENT = 'local';
+      process.env.LOGIT_ENVIRONMENT = 'LOCAL'
       break;
     }
     case 'dev': {
-      process.env.ROLLBAR_ENVIRONMENT = 'development'
+      process.env.ROLLBAR_ENVIRONMENT = 'development';
+      process.env.LOGIT_ENVIRONMENT = 'DEV';
       break;
     }
     case 'int': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'SIT';
       break;
     }
     case 'uat': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'UAT';
       break;
     }
     case 'nft': {
-      process.env.ROLLBAR_ENVIRONMENT = 'sandbox'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'NFT';
+      break;
+    }
+    case 'prd': {
+      process.env.ROLLBAR_ENVIRONMENT = 'production';
+      process.env.LOGIT_ENVIRONMENT = 'PROD';
+      break;
+    }
+    case 'pre': {
+      process.env.ROLLBAR_ENVIRONMENT = 'pre-production';
+      process.env.LOGIT_ENVIRONMENT = 'PRE-PROD';
       break;
     }
     default: {
-      process.env.ROLLBAR_ENVIRONMENT = 'production'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'SANDBOX';
       break;
     }
   }

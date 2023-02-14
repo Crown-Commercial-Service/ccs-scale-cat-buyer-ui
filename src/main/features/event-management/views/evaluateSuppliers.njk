@@ -48,7 +48,7 @@
   </strong></p>
                     <p class="govuk-body">Agreement ID: <strong>
                       {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-                        {{ agreement_header['agreementId_session']}}-L4
+                        {{ agreement_header['agreementId_session']}}L4
                       {% else %}
                         {{ agreement_header['agreementId_session'] }}
                       {% endif %}
@@ -95,7 +95,7 @@
 </div> 
 </div>
       <div class="govuk-grid-column-one-third-from-desktop">
-          {{ CCSReleatedContent(releatedContent) }}
+          {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
       </div> 
     </div>
      <div class="govuk-grid-row">
@@ -253,5 +253,10 @@
     </h1></div>
   </div>
 </div>
-
+<div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+      <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait....</h2>
+    </div>
+  </div>
 {% endblock %}

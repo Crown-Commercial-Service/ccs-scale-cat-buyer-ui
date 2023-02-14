@@ -132,7 +132,7 @@
           <div class="govuk-summary-list__row">
           {% if agreementId_session == 'RM6187' %}
             <dt class="govuk-summary-list__key">
-              Change who will lead the project (optional)
+              Change who will lead your project (optional)
             </dt>
             {% else %}
             <dt class="govuk-summary-list__key">
@@ -255,8 +255,8 @@
                           {% endfor %}
                         {% else %}
                        
-                        {% if  i.question != 'Name of the organisation doing the procurement' and i.question != 'Enter a definition for the term acronym explaining what it means' %}
-                          <p class="govuk-body-s">You have not answered this question<p>
+                          {% if (i.question !== 'Name of the Contracting Authority' and i.question !== 'Enter a definition for the term acronym explaining what it means') and i.question !== 'Indicative minimum' %}
+                          <p class="govuk-body-s">You have not answered this question <p>
                           {% endif %}
 
                             {% endif %}
@@ -348,28 +348,44 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                                 {% endif %}
                               </dd>
                   </div>
+                  <div class="govuk-summary-list__row no-borders">
+                    <dt class="govuk-summary-list__key no-borders">
+                      <b>Your timeline</b>
+                    </dt>
+                    <dd class="govuk-summary-list__value no-borders">
+                      
+                    </dd>
+                    <dd class="govuk-summary-list__actions no-borders">
+                      {% if eventStatus != "published" and closeStatus!="CLOSED" %}
+                        <a class="govuk-link" href="/eoi/response-date">
+                          Change
+                          <span class="govuk-visually-hidden">
+                            eoi response dates</span>
+                        </a>
+                      {% endif %}
+                    </dd>
+                  </div>
                   {% for dates in eoi_keydates.answer %}
                     <div class="govuk-summary-list__row no-borders">
-                      <dt class="govuk-summary-list__key">
+                      <dt class="govuk-summary-list__key no-borders">
                         {{ dates.question }}
                       </dt>
-                      <dd class="govuk-summary-list__value">
+                      <dd class="govuk-summary-list__value no-borders">
                         {% for value in dates.values %}
                           <p class="govuk-body-s">
                             {{ value.value }}</p>
                         {% endfor %}
                       </dd>
-                      <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" and closeStatus!="CLOSED" %}
-                          <a class="govuk-link" href="/eoi/response-date">
-                            Change
-                            <span class="govuk-visually-hidden">
-                              eoi response dates</span>
-                          </a>
-                        {% endif %}
+                      <dd class="govuk-summary-list__actions no-borders">
+                        
                       </dd>
                     </div>
                   {% endfor %}
+                  <div class="govuk-summary-list__row no-borders">
+                    <dt class="govuk-summary-list__key"></dt>
+                    <dd class="govuk-summary-list__value"></dd>
+                    <dd class="govuk-summary-list__actions"></dd>
+                  </div>
                 </dl>
               </div>
             </div>

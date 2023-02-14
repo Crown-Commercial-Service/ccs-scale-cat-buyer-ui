@@ -247,6 +247,7 @@ const questionInputDate = new Date(year, month, day);
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
+  
 
   switch (questionId) {
     case 'Question 1':
@@ -275,14 +276,17 @@ const questionInputDate = new Date(year, month, day);
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
-    case 'Question 4':
+    case 'Question 4': 
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
         
           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
-      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
+      
+      
+    //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+          isValid = false;
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
@@ -321,12 +325,12 @@ const questionInputDate = new Date(year, month, day);
       errorSelector = 'evaluation_process_start_date';
       break;
     case 'Question 8':
-
+      
       if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
         isValid = false;
         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
-
+      
       if(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
         
       }else{
@@ -349,7 +353,7 @@ const questionInputDate = new Date(year, month, day);
       }
       errorSelector = 'standstill_period_starts_date';
       break;
-    case 'Question 10':
+    case 'Question 10': 
       if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -388,6 +392,7 @@ const questionInputDate = new Date(year, month, day);
 
       case 'Question 13':
       if (questionNewDate < new Date(timeline.contractsigneddate)) {
+       
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -430,6 +435,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     selected_question_index,
   } = req.body;
   const { timeline,agreement_id } = req.session;
+  
   const stage2_value = req.session.stage2_value;
   let basebankURL = `/bank-holidays.json`;
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
@@ -442,10 +448,15 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
   {
     let errorText='';
-    if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
+    if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
+    {
+      errorText='Date and Time invalid or empty. Please enter the valid date and time';
+    }
+    else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
       errorText='Date invalid or empty. Please enter the valid date';
-    }else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    }
+    else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
     {
       errorText='Time invalid or empty. Please enter the valid time';
     }
@@ -494,8 +505,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     bankholidaydata
     
   );
+	
+  let dateNewNow = new Date(req.session.timeline.publish);	
 
-  if (date.getTime() >= nowDate.getTime() && isValid) {
+  if (date.getTime() >= dateNewNow.getTime() && isValid) {
     //date = moment(date).format('DD MMMM YYYY, hh:mm a');
     date = moment(date).format('DD MMMM YYYY, HH:mm');
     
@@ -678,6 +691,7 @@ if (agreement_id=='RM1043.8') {//DOS
 
 else if(selected_question_id=='Question 12')
 { 
+  
 req.session.rfppublishdate=timeline.publish;
 req.session.clarificationend=timeline.clarificationPeriodEnd;
 req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
@@ -690,6 +704,9 @@ req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.startdate=timeline.supplierstartdate;
+req.session.signeddate=timeline.contractsigneddate;
+
+
 req.session.UIDate=date;
 }
 
@@ -709,6 +726,8 @@ req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.signeddate=timeline.contractsigneddate;
 req.session.UIDate=date;
 }
+
+
 
 const filtervalues=moment(
   date,
