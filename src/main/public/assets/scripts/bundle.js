@@ -15089,8 +15089,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             if(urlParamsData.get('agreement_id') == 'RM6187'){
-                $('#totalPercentage').html(weightageSum === 0? 'XX' : weightageSum);
-                $('#totalPercentageDown').html(weightageSum === 0? 'XX' : weightageSum);
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
             }else{
                 $('#totalPercentage').html(weightageSum);
                 $('#totalPercentageDown').html(weightageSum);
@@ -15120,9 +15120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return this.value !== '';
             }).length;
             if(urlParamsData.get('agreement_id') == 'RM6187'){
-                $('#questionsCount').html(
-                    qCount === 0? 'X' : qCount,
-                );
+                $('#questionsCount').html(qCount);
             }else{
                 $('#questionsCount').html(qCount);
             }
@@ -16170,12 +16168,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             checkFieldsRfpgl4();
                                 if (term_field.value.trim() === '') {
                                     fieldCheck = [term_field.id, fieldMsg];
-                                    ccsZaddErrorMessage(term_field, fieldMsg);
+                                    ccsZaddErrorMessage(term_field, 'You must enter valid question');
                                     errorStore.push(fieldCheck);
                                 } else if (definition_field.value.trim() === '') {
                                     fieldCheck = [definition_field.id, descMsg];
-                                    //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                                    ccsZaddErrorMessage(definition_field, descMsg);
+                                    ccsZaddErrorMessage(definition_field, 'You must enter percentage');
                                     errorStore.push(fieldCheck);                        
                                 } 
                         }
@@ -16376,7 +16373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             LOTID_VAR = document.getElementById('lID').value;
         }
        let errorStoreforOptional = '';
-       if(urlParams.get('agreement_id') == 'RM1557.13'){
+       if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
        errorStoreforOptional = emptyFieldCheckgl4('submit');
        }
      
