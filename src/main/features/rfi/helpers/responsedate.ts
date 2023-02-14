@@ -196,7 +196,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const newDatePublish = new Date();
         newDatePublish.setHours(predefinedDays.defaultEndingHour);
         newDatePublish.setMinutes(predefinedDays.defaultEndingMinutes);
-         req.session.timeline.publish = moment(new Date(newDatePublish), 'DD/MM/YYYY').format('DD MMMM YYYY,HH:mm');
+         req.session.timeline.publish = moment(new Date(newDatePublish), 'DD/MM/YYYY').format('DD MMMM YYYY, HH:mm');
 
      
      //const rfi_clarification_date = moment(new Date(rfi_clarification_dateNew), 'DD/MM/YYYY').format('DD MMMM YYYY');
