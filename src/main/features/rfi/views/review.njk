@@ -162,12 +162,14 @@ Change<span class="govuk-visually-hidden">project name</span>
           </div>
           <div class="govuk-summary-list__row">
 <dt class="govuk-summary-list__key">
-              {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
-
-              <p class="govuk-body">
-              Who will lead the project (optional)
+              {% if agreementId_session == 'RM6187'%}
+                  <p class="govuk-body">
+                      Who will lead the project (optional)
+                  </p>
               {% else %}
-              Change who is going to lead the procurement
+                  <p class="govuk-body">
+                      Who will lead the procurement 
+                  </p>
               {% endif %}
                 </p>
             </dt>
@@ -303,11 +305,26 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             {%for i in item.answer%}
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
-                <p class="govuk-body">
-                    {% if i.question != 'Name of the organisation doing the procurement' %}
-                    {{i.question}}
-                    {%endif%}
-                </p>
+                
+                  {% if agreementId_session == "RM1557.13" %}
+                      {% if i.question == 'Name of the Contracting Authority' %}
+                          <p class="govuk-body">
+                              Name of the organisation doing the procurement
+                          </p>
+                      {% endif %}
+
+                      {% if i.question == 'The organisation using the products or services' %}
+                          <p class="govuk-body">
+                              Who the organisation using the products or services is (optional) 
+                          </p>
+                      {% endif %}
+                  {% else %}  
+                      <p class="govuk-body">
+                          {% if i.question != 'Name of the organisation doing the procurement' %}
+                              {{i.question}}
+                          {%endif%}
+                      </p>
+                  {% endif %}
                 </dt>
               <dd class="govuk-summary-list__value">
                 
@@ -479,7 +496,7 @@ View<span class="govuk-visually-hidden">rfi supplier list</span>
 
                             <dt>
                               <div class="ccs-summary-list-heading">
-                                {% if agreementId_session == 'RM6187' %}
+                                {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                                     <strong class="govuk-heading-s"> Your timeline <br><br></strong>
                                 {% else %}
                                     <strong class="govuk-heading-s"> Your Rfi timeline <br><br></strong>

@@ -208,7 +208,20 @@
                     classes: "add removeErr rpf_10000 rfi_term_definition",
                     rows:"5"
                   }) }}
-              {%else%}
+                  {% elseif  agreement_id == "RM6187" %}
+                  {{  CCSCharacterCount({
+                    id: "rfi_question_"+i,
+                    name: "rfi_question_"+i,
+                    value: requirement.nonOCDS.options[i-1].value,
+                    label: {
+                      html: t,
+                      classes: "govuk-label"
+                    },
+                    maxlength:"10000",
+                    classes: "rfpterm add removeErr",
+                    rows:"5"
+                  }) }}
+              {% else %}
 {{  CCSCharacterCount({
                     id: "rfi_question_"+i,
                     name: "rfi_question_"+i,
@@ -500,7 +513,7 @@
                     {% set qlable =  'rfi_label_term_' + i %}
                     {# <p><label id="{{qlable}}"></label></p> #}
                     {% set maxlength = '5000' %}
-{% if agreement_id == "RM1557.13" %}
+{% if agreement_id == "RM1557.13" or agreement_id == "RM6187" %}
 {% set maxlength = '10000' %}
 {% endif %}
 {{ CCSCharacterCount({

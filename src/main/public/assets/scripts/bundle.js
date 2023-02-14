@@ -14716,6 +14716,11 @@ const checkPercentagesCond = () => {
     errorStore = [];
     const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
+  
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   console.log(Number($("#totalPercentage").text()));
@@ -14731,6 +14736,7 @@ const checkPercentagesCond = () => {
       totalValue += Number(allTextBox[k].value);
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
         if (subTitle!= 'Social value'){ 
 
@@ -14744,7 +14750,12 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
           }
           else if(agrement_id == 'RM1043.8'){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+            if(lotId == 1){
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
+            else{
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+            }
           }
           else{
                fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
@@ -14753,7 +14764,12 @@ const checkPercentagesCond = () => {
           
         }
         else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+          if(lotId == 1){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+          }
+          else{
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+          }
         }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
@@ -14822,6 +14838,10 @@ const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
   const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
   let errorStore =[];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
@@ -14841,7 +14861,13 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
+    if(lotId == 1){
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }
+    else{
+      errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
+    }
+    
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
@@ -17028,7 +17054,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        openpop.classList.add('showpopup');
+        if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+          if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
+            let question1 = document.getElementById('rfp_score_criteria_name_1').value;
+            let question2 = document.getElementById('rfp_score_criteria_point_1').value;
+            let question3 = document.getElementById('rfp_score_criteria_desc_1').value;
+            if(question1 != '' && question2 != '' && question3 != '' ){
+              openpop.classList.add('showpopup');
+            }
+          }
+        }else{
+          openpop.classList.add('showpopup');
+        }
         
         $(".dialog-close-tier").on('click', function(){
           openpop.classList.remove('showpopup');

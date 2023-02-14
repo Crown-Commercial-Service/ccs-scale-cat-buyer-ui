@@ -102,7 +102,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        openpop.classList.add('showpopup');
+        if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+          if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
+            let question1 = document.getElementById('rfp_score_criteria_name_1').value;
+            let question2 = document.getElementById('rfp_score_criteria_point_1').value;
+            let question3 = document.getElementById('rfp_score_criteria_desc_1').value;
+            if(question1 != '' && question2 != '' && question3 != '' ){
+              openpop.classList.add('showpopup');
+            }
+          }
+        }else{
+          openpop.classList.add('showpopup');
+        }
         
         $(".dialog-close-tier").on('click', function(){
           openpop.classList.remove('showpopup');
