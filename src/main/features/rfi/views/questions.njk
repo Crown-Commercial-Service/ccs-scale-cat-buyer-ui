@@ -500,7 +500,7 @@
                     {% set qlable =  'rfi_label_term_' + i %}
                     {# <p><label id="{{qlable}}"></label></p> #}
                     {% set maxlength = '5000' %}
-{% if agreement_id == "RM1557.13" %}
+{% if agreement_id == "RM1557.13" or agreement_id == "RM6187" %}
 {% set maxlength = '10000' %}
 {% endif %}
 {{ CCSCharacterCount({
