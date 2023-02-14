@@ -423,7 +423,7 @@
                           },
                           classes: "rfi_term_definition_1",
                           value: requirement.nonOCDS.options[0].text,
-                          maxlength:"10000"
+                          maxlength:"5000"
                         })
                     }}
                     <p><label id="rfi_label_acronym_1"></label></p>
@@ -499,11 +499,10 @@
                     
                     {% set qlable =  'rfi_label_term_' + i %}
                     {# <p><label id="{{qlable}}"></label></p> #}
-                    {% if agreement_id == "RM6187" or agreement_id == "RM1557.13" %}
-                      {% set maxlength = '10000' %}
-                    {% else %}
-                      {% set maxlength = '5000' %}
-                    {% endif %}
+                    {% set maxlength = '5000' %}
+{% if agreement_id == "RM1557.13" or agreement_id == "RM6187" %}
+{% set maxlength = '10000' %}
+{% endif %}
 {{ CCSCharacterCount({
                                     label: {
                         text: "Write a definition for the term or acronym explaining what it means"
