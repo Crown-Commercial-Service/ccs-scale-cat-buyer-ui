@@ -109,13 +109,9 @@
                       name: data.form.input.name,
                       value: projectLongName,
                       classes: "rfpterm",
-                      maxlength:500,
-                      rows:1,
-                      label: {
-                            html: "Enter the name of your project",
-                            text: "Enter the name of your project"
-                        }
-                      })
+                      maxlength:250,
+                      rows:1
+                     })
                   }}
           {% else %}
             {{ CCSCharacterCount({           

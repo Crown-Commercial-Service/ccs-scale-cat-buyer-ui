@@ -967,19 +967,21 @@
                   <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
               {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
                 <p class="govuk-body">{{qhint}}</p>
-                <p range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : 0%, or {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                <p range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : 0%, or {{requirement.OCDS.minValue.amount}} % - {{requirement.OCDS.maxValue.amount}} % </p>
                 <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                {% else %}
                   <p class="govuk-body">{{qhint}}</p>
                   {%if(agreement_id == 'RM1043.8') %}
-                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} % - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
-                  {%if(agreement_id == 'RM1557.13') %}
+                  {%if(agreement_id == 'RM1557.13') or (agreement_id == 'RM6187') %}
                   {%if(requirement.OCDS.title === 'Social value weighting') %}
                     <p class="govuk-body">{{requirement.OCDS.description}}</p>
                     <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
-                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} % - {{requirement.OCDS.maxValue.amount}} % </p>
+                    {%if(agreement_id != 'RM6187') %}
+                      <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}} % </p>
+                    {%endif%}
                   {%endif%}
                   {% else%}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
@@ -1030,8 +1032,8 @@
 
                       </div>
                   {% endif %}
-              {% elseif(requirement.OCDS.title === 'Social value criteria') %}
-                    {% if (agreement_id == 'RM1557.13') %}
+              {% elseif(requirement.OCDS.title === 'Social value criteria' or requirement.OCDS.title === 'Social value weighting') %}
+                    {% if (agreement_id == 'RM1557.13') or (agreement_id == 'RM6187') %}
                         <div class="govuk-inset-text">
                             <p> <b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> </p>
                         </div>
@@ -1679,7 +1681,7 @@
                           {% endif %}
                           {% if (agreement_id == 'RM1043.8') %}
                               {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                  {% set explaintermtext = 'Explain the term or acronym' %}
+                                  {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
                               {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                                 {% else %}
@@ -1692,9 +1694,9 @@
                                     label: {
                                       text: explaintermtext
                                     },
-                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition",
                                     value: requirement.nonOCDS.options[0].text,
-                                    maxlength: 5000
+                                    maxlength: 10000
                                   })
                                 }}
                                 {% else %}
@@ -1702,12 +1704,11 @@
                                     name: "value",
                                     id: "rfp_term_definition_1",
                                     label: {
-                                      text: explaintermtext,
-                                      classes:"govuk-!-font-weight-bold"
+                                      text: explaintermtext
                                     },
-                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition",
                                     value: requirement.nonOCDS.options[0].text,
-                                    maxlength: 5000
+                                    maxlength: 10000
                                   })
                                 }}
                                 {% endif %}
@@ -1857,7 +1858,7 @@
                             {% endif %}
                             {% if (agreement_id == 'RM1043.8') %}
                             {% if (lotId == '1') and (group_id == 'Group 2') %}
-                                {% set explaintermtext = 'Explain the term or acronym' %}
+                                {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
                             {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
                                   {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
                               {% else %}
@@ -1870,9 +1871,9 @@
                                 label: {
                                   text: explaintermtext
                                 },
-                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition"+i,
                                 value: requirement.nonOCDS.options[i-1].text,
-                                maxlength:5000
+                                maxlength:10000
                               })
                             }}
                             {% else %}
@@ -1880,12 +1881,11 @@
                                 name: "value",
                                 id: "rfp_term_definition_"+i,
                                 label: {
-                                  text: explaintermtext,
-                                  classes: "govuk-!-font-weight-bold"
+                                  text: explaintermtext
                                 },
-                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition"+i,
                                 value: requirement.nonOCDS.options[i-1].text,
-                                maxlength:5000
+                                maxlength:10000
                               })
                             }}
                             {% endif %}

@@ -14716,6 +14716,11 @@ const checkPercentagesCond = () => {
     errorStore = [];
     const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
+  
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   console.log(Number($("#totalPercentage").text()));
@@ -14731,6 +14736,7 @@ const checkPercentagesCond = () => {
       totalValue += Number(allTextBox[k].value);
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
         if (subTitle!= 'Social value'){ 
 
@@ -14744,7 +14750,12 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
           }
           else if(agrement_id == 'RM1043.8'){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+            if(lotId == 1){
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
+            else{
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+            }
           }
           else{
                fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
@@ -14753,7 +14764,12 @@ const checkPercentagesCond = () => {
           
         }
         else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+          if(lotId == 1){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+          }
+          else{
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+          }
         }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
@@ -14822,6 +14838,10 @@ const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
   const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
   let errorStore =[];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
@@ -14841,7 +14861,13 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
+    if(lotId == 1){
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }
+    else{
+      errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
+    }
+    
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
@@ -15034,11 +15060,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
         let textboxelementsorder2 = document.querySelectorAll('.order_2');
-
+        let urlParamsData = new URLSearchParams(window.location.search);
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
-            let urlParamsData = new URLSearchParams(window.location.search);
+            
             //removeErrorFieldsRfpScoreQuestion();
             elements.forEach(el => {
                 weightageSum += isNaN(el.value) ? 0 : Number(el.value);
@@ -15093,10 +15119,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let qCount = $('.order_1').filter(function() {
                 return this.value !== '';
             }).length;
-            
-            $('#questionsCount').html(
-                qCount === 0? 'X' : qCount,
-            );
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#questionsCount').html(
+                    qCount === 0? 'X' : qCount,
+                );
+            }else{
+                $('#questionsCount').html(qCount);
+            }
         };
         
 
@@ -20499,7 +20528,7 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
