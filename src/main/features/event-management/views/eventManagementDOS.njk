@@ -192,9 +192,15 @@
                 <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
                   <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                 {% else %}
+                  {% if (status.toUpperCase() == 'EVALUATED') %}
                   <h2 class="govuk-heading-m">
                     <span class="proc-task-list__section-number">3.</span>
+                    {{data.subsection4_title3_eval_dos_after}}</h2>
+                     {% else %}
+                      <h2 class="govuk-heading-m">
+                    <span class="proc-task-list__section-number">3.</span>
                     {{data.subsection4_title_dos}}</h2>
+                    {% endif %}
                     {% if (projectStatus == 2 and status.toUpperCase() == 'EVALUATED') %}
                   <p class="govuk-body">{{ data.subsection4_title3_evaluated_description_dos }}</p>
                   {% else %}
