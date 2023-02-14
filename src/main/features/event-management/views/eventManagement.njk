@@ -200,7 +200,7 @@
                             <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                           </p>
                           {% else %}
-                          <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+                          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
                             <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                           </p>
                          {% endif %}
@@ -278,9 +278,8 @@
                             {% if agreementId_session ==='RM6187' %}
                              <p class="govuk-body">To see the clarification questions suppliers have submitted,
                                 <a href="/message/inbox">open your inbox</a>.</p>
-                            {% else %}
-                              <p class="govuk-body">If you want to see any clarification questions suppliers have submitted,
-                                <a href="/message/inbox">open your inbox</a>.</p>
+                                {% else %}
+                                <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                             {% endif %}
                           {% else %}
                             <p class="govuk-body">To see the clarification questions suppliers have submitted.</p>
@@ -361,16 +360,20 @@
                           <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task3 }}</p>
                           <p class="govuk-grid-column-one-half">{{ supplierSummary.declined | safe }}</p>
+
                           {% if (agreementId_session == 'RM1557.13') %}
                             {% if status.toLowerCase() == 'published' %}
                               <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4 }}</p>
                             {% else %}
                               <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4_gcloud }}</p>
                             {% endif %}
+                          {% elseif (agreementId_session == 'RM6187') %}
+                            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_gcloud}}</p>
                           {% else %}
                             <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4 }}</p>
                           {% endif %}
                           <p class="govuk-grid-column-one-half">{{ supplierSummary.noResponse | safe }}</p>
+
                         {% endif %}
                       </div>
                     </div>
@@ -754,7 +757,7 @@
                                         <h2 class="govuk-heading-m">
                                           <span class="proc-task-list__section-number">5.</span>
                                           Complete RfI</h2>
-                                        {% if (agreementId_session ==='RM6187') or (agreementId_session ==='RM1557.13') %}
+                                        {% if agreementId_session ==='RM6187' %}
                                           <p>When you have the supplier responses, you can close this RfI event and then:
                                           </p>
                                           <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
@@ -777,7 +780,7 @@
                                     </div>
                                   {% endif %}
                                 {% endif %}
-                                    {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+                                    {% if agreementId_session == "RM1557.13" and (eventType == 'RFI') %}
                                       <div>
                                           <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
                                       </div>
@@ -1030,5 +1033,4 @@
                       </div>
                     </div>
         {% endblock %}
-
 
