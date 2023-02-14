@@ -1030,7 +1030,7 @@
 
                       </div>
                   {% endif %}
-              {% elseif(requirement.OCDS.title === 'Social value criteria') %}
+              {% elseif(requirement.OCDS.title === 'Social value criteria' or requirement.OCDS.title === 'Social value weighting') %}
                     {% if (agreement_id == 'RM1557.13') %}
                         <div class="govuk-inset-text">
                             <p> <b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> </p>
