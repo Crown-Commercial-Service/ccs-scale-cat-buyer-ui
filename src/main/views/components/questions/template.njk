@@ -974,12 +974,14 @@
                   {%if(agreement_id == 'RM1043.8') %}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
-                  {%if(agreement_id == 'RM1557.13') %}
+                  {%if(agreement_id == 'RM1557.13') or (agreement_id == 'RM6187') %}
                   {%if(requirement.OCDS.title === 'Social value weighting') %}
                     <p class="govuk-body">{{requirement.OCDS.description}}</p>
                     <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
                   {% else%}
-                    <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}} % </p>
+                    {%if(agreement_id != 'RM6187') %}
+                      <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> Range : {{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}} % </p>
+                    {%endif%}
                   {%endif%}
                   {% else%}
                     <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
@@ -1031,7 +1033,7 @@
                       </div>
                   {% endif %}
               {% elseif(requirement.OCDS.title === 'Social value criteria' or requirement.OCDS.title === 'Social value weighting') %}
-                    {% if (agreement_id == 'RM1557.13') %}
+                    {% if (agreement_id == 'RM1557.13') or (agreement_id == 'RM6187') %}
                         <div class="govuk-inset-text">
                             <p> <b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> </p>
                         </div>
