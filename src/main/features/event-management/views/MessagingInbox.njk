@@ -349,7 +349,8 @@
             </p>
             {% else %}
             <p class="govuk-body">
-                <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                <a href="{{data.backJumpDashboard.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJumpDashboard.title}}</a>
+                {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a> #}
             </p>
             {% endif %}
 
