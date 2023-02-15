@@ -163,11 +163,16 @@
                         }) }}	
                     </div>	
                 {% else %}
+                {% if createdreply == 'true' %}	
+                        {% set ttiletext = 'Message sent ' %}
+                {% else %}
+                        {% set ttiletext = 'Message successfully sent ' %}
+                {% endif %}
                     <div class="govuk-grid-column-one-half">	
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	
                         type: "success",	
-                        titleText: "Message successfully sent"	
+                        titleText: ttiletext	
                         }) }}	
                     </div>	
                 {% endif %}
@@ -344,7 +349,8 @@
             </p>
             {% else %}
             <p class="govuk-body">
-                <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                <a href="{{data.backJumpDashboard.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJumpDashboard.title}}</a>
+                {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a> #}
             </p>
             {% endif %}
 
