@@ -124,7 +124,7 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
-            {{data.subtitle}}
+            Write a new message
           </h1>
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
@@ -225,7 +225,7 @@
 
             <div class="govuk-button-group">
               
-              {% if agreementId == 'RM6187' %}
+              {% if agreementId == 'RM6187' or agreementId == 'RM1557.13' %}
                   {{ CCSButton({
                       text: data.btnText2,
                       action:"submit",

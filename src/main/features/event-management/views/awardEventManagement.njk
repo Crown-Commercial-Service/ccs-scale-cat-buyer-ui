@@ -190,10 +190,16 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval_mcf}}</h2>
           <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption_mcf }}</p>
-        {% else %}  
+        {% else %} 
+         {% if agreementId_session == 'RM1043.8'%} 
+          <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_award}}</h2>
+         {% else %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
+          {% endif %}
         <p class="govuk-body">{{ data.subsection4_title3_award_description_dos }}</p>
         {% endif %}
 
@@ -220,7 +226,7 @@
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_dos}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% endif %}
         
@@ -361,7 +367,7 @@
     <p>Your project is now complete.</p>
   {% else %}
 
-    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" or agreementId_session == "RM1043.8" %}
 
       {% if status.toLowerCase() == "awarded" %}
         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>

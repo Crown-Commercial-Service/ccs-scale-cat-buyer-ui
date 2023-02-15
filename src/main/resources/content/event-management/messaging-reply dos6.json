@@ -25,6 +25,7 @@
     "MessageClassification": "Classification",
     "Subject": "Subject",
     "Message": "Message",
+    "GCMessage": "Your Message",
     "btnText": "Send",
     "btnTextall": "Send to all",
     "Cancel": {
