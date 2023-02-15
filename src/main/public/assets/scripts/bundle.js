@@ -10971,7 +10971,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let startmonthCheck = Number(value.val()) < 1;
                 if (matchValue || endmonthCheck || startmonthCheck) {
                     value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid datett");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
                 } else {
                     value.removeClass("govuk-input--error");
                     ccsZremoveErrorMessage(document.getElementById(parentID));
