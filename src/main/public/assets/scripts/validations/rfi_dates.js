@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let startmonthCheck = Number(value.val()) < 1;
                 if (matchValue || endmonthCheck || startmonthCheck) {
                     value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid datett");
                 } else {
                     value.removeClass("govuk-input--error");
                     ccsZremoveErrorMessage(document.getElementById(parentID));
@@ -51,8 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 let matchValue = !value.val().match(/^\d{4}$/);
                 let endyearCheck = Number(value.val()) > 2121;
                 let currentYear = new Date().getFullYear();
-                let startyearCheck = Number(value.val()) < currentYear;
-                if (matchValue || endyearCheck) {
+                let preYear = currentYear-1;
+                let startyearCheck = Number(value.val()) < preYear;
+              
+                if (matchValue || endyearCheck || startyearCheck) {
                     value.addClass("govuk-input--error")
                     ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
                 } else {
