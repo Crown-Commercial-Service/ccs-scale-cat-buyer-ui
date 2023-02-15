@@ -201,7 +201,7 @@ function isValidQuestion(
     error = 'Enter a valid month';
   }
   const currentYear = new Date().getFullYear();
-  if (year > 2121 || year < currentYear) {
+  if (year > 2121) {
     isValid = false;
     error = 'Enter a valid year';
   }
