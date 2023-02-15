@@ -104,7 +104,7 @@
     
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
-          {% if agreementId_session == 'RM6187' %}
+          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1043.8') %}
            
            {% else %}
            <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
@@ -174,7 +174,7 @@
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             
-            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
+            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') or (agreementId_session == 'RM1043.8') %}
            
            {% else %}
            <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>

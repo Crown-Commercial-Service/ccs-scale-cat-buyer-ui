@@ -97,7 +97,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
     let titleText;
     titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
-    if(agreementId_session == 'RM1043.8'){
+    if(agreementId_session == 'RM1043.8' && lotid == 1){
       if(nonOCDS.mandatory === false){
         titleText = "How you will score supplier responses (Optional)";
       }else{
