@@ -71,7 +71,7 @@
             "eventDescription": "You can upload additional documents that will help a supplier to better understand your procurement.",
             "eventTask": [{
                     "Task": 1,
-                    "title": "Upload other documents (optional)",
+                    "title": "Upload additional documents (optional)",
                     "required": "optional",
                     "link": "/rfp/upload-additional",
                     "status": "Todo"
