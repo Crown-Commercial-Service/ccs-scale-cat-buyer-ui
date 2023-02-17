@@ -22216,14 +22216,7 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
     //   });
     // });
 
-    //startEvalDos6Btn
-    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
-      event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
-        var bodytg = document.body;
-        bodytg.classList.add("pageblur");
-      });
-    });
+    
 
 document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
   event.addEventListener('click', function (event) {
@@ -22248,9 +22241,18 @@ document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (
     });
 
     //startEvalDos6Btn
+    // document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
       event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr">Retrieving supplier responses</p><p class="govuk-body loader-desc">Please allow some time for this operation to complete. Once finished, you will be able to download supplier responses. We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>';
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       });
@@ -22268,6 +22270,7 @@ document.querySelectorAll(".download").forEach(function (event) {
         responseType: 'blob' // to avoid binary data being mangled on charset conversion
       },
       beforeSend: function () {
+        document.querySelector(".loderMakeRes").innerHTML = "<p class='govuk-body loader-desc-hdr'>Downloading supplier responses</p><p class='govuk-body loader-desc'>Please allow some time for this operation to complete. Once finished, your downloaded responses can be found in the 'Downloads' section of your browser.  We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>";
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       },
