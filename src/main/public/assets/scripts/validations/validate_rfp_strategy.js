@@ -96,7 +96,7 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
  
           if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
