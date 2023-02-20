@@ -38,18 +38,19 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         //const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
          
         let isSupplierQA= false;
-       
+        let projectId;
             
    if(req.query.id != undefined){
   
     eventIds=req.query.id;
      projectIds = req.query.prId;
      isSupplierQA = true;
-    
+     projectId = req.query.prId;
    }else{
     
     eventIds=req.session.eventId;
      projectIds = req.session.projectId;
+     projectId = req.session.projectId;
      isSupplierQA= false;
      res.locals.agreement_header = req.session.agreement_header;
    }
@@ -71,7 +72,7 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
           let agreementId_session=response.agreementId;
           let agreementLotName=response.lotName;
           let lotid=response.lotId;
-          let projectId = req.session.projectId;
+         
           res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
           
         appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
