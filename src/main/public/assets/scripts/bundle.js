@@ -8762,6 +8762,10 @@ for (const selector of eoi_totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
+        if($('.eoi_hideFirst:visible').length){
+            $('.eoi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateEoi();
@@ -11764,6 +11768,10 @@ for (const selector of totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
+        if($('.rfi_hideFirst:visible').length){
+            $('.rfi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRfi();
@@ -11927,9 +11935,14 @@ for(const selector of rfp_totalElementSelectors){
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
+        if($('.hideFirst:visible').length){
+                $('.hideFirst').hide();
+                $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRFP();
+        
     });
     let errorSelector = $("#click-error");
     let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
