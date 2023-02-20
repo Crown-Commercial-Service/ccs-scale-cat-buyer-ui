@@ -2,6 +2,7 @@
 import * as express from 'express';
 //import * as cmsData from '../../../resources/content/requirements/nameYourProject.json';
 import * as cmsData from '../../../resources/content/MCF3/requirements/confirmation_review.json';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -76,9 +77,62 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
 };
 
 export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies; //jwt
+ // const { SESSION_ID } = req.cookies; //jwt
+ 
+  const projectId = req.session.projectId;
+  const proc_id = req.session.projectId;
+  const event_id = req.session.eventId;
+  const { SESSION_ID } = req.cookies;
+  const stage2_value = req.session.stage2_value;
+  const agreementId_session = req.session.agreement_id;
+  
+  
+  const eventType = req.session.eventManagement_eventType;
+
+  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  baseURL = baseURL + '/criteria';
+  const keyDateselector = 'Key Dates';
+  let selectedeventtype=req.session.selectedeventtype;
   try {
-    res.json({'test':'test'});
+  
+    const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+   
+    let criterianStorage = [];
+    for (const aURI of extracted_criterion_based) {
+     
+      const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+      const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+      const criterian_array = fetch_criterian_group_data?.data;
+      const rebased_object_with_requirements = criterian_array?.map(anItem => {
+        const object = anItem;
+        object['criterianId'] = aURI;
+        return object;
+      });
+      
+      criterianStorage.push(rebased_object_with_requirements);
+    }
+  
+    criterianStorage = criterianStorage.flat();
+    criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
+    const prompt = criterianStorage[0].nonOCDS.prompt;
+    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+    
+    const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+    let fetchQuestionsData = fetchQuestions.data;
+
+    let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 1").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+    let currentDate = new Date();
+    let warning=false;
+    if(publishDate<currentDate){
+       warning=true;
+    }else{
+      warning=false;
+  }
+    res.json({ warning: warning,eventType: eventType});
+
   } catch (error) {
     LoggTracer.errorLogger(
       res,
