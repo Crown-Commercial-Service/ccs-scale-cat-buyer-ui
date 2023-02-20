@@ -486,10 +486,25 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         if (Array.isArray(obj.value)) objValueArrayCheck = true;
                       });
                     if (objValueArrayCheck) {
+
+                      let objValue;
+                      if(agreement_id=="RM6187"){
+
+                         objValue=null;
+                        if(object_values[0].value[i]!=''){
+                           objValue=object_values[0].value[i];
+                        }
+
+                      }else{
+
+                        objValue=object_values[0].value[i];
+                      }
+
+
                       answerValueBody = {
                         nonOCDS: {
                           answered: true,
-                          options: [{ value: object_values[0].value[i], selected: true }],
+                          options: [{ value: objValue, selected: true }],
                         },
                       };
                     } else {
@@ -512,12 +527,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
 
             } catch (error) {
-              if (error.response?.status < 500) {
-                logger.info(error.response.data.errors[0].detail)
-              } else {
-                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                  TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-              }
+              // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+              LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                  TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
             }
           }
         }

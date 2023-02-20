@@ -7,6 +7,8 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 // import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/enterEvaluation.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 // import { logConstant } from '../../../common/logtracer/logConstant';
 //simport { idText } from 'typescript'
@@ -50,8 +52,11 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
       stage2_value = 'Stage 2';
     }
     
-    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
     for(var m=0;m<supplierdata.data.length;m++)
     {
       // if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
@@ -66,6 +71,9 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
+
     res.render('enterEvaluation',appendData);     
     
   } catch (err) {
@@ -102,6 +110,7 @@ try{
               ];
               
               req.session.individualScore = body[0];
+              
               //let responseScore = 
               TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
@@ -118,17 +127,16 @@ try{
             }
    
 }catch (error) {
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event management page',
-    true,
-  );
-}
-
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management page',
+      true,
+    );
+  }
 }
 
 export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {

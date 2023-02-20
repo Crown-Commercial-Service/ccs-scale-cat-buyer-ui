@@ -23,11 +23,12 @@ export const AUTH: express.Handler = async (
 ) => {
   const { SESSION_ID, state } = req.cookies;
   let requestURL = req.url;	
-  if (requestURL.indexOf('event/qa') ==1) {	
+
+  if (requestURL.indexOf('event/qa') == 1) {	
     req.session["supplier_qa_url"] = requestURL;	
   }	
   /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')	
-  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa') == 1) {	
+  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa') == 1) {
     req.session["supplier_qa_url"] = requestURL;	
     res.redirect('/oauth/login');	
   }	

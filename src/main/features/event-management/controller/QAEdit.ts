@@ -7,6 +7,7 @@ import * as dos6LocalTableData from '../../../resources/content/event-management
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { QuestionAndAnswer } from '../model/qaModel';
 import { MessageDetails } from '../model/messgeDetails';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
     static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
@@ -49,6 +50,10 @@ export const EVENT_MANAGEMENT_GET_QA_Edit = async (req: express.Request, res: ex
           }
 
         const appendData = {data, QA: qsDetails,message:messageDetails ,QaContent:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req);
+
         res.render('QAEdit', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -136,6 +141,9 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
                
                 const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
            const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText }
+
+           //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req);
             res.render('QAEdit', appendData);
         }
 else{
@@ -148,7 +156,8 @@ else{
 
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a/${req.session['qaid']}`
         const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
-       
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(response, logConstant.saveQuestionAndAnsDetails, req);
 
         var host = req.get('host');
         var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
@@ -171,6 +180,9 @@ else{
         const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
         
        const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(responses, logConstant.saveMessages, req);
 
         // var host = req.get('host');
         // var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;

@@ -37,7 +37,7 @@
     "subsection4_title2_2_mcf":"Your published project",
     "subsection4_title2_1_descriiption_gcloud":"Read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
-    "subsection4_title2_2_descriiption": "[ Description for this section ]",
+    "subsection4_title2_2_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_task": [{
             "line_1_text": "Read my published project",
             "line_1_link": "#",
@@ -55,7 +55,7 @@
             "disable": true
         },
         {
-            "line_1_text": "Download document sent to supplier",
+            "line_1_text": "Download my published project",
             "line_1_link": "/publisheddoc?download=1",
             "disable": true
         }
@@ -90,8 +90,8 @@
 
     "subsection4_title4": "Supplier responses",
     "subsection4_title4_eval": "Suppliers to be shortlisted and invited to  stage 2",
-    "subsection4_title4_descriiption": "You will see supplier responses after the closing date and time",
-    "subsection4_title4_descriiption_evaluate": "The suppliers below have responded to your published project. You can download individual supplier’s answers or all answers.",
+    "subsection4_title4_descriiption": "You will see supplier responses after the closing date and time.",
+    "subsection4_title4_descriiption_evaluate": "The suppliers below have responded to your published project. You can download individual supplier answers or all answers.",
     "subsection4_title4_descriiption_evaluated_text": "You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers when awarding.<br> Make sure you have documentation supporting your choice. This documentation needs to be produced offline.",
     
     

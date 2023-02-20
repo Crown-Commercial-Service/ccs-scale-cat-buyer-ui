@@ -6,6 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -44,6 +45,8 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
           releatedContent: releatedContent,
           agreementId_session: agreementId_session,
         };
+          //CAS-INFO-LOG
+        LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
         res.render('nameAProjectGCloud',viewData);
       } catch (error) {
       
@@ -74,6 +77,8 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
           name: name,
         };
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+         //CAS-INFO-LOG
+         LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
         if (response.status == HttpStatusCode.OK) 
         req.session.project_name = name;
         const returnUrl = `/projects/create-or-choose?lotId=${lotId}&agreementLotName=${agreementLotName}`;

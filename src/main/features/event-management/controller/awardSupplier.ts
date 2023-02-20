@@ -4,6 +4,8 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { supplierId } = req.query;
@@ -14,15 +16,26 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`;
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+      
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
+
+
         let supplierDetailsList: SupplierDetails[] = [];
         let supplierDetails = {} as SupplierDetails;
         //agreements/{agreement-id}/lots/{lot-id}/suppliers
         const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
         const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
-  
+        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierDataList, logConstant.supplierDetails, req);
+
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL);
+        
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(supplierScore, logConstant.getSupplierScore, req);
 
         for (let i = 0; i < supplierdata.data.responders.length; i++) {
             let id = supplierdata.data.responders[i].supplier.id;
@@ -68,6 +81,10 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
         const eventType = selectedEventData[0].eventType;
 
         const appendData = { eventType:eventType,supplierName:supplierName,status, supplierDetails, supplierDetailsList, projectName, agreement_header, viewError, eventId }
+         
+        //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.awardSupplierPageLogg, req);
+         
         res.render('awardSupplier', appendData);
     } catch (error) {
         LoggTracer.errorLogger(
