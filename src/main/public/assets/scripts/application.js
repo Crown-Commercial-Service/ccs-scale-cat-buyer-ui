@@ -1709,3 +1709,45 @@ if (document.querySelectorAll('.suppliersAwardConfirm')) {
   })
 }
 
+document.querySelectorAll("#ccs_rfi_publish_form").forEach(function (event) {
+  event.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
+    $.ajax({
+      url: `/rfp/publish_date_mismatch`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
+       var bodytg = document.body;
+      bodytg.classList.remove("pageblur");
+      if(!result.isReviewed){
+        document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Retry';
+        const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
+        openpopGC.classList.add('showpopup');
+        $(".dialog-close-publishTimelineMismatch").on('click', function(){
+          openpopGC.classList.remove('showpopup');
+        });
+        $(".close-dialog-close").on('click', function(){
+          openpopGC.classList.remove('showpopup');
+        });
+        deconf = document.getElementById('redirect-button-publishTimelineMismatch');
+        deconf.addEventListener('click', ev => {
+          openpopGC.classList.remove('showpopup');
+          window.location.href = window.location.origin+'/rfi/rfi-tasklist';
+        });
+
+        return false;
+      }else{
+        document.getElementById("ccs_rfi_publish_form").submit();
+        return true;
+      }
+    }).fail((res) => {
+      console.log(res);
+    })
+
+
+  })
+});
+
+

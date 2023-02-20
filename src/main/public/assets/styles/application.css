@@ -9359,11 +9359,12 @@ p,
 .backdrop-gcloud_delete.showpopup,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
-.backdrop-award.showpopup
+.backdrop-award.showpopup,
+.backdrop-publishTimelineMismatch
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete {
+.backdrop-nextsteps,.backdrop-gcloud_delete,.backdrop-publishTimelineMismatch {
   position: fixed;
   top: 0px;
   left: 0px;

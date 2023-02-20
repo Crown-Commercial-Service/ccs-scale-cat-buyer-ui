@@ -74,3 +74,22 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
     );
   }
 };
+
+export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  try {
+    res.json({'test':'test'});
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender Api - getting users from organization or from tenders failed',
+      true,
+    );
+  }
+};
+
+
