@@ -201,7 +201,7 @@ function isValidQuestion(
     error = 'Enter a valid month';
   }
   const currentYear = new Date().getFullYear();
-  if (year > 2121 || year < currentYear) {
+  if (year > 2121) {
     isValid = false;
     error = 'Enter a valid year';
   }
@@ -505,8 +505,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     bankholidaydata
     
   );
+	
+  let dateNewNow = new Date(req.session.timeline.publish);	
 
-  if (date.getTime() >= nowDate.getTime() && isValid) {
+  if (date.getTime() >= dateNewNow.getTime() && isValid) {
     //date = moment(date).format('DD MMMM YYYY, hh:mm a');
     date = moment(date).format('DD MMMM YYYY, HH:mm');
     

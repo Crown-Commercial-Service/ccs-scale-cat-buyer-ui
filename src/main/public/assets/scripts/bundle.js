@@ -11037,7 +11037,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let matchValue = !value.val().match(/^\d{4}$/);
                 let endyearCheck = Number(value.val()) > 2121;
                 let currentYear = new Date().getFullYear();
-                let startyearCheck = Number(value.val()) < currentYear;
+                let preYear = currentYear-1;
+                let startyearCheck = Number(value.val()) < preYear;
+              
                 if (matchValue || endyearCheck || startyearCheck) {
                     value.addClass("govuk-input--error")
                     ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");

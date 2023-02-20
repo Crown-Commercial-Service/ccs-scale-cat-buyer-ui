@@ -187,20 +187,24 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
              }
 
             req.session['SupplierNameforMessagereply'] = draftMessage.data.OCDS.author.name;
-            const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
-            const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`;
+            // const response = await 
+            TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            
+            // if (response.status == 200) {
+            //     if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
+            //         res.redirect('/message/inbox?createdreply=true&msgfor=all')
+            //     }else{
+            //         res.redirect('/message/inbox?createdreply=true')
+            //     }
+            // } else {
+            //     res.redirect('/message/inbox?createdreply=false')
+            // }
 
-            //CAS-INFO-LOG 
-        LoggTracer.infoLogger(response, logConstant.saveMessages, req);
-
-            if (response.status == 200) {
-                if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
-                    res.redirect('/message/inbox?createdreply=true&msgfor=all')
-                }else{
-                    res.redirect('/message/inbox?createdreply=true')
-                }
-            } else {
-                res.redirect('/message/inbox?createdreply=false')
+            if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
+                res.redirect('/message/inbox?createdreply=true&msgfor=all')
+            }else{
+                res.redirect('/message/inbox?createdreply=true')
             }
     }
 }
