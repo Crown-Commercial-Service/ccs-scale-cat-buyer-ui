@@ -486,10 +486,25 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         if (Array.isArray(obj.value)) objValueArrayCheck = true;
                       });
                     if (objValueArrayCheck) {
+
+                      let objValue;
+                      if(agreement_id=="RM6187"){
+
+                         objValue=null;
+                        if(object_values[0].value[i]!=''){
+                           objValue=object_values[0].value[i];
+                        }
+
+                      }else{
+
+                        objValue=object_values[0].value[i];
+                      }
+
+
                       answerValueBody = {
                         nonOCDS: {
                           answered: true,
-                          options: [{ value: object_values[0].value[i], selected: true }],
+                          options: [{ value: objValue, selected: true }],
                         },
                       };
                     } else {
