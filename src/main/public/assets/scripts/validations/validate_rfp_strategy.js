@@ -100,7 +100,7 @@ const ccsZvalidateRfPStrategy = event => {
         if ($('#rfp_prob_statement_n').val().length === 0) {
  
           if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the number of rounds');
           }
           else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
             fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');

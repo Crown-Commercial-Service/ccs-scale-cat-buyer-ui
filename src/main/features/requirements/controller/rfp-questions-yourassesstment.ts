@@ -278,6 +278,14 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         data.form_name = 'suppliers_to_evaluate';
       }
     }
+   
+    if(agreement_id == "RM1043.8") {
+      if  (group_id === "Group 1" && (lotId == '1' || lotId == '3') && id === 'Criterion 2') {
+       
+          data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+      }
+    }
+
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
@@ -285,7 +293,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
-
+    console.log('data>>>',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];

@@ -425,6 +425,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
+    console.log('Data == ',JSON.stringify(data));
     res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
