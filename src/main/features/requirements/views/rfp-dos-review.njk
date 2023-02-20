@@ -42,6 +42,14 @@
   {% endif %}
 {% endblock %}
 {% block content %}
+
+{{ CCSDialog({
+  title:'Timeline date mismatch warning',
+  description:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  redirect:'#',
+  type:'publishTimelineMismatch'
+}) }}
+
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (viewError == true) and (apiError == false) %}
       {{ CCSErrorSummary({
