@@ -992,7 +992,7 @@
             {% endif %}
           {% endif %}
 
-              {% if agreementId_session == "RM1557.13" and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and status.toUpperCase() != 'EVALUATING' %}
+              {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
                 <div>
                     <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
                 </div>
