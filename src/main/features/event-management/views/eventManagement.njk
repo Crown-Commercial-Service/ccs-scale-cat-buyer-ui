@@ -782,11 +782,13 @@
                                   </div>
                                 {% endif %}
                               {% endif %}
-                              {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
-                                <div>
-                                  {# <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
-                                </div>
-                              {% endif %}
+
+                                  {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+                                      <div>
+                                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
+                                      </div>
+                                  {% endif %}
+
                             </div>
                           </div>
                         {% endif %}
@@ -996,7 +998,13 @@
                     <div>
                       <br/>
                       <br/>
-                      <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                          {% if (agreementId_session == "RM1557.13") and (eventType != 'RFI') %}
+                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                          {% endif %}
+                          
+                          {% if (agreementId_session != "RM1557.13") %}
+                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                          {% endif %}
                     </div>
                   {# {% endif %} #}
                   <div class="loader-container">
