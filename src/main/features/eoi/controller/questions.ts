@@ -743,7 +743,7 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Start date must be a valid future date' });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
-      errorText.push({ text: 'Start date cannot be after agreement expiry date' });
+      errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
       else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must be 500 characters or fewer' });
       else if (requirement.nonOCDS.questionType == 'SingleSelect')

@@ -175,7 +175,7 @@
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">2.</span>
                             {% if agreementId_session == 'RM6187' %}
-                              {{ data.subsection4_title2_2_mcf }}
+                              {{ data.subsection4_title2_2_mcf }} 
                             {% else %}
                               {{ data.subsection4_title2_2 }}
                             {% endif %}
@@ -186,12 +186,6 @@
                                 {% endif %}
                               {% else %}
                                 <a class="govuk-link" href="/eoi/review">{{ data.subsection4_title2_2_task[0].line_1_text }}</a>
-                                  <p>When you have the supplier responses, you can close this RfI event and then:</p>
-                                  <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
-                                      <li>start the next stage of your project (from the 'Procurement overview' page)</li>
-                                      <li>copy all the details of this project to procure from your own platform</li>
-                                      <li>start another pre-market engagement event</li>
-                                  </ul>
                               {% endif %}
                             </p>
                           </h2>
@@ -804,6 +798,12 @@
                                   <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to Procurement overview</a>
                                 {% endif %}
                               {% endif %}
+                              <br/>
+                              <br/>
+                              <hr/>
+                              <br/>
+                              <br/>
+                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
                             </div>
                           </div>
                         {% endif %}
@@ -1007,7 +1007,7 @@
                           <div class="govuk-grid-column-full">
                               <h1 id="dialog-title">The selected supplier is not ranked first</h1>
                               <h2 id="suppliersName"></h2>
-                              <p id="dialog-description">Confirm you wish to award to this supplier.</p>
+                               <p id="dialog-description">Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision. </p>
                               <div class="govuk-button-group">
                                 <a href="#" id="redirect-button-confirmsuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">
                                     Continue</a>
