@@ -17528,7 +17528,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
     }else{
       errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
     }
