@@ -279,12 +279,12 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       }
     }
    
-    if(agreement_id == "RM1043.8") {
-      if  (group_id === "Group 1" && (lotId == '1' || lotId == '3') && id === 'Criterion 2') {
+    // if(agreement_id == "RM1043.8") {
+    //   if  (group_id === "Group 1" && (lotId == '1' || lotId == '3') && id === 'Criterion 2') {
        
-          data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
-      }
-    }
+    //       data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+    //   }
+    // }
 
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -296,6 +296,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     console.log('data>>>',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
+    console.log('error',error)
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
