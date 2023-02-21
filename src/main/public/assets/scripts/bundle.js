@@ -12516,8 +12516,8 @@ const emptyFieldCheckdos = (type) => {
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
     if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
-        fieldMsg = 'You must enter term or acronym'
-        descMsg = 'You must enter definition for the term or acronym';
+        fieldMsg = 'Enter a term or acronym'
+        descMsg = 'Enter a definition for the term or acronym';
     }else{
         fieldMsg = 'You must add information in all fields.';
         descMsg = 'You must add information in all fields.';
@@ -18180,7 +18180,7 @@ $('#rfp_singleselect').on('submit', event => {
           ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
@@ -18191,7 +18191,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
       }
@@ -19997,7 +19997,7 @@ const ccsZvalidateRfiProjectName = (event) => {
 
       var rfi_projLongName=$('#rfi_projLongName').val();
       if(rfi_projLongName==''){
-        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter your project name", /^.+$/);
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project", /^.+$/);
         errorStore.push(fieldCheck);
       }
 
@@ -20141,12 +20141,12 @@ const ccsZvalidateRfiWho = (event) => {
   var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
   var errorMsg = '';
   if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
-    if(rfi_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfi_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
-      if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfi_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfi_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+    //   if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
@@ -20212,12 +20212,12 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
   var errorMsg = 'Supplier must be minimum 3';
   if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
-    if(rfp_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfp_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
-      if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfp_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfp_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+    //   if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
