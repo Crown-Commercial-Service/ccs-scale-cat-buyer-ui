@@ -13,12 +13,16 @@
             "href": "#"
         },
         {
+            "text": "Your inbox",
+            "href": "/message/inbox?type=create"
+        },
+        {
             "text": "Message",
             "href": "#"
         }
     ],
     "title": "Your inbox",
-    "subtitle": "Write a new message",
+    "subtitle": "Message thread",
     "subtitle2": "Create a new message",
     "signposting": {
         "line1": "Your message will be sent to all suppliers on the list.",
