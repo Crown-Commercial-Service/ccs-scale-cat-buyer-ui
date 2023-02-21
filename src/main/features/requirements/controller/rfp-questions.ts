@@ -414,12 +414,18 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       if  (group_id === "Group 10" && lotId == '1' && id === 'Criterion 3') {
         data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
       }
-
+      if  (group_id === "Group 1" && (lotId == '1' || lotId == '3') && id === 'Criterion 3') {
+        data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+      if  ((group_id === "Group 11"  || group_id === "Group 13" || group_id === "Group 15" || group_id === "Group 16" || group_id === "Group 17")  && lotId == '3' && id === 'Criterion 3') {
+        data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
+      }
+      
     }
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
-    
+    console.log('Data == ',JSON.stringify(data));
     res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];

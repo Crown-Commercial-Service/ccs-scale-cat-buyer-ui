@@ -47,13 +47,13 @@
 
             "href": "/projects/events/choose-route",
             "sections": [
-                "You can refine your needs by asking questions before formally publishing your requirements. You cannot run a Request for Information and Further Competition at the same time, in the same project.",
-                "You can do pre-market engagement in the following way:"
+                "You can refine your needs by asking questions before formally publishing your requirements. You cannot run a Request for Information and Further Competition at the same time, in the same project."
+                
             ],
             "subsections": [
                 [
                     "<b>Request for Information (RfI)</b>",
-                    "Gather information from suppliers about the products and services they offer.",
+                    "Gather information for your project from suppliers about the products and services they offer.",
                     "If you are ready to write and publish your requirements you can go straight to the next step."
                 ]
             ],
@@ -70,14 +70,15 @@
             "buttonDisable": true,
             "href": "#",
             "sections": [
-                "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements.",
-                "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
+                "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.",
+                "You’ll need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
                 "For the lot you selected, you can run your procurement in the following way:"
             ],
             "subsections": [
                 [
                     "<b>Further competition</b>",
-                    "You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+                    "You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.",
+                    "This is also known as one-stage further competition."
                     
                 ]
             ],

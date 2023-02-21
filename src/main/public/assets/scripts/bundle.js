@@ -8762,6 +8762,10 @@ for (const selector of eoi_totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
+        if($('.eoi_hideFirst:visible').length){
+            $('.eoi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateEoi();
@@ -11764,6 +11768,10 @@ for (const selector of totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
+        if($('.rfi_hideFirst:visible').length){
+            $('.rfi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRfi();
@@ -11927,9 +11935,14 @@ for(const selector of rfp_totalElementSelectors){
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
+        if($('.hideFirst:visible').length){
+                $('.hideFirst').hide();
+                $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRFP();
+        
     });
     let errorSelector = $("#click-error");
     let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
@@ -12499,12 +12512,21 @@ messagesendcountEle.forEach(ele => {
 const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
     if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
-        fieldMsg = 'You must enter term or acronym'
-        descMsg = 'You must enter definition for the term or acronym';
+        if(urlParams.get('agreement_id') == 'RM1043.8'){
+            fieldMsg = 'Enter a term or acronym'
+            descMsg = 'Enter a definition for the term or acronym';
+        } 
+        else{
+            fieldMsg = 'You must enter term or acronym'
+            descMsg = 'You must enter definition for the term or acronym';
+        }
+        
     }else{
         fieldMsg = 'You must add information in all fields.';
         descMsg = 'You must add information in all fields.';
@@ -15791,7 +15813,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     errorMsg = "Enter your special terms and conditions";
                                 }
                                 else if(urlParamsDefault.get('group_id') == 'Group 15'){
-                                    errorMsg = "Enter your accessibility requirements";
+                                    errorMsg = "Enter accessibility requirements";
                                 }
                                 else {
                                     errorMsg = "You must add information in all fields";
@@ -16267,7 +16289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !(pageHeading.includes("Assisted digital and accessibility requirements (optional)") || (pageHeading.includes("Assisted digital and accessibility requirements (Optional)")))) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 
@@ -18167,7 +18189,7 @@ $('#rfp_singleselect').on('submit', event => {
           ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
@@ -18178,7 +18200,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
       }
@@ -19984,7 +20006,7 @@ const ccsZvalidateRfiProjectName = (event) => {
 
       var rfi_projLongName=$('#rfi_projLongName').val();
       if(rfi_projLongName==''){
-        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project", /^.+$/);
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter your project name", /^.+$/);
         errorStore.push(fieldCheck);
       }
 
@@ -20398,7 +20420,7 @@ const ccsZvalidateRfpLocation = (event) => {
       const pageHeading = document.getElementById('page-heading').innerHTML;
       
 
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
        
         
          //const lotid = document.getElementById('LotID').value;
@@ -20411,7 +20433,7 @@ const ccsZvalidateRfpLocation = (event) => {
 console.log("group_id",group_id);
 
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
-          errMsg = "Select the locations where staff will work";
+          errMsg = "Select at least one location";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
           errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
@@ -20419,7 +20441,7 @@ console.log("group_id",group_id);
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
           errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
-          errMsg = "You must select at least one region where the research will be taking place";
+          errMsg = "Select at least one location";
         }
         else {
           errMsg=" Please select the checkbox.";
@@ -20604,11 +20626,11 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
  
           if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the number of rounds');
           }
           else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
             fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
@@ -20672,8 +20694,12 @@ const ccsZvalidateRfPStrategy = event => {
  
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && (!(pageHeading.includes("(optional)")  || pageHeading.includes("(Optional)"))) && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if(agreement_id == "RM1043.8"){
+         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details about the number of research rounds');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
@@ -20687,8 +20713,12 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if(agreement_id == "RM1043.8"){
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter a description of your participants');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Add background to your project")) {
