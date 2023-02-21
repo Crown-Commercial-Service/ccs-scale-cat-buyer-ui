@@ -126,11 +126,11 @@
     "subsection4_eval_table_th_8": "Award",
     "subsection4_eval_table_th_9": "Select to stage 2",
     "Downloadresponse": [{
-        "text": "Download response",
+        "text": "Download",
         "link": "#"
     }],
     "backJump": {
-        "title": "Download all responses"
+        "title": "Download all"
     },
     "mcf_sections": [
         "There is a legal requirement to publish certain contracts. You may need to publish the contract on:"
