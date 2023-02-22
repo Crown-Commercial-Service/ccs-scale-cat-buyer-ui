@@ -86,7 +86,13 @@
                           <p class="govuk-!-padding-bottom-9">
                               You may wish to download the <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Award Recommendation Report,</a> which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.</p>
                         {% else %}
-                        <p>You are required to evaluate the responses from all suppliers.</p>
+                          {% if agreementId_session == 'RM1043.8' %}
+                           <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
+                           <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
+                           <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
+                           {% else %}
+                           <p>You are required to evaluate the responses from all suppliers.</p>
+                           {% endif %}
                         {% endif %}
                     {%endif%}
               <div>  

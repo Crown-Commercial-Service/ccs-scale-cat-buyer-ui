@@ -354,10 +354,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             
             const slideObj = object_values.slice(0, 3);
 
+            let dayval = slideObj[0].value.length == 2?slideObj[0].value:'0'+slideObj[0].value;
+             let monthval = slideObj[1].value.length == 2?slideObj[1].value:'0'+slideObj[1].value;
+            
             answerValueBody = {
               nonOCDS: {
                 answered: true,
-                options: [{ value: slideObj[2].value+'-'+slideObj[1].value+'-'+slideObj[0].value, selected: true }],
+                options: [{ value: slideObj[2].value+'-'+monthval+'-'+dayval, selected: true }],
               },
             };
           } else if (questionNonOCDS.questionType === 'Duration') {
@@ -522,10 +525,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
 
               let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              
               //CAS-INFO-LOG 
               LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
-
+             
             } catch (error) {
               // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
               LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
@@ -743,7 +745,7 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Start date must be a valid future date' });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
-      errorText.push({ text: 'Start date cannot be after agreement expiry date' });
+      errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
       else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must be 500 characters or fewer' });
       else if (requirement.nonOCDS.questionType == 'SingleSelect')

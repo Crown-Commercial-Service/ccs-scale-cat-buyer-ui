@@ -2899,6 +2899,15 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
+            title: "Cookies that measure website use (Glassbox)",
+            description:
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>Browsing activity</li><li>Click-stream activity</li><li>Session heatmaps and</li><li>Scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+            cookie_type: "glassbox",
+            enabled: null,
+            adjustable: true,
+            cookies: null,
+        },
+        {
             title: "Cookies that help with our communications and marketing",
             description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - Contract Award Service (CAS).",
             cookie_type: "marketing",
@@ -2920,7 +2929,7 @@ var docCookies = {
     var oneyear = 31540000;
     var twodays = 172800; // var onemonth = 2.628e+6;
     // Set the default cookies. This JSON Object is saved as the cookie, but we use `initial_cookie_preferences` to maintain structure and various sanity checks
-    var cookie_preferences = { essentials: true, usage: false, marketing: false };
+    var cookie_preferences = { essentials: true, usage: false, glassbox:false, marketing: false };
     /**
      * When user accept the cookie, show this
      */ function hideMessage() {
@@ -2936,6 +2945,7 @@ var docCookies = {
         hideMessage();
         updateSeenCookie();
         fireGTM();
+        fireGBX();
     }
     function fireGTM() {
         (function (w, d, s, l, i) {
@@ -2948,6 +2958,14 @@ var docCookies = {
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", tagManager);
+
+    }
+    function fireGBX() {
+         var script = document.createElement('script'); 
+         script.id = "_cls_detector"; 
+         script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; 
+         script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); 
+         document.head.appendChild(script); 
     }
     function updateSeenCookie() {
         // 1 year = 3.154e+7
@@ -2960,7 +2978,7 @@ var docCookies = {
         // This is to check if the method was updateSeenCookie() was called from 'Accept all cookies' or cookie settings page
         // (in which case cookie_preferences_set will be set already)
         if (!docCookies.hasItem("cookie_preferences_set")) {
-            var cookie_preferences_accepted = { essentials: true, usage: true, marketing: true };
+            var cookie_preferences_accepted = { essentials: true, usage: true, glassbox: true, marketing: true };
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences_accepted), oneyear, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
             // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), oneyear, "/", ".crowncommercial.gov.uk");
@@ -2969,7 +2987,7 @@ var docCookies = {
         // will be updated with this user's choices
         else {
             // console.log('cookie_preferences', cookie_preferences);
-            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false ? twodays : oneyear;
+            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false ? twodays : oneyear;
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), cookie_timer, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, cookie_timer, "/", ".crowncommercial.gov.uk");
@@ -3000,7 +3018,7 @@ var docCookies = {
                 }
             }
         });
-        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
+        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
         docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
         // check if cookie_preferences_set is set, if not, set it
         // we're checking this first because we don't want to reset to today every time
@@ -8297,12 +8315,12 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
 
         if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
+            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
             ccsZPresentErrorSummary(errorStore);
         }
         else if (getTimeOfFormDate < todayDate.getTime()) {
@@ -8382,8 +8400,8 @@ const ccsZvalidateEoiDate = (event) => {
     var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
-        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
-          errorStore.push(["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]);
+        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "It is recommended that your project does not start after lot expiry date");
+          errorStore.push(["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]);
       }
   }
   }
@@ -9436,6 +9454,9 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
+
+                console.log('*********************************filetype');
+                console.log(file.type);
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -11384,6 +11405,10 @@ const urlParams = new URLSearchParams(queryString);
     }
 
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -11447,7 +11472,6 @@ const urlParams = new URLSearchParams(queryString);
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                
                                let last;
                                
@@ -11465,7 +11489,6 @@ const urlParams = new URLSearchParams(queryString);
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -11494,9 +11517,7 @@ const urlParams = new URLSearchParams(queryString);
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        
                        //ID BASED
@@ -13667,13 +13688,13 @@ function checkResourceStartDate() {
 
          }
          else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartMonth.val() != ''){
-            error_msg = 'Enter a Day with valid Year(YYYY Format)'
+            error_msg = 'Enter a day with valid Year(YYYY Format)'
             rfpResourceStartYear.addClass('govuk-form-group--error');
 
          }
          else if (rfpResourceStartDay.val() == '') {
 
-            error_msg = 'Enter a Day'
+            error_msg = 'Enter a day'
 
             var urlParamsDefault = new URLSearchParams(window.location.search);
             if (document.getElementById('lID') !== null) {
@@ -13733,12 +13754,12 @@ function checkResourceStartDate() {
 
          }
          else if(rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartDay.val() != ''){
-            error_msg = 'Enter a Month with valid Year(YYYY Format)'
+            error_msg = 'Enter a month with valid Year(YYYY Format)'
             rfpResourceStartYear.addClass('govuk-form-group--error');
 
          }
          else if (rfpResourceStartMonth.val() == '') {
-            error_msg = 'Enter a Month'
+            error_msg = 'Enter a month'
             var urlParamsDefault = new URLSearchParams(window.location.search);
             if (document.getElementById('lID') !== null) {
                lotId = document.getElementById('lID').value;
@@ -13783,12 +13804,12 @@ function checkResourceStartDate() {
       error_msg = 'Enter a valid year'
       removeErrorFieldsdates();
       if (document.getElementById('agreementID').value === 'RM1043.8') {
-         error_msg = 'Enter a Year'
+         error_msg = 'Enter a year'
          var urlParamsDefault = new URLSearchParams(window.location.search);
          if (document.getElementById('lID') !== null) {
             lotId = document.getElementById('lID').value;
             if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
-               error_msg = 'Enter a valid Year(YYYY Format)'
+               error_msg = 'Enter a year using the YYYY format'
             }
          }
       }
@@ -13816,7 +13837,7 @@ function checkResourceStartDate() {
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
       $('#event-name-error-date').html('Enter a valid year');
-      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a year using the YYYY format", /^\d{4,}$/);
 
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
@@ -14218,11 +14239,11 @@ function isProjectStartDateValid() {
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             } else {
-               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             }
             if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
@@ -14306,7 +14327,7 @@ function isProjectStartDateValid() {
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a project start date');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a project start date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter the latest start date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             }
@@ -14552,7 +14573,7 @@ function validateStartDate() {
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate) {
-            isValid = 'Start date cannot be after agreement expiry date';
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
@@ -15472,7 +15493,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -17528,7 +17555,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
     }else{
       errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
     }
