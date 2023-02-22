@@ -11387,6 +11387,10 @@ const urlParams = new URLSearchParams(queryString);
     }
 
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -11450,7 +11454,6 @@ const urlParams = new URLSearchParams(queryString);
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                
                                let last;
                                
@@ -11468,7 +11471,6 @@ const urlParams = new URLSearchParams(queryString);
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -11497,9 +11499,7 @@ const urlParams = new URLSearchParams(queryString);
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        
                        //ID BASED
@@ -15475,7 +15475,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
