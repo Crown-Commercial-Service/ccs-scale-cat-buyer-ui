@@ -8297,12 +8297,12 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
 
         if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
+            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
             ccsZPresentErrorSummary(errorStore);
         }
         else if (getTimeOfFormDate < todayDate.getTime()) {
@@ -8382,8 +8382,8 @@ const ccsZvalidateEoiDate = (event) => {
     var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
-        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
-          errorStore.push(["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]);
+        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "It is recommended that your project does not start after lot expiry date");
+          errorStore.push(["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]);
       }
   }
   }
@@ -9436,6 +9436,9 @@ $(document).ready(function () {
             const ErrorCheckArray = [];
 
             for(const file of FileList){
+
+                console.log('*********************************filetype');
+                console.log(file.type);
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -11384,6 +11387,10 @@ const urlParams = new URLSearchParams(queryString);
     }
 
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -11447,7 +11454,6 @@ const urlParams = new URLSearchParams(queryString);
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                
                                let last;
                                
@@ -11465,7 +11471,6 @@ const urlParams = new URLSearchParams(queryString);
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -11494,9 +11499,7 @@ const urlParams = new URLSearchParams(queryString);
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        
                        //ID BASED
@@ -13667,13 +13670,13 @@ function checkResourceStartDate() {
 
          }
          else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartMonth.val() != ''){
-            error_msg = 'Enter a Day with valid Year(YYYY Format)'
+            error_msg = 'Enter a day with valid Year(YYYY Format)'
             rfpResourceStartYear.addClass('govuk-form-group--error');
 
          }
          else if (rfpResourceStartDay.val() == '') {
 
-            error_msg = 'Enter a Day'
+            error_msg = 'Enter a day'
 
             var urlParamsDefault = new URLSearchParams(window.location.search);
             if (document.getElementById('lID') !== null) {
@@ -13733,12 +13736,12 @@ function checkResourceStartDate() {
 
          }
          else if(rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartDay.val() != ''){
-            error_msg = 'Enter a Month with valid Year(YYYY Format)'
+            error_msg = 'Enter a month with valid Year(YYYY Format)'
             rfpResourceStartYear.addClass('govuk-form-group--error');
 
          }
          else if (rfpResourceStartMonth.val() == '') {
-            error_msg = 'Enter a Month'
+            error_msg = 'Enter a month'
             var urlParamsDefault = new URLSearchParams(window.location.search);
             if (document.getElementById('lID') !== null) {
                lotId = document.getElementById('lID').value;
@@ -13783,12 +13786,12 @@ function checkResourceStartDate() {
       error_msg = 'Enter a valid year'
       removeErrorFieldsdates();
       if (document.getElementById('agreementID').value === 'RM1043.8') {
-         error_msg = 'Enter a Year'
+         error_msg = 'Enter a year'
          var urlParamsDefault = new URLSearchParams(window.location.search);
          if (document.getElementById('lID') !== null) {
             lotId = document.getElementById('lID').value;
             if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
-               error_msg = 'Enter a valid Year(YYYY Format)'
+               error_msg = 'Enter a year using the YYYY format'
             }
          }
       }
@@ -13816,7 +13819,7 @@ function checkResourceStartDate() {
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
       $('#event-name-error-date').html('Enter a valid year');
-      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a year using the YYYY format", /^\d{4,}$/);
 
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
@@ -14218,11 +14221,11 @@ function isProjectStartDateValid() {
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             } else {
-               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
             }
             if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
@@ -14306,7 +14309,7 @@ function isProjectStartDateValid() {
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             $('#event-name-error-date').html('Enter a project start date');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a project start date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter the latest start date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             }
@@ -14552,7 +14555,7 @@ function validateStartDate() {
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate) {
-            isValid = 'Start date cannot be after agreement expiry date';
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
@@ -15472,7 +15475,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
