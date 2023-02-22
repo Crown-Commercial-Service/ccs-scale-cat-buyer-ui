@@ -59,8 +59,7 @@
           <div class="govuk-grid-column-full">
             {% if agreementId_session ==='RM6187' %}
               {% if status.toLowerCase() === 'published' %}
-                <p>You can manage your project from this page including responding to supplier clarification questions or messages in
-                  your inbox, and seeing supplier responses to your published project.</p>
+                <p>Manage your project from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.</p>
                 <p>You can close this project using the link under the project name below.
                 </p>
                 <br>
@@ -257,23 +256,26 @@
                     <div class="govuk-grid-column-full">
                       {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
                         {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
-                          {% if eventType == 'EOI' %}
-                            <h2 class="govuk-heading-m">
-                              <span class="proc-task-list__section-number">3.</span>
-                              Number of suppliers who may respond to your published project
-                            </h2>
-                            <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in
-                              the section below.
-                            </p>
-                          {% else %}
                             <h2 class="govuk-heading-m">
                               <span class="proc-task-list__section-number">3.</span>
                               Suppliers who responded to your published project
                             </h2>
-                            <p class="govuk-body">Find out how many suppliers responded to your project in the section below.
+                          {% if eventType == 'EOI' %}
+                            <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in
+                              the section below.
+                            </p>
+                          {% else %}
+                              <p class="govuk-body">Find out how many suppliers responded to your project in the section below.
                             </p>
                           {% endif %}
+                        {% else %}
+                            <h2 class="govuk-heading-m">
+                              <span class="proc-task-list__section-number">3.</span>
+                              Number of suppliers who may respond to your published project
+                            </h2>
+                            
                         {% endif %}
+                      
                         {% if (projectStatus==2) %}
                           {% if agreementId_session ==='RM6187' %}
                             <p class="govuk-body">To see the clarification questions suppliers have submitted,
@@ -304,42 +306,45 @@
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
                         <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task3 }}</p>
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.declined | safe }}</p>
-                        {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
-                        {% else %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4 }}</p>
-                        {% endif %}
+                        {% if (agreementId_session == 'RM6187') %}
+                          {% if eventType == 'RFI' %}
+                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
+                          {% else %}
+                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_others }}</p>
+                           {% endif %}
+                         {% elseif (agreementId_session == 'RM1557.13') %}
+                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
+                         {% endif %}
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.noResponse | safe }}</p>
                       {% else %}
-                        {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+                        {% if agreementId_session == "RM1557.13" %}
                           {% if status.toLowerCase() === 'published' %}
                             <h2 class="govuk-heading-m">
                               <span class="proc-task-list__section-number">3.</span>
-                              How many suppliers may respond to your published project</h2>
+                              Number of suppliers who may respond to your published project</h2>
                             <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in
                               the section below.
                             </p>
                           {% else %}
-                            <h2 class="govuk-heading-m">
-                              <span class="proc-task-list__section-number">3.</span>
-                              Suppliers who responded to your published project</h2>
-                            <p class="govuk-body">Find out how many suppliers responded to your project in the section below.
-                            </p>
-                          {% endif %}
-                        {% else %}
-                          <h2 class="govuk-heading-m">
+                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">3.</span>
                             {{ data.subsection4_title3 }}</h2>
-                          <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
+                           <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>                           
+                          {% endif %}
+                        {% elseif agreementId_session == 'RM6187'%}
+                          <h2 class="govuk-heading-m">
+                              <span class="proc-task-list__section-number">3.</span>
+                              Suppliers who responded to your published project</h2>
+                            <p class="govuk-body">Find out how many suppliers responded to your project in the section below.</p>                          
                         {% endif %}
                         {% if (projectStatus==2) %}
-                          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
-                            <p class="govuk-body">To see the clarification questions suppliers have submitted,
-                              <a href="/message/inbox">open your inbox</a>.</p>
-                          {% else %}
+                          {# {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %} #}
                             <p class="govuk-body">If you want to see any clarification questions suppliers have submitted,
                               <a href="/message/inbox">open your inbox</a>.</p>
-                          {% endif %}
+                          {# {% else %}
+                            <p class="govuk-body">If you want to see any clarification questions suppliers have submitted,
+                              <a href="/message/inbox">open your inbox</a>.</p>
+                          {% endif %} #}
                         {% endif %}
                         <p class="govuk-body">The deadline for response from suppliers is
                           <strong>{{ filtervalues }}</strong>
@@ -368,7 +373,7 @@
                             <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4_gcloud }}</p>
                           {% endif %}
                         {% elseif (agreementId_session == 'RM6187') %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4_gcloud }}</p>
+                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4_others }}</p>
                         {% else %}
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4 }}</p>
                         {% endif %}
@@ -560,7 +565,7 @@
                                       <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                                     {% endif %}
                                     {% if status.toUpperCase() === 'EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
-                                      <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all supplier’s answers</a>
+                                      <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a>
                                     {% endif %}
                                   {% endif %}
                                 </td>
@@ -673,7 +678,7 @@
                                               <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
                                             {% endif %}
                                             {% if status.toUpperCase() === 'EVALUATING' %}
-                                              <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all supplier’s answers</a>
+                                              <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a>
                                             {% endif %}
                                           {% endif %}
                                         {% endif %}
@@ -753,8 +758,8 @@
                                 <p>You have completed your supplier evaluation.</p>
                               {% else %}
                                 {% if status.toUpperCase() != 'CLOSED' %}
-                                  <div class="govuk-grid-row ccs-page-section">
-                                    <div class="govuk-grid-column-full">
+                                  <!-- <div class="govuk-grid-row ccs-page-section">
+                                    <div class="govuk-grid-column-full">   -->                                
                                       <h2 class="govuk-heading-m">
                                         <span class="proc-task-list__section-number">5.</span>
                                         Complete RfI</h2>
@@ -778,8 +783,9 @@
                                         <a class="govuk-body govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to
                                           Procurement overview</a>
                                       </div>
-                                    </div>
-                                  </div>
+                                     <!-- </div>
+                                  </div>-->
+                                    
                                 {% endif %}
                               {% endif %}
 
@@ -805,7 +811,7 @@
                               <h2 class="govuk-heading-m">
                                 <span class="proc-task-list__section-number">5.</span>
                                 Complete EoI</h2>
-                              <p>When you have the supplier responses,you can close this project and then:</p>
+                              <p>When you have the supplier responses,you can close this EoI event and then:</p>
                               {% if agreementId_session ==='RM6187' %}
                                 <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                   <li>start the next stage of your project (from the 'Procurement overview' page)</li>
@@ -819,8 +825,9 @@
                                   <li>start another pre-tender market enagagement project</li>
                                 </ul>
                               {% endif %}
+                                 
                               {% if (projectStatus==2) %}
-                                <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to Procurement overview</a>
+                                <a class="govuk-body govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to Procurement overview</a>
                               {% endif %}
                             {% endif %}
                           </div>
@@ -898,6 +905,11 @@
                         <p>
                           You now need to begin the award process. To do so, please select the supplier you wish to award within ‘Supplier
                           responses’ above.</p>
+                        {% if agreementId_session ==='RM6187' and status.toUpperCase() == 'EVALUATED' and eventType == 'FC' %}  
+                          <br>
+                          <br>
+                         <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
+                        {% endif %}
                       {% endif %}
                     {% else %}
                       {# {% if status.toUpperCase() == 'EVALUATED' %}  --> Commented merge #}
@@ -939,7 +951,7 @@
                   href:"/eventStateChange?StateChange=1"
                 }) }}
                             {% endif %}
-                            {# <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
+                            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
                           </div>
                         {% endif %}
                       </div>
@@ -994,8 +1006,8 @@
                       <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
                     {% endif %}
                   {% endif %}
-                  {# {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %} #}
-                    <div>
+                 {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %} 
+                  <div>
                       <br/>
                       <br/>
                           {% if (agreementId_session == "RM1557.13") and (eventType != 'RFI') %}
@@ -1005,8 +1017,8 @@
                           {% if (agreementId_session != "RM1557.13") %}
                               <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
                           {% endif %}
-                    </div>
-                  {# {% endif %} #}
+                    </div> 
+                  {% endif %} 
                   <div class="loader-container">
                     <div class="loader-division">
                       <img src="/assets/images/loader.gif" alt="Loading">
