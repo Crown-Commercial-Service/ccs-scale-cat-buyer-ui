@@ -235,8 +235,11 @@
         {% endif %}
         
           </div>
-
-          <div class="govuk-grid-row ccs-page-section">
+          {% if agreementId_session == "RM6187" and eventType == 'FC' %}
+           <div> 
+           {% else %}
+           <div class="govuk-grid-row ccs-page-section">
+          {% endif %}
             <div class="govuk-grid-column-full">
               <h2 class="govuk-heading-m">
                 <span class="proc-task-list__section-number">4.</span>
@@ -349,8 +352,7 @@
   </div>
 
 
-<!-- <div class="govuk-grid-row ccs-page-section">-->
-<div class="">
+<div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
 
 
