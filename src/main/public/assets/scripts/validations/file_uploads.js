@@ -51,6 +51,9 @@ $(document).ready(function () {
 
             for(const file of FileList){
 
+                console.log('*********************************filetype');
+                console.log(file.type);
+
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
                 let size = 300000000;
