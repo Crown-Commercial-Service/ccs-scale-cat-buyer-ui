@@ -72,6 +72,7 @@
     "subsection4_title3_task2": "Number of suppliers who responded",
     "subsection4_title3_task3": "Number of suppliers who do not want to respond",
     "subsection4_title3_task4": "Number of suppliers who have not responded",
+    "subsection4_title3_task4_others": "Remaining suppliers with no response",
     "subsection4_title3_task2_mcf": "Number of suppliers who intend to respond",
     "subsection4_title3_task4_gcloud":"Number of suppliers who have not responded",
     "subsection4_title3_task2_dos": "Number of suppliers who intend to respond",
@@ -91,6 +92,7 @@
     "subsection4_title3_eval_task4": "Number of suppliers who have not responded",
     "subsection4_title3_eval_task2_mcf":"Number of suppliers who intend to respond",
     "subsection4_title3_eval_task4_gcloud":"Number of suppliers who have not responded",
+    "subsection4_title3_eval_task4_others": "Remaining suppliers with no response",
     "subsection4_title3_eval_task2_dos": "Number of suppliers who intend to respond",
     "subsection4_title3_eval_task4_dos":"Number of suppliers who have not responded",
 
