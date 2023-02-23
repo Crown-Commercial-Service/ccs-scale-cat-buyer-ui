@@ -29,7 +29,7 @@ app.locals.ENV = env;
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "script-src 'self' cdn.gbqofs.com report.*.gbqofs.com; connect-src 'self' cdn.gbqofs.com report.*.gbqofs.com"
+    "script-src 'self' https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js; connect-src 'self' https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"
   );
   next();
 });
