@@ -763,6 +763,13 @@
                                       </div>
                                     </div>
                                   {% endif %}
+
+                                  {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+                                      <div>
+                                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
+                                      </div>
+                                  {% endif %}
+
                                 {% endif %}
                               </div>
                             </div>
@@ -971,17 +978,24 @@
             
           </div>
           
-            {% if (agreementId_session == "RM6187" or agreementId_session == "RM1557.13") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED')  %}
+            {% if (agreementId_session == "RM6187") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED')  %}
               <br><br>
               <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %}
           {% endif %}
 
           <div class="govuk-!-margin-top-6">
-            {% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}
+            {% if agreementId_session == "RM6187" %}
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %}
           </div>
+
+              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
+                  <div>
+                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
+                  </div>
+              {% endif %}
+
           {# Loader container #}
           <div class="loader-container">
             <div class="loader-division">
