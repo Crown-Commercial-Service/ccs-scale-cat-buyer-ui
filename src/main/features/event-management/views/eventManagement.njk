@@ -41,7 +41,7 @@
           <p class="govuk-body">Agreement ID:
             <strong>
               {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-                {{ agreement_header['agreementId_session'] }}-L4
+                {{ agreement_header['agreementId_session'] }}L4
               {% else %}
                 {{ agreement_header['agreementId_session'] }}
               {% endif %}
@@ -361,7 +361,11 @@
                         {% endif %}
                       </div>
                     </div>
-                    <div class="govuk-grid-row ccs-page-section">
+                    {% if (status.toLowerCase() == 'closed') %}
+                    <div class="govuk-grid-row ccs-page-section ccs-noborder">
+                       {% else %}
+                        <div class="govuk-grid-row ccs-page-section">
+                     {% endif %}     
                       <div class="govuk-grid-column-full">
                         {% if status.toUpperCase() == 'EVALUATED' %}
                           {% if agreementId_session == 'RM1043.8' %}
@@ -375,10 +379,12 @@
                             </h2>
                           {% endif %}
                         {% else %}
+                          {% if (status.toLowerCase() != 'closed') %}
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">4.</span>
                             {{ data.subsection4_title4 }}
                           </h2>
+                         {% endif %}
                         {% endif %}
                         {% if status.toLowerCase() == 'published' or status.toLowerCase() == 'closed' %}
                           {% if status.toLowerCase() == 'published' %}
@@ -675,7 +681,7 @@
                                   </table>
                                 </div>
                               </div>
-                            {% elif status.toLowerCase() != 'published' %}
+                            {% elif (status.toLowerCase() != 'published' and status.toUpperCase() !='CLOSED') %}
                               <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                               {#<h3 class="govuk-heading-m">
                                                   {{data.subsection4_title4_1}}</h3>#}
@@ -800,7 +806,9 @@
                               {% endif %}
                               <br/>
                               <br/>
+                              {% if status.toLowerCase() != 'closed' %}
                               <hr/>
+                              {% endif %}
                               <br/>
                               <br/>
                               <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
