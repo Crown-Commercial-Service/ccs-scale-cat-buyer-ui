@@ -26,10 +26,11 @@ app.locals.ENV = env;
 /**
  * Content Security Policy
  */
+
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "script-src 'self' 'unsafe-inline' cdn.gbqofs.com report.*.gbqofs.com *.google-analytics.com; connect-src 'self' 'unsafe-inline' cdn.gbqofs.com report.*.gbqofs.com *.google-analytics.com"
+    "script-src 'self' 'unsafe_inline' *.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img_src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io"
   );
   next();
 });
