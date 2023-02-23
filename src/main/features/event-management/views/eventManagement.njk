@@ -361,7 +361,11 @@
                         {% endif %}
                       </div>
                     </div>
-                    <div class="govuk-grid-row ccs-page-section">
+                    {% if (status.toLowerCase() == 'closed') %}
+                    <div class="govuk-grid-row ccs-page-section ccs-noborder">
+                       {% else %}
+                        <div class="govuk-grid-row ccs-page-section">
+                     {% endif %}     
                       <div class="govuk-grid-column-full">
                         {% if status.toUpperCase() == 'EVALUATED' %}
                           {% if agreementId_session == 'RM1043.8' %}
@@ -375,10 +379,12 @@
                             </h2>
                           {% endif %}
                         {% else %}
+                          {% if (status.toLowerCase() != 'closed') %}
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">4.</span>
                             {{ data.subsection4_title4 }}
                           </h2>
+                         {% endif %}
                         {% endif %}
                         {% if status.toLowerCase() == 'published' or status.toLowerCase() == 'closed' %}
                           {% if status.toLowerCase() == 'published' %}
@@ -675,7 +681,7 @@
                                   </table>
                                 </div>
                               </div>
-                            {% elif status.toLowerCase() != 'published' %}
+                            {% elif (status.toLowerCase() != 'published' and status.toUpperCase() !='CLOSED') %}
                               <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                               {#<h3 class="govuk-heading-m">
                                                   {{data.subsection4_title4_1}}</h3>#}
@@ -805,12 +811,14 @@
                                   <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to Procurement overview</a>
                                 {% endif %}
                               {% endif %}
+                              {# <br/>
                               <br/>
-                              <br/>
+                              {% if status.toLowerCase() != 'closed' %}
                               <hr/>
+                              {% endif %}
                               <br/>
                               <br/>
-                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
                             </div>
                           </div>
                         {% endif %}
@@ -985,9 +993,14 @@
           {% endif %}
 
           <div class="govuk-!-margin-top-6">
-            {% if agreementId_session == "RM6187" %}
+            {# {% if agreementId_session == "RM6187" and eventType != "RFI" and eventType != "EOI" and eventType != "FC" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %} #}
+
+            {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %}
+
           </div>
 
               {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
