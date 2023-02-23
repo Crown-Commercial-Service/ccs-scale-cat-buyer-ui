@@ -4993,6 +4993,9 @@ p + .govuk-heading-s,
   left: 0;
   right: auto;
 }
+.govuk-grid-row.ccs-page-section.ccs-noborder {
+  border-bottom: 0;
+}
 .js-enabled .govuk-filter-search .govuk-accordion__icon::after, .js-enabled .govuk-filter-search .govuk-accordion__icon::before {
   width: 100% !important;
   background: transparent;
