@@ -30,7 +30,7 @@ app.locals.ENV = env;
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "script-src 'self' 'unsafe_inline' *.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img_src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io"
+    "script-src 'self' 'unsafe_inline' *.googletagmanager.com  https://snap.licdn.com https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img_src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io"
   );
   next();
 });
