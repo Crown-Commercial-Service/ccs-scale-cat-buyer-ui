@@ -17311,7 +17311,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -17436,7 +17436,7 @@ const emptyFieldCheckRfpScore = () => {
         }
 
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
@@ -17486,7 +17486,7 @@ const emptyFieldCheckRfpScore = () => {
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
             ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
@@ -17518,7 +17518,7 @@ const emptyFieldCheckRfpScore = () => {
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
           errMsg = 'You must add score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
           errMsg = 'Enter valid score';
         }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
