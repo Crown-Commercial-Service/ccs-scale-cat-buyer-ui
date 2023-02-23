@@ -805,12 +805,12 @@
                                   <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to Procurement overview</a>
                                 {% endif %}
                               {% endif %}
-                              <br/>
+                              {# <br/>
                               <br/>
                               <hr/>
                               <br/>
                               <br/>
-                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
                             </div>
                           </div>
                         {% endif %}
@@ -985,9 +985,14 @@
           {% endif %}
 
           <div class="govuk-!-margin-top-6">
-            {% if agreementId_session == "RM6187" %}
+            {# {% if agreementId_session == "RM6187" and eventType != "RFI" and eventType != "EOI" and eventType != "FC" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %} #}
+
+            {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %}
+
           </div>
 
               {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
