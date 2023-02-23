@@ -69,10 +69,10 @@ app.use((req, res, next) => {
     'Cache-Control',
     'no-cache, max-age=0, must-revalidate, no-store',
   );
-  res.setHeader(
-    'Content-Security-Policy',
-    "script-src 'self' 'unsafe-inline' *.googletagmanager.com  https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img-src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io; child-src blob:"
-  );
+  // res.setHeader(
+  //   'Content-Security-Policy',
+  //   "script-src 'self' 'unsafe-inline' *.googletagmanager.com  https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img-src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io; child-src blob:"
+  // );
   if(process.env.LOGIN_DIRECTOR_URL == "NONE") {
     res.locals.LOGIN_DIRECTOR_URL = '/oauth/login';
   } else {
