@@ -6,9 +6,17 @@
 {% set title = 'Your project' %}
 {% else %}
     {% if(agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+        <h1 class="heading-your-project">
+        <strong>
         {% set title = 'Your project' %}
+        </strong>
+        </h1>
     {% else %}
+        <h1 class="heading-your-project">
+        <strong>
         {% set title = 'Event management' %}
+        </strong>
+        </h1>
     {% endif %}
 {% endif %} 
 {% block breadCrumb %}
