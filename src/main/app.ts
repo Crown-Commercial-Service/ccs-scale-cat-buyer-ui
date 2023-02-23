@@ -23,6 +23,16 @@ import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
+/**
+ * Content Security Policy
+ */
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' cdn.gbqofs.com report.*.gbqofs.com; connect-src 'self' cdn.gbqofs.com report.*.gbqofs.com"
+  );
+  next();
+});
 
 // setup logging of HTTP requests
 /**
