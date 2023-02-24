@@ -5,7 +5,7 @@
 {% if stage2_value == 'Stage 2' %} 
 {% set title = 'Your project' %}
 {% else %}
-    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+    {% if(agreement_header['agreementId_session']=='RM6187' or agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
         {% set title = 'Your project' %}
     {% else %}
         {% set title = 'Event management' %}
