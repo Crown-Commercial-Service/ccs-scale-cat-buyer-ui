@@ -18,54 +18,69 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { created } = req.query
-    const { createdreply,msgfor } = req.query
+    const { createdreply, msgfor, project_status } = req.query
     const { createdqa } = req.session
     const { createdqaedit } = req.session
-    const projectId = req.session['projectId'] 
+    const projectId = req.session['projectId']
     const eventId = req.session['eventId']
     const agreementId = req.session.agreement_id;
     try {
-        if (createdqa !=undefined || createdqaedit !=undefined) {
+        if (createdqa != undefined || createdqaedit != undefined) {
             delete req.session["createdqa"];
             delete req.session["createdqaedit"];
         }
         const baseReceivedMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
-       
+
         const draftReceivedMessage = await TenderApi.Instance(SESSION_ID).get(baseReceivedMessageURL)
-        
+
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(draftReceivedMessage, logConstant.messageReceived, req);
 
         const receivedMessages: Message[] = draftReceivedMessage.data.messages
-        
+
         if (receivedMessages != undefined) {
             receivedMessages.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < receivedMessages.length; i++) {
                 receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD-MMM-YYYY - HH:mm')
             }
         }
-        
-        let suppliernameforreplymessage='';
-       
-        if(createdreply)
-        {
-            suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
+
+        let suppliernameforreplymessage = '';
+
+        if (createdreply) {
+            suppliernameforreplymessage = req.session['SupplierNameforMessagereply']
         }
 
         let data;
-        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
+        if (agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6InboxData;
-          } else { 
+        } else {
             data = inboxData;
-          }
+        }
 
 
-        const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,msgfor,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
+        const breadcrumbs: any = genarateBreadcrumbs({agreementId, eventId, eventType : req.session.eventManagement_eventType, project_status})
+
+        const appendData = { 
+             data,
+             createdQA: createdqa,
+             createdQAEdit: createdqaedit,
+             created,
+             createdreply,
+             msgfor,
+             suppliernameforreplymessage,
+             messages: receivedMessages,
+             eventId: req.session['eventId'],
+             eventType: req.session.eventManagement_eventType,
+             agreementId,
+             breadcrumbs }
+
         res.locals.agreement_header = req.session.agreement_header
-         
-        //CAS-INFO-LOG 
-         LoggTracer.infoLogger(null, logConstant.messageInboxPageLogger, req);
 
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.messageInboxPageLogger, req);
+        
         res.render('MessagingInbox', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -78,4 +93,37 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
             true,
         );
     }
+}
+
+const genarateBreadcrumbs = ({agreementId, eventId, eventType, project_status}: any) => {
+    let eventCrumbs = {}
+    let messageCrumbs = {}
+    if (project_status !== undefined && project_status === 'COMPLETE') {
+        eventCrumbs = {
+            "text": `${eventId} / ${eventType}`,
+            "href": `/event/management_close?id=${eventId}`
+        }
+    } else {
+        eventCrumbs = {
+            "text": `${eventId} / ${eventType}`,
+            "href": `/event/management?id=${eventId}`
+        }
+    }
+
+    if (agreementId == 'RM1043.8' || agreementId == 'RM1557.13' || agreementId == 'RM6187') {
+        messageCrumbs = {
+            "text": "Your inbox",
+            "href": "#"
+        }
+    } else {
+        messageCrumbs = {
+            "text": "Message",
+            "href": "#"
+        }
+    }
+
+    return [{
+        "text": "Dashboard",
+        "href": "/dashboard"
+    }, eventCrumbs, messageCrumbs]
 }
