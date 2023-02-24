@@ -360,15 +360,8 @@ const emptyFieldCheckdos = (type) => {
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
     if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
-        if(urlParams.get('agreement_id') == 'RM1043.8'){
-            fieldMsg = 'Enter a term or acronym'
-            descMsg = 'Enter a definition for the term or acronym';
-        } 
-        else{
-            fieldMsg = 'You must enter term or acronym'
-            descMsg = 'You must enter definition for the term or acronym';
-        }
-        
+        fieldMsg = 'Enter a term or acronym'
+        descMsg = 'Enter a definition for the term or acronym';
     }else{
         fieldMsg = 'You must add information in all fields.';
         descMsg = 'You must add information in all fields.';

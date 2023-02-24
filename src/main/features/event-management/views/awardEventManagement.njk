@@ -218,7 +218,11 @@
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+            {% if (status.toLowerCase() == "awarded" or status.toLowerCase() == "pre-award") %}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_others}}</p>
+            {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
+            {% endif %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
@@ -231,8 +235,11 @@
         {% endif %}
         
           </div>
-
-          <div class="govuk-grid-row ccs-page-section">
+          {% if agreementId_session == "RM6187" and eventType == 'FC' %}
+           <div> 
+           {% else %}
+           <div class="govuk-grid-row ccs-page-section">
+          {% endif %}
             <div class="govuk-grid-column-full">
               <h2 class="govuk-heading-m">
                 <span class="proc-task-list__section-number">4.</span>
