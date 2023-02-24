@@ -6,9 +6,39 @@
 {% set title = 'Complete and upload a document | Contract Award Service' %}
 
 {% block breadCrumb %}
-
- {% if(agreementId_session == 'RM1043.8') %}
-    {{ CCSBreadcrumbs({
+  {% if(agreementId_session == 'RM1043.8') %}
+    {% if(data.title == 'Upload assessment documents ') %}
+      {{ CCSBreadcrumbs({
+        items:[
+          {
+            "text": "Your Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+          },
+          {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+          },
+          {
+            "text": "Write and publish your requirements",
+            "href": "/rfp/task-list"
+          },
+          {
+            "text": "Upload pricing schedules and other documents",
+            "href": "/rfp/upload-supporting-doc"
+          },
+          {
+            "text": "Upload assessment documents",
+            "href": "#"
+          }
+        ]  
+        }) }}
+        
+    {% else %}
+      {{ CCSBreadcrumbs({
         items: [
           {
             text: "Dashboard",
@@ -36,7 +66,8 @@
           }
         ]
       }) }}
- {% else %}
+    {% endif %}
+  {% else %}
       {{ CCSBreadcrumbs({
         items: [
           {
@@ -65,8 +96,7 @@
           }
         ]
       }) }}
- {% endif %}
-
+  {% endif %}
 {% endblock %}
 
 

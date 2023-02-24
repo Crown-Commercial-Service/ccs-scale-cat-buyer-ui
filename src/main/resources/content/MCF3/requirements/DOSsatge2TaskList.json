@@ -81,7 +81,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Your timeline ",
+          "title": "Set your timeline",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/rfp/response-date"
