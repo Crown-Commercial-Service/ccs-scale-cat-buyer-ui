@@ -3861,16 +3861,32 @@ const showPopup = (event) => {
   
   const loseyouprojectShowPopup = (event) => {
     event.preventDefault();
-    $(".backdrop-nextsteps").fadeTo(200, 1);
-    document.getElementById("nextstepspopup").style.paddingTop="1000";
-    let btnSend = document.querySelector('#redirect-button-nextsteps');
-    if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-      btnSend.setAttribute('name', 'Next Step');
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    } else {
-      btnSend.setAttribute('name', 'CCS website');
-    }
-    $('.pop').slideFadeToggle();
+    const openpopGC = document.querySelector('.backdrop-nextstepspopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-nextstepspopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-nextstepspopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        document.location.href="/rfi/closerfi"
+      });
+    // $(".backdrop-nextsteps").fadeTo(200, 1);
+    // document.getElementById("nextstepspopup").style.paddingTop="1000";
+    // let btnSend = document.querySelector('#redirect-button-nextsteps');
+    // if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+    //   btnSend.setAttribute('name', 'Next Step');
+    //   document.body.scrollTop = document.documentElement.scrollTop = 0;
+    // } else {
+    //   btnSend.setAttribute('name', 'CCS website');
+    // }
+    // $('.pop').slideFadeToggle();
+
+
+
   };
 
 
