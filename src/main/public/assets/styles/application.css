@@ -4993,6 +4993,9 @@ p + .govuk-heading-s,
   left: 0;
   right: auto;
 }
+.govuk-grid-row.ccs-page-section.ccs-noborder {
+  border-bottom: 0;
+}
 .js-enabled .govuk-filter-search .govuk-accordion__icon::after, .js-enabled .govuk-filter-search .govuk-accordion__icon::before {
   width: 100% !important;
   background: transparent;
@@ -9359,11 +9362,12 @@ p,
 .backdrop-gcloud_delete.showpopup,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
-.backdrop-award.showpopup
+.backdrop-award.showpopup,
+.backdrop-supplierConfirmAllPopup.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-supplierConfirmAllPopup {
   position: fixed;
   top: 0px;
   left: 0px;

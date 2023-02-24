@@ -2899,9 +2899,9 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
-            title: "Cookies that measure website use (Glassbox)",
+            title: "",
             description:
-                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>Browsing activity</li><li>Click-stream activity</li><li>Session heatmaps and</li><li>Scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
             cookie_type: "glassbox",
             enabled: null,
             adjustable: true,
@@ -17311,7 +17311,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -17436,7 +17436,7 @@ const emptyFieldCheckRfpScore = () => {
         }
 
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
@@ -17486,7 +17486,7 @@ const emptyFieldCheckRfpScore = () => {
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
             ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
@@ -17518,7 +17518,7 @@ const emptyFieldCheckRfpScore = () => {
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
           errMsg = 'You must add score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
           errMsg = 'Enter valid score';
         }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
@@ -20886,8 +20886,8 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
 if (document.getElementById('supplierMsgCancel') !== null)
   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
@@ -22371,4 +22371,25 @@ if (document.querySelectorAll('.suppliersAwardConfirm')) {
     })
   })
 }
-
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
+  });
