@@ -55,12 +55,12 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
-    
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const groupSixRelated = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Your social value question');
     const groupSixRelatedq1 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Quality');
     const groupSixRelatedq2 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Technical Criteria');
     const groupSixRelatedq3 = fetch_dynamic_api_data.some((el: any) => el.nonOCDS.questionType == 'ReadMe');
+    const groupSixRelatedq4 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Set the overall weighting');
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
     
@@ -177,7 +177,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
     }
-    
+    else if(ChoosenAgreement == 'RM1043.8' && id === 'Criterion 2' && group_id == 'Group 3') {
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+    }
     else {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
@@ -293,10 +296,8 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
-    console.log('data>>>',JSON.stringify(data))
     res.render('rfp-question-assessment', data);
   } catch (error) {
-    console.log('error',error)
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -975,7 +976,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
     case 'Group 5':
       if(agreement_id == 'RM1043.8') {
-        title = 'essential skill or experience';
+        title = 'essential skill and experience';
       } else {
         title = 'cultural';
       }

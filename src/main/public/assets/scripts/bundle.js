@@ -12518,15 +12518,8 @@ const emptyFieldCheckdos = (type) => {
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
     if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
-        if(urlParams.get('agreement_id') == 'RM1043.8'){
-            fieldMsg = 'Enter a term or acronym'
-            descMsg = 'Enter a definition for the term or acronym';
-        } 
-        else{
-            fieldMsg = 'You must enter term or acronym'
-            descMsg = 'You must enter definition for the term or acronym';
-        }
-        
+        fieldMsg = 'Enter a term or acronym'
+        descMsg = 'Enter a definition for the term or acronym';
     }else{
         fieldMsg = 'You must add information in all fields.';
         descMsg = 'You must add information in all fields.';
@@ -20006,7 +19999,7 @@ const ccsZvalidateRfiProjectName = (event) => {
 
       var rfi_projLongName=$('#rfi_projLongName').val();
       if(rfi_projLongName==''){
-        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter your project name", /^.+$/);
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project", /^.+$/);
         errorStore.push(fieldCheck);
       }
 
@@ -20035,7 +20028,7 @@ const ccsZvalidateRfiProject = (event) => {
   let fieldCheck = "",
     errorStore = [];
     if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your project");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background information.");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
@@ -20150,12 +20143,12 @@ const ccsZvalidateRfiWho = (event) => {
   var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
   var errorMsg = '';
   if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
-    if(rfi_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfi_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
-      if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfi_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfi_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+    //   if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
@@ -20221,12 +20214,12 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
   var errorMsg = 'Supplier must be minimum 3';
   if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
-    if(rfp_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfp_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
-      if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfp_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfp_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+    //   if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
