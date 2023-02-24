@@ -8,9 +8,9 @@
     "cookiestype1contentline2": "<ul><li>how you got to the site</li><li>the pages you visit on Crown Commercial Service (CCS) - Contract Award Service (CAS), and how long you spend on each page</li><li>what you click on while you're visiting the site</li></ul>",
     "cookiestype1controlheading": "We do not allow Google to use or share the data about how you use this site.",
 
-    "cookietype11": "Cookies that measure website use (Glassbox)",
+    "cookietype11": "",
     "cookiestype1contentline11": "We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.<p> Glassbox stores information about:</p>",
-    "cookiestype1contentline21": "<ul><li>Browsing activity</li><li>Click-stream activity</li><li>Session heatmaps and</li><li>Scrolls</li></ul>",
+    "cookiestype1contentline21": "<ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul>",
     "cookiestype1controlheading1": "<p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
     "cookietype2": "Cookies that help with our communications and marketing",
     "cookiestype2contentline1": null,

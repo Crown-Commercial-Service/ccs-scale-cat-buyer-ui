@@ -102,9 +102,9 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
-            title: "Cookies that measure website use (Glassbox)",
+            title: "",
             description:
-                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>Browsing activity</li><li>Click-stream activity</li><li>Session heatmaps and</li><li>Scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
             cookie_type: "glassbox",
             enabled: null,
             adjustable: true,
