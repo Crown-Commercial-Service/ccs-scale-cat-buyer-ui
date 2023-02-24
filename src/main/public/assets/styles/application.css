@@ -9363,11 +9363,12 @@ p,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
 .backdrop-award.showpopup,
-.backdrop-supplierConfirmAllPopup.showpopup
+.backdrop-supplierConfirmAllPopup.showpopup,
+.backdrop-confirmLowScoreSupplierPopup.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-supplierConfirmAllPopup {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-supplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup {
   position: fixed;
   top: 0px;
   left: 0px;
