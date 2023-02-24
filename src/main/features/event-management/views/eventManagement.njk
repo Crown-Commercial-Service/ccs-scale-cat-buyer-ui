@@ -1019,9 +1019,21 @@
             </div>
           </div>
 
+          {# Dialog Start #}
+          {# Confiramtion popup for a low-scoring supplier #}
+          {{ 
+            CCSDialog({
+              title: 'The selected supplier is not ranked first',
+              description:'Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision.',
+              redirect:'#',
+              type:'confirmLowScoreSupplierPopup'
+            }) 
+          }}
+          {# Dialog End #}
+
         </main>
-        {# Confiramtion popup for a low-scoring supplier #}
-                    <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
+        
+                    {# <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
                       <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
                           <div class="pop_logo govuk-grid-column-full">
                             <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
@@ -1042,7 +1054,7 @@
                               </div>
                           </div>
                       </div>
-                    </div>
+                    </div> #}
         {% endblock %}
 
 

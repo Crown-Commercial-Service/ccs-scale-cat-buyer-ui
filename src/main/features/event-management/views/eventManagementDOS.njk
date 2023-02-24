@@ -311,7 +311,7 @@
                                       <tr class="govuk-table__row">
                                         <th scope="row" class="govuk-table__cell">
 
-                                          <p class="govuk-body govuk-!-margin-bottom-0">
+                                          <p class="govuk-body govuk-!-margin-bottom-0" data-type="supplierName_{{supplier.supplierId}}">
                                             {{supplier.supplierName}}
                                           </p>
 
@@ -361,7 +361,9 @@
                                               {%endif%}
                                               {% if(stage2_value == 'Stage 2')  %}
                                                 <td class="govuk-text-align govuk-!-text-align-centre">
-                                                  <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
+                                                  {# <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a> #}
+
+                                                  <a class="govuk-link suppliersAwardConfirm" href="javascript:void(0)" data-url="/confirm-supplier?supplierid={{ supplier.supplierId }}" data-name={{supplier.supplierId}} data-value={{supplier.score}} >Select</a>
                                                   </td>
                                               {%endif%}
                                               {%endif%}
@@ -430,7 +432,7 @@
                                               <tr class="govuk-table__row">
                                                 <th scope="row" class="govuk-table__cell">
 
-                                                  <p class="govuk-body govuk-!-margin-bottom-0">
+                                                  <p class="govuk-body govuk-!-margin-bottom-0" data-type="supplierName_{{supplier.supplierId}}">
                                                     {{supplier.supplierName}}
                                                   </p>
 
@@ -592,6 +594,18 @@
                                   </div>
                                 </div>
                               </div>
+
+                               {# Dialog Start #}
+          {# Confiramtion popup for a low-scoring supplier #}
+          {{ 
+            CCSDialog({
+              title: 'The selected supplier is not ranked first',
+              description:'Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision.',
+              redirect:'#',
+              type:'confirmLowScoreSupplierPopup'
+            }) 
+          }}
+          {# Dialog End #}
 
                               </main>
                             {% endblock %}
