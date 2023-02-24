@@ -9360,6 +9360,7 @@ p,
 .backdrop-close.showpopup, .backdrop-close.showpopup .messagepop, 
 .backdrop-supplier-popup.showpopup, .backdrop-supplier-popup.showpopup .messagepop,
 .backdrop-gcloud_delete.showpopup,
+.backdrop-nextstepspopup.showpopup,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
 .backdrop-award.showpopup,
@@ -9367,7 +9368,7 @@ p,
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-supplierConfirmAllPopup {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-supplierConfirmAllPopup,.backdrop-nextstepspopup {
   position: fixed;
   top: 0px;
   left: 0px;
