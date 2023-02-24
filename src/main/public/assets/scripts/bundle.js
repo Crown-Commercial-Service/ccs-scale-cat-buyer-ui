@@ -20886,8 +20886,8 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
 if (document.getElementById('supplierMsgCancel') !== null)
   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
@@ -22371,4 +22371,25 @@ if (document.querySelectorAll('.suppliersAwardConfirm')) {
     })
   })
 }
-
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
+  });
