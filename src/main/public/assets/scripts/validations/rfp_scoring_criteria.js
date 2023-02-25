@@ -513,7 +513,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -655,7 +655,7 @@ const emptyFieldCheckRfpScore = () => {
         }
 
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
@@ -705,7 +705,7 @@ const emptyFieldCheckRfpScore = () => {
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
             ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
@@ -748,8 +748,8 @@ const emptyFieldCheckRfpScore = () => {
           errMsg = 'Enter a name for this level';
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
-          errMsg = 'Enter a score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+          errMsg = 'You must add score for this level';
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
           errMsg = 'Enter valid score';
         }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
@@ -785,7 +785,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["There is a problem", 'Number of scoring levels must be 2 or more'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
     }else{
       errorStore.push(["There is a problem", 'Number of scoring levels must be 2 or more'])
     }

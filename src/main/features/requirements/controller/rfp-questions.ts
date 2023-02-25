@@ -1100,7 +1100,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                     answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [];
                   } 
 
-                  
+                  //answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [];
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }

@@ -115,12 +115,38 @@
                                         working days from publishing responses to the clarification questions to the deadline for suppliers to submit their
                                         response</li>
                                 {% endif %}
-                            {% endif %}
                             {% if agreementId_session == 'RM1557.13' %}
                                 <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit
                                     their response</li>
                             {% endif %}
                         </ul>
+                        {% endif %}
+                        <p class="govuk-body">{{data.subtitle2}}</p>
+                        
+                        {% if agreementId_session != 'RM1043.8' %}
+                            <div class="govuk-inset-text">
+                                <p class="govuk-body">
+                                    <b>{{data.subtitle3}}</b>
+                                </p>
+                            </div>
+                        {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}    
+                         <div class="govuk-inset-text">
+                                <p class="govuk-body">
+                                    <b>{{data.subtitle3}}</b>
+                                </p>
+                            </div>
+                        {% endif %}
+                        <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
+                            <p class="govuk-body-l govuk-!-margin-top-3">
+                                <strong>
+                                    {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}
+                    Timeline for your further competition
+                    {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}
+                    Your further competition timeline 
+                    {% elseif agreementId_session =='RM1043.8' and stage2_value == "Stage 2" %}
+                    Timeline for stage 2
+                    {% else %}
+                    Timeline for the 1-stage further competition
                     {% endif %}
                     <p class="govuk-body">{{ data.subtitle2 }}</p>
                     {# {% if agreementId_session != 'RM1043.8' %} #}
