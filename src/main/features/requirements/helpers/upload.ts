@@ -152,7 +152,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
 
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
         delete req.session["fileObjectIsEmpty"]
       }
       if (fileDuplicateError) {

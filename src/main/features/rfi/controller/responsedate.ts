@@ -148,7 +148,7 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
       let publishDate = new Date(timeline.publish);
       let newDate = new Date(questionNewDate);
 
-      if (newDate.setHours(0, 0, 0, 0) <= publishDate.setHours(0, 0, 0, 0)) {
+      if (newDate <= publishDate) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -218,7 +218,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_hourFormat,
     selected_question_id,
   } = req.body;
-
+  console.log("selected_question_id",selected_question_id);
+  let questionId = Number(selected_question_id?.split('Question ').join(''));
+  console.log("questionId",questionId);
   const { timeline } = req.session;
 
   clarification_date_day = Number(clarification_date_day);
@@ -228,11 +230,25 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   let basebankURL = `/bank-holidays.json`;
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+  {
+    let errorText='';
+    if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
+    {
+      errorText='Date and Time invalid or empty. Please enter the valid date and time';
+    }
+    else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
+    {
+      errorText='Date invalid or empty. Please enter the valid date';
+    }
+    else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    {
+      errorText='Time invalid or empty. Please enter the valid time';
+    }
 
-  if (clarification_date_day == 0 || isNaN(clarification_date_day) || clarification_date_month == 0 || isNaN(clarification_date_month) || clarification_date_year == 0 || isNaN(clarification_date_year)) {
-    const errorItem = {
-      text: 'Date invalid or empty. Plese enter the valid date',
-      href: 'clarification_date',
+    const errorItem = {     
+      text: errorText, 
+      href:  'rfi_clarification_date_expanded_'+questionId,
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }

@@ -56,7 +56,7 @@
         href: "/rfp/task-list"
       },
       {
-         text: "Change who will lead the project",
+         text: "Change who will lead your project",
          href: "#"
       }
     ]
@@ -142,7 +142,7 @@
             
         {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') or (agreementId_session == 'RM1043.8') %}
           <h1 class="govuk-heading-xl"><strong>
-            Change who will lead the project (optional)
+            Change who will lead your project (optional)
          </strong> </h1>
         {% else %}
          <h1 class="govuk-heading-xl"><strong>
@@ -170,8 +170,8 @@
                {% else %}
                   <div>
                      <p class="govuk-body">You are registered as the lead for this project. This means you will be the main point of contact for any questions submitted by suppliers.</p>
-                     <p class="govuk-body">Use the drop-down box below to change the procurement leader. They will need to be registered with CCS.</p>
-                     <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-market engagement, or continue to the next step.</p>
+                     <p class="govuk-body">Use the drop-down box below to change the project lead. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank" class="govuk-link govuk-link--no-visited-state">Public Procurement Gateway and Contract Award Service. </a></p>
+                     <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this later.  </p>
                   </div>
                {% endif %}
            {% elseif agreementId_session != 'RM1557.13' %}
@@ -239,7 +239,7 @@
          </form>
       </div>
       <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
+         {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
       </div>
    </div>
 </main>

@@ -693,19 +693,20 @@ function checkResourceStartDate() {
          errorStore.push(fieldCheck)
       }
    }
-   else if (rfpResourceStartYear.val() <= 1) {
+   else if(Number(rfpResourceStartYear.val()) <= 1)
+      {
+      error_msg = "Enter a valid Year(YYYY Format)"
       flag = false;
       rfpResourceStartYear.addClass('govuk-form-group--error');
       rfpResourceStartDay.addClass('govuk-form-group--error');
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
       $('#event-name-error-date').html('Enter a valid year');
-      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d$/);
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
-      } else {
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
       }
+      
    }
    else {
       flag = true;
@@ -765,6 +766,14 @@ function isProjectExtensionValid() {
 
    if (document.getElementById("rfp_duration-years_Question12") != undefined && document.getElementById("rfp_duration-years_Question12") != null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
       if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
          if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
             if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
                fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);

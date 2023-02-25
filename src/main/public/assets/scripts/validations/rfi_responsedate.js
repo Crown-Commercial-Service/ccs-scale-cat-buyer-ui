@@ -25,6 +25,10 @@ for (const selector of totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
+        if($('.rfi_hideFirst:visible').length){
+            $('.rfi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRfi();
@@ -54,6 +58,7 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
+        elementSelectorClicked.find('input').val('');
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {

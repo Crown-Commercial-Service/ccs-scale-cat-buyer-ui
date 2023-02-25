@@ -57,13 +57,17 @@ const urlParams = new URLSearchParams(queryString);
     }
 
     }
-
+    
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
   var divHide = $('div.ccs-dynaform-hidden').length;
   if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
       with_value_count++;
   }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
+      var divHide = $('div.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
       e.preventDefault();
       $(".govuk-error-summary").remove();
       errorStore = emptyQuestionFieldCheck();

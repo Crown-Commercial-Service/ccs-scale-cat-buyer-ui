@@ -51,7 +51,7 @@
             {
               "Task": 2,
               "link": "/fca/procurement-lead",
-              "title": "Change who will lead the project",
+              "title": "Change who will lead your project",
               "required": "optional",
               "status": "Optional"
             },

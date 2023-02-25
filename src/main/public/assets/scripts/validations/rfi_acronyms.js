@@ -95,7 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-      
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -329,24 +332,24 @@ const emptyFieldCheck = (add_more='') => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
-        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
+        fieldCheck = [term_field.id, 'You must add the term or acronym'];
         errorStore.push(fieldCheck);
         fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
+        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
-        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
+        fieldCheck = [term_field.id, 'You must add the term or acronym'];
         errorStore.push(fieldCheck);
       }
     }

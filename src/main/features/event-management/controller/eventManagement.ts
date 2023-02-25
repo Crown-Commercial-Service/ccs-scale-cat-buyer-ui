@@ -1675,8 +1675,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
             const appendData: any = {
               releatedContent: releatedContent,
               supplierData,
-              eventId
-              
+              eventId,
+              agreementId_session,
+              lotid
             };
              
               //CAS-INFO-LOG 

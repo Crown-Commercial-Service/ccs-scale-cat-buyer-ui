@@ -275,7 +275,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           const questionNonOCDS = nonOCDS.find(item => item.questionId == question_ids[i]);
 
          
-          
+
          if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
             if (KeyPairMultiValidation(object_values, req)) { 
               validationError = true;
@@ -451,7 +451,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             }
             
             if (!validationError) {
-              
+             
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -462,6 +462,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             }
           }
           else {
+            
                     if (
                       (questionNonOCDS.mandatory == true && object_values.length == 0) ||
                       object_values[0]?.value.length == 0
@@ -497,13 +498,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         if(object_values[0].value[i]!=''){
                            objValue=object_values[0].value[i];
                         }
-
+                      
                       }else{
-
+                        
                         objValue=object_values[0].value[i];
                       }
-
-
+                     
                       answerValueBody = {
                         nonOCDS: {
                           answered: true,
@@ -511,6 +511,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         },
                       };
                     } else {
+                     
                       answerValueBody = {
                         nonOCDS: {
                           answered: true,
@@ -523,7 +524,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             try {
               
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-
+             
               let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
               //CAS-INFO-LOG 
               LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);

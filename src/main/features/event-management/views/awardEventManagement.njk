@@ -79,7 +79,7 @@
           {{data.subsection3_title}}<br>
           ({{unreadMessage}} unread messages)</h2>
         <p class="govuk-body">
-          <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
+          <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}&project_status={{status}}">{{ data.subsection3_linkText }}</a>
         </p>
       </div>
       <div class="govuk-grid-column-one-half">
@@ -155,7 +155,9 @@
 
           </p>
         </h2>
-            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+
+            {% if((agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
+
                 <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
             {% else %}
                 <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -183,15 +185,21 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       
-        {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
+        {% if(agreementId_session == "RM6187" or agreementId_session == "RM1557.13") %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval_mcf}}</h2>
           <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption_mcf }}</p>
-        {% else %}  
+        {% else %} 
+         {% if agreementId_session == 'RM1043.8'%} 
+          <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_award}}</h2>
+         {% else %}
           <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
+          {% endif %}
         <p class="govuk-body">{{ data.subsection4_title3_award_description_dos }}</p>
         {% endif %}
 
@@ -203,13 +211,18 @@
     <div class="govuk-grid-row ccs-page-section">
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong></p>
         
-        {% if agreementId_session == "RM1557.13" %}
+
+        {% if(agreementId_session == "RM1557.13" or agreementId_session == "RM6187")  %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+            {% if (status.toLowerCase() == "awarded" or status.toLowerCase() == "pre-award") %}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_others}}</p>
+            {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
+            {% endif %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
@@ -217,24 +230,32 @@
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_dos}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% endif %}
         
           </div>
-
-          <div class="govuk-grid-row ccs-page-section ccs-noborder">
+          {% if agreementId_session == "RM6187" and eventType == 'FC' %}
+           <div> 
+           {% else %}
+           <div class="govuk-grid-row ccs-page-section ccs-noborder">
+          {% endif %}
             <div class="govuk-grid-column-full">
               <h2 class="govuk-heading-m">
                 <span class="proc-task-list__section-number">4.</span>
                 {{data.subsection4_title4}}</h2>
             </br>
-            <p>The suppliers below responded to your published project. You can download individual supplier answers or all answers.</p>
-{% if agreementId_session != "RM1557.13" and agreementId_session != "RM6187" %}
-          <h1 class="govuk-heading-s">
-            <strong> Result of award</strong>
-          </h1>
-{% endif %}
+          </br>
+          {%if status.toLowerCase() == "complete" %}
+                {% if eventType == 'RFI' or eventType == 'EOI' %}
+                <p class="govuk-body">The suppliers below responded to your published project. You can download individual supplier answers or all answers.</p>
+                {% endif %}
+           {% else %}
+            
+                      <h1 class="govuk-heading-s">
+                        <strong> Result of award</strong>
+                      </h1>
+            {% endif %}
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -360,7 +381,7 @@
     <p>Your project is now complete.</p>
   {% else %}
 
-    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+    {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" or agreementId_session == "RM1043.8" %}
 
       {% if status.toLowerCase() == "awarded" %}
         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
