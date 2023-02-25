@@ -75,6 +75,8 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       releatedContent,
       agreementId_session,
     };
+      //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.procurementPage, req);
     res.render('daw-procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(

@@ -13,7 +13,6 @@ export async function gCloudServiceQueryFliter(reqUrl: any, baseUrl: any, type: 
     let outQueryUrl = "";
     queryObj.forEach((el: any, i: any) => {
         let key = el.key;
-        
         let value = el.value;
         if(key=='q'){
             value = encodeURIComponent(value); 
@@ -32,17 +31,16 @@ export async function gCloudServiceQueryFliter(reqUrl: any, baseUrl: any, type: 
         }
         if(i == queryObj.length - 1) {}
     });
-
-    const params = new URLSearchParams(outQueryUrl);
-    if(type==1){
-        params.delete('filter_parentCategory');
-    }
-    if(type==2){
-        params.delete('page');
-    }
-    const queryString = params.toString();
-    const path = `${queryString ? `?${queryString}` : ''}`;
-    return path;
+        const params = new URLSearchParams(outQueryUrl);
+        if(type==1){
+            params.delete('filter_parentCategory');
+        }
+        if(type==2){
+            params.delete('page');
+        }
+        const queryString = params.toString();
+        const path = `${queryString ? `?${queryString}` : ''}`;
+        return path;
 
 }
 

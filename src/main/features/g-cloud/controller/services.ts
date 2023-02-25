@@ -4,6 +4,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { gCloudApi } from '../util/fetch/apiInstance';
 import { ServiceModel,SupplierModel } from '../model/searchModel'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const GET_SERVICES = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
@@ -260,6 +261,8 @@ export const GET_SERVICES = async (req: express.Request, res: express.Response) 
         returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
         
       };
+       //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.gcServices, req);
       res.render('services', appendData);
     
         

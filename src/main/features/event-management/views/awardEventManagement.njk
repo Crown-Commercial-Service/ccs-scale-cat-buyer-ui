@@ -30,6 +30,8 @@
               {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
                 {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
                 {{ agreement_header['agreementName'] }} Lot 4
+                {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+                {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
                 {% else %}
                 {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
                 {% endif %} 
@@ -38,7 +40,7 @@
   </strong></p>
           <p class="govuk-body">Agreement ID: <strong>
         {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}-L4
+          {{ agreement_header['agreementId_session']}}L4
         {% else %}
           {{ agreement_header['agreementId_session'] }}
         {% endif %}
@@ -195,37 +197,40 @@
 
         <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
         <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
-        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
+
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong></p>
         
         {% if agreementId_session == "RM1557.13" %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_mcf}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% endif %}
         
-            </div>
           </div>
 
-          <div class="govuk-grid-row ccs-page-section">
+          <div class="govuk-grid-row ccs-page-section ccs-noborder">
             <div class="govuk-grid-column-full">
               <h2 class="govuk-heading-m">
                 <span class="proc-task-list__section-number">4.</span>
                 {{data.subsection4_title4}}</h2>
             </br>
-          </br>
-{% if agreementId_session != "RM1557.13" %}
+            <p>The suppliers below responded to your published project. You can download individual supplier answers or all answers.</p>
+{% if agreementId_session != "RM1557.13" and agreementId_session != "RM6187" %}
           <h1 class="govuk-heading-s">
             <strong> Result of award</strong>
           </h1>
@@ -238,7 +243,8 @@
                 <tr class="govuk-table__row">
                   {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                   <th scope="col" class="govuk-table__header">Supplier name</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header">{{ data.subsection4_eval_table_th_7 }}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">Supplier answer</th>
                     {% if eventType != 'RFI' and eventType != 'EOI' %}
                       <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
                       <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
@@ -268,9 +274,20 @@
                           </p>
 
                         </th>
-                        <th class="govuk-text-align govuk-!-text-align-centre">
-                          <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
-                        </th>
+                         {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13' %}
+                                          <td class="govuk-text-align govuk-!-text-align-left">
+                                            {{ supplier.responseDate }}
+                                          </td>
+                         {%endif%}
+                        {% if agreementId_session == "RM1557.13" %}
+                            <td class="govuk-text-align govuk-!-text-align-left">
+                              <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                            </td>
+                        {% else %}
+                            <th class="govuk-text-align govuk-!-text-align-left">
+                              <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                            </th>
+                        {% endif %}
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
                           <td class="govuk-text-align govuk-!-text-align-centre">
                             <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
@@ -291,8 +308,9 @@
                       {% endfor %}
                       {% if (showallDownload) %}
                       <tr class="govuk-table__row">
-                        <td class="govuk-text-align govuk-!-text-align-centre"></td>
-                        <td class="govuk-text-align govuk-!-text-align-centre"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
+                        <td class="govuk-text-align govuk-!-text-align-left"></td>
+                        <td class="govuk-text-align govuk-!-text-align-left"></td>
+                        <td class="govuk-text-align govuk-!-text-align-left"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
                           <td class="govuk-text-align govuk-!-text-align-centre"></td>
                           <td class="govuk-text-align govuk-!-text-align-centre"></td>
@@ -306,8 +324,7 @@
             </table>
           </div>
         </div>
-      </div>
-    </div>
+      
     {% if eventType != 'RFI' and eventType != 'EOI' %}
       <div class="govuk-grid-row ccs-page-section">
         <div class="govuk-grid-column-full">
@@ -319,7 +336,7 @@
       </br>
     </div>
   </div>
-</main>
+
 
 <div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
@@ -462,9 +479,9 @@
 
 {% if status.toLowerCase() =="complete"%}
 <div class="govuk-button-group">
-<div class="govuk-!-margin-top-6">
-&nbsp; &nbsp;&nbsp; &nbsp;<a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
-</div>
+    <div class="govuk-!-margin-top-6">
+        <a class="govuk-link" href="/dashboard">Return to Your Dashboard</a>
+    </div>
 </div>
 {% else %}
 {% if status.toUpperCase() =="AWARDED"%}
@@ -604,5 +621,5 @@
 
     </form>
   {% endif %}
-
+</main>
 {% endblock %}

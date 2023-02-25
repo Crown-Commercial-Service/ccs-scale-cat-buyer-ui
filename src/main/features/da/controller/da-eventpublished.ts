@@ -56,6 +56,8 @@ try {
       res.send(fileData);
     }
     else{
+        //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
       res.render('daw-eventpublished.njk', appendData)
     }
 }catch (error) {

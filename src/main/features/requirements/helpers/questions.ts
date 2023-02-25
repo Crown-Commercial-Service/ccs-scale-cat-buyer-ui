@@ -60,6 +60,8 @@ export class QuestionHelper {
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
+          
+          
           let innerMandatoryNum = 0;
           let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;
           
@@ -159,8 +161,11 @@ export class QuestionHelper {
               let dateValidation = 0;
               for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
                 let dateValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
-                if (dateValue != undefined && dateValue != null && dateValue != '') {
-                  dateValidation += 1;
+                if (dateValue != undefined && dateValue != null && dateValue != '' && question_api_data?.[k]?.nonOCDS.mandatory) {
+                 
+                    dateValidation += 1;
+                  
+                  
                 }
               }
               if (agreement_id == 'RM6187') {
@@ -173,13 +178,14 @@ export class QuestionHelper {
                 if (dateValidation >= 3) innerMandatoryNum += 1; //3 for day,month,year
               }
             } else if (questionType === 'Duration') {
-              if (agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13') {
+            
+              if (agreement_id == 'RM1043.8' || agreement_id == 'RM1557.13' || agreement_id == 'RM6187') {
                 if (question_api_data?.[k]?.nonOCDS?.mandatory) {
                   // let durationValue = question_api_data?.[k]?.nonOCDS.options;
                   let durationValidation = 0;
                   for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
                     let durationValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
-                    if (durationValue != undefined && durationValue != null && durationValue != '') {
+                    if (durationValue != undefined && durationValue != null && durationValue != '' && question_api_data?.[k]?.nonOCDS.mandatory) {
                       durationValidation += 1;
                     }
                   }
@@ -227,19 +233,28 @@ export class QuestionHelper {
                 }
               }
             }
+
+          
+
           }
           
+          
+          
+          
+
           if (
             mandatoryNumberinGroup != null &&
             mandatoryNumberinGroup > 0 &&
             mandatoryNumberinGroup == innerMandatoryNum
           ) {
+          
             mandatoryNum += 1;
           }
         }
       }
 
       if (agreement_id == 'RM1043.8') {
+       
         // dos
         // let lotmandatoryQues = 10;
         // if(req.session.lotId == 3) lotmandatoryQues = 9;
@@ -288,11 +303,15 @@ export class QuestionHelper {
         }
       }
       else {
+
+      
+
         if (
           mandatoryGroupList != null &&
           mandatoryGroupList.length > 0 &&
-          (mandatoryGroupList.length == mandatoryNum || mandatoryNum >= 6)
+          (mandatoryGroupList.length == mandatoryNum)
         ) {
+          
           //all questions answered
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
@@ -515,6 +534,7 @@ export class QuestionHelper {
                 }
               }
             } else if (questionType === 'Date') {
+              
               let dateValidation = 0;
               for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
                 let dateValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
@@ -527,6 +547,7 @@ export class QuestionHelper {
                 innerMandatoryNum += 1;
               }
             } else if (questionType === 'Duration') {
+              
               innerMandatoryNum += 1;
             } else if (questionType === 'KeyValuePair') {
               let kvMandatoryNum = question_api_data?.[k]?.nonOCDS.options?.length;
@@ -562,6 +583,9 @@ export class QuestionHelper {
                 }
               }
             }
+          
+            
+
           }
 
           if (
@@ -569,6 +593,7 @@ export class QuestionHelper {
             mandatoryNumberinGroup > 0 &&
             mandatoryNumberinGroup == innerMandatoryNum
           ) {
+          
             mandatoryNum += 1;
           }
         }
@@ -612,6 +637,9 @@ export class QuestionHelper {
           }
         }
       } else {
+        
+       
+
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {
           //all questions answered
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Completed');

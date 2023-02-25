@@ -9,6 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { ATTACHMENTUPLOADHELPER } from '../helpers/uploadAttachment';
 import { FileValidations } from '../util/file/filevalidations';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 let tempArray = [];
 
@@ -76,6 +77,9 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
               // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
             const FETCH_FILEDATA = FetchDocuments.data;
+            
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
 
             let duplicateFile = false;
             for(const item of FETCH_FILEDATA){
@@ -99,6 +103,10 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
                   ...formHeaders,
                 },
               });
+
+           //CAS-INFO-LOG 
+           LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
             }
             } catch (error) {
               
@@ -149,6 +157,10 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
             // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
             const FETCH_FILEDATA = FetchDocuments.data;
+
+            //CAS-INFO-LOG 
+            LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
             let duplicateFile = false;
             for(const item of FETCH_FILEDATA){
               // if (item.description === "mandatoryfirst") {
@@ -172,6 +184,10 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
                 ...formHeaders,
               },
             });
+
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
             req.session['isTcUploaded'] = true
             res.redirect(`/${selRoute}/upload-attachment`);
             }
@@ -216,6 +232,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
 };
 
 export const RFP_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies //jwt
   const { projectId } = req.session
   const EventId = req.session['eventId']
@@ -223,6 +240,11 @@ export const RFP_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (req: ex
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
+
     res.redirect(`/rfp/upload-attachment`)
   } catch (error) {
     LoggTracer.errorLogger(
@@ -242,7 +264,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   res: express.Response,
 ) => {
 
-  
+ 
   const { SESSION_ID } = req.cookies;
   const { projectId,eventId } = req.session;
   let { selectedRoute } = req.session;
@@ -255,6 +277,10 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments?.data;
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
     let fileNameStorageTermsnCond = [];
     let fileNameStoragePricing = [];
     let additionalfile=[];
@@ -303,7 +329,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
       if(req.session.agreement_id=='RM1043.8'&&req.session?.stage2_value !== undefined && req.session?.stage2_value === "Stage 2"){
         rfp_confirm_upload="confirm";
       }
-      if(req.session.agreement_id=='RM1557.13'){
+      if(req.session.agreement_id=='RM1557.13' || req.session.agreement_id ==='RM6187'){
         rfp_confirm_upload="confirm";
       }
   

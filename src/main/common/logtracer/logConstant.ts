@@ -45,6 +45,8 @@ export enum logConstant {
     fetchSupplierScoreList = 'Feached Supplier Score List from Tender API',
     selectedService = 'Service page reached',
     criterianEventFetch = 'Feached event criteria details from Tender API',
+    TaskListPageLog = 'Tasklist page reached',
+    typePageLog = 'Type page reached',
 
     
     saveAssesmentDetails = 'Saved assesment from Tender API',
@@ -79,12 +81,17 @@ export enum logConstant {
     rfiQuestionPageLog= 'Rfi Question page reached',
     rfiQuestionDetails= 'Fetched Question details from Tender Api',
     rfiQuestionUpdated="Question updated",
+    uploadPricingDocument ="Upload your pricing schedule page reached",
+    uploadTermsAndConditionsPageLog="Upload Terms And Conditions Page Reached",
+    uploadAdditionalPageLog="Upload additional documents page reached",
+
     rfiUploadDocumentPageLog="Upload documents page reached",
     rfigetUploadDocument="Fetched Upload Documents From Tender Api",
     rfiUploadDocumentUpdated="New document Uploaded from Tender Api",
     rfiUploadDocumentDeleted="Document deleted From Tender Api",
     rfiViewSuppliersPageLog="View suppliers page reached",
     supplierList="Fetched supplier List From Agreements Api",
+    messageSupplierList="Fetched supplier List From Tender Api",
     setYourTimeLinePageLog="Set your RfI timeline page reached",
     yourTimeLineUpdate="Rfi Tmeline updated",
     rfiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
@@ -108,8 +115,76 @@ export enum logConstant {
     setYourTimeLineUpdated="Set your timeline updated",
     eoiSetYourTimeLinePageLog="Set your Eoi timeline page reached",
     eoiGetTimeLineQuestions="Fetched Timeline Questions From Tender Api",
+
      eoiyourTimeLineUpdate="Eoi Tmeline updated",
      eoireviewAndPublishPageLog="Review and publish your EOI page reached",
      eoiPublishLog="Your RfI has been published",
      eoiPublishPageLog="Eoi published page reached",
+
+     chooseACategoryLog = 'Choose a category page reached',
+     exportGcloud = 'Export Gcloud documents From Tender Service Api',
+     assessmentDetail = 'Fetched Gcloud Assessment Details From Tender Api',
+     downloadYourSearch = 'Download Your Search page Reached',
+     exportResults = 'Export Results page Reached',
+     exportResultsUpdate = 'Export Resultes Updated From Tender Api',
+     newSearch = 'New Search page reached',
+     savedSearches = 'Saved Search page reached',
+     deleteSavedSearch = 'Saved Search deleted From Tender Api',
+     supplierDetails="Fetched Supplier details from Aggrement Api",
+     getReceivedMessage="Fetched Received messagegs from Tender Api",
+     getSupplierResponse="Fetched Supplier Response From Tender Api",
+     getAwardTemplateDetails="Fetched Award Template Details From Tender Api",
+     getSupplierScore="Fetched Supplier Score from tender Api",
+     getSupplierAwardDetails="Fetched Supplier Award Details From Tender Api",
+     getContractDetails="Fetched Supplier Award Details From Tender Api",
+     getQuestionAndAnsDetails="Fetched Questions and answere From Tender Api",
+     awardPageLogger="Award Page Reached",
+     publishPageLogger="Publish Page Reached",
+
+     messageCreatePagelogger="Message Create Page reached",
+     messageCreated="New message Created for all supplier",
+     messageReceived="Fetched Received messages From Tender Api",
+     messageInboxPageLogger="Message Inbox Page Received",
+
+     messageSent="Fetched Sent messages From Tender Api",
+     messageSentPageLogger="Message Sent Page Received",
+     evaluateSuppliers="Evaluate Supplier Page Received",
+     evaluateFinalScorePageLogg="Enter the supplier’s final score Page Reached",
+     evaluateScoreUpdated="Score updated",
+     supplierToBeAwardedPageLogg="Supplier to be awarded page reached",
+     awardDocuments="Award documents page reached",
+     awardSupplierPageLogg="Award supplier page reached",
+     standsStillPageLogg="Choose if you want a standstill period page reached",
+     standsStillSelected="standstill period selected and updated",
+
+     inviteSelectedSuppliersPageLogg="Invite selected suppliers to stage 2 page reached",
+     inviteSelectedSuppliers="Confirm selected suppliers for stage 2 Further Competition updated",
+     furtherAssesmentPageLogg="Further assessment evaluation page reached",
+     reviewYourSupplierEvaluationPageLogg="Review your supplier evaluation page reached",
+     closeYourProjectPageLogg="Close your project page reached",
+     projectCloseYourProjectPageLogg="Your project has been closed Page reached ",
+     
+
+
+     qaAdd1stStepLogger = 'QA Add 1st Step Page Reached',
+     qaAdd2ndStepLogger = 'QA Add 2nd Step Page Reached',
+     saveQuestionAndAnsDetails = 'QA Updated From Tender Api',
+     saveMessages = 'Messages Updated From Tender Api',
+     QAEditLogger = 'QA Edit Page Reached',
+     QAViewLogger = 'QA View Page Reached', 
+     MessagingReplyLogger = 'Messaging Reply Page Reached',
+
+     
+     
+
+
+
+     saveYourSearch = 'Save Your Page Reached',
+     saveSearch = 'Saved Search From Tender Api',
+     gcSearch = 'Gcloud Search Page Reached',
+     gcServices = 'Gcloud Services Page Reached',
+     reviewAndPublishStageOne="Review and publish stage 1 - page reached",
+     reviewAndPublishStageTwo="Review and publish stage 2 - page reached",
+     reviewAndPublish="Review and publish page reached",
+     agreementPublished="Agreement published",
 }
