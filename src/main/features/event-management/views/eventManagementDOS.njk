@@ -155,7 +155,11 @@
             <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
           </p>
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+          {% if(stage2_value == 'Stage 2') %}
+            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_dos_tobe_stage2 }}
+          {% else %}
+            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+          {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
       </div>
@@ -168,13 +172,21 @@
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">3.</span>
             {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' %}
-              {{data.subsection4_title3_eval_dos_after}}
+                {% if stage2_value == 'Stage 2' %}
+                  {{data.subsection4_title3_eval_dos_after_stage2}}
+                {% else %}
+                  {{data.subsection4_title3_eval_dos_after}}
+                {% endif %}
             {% else %}
               {{data.subsection4_title3_eval_dos}}
             {% endif %}
           </h2>
           {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' %}
-            <p class="govuk-body">{{data.subsection4_para3_eval_dos_after}}</p>
+            {% if(agreement_header['lotid'] == '1') %}
+              <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l1}}</p>
+            {% else %}
+              <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l3}}</p>
+            {% endif %}
           {% endif %}
           {% if (projectStatus == 2) %}
               {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}

@@ -36,6 +36,7 @@
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
     "subsection4_title2_2_mcf":"Your published project",
     "subsection4_title2_1_descriiption_gcloud":"Read or download a copy of your published project. You cannot make any changes.",
+    "subsection4_title2_1_descriiption_dos_tobe_stage2":"Read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_2_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_task": [{
@@ -82,7 +83,9 @@
     "subsection4_title3_award": "Suppliers who responded to your published project",
     "subsection4_title3_eval_dos": "Number of suppliers who may respond to your published project",
     "subsection4_title3_eval_dos_after": "Suppliers who responded to your published project",
-    "subsection4_para3_eval_dos_after":"Find out how many suppliers responded to your project in the section below. ",
+    "subsection4_title3_eval_dos_after_stage2": "Number of suppliers who may respond to your published project",
+    "subsection4_para3_eval_dos_after_l1":"You can find out how many suppliers have expressed an interest in responding to your project in the section below.",
+    "subsection4_para3_eval_dos_after_l3":"Find out how many suppliers are interested in responding to your project in the section below.",
     "subsection4_title3_eval_descriiption": "You can find out how many suppliers are interested in responding to your project in the section below.",
     "subsection4_title3_award_description_dos": "Find out how many suppliers responded to your project in the section below. ",
     "subsection4_title3_evaluated_description_dos": "Find out how many suppliers responded to your project in the section below.",
