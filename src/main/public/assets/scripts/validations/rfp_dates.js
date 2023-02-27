@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if ((matchValue || startyearCheck) && value.val() != '') {
                //$(`#${currentEventId}`).addClass('govuk-form-group--error');
                //$(`.${currentEventId}`).addClass('govuk-form-group--error');
-               $(`.p_durations_${currentEventId}`).html('Enter a valid year');
+               $(`.p_durations_${currentEventId}`).html('Enter a year');
             }
             else {
               //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
@@ -506,7 +506,7 @@ function checkResourceStartDate() {
          rfpResourceStartYear.addClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          // $('#event-name-error-date').html('Project start date should not be empty'); 
-         let error_msg_new = 'Enter a project start date'
+         let error_msg_new = 'Enter a latest start date'
          //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
          fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
          if (fieldCheck !== true) {
@@ -651,7 +651,7 @@ function checkResourceStartDate() {
       }
    }
    else if (rfpResourceStartYear.val() == '') {
-      error_msg = 'Enter a valid year'
+      error_msg = 'Enter a year'
       removeErrorFieldsdates();
       if (document.getElementById('agreementID').value === 'RM1043.8') {
          error_msg = 'Enter a year'
@@ -668,7 +668,7 @@ function checkResourceStartDate() {
       rfpResourceStartDay.addClass('govuk-form-group--error');
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
-      $('#event-name-error-date').html('Enter a valid year');
+      $('#event-name-error-date').html('Enter a year');
       fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
@@ -686,7 +686,7 @@ function checkResourceStartDate() {
       rfpResourceStartDay.addClass('govuk-form-group--error');
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
-      $('#event-name-error-date').html('Enter a valid year');
+      $('#event-name-error-date').html('Enter a year');
       fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a year using the YYYY format", /^\d{4,}$/);
 
       if (fieldCheck !== true) {
@@ -695,14 +695,14 @@ function checkResourceStartDate() {
    }
    else if(Number(rfpResourceStartYear.val()) <= 1)
       {
-      error_msg = "Enter a valid Year(YYYY Format)"
+      error_msg = "Enter a year using the YYYY format"
       flag = false;
       rfpResourceStartYear.addClass('govuk-form-group--error');
       rfpResourceStartDay.addClass('govuk-form-group--error');
       rfpResourceStartMonth.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
-      $('#event-name-error-date').html('Enter a valid year');
-      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d$/);
+      $('#event-name-error-date').html('Enter a year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a year using the YYYY format", /^\d$/);
       if (fieldCheck !== true) {
          errorStore.push(fieldCheck)
       }
@@ -893,8 +893,8 @@ function isProjectExtensionValid() {
       if (Number(YearProjectRun) < 0) {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
-         $(`.${durationDayError[0].classList[2]}`).html('Enter a Valid Year');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a Valid Year", /^\d{1,}$/);
+         $(`.${durationDayError[0].classList[2]}`).html('Enter a year');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a year", /^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
       else if (Number(YearProjectRun) > durationYears) {
@@ -1117,9 +1117,9 @@ function isProjectStartDateValid() {
             ccsZPresentErrorSummary();
          }
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
-            // $('#event-name-error-date').html('Start date must be a valid future date');
+            // $('#event-name-error-date').html('Enter a date in the future');
             removeErrorFieldsdates();
-            var message = 'Start date must be a valid future date'
+            var message = 'Enter a date in the future'
             if (document.getElementById('agreementID').value === 'RM1043.8') {
                message = ' Enter a date in the future'
             }
@@ -1201,7 +1201,7 @@ function isProjectStartDateValid() {
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             // $('#event-name-error-date').html('Project start date should not be empty'); 
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a latest start date", /^\d{1,}$/);
             if (fieldCheck !== true) {
                errorStore.push(fieldCheck)
             }
@@ -1436,7 +1436,7 @@ function validateStartDate() {
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
-            isValid = 'Start date must be a valid future date';
+            isValid = 'Enter a date in the future';
          }
       }
 

@@ -271,6 +271,8 @@ $('#rfp_singleselect').on('submit', event => {
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
       }else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
       }
@@ -282,6 +284,8 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
       }else{
         ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
       }
