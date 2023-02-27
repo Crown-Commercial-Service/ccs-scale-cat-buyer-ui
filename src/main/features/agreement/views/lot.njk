@@ -184,7 +184,7 @@
                   or(agreement_id == 'RM1043.8' and lot == "Lot 2")or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
                   {{data.line7dl1}}
                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="/fca/supplier/list?agreement={{agreement_id}}&lot={{lot | replace("Lot ", "")}}"
-                    onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                    onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% elif agreement_id == 'RM6187' %}
                   {{data.line71}}
                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
