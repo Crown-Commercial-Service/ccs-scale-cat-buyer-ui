@@ -155,8 +155,8 @@
             <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
           </p>
         </h2>
-          {% if(stage2_value == 'Stage 2') %}
-            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_dos_tobe_stage2 }}
+          {% if(stage2_value == 'Stage 2') and (status.toUpperCase() != 'PUBLISHED') %}
+            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_dos_stage2 }}
           {% else %}
             <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
           {% endif %}

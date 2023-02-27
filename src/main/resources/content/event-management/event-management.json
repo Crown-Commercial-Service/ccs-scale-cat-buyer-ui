@@ -36,8 +36,8 @@
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
     "subsection4_title2_2_mcf":"Your published project",
     "subsection4_title2_1_descriiption_gcloud":"Read or download a copy of your published project. You cannot make any changes.",
-    "subsection4_title2_1_descriiption_dos_tobe_stage2":"Read or download a copy of your published project. You cannot make any changes.",
-    "subsection4_title2_1_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
+    "subsection4_title2_1_descriiption_dos_stage2":"Read or download a copy of your published project. You cannot make any changes.",
+    "subsection4_title2_1_descriiption": "Read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_2_descriiption": "You can read or download a copy of your published project. You cannot make any changes.",
     "subsection4_title2_1_task": [{
             "line_1_text": "Read my published project",
@@ -97,7 +97,7 @@
     "subsection4_title3_eval_task4_gcloud":"Number of suppliers who have not responded",
     "subsection4_title3_eval_task4_others": "Remaining suppliers with no response",
     "subsection4_title3_eval_task2_dos": "Number of suppliers who intend to respond",
-    "subsection4_title3_eval_task4_dos":"Number of suppliers who have not responded",
+    "subsection4_title3_eval_task4_dos":"Remaining suppliers with no response",
 
     "subsection4_title4": "Supplier responses",
     "subsection4_title4_eval": "Suppliers to be shortlisted and invited to  stage 2",
