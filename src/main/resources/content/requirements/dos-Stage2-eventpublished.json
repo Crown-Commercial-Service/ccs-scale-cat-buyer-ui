@@ -4,8 +4,8 @@
     "titleRFP": "Publishing your further assessment",
     "titleDA":"Your direct award has been published",
     "line1":"Please quote this number, along with your project ID",
-    "line2":"if you need to contact CCS for support. You can contact CCS by phone on",
-    "btntext":"Export your 2-stage further competition",
+    "line2":"if you need to contact CCS for support.",
+    "btntext":"Export your further competition",
     "board": {
         "headerRFP": "Your shortlisted suppliers have been sent the further assessment documents",
         "headerRFPResponse": "Your shortlisted suppliers are being sent the further assessment documents.  This process may take a few minutes. Once the process is finished, you can access your published event on your dashboard.",

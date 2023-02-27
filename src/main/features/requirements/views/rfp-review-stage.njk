@@ -33,9 +33,11 @@
 ] %}
 {% block breadCrumb %}
   {% if eventStatus != "published"%}
-    {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
+    {% if stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%}
+      {{ CCSBreadcrumbs({items: data.breadCrumbsdos}) }}
+    {% else %}
+      {{ CCSBreadcrumbs({items: data.breadCrumbs}) }}
+    {% endif %}
   {% else %}
     {{ CCSBreadcrumbs({
           items: [
@@ -120,7 +122,14 @@
         {% block Project_And_colleagues %}
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-              <h2 class="govuk-heading-l">1. Project and colleagues</h2>
+              <h2 class="govuk-heading-l">
+                 {% if stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%}
+                  1. Project and collaborators
+                 {% else %}
+                  1. Project and colleagues
+                 {% endif %}
+               
+                </h2>
               <dl class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key"></dt>
@@ -155,8 +164,8 @@
                   <dt class="govuk-summary-list__value">
                     {% if agreementId_session == 'RM6187' %}
                       <p>Change will lead the procurement (optional)</p>
-                    {% elseif agreementId_session == 'RM1043.8' %}
-                      <p>Change who will to lead the procurement</p>
+                    {% elseif stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%} 
+                      <p>Change who will to lead your project</p>
                     {% else %}
                       <p>Change who is going to lead the procurement</p>
                     {% endif %}
@@ -187,10 +196,12 @@
                   <dt class="govuk-summary-list__value">
                     <p>
                       {% if agreementId_session == 'RM6187' %}
-                                    Add colleagues to your project
-                                  {% else %}
-                                    Add colleagues
-                                  {% endif %}
+                        Add colleagues to your project
+                      {% elseif stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%} 
+                      Add members to your project 
+                      {% else %}
+                        Add colleagues
+                      {% endif %}
                     </p>
                   </dt>
                   {% if procurementColleagues != undefined and procurementColleagues != null and procurementColleagues | length > 0 %}
@@ -404,7 +415,11 @@
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                   <dt class="govuk-summary-list__key">
                     <h3 class="govuk-!-margin-bottom-0">
-                      <strong>Upload terms and conditions</strong>
+                         {%if stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%} 
+                       <strong>Upload your core terms, call-off order form and schedules (terms and conditions) </strong>
+                       {%else %}
+                          <strong>Upload terms and conditions</strong>
+                       {%endif %}
                     </h3>
                   </dt>
                   <dd class="govuk-summary-list__value">&nbsp;</dd>
@@ -554,7 +569,11 @@
 
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
+                      {% if stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%}
+                      <p>Evaluation of stage 2</p>
+                      {% else %}
                       <p>Evaluation of stage 2 responses</p>
+                      {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
                       <p>
@@ -659,19 +678,36 @@
             {{ csrfProtection(csrf) }}
 
             {% if eventStatus != "published" and customStatus != "complete" %}
+              
+               {% if stage2_value == "Stage 2" and agreementId_session=='RM1043.8'%}
               {{ CCSCheckboxes({
-      idPrefix: "rfp_publish_confirmation",
-      name: "rfp_publish_confirmation",
-      classes: "govuk-checkboxes--small",
-      items: [
-      {
-      "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above.</strong></label>",
-      Checked: ""
-      }
-      ]
-      }) }}
-
+                idPrefix: "rfp_publish_confirmation",
+                name: "rfp_publish_confirmation",
+                classes: "govuk-checkboxes--small",
+                items: [
+                {
+                "value": 1,
+                html: "<label><strong>By checking this box, I confirm the statements above.</strong></label>",
+                Checked: ""
+                }
+                ]
+                }) 
+              }}
+              {% else %}
+              {{ CCSCheckboxes({
+                idPrefix: "rfp_publish_confirmation",
+                name: "rfp_publish_confirmation",
+                classes: "govuk-checkboxes--small",
+                items: [
+                {
+                "value": 1,
+                html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above.</strong></label>",
+                Checked: ""
+                }
+                ]
+                }) 
+              }}
+            {% endif %}
               <div class="govuk-button-group">
 
                 {{ CCSButton({
