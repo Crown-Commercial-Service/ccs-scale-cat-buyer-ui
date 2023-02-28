@@ -187,7 +187,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.eoiTitle, req);
-
+    console.log("DATA",JSON.stringify(data))
    res.render('questionsEoi', data);
    
   } catch (error) {
@@ -383,14 +383,41 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               req.session['IsExpiryDateLessError'] = true;
               break;
             } else {
-              const slideObj = object_values.slice(3);
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [...slideObj],
-                },
-              };
-            }
+            //   const slideObj = object_values.slice(3);
+            //   answerValueBody = {
+            //     nonOCDS: {
+            //       answered: true,
+            //       options: [...slideObj],
+            //     },
+            //   };
+          
+            const slideObj = object_values.slice(3);
+                let dureationValue = null;
+                let year = 0;
+                let month = 0;
+                let day = 0;
+                if (Number(req.body["eoi_duration-years"]) >= 0) {
+                  year = Number(req.body["eoi_duration-years"]);
+                }
+                if (Number(req.body["eoi_duration-months"]) >= 0) {
+                  month = Number(req.body["eoi_duration-months"]);
+                }
+                if (Number(req.body["eoi_duration-days"]) >= 0) {
+                  day = Number(req.body["eoi_duration-days"]);
+                }
+                dureationValue = "P" + year + "Y" + month + "M" + day + "D";
+                console.log("duration",dureationValue);
+                dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [
+                      { value: dureationValue, selected: true },
+                    ],
+                  },
+                };
+          
+          }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;

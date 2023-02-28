@@ -166,12 +166,22 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             ];
           } else if (answer.questionType == 'Duration') {
             const duration = obj.values.map(v => v.value);
+            console.log("ss",duration[0]);
+            console.log("ssTT",duration.length);
+            let durationTemp=[];
+            if(duration[0]!=undefined){
+              console.log("inside")
+              durationTemp = duration[0].replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-')
+            }
+           console.log("ss",duration);
+           console.log("durationTemp",durationTemp);
+
             obj.values = [
               {
                 value:
                   'How long you think the project will run for (Optional): ' +
-                  (duration.length == 3
-                    ? duration[0] + ' years ' + duration[1] + ' months ' + duration[2] + ' days'
+                  (durationTemp.length == 3
+                    ? durationTemp[0] + ' years ' + durationTemp[1] + ' months ' + durationTemp[2] + ' days'
                     : ''),
                 selected: true,
               },
