@@ -384,13 +384,40 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               break;
             } else {
               const slideObj = object_values.slice(3);
+              let dureationValue = null;
+              let year = 0;
+              let month = 0;
+              let day = 0;
+              if (Number(req.body["eoi_duration-years"]) >= 0) {
+                year = Number(req.body["eoi_duration-years"]);
+              }
+              if (Number(req.body["eoi_duration-months"]) >= 0) {
+                month = Number(req.body["eoi_duration-months"]);
+              }
+              if (Number(req.body["eoi_duration-days"]) >= 0) {
+                day = Number(req.body["eoi_duration-days"]);
+              }
+              dureationValue = "P" + year + "Y" + month + "M" + day + "D";
+
+              dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [...slideObj],
+                  options: [
+                    { value: dureationValue, selected: true },
+                  ],
                 },
               };
-            }
+
+        }
+            //   const slideObj = object_values.slice(3);
+            //   answerValueBody = {
+            //     nonOCDS: {
+            //       answered: true,
+            //       options: [...slideObj],
+            //     },
+            //   };
+            // }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
