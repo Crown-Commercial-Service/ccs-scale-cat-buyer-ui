@@ -10836,7 +10836,7 @@ const emptyFieldCheck = (add_more='') => {
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
-      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id != 'RM1557.13') {
         ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
         ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
         fieldCheck = [term_field.id, 'You must add the term or acronym'];
@@ -10845,14 +10845,36 @@ const emptyFieldCheck = (add_more='') => {
         errorStore.push(fieldCheck);
       }
 
-      if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
+      
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id != 'RM1557.13') {
         ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
         fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
-      if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id != 'RM1557.13') {
         ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
         fieldCheck = [term_field.id, 'You must add the term or acronym'];
         errorStore.push(fieldCheck);
