@@ -319,6 +319,9 @@
                       <p id="event-name-error-pyear" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span>
                       </p>
+          {% if (requirement.nonOCDS.options[0].value | length) %}
+                  {% set howLongDate = requirement.nonOCDS.options[0].value.replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-') %}
+                  {% endif %}
 
                       <div class="govuk-date-input" id="eoi_duration">
                         <div class="govuk-date-input__item">
@@ -339,7 +342,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[0].value,
+                            value: howLongDate[0],
                             max: "100",
                             min: "0",
                             maxlength: maxLength
@@ -359,7 +362,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[1].value,
+                            value: howLongDate[1],
                             max: "12",
                             min: "0",
                             maxlength: "2"
@@ -379,7 +382,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[2].value,
+                            value: howLongDate[2],
                             max: "31",
                             min: "0",
                             maxlength: "2"

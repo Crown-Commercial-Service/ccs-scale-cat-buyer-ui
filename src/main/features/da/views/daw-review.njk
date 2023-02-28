@@ -1040,9 +1040,9 @@
           </dt>
               {% if  document != undefined and document !=null and document | length > 0 %}
                 <dd class="govuk-summary-list__value">
-                  <p class="govuk-body-s">
-                    {{ document | safe }}
-                  </p>
+                  {% for doc in document %}
+                      <p class="govuk-body-s">{{ doc | safe }}</p>
+                  {%- endfor %}
                 </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
