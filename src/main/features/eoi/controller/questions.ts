@@ -187,7 +187,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.eoiTitle, req);
-    console.log("DATA",JSON.stringify(data))
+   
    res.render('questionsEoi', data);
    
   } catch (error) {
@@ -406,7 +406,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   day = Number(req.body["eoi_duration-days"]);
                 }
                 dureationValue = "P" + year + "Y" + month + "M" + day + "D";
-                console.log("duration",dureationValue);
+              
                 dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
                 answerValueBody = {
                   nonOCDS: {

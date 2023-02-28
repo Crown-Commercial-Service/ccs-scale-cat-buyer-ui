@@ -166,15 +166,11 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             ];
           } else if (answer.questionType == 'Duration') {
             const duration = obj.values.map(v => v.value);
-            console.log("ss",duration[0]);
-            console.log("ssTT",duration.length);
             let durationTemp=[];
             if(duration[0]!=undefined){
-              console.log("inside")
+           
               durationTemp = duration[0].replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-')
             }
-           console.log("ss",duration);
-           console.log("durationTemp",durationTemp);
 
             obj.values = [
               {
