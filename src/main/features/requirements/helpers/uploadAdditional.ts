@@ -173,7 +173,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
         delete req.session["fileDuplicateError"];
       }
       if (fileError && errorList !== null) {

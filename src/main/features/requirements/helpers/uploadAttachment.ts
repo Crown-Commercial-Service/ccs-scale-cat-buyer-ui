@@ -152,7 +152,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         }
        
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#rfp_offline_document" });
+          errorList.push({ text: "Upload your pricing schedule", href: "#rfp_offline_document" });
           fileError=true;
         }
       }
@@ -163,7 +163,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       }
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
         delete req.session["fileDuplicateError"];
       }
       

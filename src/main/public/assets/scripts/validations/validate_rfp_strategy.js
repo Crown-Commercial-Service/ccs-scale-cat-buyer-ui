@@ -189,7 +189,7 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter your reporting requirements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else {
