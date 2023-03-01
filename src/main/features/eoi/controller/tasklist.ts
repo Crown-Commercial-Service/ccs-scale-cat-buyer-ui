@@ -63,7 +63,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
 
 
     if(nameJourneysts.length > 0){
-      console.log("121121212")
+      
       let addcontsts = journeyStepsNameJourney.filter((el: any) => { 
         if(el.step == 19) return true;
         return false;
