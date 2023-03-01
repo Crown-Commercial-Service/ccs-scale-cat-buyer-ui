@@ -15,9 +15,9 @@ export class ValidationErrors {
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
     static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
 
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'	
-    static readonly Question_REQUIRED: string = 'Question has not been defined'	
-    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'	
+    static readonly Clarification_REQUIRED: string = 'Enter a clarification'	
+    static readonly Question_REQUIRED: string = 'Enter a question'	
+    static readonly Clarification_REQUIRED_count: string = 'Enter a clarification'	
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
 
 }
