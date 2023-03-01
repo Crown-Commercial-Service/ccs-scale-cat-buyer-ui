@@ -208,7 +208,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       }
       
     });
-    console.log("111")
+    
 
     // const IR35Dataset = {
     //   id: 'Criterion 3',
@@ -767,7 +767,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       maximumFractionDigits: 0,
       useGrouping: false
   });
-  console.log("AGAIN 1212")
+  
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
