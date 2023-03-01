@@ -74,7 +74,7 @@ const showEvaluateSuppliersPopup = (event) => {
               //document.body.scrollTop = document.documentElement.scrollTop = 0;
             }
             $(this).addClass('selected');
-            $('.pop').slideFadeToggle();
+            // $('.pop').slideFadeToggle();
           }
     // }
     // else
@@ -122,7 +122,7 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $('.dialog-close-evaluatesuppliers').on('click', function () {
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    deselect($('.dialog-close-evaluatesuppliers'));
+    // deselect($('.dialog-close-evaluatesuppliers'));
     return false;
   });
 
