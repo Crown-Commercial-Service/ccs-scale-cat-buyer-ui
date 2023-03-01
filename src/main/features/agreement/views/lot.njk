@@ -187,14 +187,14 @@
                     onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% elif agreement_id == 'RM6187' %}
                   {{data.line71}}
-                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                   {# <p class='govuk-body'>To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.</p>
                   <p class='govuk-body'>The Public Procurement Gateway helps you to access the different procurement services available to the public sector.</p> #}
                 {% else %}
                   {{data.line7}}
-                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
                 {% endif %}
-                {# <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a> #}
+                {# <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a> #}
               </p>
             </div>
           {% endif %}
