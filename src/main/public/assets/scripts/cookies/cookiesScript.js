@@ -102,6 +102,15 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
+            title: "",
+            description:
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+            cookie_type: "glassbox",
+            enabled: null,
+            adjustable: true,
+            cookies: null,
+        },
+        {
             title: "Cookies that help with our communications and marketing",
             description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - Contract Award Service (CAS).",
             cookie_type: "marketing",
@@ -123,7 +132,7 @@ var docCookies = {
     var oneyear = 31540000;
     var twodays = 172800; // var onemonth = 2.628e+6;
     // Set the default cookies. This JSON Object is saved as the cookie, but we use `initial_cookie_preferences` to maintain structure and various sanity checks
-    var cookie_preferences = { essentials: true, usage: false, marketing: false };
+    var cookie_preferences = { essentials: true, usage: false, glassbox:false, marketing: false };
     /**
      * When user accept the cookie, show this
      */ function hideMessage() {
@@ -139,6 +148,7 @@ var docCookies = {
         hideMessage();
         updateSeenCookie();
         fireGTM();
+        fireGBX();
     }
     function fireGTM() {
         (function (w, d, s, l, i) {
@@ -151,6 +161,14 @@ var docCookies = {
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", tagManager);
+
+    }
+    function fireGBX() {
+         var script = document.createElement('script'); 
+         script.id = "_cls_detector"; 
+         script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; 
+         script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); 
+         document.head.appendChild(script); 
     }
     function updateSeenCookie() {
         // 1 year = 3.154e+7
@@ -163,7 +181,7 @@ var docCookies = {
         // This is to check if the method was updateSeenCookie() was called from 'Accept all cookies' or cookie settings page
         // (in which case cookie_preferences_set will be set already)
         if (!docCookies.hasItem("cookie_preferences_set")) {
-            var cookie_preferences_accepted = { essentials: true, usage: true, marketing: true };
+            var cookie_preferences_accepted = { essentials: true, usage: true, glassbox: true, marketing: true };
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences_accepted), oneyear, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
             // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), oneyear, "/", ".crowncommercial.gov.uk");
@@ -172,7 +190,7 @@ var docCookies = {
         // will be updated with this user's choices
         else {
             // console.log('cookie_preferences', cookie_preferences);
-            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false ? twodays : oneyear;
+            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false ? twodays : oneyear;
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), cookie_timer, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, cookie_timer, "/", ".crowncommercial.gov.uk");
@@ -203,7 +221,7 @@ var docCookies = {
                 }
             }
         });
-        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
+        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
         docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
         // check if cookie_preferences_set is set, if not, set it
         // we're checking this first because we don't want to reset to today every time

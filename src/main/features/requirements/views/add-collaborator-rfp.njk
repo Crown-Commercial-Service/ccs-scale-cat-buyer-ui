@@ -91,6 +91,7 @@
         </div>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
+          <p class="govuk-inset-text govuk-body">{{data.content.p}}</p>
         {% if agreementId_session == 'RM1557.13' %}
         <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
           <p class="govuk-body">Additional colleagues can also help you write your requirements and review and evaluate suppliers.</p>
@@ -114,9 +115,9 @@
           <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register">Public Procurement Gateway and Contract Award Service.</a></p>
         {% else %}
             {% if(agreementId_session == 'RM1043.8' and lotId == '3') %}
-             <p class="govuk-body">{{data.content.p2l3}} <a href="https://identify.crowncommercial.gov.uk/manage-org/register">Public Procurement Gateway and Contract Award Service.</a></p>
+             <p class="govuk-body">{{data.content.p2l3 | safe}}
             {% else %}
-              <p class="govuk-body">{{data.content.p2}}
+              <p class="govuk-body">{{data.content.p2 | safe}}
             {% endif %}
           <a class="govuk-link govuk-link--no-visited-state"
            href="{{data.content.a1.href}}">{{data.content.a1.text}}</a>

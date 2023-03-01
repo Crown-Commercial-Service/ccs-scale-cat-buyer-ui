@@ -2,10 +2,10 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% if (agreementId == 'RM1043.8') or (agreementId == 'RM1557.13') %} 
-{% set title = 'Your project' %}
+{% if (agreementId == 'RM6187') or (agreementId == 'RM1043.8') or (agreementId == 'RM1557.13') %} 
+ {% set title = 'Your project' %}
 {% else %}
-{% set title = 'Award documents' %}
+ {% set title = 'Award documents' %}
 {% endif %} 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({

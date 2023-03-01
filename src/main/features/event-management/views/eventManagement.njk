@@ -180,7 +180,7 @@
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">2.</span>
                             {% if agreementId_session == 'RM6187' %}
-                              {{ data.subsection4_title2_2_mcf }}
+                              {{ data.subsection4_title2_2_mcf }} 
                             {% else %}
                               {{ data.subsection4_title2_2 }}
                             {% endif %}
@@ -291,29 +291,40 @@
                           <strong>{{ filtervalues }}</strong>.</p>
                       </div>
                     </div>
-                    <div class="govuk-grid-row ccs-page-section">
-                      <div>
-                        <p class="govuk-grid-column-one-half">
-                          <strong>{{ data.subsection4_title3_eval_task1 }}
-                          </strong>
-                        </p>
-                        <p class="govuk-grid-column-one-half">{{ supplierSummary.invited | safe }}</p>
-                        {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task2_mcf }}</p>
-                        {% else %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task2 }}</p>
-                        {% endif %}
-                        <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
-                        <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task3 }}</p>
-                        <p class="govuk-grid-column-one-half">{{ supplierSummary.declined | safe }}</p>
-                        {% if (agreementId_session == 'RM6187') %}
-                          {% if eventType == 'RFI' %}
-                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
+                    {% if (status.toLowerCase() == 'closed') %}
+                    <div class="govuk-grid-row ccs-page-section ccs-noborder">
+                       {% else %}
+                        <div class="govuk-grid-row ccs-page-section">
+                     {% endif %}     
+                      {# <div class="govuk-grid-column-full">
+                        {% if status.toUpperCase() == 'EVALUATED' %}
+                          {% if agreementId_session == 'RM1043.8' %}
+                            <h2 class="govuk-heading-m">
+                              <span class="proc-task-list__section-number">4.</span>
+                              {{ data.subsection4_title4_eval }}</h2>
                           {% else %}
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_others }}</p>
                            {% endif %}
                          {% elseif (agreementId_session == 'RM1557.13') %}
-                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
+                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p> #}
+                            <div>
+                          <p class="govuk-grid-column-one-half">
+                            <strong>{{ data.subsection4_title3_eval_task1 }}
+                            </strong>
+                          </p>
+                          <p class="govuk-grid-column-one-half">{{ supplierSummary.invited | safe }}</p>
+                          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
+                            <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task2_mcf }}</p>
+                          {% else %}
+                            <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task2 }}</p>
+                          {% endif %}
+                          <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
+                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task3 }}</p>
+                          <p class="govuk-grid-column-one-half">{{ supplierSummary.declined | safe }}</p>
+                          {% if (agreementId_session == 'RM1557.13') %}
+                            <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4_gcloud }}</p>
+                          {% else %}
+                            <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_eval_task4 }}</p>
                          {% endif %}
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.noResponse | safe }}</p>
                       {% else %}
@@ -381,7 +392,12 @@
                       {% endif %}
                     </div>
                   </div>
-                  <div class="govuk-grid-row ccs-page-section">
+                  {% if (status.toLowerCase() == 'closed') %}
+                    <div class="govuk-grid-row ccs-page-section ccs-noborder">
+                       {% else %}
+                        <div class="govuk-grid-row ccs-page-section">
+                     {% endif %} 
+                  {# <div class="govuk-grid-row ccs-page-section"> #}
                     <div class="govuk-grid-column-full">
                       {% if status.toUpperCase() == 'EVALUATED' %}
                         {% if agreementId_session == 'RM1043.8' %}
@@ -389,16 +405,20 @@
                             <span class="proc-task-list__section-number">4.</span>
                             {{ data.subsection4_title4_eval }}</h2>
                         {% else %}
+                          {% if (status.toLowerCase() != 'closed') %}
                           <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">4.</span>
                             {{ data.subsection4_title4 }}
                           </h2>
+                         {% endif %}
                         {% endif %}
                       {% else %}
+                        {% if (status.toLowerCase() != 'closed') %}
                         <h2 class="govuk-heading-m">
                           <span class="proc-task-list__section-number">4.</span>
                           {{ data.subsection4_title4 }}
                         </h2>
+                        {% endif %}
                       {% endif %}
                       {% if status.toLowerCase() == 'published' or status.toLowerCase() == 'closed' %}
                         {% if status.toLowerCase() == 'published' %}
@@ -625,169 +645,165 @@
                                         <a class="govuk-link" href="/eventmanagement?supplierid={{ supplier.supplierId }}">Download</a>
                                       </td>
                                     {% endif %}
-                                  {% endif %}
-                                  {% if agreementId_session !== 'RM1043.8' %}
-                                    {% if status.toUpperCase() !='EVALUATING' %}
-                                      <td class="govuk-text-align govuk-!-text-align-left">
-                                        <a class="govuk-link" href="/supplieranswer?supplierid={{ supplier.supplierId }}">Download supplier’s answer</a>
-                                      </td>
-                                    {% endif %}
-                                  {% endif %}
-                                  {% if status.toUpperCase() === 'EVALUATED' %}
-                                    {% if (eventType == 'RFI' and eventType == 'EOI') %}
-                                      <td class="govuk-text-align govuk-!-text-align-left">
-                                        <a class="govuk-link" href="/supplieranswerall?supplierid={{ supplier.supplierId }}">Download</a>
-                                      </td>
-                                    {% endif %}
-                                    {% if (eventType != 'RFI' and eventType != 'EOI') %}
-                                      <td class="govuk-text-align govuk-!-text-align-left">
-                                        <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{ supplier.supplierId }}&&Type=eventManagment">Review
-                                          evaluation</a>
-                                      </td>
-                                      <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
-                                        <p class="govuk-body govuk-!-margin-bottom-0">{{ supplier.rank }}
-                                        </p>
-                                      </th>
-                                      <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
-                                        <p class="govuk-body govuk-!-margin-bottom-0">{{ supplier.score }}</p>
-                                      </th>
-                                      {% if status.toUpperCase() === 'EVALUATED' and agreementId_session ==='RM1043.8' %}
+                                     {% endif %}
+                                    {% if agreementId_session !== 'RM1043.8' %}
+                                      {% if status.toUpperCase() !='EVALUATING' %}
                                         <td class="govuk-text-align govuk-!-text-align-left">
-                                          <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                            <div class="govuk-checkboxes__item">
-                                              <inputSelect</a {{ "checked" if rows <= assessmentSupplierTarget }} class="govuk-checkboxes__input dos_evaluate_supplier" type="checkbox" value="{{ supplier.supplierId }}"> <lable class="govuk-label govuk-checkboxes__label" for="waste"> &nbsp;</lable> </div> </div> </td> {% else %} <td class="govuk-text-align govuk-!-text-align-left"> <a class="govuk-link" href="/confirm-supplier?supplierid={{ supplier.supplierId }}">></td>
-                                            {% endif %}
-                                          {% endif %}
-                                        </tr>
+                                          <a class="govuk-link" href="/supplieranswer?supplierid={{ supplier.supplierId }}">Download supplier’s answer</a>
+                                        </td>
                                       {% endif %}
-                                    </tbody>
-                                    {% set rows = rows+1 %}
-                                  {% endfor %}
-                                  <tbody class="govuk-table__body">
-                                    <tr class="govuk-table__row">
-                                      <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
-                                      <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
-                                      <td class="govuk-text-align govuk-!-text-align-left border-none">
-                                        {% if (showallDownload) %}
-                                          {% if agreementId_session === 'RM1043.8' %}
-                                            {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
-                                              <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
-                                            {% endif %}
-                                          {% else %}
-                                            {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
-                                              <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
-                                            {% endif %}
-                                            {% if status.toUpperCase() === 'EVALUATING' %}
-                                              <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a>
-                                            {% endif %}
-                                          {% endif %}
-                                        {% endif %}
-                                      </td>
-                                      {% if status.toUpperCase() === 'EVALUATED' %}
-                                        {% if (eventType != 'RFI' and eventType != 'EOI') %}
-                                          <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
-                                          <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
-                                          <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
-                                          <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
-                                        {% endif %}
-                                      {% endif %}
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          {% elif status.toLowerCase() != 'published' %}
-                            <p class="govuk-body">The suppliers below responded to your published project. You can download individual supplier
-                              answers or all answers.</p>
-                            {#<h3 class="govuk-heading-m">
-                                                                              {{data.subsection4_title4_1}}</h3>#}
-                            <div class="govuk-grid-row govuk-!-margin-top-6">
-                              <div class="govuk-grid-column-full">
-                                <table class="govuk-table">
-                                  <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
-                                  <thead class="govuk-table__head">
-                                    <tr class="govuk-table__row">
-                                      <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_1 }}</th>
-                                      <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_2 }}</th>
-                                      <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_3 }}</th>
-                                    </tr>
-                                  </thead>
-                                  {% for supplier in supplierDetailsDataList %}
-                                    {% if supplier.responseState == 'Submitted' %}
-                                      <tbody class="govuk-table__body">
-                                        <tr class="govuk-table__row">
-                                          <th scope="row" class="govuk-table__cell">
-                                            <p class="govuk-body govuk-!-margin-bottom-0">
-                                              {{ supplier.supplierName }}
-                                            </p>
-                                          </th>
-                                          <td class="govuk-table__cell">{{ supplier.responseDate }}
-                                          </td>
-                                          <td class="govuk-text-align">
-                                            <a class="govuk-link" href="/eventmanagement?supplierid={{ supplier.supplierId }}">{{ data.Downloadresponse[0].text }}</a>
-                                          </td>
-                                        </tr>
-                                      </tbody>
                                     {% endif %}
-                                  {% endfor %}
-                                </table>
-                              </div>
-                            </div>
-                            {% if (showallDownload) %}
-                              <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-full">
-                                  <p class="govuk-body">
-                                    <a
-                                      href="/eventmanagement?download=1"
-                                      class="govuk-link app-task-list__tag govuk-!-text-align-left govuk-!-margin-bottom-2">{{ data.backJump.title }}</a>
-                                  </p>
+                                    {% if status.toUpperCase() === 'EVALUATED' %}
+                                      {% if (eventType == 'RFI' and eventType == 'EOI') %}
+                                        <td class="govuk-text-align govuk-!-text-align-left">
+                                          <a class="govuk-link" href="/supplieranswerall?supplierid={{ supplier.supplierId }}">Download</a>
+                                        </td>
+                                      {% endif %}
+                                      {% if (eventType != 'RFI' and eventType != 'EOI') %}
+                                        <td class="govuk-text-align govuk-!-text-align-left">
+                                          <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{ supplier.supplierId }}&&Type=eventManagment">Review
+                                            evaluation</a>
+                                        </td>
+                                        <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
+                                          <p class="govuk-body govuk-!-margin-bottom-0">{{ supplier.rank }}
+                                          </p>
+                                        </th>
+                                        <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
+                                          <p class="govuk-body govuk-!-margin-bottom-0">{{ supplier.score }}</p>
+                                        </th>
+                                        {% if status.toUpperCase() === 'EVALUATED' and agreementId_session ==='RM1043.8' %}
+                                          <td class="govuk-text-align govuk-!-text-align-left">
+                                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                              <div class="govuk-checkboxes__item">
+                                                <inputSelect</a {{ "checked" if rows <= assessmentSupplierTarget }} class="govuk-checkboxes__input dos_evaluate_supplier" type="checkbox" value="{{ supplier.supplierId }}"> <lable class="govuk-label govuk-checkboxes__label" for="waste"> &nbsp;</lable> </div> </div> </td> {% else %} <td class="govuk-text-align govuk-!-text-align-left"> <a class="govuk-link" href="/confirm-supplier?supplierid={{ supplier.supplierId }}">></td>
+                                              {% endif %}
+                                            {% endif %}
+                                          </tr>
+                                        {% endif %}
+                                      </tbody>
+                                      {% set rows = rows+1 %}
+                                    {% endfor %}
+                                    <tbody class="govuk-table__body">
+                                      <tr class="govuk-table__row">
+                                        <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
+                                        <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
+                                        <td class="govuk-text-align govuk-!-text-align-left border-none">
+                                          {% if (showallDownload) %}
+                                            {% if agreementId_session === 'RM1043.8' %}
+                                              {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
+                                                <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                              {% endif %}
+                                            {% else %}
+                                              {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
+                                                <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a>
+                                              {% endif %}
+                                              {% if status.toUpperCase() === 'EVALUATING' %}
+                                                <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all supplier’s answers</a>
+                                              {% endif %}
+                                            {% endif %}
+                                          {% endif %}
+                                        </td>
+                                        {% if status.toUpperCase() === 'EVALUATED' %}
+                                          {% if (eventType != 'RFI' and eventType != 'EOI') %}
+                                            <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
+                                            <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
+                                            <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
+                                            <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
+                                          {% endif %}
+                                        {% endif %}
+                                      </tr>
+                                    </tbody>
+                                  </table>
                                 </div>
                               </div>
-                            {% endif %}
-                          {% endif %}
-                        </div>
-                      </div>
-                      {% if eventType == 'RFI' %}
-                        {% if status.toLowerCase() != 'published' %}
-                          {% if status.toUpperCase() == 'EVALUATED' %}
-                            <div class="govuk-grid-row ccs-page-section">
-                              <div class="govuk-grid-column-full">
-                                <h2 class="govuk-heading-m">
-                                  <span class="proc-task-list__section-number">5.</span>
-                                  Evaluate Suppliers</h2>
-                                <p>You have completed your supplier evaluation.</p>
-                              {% else %}
-                                {% if status.toUpperCase() != 'CLOSED' %}
-                                  <!-- <div class="govuk-grid-row ccs-page-section">
-                                    <div class="govuk-grid-column-full">   -->                                
-                                      <h2 class="govuk-heading-m">
-                                        <span class="proc-task-list__section-number">5.</span>
-                                        Complete RfI</h2>
-                                      {% if (agreementId_session ==='RM6187') or (agreementId_session ==='RM1557.13') %}
-                                        <p>When you have the supplier responses, you can close this RfI event and then:
-                                        </p>
-                                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
-                                          <li>start the next stage of your project (from the 'Procurement overview' page)</li>
-                                          <li>copy all the details of this project to procure from your own platform</li>
-                                          <li>start another pre-market engagement event</li>
-                                        </ul>
-                                      {% else %}
-                                        <p>When you have the supplier responses,you can close this project and then:</p>
-                                        <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
-                                          <li>start the next stage of your project(from the procurement overview page)</li>
-                                          <li>copy all the details of this project to procure from your own platform</li>
-                                          <li>start another pre-tender market enagagement project</li>
-                                        </ul>
+                            {% elif (status.toLowerCase() != 'published' and status.toUpperCase() !='CLOSED') %}
+                              <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
+                              {#<h3 class="govuk-heading-m">
+                                                  {{data.subsection4_title4_1}}</h3>#}
+                              <div class="govuk-grid-row govuk-!-margin-top-6">
+                                <div class="govuk-grid-column-full">
+                                  <table class="govuk-table">
+                                    <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+                                    <thead class="govuk-table__head">
+                                      <tr class="govuk-table__row">
+                                        <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_1 }}</th>
+                                        <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_2 }}</th>
+                                        <th scope="col" class="govuk-table__header">{{ data.subsection4_table_th_3 }}</th>
+                                      </tr>
+                                    </thead>
+                                    {% for supplier in supplierDetailsDataList %}
+                                      {% if supplier.responseState == 'Submitted' %}
+                                        <tbody class="govuk-table__body">
+                                          <tr class="govuk-table__row">
+                                            <th scope="row" class="govuk-table__cell">
+                                              <p class="govuk-body govuk-!-margin-bottom-0">
+                                                {{ supplier.supplierName }}
+                                              </p>
+                                            </th>
+                                            <td class="govuk-table__cell">{{ supplier.responseDate }}
+                                            </td>
+                                            <td class="govuk-text-align">
+                                              <a class="govuk-link" href="/eventmanagement?supplierid={{ supplier.supplierId }}">{{ data.Downloadresponse[0].text }}</a>
+                                            </td>
+                                          </tr>
+                                        </tbody>
                                       {% endif %}
-                                      <div class="govuk-!-margin-bottom-7">
-                                        <a class="govuk-body govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to
-                                          Procurement overview</a>
-                                      </div>
-                                     <!-- </div>
-                                  </div>-->
-                                    
-                                {% endif %}
+                                    {% endfor %}
+                                  </table>
+                                </div>
+                              </div>
+                              {% if (showallDownload) %}
+                                <div class="govuk-grid-row">
+                                  <div class="govuk-grid-column-full">
+                                    <p class="govuk-body">
+                                      <a
+                                        href="/eventmanagement?download=1"
+                                        class="govuk-link app-task-list__tag govuk-!-text-align-left govuk-!-margin-bottom-2">{{ data.backJump.title }}</a>
+                                    </p>
+                                  </div>
+                                </div>
                               {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+                        {% if eventType == 'RFI' %}
+                          {% if status.toLowerCase() != 'published' %}
+                            {% if status.toUpperCase() == 'EVALUATED' %}
+                              <div class="govuk-grid-row ccs-page-section">
+                                <div class="govuk-grid-column-full">
+                                  <h2 class="govuk-heading-m">
+                                    <span class="proc-task-list__section-number">5.</span>
+                                    Evaluate Suppliers</h2>
+                                  <p>You have completed your supplier evaluation.</p>
+                                {% else %}
+                                  {% if status.toUpperCase() != 'CLOSED' %}
+                                    <div class="govuk-grid-row ccs-page-section">
+                                      <div class="govuk-grid-column-full">
+                                        <h2 class="govuk-heading-m">
+                                          <span class="proc-task-list__section-number">5.</span>
+                                          Complete RfI</h2>
+                                        {% if agreementId_session ==='RM6187' %}
+                                          <p>When you have the supplier responses, you can close this RfI event and then:
+                                          </p>
+                                          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
+                                            <li>start the next stage of your project (from the 'Procurement overview' page)</li>
+                                            <li>copy all the details of this project to procure from your own platform</li>
+                                            <li>start another pre-tender market engagement event</li>
+                                          </ul>
+                                        {% else %}
+                                          <p>When you have the supplier responses,you can close this project and then:</p>
+                                          <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
+                                            <li>start the next stage of your project(from the procurement overview page)</li>
+                                            <li>copy all the details of this project to procure from your own platform</li>
+                                            <li>start another pre-market enagagement project</li>
+                                          </ul>
+                                        {% endif %}
+                                        <div class="govuk-!-margin-bottom-7">
+                                          <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to Procurement overview</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  {% endif %}
 
                                   {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
                                       <div>
@@ -795,8 +811,10 @@
                                       </div>
                                   {% endif %}
 
+                                {% endif %}
+                              </div>
                             </div>
-                          </div>
+                        
                         {% endif %}
                       {% endif %}
                       {% if eventType == 'EOI' %}
@@ -990,66 +1008,87 @@
                         {{ CCSButton({
               text: "Start supplier evaluation",
               href:"/eventStateChange?StateChange=1"
-            }) }}
-            {# <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
-                      </div>
-                    {% elseif status.toUpperCase() === 'PUBLISHED' %}
-                      <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
-                      {# <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
-                    {% endif %}
-                  {% endif %}
-                {% endif %}
-                <div class="govuk-!-margin-top-6"></div>
-                {% if (agreementId_session == "RM6187" or agreementId_session == "RM1557.13") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED') %}
-                  {# <br>
-                    <br>
-                      <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> #}
-                    {% endif %}
-                  {% endif %}
-                 {% if (agreementId_session == "RM1557.13") and (eventType == 'RFI') and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %} 
+            }) }}<a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+          </div>
+          {% elseif status.toUpperCase() === 'PUBLISHED' %}
+          <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong><a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+
+          <div class="govuk-!-margin-top-6">
+            
+          </div>
+          
+            {% if (agreementId_session == "RM6187") and (status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED')  %}
+              <br><br>
+              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+          {% endif %}
+
+          <div class="govuk-!-margin-top-6">
+            {# {% if agreementId_session == "RM6187" and eventType != "RFI" and eventType != "EOI" and eventType != "FC" %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %} #}
+
+            {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+
+          </div>
+
+              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
                   <div>
-                      <br/>
-                      <br/>
-                          {% if (agreementId_session == "RM1557.13") and (eventType != 'RFI') %}
-                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-                          {% endif %}
-                          
-                          {% if (agreementId_session != "RM1557.13") %}
-                              <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-                          {% endif %}
-                    </div> 
-                  {% endif %} 
-                  <div class="loader-container">
-                    <div class="loader-division">
-                      <img src="/assets/images/loader.gif" alt="Loading">
-                        <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2>
-                      </div>
-                    </div>
-                  </main>
-                  {# Confiramtion popup for a low-scoring supplier #}
-                  <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
-                    <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
-                      <div class="pop_logo govuk-grid-column-full">
-                        <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
-                        <p class="pop_logo_image govuk-grid-column-one-half">
-                          <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage"></p>
-                          <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-evaluatesuppliers govuk-!-padding-top-6">
-                            <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a>
-                          </p>
-                        </div>
-                        <div class="govuk-grid-column-full">
-                          <h1 id="dialog-title">The selected supplier is not ranked first</h1>
-                          <h2 id="suppliersName"></h2>
-                          <p id="dialog-description">Confirm you wish to award to this supplier. Please ensure that you document the reasons for
-                            your decision.
-                          </p>
-                          <br/> <br/>
-                          <div class="govuk-button-group">
-                            <a href="#" id="redirect-button-confirmsuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">
-                              Continue</a>
-                            <a href="/event/management" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
+                        <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
+                  </div>
+              {% endif %}
+
+          {# Loader container #}
+          <div class="loader-container">
+            <div class="loader-division">
+              <img src="/assets/images/loader.gif" alt="Loading">
+              {# <h2 class="govuk-heading-m govuk-!-margin-top-4">Downloading responses</h2> #}
+              <div class="loderMakeRes">
+              </div>
+            </div>
+          </div>
+
+          {# Dialog Start #}
+          {# Confiramtion popup for a low-scoring supplier #}
+          {{ 
+            CCSDialog({
+              title: 'The selected supplier is not ranked first',
+              description:'Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision.',
+              redirect:'#',
+              type:'confirmLowScoreSupplierPopup'
+            }) 
+          }}
+          {# Dialog End #}
+
+        </main>
+        
+                    {# <div class="backdrop-evaluatesuppliers" id="suppliersAwardPopup">
+                      <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+                          <div class="pop_logo govuk-grid-column-full">
+                            <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+                            <p class="pop_logo_image govuk-grid-column-one-half">
+                            <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage"></p>
+                            <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-evaluatesuppliers govuk-!-padding-top-6">
+                              <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a>
+                            </p>
                           </div>
-                        </div>
+                          <div class="govuk-grid-column-full">
+                              <h1 id="dialog-title">The selected supplier is not ranked first</h1>
+                              <h2 id="suppliersName"></h2>
+                               <p id="dialog-description">Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision. </p>
+                              <div class="govuk-button-group">
+                                <a href="#" id="redirect-button-confirmsuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">
+                                    Continue</a>
+                                <a href="/event/management" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                  {% endblock %}
+                    </div> #}
+        {% endblock %}
+
+

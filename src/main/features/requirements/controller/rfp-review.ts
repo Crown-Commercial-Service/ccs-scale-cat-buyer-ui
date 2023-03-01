@@ -131,6 +131,8 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
       style: 'currency',
       currency: 'GBP',
   });
+
+  //Getting data
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
@@ -161,7 +163,7 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments?.data;
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
-
+    //console.log("test")
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
     let fileNameStorageMandatorySecond = [];

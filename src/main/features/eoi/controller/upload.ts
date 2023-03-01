@@ -21,6 +21,7 @@ let tempArray = [];
  */
 
 export const GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
+  
   FILEUPLOADHELPER(req, res, false, [], 'eoi');
 };
 
@@ -43,8 +44,10 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
     const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
     const journeyStatus = JourneyStatusUpload?.data;
     const journey = journeyStatus?.find(journey => journey.step === 21)?.state;
-    const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+    //const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+    const routeRedirect = "/eoi/upload-doc";
     req.session.UploadError=true;
+    
     res.redirect(routeRedirect);
     // const journey = journeyStatus.find(journey => journey.step === 21)?.state;
     // const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
@@ -238,6 +241,7 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
 });
 
 export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');

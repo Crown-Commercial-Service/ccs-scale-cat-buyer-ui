@@ -124,7 +124,7 @@
     "subsection4_dos_2b_eval_descr_dos_startEval":"To access supplier responses select ‘View supplier responses’. ",
     "DosViewsupplierResponses":"View supplier responses",
     "subsection4_dos_eval_descr_stg1": "You stipulated number of suppliers earlier on in the journey. You may select addition",
-    "subsection4_dos_eval_descr_stg1_dos": "You decided how many suppliers to invite to stage 2 earlier in the journey. If you want to invite a different number of suppliers to stage 2, you must have documentation that supports your decision. This documentation needs to be produced offline.",
+    "subsection4_dos_eval_descr_stg1_dos": "You decided how many suppliers to invite to stage 2 earlier in the journey. If you want to invite a different number of suppliers to stage 2, you must have documentation that supports your decision. This documentation needs to be produced offline. Check the box against each of the suppliers you wish to invite to stage 2.",
     "subsection4_eval_table_th_1": "Supplier's Name",
     "subsection4_eval_table_th_1_dos": "Supplier name",
     "subsection4_eval_table_th_2": "Supplier's Answer",
@@ -137,11 +137,11 @@
     "subsection4_eval_table_th_8": "Award",
     "subsection4_eval_table_th_9": "Select to stage 2",
     "Downloadresponse": [{
-        "text": "Download response",
+        "text": "Download",
         "link": "#"
     }],
     "backJump": {
-        "title": "Download all responses"
+        "title": "Download all"
     },
     "mcf_sections": [
         "There is a legal requirement to publish certain contracts. You may need to publish the contract on:"

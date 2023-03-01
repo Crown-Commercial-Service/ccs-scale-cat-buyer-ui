@@ -223,8 +223,8 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
 if (document.getElementById('supplierMsgCancel') !== null)
   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
@@ -1582,14 +1582,7 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
     //   });
     // });
 
-    //startEvalDos6Btn
-    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
-      event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
-        var bodytg = document.body;
-        bodytg.classList.add("pageblur");
-      });
-    });
+    
 
 document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
   event.addEventListener('click', function (event) {
@@ -1614,9 +1607,18 @@ document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (
     });
 
     //startEvalDos6Btn
+    // document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
       event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr">Retrieving supplier responses</p><p class="govuk-body loader-desc">Please allow some time for this operation to complete. Once finished, you will be able to download supplier responses. We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>';
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       });
@@ -1634,6 +1636,7 @@ document.querySelectorAll(".download").forEach(function (event) {
         responseType: 'blob' // to avoid binary data being mangled on charset conversion
       },
       beforeSend: function () {
+        document.querySelector(".loderMakeRes").innerHTML = "<p class='govuk-body loader-desc-hdr'>Downloading supplier responses</p><p class='govuk-body loader-desc'>Please allow some time for this operation to complete. Once finished, your downloaded responses can be found in the 'Downloads' section of your browser.  We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>";
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       },
@@ -1705,6 +1708,25 @@ if (document.querySelectorAll('.suppliersAwardConfirm')) {
     })
   })
 }
-
-
-
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
+  });

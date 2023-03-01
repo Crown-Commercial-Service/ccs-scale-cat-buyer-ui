@@ -341,7 +341,7 @@
                                       <tr class="govuk-table__row">
                                         <th scope="row" class="govuk-table__cell">
 
-                                          <p class="govuk-body govuk-!-margin-bottom-0">
+                                          <p class="govuk-body govuk-!-margin-bottom-0" data-type="supplierName_{{supplier.supplierId}}">
                                             {{supplier.supplierName}}
                                           </p>
 
@@ -391,7 +391,9 @@
                                               {%endif%}
                                               {% if(stage2_value == 'Stage 2')  %}
                                                 <td class="govuk-text-align govuk-!-text-align-centre">
-                                                  <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
+                                                  {# <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a> #}
+
+                                                  <a class="govuk-link suppliersAwardConfirm" href="javascript:void(0)" data-url="/confirm-supplier?supplierid={{ supplier.supplierId }}" data-name={{supplier.supplierId}} data-value={{supplier.score}} >Select</a>
                                                   </td>
                                               {%endif%}
                                               {%endif%}
@@ -460,7 +462,7 @@
                                               <tr class="govuk-table__row">
                                                 <th scope="row" class="govuk-table__cell">
 
-                                                  <p class="govuk-body govuk-!-margin-bottom-0">
+                                                  <p class="govuk-body govuk-!-margin-bottom-0" data-type="supplierName_{{supplier.supplierId}}">
                                                     {{supplier.supplierName}}
                                                   </p>
 
@@ -512,8 +514,9 @@
                                     <h2 class="govuk-heading-m">
                                       <span class="proc-task-list__section-number">5.</span>
                                     Invite selected suppliers to stage 2: further assessment</h2>
-                                    <p>You will need to complete your full evaluation of suppliers offline, using the criteria and questions you set before you published your project. You can only enter your final evaluation score for each supplier in this service.</p>
-                                    <p>Then, you will need to communicate the outcome of your evaluation to those suppliers who are not being invited to stage 2, from your organisation's email account.</p>
+                                    <p>After this point, you will be unable to edit your evaluation. You will need to communicate the outcome of your evaluation to those suppliers who are not being invited to stage 2, from your organisation's email account.</p>
+                                    {# <p>After this point, you will be unable to edit your evaluation. You will need to communicate the outcome of your evaluation to those suppliers who are not being invited to stage 2, from your organisation's email account.</p>
+                                    <p>Then, you will need to communicate the outcome of your evaluation to those suppliers who are not being invited to stage 2, from your organisation's email account.</p> #}
                                     <form id="dos_invite_supplier_form" name="dos_invite_supplier_form" action="/event/invite-suppliers" method="POST">
                                       {{ csrfProtection(csrf) }}
 
@@ -612,12 +615,29 @@
                                 
 
                               {% endif %}
+                              
+                              {# Loader container #}
                               <div class="loader-container">
                                 <div class="loader-division">
                                   <img src="/assets/images/loader.gif" alt="Loading">
-                                  <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2>
+                                  {# <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2> #}
+                                  <div class="loderMakeRes">
+                                  </div>
                                 </div>
                               </div>
+
+                               {# Dialog Start #}
+          {# Confiramtion popup for a low-scoring supplier #}
+          {{ 
+            CCSDialog({
+              title: 'The selected supplier is not ranked first',
+              description:'Confirm you wish to award to this supplier. Please ensure that you document the reasons for your decision.',
+              redirect:'#',
+              type:'confirmLowScoreSupplierPopup'
+            }) 
+          }}
+          {# Dialog End #}
+
                               </main>
                             {% endblock %}
 

@@ -23,7 +23,7 @@
 {% block content %}
 
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>   
+       
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">Details about cookies on crowncommercial.gov.uk (CAS)</h1>
@@ -34,8 +34,21 @@
             <div class="govuk-grid-column-two-thirds">
                 <p class="govuk-body">crowncommercial.gov.uk (CAS) puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they’re for and when they expire.</p>
                 <h2 class="govuk-heading-m">Cookies that measure website use (optional)</h2>
-                <p>We use Google Analytics software to collect information about how you use this service. We do this to help make sure the service is meeting the needs of its users and to help us make improvements. We do not allow Google to use or share the data about how you use this site.</p>
-                <p>We use the following Google Analytics cookies on GOV.UK:</p>
+                <p>We use Google Analytics software to collect information about how you use CAS. We do this to help make sure the service is meeting the needs of its users and to help us make improvements, for example, improving site search.</p>
+               
+                <span id="usage-hint" class="govuk-hint">
+                    <p>Google Analytics stores information about:</p>
+                    <ul>
+                        <li>the pages you visit on CCS</li>
+                        <li>how long you spend on each CCS page</li>
+                        <li>how you got to the site</li>
+                        <li>what you click on while you’re visiting the site</li>
+                    </ul>
+                    <p>We don’t collect or store your personal information (e.g. your name or address) so this information can’t be used to identify who you are.</p>
+                    <p>We don’t allow Google to use or share our analytics data.</p>
+                </span>
+                <h2 class="govuk-heading-m">Cookies used for universal analytics</h2>
+                <p>Google Analytics sets the following cookies:</p>
                 <table class="govuk-table">
                     <thead class="govuk-table__head">
                         <tr class="govuk-table__row">
@@ -47,31 +60,60 @@
                     <tbody class="govuk-table">
                         <tr class="govuk-table__row">
                             <th scope="row" class="govuk-table__header">_ga</th>
-                            <td class="govuk-table__cell">These help us count how many people visit Contract Award Service (CAS) by tracking if you’ve visited before</td>
-                            <td class="govuk-table__cell">1 year</td>
+                            <td class="govuk-table__cell">These help us count how many people visit CCS by tracking if you’ve visited before 2 years</td>
+                            <td class="govuk-table__cell">2 years</td>
                         </tr>
                         <tr>
                             <th scope="row" class="govuk-table__header">_gid</th>
-                            <td class="govuk-table__cell">These help us count how many people visit Contract Award Service (CAS) by tracking if you’ve visited before</td>
-                            <td class="govuk-table__cell">1 day</td>
+                            <td class="govuk-table__cell">These help us count how many people visit CCS by tracking if you’ve visited before 24 hours</td>
+                            <td class="govuk-table__cell">24 hours</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="govuk-table__header">_gat (_gat_UA-47046847-4)</th>
-                            <td class="govuk-table__cell">These help us count how many people visit Contract Award Service (CAS) by tracking if you’ve visited before </td>
+                            <th scope="row" class="govuk-table__header">_ga_(_gat_UA-47046847-4)</th>
+                            <td class="govuk-table__cell">These help us count how many people visit CCS by tracking if you’ve visited before 1 minute </td>
                             <td class="govuk-table__cell">1 minute</td>
                         </tr>
-                        <tr>
-                            <th scope="row" class="govuk-table__header">_gcl_au</th>
-                            <td class="govuk-table__cell">is used by Google AdSense for experimenting with advertisement efficiency</td>
-                            <td class="govuk-table__cell">3 months</td>
+                        
+                    </tbody>
+                </table>
+                <h2 class="govuk-heading-m">Measuring website usage (Glassbox)</h2>
+                <p>We use Glassbox software to collect information about how you use CAS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p>
+
+                <span id="usage-hint" class="govuk-hint">
+                    <p>Glassbox stores information about:</p>
+                    <ul>
+                        <li>browsing activity</li>
+                        <li>click-stream activity</li>
+                        <li>session heatmaps</li>
+                        <li>scrolls</li>
+                    </ul>
+                    <p>We don’t collect or store your personal information (e.g. your name or address) so this information can’t be used to identify who you are.</p>
+                    <p>We don’t allow Glassbox to use or share our analytics data.</p>
+                    <p>Glassbox sets the following cookies:</p>
+                </span>
+
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">Name</th>
+                            <th scope="col" class="govuk-table__header">Type</th>
+                            <th scope="col" class="govuk-table__header">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table">
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">_cls_s</th>
+                            <td class="govuk-table__cell">Cookie (required)</td>
+                            <td class="govuk-table__cell">The session identifying cookie. It also indicates if the visitor is new or existing.<p>0: New</p><p>1: Existing</p></td>
                         </tr>
                         <tr>
-                            <th scope="row" class="govuk-table__header">__gat_gtag_UA_47046847_20</th>
-                            <td class="govuk-table__cell">Google Analytics cookie to distinguish unique users.</td>
-                            <td class="govuk-table__cell">1 minute</td>
+                            <th scope="row" class="govuk-table__header">_cls_v</th>
+                            <td class="govuk-table__cell">Cookie (required)</td>
+                            <td class="govuk-table__cell">The visitor identifying cookie.</td>
                         </tr>
                     </tbody>
                 </table>
+                <p>You can opt out of  <a href="https://tools.google.com/dlpage/gaoptout">Glassbox cookies</a></p>
 
                 <h2 class="govuk-heading-m">Cookies used to turn our introductory message off</h2>
                 <p>You may see a welcome message when you first visit the service. We’ll store a cookie so that your computer knows not to show this message again.</p>
