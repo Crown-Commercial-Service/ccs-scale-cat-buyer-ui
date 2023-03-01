@@ -50,18 +50,17 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     });
   
 
-
-    if(req.session.endDate==undefined || req.session.endDate==null){
-      if(timelineStatus[0].state == 'Completed'){
-        
+    if(req.session?.endDate==undefined || req.session?.endDate==null){
+    
+      if(timelineStatus[0]?.state == 'Completed'){
+       
               await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started'); 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Cannot start yet'); 
 
       }
 
     }
-
-
+    
     if(nameJourneysts.length > 0){
       
       let addcontsts = journeyStepsNameJourney.filter((el: any) => { 
@@ -74,11 +73,11 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
       }
       
     }else{
-
+      
       let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 19, req);
       if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'Cannot start yet'); 
     }
-
+   
     let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     if(agreementId_session == 'RM6187') {
       statusStepsDataFilter(Mcf3cmsData, journeySteps, 'eoi', agreement_id, projectId, eventId);
@@ -86,7 +85,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
       statusStepsDataFilter(cmsData, journeySteps, 'eoi', agreement_id, projectId, eventId);
     }
    
-
+    
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.eoiTaskListPageLog, req);
 
