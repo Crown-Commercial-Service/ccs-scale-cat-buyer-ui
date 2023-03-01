@@ -10,8 +10,8 @@ import { MessageDetails } from '../model/messgeDetails';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
-    static readonly Question_REQUIRED: string = 'Question has not been defined'
+    static readonly Clarification_REQUIRED: string = 'Enter a clarification'
+    static readonly Question_REQUIRED: string = 'Enter a question'
     static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
      }
