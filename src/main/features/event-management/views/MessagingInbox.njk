@@ -62,7 +62,41 @@
 </p>
 {% endset %}
 {% block breadCrumb %}
- {{ CCSBreadcrumbs({ items: breadcrumbs }) }}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' or agreementId == 'RM6187' %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Your inbox",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+    {% endif %}
 {% endblock %}
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">

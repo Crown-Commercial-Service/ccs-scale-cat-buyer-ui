@@ -187,7 +187,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.eoiTitle, req);
-
+   
    res.render('questionsEoi', data);
    
   } catch (error) {
@@ -354,10 +354,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             
             const slideObj = object_values.slice(0, 3);
 
+            let dayval = slideObj[0].value.length == 2?slideObj[0].value:'0'+slideObj[0].value;
+             let monthval = slideObj[1].value.length == 2?slideObj[1].value:'0'+slideObj[1].value;
+            
             answerValueBody = {
               nonOCDS: {
                 answered: true,
-                options: [{ value: slideObj[2].value+'-'+slideObj[1].value+'-'+slideObj[0].value, selected: true }],
+                options: [{ value: slideObj[2].value+'-'+monthval+'-'+dayval, selected: true }],
               },
             };
           } else if (questionNonOCDS.questionType === 'Duration') {
@@ -380,14 +383,41 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               req.session['IsExpiryDateLessError'] = true;
               break;
             } else {
-              const slideObj = object_values.slice(3);
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [...slideObj],
-                },
-              };
-            }
+            //   const slideObj = object_values.slice(3);
+            //   answerValueBody = {
+            //     nonOCDS: {
+            //       answered: true,
+            //       options: [...slideObj],
+            //     },
+            //   };
+          
+            const slideObj = object_values.slice(3);
+                let dureationValue = null;
+                let year = 0;
+                let month = 0;
+                let day = 0;
+                if (Number(req.body["eoi_duration-years"]) >= 0) {
+                  year = Number(req.body["eoi_duration-years"]);
+                }
+                if (Number(req.body["eoi_duration-months"]) >= 0) {
+                  month = Number(req.body["eoi_duration-months"]);
+                }
+                if (Number(req.body["eoi_duration-days"]) >= 0) {
+                  day = Number(req.body["eoi_duration-days"]);
+                }
+                dureationValue = "P" + year + "Y" + month + "M" + day + "D";
+              
+                dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [
+                      { value: dureationValue, selected: true },
+                    ],
+                  },
+                };
+          
+          }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
@@ -487,10 +517,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         if (Array.isArray(obj.value)) objValueArrayCheck = true;
                       });
                     if (objValueArrayCheck) {
-                      // console.log("2")
-                    let objValue;
+
+                      let objValue;
                       if(agreement_id=="RM6187"){
-                      
+
                          objValue=null;
                         if(object_values[0].value[i]!=''){
                            objValue=object_values[0].value[i];
@@ -523,10 +553,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
              
               let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              
               //CAS-INFO-LOG 
               LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
-
+             
             } catch (error) {
               // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
               LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
