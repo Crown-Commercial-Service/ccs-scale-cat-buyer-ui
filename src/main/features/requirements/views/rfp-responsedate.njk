@@ -142,6 +142,14 @@
                             </div>
                         {% endif %}
                         <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
+                            {% if agreementId_session =='RM1043.8' and stage2_value == "Stage 2" %}
+                                <p>A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p>
+                                <div class="govuk-inset-text">
+                                    <p class="govuk-body">
+                                        You can change the length of time for each section to more suitable times for you. It is recommended that you set your times no later than 4pm on a weekday in case you need to contact CCS about your project.
+                                    </p>
+                                </div>
+                            {%endif%}
                             <p class="govuk-body-l govuk-!-margin-top-3">
                                 <strong>
                     {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}

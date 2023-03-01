@@ -79,7 +79,11 @@
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
+                  {% if(status.toUpperCase() == 'EVALUATED') %}
+                    <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
+                  {% else %}
+                  <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+                  {% endif %}
               {% else %}
                 <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
               {% endif %}
@@ -155,10 +159,28 @@
             <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
           </p>
         </h2>
-          {% if(stage2_value == 'Stage 2') and (status.toUpperCase() != 'PUBLISHED') %}
-            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_dos_stage2 }}
+          {% if(stage2_value == 'Stage 1') %}
+              {% if(status.toUpperCase() == 'PUBLISHED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATING') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% endif %}
+          {% elif(stage2_value == 'Stage 2') %}
+              {% if(status.toUpperCase() == 'PUBLISHED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATING') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% endif %}
           {% else %}
-            <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+              <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
           {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
@@ -241,7 +263,15 @@
                       <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                         <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4_dos}}</p>
+                        <p class="govuk-grid-column-one-half">
+                          {% if(stage2_value == 'Stage 2')  %}
+                            {% if status.toUpperCase() == 'EVALUATED' %}
+                              Remaining suppliers with no response
+                            {%else%}
+                            {{data.subsection4_title3_task4_dos}}
+                            {%endif%}
+                          {%endif%}
+                        </p>
                           <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                         {% endif %}
                       </div>
