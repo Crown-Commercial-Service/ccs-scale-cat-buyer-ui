@@ -120,12 +120,7 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
-
-          {% if agreementId == 'RM1043.8' %}
               <a href="{{data.backlink}}">Back</a>
-          {% else %}
-              <a href="{{data.backlink}}">back</a>
-          {% endif %}
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
