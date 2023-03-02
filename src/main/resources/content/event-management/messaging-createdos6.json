@@ -27,7 +27,7 @@
     },
     "MessageClassification": "Message classification",
     "Subject": "Subject",
-    "Message": "Your Message",
+    "Message": "Message",
     "btnText": "Send to all",
     "btnText2": "Send to all",
     "btnTextSupplier": "Send to supplier",
