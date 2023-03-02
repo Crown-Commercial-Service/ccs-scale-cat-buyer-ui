@@ -3691,7 +3691,7 @@ const showEvaluateSuppliersPopup = (event) => {
               //document.body.scrollTop = document.documentElement.scrollTop = 0;
             }
             $(this).addClass('selected');
-            $('.pop').slideFadeToggle();
+            // $('.pop').slideFadeToggle();
           }
     // }
     // else
@@ -3739,7 +3739,7 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $('.dialog-close-evaluatesuppliers').on('click', function () {
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    deselect($('.dialog-close-evaluatesuppliers'));
+    // deselect($('.dialog-close-evaluatesuppliers'));
     return false;
   });
 
@@ -19977,12 +19977,12 @@ const ccsZvalidateRfiWho = (event) => {
   var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
   var errorMsg = '';
   if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
-    if(rfi_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfi_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
-      if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfi_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfi_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+    //   if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
@@ -20048,12 +20048,12 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
   var errorMsg = 'Supplier must be minimum 3';
   if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
-    if(rfp_contracting_auth.value.length > 0 &&
-      textPatternNew.test(rfp_contracting_auth.value) !== true){
-      errorMsg = 'Please enter only character';
-      fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
-      if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
-    }
+    // if(rfp_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfp_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+    //   if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    // }
     
   }
 
