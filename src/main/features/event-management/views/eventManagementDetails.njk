@@ -228,8 +228,15 @@
     {%endif%}
   </form>
 </div>
-    <p class="govuk-body">
-    <a href="{{data.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump2.title}}</a>
-    </p>
+
+      {% if type == 'sent' %}
+          <p class="govuk-body">
+            <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Return to Your project</a>
+          </p>
+      {% else %}
+          <p class="govuk-body">
+            <a href="{{data.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump2.title}}</a>
+          </p>
+      {% endif %}
 </main>
 {% endblock %}
