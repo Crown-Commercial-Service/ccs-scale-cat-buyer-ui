@@ -379,9 +379,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               req.session['IsInputDateLessError'] = true;
               break;
             } else if (isExpiryDateLess) {
-              validationError = true;
-              req.session['IsExpiryDateLessError'] = true;
-              break;
+              // validationError = true;
+              // req.session['IsExpiryDateLessError'] = true;
+              // break;
             } else {
             //   const slideObj = object_values.slice(3);
             //   answerValueBody = {
@@ -772,8 +772,8 @@ const findErrorText = (data: any, req: express.Request) => {
       });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Start date must be a valid future date' });
-    else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
-      errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
+    //else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
+      //errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
       else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must be 500 characters or fewer' });
       else if (requirement.nonOCDS.questionType == 'SingleSelect')

@@ -175,26 +175,47 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     $('#event-name-error-month').html('');
     $('#event-name-error-year').html('');
     ccsZPresentErrorSummary();
-
-    if (Day == "") {
-        const errorStore = [["eoi_resource_start_date", "Project start date cannot be empty"]]
+    console.log("Day",Day)
+    console.log("Month",Month)
+    console.log("Year",Year)
+    if(Day == "" && Month == "" && Year == ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start date"]]
         DaySelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-date').html('Enter a valid date')
-        ccsZPresentErrorSummary(errorStore);
-    }else if (Month == "") {
-        const errorStore = [["eoi_resource_start_date", "Project start month cannot be empty"]]
-        MonthSelector.addClass('govuk-form-group--error');
+        $('#event-name-error-date').html('Enter a project start date')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day == "" && Month != "" && Year != ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start day"]]
+        DaySelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-month').html('Enter a valid month');
-        ccsZPresentErrorSummary(errorStore);
-    }else if (Year == "") {
-        const errorStore = [["eoi_resource_start_date", "Porject start year cannot be empty"]]
-        YearSelector.addClass('govuk-form-group--error');
+        $('#event-name-error-date').html('Enter a project start day')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day != "" && Month == "" && Year != ""){
+        const errorStore = [["eoi_resource_start_date-month", "Enter a project start month"]]
+        DaySelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-year').html('Enter a valid year');
-        ccsZPresentErrorSummary(errorStore);
+        $('#event-name-error-month').html('Enter a project start month')
+        ccsZPresentErrorSummary(errorStore);    
     }
+    // if (Day == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Project start date cannot be empty"]]
+    //     DaySelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-date').html('Enter a valid date')
+    //     ccsZPresentErrorSummary(errorStore);
+    // }else if (Month == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Project start month cannot be empty"]]
+    //     MonthSelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-month').html('Enter a valid month');
+    //     ccsZPresentErrorSummary(errorStore);
+    // }else if (Year == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Porject start year cannot be empty"]]
+    //     YearSelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-year').html('Enter a valid year');
+    //     ccsZPresentErrorSummary(errorStore);
+    // }
 
 
 
@@ -210,17 +231,18 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     if (Day != "" && Month != "" && Year != ""){
         
 
-        if (getTimeOfFormDate > getMSOfExpiryDate) {
+        //if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
-            DaySelector.addClass('govuk-form-group--error');
-            MonthSelector.addClass('govuk-form-group--error');
-            YearSelector.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
-            ccsZPresentErrorSummary(errorStore);
-        }
-        else if (getTimeOfFormDate < todayDate.getTime()) {
+        //     $('#event-name-error-date').html('11It is recommended that your project does not start after lot expiry date');
+        //     DaySelector.addClass('govuk-form-group--error');
+        //     MonthSelector.addClass('govuk-form-group--error');
+        //     YearSelector.addClass('govuk-form-group--error');
+        //     $('.durations').addClass('govuk-form-group--error');
+        //     const errorStore = [["eoi_resource_start_date", "22It is recommended that your project does not start after lot expiry date"]]
+        //    // ccsZPresentErrorSummary(errorStore);
+        //}
+
+        if (getTimeOfFormDate < todayDate.getTime()) {
             $('#event-name-error-date').html('Start date must be a valid future date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
