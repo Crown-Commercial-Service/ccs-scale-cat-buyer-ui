@@ -101,21 +101,42 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         return false;
       });
 
+      
+      if(agreementId_session == 'RM1043.8'){
+        let timelineStatus = journeySteps.filter((el: any) => {
+          if(el.step == 34 && el.state == 'Completed') return true;
+          return false;
+        });
 
+        if(req.session?.endDate==undefined || req.session?.endDate==null){
+          console.log("133")
+            if(timelineStatus[0]?.state == 'Completed'){
+              console.log("442")
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started'); 
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Cannot start yet'); 
+      
+            }
+      
+          }
+
+      }
+
+
+      if(agreementId_session == 'RM6187') {
       let timelineStatus = journeySteps.filter((el: any) => {
         if(el.step == 36 && el.state == 'Completed') return true;
         return false;
       });
+
       if(req.session?.endDate==undefined || req.session?.endDate==null){
-      
-        if(timelineStatus[0]?.state == 'Completed'){
-         
+       if(timelineStatus[0]?.state == 'Completed'){
+          
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
   
         }
   
-      }
+      } }
 
       if(nameJourneysts.length > 0){
 
