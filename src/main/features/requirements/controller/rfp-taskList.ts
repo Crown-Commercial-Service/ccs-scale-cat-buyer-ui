@@ -100,9 +100,28 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(el.step == 27 && el.state == 'Completed') return true;
         return false;
       });
-
       
-      if(agreementId_session == 'RM1043.8'){
+      if(agreementId_session == "RM1043.8" && stage2_value !== undefined && stage2_value === "Stage 2"){
+       
+        let timelineStatus = journeySteps.filter((el: any) => {
+          if(el.step == 33 && el.state == 'Completed') return true;
+          return false;
+        });
+
+        if(req.session?.endDate==undefined || req.session?.endDate==null){
+          
+            if(timelineStatus[0]?.state == 'Completed'){
+              
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started'); 
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Cannot start yet'); 
+      
+            }
+      
+          }
+      }
+
+      if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 1"){
+      
         let timelineStatus = journeySteps.filter((el: any) => {
           if(el.step == 34 && el.state == 'Completed') return true;
           return false;
@@ -137,6 +156,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         }
   
       } }
+
+    
 
       if(nameJourneysts.length > 0){
 
