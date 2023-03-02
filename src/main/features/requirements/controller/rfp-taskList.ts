@@ -109,9 +109,9 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         });
 
         if(req.session?.endDate==undefined || req.session?.endDate==null){
-          console.log("133")
+          
             if(timelineStatus[0]?.state == 'Completed'){
-              console.log("442")
+              
                     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started'); 
             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Cannot start yet'); 
       
@@ -283,7 +283,7 @@ LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
     
   } catch (error) {
 
-console.log("error",error);
+
     LoggTracer.errorLogger(
       res,
       error,
