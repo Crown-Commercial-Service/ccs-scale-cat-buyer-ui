@@ -101,6 +101,22 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         return false;
       });
 
+
+      let timelineStatus = journeySteps.filter((el: any) => {
+        if(el.step == 36 && el.state == 'Completed') return true;
+        return false;
+      });
+      if(req.session?.endDate==undefined || req.session?.endDate==null){
+      
+        if(timelineStatus[0]?.state == 'Completed'){
+         
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
+  
+        }
+  
+      }
+
       if(nameJourneysts.length > 0){
 
         let addcontsts = journeySteps.filter((el: any) => { 
