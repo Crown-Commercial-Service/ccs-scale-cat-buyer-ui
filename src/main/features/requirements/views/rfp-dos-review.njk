@@ -3121,7 +3121,8 @@
                     <p class="govuk-body">
                       <h2 class="govuk-heading-l">
                 {% if agreementId_session == 'RM1043.8' %}  
-                  Publish your requirements for stage 1: shortlisting 
+                  {# Publish your requirements for stage 1: shortlisting  #}
+                  Publish stage 1: shortlisting
                  {% else %}     
               Publish your
               {% if (selectedeventtype == 'DA') %}requirements{% else %}further competition{% endif %}
@@ -3129,7 +3130,8 @@
                       </h2>
                      {% if agreementId_session == 'RM1043.8' %} 
                      <div class="govuk-inset-text">
-                      <p class="govuk-body">Publishing compiles all your details and sends them to all suppliers. Please be patient as this could take up to 30 seconds. 
+                      {# <p class="govuk-body">Publishing compiles all your details and sends them to all suppliers. Please be patient as this could take up to 30 seconds.  #}
+                    <p class="govuk-body">Your further competition will now be sent to suppliers. Please be patient as this could take up to 30 seconds. 
                      </p>
                      </div>
                      {% endif %}
@@ -3137,15 +3139,15 @@
                     <p class="govuk-body">
                      
               
-              After publishing this event, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
-           
+              {# After publishing this event, if changes are required, you will need to cancel and re-publish your event. You may do so at any time. #}
+           If you need to make any significant changes – including changes to scope or timelines – after publishing this further competiton, you will need to cancel and start a new project.
                     </p>
                     <br>
                     <br>
                     
                       
                                       {{ CCSWarningText({
-                  html: "By publishing these requirements to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                  html: "By publishing this further competition to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
                   iconFallbackText: "Warning"
                   }) }}
                       
@@ -3169,7 +3171,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box I confirm that I have read and confirm the statements above.</strong></label>",
+      html: "<label><strong>By checking this box, I confirm the statements above.</strong></label>",
       Checked: ""
       }
       ]
