@@ -60,6 +60,8 @@
           {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
             {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
             {{ agreement_header['agreementName'] }} Lot 4
+             {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+             {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
             {% else %}
             {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
             {% endif %} 
@@ -70,7 +72,7 @@
   
   <p class="govuk-body">Agreement ID: <strong>  
         {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}-L4
+          {{ agreement_header['agreementId_session']}}L4
         {% else %}
           {{ agreement_header['agreementId_session'] }}
         {% endif %}</strong></p>

@@ -2899,6 +2899,15 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
+            title: "",
+            description:
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+            cookie_type: "glassbox",
+            enabled: null,
+            adjustable: true,
+            cookies: null,
+        },
+        {
             title: "Cookies that help with our communications and marketing",
             description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - Contract Award Service (CAS).",
             cookie_type: "marketing",
@@ -2920,7 +2929,7 @@ var docCookies = {
     var oneyear = 31540000;
     var twodays = 172800; // var onemonth = 2.628e+6;
     // Set the default cookies. This JSON Object is saved as the cookie, but we use `initial_cookie_preferences` to maintain structure and various sanity checks
-    var cookie_preferences = { essentials: true, usage: false, marketing: false };
+    var cookie_preferences = { essentials: true, usage: false, glassbox:false, marketing: false };
     /**
      * When user accept the cookie, show this
      */ function hideMessage() {
@@ -2936,6 +2945,7 @@ var docCookies = {
         hideMessage();
         updateSeenCookie();
         fireGTM();
+        fireGBX();
     }
     function fireGTM() {
         (function (w, d, s, l, i) {
@@ -2948,6 +2958,14 @@ var docCookies = {
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", tagManager);
+
+    }
+    function fireGBX() {
+         var script = document.createElement('script'); 
+         script.id = "_cls_detector"; 
+         script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; 
+         script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); 
+         document.head.appendChild(script); 
     }
     function updateSeenCookie() {
         // 1 year = 3.154e+7
@@ -2960,7 +2978,7 @@ var docCookies = {
         // This is to check if the method was updateSeenCookie() was called from 'Accept all cookies' or cookie settings page
         // (in which case cookie_preferences_set will be set already)
         if (!docCookies.hasItem("cookie_preferences_set")) {
-            var cookie_preferences_accepted = { essentials: true, usage: true, marketing: true };
+            var cookie_preferences_accepted = { essentials: true, usage: true, glassbox: true, marketing: true };
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences_accepted), oneyear, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
             // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), oneyear, "/", ".crowncommercial.gov.uk");
@@ -2969,7 +2987,7 @@ var docCookies = {
         // will be updated with this user's choices
         else {
             // console.log('cookie_preferences', cookie_preferences);
-            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false ? twodays : oneyear;
+            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false ? twodays : oneyear;
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), cookie_timer, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, cookie_timer, "/", ".crowncommercial.gov.uk");
@@ -3000,7 +3018,7 @@ var docCookies = {
                 }
             }
         });
-        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
+        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
         docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
         // check if cookie_preferences_set is set, if not, set it
         // we're checking this first because we don't want to reset to today every time
@@ -3673,7 +3691,7 @@ const showEvaluateSuppliersPopup = (event) => {
               //document.body.scrollTop = document.documentElement.scrollTop = 0;
             }
             $(this).addClass('selected');
-            $('.pop').slideFadeToggle();
+            // $('.pop').slideFadeToggle();
           }
     // }
     // else
@@ -3699,7 +3717,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -3722,7 +3739,7 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $('.dialog-close-evaluatesuppliers').on('click', function () {
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    deselect($('.dialog-close-evaluatesuppliers'));
+    // deselect($('.dialog-close-evaluatesuppliers'));
     return false;
   });
 
@@ -3748,6 +3765,48 @@ const showEvaluateSuppliersPopup = (event) => {
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
   };
+
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    // Create H2 element
+    var elGo = document.querySelector(".backdrop-confirmLowScoreSupplierPopup").querySelector(".nodeDialogTitle");
+    let h2Ele = document.createElement('h2');
+    h2Ele.textContent = suppliername;
+    elGo.after(h2Ele);
+
+    const openpopGC = document.querySelector('.backdrop-confirmLowScoreSupplierPopup')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-confirmLowScoreSupplierPopup").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    deconf = document.getElementById('redirect-button-confirmLowScoreSupplierPopup');
+    deconf.addEventListener('click', ev => {
+      openpopGC.classList.remove('showpopup');
+      document.location.href = redirectUrl;
+    });
+
+    // if ($(this).hasClass('selected')) {
+    //     deselect($(this));
+    //     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    // } else {
+    //     $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    //     document.getElementById("suppliersName").innerHTML = suppliername;
+    //     $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+    //     $(this).addClass('selected');
+    //     $('.pop').slideFadeToggle();
+    // }
+  };
+
 const showPopup = (event) => {
     debugger;
     event.preventDefault();
@@ -3802,16 +3861,32 @@ const showPopup = (event) => {
   
   const loseyouprojectShowPopup = (event) => {
     event.preventDefault();
-    $(".backdrop-nextsteps").fadeTo(200, 1);
-    document.getElementById("nextstepspopup").style.paddingTop="1000";
-    let btnSend = document.querySelector('#redirect-button-nextsteps');
-    if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-      btnSend.setAttribute('name', 'Next Step');
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    } else {
-      btnSend.setAttribute('name', 'CCS website');
-    }
-    $('.pop').slideFadeToggle();
+    const openpopGC = document.querySelector('.backdrop-nextstepspopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-nextstepspopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-nextstepspopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        document.location.href="/rfi/closerfi"
+      });
+    // $(".backdrop-nextsteps").fadeTo(200, 1);
+    // document.getElementById("nextstepspopup").style.paddingTop="1000";
+    // let btnSend = document.querySelector('#redirect-button-nextsteps');
+    // if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+    //   btnSend.setAttribute('name', 'Next Step');
+    //   document.body.scrollTop = document.documentElement.scrollTop = 0;
+    // } else {
+    //   btnSend.setAttribute('name', 'CCS website');
+    // }
+    // $('.pop').slideFadeToggle();
+
+
+
   };
 
 
@@ -7489,6 +7564,7 @@ if(totalVetting<100 || totalVetting>100)
 $('#ccs_collab_view').hide();
 
 let formURL = "/eoi/get-collaborator-detail/js-enabled";
+$('#potential-collaborator').hide()
 
 if (document.getElementById("eoi_collaborators") !== null) {
   document.getElementById('eoi_collaborators').addEventListener('change', function () {
@@ -7503,7 +7579,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
         let { userName, firstName, lastName, tel } = data;
         let collegueName = firstName + " " + lastName;
         let id = userName;
-
+        $('#potential-collaborator').show()
         $('#eoi_show_collab_name').html(collegueName)
         $('#eoi_show_collab_email').html(id)
         $('#eoi_show_collab-phone').html(tel)
@@ -8276,12 +8352,12 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
 
         if (getTimeOfFormDate > getMSOfExpiryDate) {
         
-            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            $('#event-name-error-date').html('It is recommended that your project does not start after lot expiry date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
+            const errorStore = [["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]]
             ccsZPresentErrorSummary(errorStore);
         }
         else if (getTimeOfFormDate < todayDate.getTime()) {
@@ -8361,8 +8437,8 @@ const ccsZvalidateEoiDate = (event) => {
     var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
-        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
-          errorStore.push(["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]);
+        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "It is recommended that your project does not start after lot expiry date");
+          errorStore.push(["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]);
       }
   }
   }
@@ -9416,6 +9492,9 @@ $(document).ready(function () {
 
             for(const file of FileList){
 
+                console.log('*********************************filetype');
+                console.log(file.type);
+
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
                 let size = 300000000;
@@ -9856,6 +9935,16 @@ const ccsZremoveErrorMessage = (element) => {
 
     document.getElementById(element.id + "-error").remove();
   }
+
+};
+
+const ccsZremoveErrorMessageRFIDate = () => {
+
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 };
 
@@ -10370,6 +10459,7 @@ $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfi_collaborators').on('change', function () {
   let id = this.value;
@@ -10384,6 +10474,8 @@ $('#rfi_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
+
+      $('#potential-collaborator').show()
 
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
@@ -11065,17 +11157,26 @@ document.addEventListener('DOMContentLoaded', () => {
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
-
             let parentID = getParentId(element);
             ccsZremoveErrorMessage(document.getElementById(parentID));
-
-            if ((year.val() != undefined && year.val() == "") && (month.val() != undefined && month.val() == "") && (day.val() != undefined && day.val() == "")) {
+            ccsZremoveErrorMessageRFIDate();
+            if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
+                day.addClass("govuk-input--error")
+                month.addClass("govuk-input--error")
+                year.addClass("govuk-input--error") 
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                const errorStore = [
+                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            } else if ((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
                 const errorStore = [
-                    [parentID, "Date should not be empty"]
+                    [parentID, "Date invalid or empty. Please enter the valid date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11105,17 +11206,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Hour should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Hour should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Minutes should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
                 const errorStore = [
-                    [parentID, "Minutes should not be empty"]
+                    [parentID, "Time invalid or empty. Please enter the valid time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11341,6 +11442,10 @@ const urlParams = new URLSearchParams(queryString);
     }
 
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -11404,7 +11509,6 @@ const urlParams = new URLSearchParams(queryString);
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                
                                let last;
                                
@@ -11422,7 +11526,6 @@ const urlParams = new URLSearchParams(queryString);
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -11451,9 +11554,7 @@ const urlParams = new URLSearchParams(queryString);
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        
                        //ID BASED
@@ -11619,7 +11720,7 @@ const emptyQuestionFieldCheck = () => {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        if(urlParams.get('agreement_id') == 'RM6187'){
+        if((urlParams.get('agreement_id') == 'RM6187') || (urlParams.get('agreement_id') == 'RM1557.13')){
           errText = "You must ask at least one question";
         }else{
           errText = "You must add at least one question";
@@ -11627,7 +11728,12 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-      fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must add question", /\w+/);
+        }
+        else{
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        }
       }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
@@ -11806,6 +11912,7 @@ $('#ccs_collab_view').hide();
 
 let rfpFormURL = "/rfp/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfp_collaborators').on('change', function () {
   let id = this.value;
@@ -11820,7 +11927,7 @@ $('#rfp_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
-
+      $('#potential-collaborator').show()
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
       $('#show_collab-phone').html(tel)
@@ -12146,6 +12253,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
                     removeErrorFieldsRfp1();
+                    let termvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                    if(with_value_count == 20){
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    else{
+                    with_value_count++;
+                    document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+                    if (with_value_count === 20 ) {
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    }
+                  }
+                  else{
                     document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
                     $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
                     // if(agreementID == 'RM1043.8' && q_mandatory != true) {
@@ -12155,6 +12278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //     }
                     // }
                     with_value_count++;
+                  }
                     // let hideBtnCount = agreementID == 'RM1043.8' && lID == '1' ? 17 : 21 ;
                     if (with_value_count === 21 ) {
                         document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -12875,6 +12999,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // For DOS6 message create multi supplier
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].addEventListener('click',function(){
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
+//   document.forms['ccs_message_create_form'].submit();
+// })
 });
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
@@ -13063,16 +13193,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       rfpResourceStartDay.on('keydown', (event) => {
 
-         if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-           event.preventDefault(); });
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
-           rfpResourceStartMonth.on('keydown', (event) => {
-            if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-              event.preventDefault(); });
+      rfpResourceStartMonth.on('keydown', (event) => {
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
-              rfpResourceStartYear.on('keydown', (event) => {
-               if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-                 event.preventDefault(); });
+      rfpResourceStartYear.on('keydown', (event) => {
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
       rfpResourceStartDay.on('keyup', () => {
          DateCheckResourceStart();
@@ -13080,21 +13213,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       rfpResourceStartMonth.on('keyup', () => {
          MonthCheckResourceStart();
-         
+
       });
 
       rfpResourceStartYear.on('keyup', () => {
          YearCheckResourceStart();
-         
+
       });
 
       var currentEventId = '';
       let rfpDurationField = $('.rfp_duration');
-      
+
       rfpDurationField.on('keydown', (event) => {
-        
-         if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-           event.preventDefault(); });
+
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
       rfpDurationField.on('blur', (event) => {
 
@@ -13120,25 +13254,24 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 1;
-         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-         if(value != undefined && value.val() != '')
-         {
-         if (matchValue || endmonthCheck || startmonthCheck) {
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endmonthCheck || startmonthCheck) {
 
-            rfpResourceStartDay.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid date')
-         } else {
-            rfpResourceStartDay.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-date').html('');
+                  rfpResourceStartDay.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-date').html('Enter a valid date')
+               } else {
+                  rfpResourceStartDay.removeClass('govuk-form-group--error');
+                  $('.durations').removeClass('govuk-form-group--error');
+                  $('#event-name-error-date').html('');
+               }
+
+            }
          }
-         
-         }
-        }
       }
 
       const MonthCheckResourceStart = () => {
@@ -13146,79 +13279,58 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) <= 0;
-         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-month').html('');
-         if(value != undefined && value.val() != '')
-         {
-         if (matchValue || endmonthCheck || startmonthCheck) {
-            rfpResourceStartMonth.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-month').html('Enter a valid month');
-         } else {
-            rfpResourceStartMonth.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-month').html('');
-         }
-          }
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endmonthCheck || startmonthCheck) {
+                  rfpResourceStartMonth.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-month').html('Enter a valid month');
+               } else {
+                  rfpResourceStartMonth.removeClass('govuk-form-group--error');
+                  $('.durations').removeClass('govuk-form-group--error');
+                  $('#event-name-error-month').html('');
+               }
+            }
          }
       }
+      
       const YearCheckResourceStart = () => {
-        // let fieldCheck = "", errorStore = [];
          let value = rfpResourceStartYear;
          let matchValue = !value.val().match(/^\d{4}$/);
          let endyearCheck = Number(value.val()) > 2121;
          let currentYear = new Date().getFullYear();
          let startyearCheck = Number(value.val()) < currentYear;
-         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-year').html('');
-         if(value != undefined && value.val() != '')
-         {
-         // if (matchValue || endyearCheck || startyearCheck) { XBN00121
-
-         if (matchValue || endyearCheck) {
-            rfpResourceStartYear.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-year').html('Enter a valid year');
-            
-            // fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
-            // if (fieldCheck !== true){ errorStore.push(fieldCheck)
-            // }else{
-            //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
-            // }
-            //  if(errorStore.length>0){
-            //    ccsZPresentErrorSummary(errorStore);
-            //    return false;
-            //   }
-
-         } else {
-            rfpResourceStartYear.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-year').html('');
-            
-        }
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endyearCheck) {
+                  rfpResourceStartYear.addClass('govuk-form-group--error');
+               } else {
+                  rfpResourceStartYear.removeClass('govuk-form-group--error');
+               }
+            }
+         }
       }
-      }
-   }
-     // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
+
+      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
       const DateCheck = (rfpDay) => {
          let value = rfpDay;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 0;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
-            }
-            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-               removeErrorFieldsdates();
-               }   
-         
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-           let fieldCheck = "",
-            errorStore = [];
+         }
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
+
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            let fieldCheck = "",
+               errorStore = [];
             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
@@ -13230,8 +13342,8 @@ document.addEventListener('DOMContentLoaded', () => {
                //        return false;
                //    }
 
-              
-              
+
+
             }
             else {
                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
@@ -13239,115 +13351,22 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             let fieldCheck = "",
-             errorStore = [];
-             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
-                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-                //     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days", "Enter a valid day", /^\d{1,}$/);
-                //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-                //    if(errorStore.length>0){
-                //        ccsZPresentErrorSummary(errorStore);
-                //        return false;
-                //    }
- 
-               
-               
-             }
-             else {
-                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-                $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-                $(`.p_durations_${currentEventId}`).html('');
-             }
-          }
-        else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-            $(`#${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-         } else {
-            $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-            $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            $(`.p_durations_${currentEventId}`).html('');
-         }
-   }
-   
-      const MonthCheck = (rfpMonth) => {
-         const value = rfpMonth;
-         let matchValue = !value.val().match(/^\d\d?$/);
-         let endmonthCheck = Number(value.val()) > 12;
-         let startmonthCheck = Number(value.val()) < 0;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-            removeErrorFieldsdates();
-            }
-            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-               removeErrorFieldsdates();
-               }
-         
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-            endmonthCheck = Number(value.val()) > 11;
-            let fieldCheck = "",
-            errorStore = [];
+               errorStore = [];
             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               // if((matchValue || startmonthCheck)){
-               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days", "Enter a valid day", /^\d{1,}$/);
                //    if (fieldCheck !== true) errorStore.push(fieldCheck);
                //    if(errorStore.length>0){
                //        ccsZPresentErrorSummary(errorStore);
                //        return false;
                //    }
 
-               // }
-               // if(endmonthCheck){
-                  
-               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
-               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-               // }
-            }
-            else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.p_durations_${currentEventId}`).html('');
-            }
-         }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-            endmonthCheck = Number(value.val()) > 11;
-            let fieldCheck = "",
-            errorStore = [];
-            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               // if((matchValue || startmonthCheck)){
-               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
 
-               // }
-               // if(endmonthCheck){
-                  
-               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
-               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-               // }
+
             }
             else {
                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
@@ -13358,44 +13377,137 @@ document.addEventListener('DOMContentLoaded', () => {
          else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-         }
-         else {
+            $(`.p_durations_${currentEventId}`).html('Enter a valid day');
+         } else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
-   const YearCheck = (rfpYear) => {
+
+      const MonthCheck = (rfpMonth) => {
+         const value = rfpMonth;
+         let matchValue = !value.val().match(/^\d\d?$/);
+         let endmonthCheck = Number(value.val()) > 12;
+         let startmonthCheck = Number(value.val()) < 0;
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            removeErrorFieldsdates();
+         }
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
+
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            endmonthCheck = Number(value.val()) > 11;
+            let fieldCheck = "",
+               errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               // if((matchValue || startmonthCheck)){
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+
+               // }
+               // if(endmonthCheck){
+
+               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
+               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+               // }
+            }
+            else {
+              // $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            endmonthCheck = Number(value.val()) > 11;
+            let fieldCheck = "",
+               errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               // if((matchValue || startmonthCheck)){
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+
+               // }
+               // if(endmonthCheck){
+
+               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
+               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+               // }
+            }
+            else {
+               //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
+         else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+            //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).addClass('govuk-form-group--error');
+            $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+         }
+         else {
+            //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
+            $(`.p_durations_${currentEventId}`).html('');
+         }
+      }
+      const YearCheck = (rfpYear) => {
 
          let value = rfpYear;
          let matchValue = !value.val().match(/^\d\d?$/);
          // let endyearCheck = Number(value.val()) > 4;
          let startyearCheck = Number(value.val()) < 0;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-         removeErrorFieldsdates();
-         }
-         if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
-            }
-         if(document.getElementById('agreementID').value === 'RM6187'){
-            
-           if ((matchValue || startyearCheck) && value.val() != '') {
-                $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               $(`.${currentEventId}`).addClass('govuk-form-group--error');
+         }
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
+         if (document.getElementById('agreementID').value === 'RM6187') {
+
+            if ((matchValue || startyearCheck) && value.val() != '') {
+               //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a valid year');
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+              //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
          }
-         else if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+         else if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             endyearCheck = Number(value.val()) > 2;
             let fieldCheck = "",
-            errorStore = [];
+               errorStore = [];
             if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
             }
             else {
@@ -13404,10 +13516,10 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             endyearCheck = Number(value.val()) > 2;
             let fieldCheck = "",
-            errorStore = [];
+               errorStore = [];
             if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
             }
             else {
@@ -13416,7 +13528,7 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else{
+         else {
             if ((matchValue || startyearCheck) && value.val() != '') {
                $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
@@ -13428,123 +13540,124 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         
+
       }
-   
-}
+
+   }
 });
 
 function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For DOS6 message create single supplier
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
+
 // For MCF3 message create
 $('.btn-sendmsg').on('click', (e) => {
    e.preventDefault();
    document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
-                           
    document.forms['ccs_message_create_form'].submit();
 });
 
-//
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    removeErrorFieldsdates();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
-   if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+   if (document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
       let fieldCheck = "", errorStore = [];
       ccsZPresentErrorSummary();
       removeErrorFieldsdates();
-       if(checkResourceStartDate())
-      {
+      if (checkResourceStartDate()) {
          let isValid = isProjectStartDateValid();
          if (isValid) {
             // isValid = isProjectExtensionValid(); //XBN00121
 
-         
-         let yrValidation = false;
+
+            let yrValidation = false;
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
             const durationDay = document.getElementsByClassName('rfp_duration_day_25');
 
-            if(durationYear[0].value!='' || durationMonth[0].value!='' || durationDay[0].value!=''){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(MonthProjectRun<0 || MonthProjectRun>12){
-               yrValidation = true;
-            }
-            if(DaysProjectRun<0 || DaysProjectRun>31){
-               yrValidation = true;
-            }
-            
-            if(yrValidation){
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the valid project date", /^\d{1,}$/);
-               if (fieldCheck !== true) errorStore.push(fieldCheck); 
-               if(errorStore.length>0){
-                  ccsZPresentErrorSummary(errorStore);
-                  return;
-                 }
-            }
-         }
+            if (durationYear[0].value != '' || durationMonth[0].value != '' || durationDay[0].value != '') {
+               const YearProjectRun = Number(durationYear[0].value);
+               const MonthProjectRun = Number(durationMonth[0].value);
+               const DaysProjectRun = Number(durationDay[0].value);
 
-         if(durationYear[1].value!='' || durationMonth[1].value!='' || durationDay[1].value!=''){
-            yrValidation2 = validateExtPeriod();
-            if(yrValidation2){
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
-               if (fieldCheck !== true) errorStore.push(fieldCheck); 
-               if(errorStore.length>0){
-                  ccsZPresentErrorSummary(errorStore);
-                  return;
-                 }
+               if (MonthProjectRun < 0 || MonthProjectRun > 12) {
+                  yrValidation = true;
+               }
+               if (DaysProjectRun < 0 || DaysProjectRun > 31) {
+                  yrValidation = true;
+               }
+
+               if (yrValidation) {
+                  fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the valid project date", /^\d{1,}$/);
+                  if (fieldCheck !== true) errorStore.push(fieldCheck);
+                  if (errorStore.length > 0) {
+                     ccsZPresentErrorSummary(errorStore);
+                     return;
+                  }
+               }
             }
-         }
-            
+
+            if (durationYear[1].value != '' || durationMonth[1].value != '' || durationDay[1].value != '') {
+               yrValidation2 = validateExtPeriod();
+               if (yrValidation2) {
+                  fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+                  if (fieldCheck !== true) errorStore.push(fieldCheck);
+                  if (errorStore.length > 0) {
+                     ccsZPresentErrorSummary(errorStore);
+                     return;
+                  }
+               }
+            }
+
          }
 
          if (isValid)
-         document.forms['rfp_date'].submit();
+            document.forms['rfp_date'].submit();
       }
    } else {
-      if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+      if (document.getElementById('agreementID') !== null) {
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             isValid = isProjectExtensionValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 17' && document.getElementById('lID').value === '1') {
+
+         } else if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 17' && document.getElementById('lID').value === '1') {
             let isValid;
             removeErrorFieldsdates();
 
-            if(checkResourceStartDate())
-            {
+            if (checkResourceStartDate()) {
 
-            isValid = isProjectStartDateValid();
+               isValid = isProjectStartDateValid();
             } //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+
+         } else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             isValid = isProjectExtensionValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 9' && document.getElementById('lID').value === '4') {
+
+         } else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 9' && document.getElementById('lID').value === '4') {
             let isValid;
-            if(checkResourceStartDate())
-            {
-            isValid = isProjectStartDateValid();
+            if (checkResourceStartDate()) {
+               isValid = isProjectStartDateValid();
             } //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } 
+
+         }
          else {
             isValid = isProjectStartDateValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
          }
       }
@@ -13552,31 +13665,29 @@ $('.rfp_date').on('submit', (e) => {
 });
 
 function isValidDate(year, month, day) {
-   month = month-1;
-     var d = new Date(year, month, day);
-     if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
-         return true;
-     }
+   month = month - 1;
+   var d = new Date(year, month, day);
+   if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
+      return true;
+   }
    return false;
- }
-function checkResourceStartDate()
-{
+}
+function checkResourceStartDate() {
    let flag = true;
    let fieldCheck = "", errorStore = [];
-   
-      let rfpResourceStartDay = $('.rfp_resource_start_day');
-      let rfpResourceStartMonth = $('.rfp_resource_start_month');
-      let rfpResourceStartYear = $('.rfp_resource_start_year');
-      
-      if(document.getElementById('agreementID').value === 'RM6187'){
-         // removeErrorFieldsdates();
-      }
 
-      if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
-      {
-         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+   let rfpResourceStartDay = $('.rfp_resource_start_day');
+   let rfpResourceStartMonth = $('.rfp_resource_start_month');
+   let rfpResourceStartYear = $('.rfp_resource_start_year');
 
-         flag =false;
+   if (document.getElementById('agreementID').value === 'RM6187') {
+      // removeErrorFieldsdates();
+   }
+
+   if (rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '') {
+      if (document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+
+         flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.addClass('govuk-form-group--error');
          rfpResourceStartYear.addClass('govuk-form-group--error');
@@ -13584,237 +13695,238 @@ function checkResourceStartDate()
          // $('#event-name-error-date').html('Project start date should not be empty'); 
          let error_msg_new = 'Enter a project start date'
          //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+         if (fieldCheck !== true) {
             errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", error_msg_new, /^\d{1,}$/);
+         } else {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", error_msg_new, /^\d{1,}$/);
          }
       }
-      }
-       else if(rfpResourceStartDay.val() =='')
-      {
-        
-         let error_msg = 'Enter a valid date'
-         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
-            removeErrorFieldsdates();
-            if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() != ''){
-              
-               if(rfpResourceStartYear.val().length < 4){
-                  error_msg = 'Enter a day and month with valid Year(YYYY Format)'
-               }else{
-                  error_msg = 'Enter a day and month'
-               }
-              
-               rfpResourceStartMonth.addClass('govuk-form-group--error');
+   }
+   else if (rfpResourceStartDay.val() == '') {
 
+      let error_msg = 'Enter a valid date'
+      if (document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
+         removeErrorFieldsdates();
+         if (rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '') {
+
+            if (rfpResourceStartYear.val().length < 4) {
+               error_msg = 'Enter a day and month with valid Year(YYYY Format)'
+            } else {
+               error_msg = 'Enter a day and month'
             }
-            else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' &&  rfpResourceStartMonth.val() != ''){
-               error_msg = 'Enter a day and year'
-               rfpResourceStartYear.addClass('govuk-form-group--error');
 
+            rfpResourceStartMonth.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' && rfpResourceStartMonth.val() != '') {
+            error_msg = 'Enter a day and year'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartMonth.val() != ''){
+            error_msg = 'Enter a day with valid Year(YYYY Format)'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartDay.val() == '') {
+
+            error_msg = 'Enter a day'
+
+            var urlParamsDefault = new URLSearchParams(window.location.search);
+            if (document.getElementById('lID') !== null) {
+               lotId = document.getElementById('lID').value;
+               // if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               //    error_msg = 'Enter a Day with valid Year(YYYY Format)'
+               // }
             }
-            else if(rfpResourceStartDay.val() =='') {
-
-               error_msg = 'Enter a Day'
-              
-               var urlParamsDefault = new URLSearchParams(window.location.search);
-               if(document.getElementById('lID') !== null){
-                  lotId = document.getElementById('lID').value;
-                  if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
-                     error_msg = 'Enter a Day with valid Year(YYYY Format)'
-                  }   
-               }
 
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             rfpResourceStartYear.removeClass('govuk-form-group--error');
 
-            }
+         }
 
-         }
-          
-         flag = false;
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid date');
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
-            errorStore.push(fieldCheck)
-         }
-         
-         // else{
-         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
-         // }
-        
       }
-      else if(rfpResourceStartDay.val() < 1)
-      {
-         flag = false;
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid date');
+
+      flag = false;
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid date');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+
+      // else{
+      //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+      // }
+
+   }
+   else if (rfpResourceStartDay.val() < 1) {
+      flag = false;
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid date');
+      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a valid date", /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a valid date", /^\d{1,}$/);
-         if (fieldCheck !== true){ 
-            errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a valid date", /^\d{1,}$/);
-         }
-        
       }
 
-      else if(rfpResourceStartMonth.val() =='')
-      {
-          error_msg = 'Enter a valid month'
-         if(document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
-            removeErrorFieldsdates();
-            if(rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' &&  rfpResourceStartYear.val() == ''){
-               error_msg = 'Enter a month and year'
-               rfpResourceStartYear.addClass('govuk-form-group--error');
+   }
 
-
-            }
-            else if(rfpResourceStartMonth.val() =='') {
-               error_msg = 'Enter a Month'
-               var urlParamsDefault = new URLSearchParams(window.location.search);
-               if(document.getElementById('lID') !== null){
-                  lotId = document.getElementById('lID').value;
-                  if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
-                     error_msg = 'Enter a Month with valid Year(YYYY Format)'
-                  }   
-               }
-               rfpResourceStartYear.removeClass('govuk-form-group--error');
-            }
-         }
-
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11","rfp_resource_start_date",error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
-            errorStore.push(fieldCheck)
-         }
-         // else{
-         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
-         // }
-      
-      }
-      else if(rfpResourceStartMonth.val() < 1)
-      {
-         flag =false;
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
-            errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
-         }        
-      }
-      else if(rfpResourceStartYear.val() =='')
-      {
-         error_msg = 'Enter a valid year'
+   else if (rfpResourceStartMonth.val() == '') {
+      error_msg = 'Enter a valid month'
+      if (document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
          removeErrorFieldsdates();
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
-            error_msg = 'Enter a Year'
+         if (rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '') {
+            error_msg = 'Enter a month and year'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+         }
+         else if(rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartDay.val() != ''){
+            error_msg = 'Enter a month with valid Year(YYYY Format)'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartMonth.val() == '') {
+            error_msg = 'Enter a month'
             var urlParamsDefault = new URLSearchParams(window.location.search);
-            if(document.getElementById('lID') !== null){
+            if (document.getElementById('lID') !== null) {
                lotId = document.getElementById('lID').value;
-               if(lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17'){
-                  error_msg = 'Enter a valid Year(YYYY Format)'
-               }   
+               // if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               //    error_msg = 'Enter a Month with valid Year(YYYY Format)'
+               // }
+            }
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
+         }
+      }
+
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid month');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+      // else{
+      //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
+      // }
+
+   }
+   else if (rfpResourceStartMonth.val() < 1) {
+      flag = false;
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid month');
+      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
+      }
+   }
+   else if (rfpResourceStartYear.val() == '') {
+      error_msg = 'Enter a valid year'
+      removeErrorFieldsdates();
+      if (document.getElementById('agreementID').value === 'RM1043.8') {
+         error_msg = 'Enter a year'
+         var urlParamsDefault = new URLSearchParams(window.location.search);
+         if (document.getElementById('lID') !== null) {
+            lotId = document.getElementById('lID').value;
+            if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               error_msg = 'Enter a year using the YYYY format'
             }
          }
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
-            errorStore.push(fieldCheck)
-         }
-         // else{
-         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
-         // }  
       }
-      else if( rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4){
-         // if(document.getElementById('agreementID').value === 'RM1043.8') {
-            removeErrorFieldsdates();
-         // }
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a valid Year(YYYY Format)", /^\d{4,}$/);
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+      // else{
+      //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
+      // }  
+   }
+   else if (rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4) {
+      // if(document.getElementById('agreementID').value === 'RM1043.8') {
+      removeErrorFieldsdates();
+      // }
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a year using the YYYY format", /^\d{4,}$/);
 
-         if (fieldCheck !== true){
-             errorStore.push(fieldCheck)
-         }
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
       }
-      else if(rfpResourceStartYear.val() <= 1)
-      {
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
+   }
+   else if (rfpResourceStartYear.val() <= 1) {
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid year');
+      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ 
+      }
+   }
+   else {
+      flag = true;
+      rfpResourceStartYear.removeClass('govuk-form-group--error');
+      rfpResourceStartMonth.removeClass('govuk-form-group--error');
+      rfpResourceStartDay.removeClass('govuk-form-group--error');
+      $('.durations').removeClass('govuk-form-group--error');
+      $('#event-name-error-date').html('')
+
+      if (!isValidDate(rfpResourceStartYear.val(), rfpResourceStartMonth.val(), rfpResourceStartDay.val())) {
+         flag = false;
+         $('.durations').addClass('govuk-form-group--error');
+         $('#event-name-error-date').html('Enter a valid date');
+         if (fieldCheck !== true) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/, false);
             errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
-         }  
+         } else {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+            errorStore.push(fieldCheck)
+         }
       }
-      else 
-      {
-         flag =true;
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
+      else {
+         flag = true;
          $('.durations').removeClass('govuk-form-group--error');
-         $('#event-name-error-date').html('')
-         
-         if(!isValidDate(rfpResourceStartYear.val(),rfpResourceStartMonth.val(),rfpResourceStartDay.val()))
-         {
-            flag =false;
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid date'); 
-            if (fieldCheck !== true){ 
-               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/,false);
-               errorStore.push(fieldCheck)
-            }else{
-                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
-                 errorStore.push(fieldCheck)
-            }
-         }
-         else 
-         {
-            flag =true;
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-date').html(''); 
-         }
+         $('#event-name-error-date').html('');
       }
+   }
 
-      if(errorStore.length>0){
-         ccsZPresentErrorSummary(errorStore);
-         return false;
-        }
+   if (errorStore.length > 0) {
+      ccsZPresentErrorSummary(errorStore);
+      return false;
+   }
 
-      return flag;
+   return flag;
 }
 
 function isProjectExtensionValid() {
@@ -13829,210 +13941,202 @@ function isProjectExtensionValid() {
    const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
    const durationDay = document.getElementsByClassName('rfp_duration_day_25');
    const durationDayError = document.getElementsByClassName('p_durations_pday_25');
- 
+
 
    const YearProjectRun = durationYear[0].value;
    const MonthProjectRun = durationMonth[0].value;
    const DaysProjectRun = durationDay[0].value;
    var projectRunInDays = 0;
    let fieldCheck = "",
-       errorStore = [];
-       
-       if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
-      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
-         if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+      errorStore = [];
+
+   if (document.getElementById("rfp_duration-years_Question12") != undefined && document.getElementById("rfp_duration-years_Question12") != null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
+      else {
+
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);  
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+   } else {
+
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+
+   }
+   if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+      let year = document.getElementById("rfp_duration-years_Question12").value.trim();
+      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
+
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (Number(year) < 2 && Number(month) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
          }
       }
-   }
-   else{
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
-  }else{
-
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (Number(year) < 2 && Number(month) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
 
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         }
+      }
+      else {
+         if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
-
-  }
-  if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
-     let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
-     let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-
-     if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      if(Number(year) < 2 && Number(month) > 0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
+         if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
 
       }
-     }
-     else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-      if(Number(year) < 2 && Number(month) > 0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
+   } else {
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
 
-      }
-     }
-     else{
-      if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+      }
+
+   }
+   if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+      let year = document.getElementById("rfp_duration-years_Question12").value.trim();
+      let day = document.getElementById("rfp_duration_days_Question12").value.trim();
+
+
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (Number(year) < 2 && Number(day) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+         }
+      }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (Number(year) < 2 && Number(day) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+         }
+      }
+      else {
+         if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
+         if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
          }
 
-     }
-  }else{
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-   fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-   }
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
       }
-   
-  }
-  if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
-   let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
-   let day = document.getElementById("rfp_duration_days_Question12").value.trim(); 
+   } else {
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
 
-
-   if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-    if(Number(year) < 2 && Number(day)>0){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-    }
-   }
-   else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-      if(Number(year) < 2 && Number(day)>0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-  
-      }
-     }
-   else{
-      if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
-         }
-
-   }
-  }else{
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-   fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-   }
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
       }
-  }
-   
-  let durationYears='2';
-  let durationMessage='Expected contract length must be 2 years or less';
-  if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-   durationYears='3';
-   durationMessage='Expected contract length must be 36 months or less';
-  }
-   
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+      }
+   }
+
+   let durationYears = '2';
+   let durationMessage = 'Expected contract length must be 2 years or less';
+   if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+      durationYears = '3';
+      durationMessage = 'Expected contract length must be 36 months or less';
+   }
+
    if (YearProjectRun != null && YearProjectRun != "") {
-      if(Number(YearProjectRun) < 0 )
-      {
-         isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-         $(`.${durationDayError[0].classList[2]}`).html('Enter a Valid Year');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a Valid Year",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-       }
-      else if(Number(YearProjectRun) > durationYears )
-      {
-         isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-        
-
-      }
-      else if (Number(YearProjectRun) >= durationYears && (Number(MonthProjectRun)> 0 || Number(DaysProjectRun) > 0 ))
-      {
+      if (Number(YearProjectRun) < 0) {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
-        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-        // return false;
+         $(`.${durationDayError[0].classList[2]}`).html('Enter a Valid Year');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a Valid Year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      
+      else if (Number(YearProjectRun) > durationYears) {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage, /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+
+      }
+      else if (Number(YearProjectRun) >= durationYears && (Number(MonthProjectRun) > 0 || Number(DaysProjectRun) > 0)) {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage, /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+         // return false;
+      }
+
       projectRunInDays = (365 * Number(YearProjectRun))
    }
    if (MonthProjectRun != null && MonthProjectRun != "") {
-      if(Number(MonthProjectRun) < 0)
-      {
+      if (Number(MonthProjectRun) < 0) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid month');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid month",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid month", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      else if(Number(MonthProjectRun) > 11 )
-      {
+      else if (Number(MonthProjectRun) > 11) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Project extension duration month value should not be more than 11');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration month value should not be more than 11",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration month value should not be more than 11", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
       projectRunInDays = projectRunInDays + (30 * Number(MonthProjectRun))
    }
 
    if (DaysProjectRun != null && DaysProjectRun != "") {
-      if(Number(DaysProjectRun) < 0)
-      {
+      if (Number(DaysProjectRun) < 0) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid day');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      else if(Number(DaysProjectRun) > 31)
-      {
+      else if (Number(DaysProjectRun) > 31) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid day');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
       projectRunInDays = projectRunInDays + Number(DaysProjectRun)
    }
-   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun) == 0) ) {
-      if(Number(projectRunInDays) == 0 )
-      {
+   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun) == 0)) {
+      if (Number(projectRunInDays) == 0) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter a valid Expected contract length period",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-       }
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter a valid Expected contract length period", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
    }
    const YearExtensionPeriod = durationYear[1].value;
    const MonthExtensionPeriod = durationMonth[1].value;
@@ -14053,98 +14157,97 @@ function isProjectExtensionValid() {
    if (projectRunInDays != null && projectRunInDays > 0 && extensionRunInDays != null && extensionRunInDays > 0) {
       let tempProjectRunInDays = Number(projectRunInDays);
       let tempExtensionRunInDays = Number(extensionRunInDays);
-          if (tempProjectRunInDays > tempExtensionRunInDays) {
+      if (tempProjectRunInDays > tempExtensionRunInDays) {
 
-         if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+         if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
 
-            if(tempExtensionRunInDays > 365 ){
-               isValid = false;       
-               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+            if (tempExtensionRunInDays > 365) {
+               isValid = false;
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
                //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less",/^\d{1,}$/);
-              if (fieldCheck !== true) errorStore.push(fieldCheck);
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
 
             }
-            else{
+            else {
 
                let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
-            // if (dayDiffPercentage > 50) {
-            //    isValid = false;       
-            //    $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
-            //    //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-            //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-            // if (fieldCheck !== true) errorStore.push(fieldCheck);
-            // }
-            // else {
+               // if (dayDiffPercentage > 50) {
+               //    isValid = false;       
+               //    $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               //    //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
+               // if (fieldCheck !== true) errorStore.push(fieldCheck);
+               // }
+               // else {
                isValid = true;
-               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
-              
-         //   }
-               
+               if (durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+
+               //   }
+
             }
-            
-           }else{
+
+         } else {
 
             let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
-           
+
             if (dayDiffPercentage > 50) {
-               isValid = false;       
-               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               isValid = false;
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
                //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-            if (fieldCheck !== true) errorStore.push(fieldCheck);
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
             else {
                isValid = true;
-               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
-              
+               if (durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+
             }
 
-        }
+         }
 
       }
       else {
          if (tempProjectRunInDays == tempExtensionRunInDays && document.getElementById('agreementID').value === 'RM1557.13') {
             isValid = true;
          }
-         else{
-         isValid = false;
-         $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
-        // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-        if(document.getElementById('agreementID').value === 'RM1557.13' && tempExtensionRunInDays > 365){
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less",/^\d{1,}$/);
-        }
-        else{
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-        }
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
+         else {
+            isValid = false;
+            $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
+            // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
+            if (document.getElementById('agreementID').value === 'RM1557.13' && tempExtensionRunInDays > 365) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less", /^\d{1,}$/);
+            }
+            else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+            }
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
          }
-   }
+      }
    }
    else {
       isValid = true;
    }
 
-   if(errorStore.length>0){
+   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
       return false;
-     }
+   }
    return isValid;
 }
 
-function isProjectStartDateValid()
-{
+function isProjectStartDateValid() {
    let fieldCheck = "", errorStore = [];
    //removeErrorFieldsdates();
    const Day = $('.rfp_resource_start_day');
    const Month = $('.rfp_resource_start_month');
    const Year = $('.rfp_resource_start_year');
-   
+
    if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
-            Day.removeClass('govuk-form-group--error');
-            Month.removeClass('govuk-form-group--error');
-            Year.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
+      Day.removeClass('govuk-form-group--error');
+      Month.removeClass('govuk-form-group--error');
+      Year.removeClass('govuk-form-group--error');
+      $('.durations').removeClass('govuk-form-group--error');
 
       let rfpagreementData;
       // if ($('.agreement_no').attr('id')) {
@@ -14156,45 +14259,46 @@ function isProjectStartDateValid()
       if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
          const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
          const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-         const expiryMonth=expiryMonthTot-1;
+         const expiryMonth = expiryMonthTot - 1;
          const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
          const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
          const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
-         const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-         
-        
+         const FormDate = new Date(Year.val(), (Month.val() - 1), Day.val());
+
+
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate && document.getElementById('agreementID').value != 'RM1557.13') {
-          // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         }
-         if(errorStore.length>0){
-            ccsZPresentErrorSummary(errorStore);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
+            }
+            if (errorStore.length > 0) {
+               ccsZPresentErrorSummary(errorStore);
+               return false;
+            }
             return false;
-           }
-                        return false;
-         }else{
+         } else {
             $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
             ccsZPresentErrorSummary();
          }
-         if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
-           // $('#event-name-error-date').html('Start date must be a valid future date');
-           removeErrorFieldsdates();
-           var message = 'Start date must be a valid future date'
-            if(document.getElementById('agreementID').value === 'RM1043.8'){
+         if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
+            // $('#event-name-error-date').html('Start date must be a valid future date');
+            removeErrorFieldsdates();
+            var message = 'Start date must be a valid future date'
+            if (document.getElementById('agreementID').value === 'RM1043.8') {
                message = ' Enter a date in the future'
             }
             Day.addClass('govuk-form-group--error');
@@ -14202,17 +14306,18 @@ function isProjectStartDateValid()
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
-            }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
                return false;
-              }
-   
+            }
+
             return false;
-         }else{
+         } else {
             $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
@@ -14222,20 +14327,27 @@ function isProjectStartDateValid()
             $('#rfp_resource_start_date-error').html('');
             ccsZPresentErrorSummary();
          }
-                 
+
       }
 
-      const startDate = new Date(Number(Year.val()), Number(Month.val() - 1), Number(Day.val()));
-      
+      const startDate = new Date(Number(Year.val()), Number(Month.val()), Number(Day.val()));
+
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Enter a project start date');
          return false;
-      } 
-      else if (startDate>new Date(2025,07,23) && document.getElementById('agreementID').value != 'RM1557.13') {
+      }
+      else if (startDate > new Date(2025, 05, 28) && document.getElementById('agreementID').value == 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 28 May 2025")
+         $('.resource_start_date').html('Project cannot start after: 28 May 2025');
+         return false;
+      }
+      else if (startDate > new Date(2025, 08, 23)) {
+         $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
-          return false;
+         return false;
       }
       else {
          $('.durations').removeClass('govuk-form-group--error');
@@ -14243,23 +14355,24 @@ function isProjectStartDateValid()
          return true;
       }
    }
-   else  {
-      if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+   else {
+      if (document.getElementById('agreementID') !== null) {
+         if (document.getElementById('agreementID').value === 'RM1043.8') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a project start date'); 
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a project start date", /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            $('#event-name-error-date').html('Enter a project start date');
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter the latest start date", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
             }
          }
-         if(document.getElementById('agreementID').value === 'RM1557.13') {
+         if (document.getElementById('agreementID').value === 'RM1557.13') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
@@ -14267,9 +14380,10 @@ function isProjectStartDateValid()
             $('.durations').addClass('govuk-form-group--error');
             // $('#event-name-error-date').html('Project start date should not be empty'); 
             fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
             }
          }
@@ -14279,7 +14393,7 @@ function isProjectStartDateValid()
 }
 
 function isValidDate(year, month, day) {
-  
+
    month = month - 1;
    var d = new Date(year, month, day);
    if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
@@ -14288,23 +14402,23 @@ function isValidDate(year, month, day) {
    return false;
 }
 
-$(".textlimit").keyup(function(e) {
+$(".textlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
    if (maxLen >= 1) {
       removeErrorFieldsdates();
-       return false; 
+      return false;
    }
 
 });
 
 
-$(".textlimit").keypress(function(e) {
+$(".textlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
-  
+
    var keyCode = e.which;
    if (maxLen >= 1) {
       removeErrorFieldsdates();
@@ -14313,25 +14427,12 @@ $(".textlimit").keypress(function(e) {
 
 });
 
-$(".daylimit").keyup(function(e) {
+$(".daylimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
-   if (maxLen >= 2 && (Number(value)>0 || Number(value) < 31)) {
-      removeErrorFieldsdates();
-       return false; 
-   }
 
-});
-
-
-$(".daylimit").keypress(function(e) {
-   var maxLen = $(this).val().length;
-   let value = $(this).val();
-  
-   var keyCode = e.which;
-   if (maxLen >= 2 && (Number(value)>0 || Number(value) <31)) {
+   if (maxLen >= 2 && (Number(value) > 0 || Number(value) < 31)) {
       removeErrorFieldsdates();
       return false;
    }
@@ -14339,24 +14440,24 @@ $(".daylimit").keypress(function(e) {
 });
 
 
-$(".daymonthlimit").keyup(function(e) {
+$(".daylimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
+
    var keyCode = e.which;
-   
-   if (maxLen >= 2) {
+   if (maxLen >= 2 && (Number(value) > 0 || Number(value) < 31)) {
       removeErrorFieldsdates();
-       return false; 
+      return false;
    }
 
 });
 
 
-$(".daymonthlimit").keypress(function(e) {
+$(".daymonthlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
-  
    var keyCode = e.which;
+
    if (maxLen >= 2) {
       removeErrorFieldsdates();
       return false;
@@ -14364,20 +14465,33 @@ $(".daymonthlimit").keypress(function(e) {
 
 });
 
-$(".startdateyearlimit").keyup(function(e) {
+
+$(".daymonthlimit").keypress(function (e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+
+   var keyCode = e.which;
+   if (maxLen >= 2) {
+      removeErrorFieldsdates();
+      return false;
+   }
+
+});
+
+$(".startdateyearlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
    if (maxLen >= 4) {
       removeErrorFieldsdates();
-       return false; 
+      return false;
    }
 
 });
 
 
-$(".startdateyearlimit").keypress(function(e) {
+$(".startdateyearlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
@@ -14388,20 +14502,20 @@ $(".startdateyearlimit").keypress(function(e) {
 
 });
 
-$(".yearlimit").keyup(function(e) {
+$(".yearlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
    if (maxLen >= 1) {
       removeErrorFieldsdates();
-       return false; 
+      return false;
    }
 
 });
 
 
-$(".yearlimit").keypress(function(e) {
+$(".yearlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
@@ -14418,8 +14532,8 @@ const removeErrorFieldsdates = () => {
    $('.govuk-error-summary').remove();
    $('.govuk-input').removeClass('govuk-input--error');
    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
- };
- 
+};
+
 
 function validateExtPeriod() {
    let isValid = 0;
@@ -14435,7 +14549,7 @@ function validateExtPeriod() {
    const MonthProjectRun2 = Number(durationMonth[1].value);
    const DaysProjectRun2 = Number(durationDay[1].value);
 
-let projectRunInDays = 0;
+   let projectRunInDays = 0;
    if (YearProjectRun > 0) {
       projectRunInDays = (365 * YearProjectRun)
    }
@@ -14447,7 +14561,7 @@ let projectRunInDays = 0;
       projectRunInDays = projectRunInDays + DaysProjectRun;
    }
 
-let extensionRunInDays = 0;
+   let extensionRunInDays = 0;
    if (YearProjectRun2 > 0) {
       extensionRunInDays = (365 * YearProjectRun2)
    }
@@ -14461,11 +14575,11 @@ let extensionRunInDays = 0;
 
 
    if (projectRunInDays > extensionRunInDays) {
-            let dayDiffPercentage = ((extensionRunInDays / projectRunInDays) * 100);
-            if (dayDiffPercentage > 50) {
-               isValid = 1; 
-            }
-   }else{
+      let dayDiffPercentage = ((extensionRunInDays / projectRunInDays) * 100);
+      if (dayDiffPercentage > 50) {
+         isValid = 1;
+      }
+   } else {
       isValid = 2;
    }
    return isValid;
@@ -14477,31 +14591,31 @@ function validateStartDate() {
    const Month = $('.rfp_resource_start_month');
    const Year = $('.rfp_resource_start_year');
 
-if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
-   
-   let rfpagreementData;
-   if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
-            rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
+   if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
+
+      let rfpagreementData;
+      if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+         rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
+      }
+      if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
+         const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+         const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+         const expiryMonth = expiryMonthTot - 1;
+         const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+
+         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+         const FormDate = new Date(Year.val(), (Month.val() - 1), Day.val());
+
+         const getTimeOfFormDate = FormDate.getTime();
+         const todayDate = new Date();
+         if (getTimeOfFormDate > getMSOfExpiryDate) {
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
-   if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
-                  const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
-                  const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-                  const expiryMonth=expiryMonthTot-1;
-                  const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
-                  const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
-                  const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
-                  const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-
-                  const getTimeOfFormDate = FormDate.getTime();
-                  const todayDate = new Date();
-                  if (getTimeOfFormDate > getMSOfExpiryDate) {
-                     isValid = 'Start date cannot be after agreement expiry date';
-                  }
-                  
-                  if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) {
-                     isValid = 'Start date must be a valid future date';
-                  }
+         if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
+            isValid = 'Start date must be a valid future date';
+         }
       }
 
    }
@@ -14622,6 +14736,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       
       $("#totalPercentage").text(percentage);
+      $("#totalPercentageDown").text(percentage);
     };
     
     // for (let k = 0; k < allTextBox.length; k++){
@@ -14990,6 +15105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             }
             $('#totalPercentage').html(weightageSum);
+            $('#totalPercentageDown').html(weightageSum);
         };
         
         textboxelements.forEach(ele => {
@@ -15316,6 +15432,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var total_countva=20;
         var withValue=21;
     }
+    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+        var total_countva=20;
+        var withValue=21;
+        with_value_count = 20
+    }
     else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
         var total_countva=5;
         var withValue=6;
@@ -15343,7 +15464,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
               
                 this_box.classList.remove('ccs-dynaform-hidden');
-                if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){  
+
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
                     if(document.getElementById("del_fc_question_" + box_num)){
                        document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                     }
@@ -15407,7 +15530,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -15417,8 +15546,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-           
-              
+                  
            let rootEl = document.getElementById('fc_question_' + textboxCount);
            
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19 && with_value_count == 20){
@@ -15608,14 +15736,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             // removeErrorFieldsRfpScoreQuestion();
                             errorStore = emptyQuestionFieldCheckRfp();
                             let count =1;
-                    if(textboxCount >0){
-                      count = textboxCount;
+                            if(textboxCount >0){
+                              count = textboxCount;
                     }
                            var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
                             errorStore.push(percentageCheck)
-                    if(percentageCheck){
-                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                    }
+
+                            if(percentageCheck){
+                                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                            }
+
                             // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
@@ -15690,7 +15820,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            if((urlParams.get('agreement_id') == 'RM1557.13') && (urlParams.get('group_id') == 'Group 4' ))
+                            if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
                             {
                                 errorStore = emptyQuestionFieldCheckRfp();
                                 errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
@@ -15770,6 +15900,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
+                
                         document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
                 //Added this condation section 5 (step 43/44/45)
@@ -15797,6 +15928,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
+                
                 if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
                     $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -15884,7 +16016,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
-                $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
+                //$('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
@@ -17216,7 +17348,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -17276,7 +17408,7 @@ const emptyFieldCheckRfpScore = () => {
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
-      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
 
         let focusField; 
         if (name_field.value.trim() === '') {
@@ -17308,7 +17440,7 @@ const emptyFieldCheckRfpScore = () => {
         }else{
           fieldCheck = [focusField.id, 'You must add information in all fields.'];
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(point_field, 'Enter valid score');
           ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
           errorStore.push(fieldCheck);
         }
@@ -17323,7 +17455,25 @@ const emptyFieldCheckRfpScore = () => {
         ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
         errorStore.push(fieldCheck);
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if(agreement_id.value.trim() == 'RM1557.13' && (name_field.value.trim() === '' || point_field.value.trim() === '' || desc_field.value.trim() === '')) {
+        if(name_field.value.trim() === ''){
+          fieldCheck = [name_field.id, 'You must add a name for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(name_field, 'You must add a name for this level');
+        }
+        if(point_field.value.trim() === ''){
+          fieldCheck = [point_field.id, 'You must enter a score for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(point_field, 'You must enter a score for this level');
+        }
+        if(desc_field.value.trim() === ''){
+          fieldCheck = [desc_field.id, 'You must enter a description for this level'];
+          ccsZaddErrorMessage(desc_field, 'You must enter a description for this level');
+          errorStore.push(fieldCheck);
+        }
+
+      }
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
@@ -17341,45 +17491,45 @@ const emptyFieldCheckRfpScore = () => {
           field: name_field,
           isError: false
         };
-        if (name_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (name_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (point_field.value.trim() < 0 && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() < 0 && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'Enter a valid score');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (desc_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
           errorObj.isError = true;
           errorObj.field = desc_field;
         }
 
-        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
           ccsZaddErrorMessage(name_field,'You must add name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(point_field, 'You must add score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
             ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
         
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(desc_field,'You must add description for this level');
           
           errorObj.field = desc_field;
@@ -17391,13 +17541,13 @@ const emptyFieldCheckRfpScore = () => {
           }
           
         }
-        if(agreement_id.value.trim() == 'RM6187'){
+        if(agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13'){
           if (errorObj.isError) {
             fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
             errorStore.push(fieldCheck);
           }
         }
-       if(agreement_id.value.trim() != 'RM6187'){
+       if(agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13'){
         let errMsg = '';
         if (name_field.value.trim() === '') {
           errorObj.field = name_field;
@@ -17405,7 +17555,7 @@ const emptyFieldCheckRfpScore = () => {
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
           errMsg = 'You must add score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
           errMsg = 'Enter valid score';
         }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
@@ -17442,7 +17592,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
     }else{
       errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
     }
@@ -18478,9 +18628,44 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }
         }
+       
         if(errorStore.length ==0) {
             removeErrorFieldsRfpScoreQuestion()
-            document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+            const group_name = document.querySelector('#rfp_term_service_group_' + with_value_count).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + with_value_count).value;
+            if(group_name != '' && group_details != ''){
+                if(with_value_count == 10){
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+                else{
+                    with_value_count++;
+                    document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    if (with_value_count === 10 ) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+
+            }
+            else{
+                document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    if (errorStore.length == 0 && with_value_count === 10) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }else{
+                    if (with_value_count === 10) {
+                      document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+                if(errorStore.length == 0){
+                    if($("#deleteButton_service_useer_type_" + last_value)){
+                        $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
+                    }
+                    with_value_count++;
+                }
+            }
+            
+            
 
         }
 
@@ -18491,21 +18676,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
            
 
-            if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                if (errorStore.length == 0 && with_value_count === 10) {
-                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }else{
-                if (with_value_count === 10) {
-                  document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-                }
-            }
-            if(errorStore.length == 0){
-                if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
-                }
-                with_value_count++;
-            }
+            
         });
 
         // delete buttons
@@ -19799,8 +19970,21 @@ const ccsZvalidateRfiWho = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  // fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
+  // if (fieldCheck !== true) errorStore.push(fieldCheck);
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
+  var errorMsg = '';
+  if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
+    // if(rfi_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfi_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+    //   if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    // }
+    
+  }
 
   if (errorStore.length === 0) document.forms["ccs_rfi_who_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
@@ -19851,7 +20035,6 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const classLength = classList.length;
   const pageHeading = document.getElementById('page-heading').innerHTML;
   errorStore = [];
-  console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
@@ -19861,12 +20044,24 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
     }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
+  var errorMsg = 'Supplier must be minimum 3';
+  if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+    // if(rfp_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfp_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+    //   if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    // }
+    
+  }
 
     
 
   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
-      ccsZaddErrorMessage('#ccs_rfp_who_form', 'Supplier must be minimum 3');
+      ccsZaddErrorMessage(rfp_contracting_auth, errorMsg);
   } else {
     errorStore = [];
     document.forms['ccs_rfp_who_form'].submit();
@@ -20349,6 +20544,10 @@ const ccsZvalidateRfPStrategy = event => {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your management information and reporting');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -20437,7 +20636,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -20515,10 +20714,10 @@ $(document).ready(function () {
     const mq = window.matchMedia('(min-width: 40.0625em)');
     mq.addListener(WidthChange);
     WidthChange(mq);
-    
+
   }
 
-  
+
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
@@ -20553,36 +20752,36 @@ const ccsZvalidateRfiLocation = event => {
 
 // forms validation
 
-$(".focusdata").click(function(){
-  
-  var $container = $("html,body");
-var $scrollTo = $('.focus-data');
+$(".focusdata").click(function () {
 
-$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0},300);
-  
+  var $container = $("html,body");
+  var $scrollTo = $('.focus-data');
+
+  $container.animate({ scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0 }, 300);
+
 });
 
 // $(".loaderClick").click(function(){
 //   $('.loader-container').addClass('loader-block');
 // });
 
-$("#getId").click(function(){
+$("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
 
-   
-    if(myclass){
-      $("input[type='checkbox']").prop("checked", true);
-      $(this).removeClass("uncheck");
-      $(this).addClass("check");
-      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
-    }else{
-      $('.otherTextArea').addClass('ccs-dynaform-hidden');
-      $("input[type='checkbox']").prop("checked", false);
-      $(this).addClass("uncheck");
-      $(this).removeClass("check");      
-    } 
 
-  
+  if (myclass) {
+    $("input[type='checkbox']").prop("checked", true);
+    $(this).removeClass("uncheck");
+    $(this).addClass("check");
+    $('.otherTextArea').removeClass('ccs-dynaform-hidden');
+  } else {
+    $('.otherTextArea').addClass('ccs-dynaform-hidden');
+    $("input[type='checkbox']").prop("checked", false);
+    $(this).addClass("uncheck");
+    $(this).removeClass("check");
+  }
+
+
 });
 
 // $("#DOSgetId").click(function(){
@@ -20648,17 +20847,17 @@ if (document.getElementById('ccs_rfi_project_name_form') !== null)
 if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
 
-  if (document.getElementById('enter_evaluation_score') !== null)
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
 
-  
-  if (document.getElementById('enter_evaluation_score') !== null)
+
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
@@ -20673,7 +20872,7 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -20698,7 +20897,7 @@ if (document.getElementById('da_where_work_done') !== null)
 if (document.getElementById('ccs_rfp_scoring_criteria') !== null)
   document.getElementById('ccs_rfp_scoring_criteria').addEventListener('submit', ccsZvalidateScoringCriteria);
 
-  if (document.getElementById('service_user_type_form') !== null)
+if (document.getElementById('service_user_type_form') !== null)
   document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateScoringCriteria2);
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
@@ -20721,20 +20920,19 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
-  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-  if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
-   if (document.getElementById('supplierMsgCancel') !== null)
-   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
-
+if (document.getElementById('supplierMsgCancel') !== null)
+  document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
-  if (document.getElementById('ca_justification') !== null)
+if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
@@ -20750,7 +20948,7 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
-  
+
 if (document.getElementById('ccs_eoi_questions_form') !== null)
   document.getElementById('ccs_eoi_questions_form').addEventListener('submit', ccsZvalidateEoIQuestions);
 
@@ -20761,13 +20959,13 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   // document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
 
 
-// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
+  // if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  //   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
 
-if (document.getElementById('ccs_rfp_about_proj') !== null)
-  document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
+  if (document.getElementById('ccs_rfp_about_proj') !== null)
+    document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
-  if (document.getElementById('ccs_rfp_who_form') !== null)
+if (document.getElementById('ccs_rfp_who_form') !== null)
   document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
@@ -20779,7 +20977,7 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
 //   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
 
-  if (document.getElementById('ccs_eoi_about_proj') !== null)
+if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 
@@ -20807,8 +21005,8 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
-  // if (document.getElementById('ccs_rfp_acronyms_form') !== null)
-  // document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
+// if (document.getElementById('ccs_rfp_acronyms_form') !== null)
+// document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
 
 
 if (document.getElementById('rfp_location') !== null)
@@ -20826,73 +21024,73 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
-  if (document.getElementById('fca_select_services_form') !== null)
+if (document.getElementById('fca_select_services_form') !== null)
   document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 
-  //Award
+//Award
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
-document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+  document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
 if (document.getElementById('ccs_standstill_period_form') !== null)
-document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
+  document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 if (document.getElementById('ccs_da_project_name_form') !== null)
   document.getElementById('ccs_da_project_name_form').addEventListener('submit', ccsZvalidateDaProjectName);
 
-  if (document.getElementById('da_projLongName') !== null)
+if (document.getElementById('da_projLongName') !== null)
   document.getElementById('da_projLongName').addEventListener('input', ccsZCountDaProjectName);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
-  //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
-  
-  let noOfCharac = 200;
-    let contents = document.querySelectorAll(".content_review_length");
-   // if (document.getElementsByClassName('rfp_percentage_form') !== null){
-          contents.forEach((content,index) => {
-              //If text length is less that noOfCharac... then hide the read more button
-              if(content.textContent.length < noOfCharac){
-                //content.nextElementSibling.style.display = "none";
-              }
-              else{
-                  //let that = this;
-                  let displayText = content.textContent.slice(0,noOfCharac);
-                  let moreText = content.textContent.slice(noOfCharac);
-                  content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
-                // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
-              }
-        
-          });
-   //   }
+//document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
 
-  function readMoreWithLength(){
-    document.querySelectorAll(".content_review_length").forEach(function(event) {
-      event.addEventListener('click', function(e) {
-         let targetId = e.target.id;
-          //$('#moreValue'+targetId).show();
-          let btn = document.querySelector('#content-'+targetId);
-          let HtmlBtn = $('#'+targetId).html();       
-        if(HtmlBtn=='Read more'){
-          $('#moreValue'+targetId).removeClass("hide");
-          $('#'+targetId).html("Read less");
-          $('#moreValue'+targetId).show();
-          $('#dots-'+targetId).hide();
-        }else{
-          $('#moreValue'+targetId).addClass("hide");
-          $('#'+targetId).html("Read more");
-          $('#moreValue'+targetId).hide();
-          $('#dots-'+targetId).show();
-        }
-      });
-    });
+let noOfCharac = 200;
+let contents = document.querySelectorAll(".content_review_length");
+// if (document.getElementsByClassName('rfp_percentage_form') !== null){
+contents.forEach((content, index) => {
+  //If text length is less that noOfCharac... then hide the read more button
+  if (content.textContent.length < noOfCharac) {
+    //content.nextElementSibling.style.display = "none";
   }
-  readMoreWithLength();
-  
+  else {
+    //let that = this;
+    let displayText = content.textContent.slice(0, noOfCharac);
+    let moreText = content.textContent.slice(noOfCharac);
+    content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+    // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+  }
+
+});
+//   }
+
+function readMoreWithLength() {
+  document.querySelectorAll(".content_review_length").forEach(function (event) {
+    event.addEventListener('click', function (e) {
+      let targetId = e.target.id;
+      //$('#moreValue'+targetId).show();
+      let btn = document.querySelector('#content-' + targetId);
+      let HtmlBtn = $('#' + targetId).html();
+      if (HtmlBtn == 'Read more') {
+        $('#moreValue' + targetId).removeClass("hide");
+        $('#' + targetId).html("Read less");
+        $('#moreValue' + targetId).show();
+        $('#dots-' + targetId).hide();
+      } else {
+        $('#moreValue' + targetId).addClass("hide");
+        $('#' + targetId).html("Read more");
+        $('#moreValue' + targetId).hide();
+        $('#dots-' + targetId).show();
+      }
+    });
+  });
+}
+readMoreWithLength();
+
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
@@ -21019,7 +21217,7 @@ setInputFilter(
   document.getElementById('clarification_date-month_6'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter( 
+setInputFilter(
   document.getElementById('clarification_date-year_6'),
   value => /^\d*$/.test(value),
 );
@@ -21213,105 +21411,108 @@ setInputFilter(
 //g13Check Script
 
 function parseQueryG13(query) {
-  object = {};  
-  if (query.indexOf('?') != -1){
-    query = query.split('?');		
+  object = {};
+  if (query.indexOf('?') != -1) {
+    query = query.split('?');
     query = query[1];
   }
   parseQuery = query.split("&");
   for (var i = 0; i < parseQuery.length; i++) {
-      pair = parseQuery[i].split('=');
-      key = decodeURIComponent(pair[0]);
-      if (key.length == 0) continue;
-      value = decodeURIComponent(pair[1].replace("+"," "));
-      if(key=='q'){
-        let decodeValue = decodeURIComponent(pair[1].replace("+"," "));
-        value = encodeURIComponent(decodeValue);
-      }
-      if (object[key] == undefined) object[key] = value;
-      else if (object[key] instanceof Array) object[key].push(value);
-      else object[key] = [object[key],value];
+    pair = parseQuery[i].split('=');
+    key = decodeURIComponent(pair[0]);
+    if (key.length == 0) continue;
+    value = decodeURIComponent(pair[1].replace("+", " "));
+    if (key == 'q') {
+      let decodeValue = decodeURIComponent(pair[1].replace("+", " "));
+      value = encodeURIComponent(decodeValue);
+    }
+    if (object[key] == undefined) object[key] = value;
+    else if (object[key] instanceof Array) object[key].push(value);
+    else object[key] = [object[key], value];
   }
   return object;
 };
 
 const tune = (obj) => {
   let emptyArr = [];
-  for (const key in obj) { 
-    if(typeof(obj[key]) == 'object') { 
-      let newArr = obj[key]; 
-      for(let i = 0; i < newArr.length; i++) { 
-        emptyArr.push({'key': key, 'value': newArr[i]}); } } else { emptyArr.push({'key': key, 'value': obj[key]}); } }
+  for (const key in obj) {
+    if (typeof (obj[key]) == 'object') {
+      let newArr = obj[key];
+      for (let i = 0; i < newArr.length; i++) {
+        emptyArr.push({ 'key': key, 'value': newArr[i] });
+      }
+    } else { emptyArr.push({ 'key': key, 'value': obj[key] }); }
+  }
   return emptyArr;
 }
 
 function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
-  
-    let outQueryUrl = "";
-    let overName = overUrl.name;
 
-    let overValue = overUrl.value;
-    let overType = overUrl.type;
-   
-    if(queryObj.length > 0) {
-      if(overType == 'unchecked') {
-        let compareVal = overValue;
-        let compareName = overName;
-        let finalObj = [];
-        queryObj.find((el) => {
+  let outQueryUrl = "";
+  let overName = overUrl.name;
 
-       if(el.value != compareVal || el.key != compareName) { 
-          finalObj.push(el); 
-        } 
+  let overValue = overUrl.value;
+  let overType = overUrl.type;
+
+  if (queryObj.length > 0) {
+    if (overType == 'unchecked') {
+      let compareVal = overValue;
+      let compareName = overName;
+      let finalObj = [];
+      queryObj.find((el) => {
+
+        if (el.value != compareVal || el.key != compareName) {
+          finalObj.push(el);
+        }
       });
-        queryObj = finalObj;
-      }
-  
-      queryObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  outQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              outQueryUrl += `&${key}=${value}`;
-          }
-          if(i == queryObj.length - 1) {
-            if(overType == 'checked' || overType == 'categoryClicked') {
-              if(key != '') {
-                outQueryUrl += `&${overName}=${overValue}`;
-              } else {
-                outQueryUrl += `?${overName}=${overValue}`;
-              }
-            }
-          }
-      });
-    } else {
-      if(overValue != '') {
-        outQueryUrl += `?${overName}=${overValue}`;
-      }
+      queryObj = finalObj;
     }
-    
-    
-    return outQueryUrl;
+
+    queryObj.forEach((el, i) => {
+      let key = el.key;
+      let value = el.value;
+      if (i == 0) {
+        if (key != '') {
+          outQueryUrl += `?${key}=${value}`;
+        }
+      } else {
+        outQueryUrl += `&${key}=${value}`;
+      }
+      if (i == queryObj.length - 1) {
+        if (overType == 'checked' || overType == 'categoryClicked') {
+          if (key != '') {
+            outQueryUrl += `&${overName}=${overValue}`;
+          } else {
+            outQueryUrl += `?${overName}=${overValue}`;
+          }
+        }
+      }
+    });
+  } else {
+    if (overValue != '') {
+      outQueryUrl += `?${overName}=${overValue}`;
+    }
+  }
+
+
+  return outQueryUrl;
 }
-document.querySelectorAll(".clickCategory").forEach(function(event) {
-  event.addEventListener('click', function() {
+document.querySelectorAll(".clickCategory").forEach(function (event) {
+  event.addEventListener('click', function () {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
-    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
 
-if(document.querySelectorAll('.serviceCategory')) {
-  document.querySelectorAll(".serviceCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.serviceCategory')) {
+  document.querySelectorAll(".serviceCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'serviceCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -21320,20 +21521,21 @@ if(document.querySelectorAll('.serviceCategory')) {
 
       let finalObj = [];
       urlObj.find((el) => {
-      if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+        if (el.key !== 'serviceCategories') { finalObj.push(el); }
+      });
       urlObj = finalObj;
-      urlObj.push({"key":"serviceCategories","value":filterValue});
+      urlObj.push({ "key": "serviceCategories", "value": filterValue });
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
-if(document.querySelectorAll('.parentCategory')) {
-  document.querySelectorAll(".parentCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.parentCategory')) {
+  document.querySelectorAll(".parentCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'parentCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -21341,304 +21543,304 @@ if(document.querySelectorAll('.parentCategory')) {
       urlObj = tune(urlObj);
 
       let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-      if(condtionParentCat === undefined) {
+      if (condtionParentCat === undefined) {
         let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-        urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-        urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+        urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       } else {
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       }
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
 function titleCase(str) {
-  return str.toLowerCase().split(' ').map(function(word) {
+  return str.toLowerCase().split(' ').map(function (word) {
     return word.replace(word[0], word[0].toUpperCase());
   }).join(' ');
 }
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
-  var urlparts= url.split('?');   
-  if (urlparts.length>=2) {
+  var urlparts = url.split('?');
+  if (urlparts.length >= 2) {
 
-      var prefix= encodeURIComponent(parameter)+'=';
-      var pars= urlparts[1].split(/[&;]/g);
+    var prefix = encodeURIComponent(parameter) + '=';
+    var pars = urlparts[1].split(/[&;]/g);
 
-      //reverse iteration as may be destructive
-      for (var i= pars.length; i-- > 0;) {    
-          //idiom for string.startsWith
-          if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
-              pars.splice(i, 1);
-          }
+    //reverse iteration as may be destructive
+    for (var i = pars.length; i-- > 0;) {
+      //idiom for string.startsWith
+      if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+        pars.splice(i, 1);
       }
+    }
 
-      url= urlparts[0]+'?'+pars.join('&');
-      return url;
+    url = urlparts[0] + '?' + pars.join('&');
+    return url;
   } else {
-      return url;
+    return url;
   }
 }
 
-document.querySelectorAll(".g13Check").forEach(function(event) {
-    event.addEventListener('change', function(event) {
-      let eventFilterType;
-      let filterName = this.getAttribute('name');//$(this).attr("name");
-      let filterValue = this.getAttribute('value');//$(this).attr("value");
-      if(this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
-      let urlParams=removeURLParameter(document.location.search, 'page');
-      let urlObj = parseQueryG13(urlParams);
-      urlObj = tune(urlObj);
-      let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+document.querySelectorAll(".g13Check").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    let eventFilterType;
+    let filterName = this.getAttribute('name');//$(this).attr("name");
+    let filterValue = this.getAttribute('value');//$(this).attr("value");
+    if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+    let urlParams = removeURLParameter(document.location.search, 'page');
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+    //url change
+    const baseSearchUrl = '/g-cloud/search';
+    window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
 
-      //url change
-      const baseSearchUrl = '/g-cloud/search';
-      window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
-      
-      
-      // document.getElementById('searchResultsContainer').innerHTML = '';
-      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-      document.getElementById('paginationContainer').innerHTML = '';
-      let slist = document.querySelector('.govuk-grid-sresult-right');
-      slist.classList.add('loadingres')
-      $('#criteriasavebtn').prop('disabled',true);
-      const baseAPIUrl = '/g-cloud/search-api';
-      $.ajax({
-          url: `${baseAPIUrl}${finalTriggerUrl}`,
-          type: "GET",
-          contentType: "application/json",
-      }).done(function (result) {
-       
-        $('#criteriasavebtn').prop('disabled',false);
-        $('#criteriasavebtn').removeClass('govuk-button--disabled');
-        $("#clearfilter").attr("href", result.clearFilterURL);
-        if(result.data.meta.total > 0) {
-          slist.classList.remove('loadingres')
-          getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-                
 
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
-            mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
-            mainLothtml += '<strong>All Categories</strong>'
-            mainLothtml += '<ul class="govuk-list">'
-            result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
-            })
-            mainLothtml +='</ul>'
-          } 
+    // document.getElementById('searchResultsContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('paginationContainer').innerHTML = '';
+    let slist = document.querySelector('.govuk-grid-sresult-right');
+    slist.classList.add('loadingres')
+    $('#criteriasavebtn').prop('disabled', true);
+    const baseAPIUrl = '/g-cloud/search-api';
+    $.ajax({
+      url: `${baseAPIUrl}${finalTriggerUrl}`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
 
-            if(result.njkDatas.haveLot){
-            mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
+      $('#criteriasavebtn').prop('disabled', false);
+      $('#criteriasavebtn').removeClass('govuk-button--disabled');
+      $("#clearfilter").attr("href", result.clearFilterURL);
+      if (result.data.meta.total > 0) {
+        slist.classList.remove('loadingres')
+        getCriterianDetails(result.data.meta.total);
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+
+        var mainLothtml = '';
+        if (result.njkDatas.haveLot) {
+          mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+        } else {
+          mainLothtml += '<strong>All Categories</strong>'
+          mainLothtml += '<ul class="govuk-list">'
+          result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+            mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          })
+          mainLothtml += '</ul>'
+        }
+
+        if (result.njkDatas.haveLot) {
+          mainLothtml += '<ul class="govuk-list">'
+          if (result.njkDatas.haveserviceCategory) {
+            mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+          } else {
+            mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+          }
+          if (result.njkDatas.lotInfos.currentparentCategory) {
+            mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+          }
+
+          mainLothtml += '<li>';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          result.njkDatas.lotInfos.subservices.forEach(subservice => {
+            if (subservice.childrenssts) {
+              if (result.njkDatas.lotInfos.currentparentCategory) {
+                mainLothtml += '<li>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                    mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                  } else {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  }
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
+              } else {
+                mainLothtml += '<li>';
+                mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  var childVal = child.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
               }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
-
-            mainLothtml += '<li>';
-            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-            result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
-                } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
-                }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
               mainLothtml += '</li>';
-              mainLothtml += '</ul>';
-          }
-          document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+            } else {
 
-          });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
-          document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
-
-          var paginationHtml = ''
-          paginationHtml += '<div class="govuk-grid-row">';
-          paginationHtml += '<div class="govuk-grid-column-full">';
-          paginationHtml += '<div class="govuk-grid-column-one-half">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-              paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-              paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
-              paginationHtml += '</svg>';
-              paginationHtml += 'Previous Page</a>';
-              paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+              } else {
+                if (subservice.name !== 'supportMultiCloud') {
+                  var subserviceValue = subservice.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                }
+              }
             }
+          });
+          mainLothtml += '</ul>';
+          mainLothtml += '</ul>';
+          mainLothtml += '</li>';
+          mainLothtml += '</ul>';
+        }
+        document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+
+        var searchresultshtml = '';
+        searchresultshtml += '<div class="govuk-grid-row">';
+        searchresultshtml += '<div class="govuk-grid-column-full">';
+        searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+        result.data.documents.forEach(element => {
+          searchresultshtml += '<li class="app-search-result">'
+            + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+            + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+            + '</h2>'
+            + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+            + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+            + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+            + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+            + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+            + '</ul>'
+            + '</li>';
+
+        });
+        searchresultshtml += '<div>';
+        searchresultshtml += '<div>';
+        searchresultshtml += '<ul>';
+        document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+        var paginationHtml = ''
+        paginationHtml += '<div class="govuk-grid-row">';
+        paginationHtml += '<div class="govuk-grid-column-full">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.PrvePageUrl != '') {
+          if (result.njkDatas.CurrentPageNumber != 1) {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Previous Page</a>';
+            paginationHtml += '</p>';
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
           }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-  
-          paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+
+        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.NextPageUrl != '') {
           paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
           paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
           paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
           paginationHtml += '</svg>';
           paginationHtml += 'Next Page</a>';
           paginationHtml += '</p>';
-          }
-          //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
-          slist.classList.remove('loadingres')
-          getCriterianDetails(0);
-          document.getElementById('searchResultsContainer').innerHTML = '';
-          
-         
-
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
-          var Noresulthtml = '';
-          Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-          Noresulthtml += '</li>removing filters</li><br>';
-          Noresulthtml += '</li>choosing a different category</li><br>';
-          Noresulthtml += '</li>double-checking your spelling</li><br>';
-          Noresulthtml += '</li>using fewer keywords</li><br>';
-          Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
-          Noresulthtml += '</ul>';
-          Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
         }
+        //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+        if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        } else {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      } else {
+        $('#criteriasavebtn').prop('disabled', true);
+        slist.classList.remove('loadingres')
+        getCriterianDetails(0);
+        document.getElementById('searchResultsContainer').innerHTML = '';
 
-        loadQuerySelector();
-        
-      }).fail((res) => {
-          // let div_email = document.getElementById('eoi-lead-email');
-          // div_email.innerText = '';
-      })
 
-     // window.location.href = `${baseUrl}${finalTriggerUrl}`;
-    });
+
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+        var Noresulthtml = '';
+        Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+        Noresulthtml += '</li>removing filters</li><br>';
+        Noresulthtml += '</li>choosing a different category</li><br>';
+        Noresulthtml += '</li>double-checking your spelling</li><br>';
+        Noresulthtml += '</li>using fewer keywords</li><br>';
+        Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+        Noresulthtml += '</ul>';
+        Noresulthtml += '</ul>';
+        document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
+      }
+
+      loadQuerySelector();
+
+    }).fail((res) => {
+      // let div_email = document.getElementById('eoi-lead-email');
+      // div_email.innerText = '';
+    })
+
+    // window.location.href = `${baseUrl}${finalTriggerUrl}`;
+  });
 });
 
 window.addEventListener('DOMContentLoaded', (event) => {
-  
-  if(document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
-  
+
+  if (document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
+
   let criteriasavebtn = document.getElementById('criteriasavebtn');
-  if(criteriasavebtn){
-    criteriasavebtn.addEventListener('click',function (e) {
-      if(document.getElementById('searchQuery')){
+  if (criteriasavebtn) {
+    criteriasavebtn.addEventListener('click', function (e) {
+      if (document.getElementById('searchQuery')) {
         document.getElementById('searchQuery').value = window.location.search;
       }
     })
   }
 
   document.querySelectorAll(".paginationUrlClass").forEach(el => {
-    el.addEventListener('click',function (e) {
+    el.addEventListener('click', function (e) {
       let searchQueryUrl = "";
-      let searchValue  = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
+      let searchValue = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue)})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
-        window.location.href = `${baseUrl}${searchQueryUrl}`;
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
+      window.location.href = `${baseUrl}${searchQueryUrl}`;
     });
   });
 
@@ -21648,12 +21850,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
+
   }
 
   var Searchinput = document.getElementsByClassName("g13_search")[0];
-  if(Searchinput){
-    Searchinput.addEventListener("keypress", function(event) {
+  if (Searchinput) {
+    Searchinput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         document.getElementsByClassName("g13_search_click")[0].click();
@@ -21661,157 +21863,157 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  
-  if(document.querySelector(".g13_search_click")){
 
-    document.querySelector(".g13_search_click").addEventListener('click', function() {
+  if (document.querySelector(".g13_search_click")) {
+
+    document.querySelector(".g13_search_click").addEventListener('click', function () {
       removeErrorFieldsEoiTerms();
       let searchQueryUrl = "";
       document.getElementById('searchQuery').value = window.location.search;
-      let searchValue  = document.getElementsByClassName("g13_search");
+      let searchValue = document.getElementsByClassName("g13_search");
       let definition_field = document.getElementById("with-hint");
-      if(searchValue[0].value.length > 250){
+      if (searchValue[0].value.length > 250) {
         ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
         return false;
       }
-      let urlParams=removeURLParameter(document.location.search, 'page');
+      let urlParams = removeURLParameter(document.location.search, 'page');
       let urlObj = parseQueryG13(urlParams);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":encodeURIComponent(searchValue[0].value)})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue[0].value.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue[0].value) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
 
-        //url change
-        const baseSearchUrl = '/g-cloud/search';
-        window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${searchQueryUrl}`);
-  
-        document.getElementById('searchResultsContainer').innerHTML = '';
-        document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-        document.getElementById('paginationContainer').innerHTML = '';
-        const baseAPIUrl = '/g-cloud/search-api';
-        let slist = document.querySelector('#searchResultsContainer');
-        slist.classList.add('loadingres')
-        $('#criteriasavebtn').prop('disabled',true);
-         $.ajax({
-             url: `${baseAPIUrl}${searchQueryUrl}`,
-             type: "GET",
-             contentType: "application/json",
-         }).done(function (result) {
-          $('#criteriasavebtn').prop('disabled',false);
-          $('#criteriasavebtn').removeClass('govuk-button--disabled');
-          $("#clearfilter").attr("href", result.clearFilterURL);
-          if(result.data.meta.total > 0) {
-            slist.classList.remove('loadingres')
-            getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-            
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
+      //url change
+      const baseSearchUrl = '/g-cloud/search';
+      window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
+
+      document.getElementById('searchResultsContainer').innerHTML = '';
+      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('paginationContainer').innerHTML = '';
+      const baseAPIUrl = '/g-cloud/search-api';
+      let slist = document.querySelector('#searchResultsContainer');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled', true);
+      $.ajax({
+        url: `${baseAPIUrl}${searchQueryUrl}`,
+        type: "GET",
+        contentType: "application/json",
+      }).done(function (result) {
+        $('#criteriasavebtn').prop('disabled', false);
+        $('#criteriasavebtn').removeClass('govuk-button--disabled');
+        $("#clearfilter").attr("href", result.clearFilterURL);
+        if (result.data.meta.total > 0) {
+          slist.classList.remove('loadingres')
+          getCriterianDetails(result.data.meta.total);
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+          var mainLothtml = '';
+          if (result.njkDatas.haveLot) {
             mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
+          } else {
             mainLothtml += '<strong>All Categories</strong>'
             mainLothtml += '<ul class="govuk-list">'
             result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
+              mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
             })
-            mainLothtml +='</ul>'
-          } 
+            mainLothtml += '</ul>'
+          }
 
-            if(result.njkDatas.haveLot){
+          if (result.njkDatas.haveLot) {
             mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
-              }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
+            if (result.njkDatas.haveserviceCategory) {
+              mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+            } else {
+              mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+            }
+            if (result.njkDatas.lotInfos.currentparentCategory) {
+              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+            }
 
             mainLothtml += '<li>';
             mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
             result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
+              if (subservice.childrenssts) {
+                if (result.njkDatas.lotInfos.currentparentCategory) {
+                  mainLothtml += '<li>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                      mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                    } else {
+                      var childVal = child.value.split(' ').join('+');
+                      mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                    }
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
+                  mainLothtml += '<li>';
+                  mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
-              mainLothtml += '</li>';
-              mainLothtml += '</ul>';
+                mainLothtml += '</li>';
+              } else {
+
+                if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                  mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+                } else {
+                  if (subservice.name !== 'supportMultiCloud') {
+                    var subserviceValue = subservice.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                  }
+                }
+              }
+            });
+            mainLothtml += '</ul>';
+            mainLothtml += '</ul>';
+            mainLothtml += '</li>';
+            mainLothtml += '</ul>';
           }
           document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+
+          var searchresultshtml = '';
+          searchresultshtml += '<div class="govuk-grid-row">';
+          searchresultshtml += '<div class="govuk-grid-column-full">';
+          searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+          result.data.documents.forEach(element => {
+            searchresultshtml += '<li class="app-search-result">'
+              + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+              + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+              + '</h2>'
+              + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+              + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+              + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+              + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+              + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+              + '</ul>'
+              + '</li>';
 
           });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<ul>';
           document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
 
           var paginationHtml = ''
@@ -21820,50 +22022,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
           paginationHtml += '<div class="govuk-grid-column-one-half">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
+          if (result.njkDatas.PrvePageUrl != '') {
+            if (result.njkDatas.CurrentPageNumber != 1) {
               paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+              paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
               paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
               paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
               paginationHtml += '</svg>';
               paginationHtml += 'Previous Page</a>';
               paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
             }
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
-  
+
           paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
-          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
-          paginationHtml += '</svg>';
-          paginationHtml += 'Next Page</a>';
-          paginationHtml += '</p>';
-        }
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          if (result.njkDatas.NextPageUrl != '') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Next Page</a>';
+            paginationHtml += '</p>';
+          }
+          if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+          } else {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
+        } else {
+          $('#criteriasavebtn').prop('disabled', true);
           document.getElementById('searchResultsContainer').innerHTML = '';
           getCriterianDetails(0);
           slist.classList.remove('loadingres')
-          
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
+
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
           var Noresulthtml = '';
           Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
           Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
@@ -21875,166 +22077,168 @@ window.addEventListener('DOMContentLoaded', (event) => {
           Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
           Noresulthtml += '</ul>';
           Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
+          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
         }
         loadQuerySelector();
-         }).fail((res) => {
-         })
+      }).fail((res) => {
+      })
     });
   }
 });
 
 
-function loadQuerySelector(){
-  document.querySelectorAll(".clickCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+function loadQuerySelector() {
+  document.querySelectorAll(".clickCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'categoryClicked';
       let filterName = this.getAttribute("data-name");
       let filterValue = this.getAttribute("data-value");
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
-  
-  if(document.querySelectorAll('.serviceCategory')) {
-    document.querySelectorAll(".serviceCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.serviceCategory')) {
+    document.querySelectorAll(".serviceCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'serviceCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
-  
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
-  
-  if(document.querySelectorAll('.parentCategory')) {
-    document.querySelectorAll(".parentCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.parentCategory')) {
+    document.querySelectorAll(".parentCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'parentCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-        if(condtionParentCat === undefined) {
+        if (condtionParentCat === undefined) {
           let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-          urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-          urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+          urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         } else {
           let finalObj = [];
           urlObj.find((el) => {
-          if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+            if (el.key !== 'serviceCategories') { finalObj.push(el); }
+          });
           urlObj = finalObj;
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         }
-  
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
 }
 
-document.addEventListener('readystatechange', event => { 
+document.addEventListener('readystatechange', event => {
   if (event.target.readyState === "complete") {
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      queryParamObj.forEach((el, i) => {
-        console.log(el);
-        //Search
-        if(el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
-        $('.g13Check').each(function(){
-          if($(this).attr('name') == el.key && $(this).val() == el.value){
-            $(this).attr("checked", "checked");
-          }
-        });
-      });
-// total results
-      var totalResult=$('#totalResult').attr('data-value');
+    let queryParamObj = parseQueryG13(document.location.search);
+    queryParamObj = tune(queryParamObj);
 
-      getCriterianDetails(totalResult);
-     
+    queryParamObj.forEach((el, i) => {
+      console.log(el);
+      //Search
+      if (el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
+      $('.g13Check').each(function () {
+        if ($(this).attr('name') == el.key && $(this).val() == el.value) {
+          $(this).attr("checked", "checked");
+        }
+      });
+    });
+    // total results
+    var totalResult = $('#totalResult').attr('data-value');
+
+    getCriterianDetails(totalResult);
+
   }
 });
 
-function getCriterianDetails(totalresult=0){
-  
+function getCriterianDetails(totalresult = 0) {
+
 
   let rows_selected = [];
-        $(".g13Check:checked").each(function(){
-          var $this = $(this);
-          rows_selected.push({
-            title:$this.attr('data-title'),
-            name: $this.attr('data-name'),
-            });
-       });
+  $(".g13Check:checked").each(function () {
+    var $this = $(this);
+    rows_selected.push({
+      title: $this.attr('data-title'),
+      name: $this.attr('data-name'),
+    });
+  });
 
-       const groupBy = (array, key) => {
-        return array.reduce((result, currentValue) => {
-          (result[currentValue[key]] = result[currentValue[key]] || []).push(
-            currentValue
-          );
-          return result;
-        }, {}); 
-      };
-      const criteria = groupBy(rows_selected, 'title');
-      let criteriaDetails='<b class="govuk-!-font-size-48">'+totalresult+'</b> results found';
+  const groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue
+      );
+      return result;
+    }, {});
+  };
+  const criteria = groupBy(rows_selected, 'title');
+  let criteriaDetails = '<b class="govuk-!-font-size-48">' + totalresult + '</b> results found';
 
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      
-       let search = queryParamObj.filter(el => el.key === 'q');
-       if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ decodeURIComponent(search[0].value) +'</b>';
-       }
-     
-       let lot = queryParamObj.filter(el => el.key === 'lot');
-       if(lot.length > 0){
-        criteriaDetails +=' in <b>'+ capitalize(lot[0].value.replace("-", " ")) +'</b>';
-       }else{
-        criteriaDetails +=' in <b>All Categories</b>';
-       }
+  let queryParamObj = parseQueryG13(document.location.search);
+  queryParamObj = tune(queryParamObj);
 
-       let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
-       if(serviceCategories.length > 0){
-        criteriaDetails +=' in the category <b>'+ capitalize(serviceCategories[0].value.replace("+", " ")) +'</b>';
-       }
-       
 
-      Object.keys(criteria).forEach(key => {
-        if(key !==undefined){
-          criteriaDetails +=', where <b>'+ capitalize(key) +'</b> is ';
-          let values=[];
-          for (let index = 0; index < criteria[key].length; index++) {
-            values.push('<b>'+capitalize(criteria[key][index].name)+'</b>');
-          }
-          criteriaDetails +=values.join(" and ");
+  let search = queryParamObj.filter(el => el.key === 'q');
+  if (search.length > 0) {
+    criteriaDetails += ' containing <b>' + decodeURIComponent(search[0].value) + '</b>';
+  }
 
-        }
-      });
-      $('#criteriandetails').html(criteriaDetails);
-      $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48','govuk-!-font-size-24'));
-      
-      
+  let lot = queryParamObj.filter(el => el.key === 'lot');
+  if (lot.length > 0) {
+    criteriaDetails += ' in <b>' + capitalize(lot[0].value.replace("-", " ")) + '</b>';
+  } else {
+    criteriaDetails += ' in <b>All Categories</b>';
+  }
+
+  let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
+  if (serviceCategories.length > 0) {
+    criteriaDetails += ' in the category <b>' + capitalize(serviceCategories[0].value.replace("+", " ")) + '</b>';
+  }
+
+
+  Object.keys(criteria).forEach(key => {
+    if (key !== undefined) {
+      criteriaDetails += ', where <b>' + capitalize(key) + '</b> is ';
+      let values = [];
+      for (let index = 0; index < criteria[key].length; index++) {
+        values.push('<b>' + capitalize(criteria[key][index].name) + '</b>');
+      }
+      criteriaDetails += values.join(" and ");
+
+    }
+  });
+  $('#criteriandetails').html(criteriaDetails);
+  $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48', 'govuk-!-font-size-24'));
+
+
 }
 
 const capitalize = (s) => {
@@ -22043,44 +22247,51 @@ const capitalize = (s) => {
 }
 
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-event.addEventListener('change', function(event) {
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
-  })
-
-  var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-    return this.value;
     }).get().join(', ');
     $('#invite_suppliers').val(evaluateSupplier);
+  })
+
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
 })
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-  event.addEventListener('change', function(event) {
-      var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-        return this.value;
-        }).get().join(', ');
-        $('#invite_suppliers').val(evaluateSupplier);
-    })
-  
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
+    }).get().join(', ');
+    $('#invite_suppliers').val(evaluateSupplier);
   })
-  
 
-  document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function(event) {
-    event.addEventListener('click', function(event) {
-      document.getElementById("invite_short_list_suppliers").submit();
-      })
-    
-     
-    })
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
+})
 
     // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    
+
+document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    document.getElementById("invite_short_list_suppliers").submit();
+  })
+})
+
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
     //   event.addEventListener('click', function(event) {
     //     var bodytg = document.body;
     //     bodytg.classList.add("pageblur");
@@ -22096,76 +22307,126 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
     });
 
     //startEvalDos6Btn
+    // document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
     document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
       event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr">Retrieving supplier responses</p><p class="govuk-body loader-desc">Please allow some time for this operation to complete. Once finished, you will be able to download supplier responses. We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>';
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       });
     });
-    
-    document.querySelectorAll(".download").forEach(function(event) {
-      event.addEventListener('click', function(event) {   
-        var $this = $(this);
-        var url=$this.attr('data-url');
-        $.ajax({
-            url: url,
-            type: "GET",
-            contentType: "application/json",
-            xhrFields: {
-                responseType: 'blob' // to avoid binary data being mangled on charset conversion
-            },
-            beforeSend: function(){
-              var bodytg = document.body;
-              bodytg.classList.add("pageblur");
-            },
-           success: function(blob, status, xhr) {
-            // check for a filename
-            var bodytg = document.body;
-              bodytg.classList.remove("pageblur");
-            var filename = "";
-            var disposition = xhr.getResponseHeader('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                var matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-            }
-            if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                window.navigator.msSaveBlob(blob, filename);
+
+document.querySelectorAll(".download").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    var $this = $(this);
+    var url = $this.attr('data-url');
+    $.ajax({
+      url: url,
+      type: "GET",
+      contentType: "application/json",
+      xhrFields: {
+        responseType: 'blob' // to avoid binary data being mangled on charset conversion
+      },
+      beforeSend: function () {
+        document.querySelector(".loderMakeRes").innerHTML = "<p class='govuk-body loader-desc-hdr'>Downloading supplier responses</p><p class='govuk-body loader-desc'>Please allow some time for this operation to complete. Once finished, your downloaded responses can be found in the 'Downloads' section of your browser.  We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      },
+      success: function (blob, status, xhr) {
+        // check for a filename
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        var filename = "";
+        var disposition = xhr.getResponseHeader('Content-Disposition');
+        if (disposition && disposition.indexOf('attachment') !== -1) {
+          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+          var matches = filenameRegex.exec(disposition);
+          if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+        }
+        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+          window.navigator.msSaveBlob(blob, filename);
+        } else {
+          var URL = window.URL || window.webkitURL;
+          var downloadUrl = URL.createObjectURL(blob);
+          if (filename) {
+            // use HTML5 a[download] attribute to specify filename
+            var a = document.createElement("a");
+            // safari doesn't support this yet
+            if (typeof a.download === 'undefined') {
+              window.location.href = downloadUrl;
             } else {
-                var URL = window.URL || window.webkitURL;
-                var downloadUrl = URL.createObjectURL(blob);
-                if (filename) {
-                    // use HTML5 a[download] attribute to specify filename
-                    var a = document.createElement("a");
-                    // safari doesn't support this yet
-                    if (typeof a.download === 'undefined') {
-                        window.location.href = downloadUrl;
-                    } else {
-                        a.href = downloadUrl;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                    }
-                } else {
-                    window.location.href = downloadUrl;
-                }
-    
-                setTimeout(function () { URL.revokeObjectURL(downloadUrl);window.location.reload(); }, 1000); // cleanup
+              a.href = downloadUrl;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
             }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            var bodytg = document.body;
-            bodytg.classList.remove("pageblur");
-            // console.log(jqXHR.status)
+          } else {
+            window.location.href = downloadUrl;
           }
           
-          });
-       })
+          setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        // console.log(jqXHR.status)
+      }
+
+
+    });
+  })
+});
+
+/**
+ * Find the supplier with the highest score, and if a low score supplier is chosen, show the popup and obtain buyer confirmation.
+ */
+if (document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function (event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function () {
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      let supplier = document.querySelector(`[data-type="supplierName_${supplierId}"]`);
+      let score = this.getAttribute('data-value');
+      if (score < maxScore) {
+        showSuppliersAwardPopup(supplier.textContent, redirectUrl)
+      } else {
+        window.location.href = redirectUrl;
+      }
+    })
+  })
+}
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
   });
-
-
-
-
-

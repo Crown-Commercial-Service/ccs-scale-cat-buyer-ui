@@ -43,7 +43,9 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
     const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
     const journeyStatus = JourneyStatusUpload?.data;
     const journey = journeyStatus?.find(journey => journey.step === 21)?.state;
-    const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+//    const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
+    const routeRedirect = "/eoi/upload-doc";
+
     req.session.UploadError=true;
     res.redirect(routeRedirect);
     // const journey = journeyStatus.find(journey => journey.step === 21)?.state;

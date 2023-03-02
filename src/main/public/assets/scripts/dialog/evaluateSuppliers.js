@@ -74,7 +74,7 @@ const showEvaluateSuppliersPopup = (event) => {
               //document.body.scrollTop = document.documentElement.scrollTop = 0;
             }
             $(this).addClass('selected');
-            $('.pop').slideFadeToggle();
+            // $('.pop').slideFadeToggle();
           }
     // }
     // else
@@ -100,7 +100,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -123,7 +122,7 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $('.dialog-close-evaluatesuppliers').on('click', function () {
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    deselect($('.dialog-close-evaluatesuppliers'));
+    // deselect($('.dialog-close-evaluatesuppliers'));
     return false;
   });
 
@@ -148,4 +147,45 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+  };
+
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    // Create H2 element
+    var elGo = document.querySelector(".backdrop-confirmLowScoreSupplierPopup").querySelector(".nodeDialogTitle");
+    let h2Ele = document.createElement('h2');
+    h2Ele.textContent = suppliername;
+    elGo.after(h2Ele);
+
+    const openpopGC = document.querySelector('.backdrop-confirmLowScoreSupplierPopup')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-confirmLowScoreSupplierPopup").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    deconf = document.getElementById('redirect-button-confirmLowScoreSupplierPopup');
+    deconf.addEventListener('click', ev => {
+      openpopGC.classList.remove('showpopup');
+      document.location.href = redirectUrl;
+    });
+
+    // if ($(this).hasClass('selected')) {
+    //     deselect($(this));
+    //     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    // } else {
+    //     $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    //     document.getElementById("suppliersName").innerHTML = suppliername;
+    //     $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+    //     $(this).addClass('selected');
+    //     $('.pop').slideFadeToggle();
+    // }
   };

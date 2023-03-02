@@ -6,6 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 //import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
 import { SupplierDetails, DocumentTemplate, SupplierAddress } from '../model/supplierDetailsModel';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -15,6 +16,10 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
     //Awards/templates
     const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
     const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(awardsTemplatesData, logConstant.getAwardTemplateDetails, req);
+
     if (supplierId !== undefined && supplierId != null && doctempateId !== undefined && doctempateId !== null) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/` + doctempateId;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
@@ -44,6 +49,9 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       //Supplier of interest
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
 
       //agreements/{agreement-id}/lots/{lot-id}/suppliers
       const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
@@ -80,6 +88,9 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
       const supplierScore = awardsTemplatesData != null ? await TenderApi.Instance(SESSION_ID).get(supplierScoreURL) : null
       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(supplierScore, logConstant.getSupplierScore, req);
+
       let supplierList = supplierdata.data.responders;
       console.log('log200',supplierList.length);
       supplierList = supplierList.sort((a: any, b: any) => a.supplier.name.replace("-"," ").toLowerCase() < b.supplier.name.replace("-"," ").toLowerCase() ? -1 : a.supplier.name.replace("-"," ").toLowerCase() > b.supplier.name.replace("-"," ").toLowerCase() ? 1 : 0);
@@ -145,6 +156,10 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         supplierDetailsList
       };
       const appendData = { eventManagementData, projectName, agreementId,orderTemplateUrl };
+
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.awardDocuments, req);
+
       res.render('awardDocumentComplete', appendData)
     }
 

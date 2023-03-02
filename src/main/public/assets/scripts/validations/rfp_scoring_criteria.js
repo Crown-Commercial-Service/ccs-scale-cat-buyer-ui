@@ -467,7 +467,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -527,7 +527,7 @@ const emptyFieldCheckRfpScore = () => {
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
-      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
 
         let focusField; 
         if (name_field.value.trim() === '') {
@@ -559,7 +559,7 @@ const emptyFieldCheckRfpScore = () => {
         }else{
           fieldCheck = [focusField.id, 'You must add information in all fields.'];
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-          ccsZaddErrorMessage(point_field, 'Enter a valid number.');
+          ccsZaddErrorMessage(point_field, 'Enter valid score');
           ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
           errorStore.push(fieldCheck);
         }
@@ -574,7 +574,25 @@ const emptyFieldCheckRfpScore = () => {
         ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
         errorStore.push(fieldCheck);
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if(agreement_id.value.trim() == 'RM1557.13' && (name_field.value.trim() === '' || point_field.value.trim() === '' || desc_field.value.trim() === '')) {
+        if(name_field.value.trim() === ''){
+          fieldCheck = [name_field.id, 'You must add a name for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(name_field, 'You must add a name for this level');
+        }
+        if(point_field.value.trim() === ''){
+          fieldCheck = [point_field.id, 'You must enter a score for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(point_field, 'You must enter a score for this level');
+        }
+        if(desc_field.value.trim() === ''){
+          fieldCheck = [desc_field.id, 'You must enter a description for this level'];
+          ccsZaddErrorMessage(desc_field, 'You must enter a description for this level');
+          errorStore.push(fieldCheck);
+        }
+
+      }
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
@@ -592,45 +610,45 @@ const emptyFieldCheckRfpScore = () => {
           field: name_field,
           isError: false
         };
-        if (name_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (name_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (point_field.value.trim() < 0 && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() < 0 && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'Enter a valid score');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+        if (desc_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
           errorObj.isError = true;
           errorObj.field = desc_field;
         }
 
-        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
           ccsZaddErrorMessage(name_field,'You must add name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(point_field, 'You must add score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
             ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
         
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
           ccsZaddErrorMessage(desc_field,'You must add description for this level');
           
           errorObj.field = desc_field;
@@ -642,13 +660,13 @@ const emptyFieldCheckRfpScore = () => {
           }
           
         }
-        if(agreement_id.value.trim() == 'RM6187'){
+        if(agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13'){
           if (errorObj.isError) {
             fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
             errorStore.push(fieldCheck);
           }
         }
-       if(agreement_id.value.trim() != 'RM6187'){
+       if(agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13'){
         let errMsg = '';
         if (name_field.value.trim() === '') {
           errorObj.field = name_field;
@@ -656,7 +674,7 @@ const emptyFieldCheckRfpScore = () => {
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
           errMsg = 'You must add score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
           errMsg = 'Enter valid score';
         }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
@@ -693,7 +711,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
     }else{
       errorStore.push(["There is a problem", 'You must add minimum 2 tiers'])
     }

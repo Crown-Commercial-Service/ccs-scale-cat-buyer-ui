@@ -122,15 +122,15 @@
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
                           {% if (group_id == 'Group 8') %}
-                            {{shortTitle}} questions entered so far
+                            {{shortTitle}} questions entered
                           {% else %}
-                            {{shortTitle}} entered so far
+                            {{shortTitle}} entered
                           {% endif %}
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
-                              {{shortTitle}} questions entered so far
+                              {{shortTitle}} questions entered
                           {% elseif agreement_id == 'RM1557.13' and group_id == 'Group 6' %}
-                              {{shortTitle}} questions entered so far
+                              {{shortTitle}} questions entered
                           {% else %}
                               {{shortTitle}} questions entered
                           {% endif %}
@@ -152,7 +152,7 @@
                     {% endif %}
                   </p>
                 </div>
-                {% if agreement_id == 'RM1043.8'  %}
+                {% if (agreement_id == 'RM1043.8') or (agreement_id == 'RM1557.13')  %}
                   {% set numberWord = [
                   'Zero',
                   'first',
@@ -195,16 +195,16 @@
                   <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
                     {% if(agreement_id == 'RM1043.8') %}                        
                         {% if(group_id == 'Group 7' and lotId == '1') %}
-                          Enter a
+                          Enter your
                         {% else%}
                           Enter your
                         {%endif%}
                     {% elseif (agreement_id == 'RM6187' and group_id == 'Group 4')%}
                           Enter your                                
-                    {% elseif (agreement_id == 'RM1557.13' and group_id == 'Group 6')%}
-                          Enter a
+                    {% elseif (agreement_id == 'RM1557.13' and ((group_id == 'Group 4') or (group_id == 'Group 6') ))%}
+                          Enter your
                     {% else %}
-                          Enter an                    
+                          Enter your                 
                     {%endif%}
                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
                       {{shortTitle | replace("questions", "question")}}
@@ -240,6 +240,9 @@
                       })}}
                 </div>
                 {%endif%}
+                {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
+                  <h2> Total for your {{shortTitle}} weighting: <span id="totalPercentageDown">{{totalPercentage    }}</span>% of 100%</h2>
+                {% endif %}
               {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
                   {{recurseRequirements(requirement,form_name,loop.index)}}

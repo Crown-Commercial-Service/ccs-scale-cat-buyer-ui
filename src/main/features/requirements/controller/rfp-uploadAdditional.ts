@@ -78,6 +78,9 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
               const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
               const FETCH_FILEDATA = FetchDocuments.data;
 
+              //CAS-INFO-LOG 
+              LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
               let duplicateFile = false;
               for (const item of FETCH_FILEDATA) {
                 // if (item.description === "optional") {
@@ -102,6 +105,10 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
                   },
                 });
                 req.session['isAssessUploaded'] = true
+           
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
               }
             } catch (error) {
               LoggTracer.errorLogger(
@@ -151,6 +158,9 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
             const FETCH_FILEDATA = FetchDocuments.data;
 
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
             let duplicateFile = false;
             for (const item of FETCH_FILEDATA) {
               // if (item.description === "optional") {
@@ -174,6 +184,10 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
                   ...formHeaders,
                 },
               });
+
+             //CAS-INFO-LOG 
+             LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
+
               res.redirect(`/${selRoute}/upload-additional`);
             }
           } catch (error) {
@@ -230,6 +244,10 @@ export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request
 
   try {
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
+   
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional`)
   } catch (error) {
     LoggTracer.errorLogger(
@@ -266,6 +284,10 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
       const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
       const FETCH_FILEDATA = FetchDocuments?.data;
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
       let fileNameStorageTermsnCond = [];
       let fileNameStoragePricing = [];
       let additionalfile = [];

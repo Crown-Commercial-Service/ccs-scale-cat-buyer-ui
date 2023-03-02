@@ -112,15 +112,16 @@
   </div>
   {% if agreementId_session == "RM1557.13" %}
   <div class="ccs-page-section govuk-!-padding-bottom-7">
-    <p class="govuk-body">You’re advised to add additional colleagues to this procurement in case you’re unavailable at any time.</p>
-    <p class="govuk-body">Additional colleagues can help you write your requirements and review and evaluate suppliers.</p>
-    <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">registered with CCS.</a></p>
-    <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to the pre-tender market engagement section, or continue to the next step. </p>
-    <p class="govuk-body">You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step. </p>
+    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
+    <p class="govuk-body">Additional colleagues can also help you write your requirements and review and evaluate suppliers.</p>
+    <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">Public Procurement Gateway and Contract Award Service.</a></p>
+    <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this later.</p>
+    <p class="govuk-body">You cannot remove yourself from this project. If you want to be removed, you will need to change the lead colleague, who can then remove you. You can do this in the previous step. </p>
   </div>
   {% else %}
   {% if agreementId_session == 'RM1043.8' %}
   <div class="ccs-page-section govuk-!-padding-bottom-7">
+    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
     <p class="govuk-body">{{data.content.pdos1}}</p>
     <p class="govuk-body">{{data.content.pdos2}}</p>
     <p class="govuk-body">{{data.content.pdos3}}</p>
@@ -128,6 +129,7 @@
   </div>
   {% else %}
    <div class="ccs-page-section">
+    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
     <p class="govuk-body">{{data.content.p1}}</p>
 
   {% if agreementId_session == "RM6187" %}

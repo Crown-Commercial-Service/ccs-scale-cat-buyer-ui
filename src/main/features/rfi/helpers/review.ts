@@ -224,6 +224,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
 
     for(let i=0;i<expected_rfi_keydates[0].answer.length;i++){
       let data=expected_rfi_keydates[0].answer[i].values[0].value;
+      if(i == 3){
+        req.session.endDate = data;
+      }
       let day=data.substr(0,10);
       let time=data.substr(11,5);
       if(i==0){
@@ -231,7 +234,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
       else
       {
-        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
       }
     };
         //RFI_ANSWER_STORAGE[3].answer.reverse()

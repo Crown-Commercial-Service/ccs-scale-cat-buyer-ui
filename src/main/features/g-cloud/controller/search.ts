@@ -8,6 +8,7 @@ import { gCloudServiceQueryResults } from '../util/filter/serviceQueryResults';
 import { gCloudCountQueryFliter } from '../util/filter/countQueryFliter';
 import { gCloudServiceQueryReplace } from '../util/filter/serviceQueryReplace';
 import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourSearch.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 // @ts-ignore
 // const gCloudServiceQueryFliter = (reqUrl: any, baseUrl: any, overUrl: any) => {
@@ -34,7 +35,7 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
    
     const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
-     
+
     let searchKeywordsQuery:any = q;
     var keywordsQuery= q!= undefined ?`&q=${encodeURIComponent(searchKeywordsQuery)}`:'';
     var lotsQuery= lot!= undefined ?`&lot=${lot}`:'';
@@ -162,6 +163,9 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       
       const releatedContent = req.session.releatedContent;
       const appendData = { data: servicesList,njkDatas,filters:filterDatas,releatedContent: releatedContent, lotId:req.session.lotId,agreementLotName:req.session.agreementLotName,clearFilterURL:clearFilterURL,jsondata: saveYourSearchData,};
+      
+       //CAS-INFO-LOG
+     LoggTracer.infoLogger(null, logConstant.gcSearch, req);
       res.render('search',appendData);
     } catch (error) {
       console.log(error);
@@ -178,14 +182,14 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
   const GCLOUD_SEARCH_API_TOKEN = process.env.GCLOUD_SEARCH_API_TOKEN;
   const GCLOUD_INDEX = process.env.GCLOUD_INDEX;
   try {
-
+   
     var CountsUrl = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot`;
     let countUrl = req.url;
     let jointCountUrlRetrieve = await gCloudCountQueryFliter(countUrl, CountsUrl, null);
     let JointCountURL: string = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot${jointCountUrlRetrieve}`;
     const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
-       
+
     let searchKeywordsQuery:any = q;
     var keywordsQuery= q!= undefined ?`&q=${encodeURIComponent(searchKeywordsQuery)}`:'';
     var lotsQuery= lot!= undefined ?`&lot=${lot}`:'';
@@ -275,6 +279,7 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
       req.session.searchUrl=searchUrl.replace("?", "");
       req.session.searchResultsUrl=searchResultsUrl.replace("?", "");
     let JointURL: string = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`; 
+    console.log(JointURL);
    
     try{
       var {data: servicesList} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
