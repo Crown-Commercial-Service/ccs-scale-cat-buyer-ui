@@ -130,6 +130,9 @@
              {%if(prompt.length>1)%}
               <p class="govuk-body">{{prompt[1] | safe}}</p>
              {%endif%} #}
+
+                                   
+            
             {{ CCSInsetText({
                     html: prompt,
                     classes: "govuk-custom_form-content_bold"
@@ -171,7 +174,7 @@
                       {% if (group_id == 'Group 8') %}
                         <h2> Total for {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% else %}
-                        <h2> Total for  {{shortTitle}}{{ ' category' if (group_id == 'Group 9') else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                        <h2> Total for  {{shortTitle}}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% endif %}
                     {% else %} 
                           {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
