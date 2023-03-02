@@ -64,7 +64,7 @@
         titleText: "There has been an error publishing your FC",
         errorList: [
           {
-            text: "Confirmation checkbox must be checked before progressing",
+            text: "Confirm that the information you have provided is correct",
             href: "#ccs_rfp_publish_form"
           }
         ]
@@ -504,7 +504,7 @@
             {% block Review_and_publish_your_further_competition %}
 
               {% if (agreement_id == "RM1043.8") and (lotId == 1)or(lotId == 3) %}
-                <h2 class="govuk-heading-l">3. Your timeline
+                <h2 class="govuk-heading-l">3. Set Your timeline
               </h2>
               {% endif %}
               <dl class="govuk-summary-list">
@@ -655,8 +655,11 @@
                 </h2>
                 
               </p>
+               <div class="govuk-inset-text">
+              <p class="govuk-body">Your further competition will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+              </div>
               <p class="govuk-body">
-                After publishing this event, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
+               If you need to make any significant changes – including changes to scope or timelines – after publishing this further competiton, you will need to cancel and start a new project.
               </p>
               <br>
               <br>

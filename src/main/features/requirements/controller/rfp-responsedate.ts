@@ -450,15 +450,27 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     let errorText='';
     if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
     {
-      errorText='Date and Time invalid or empty. Please enter the valid date and time';
+      if(stage2_value == 'Stage 2'){
+        errorText='Enter a complete date';
+      }else{
+        errorText='Date and Time invalid or empty. Please enter the valid date and time';
+      }
     }
     else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
-      errorText='Date invalid or empty. Please enter the valid date';
+      if(stage2_value == 'Stage 2'){
+        errorText='Enter a complete date';
+      }else{
+        errorText='Date invalid or empty. Please enter the valid date';
+      }
     }
     else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
     {
-      errorText='Time invalid or empty. Please enter the valid time';
+      if(stage2_value == 'Stage 2'){
+        errorText='Enter a complete time';
+      }else{
+        errorText='Time invalid or empty. Please enter the valid time';
+      }
     }
 
     const errorItem = {     

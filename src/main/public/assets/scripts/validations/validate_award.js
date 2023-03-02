@@ -4,7 +4,13 @@ const ccsZvalidateAward = (event) => {
     const preAwardSupplierConfm = document.getElementById('pre_award_supplier_confirmation')
 
     if (preAwardSupplierConfm != undefined && !preAwardSupplierConfm.checked) {
-        const fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement check box must be selected to continue with the awarding of the selected supplier.");
+        let fieldCheck;
+         let agreementId =  document.getElementById('agreementId')
+         if(agreementId != null && agreementId.value && agreementId.value == 'RM1043.8'){
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Confirm that you have received the signed contract");
+        }else{
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement check box must be selected to continue with the awarding of the selected supplier.");
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
         ccsZPresentErrorSummary(errorStore);
     }
