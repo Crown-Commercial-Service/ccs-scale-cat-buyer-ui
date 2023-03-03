@@ -213,7 +213,7 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting for quality') && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
