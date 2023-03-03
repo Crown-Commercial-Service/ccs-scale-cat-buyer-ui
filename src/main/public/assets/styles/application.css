@@ -4015,6 +4015,14 @@ p + .govuk-heading-s,
   height: 36px;
 }
 
+span#create_supplier_message-error{
+display: none;
+}
+
+span#create_message_input-error{
+display: none;
+}
+
 .govuk-header {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;

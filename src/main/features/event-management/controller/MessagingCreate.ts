@@ -11,16 +11,16 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 export class ValidationErrors {
-    static readonly SUPPLIER_REQUIRED: string = 'message cannot be broadcast unless a Supplier has been defined - broadcast cannot be completed'
-    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined - broadcast cannot be completed'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Subject has been defined - broadcast cannot be completed'
-    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined - broadcast cannot be completed'
+    static readonly SUPPLIER_REQUIRED: string = 'Select a supplier'
+    static readonly CLASSIFICATION_REQUIRED: string = 'Select a message classification'
+    static readonly SUBJECT_REQUIRED: string = 'Enter a subject'
+    static readonly MESSAGE_REQUIRED: string = 'Enter a message'
     
     
-    static readonly SINGLE_SUPPLIER_REQUIRED: string = 'message cannot be sent unless a Supplier has been defined - message cannot be completed'
-    static readonly SINGLE_CLASSIFICATION_REQUIRED: string = 'Message cannot be sent unless a Classification has been defined - message cannot be completed'
-    static readonly SINGLE_SUBJECT_REQUIRED: string = 'message cannot be sent unless a Subject has been defined - message cannot be completed'
-    static readonly SINGLE_MESSAGE_REQUIRED: string = 'Message cannot be sent unless a Message Body has been defined - message cannot be completed'
+    static readonly SINGLE_SUPPLIER_REQUIRED: string = 'Select a supplier'
+    static readonly SINGLE_CLASSIFICATION_REQUIRED: string = 'Select a message classification'
+    static readonly SINGLE_SUBJECT_REQUIRED: string = 'Enter a subject'
+    static readonly SINGLE_MESSAGE_REQUIRED: string = 'Enter a message'
     
 }
 
