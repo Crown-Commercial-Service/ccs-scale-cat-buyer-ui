@@ -79,7 +79,7 @@
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                  {% if(status.toUpperCase() == 'EVALUATED') %}
+                  {% if(status.toUpperCase() == 'EVALUATED' and stage2_value != 'Stage 2') %}
                     <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
                   {% else %}
                   <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
@@ -270,6 +270,8 @@
                             {%else%}
                             {{data.subsection4_title3_task4_dos}}
                             {%endif%}
+                          {%else%}
+                            {{data.subsection4_title3_task4_dos}}
                           {%endif%}
                         </p>
                           <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>

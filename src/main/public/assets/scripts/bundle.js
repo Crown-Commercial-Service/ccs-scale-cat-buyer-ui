@@ -15720,6 +15720,12 @@ document.addEventListener('DOMContentLoaded', () => {
         else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
             $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
         }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -16145,10 +16151,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 with_value_count++;
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                  $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                  $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
                 }
             }
         }else{
@@ -19411,7 +19423,13 @@ const ccsZvalidateAward = (event) => {
     const preAwardSupplierConfm = document.getElementById('pre_award_supplier_confirmation')
 
     if (preAwardSupplierConfm != undefined && !preAwardSupplierConfm.checked) {
-        const fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement check box must be selected to continue with the awarding of the selected supplier.");
+        let fieldCheck;
+         let agreementId =  document.getElementById('agreementId')
+         if(agreementId != null && agreementId.value && agreementId.value == 'RM1043.8'){
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Confirm that you have received the signed contract");
+        }else{
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement check box must be selected to continue with the awarding of the selected supplier.");
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
         ccsZPresentErrorSummary(errorStore);
     }

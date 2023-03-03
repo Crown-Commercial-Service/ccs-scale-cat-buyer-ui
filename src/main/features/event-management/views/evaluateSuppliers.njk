@@ -241,7 +241,11 @@
   {% set popDescription = "Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation." %}
 {%else%}
   {% if stage2_value == 'Stage 2'%}
-    {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}"
+    {% if(agreement_header['lotid'] == '3') %}
+      {% set popDescription = "Click Continue, or click Return to further edit your scores. " %}
+    {%else%}
+      {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}
+    {%endif%}
   {%else%}
     {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores." %}
   {%endif%}
