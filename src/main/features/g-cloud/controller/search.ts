@@ -160,9 +160,10 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       }
 
     
-      
+      const {isJaggaerError} = req.session;
+      req.session['isJaggaerError'] = false;
       const releatedContent = req.session.releatedContent;
-      const appendData = { data: servicesList,njkDatas,filters:filterDatas,releatedContent: releatedContent, lotId:req.session.lotId,agreementLotName:req.session.agreementLotName,clearFilterURL:clearFilterURL,jsondata: saveYourSearchData,};
+      const appendData = { data: servicesList,njkDatas,filters:filterDatas,releatedContent: releatedContent, lotId:req.session.lotId,agreementLotName:req.session.agreementLotName,clearFilterURL:clearFilterURL,jsondata: saveYourSearchData,error:isJaggaerError};
       
        //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.gcSearch, req);
