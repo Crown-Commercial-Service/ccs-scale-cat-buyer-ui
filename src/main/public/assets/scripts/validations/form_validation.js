@@ -416,7 +416,7 @@ const ccsZaddDateErrorMessage = (element,addelement, message) => {
         child_i.classList.add("govuk-textarea--error");
       });
     }
-
+console.log("addelement.id",addelement.id);
     errorEl = ccsZcreateCcsErrorMsg(addelement.id, message);
 
     if (element.type === "radio") {

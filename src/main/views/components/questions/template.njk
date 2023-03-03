@@ -798,13 +798,14 @@
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
                           {%set rfp_resource_start_date_month='rfp_resource_start_date_month_'+requirement.OCDS.id%}
+                          {%set rfp_resource_start_date_monthById=rfp_resource_start_date_month.trim().replace(' ','')%}
                           {{ CCSInput({
                             label: {
                               text: "Month",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_resource_start_date-month"
                             },
-                            id: rfp_resource_start_date_month,
+                            id: rfp_resource_start_date_monthById,
                             name: rfp_resource_start_date_month,
                             classes: "govuk-input rfp_resource_start_month govuk-date-input__input govuk-input--width-2 daymonthlimit",
                             type: "number", 
@@ -817,6 +818,7 @@
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
                           {%set rfp_resource_start_date_year='rfp_resource_start_date_year_'+requirement.OCDS.id%}
+      {%set rfp_resource_start_date_yearById=rfp_resource_start_date_year.trim().replace(' ','')%}
 
                           {{ CCSInput({
                             label: {
@@ -824,7 +826,7 @@
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_resource_start_date-year"
                             },
-                            id: rfp_resource_start_date_year,
+                            id: rfp_resource_start_date_yearById,
                             name: rfp_resource_start_date_year,
                             classes: "govuk-input rfp_resource_start_year govuk-date-input__input govuk-input--width-4 startdateyearlimit",
                             type: "number", 

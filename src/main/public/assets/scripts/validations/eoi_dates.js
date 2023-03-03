@@ -178,7 +178,9 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     
     const YearValuesNew = YearSelector.val();
     let matchValueNew = !YearSelector.val().match(/^\d{4}$/);
-
+    console.log("YearValuesNewEOI",YearValuesNew);
+    console.log("matchValueNewEE",matchValueNew);
+    
     // DaySelector.addClass('govuk-form-group--error');
     // MonthSelector.addClass('govuk-form-group--error');
     // YearSelector.addClass('govuk-form-group--error');
@@ -234,11 +236,13 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
         $('#event-name-error-year').html('Enter a year using the YYYY format')
         ccsZPresentErrorSummary(errorStore);    
     }else if (getTimeOfFormDate < todayDate.getTime()) {
-        $('#event-name-error-date').html('Enter a project start date in the future');
-        DaySelector.addClass('govuk-form-group--error');
-        MonthSelector.addClass('govuk-form-group--error');
-        YearSelector.addClass('govuk-form-group--error');
-        $('.durations').addClass('govuk-form-group--error');
+       // $('#event-name-error-date').html('Enter a project start date in the future');
+       DaySelector.addClass('govuk-form-group--error');
+       MonthSelector.addClass('govuk-form-group--error');
+       YearSelector.addClass('govuk-form-group--error');
+      
+       $('.durations').addClass('govuk-form-group--error'); 
+       $('#event-name-error-year').html('Enter a project start date in the future');
         const errorStore = [["eoi_resource_start_date", "Enter a project start date in the future"]];
         ccsZPresentErrorSummary(errorStore);
     }else{
