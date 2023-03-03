@@ -11838,16 +11838,20 @@ const emptyQuestionFieldCheck = () => {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        if((urlParams.get('agreement_id') == 'RM6187') || (urlParams.get('agreement_id') == 'RM1557.13')){
+        if(urlParams.get('agreement_id') == 'RM6187'){
           errText = "You must ask at least one question";
-        }else{
+        }
+        else if(urlParams.get('agreement_id') == 'RM1557.13'){
+          errText = "Enter at least one question";
+        }
+        else{
           errText = "You must add at least one question";
         }
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
         if(urlParams.get('agreement_id') == 'RM1557.13'){
-          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must add question", /\w+/);
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed.", /\w+/);
         }
         else{
           fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -20199,7 +20203,7 @@ const ccsZvalidateRfiProject = (event) => {
   let fieldCheck = "",
     errorStore = [];
     if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background information.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
