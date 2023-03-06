@@ -22,6 +22,7 @@
     "MessageClassification": "Message Classification",
     "Subject": "Subject",
     "Message": "Message",
+    "GCMessage": "Your Message",
     "btnText": "Send message to supplier",
     "Cancel": {
         "text": "Cancel",

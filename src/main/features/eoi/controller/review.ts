@@ -168,7 +168,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             const duration = obj.values.map(v => v.value);
             let durationTemp=[];
             if(duration[0]!=undefined){
-
+           
               durationTemp = duration[0].replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-')
             }
 
@@ -178,7 +178,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
                   'How long you think the project will run for (Optional): ' +
                   (durationTemp.length == 3
                     ? durationTemp[0] + ' years ' + durationTemp[1] + ' months ' + durationTemp[2] + ' days'
-
                     : ''),
                 selected: true,
               },
