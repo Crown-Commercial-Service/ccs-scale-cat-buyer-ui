@@ -199,8 +199,6 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     
     const YearValuesNew = YearSelector.val();
     let matchValueNew = !YearSelector.val().match(/^\d{4}$/);
-    console.log("YearValuesNewEOI",YearValuesNew);
-    console.log("matchValueNewEE",matchValueNew);
     
     // DaySelector.addClass('govuk-form-group--error');
     // MonthSelector.addClass('govuk-form-group--error');

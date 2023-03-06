@@ -8339,8 +8339,6 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
     
     const YearValuesNew = YearSelector.val();
     let matchValueNew = !YearSelector.val().match(/^\d{4}$/);
-    console.log("YearValuesNewEOI",YearValuesNew);
-    console.log("matchValueNewEE",matchValueNew);
     
     // DaySelector.addClass('govuk-form-group--error');
     // MonthSelector.addClass('govuk-form-group--error');
@@ -14939,11 +14937,11 @@ function validateStartDate() {
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
          if (getTimeOfFormDate > getMSOfExpiryDate) {
-            isValid = '77It is recommended that your project does not start after lot expiry date';
+            isValid = 'It is recommended that your project does not start after lot expiry date';
          }
 
          if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
-            isValid = '44Enter a date in the future';
+            isValid = 'Enter a date in the future';
          }
       }
 
