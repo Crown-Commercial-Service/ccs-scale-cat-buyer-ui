@@ -393,18 +393,21 @@ $('.rfp_date').on('submit', (e) => {
    let MonthSelector = $('.rfp_resource_start_month');
    let YearSelector = $('.rfp_resource_start_year');
    
-   
-   
-   const YearValuesNew = YearSelector.val();
-   let matchValueNew = !YearSelector.val().match(/^\d{4}$/);
+   let YearValuesNew='';
+   let matchValueNew='';
+  
+   if(YearSelector.val() !='' && YearSelector.val() !=undefined){
+       YearValuesNew = YearSelector.val();
+       matchValueNew = !YearSelector.val().match(/^\d{4}$/);
+   }
 
    const FormDateNew = new Date(Year, Month-1, Day);
    const getTimeOfFormDateNew = FormDateNew.getTime();
   
    const todayDateNew = new Date();
 
+   if(document.getElementById('agreementID').value == 'RM6187'){
 
-      
    if(Day == "" && Month == "" && Year == ""){
       preVious=true;
      
@@ -435,7 +438,7 @@ $('.rfp_date').on('submit', (e) => {
       preVious=true;
       
       let error_msg_new = 'Enter a project start month';
-      DaySelector.addClass('govuk-form-group--error');
+      MonthSelector.addClass('govuk-form-group--error');
       $('#event-name-error-date').html('Enter a project start year'); 
       $('.durations').addClass('govuk-form-group--error');
       fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
@@ -444,7 +447,7 @@ $('.rfp_date').on('submit', (e) => {
  }else if(Day != "" && Month != "" && Year == ""){
    preVious=true;
    let error_msg_new = 'Enter a project start year';
-   DaySelector.addClass('govuk-form-group--error');
+   YearSelector.addClass('govuk-form-group--error');
    $('#event-name-error-date').html('Enter a project start year'); 
    $('.durations').addClass('govuk-form-group--error');
    fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
@@ -471,9 +474,9 @@ $('.rfp_date').on('submit', (e) => {
    ccsZPresentErrorSummary(errorStore); 
 }else if(Day == "" && Month == "" && Year != ""){
    preVious=true;
-   let error_msg_new = 'Enter a project start day and year';
+   let error_msg_new = 'Enter a project start day and month';
    DaySelector.addClass('govuk-form-group--error');
-   $('#event-name-error-date').html('Enter a project start day and year'); 
+   $('#event-name-error-date').html('Enter a project start day and month'); 
    $('.durations').addClass('govuk-form-group--error');
    fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
    errorStore.push(fieldCheck)
@@ -520,6 +523,11 @@ $('.rfp_date').on('submit', (e) => {
 
 
 }
+
+   }else{
+     
+      preVious==false;
+   }
    
    
    if(preVious==false){
@@ -746,6 +754,7 @@ function checkResourceStartDate() {
    }
 
    else if (rfpResourceStartMonth.val() == '') {
+     
       error_msg = 'Enter a valid month'
       if (document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
          removeErrorFieldsdates();

@@ -798,7 +798,12 @@
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
                           {%set rfp_resource_start_date_month='rfp_resource_start_date_month_'+requirement.OCDS.id%}
-                          {%set rfp_resource_start_date_monthById=rfp_resource_start_date_month.trim().replace(' ','')%}
+                    {%if(agreement_id == 'RM6187') %}
+                   {%set rfp_resource_start_date_monthById=rfp_resource_start_date_month.trim().replace(' ','')%}
+                    {% else%}
+                     {%set rfp_resource_start_date_monthById=rfp_resource_start_date_month%}
+                    {% endif%}
+
                           {{ CCSInput({
                             label: {
                               text: "Month",
@@ -817,8 +822,14 @@
                       </div>
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
-                          {%set rfp_resource_start_date_year='rfp_resource_start_date_year_'+requirement.OCDS.id%}
-      {%set rfp_resource_start_date_yearById=rfp_resource_start_date_year.trim().replace(' ','')%}
+              
+                         {%set rfp_resource_start_date_year='rfp_resource_start_date_year_'+requirement.OCDS.id%}
+                    {%if(agreement_id == 'RM6187') %}
+                   {%set rfp_resource_start_date_yearById=rfp_resource_start_date_year.trim().replace(' ','')%}
+                    {% else%}
+                     {%set rfp_resource_start_date_yearById=rfp_resource_start_date_year%}
+                    {% endif%}
+
 
                           {{ CCSInput({
                             label: {

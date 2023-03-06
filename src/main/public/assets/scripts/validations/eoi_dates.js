@@ -86,6 +86,27 @@ const MonthCheck = () => {
     }
 }
 
+$(".startdateyearlimitEoi").keyup(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+ 
+    if (maxLen >= 4) {
+       return false;
+    }
+ 
+ });
+ $(".startdateyearlimitEoi").keypress(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+    if (maxLen >= 4) {
+      
+       return false;
+    }
+ 
+ });
+
 const currentYearDate = new Date();
 const currentYear = currentYearDate.getFullYear()
 
