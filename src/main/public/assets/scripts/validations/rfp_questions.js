@@ -1489,7 +1489,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == true ))
 
                         ) && !pageHeading.includes('Write your social value questions (Optional)')){
-                            let msgContent = 'You must enter your question';
+                            let msgContent = 'Enter a technical question';
 
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                 msgContent = 'Enter an essential skill or experience';
@@ -1513,7 +1513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ($('#fc_question_precenate_'+i).val() == '' && ( error_classes == false && additional_classes == true ))
 
                         ) && !pageHeading.includes('Write your social value questions (Optional)')) {
-                             let msgWeightageContent = 'You must enter a weighting for this question';
+                             let msgWeightageContent = 'Enter a weighting for this technical question';
  
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                  msgWeightageContent = 'Enter a weighting for this essential skill or experience';
@@ -1533,7 +1533,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        if(urlParams.get('agreement_id') == 'RM1557.13'){
                       
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
-                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                            errorStore.push(["There is a problem", "The weighting must add up to 100% in total"]);
 
                         }
                         else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){

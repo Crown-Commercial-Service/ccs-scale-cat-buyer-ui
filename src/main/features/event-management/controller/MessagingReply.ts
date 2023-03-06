@@ -11,7 +11,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 export class ValidationErrors {
    
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be sent unless a Subject Line has been defined'
-    static readonly SUBJECT_REQUIRED: string = 'Message cannot be sent unless a Message Body has been defined'
+    static readonly SUBJECT_REQUIRED: string = 'Enter a message'
 }
 
 /**
