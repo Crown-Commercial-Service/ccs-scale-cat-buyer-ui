@@ -296,5 +296,5 @@ $('#rfp_singleselect').on('submit', event => {
 });
 
 $('#rfp_security_confirmation').on('input', function() {
-  $(this).val($(this).val().replace(/[^a-z0-9,]/gi, ''));
+  $(this).val($(this).val().replace(/[^a-z0-9,\s]/gi, ''));
 });

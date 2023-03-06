@@ -207,7 +207,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label govuk-label" for="create_message_input">Your {{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
