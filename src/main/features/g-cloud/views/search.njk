@@ -103,7 +103,7 @@
           <h2 class="govuk-heading-m">Related content</h2>
           <p class="govuk-body">
             {% for item in jsondata.related_content %}
-              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return true;">{{ item.text }}</a><br>
             {% endfor %}
           </p>
         </div>
