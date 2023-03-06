@@ -120,7 +120,7 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
-      <a href="{{data.backlink}}">back</a>
+              <a href="{{data.backlink}}">Back</a>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
@@ -207,7 +207,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label govuk-label" for="create_message_input">Your {{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}

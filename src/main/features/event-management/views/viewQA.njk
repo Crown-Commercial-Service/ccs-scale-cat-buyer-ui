@@ -78,7 +78,8 @@
          
         {% else %}	
         <p class="govuk-body-margin-top">	
-            <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>	
+            {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>	 #}
+            <a href="/message/inbox?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Return to Your inbox</a>	
         </p>	
          {% endif %}
     </main>
