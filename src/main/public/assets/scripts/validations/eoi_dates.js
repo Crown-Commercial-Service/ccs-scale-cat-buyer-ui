@@ -86,6 +86,27 @@ const MonthCheck = () => {
     }
 }
 
+$(".startdateyearlimitEoi").keyup(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+
+    if (maxLen >= 4) {
+       return false;
+    }
+
+ });
+ $(".startdateyearlimitEoi").keypress(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+    if (maxLen >= 4) {
+
+       return false;
+    }
+
+ });
+ 
 const currentYearDate = new Date();
 const currentYear = currentYearDate.getFullYear()
 
@@ -234,7 +255,7 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
         $('#event-name-error-year').html('Enter a year using the YYYY format')
         ccsZPresentErrorSummary(errorStore);    
     }else if (getTimeOfFormDate < todayDate.getTime()) {
-        $('#event-name-error-date').html('Enter a project start date in the future');
+        $('#event-name-error-year').html('Enter a project start date in the future');
         DaySelector.addClass('govuk-form-group--error');
         MonthSelector.addClass('govuk-form-group--error');
         YearSelector.addClass('govuk-form-group--error');
