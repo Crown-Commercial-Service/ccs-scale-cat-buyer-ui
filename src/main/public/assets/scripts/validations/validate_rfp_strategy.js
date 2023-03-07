@@ -96,11 +96,11 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
  
           if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the days or dates you expect research to happen');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the number of rounds');
           }
           else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
             fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
@@ -164,8 +164,12 @@ const ccsZvalidateRfPStrategy = event => {
  
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && (!(pageHeading.includes("(optional)")  || pageHeading.includes("(Optional)"))) && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      if(agreement_id == "RM1043.8"){
+         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details about the number of research rounds');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
@@ -179,8 +183,12 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if(agreement_id == "RM1043.8"){
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter a description of your participants');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Add background to your project")) {

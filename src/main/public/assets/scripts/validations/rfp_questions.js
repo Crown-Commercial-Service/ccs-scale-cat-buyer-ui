@@ -506,6 +506,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
             with_value_count++;
         }
+       
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -768,7 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     errorMsg = "Enter your special terms and conditions";
                                 }
                                 else if(urlParamsDefault.get('group_id') == 'Group 15'){
-                                    errorMsg = "Enter your accessibility requirements";
+                                    errorMsg = "Enter accessibility requirements";
                                 }
                                 else {
                                     errorMsg = "You must add information in all fields";
@@ -930,6 +943,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+                  $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                  $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
             }
         }else{
             document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -1244,7 +1269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !(pageHeading.includes("Assisted digital and accessibility requirements (optional)") || (pageHeading.includes("Assisted digital and accessibility requirements (Optional)")))) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
 

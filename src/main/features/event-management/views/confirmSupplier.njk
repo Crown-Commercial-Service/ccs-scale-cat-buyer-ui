@@ -104,10 +104,15 @@
         {%endif%}
         <br>
       {% endif %}  
+
+      {% if(agreement_header['agreementId_session']=='RM1043.8') %}
+        <h1 class="govuk-heading-m"> {{eventManagementData.supplierDetails.supplierName}}</h1>
+        <p> {{eventManagementData.supplierDetails.supplierId}}</p>
+      {%else%}
         <h3> <strong>Supplier name</strong></h3>
-
-       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
-
+        <p> {{eventManagementData.supplierDetails.supplierName}}</p>
+      {%endif%}
+       
        <p> <strong>Address:</strong></p>
        <p> {{eventManagementData.supplierDetails.supplierAddress}}</p>
        {# <p> {{eventManagementData.supplierDetails.streetAddress}}</p>

@@ -130,6 +130,9 @@
              {%if(prompt.length>1)%}
               <p class="govuk-body">{{prompt[1] | safe}}</p>
              {%endif%} #}
+
+                                   
+            
             {{ CCSInsetText({
                     html: prompt,
                     classes: "govuk-custom_form-content_bold"
@@ -152,9 +155,9 @@
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
                           {% if (group_id == 'Group 8') %}
-                            {{shortTitle}} questions entered
+                            {{shortTitle}} questions entered so far
                           {% else %}
-                            {{shortTitle}} entered
+                            {{shortTitle}} entered so far
                           {% endif %}
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
@@ -169,9 +172,9 @@
 
                     {% if agreement_id == 'RM1043.8' %}
                       {% if (group_id == 'Group 8') %}
-                        <h2> Total for the {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                        <h2> Total for {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% else %}
-                        <h2> Total for the {{shortTitle}}{{ ' category' if (group_id == 'Group 9') else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                        <h2> Total for  {{shortTitle}}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% endif %}
                     {% else %} 
                           {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
@@ -224,8 +227,8 @@
                     </label> #}
                   <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
                     {% if(agreement_id == 'RM1043.8') %}                        
-                        {% if(group_id == 'Group 7' and lotId == '1') %}
-                          Enter your
+                        {% if(group_id == 'Group 7' and (lotId == '1' or lotId == '3')) %}
+                          Enter a
                         {% else%}
                           Enter your
                         {%endif%}
@@ -236,12 +239,20 @@
                     {% else %}
                           Enter your                
                     {%endif%}
-                      {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
+                      {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and (lotId == '1' or lotId == '3') )%}
                       {{shortTitle | replace("questions", "question")}}
                       {% elseif (agreement_id == 'RM1043.8' and group_id == 'Group 8' and lotId == '1') %}
                       {{numberWord[i]}} {{shortTitle}} question
                       {% else%}
-                      {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 5' and (lotId == '1' or lotId == '3')) %}
+                       
+                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                       {% elseif(agreement_id == 'RM1043.8' and group_id == 'Group 6' and (lotId == '1' or lotId == '3')) %}
+                       
+                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
+                       {% else%}
+                         {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                      {%endif%}
                       {%endif%}
                       
                       <a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
@@ -252,13 +263,12 @@
                   {% endfor %}
                 </div>
                 {%endfor%}
-
                 {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
                   {{ CCSButton({
                         text: "Add another question",
                         type:"button",
-                        classes:"add-another-btn govuk-button--secondary"                 
+                        classes:"add-another-btn govuk-button--secondary btncheck"                 
                       })}}
                 </div>
                 {%elseif(section !=='5')%}
