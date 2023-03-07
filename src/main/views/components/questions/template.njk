@@ -1317,10 +1317,12 @@
                             <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
                             {%endif%}
                             {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') or (agreement_id == 'RM1043.8' and group_id == 'Group 18' and lotId == '3') %}
-                            {# <label class="govuk-label--sm govuk-radios__label_block"> <b> Yes</b> </label> #}
-                            <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type">
-                              {{requirement.nonOCDS.options[i].text | safe}}
+                            <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting govuk-!-padding-top-0" for="ccs_vetting_type">
+                             <b> {{requirement.nonOCDS.options[i].value | safe}}</b>
                             </label>
+                             <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint govuk-!-margin-bottom-6">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </div>
                             {%else%}
                             <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
@@ -1381,10 +1383,12 @@
                                 <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" >
                               {% endif %}
                               {% if (agreement_id == 'RM1043.8' and group_id == 'Group 20' and lotId == '1') or (agreement_id == 'RM1043.8' and group_id == 'Group 18' and lotId == '3') %}
-                              {# <label class="govuk-label--sm govuk-radios__label_block"> <b> No</b></label> #}
-                              <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
-                                {{requirement.nonOCDS.options[i].text |safe}}
+                              <label class="govuk-label govuk-radios__label govuk-radios__label_custom ccs_rfp_vetting govuk-!-padding-top-0" for="ccs_vetting_type-{{i+1}}">
+                                <b>{{requirement.nonOCDS.options[i].value |safe}}</b>
                               </label>
+                               <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </div>
                               {%else%}
                               <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
                                 <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
