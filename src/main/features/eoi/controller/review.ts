@@ -24,6 +24,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
+  console.log('CurrentTimeStamp',CurrentTimeStamp)
   CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
   
   const _bodyData = {
@@ -55,21 +56,37 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
 
   if (review_publish == '1') {
     try {
+
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      if (response.status == Number(HttpStatusCode.OK)) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      }
+
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+         setTimeout(function(){
+          res.redirect('/eoi/event-sent');
+          }, 5000);
+      }
+      else{
+
+      
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(null, logConstant.eoiPublishLog, req);
       
 
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
-      if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
-      }
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      // }
       // if( agreementId_session == 'RM6187'){
       //   res.redirect('/eoi/confirmation-review');
       // }else{
         res.redirect('/eoi/event-sent');
       // }
+    }
       
     } catch (error) {
       
