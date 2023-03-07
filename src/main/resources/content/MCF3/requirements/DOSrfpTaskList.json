@@ -92,7 +92,7 @@
                 },
                 {
                     "Task": 2,
-                    "title": "How you will score suppliers",
+                    "title": "How you will score supplier responses",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfp/set-scoring-criteria"
