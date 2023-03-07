@@ -283,11 +283,15 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     }
   
     if(agreement_id == "RM1043.8") {
-      if  (group_id == "Group 6" && (req.session?.lotId == '1' || req.session?.lotId == '3') && id === 'Criterion 2') {
+      if  ((group_id == "Group 6" || group_id == "Group 1") && (req.session?.lotId == '1' || req.session?.lotId == '3') && id === 'Criterion 2') {
        
           data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
       }
       if  (((group_id == "Group 10" && req.session?.lotId == '3')|| (group_id == "Group 12" && req.session?.lotId == '1')) && id === 'Criterion 2') {
+       
+        data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+      }
+      if  (((group_id == "Group 8" && req.session?.lotId == '3')|| (group_id == "Group 9" && req.session?.lotId == '1')) && id === 'Criterion 2') {
        
         data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
       }
