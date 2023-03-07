@@ -297,7 +297,6 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
-    console.log('data',JSON.stringify(data))
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
 
