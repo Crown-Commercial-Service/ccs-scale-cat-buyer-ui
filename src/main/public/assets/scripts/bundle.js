@@ -18125,7 +18125,7 @@ const ccsZvalidateScoringCriteria = event => {
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
     if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
-      errorStore.push(["ccs_rfp_score_criteria_add", 'You must add minimum 2 tiers'])
+      errorStore.push(["ccs_rfp_score_criteria_add", 'Number of scoring levels must be 2 or more'])
     }else{
       errorStore.push(["There is a problem", 'Number of scoring levels must be 2 or more'])
     }
