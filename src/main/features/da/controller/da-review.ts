@@ -992,6 +992,26 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
 
   if (review_publish == 1) {
     try {
+
+      if(agreementId_session == 'RM6263') { // DSP
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
+        }else{
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+        }
+
+        if(agreementId_session == 'RM6263') { // DSP
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+          }
+
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+        let response = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        setTimeout(function(){
+          res.redirect('/da/da-eventpublished');
+          }, 5000);
+      }
+      else{
+
+      
       let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
@@ -999,19 +1019,20 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       
       //if (response.status == Number(HttpStatusCode.OK)) {
-        if(agreementId_session == 'RM6263') { // DSP
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
-        }else{
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
-        }
+        // if(agreementId_session == 'RM6263') { // DSP
+        // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
+        // }else{
+        //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+        // }
        
      // }
-      if(agreementId_session == 'RM6263') { // DSP
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
-      }
+      // if(agreementId_session == 'RM6263') { // DSP
+      // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+      // }
 
       
       res.redirect('/da/da-eventpublished');
+    }
     } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
       TokenDecoder.decoder(SESSION_ID), "DA Review - Dyanamic framework throws error - Tender Api is causing problem", false)
