@@ -21080,7 +21080,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per round');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
