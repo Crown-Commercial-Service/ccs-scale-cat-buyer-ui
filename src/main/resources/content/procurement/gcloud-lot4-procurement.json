@@ -120,6 +120,15 @@
             ],
             "required": "optional",
             "status": "cannot start yet"
+        },
+        {
+          "eventno": 7,
+          "eventTitle": "Submit a Customer Benefits Record",
+          "sections": [
+            "You must <a target='_blank' href='https://crowncommercial.qualtrics.com/jfe/form/SV_9YO5ox0tT0ofQ0u'>submit a Customer Benefits Record</a>. The Crown Commercial Service will contact you if they find any issues with the supplier."
+          ],
+          "required": "Complete Offline",
+          "status": "Complete Offline"
         }
     ],
     "related": {
