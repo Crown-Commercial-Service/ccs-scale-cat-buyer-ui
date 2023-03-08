@@ -837,7 +837,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
-                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "The total weighting exceeded more than 100%",'','',false);
                                     errorStore.push(fieldCheck)
                                 }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
@@ -1293,6 +1293,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
                                 msgContent = 'Enter a cultural fit question';
                                 msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }else if(urlParams.get('agreement_id') == 'RM6187' || urlParams.get('agreement_id') == 'RM1557.13'){
+                                 msgContent = 'You must enter valid question';
+                                 msgWeightageContent = 'The total weighting exceeded more than 100%';
+    
                             }
                             
                             
