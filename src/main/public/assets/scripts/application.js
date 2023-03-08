@@ -1730,3 +1730,8 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       });
     });
   });
+
+  $('.oneTimeClick').click(function(e) {
+    $(this).attr("disabled", true);
+    $(this).parents('form').submit()
+  });
