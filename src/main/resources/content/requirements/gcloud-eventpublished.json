@@ -2,7 +2,7 @@
     "breadCrumbs": [
     ],
 
-    "titleRFP": "Your further competition has been published",
+    "titleRFP": "Publishing your requirements",
     "titleDA":"Your direct award has been published",
     "line1":"Please quote this number, along with your project ID",
     "line2":"if you’re contacting CCS for support.",
@@ -14,8 +14,8 @@
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "Suppliers can read your scope of requirements and other details you entered and ask questions."},
-            {"li": "You will need to answer the supplier questions by the deadline you set."}
+            {"li": "Suppliers can read your requirements and ask questions."},
+            {"li": "You will need to answer any questions by the clarification deadline."}
         ]
     },
         "dashboard": {
