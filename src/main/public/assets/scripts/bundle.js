@@ -15117,7 +15117,7 @@ const checkPercentagesCond = () => {
               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
             }
             else{
-             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
             }
           }
           else{
@@ -15127,12 +15127,7 @@ const checkPercentagesCond = () => {
           
         }
         else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
-          if(lotId == 1){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
-          }
-          else{
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
-          }
         }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
@@ -15224,14 +15219,8 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    if(lotId == 1){
-      errorStore.push(["#", "The weightings must add up to 100% in total"]);
-    }
-    else{
-      errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
-    }
-    
-    ccsZPresentErrorSummary(errorStore)
+     errorStore.push(["#", "The weightings must add up to 100% in total"]);
+     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
