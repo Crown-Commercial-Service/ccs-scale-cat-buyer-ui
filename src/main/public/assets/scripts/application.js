@@ -1731,7 +1731,11 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
     });
   });
 
+  let countOfpublishBtn = 0;
   $('.oneTimeClick').click(function(e) {
     $(this).attr("disabled", true);
-    $(this).parents('form').submit()
+    if(countOfpublishBtn == 0) {
+      $(this).parents('form').submit();
+    }
+    countOfpublishBtn++;
   });
