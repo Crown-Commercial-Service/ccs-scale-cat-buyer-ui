@@ -993,7 +993,7 @@
                   {% else%}
                       <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">
                          {%if(agreement_id != 'RM6187') %}
-                            Range : {{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}} %
+                            Range : {{requirement.OCDS.minValue.amount}} %-{{requirement.OCDS.maxValue.amount}} %
                          {%endif%}
                       </p>
                   {%endif%}
