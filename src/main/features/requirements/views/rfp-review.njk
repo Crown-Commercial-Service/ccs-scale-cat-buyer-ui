@@ -1035,7 +1035,7 @@
                         </div>
                         <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__value">
-                            <p>Upload more documents (optional)</p>
+                            <p>Upload your core terms, call-off order form and schedules (terms and conditions)</p>
                           </dt>
                           {# <dd class="govuk-summary-list__value"> #}
                           {% if(document !=undefined and document !=null and documents | length > 0) %}
@@ -1055,6 +1055,35 @@
                           <dd class="govuk-summary-list__actions">
                             {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                               <a class="govuk-link" href="/rfp/upload-doc">
+                                Change<span class="govuk-visually-hidden">
+                                  procurement lead</span>
+                              </a>
+                            {% endif %}
+                          </dd>
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__value">
+                            <p>Upload additional documents (optional)</p>
+                          </dt>
+                          {# <dd class="govuk-summary-list__value"> #}
+                          {% if(document !=undefined and document !=null and documents | length > 0) %}
+                            <dd class="govuk-summary-list__value">
+                              <ul class="govuk-list govuk-list--none">
+                                {% for doc in additionalDocuments %}
+                                  <li>
+                                    <p class="govuk-body">{{ doc }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                            </dd>
+                          {% else %}
+                            <dd class="govuk-summary-list__value"></dd>
+                          {% endif %}
+                          {# </dd> #}
+                          <dd class="govuk-summary-list__actions">
+                            {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
+                              <a class="govuk-link" href="/rfp/upload-additional">
                                 Change<span class="govuk-visually-hidden">
                                   procurement lead</span>
                               </a>

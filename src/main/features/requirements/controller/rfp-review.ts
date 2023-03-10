@@ -2545,6 +2545,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
+    let fileNameStorageAdditional = [];
     FETCH_FILEDATA?.map(file => {
       if (file.description === "mandatoryfirst") {
         fileNameStoragePrice.push(file.fileName);
@@ -2554,7 +2555,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
       }
 
       if (file.description === "optional") {
-        fileNameStorageMandatory.push(file.fileName);
+        fileNameStorageAdditional.push(file.fileName);
       }
       
     });
@@ -3136,7 +3137,7 @@ const IR35selected='';
       //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       document: fileNameStoragePrice,
       documents: fileNameStorageMandatory,
-
+      additionalDocuments:fileNameStorageAdditional,
       ir35: IR35selected,
       agreement_id,
       proc_id,

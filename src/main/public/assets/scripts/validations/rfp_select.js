@@ -270,9 +270,11 @@ $('#rfp_singleselect').on('submit', event => {
           ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
       }else{
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
     if (ccs_vetting_type) {
@@ -281,9 +283,11 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
       }else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
     }
@@ -292,5 +296,5 @@ $('#rfp_singleselect').on('submit', event => {
 });
 
 $('#rfp_security_confirmation').on('input', function() {
-  $(this).val($(this).val().replace(/[^a-z0-9,]/gi, ''));
+  $(this).val($(this).val().replace(/[^a-z0-9,\s]/gi, ''));
 });

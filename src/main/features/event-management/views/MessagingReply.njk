@@ -212,6 +212,11 @@
               }}
            
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+              {% if agreementId == 'RM1557.13' %}
+                    {% set ttiletext = data.GCMessage %}
+                {% else %}
+                  {% set ttiletext = data.Message %}
+                {% endif %}
                
                {{ CCSCharacterCount({           
                 id: "reply_message_input",
@@ -220,7 +225,7 @@
                maxlength: 5000,
                 classes: "govuk-textarea govuk-js-character-count messagesendcount",
                 label: {
-                  text: data.Message,
+                  text: ttiletext,
                   classes: "govuk-label"
                 }
                 })

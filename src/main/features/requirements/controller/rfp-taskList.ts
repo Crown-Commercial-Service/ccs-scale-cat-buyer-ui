@@ -86,7 +86,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   }else{
     selectedeventtype= req.session.selectedeventtype;
   }
-  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,projectId,eventId,stage2_value };
+  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,lotid,projectId,eventId,stage2_value };
 
   try {
 

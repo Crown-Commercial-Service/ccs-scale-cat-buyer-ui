@@ -115,7 +115,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-    
+
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
     
@@ -130,6 +130,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let rfp_clarification_endDate;
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
+    
     if(req.session.UIDate==null){
      ////////////////////////////////    1
       let rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
@@ -404,38 +405,38 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
         }
 
-        
+
         let rfp_clarification_period_endGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         rfp_clarification_period_end = rfp_clarification_period_endGet!=undefined?new Date(rfp_clarification_period_endGet):rfp_clarification_period_end;
-
+       
         let deadline_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 3").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         deadline_period_for_clarification_period = deadline_period_for_clarification_periodGet!=undefined?new Date(deadline_period_for_clarification_periodGet):deadline_period_for_clarification_period;
-
-
+       
+        
         let supplier_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 4").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         supplier_period_for_clarification_period = supplier_period_for_clarification_periodGet!=undefined?new Date(supplier_period_for_clarification_periodGet):supplier_period_for_clarification_period;
-
-
+       
+        
         let supplier_dealine_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         supplier_dealine_for_clarification_period = supplier_dealine_for_clarification_periodGet!=undefined?new Date(supplier_dealine_for_clarification_periodGet):supplier_dealine_for_clarification_period;
-
+       
         let deadline_for_submission_of_stage_oneGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 6").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         deadline_for_submission_of_stage_one = deadline_for_submission_of_stage_oneGet!=undefined?new Date(deadline_for_submission_of_stage_oneGet):deadline_for_submission_of_stage_one;
-
-
+       
+       
         let evaluation_process_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 7").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         evaluation_process_start_date = evaluation_process_start_dateGet!=undefined?new Date(evaluation_process_start_dateGet):evaluation_process_start_date;
-
+       
         let bidder_presentations_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
-
+       
         bidder_presentations_date = bidder_presentations_dateGet!=undefined?new Date(bidder_presentations_dateGet):bidder_presentations_date;
-
+       
         let standstill_period_starts_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 9").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         standstill_period_starts_date = standstill_period_starts_dateGet!=undefined?new Date(standstill_period_starts_dateGet):standstill_period_starts_date;
-
+       
         let proposed_award_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 10").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         proposed_award_date = proposed_award_dateGet!=undefined?new Date(proposed_award_dateGet):proposed_award_date;
-
+    
         let expected_signature_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 11").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
       // console.log("asss",new Date(expected_signature_dateGet));
 
@@ -443,11 +444,55 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       //  expected_signature_date=new Date(expected_signature_dateNew);
 
         let contract_signed_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 12").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
-
+      
         contract_signed_date = contract_signed_dateGet!=undefined?new Date(contract_signed_dateGet):contract_signed_date;
-
+        
         let supplier_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 13").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         supplier_start_date = supplier_start_dateGet!=undefined?new Date(supplier_start_dateGet):supplier_start_date;
+        
+      //   let rfp_clarification_period_endGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   rfp_clarification_period_end = rfp_clarification_period_endGet!=undefined?new Date(rfp_clarification_period_endGet):rfp_clarification_period_end;
+
+      //   let deadline_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 3").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   deadline_period_for_clarification_period = deadline_period_for_clarification_periodGet!=undefined?new Date(deadline_period_for_clarification_periodGet):deadline_period_for_clarification_period;
+
+
+      //   let supplier_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 4").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   supplier_period_for_clarification_period = supplier_period_for_clarification_periodGet!=undefined?new Date(supplier_period_for_clarification_periodGet):supplier_period_for_clarification_period;
+
+
+      //   let supplier_dealine_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   supplier_dealine_for_clarification_period = supplier_dealine_for_clarification_periodGet!=undefined?new Date(supplier_dealine_for_clarification_periodGet):supplier_dealine_for_clarification_period;
+
+      //   let deadline_for_submission_of_stage_oneGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 6").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   deadline_for_submission_of_stage_one = deadline_for_submission_of_stage_oneGet!=undefined?new Date(deadline_for_submission_of_stage_oneGet):deadline_for_submission_of_stage_one;
+
+
+      //   let evaluation_process_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 7").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   evaluation_process_start_date = evaluation_process_start_dateGet!=undefined?new Date(evaluation_process_start_dateGet):evaluation_process_start_date;
+
+      //   let bidder_presentations_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 8").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+
+      //   bidder_presentations_date = bidder_presentations_dateGet!=undefined?new Date(bidder_presentations_dateGet):bidder_presentations_date;
+
+      //   let standstill_period_starts_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 9").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   standstill_period_starts_date = standstill_period_starts_dateGet!=undefined?new Date(standstill_period_starts_dateGet):standstill_period_starts_date;
+
+      //   let proposed_award_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 10").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   proposed_award_date = proposed_award_dateGet!=undefined?new Date(proposed_award_dateGet):proposed_award_date;
+
+      //   let expected_signature_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 11").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      // // console.log("asss",new Date(expected_signature_dateGet));
+
+      //   expected_signature_date = expected_signature_dateGet!=undefined?new Date(expected_signature_dateGet):expected_signature_date;
+      // //  expected_signature_date=new Date(expected_signature_dateNew);
+
+      //   let contract_signed_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 12").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+
+      //   contract_signed_date = contract_signed_dateGet!=undefined?new Date(contract_signed_dateGet):contract_signed_date;
+
+      //   let supplier_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 13").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+      //   supplier_start_date = supplier_start_dateGet!=undefined?new Date(supplier_start_dateGet):supplier_start_date;
 
 
       const agreementName = req.session.agreementName;
@@ -474,6 +519,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }    
       let appendData = {
         data: forceChangeDataJson,
+        lotId:lotid,
         stage2_value,
         prompt: prompt,
         framework: fetchQuestionsData,
@@ -523,10 +569,31 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           req.session.timeline.publish = rfp_clarification_date;
         }else{
           req.session.timeline.publish = publishDateNew;
-
-          //req.session.timeline.publish = new Date();
+         // req.session.timeline.publish = new Date();
         }
+
         
+
+        // let newClarificationPeriodEnd = moment(rfp_clarification_period_end, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newPublishResponsesClarificationQuestions = moment(deadline_period_for_clarification_period, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newSupplierSubmitResponse = moment(supplier_period_for_clarification_period, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newConfirmNextStepsSuppliers = moment(supplier_dealine_for_clarification_period, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // //
+        
+        // let newDeadlineForSubmissionOfStageOne = (agreementId_session == 'RM1043.8') ? moment(deadline_for_submission_of_stage_one, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(deadline_for_submission_of_stage_one, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newEvaluationProcessStartDate = (agreementId_session == 'RM1043.8') ? moment(evaluation_process_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(evaluation_process_start_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newBidderPresentationsDate = (agreementId_session == 'RM1043.8') ? moment(bidder_presentations_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(bidder_presentations_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newStandstillPeriodStartsDate = (agreementId_session == 'RM1043.8') ? moment(standstill_period_starts_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(standstill_period_starts_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newProposedAwardDate = (agreementId_session == 'RM1043.8') ? moment(proposed_award_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(proposed_award_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // let newExpectedSignatureDate = (agreementId_session == 'RM1043.8') ? moment(expected_signature_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(expected_signature_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        // //DOS
+        // let newContractsigneddate = contract_signed_date != undefined && contract_signed_date != null ? moment(contract_signed_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : null;
+        // let newSupplierstartdate = supplier_start_date != undefined && supplier_start_date != null ? moment(supplier_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : null;
+        
+        //LOOP STARTTTTTTTTT
+       
+
+     
         req.session.timeline.clarificationPeriodEnd = moment(rfp_clarification_period_end, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
         req.session.timeline.publishResponsesClarificationQuestions = moment(deadline_period_for_clarification_period, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
         req.session.timeline.supplierSubmitResponse = moment(supplier_period_for_clarification_period, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
@@ -538,6 +605,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         req.session.timeline.bidderPresentationsDate = (agreementId_session == 'RM1043.8') ? moment(bidder_presentations_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(bidder_presentations_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
         req.session.timeline.standstillPeriodStartsDate = (agreementId_session == 'RM1043.8') ? moment(standstill_period_starts_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(standstill_period_starts_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
         req.session.timeline.proposedAwardDate = (agreementId_session == 'RM1043.8') ? moment(proposed_award_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(proposed_award_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
+        
         req.session.timeline.expectedSignatureDate = (agreementId_session == 'RM1043.8') ? moment(expected_signature_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : moment(expected_signature_date, 'DD/MM/YYYY, HH:mm').format('DD MMMM YYYY, HH:mm');
         //DOS
         req.session.timeline.contractsigneddate = contract_signed_date != undefined && contract_signed_date != null ? moment(contract_signed_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : null;
@@ -545,15 +613,15 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
      }
 
+    
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-     
+  
       res.render('rfp-responsedate.njk', appendData);
     }
     else if(req.session.questionID=='Question 2'){ 
       rfp_clarification_date =req.session.rfppublishdate;
-
-      //   rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+       //  rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
         // let rfp_clarification_period_end =req.session.UIDate;
 
         // let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -632,6 +700,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       let appendData = {
         data: forceChangeDataJson,
+        lotid:lotid,
         prompt: prompt,
         framework: fetchQuestionsData,
         rfp_clarification_date,
@@ -665,7 +734,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     
     let deadline_period_for_clarification_period = req.session.UIDate;
     rfp_clarification_date =req.session.rfppublishdate;  
-    //rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+    // rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
       // rfp_clarification_period_end =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         
       //   //let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -743,6 +812,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -776,8 +846,8 @@ res.render('rfp-responsedate.njk', appendData);
     else if(req.session.questionID=='Question 4'){
 
     let supplier_period_for_clarification_period=req.session.UIDate;
-    rfp_clarification_date =req.session.rfppublishdate; 
-    //rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+    rfp_clarification_date =req.session.rfppublishdate;
+   //  rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
     // rfp_clarification_period_end =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
       
     //   let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -855,6 +925,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -889,8 +960,8 @@ res.render('rfp-responsedate.njk', appendData);
           }
     else if(req.session.questionID=='Question 5'){
       let supplier_dealine_for_clarification_period=req.session.UIDate;
-      rfp_clarification_date =req.session.rfppublishdate; 
-      //rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+      // rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+      rfp_clarification_date =req.session.rfppublishdate;
       // rfp_clarification_period_end =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         
       //   let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -966,6 +1037,7 @@ let forceChangeDataJson;
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
   prompt: prompt,
   framework: fetchQuestionsData,
   rfp_clarification_date,
@@ -1076,6 +1148,7 @@ res.render('rfp-responsedate.njk', appendData);
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1100,7 +1173,7 @@ let appendData = {
      } else {
       
        req.session.timeline.deadlineForSubmissionOfStageOne = deadline_for_submission_of_stage_one;
-      
+       
      }
      
      //CAS-INFO-LOG
@@ -1188,6 +1261,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1212,7 +1286,7 @@ let appendData = {
      } else {
        
        req.session.timeline.evaluationProcessStartDate = evaluation_process_start_date;
-     
+       
      }
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
@@ -1221,8 +1295,8 @@ let appendData = {
     else if(req.session.questionID=='Question 8'){
      
       let bidder_presentations_date=req.session.UIDate;
-      rfp_clarification_date =req.session.rfppublishdate; 
-      //rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
+      rfp_clarification_date =req.session.rfppublishdate;
+      // rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
       // rfp_clarification_period_end =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         
       //   let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -1298,6 +1372,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1409,6 +1484,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1433,7 +1509,7 @@ let appendData = {
      } else {
       
        req.session.timeline.standstillPeriodStartsDate = standstill_period_starts_date;
-      
+       
      }
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
@@ -1521,6 +1597,7 @@ let appendData = {
     }
 let appendData = {
   data: forceChangeDataJson,
+  lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1639,6 +1716,7 @@ let appendData = {
     }
 let appendData = {
      data: forceChangeDataJson,
+     lotid:lotid,
       prompt: prompt,
       framework: fetchQuestionsData,
       rfp_clarification_date,
@@ -1675,6 +1753,7 @@ let appendData = {
 
     else if(req.session.questionID=='Question 12'){
     
+      
       let contract_signed_date=req.session.UIDate;
       rfp_clarification_date =req.session.rfppublishdate;
        // rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
@@ -1757,6 +1836,7 @@ let appendData = {
      }
  let appendData = {
       data: forceChangeDataJson,
+      lotid:lotid,
        prompt: prompt,
        framework: fetchQuestionsData,
        rfp_clarification_date,
@@ -1780,7 +1860,7 @@ let appendData = {
      } else {
        req.session.timeline.contractsigneddate = contract_signed_date;
      }
- 
+     
       //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
      res.render('rfp-responsedate.njk', appendData);
@@ -1872,6 +1952,7 @@ let appendData = {
      }
  let appendData = {
       data: forceChangeDataJson,
+      lotid:lotid,
        prompt: prompt,
        framework: fetchQuestionsData,
        rfp_clarification_date,

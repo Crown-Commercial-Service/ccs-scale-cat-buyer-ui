@@ -9,6 +9,12 @@
 {% set title = 'Add your supplier evaluation' %}
 {% endif %} 
 
+{% if agreementId_session == 'RM1043.8' %} 
+{% set breadCrumbText = 'Enter the supplier’s final score' %}
+{% else %}
+{% set breadCrumbText = 'Enter your supplier Evaluation' %}
+{% endif %} 
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -25,7 +31,7 @@
             "href": "/evaluate-suppliers"
         },
         {
-            "text": "Enter your supplier Evaluation",
+            "text": breadCrumbText,
             "href": "#"
         }
   ]
@@ -211,7 +217,7 @@
     </div>    
 
     <div class="govuk-grid-column-one-third">
-      {{ CCSReleatedContent(releatedContent) }}
+      {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
     </div>
     </div>
   </main>
