@@ -19,7 +19,7 @@ before_install:
   - rm terraform_"$TF_VERSION"_linux_amd64.zip
 
 deploy:
-  # SBX - modify CF_ENVIRONMENT as required
+  # SBX1 - modify CF_ENVIRONMENT as required
   - provider: script
     skip_cleanup: true
     script: CF_ENVIRONMENT=sbx1 bash ./deploy.sh
@@ -27,7 +27,7 @@ deploy:
       all_branches: true
       condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/(SCC|SCAT)-[0-9]+.*$"
   
-  # SBX - modify CF_ENVIRONMENT as required
+  # SBX2 - modify CF_ENVIRONMENT as required
   - provider: script
     skip_cleanup: true
     script: CF_ENVIRONMENT=sbx2 bash ./deploy.sh
