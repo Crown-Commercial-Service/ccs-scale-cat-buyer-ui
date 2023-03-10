@@ -4,7 +4,7 @@ dist: xenial
 
 branches:
   only:
-    - "/^(feature|bugfix)\\/(SCC|SCAT)-[0-9]+.*$/"
+    - "/^(feature|bugfix)\\/(CAS|SCC|SCAT)-[0-9]+.*$/"
     - "/^(release)\\/.*$/"
     - develop
     - main
@@ -26,6 +26,14 @@ deploy:
     on:
       all_branches: true
       condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/(SCC|SCAT)-[0-9]+.*$"
+  
+  # SBX - modify CF_ENVIRONMENT as required
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=sbx2 bash ./deploy.sh
+    on:
+      all_branches: true
+      condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/(CAS)-[0-9]+.*$"
 
   # DEVELOP
   - provider: script
