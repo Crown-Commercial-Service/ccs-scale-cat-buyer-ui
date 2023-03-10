@@ -87,18 +87,12 @@
                               You may wish to download the <a href="/evaluate-suppliers?download=1" class="govuk-link govuk-link--no-visited-state">Award Recommendation Report,</a> which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.</p>
                         {% else %}
                           {% if agreementId_session == 'RM1043.8' %}
-                                {% if(lotid == '3') %}
-                                  <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
-                                  <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
-                                  <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
-                                {% else %}
-                                  <p>Download the supplier responses to start evaluation.</p>
-                                  <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. It is good practice for up to 3 evaluators to individually score each supplier’s quality response. You will also need to evaluate price.</p>
-                                  <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
-                                  <p>You may wish to download the Award Recommendation Report, which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award. </p>
-                                {% endif %}
+                                <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
+                                <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
+                                <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. 
+                                  You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
                            {% else %}
-                           <p>You are required to evaluate the responses from all suppliers.</p>
+                                <p>You are required to evaluate the responses from all suppliers.</p>
                            {% endif %}
                         {% endif %}
                     {%endif%}
@@ -117,10 +111,12 @@
     
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
-          {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1043.8') %}
+          {% if (agreementId_session == 'RM6187') %}
            
            {% else %}
-           <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
+            {% if (agreementId_session == 'RM1043.8') %}
+                <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
+            {% endif %}
         {% endif %}
           
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
