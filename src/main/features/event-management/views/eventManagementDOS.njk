@@ -337,18 +337,14 @@
                           {% if status.toUpperCase() !== 'TO-BE-EVALUATED' %}
                           <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                             <div class="govuk-grid-column-full">
-                              <table class="govuk-table" id="active-data">
+                              <table class="govuk-table">
                                 <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
                                 <thead class="govuk-table__head">
                                   <tr class="govuk-table__row">
                                     <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
                                     {% if status.toUpperCase() ==='TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATING' %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
-                                      <th scope="col" class="govuk-table__header">
-                                        {% if (showallDownload) %}
-                                            <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all responses</a>
-                                        {% endif %}
-                                      </th>
+                                      <th scope="col" class="govuk-table__header">Supplier answer</th>
                                     {% endif %}
                                     {% if status.toUpperCase() === 'EVALUATED' %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2_dos}}</th>
@@ -387,9 +383,9 @@
                                           </td>
                                           <td class="govuk-text-align govuk-!-text-align-left">
                                             {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
-                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download response</a>
+                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
                                             {%else%}
-                                            <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download response</a>
+                                            <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
                                             {%endif%}
 
                                           </td>
@@ -448,9 +444,9 @@
 
                                                 {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
                                                   {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
-                                                     <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all responses</a>
+                                                     <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                                                     {% else%}
-                                                  <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all responses</a>
+                                                  <a href="#" data-url="/eventmanagement?download=1" class="govuk-link download">Download all</a>
                                                   {% endif %}
                                                 {% endif %}
 
