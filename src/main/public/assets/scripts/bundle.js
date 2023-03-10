@@ -20780,7 +20780,7 @@ const ccsZvalidateRfpLocation = (event) => {
 console.log("group_id",group_id);
 
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
-          errMsg = "Select the locations where staff will work";
+          errMsg = "Select at least one location";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
           errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
