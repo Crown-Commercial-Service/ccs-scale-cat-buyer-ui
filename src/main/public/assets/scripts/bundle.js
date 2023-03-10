@@ -18552,7 +18552,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
       }else{
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
     if (ccs_vetting_type) {
@@ -18565,7 +18565,7 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
       }else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
     }
