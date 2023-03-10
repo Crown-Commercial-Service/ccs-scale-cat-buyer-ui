@@ -22984,7 +22984,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
 
   let countOfpublishBtn = 0;
   $('.oneTimeClick').click(function(e) {
-    console.log("1212")
     $(this).attr("disabled", true);
     if(countOfpublishBtn == 0) {
       $(this).parents('form').submit();
