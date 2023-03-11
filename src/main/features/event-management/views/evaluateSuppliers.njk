@@ -16,7 +16,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Evaluate Suppliers",
+      "text": "Evaluate suppliers",
       "href": "#"
     }
   ]
@@ -61,7 +61,7 @@
                      </p>
             </div>
 
-              <div class="ccs-page-section">
+              <div>
                 {% if agreementId_session != 'RM1043.8' %}
                   {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                     <p>{{data.subtitle_mcf1}}</p>
@@ -86,14 +86,14 @@
                           <p class="govuk-!-padding-bottom-9">
                               You may wish to download the <a href="/evaluate-suppliers?download=1" class="govuk-link govuk-link--no-visited-state">Award Recommendation Report,</a> which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.</p>
                         {% else %}
-                          {% if agreementId_session == 'RM1043.8' %}
-                                <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
-                                <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
-                                <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. 
-                                  You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
-                           {% else %}
-                                <p>You are required to evaluate the responses from all suppliers.</p>
-                           {% endif %}
+                         
+                          {% if(ConfirmFlag) and agreementId_session == 'RM1043.8' %}
+                          <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
+                          <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
+                          <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
+                          {% else %}
+                           <p>You are required to evaluate the responses from all suppliers.</p>
+                          {% endif %}
                         {% endif %}
                     {%endif%}
               <div>  
@@ -134,7 +134,13 @@
                 {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header">
+                      {% if (agreementId_session == 'RM1043.8') %}
+                        Supplier’s answer</th>
+                      {% else %}  
+                        {{data.subsection4_table_th_3}}
+                      {% endif %}
+                    </th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
                 {% endif %}
@@ -199,16 +205,27 @@
       </div>
   
 <br />
-<div class="govuk-button-group">
-  {#{{ CCSButton({
-  text: "Confirm Scores",
-  idPrefix:"evaluate_suppliers"
-  }) }}#}
-  {% if(ConfirmFlag) %}
-    <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">Confirm Scores</button>
+ <div class="govuk-button-group">
+        {#{{ CCSButton({
+        text: "Confirm Scores",
+        idPrefix:"evaluate_suppliers"
+        }) }}#}
+        {% if(ConfirmFlag) %}
+        <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">
+  Confirm Scores
+</button>
+{% endif %}
+  
+{% if (agreementId_session == 'RM1043.8') %}
+  {% if (ConfirmFlag) %}
+      <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
+    {% else %}
+        
   {% endif %}
-  <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
-</div>
+{% else %}
+    <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
+{% endif %}
+ </div>
  
 {# Popup Start #}
 {# Title Condition #}
@@ -226,7 +243,11 @@
   {% set popDescription = "Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation." %}
 {%else%}
   {% if stage2_value == 'Stage 2'%}
-    {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}"
+    {% if(agreement_header['lotid'] == '3') %}
+      {% set popDescription = "Click Continue, or click Return to further edit your scores. " %}
+    {%else%}
+      {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}
+    {%endif%}
   {%else%}
     {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores." %}
   {%endif%}

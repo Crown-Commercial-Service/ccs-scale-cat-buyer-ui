@@ -226,7 +226,7 @@
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% else %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">Number of suppliers who intend to respond</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
@@ -329,7 +329,6 @@
                       {% endfor %}
                       {% if (showallDownload) %}
                       <tr class="govuk-table__row">
-                        <td class="govuk-text-align govuk-!-text-align-left"></td>
                         <td class="govuk-text-align govuk-!-text-align-left"></td>
                         <td class="govuk-text-align govuk-!-text-align-left"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
@@ -541,7 +540,11 @@
 {% else %}
 <form id="ccs_pre_award_supplier_form" name="ccs_pre_award_supplier_form" class="form ccs_pre_award_supplier_form"
       action="/confirm-supplier-award" method="post">
+
   {%endif%}
+
+  <input id="agreementId" type="hidden" value={{agreement_header['agreementId_session']}}>
+      <input id="lotId" type="hidden" value={{agreement_header['lotid']}}>
 
   {{ csrfProtection(csrf) }}
 

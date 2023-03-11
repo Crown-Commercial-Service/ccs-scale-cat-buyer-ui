@@ -354,6 +354,8 @@ messagesendcountEle.forEach(ele => {
 const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     

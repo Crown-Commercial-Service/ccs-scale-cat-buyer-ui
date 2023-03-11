@@ -343,7 +343,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   {%else%}
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
-                    {% if agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
+                    {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
                       <p class="govuk-body">{{organizationName}}<p>
                     {%else%}
                       <p class="govuk-body">You have not answered this question<p>
@@ -602,6 +602,7 @@ action="/rfi/review" method="post">
                                     attributes: {
                                     id: "rfi_btn_publish_now"
                                     },
+                                    classes: "oneTimeClick",
                                     text: "Publish and continue"
                                     }) }}
                                     {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
