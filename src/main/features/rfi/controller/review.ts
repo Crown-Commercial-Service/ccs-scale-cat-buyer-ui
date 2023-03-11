@@ -54,18 +54,36 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
 
   if (review_publish == '1') {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-       
-      //CAS-INFO-LOG 
-       LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
-       
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
       }
 
+
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       
+        setTimeout(function(){
+          res.redirect('/rfi/event-sent');
+          }, 5000);
+      //CAS-INFO-LOG 
+      // LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
+         
+       }
+       else{
+      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       
+      //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
+       
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
+      // }
+
       
         res.redirect('/rfi/event-sent');
+    }
       
 
     } catch (error) {
