@@ -16669,10 +16669,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgContent = 'Enter a cultural fit question';
                                 msgWeightageContent = 'Enter a weighting for this cultural fit question';
                             }else if(urlParams.get('agreement_id') == 'RM6187' || urlParams.get('agreement_id') == 'RM1557.13'){
-                                 msgContent = 'You must enter valid question';
-                                 msgWeightageContent = 'The total weighting exceeded more than 100%';
-    
-                            }
+                                msgContent = 'You must enter valid question';
+                                msgWeightageContent = 'The total weighting exceeded more than 100%';
+
+                           }
                             
                             
                             const msg = rootEl.querySelector('.order_1').value ?
