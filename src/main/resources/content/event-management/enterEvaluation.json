@@ -9,7 +9,7 @@
             "href": "/dashboard"
         },
         {
-            "text": "Evaluate Suppliers",
+            "text": "Evaluate suppliers",
             "href": "#"
         },
         {
@@ -22,11 +22,11 @@
     "subtitle1":"You should now have evaluated all supplier answers and reviewed this with other evaluators.",
     "Downloadresponse": [
         {
-            "text": "Download response",
+            "text": "Download",
             "link": "#"
         }
     ],
     "backJump": {
-        "title": "Download all responses"
+        "title": "Download all"
       }
 }
