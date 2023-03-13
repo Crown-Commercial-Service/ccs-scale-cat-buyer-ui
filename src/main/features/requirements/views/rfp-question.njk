@@ -287,6 +287,15 @@ text: bcTitleText
                             </div>
                         {% endif %}
                     {% elseif (agreement_id != "RM6187") and (agreement_id != "RM1557.13") %}
+                        {% if (agreement_id == 'RM1043.8') and (lotId == '1') and (criterian_id == 'Criterion 3')  and (group_id == 'Group 19')%}
+                         <div class="ccs-page-section">
+                            {{ CCSButton({ 
+                            text: "Add another special term or condition",
+                            type:"button",
+                            classes:"add-another-btn question_count govuk-button--secondary"
+                            })}}
+                        </div> 
+                       {% else %}
                        <div class="ccs-page-section">
                             {{ CCSButton({ 
                             text: "Add another question",
@@ -294,6 +303,7 @@ text: bcTitleText
                             classes:"add-another-btn question_count govuk-button--secondary"
                             })}}
                         </div>
+                        {% endif %}
                     {% else %}
                         <div class="ccs-page-section">
                             {{ CCSButton({

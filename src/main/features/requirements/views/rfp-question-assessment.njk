@@ -246,12 +246,12 @@
                       {% else%}
                        {% if(agreement_id == 'RM1043.8' and group_id == 'Group 5' and (lotId == '1' or lotId == '3')) %}
                        
-                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
                        {% elseif(agreement_id == 'RM1043.8' and group_id == 'Group 6' and (lotId == '1' or lotId == '3')) %}
                        
-                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
                        {% else%}
-                         {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                         {{numberWord[i]}} {{shortTitle | replace("questions", "question")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
                       {%endif%}
                       {%endif%}
                       
