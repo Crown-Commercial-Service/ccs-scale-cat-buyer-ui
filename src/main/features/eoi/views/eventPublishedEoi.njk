@@ -26,14 +26,15 @@
   </div>
     <br>
   <div class="govuk-panel govuk-panel--confirmation">
-        <h2 class="govuk-panel__title">
+        <h2 class="govuk-panel__body">
           {{data.board.header}}
         </h2>
         <br><br><br>
         <div class="govuk-panel__body">
-          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">Please quote this number, along with your project ID ({{ projPersistID }}),  if you need to contact CCS for support. You can contact CCS by phone on {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">Please quote this number, along with your project ID ({{ projPersistID }}),  if you’re contacting CCS for support.  <br>{{data.board.phoneno}}  <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
         </div>
       </div>
+      
     <br>
 
    <div class="govuk-grid-row">
