@@ -177,7 +177,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       stage2_value = 'Stage 2';
     }
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
         
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);

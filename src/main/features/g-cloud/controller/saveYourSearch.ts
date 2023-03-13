@@ -135,9 +135,9 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           const savedDetails = await assessments?.filter((item:any) => item.assessmentName !== undefined && item['external-tool-id'] === '14' && item.assessmentName.toLowerCase() == search_name.toLowerCase());
           // unique search name
           if(savedDetails.length===0){
-            const results=await getSearchResults(sessionsearchUrl,hostURL);
-            const allServicesList = Array.prototype.concat(...results);
-            if(allServicesList.length <= 0){
+          const results=await getSearchResults(sessionsearchUrl,hostURL);
+            let allServicesList = Array.prototype.concat(...results);
+             if(allServicesList.length <= 0){
               req.session['isJaggaerError'] = 'Search results not found';
             res.redirect('/g-cloud/search');
             }
@@ -158,6 +158,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             if (response.status == 200) {
               req.session.savedassessmentID=response.data;
               req.session.searchUrl=false;
+              req.session.criteriaData=false;
               if(saveandcontinue !==undefined){
                 res.redirect('/g-cloud/export-results');
               }

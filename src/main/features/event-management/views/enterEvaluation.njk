@@ -3,106 +3,114 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% if agreementId_session != 'RM6187' %} 
-{% set title = 'Enter the supplier’s final score' %}
+{% if agreementId_session != 'RM6187' %}
+  {% set title = 'Enter the supplier’s final score' %}
 {% else %}
-{% set title = 'Add your supplier evaluation' %}
-{% endif %} 
+  {% set title = 'Add your supplier evaluation' %}
+{% endif %}
+
+{% if agreementId_session == 'RM1043.8' %}
+  {% set breadCrumbText = 'Enter the supplier’s final score' %}
+{% else %}
+  {% set breadCrumbText = 'Enter your supplier Evaluation' %}
+{% endif %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
-    {
-      "text": "Dashboard",
-      "href": "/dashboard"
-    },
+        {
+          "text": "Dashboard",
+          "href": "/dashboard"
+        },
         {
             "text": "Your Project",
             "href": "/dashboard"
         },
         {
-            "text": "Evaluate Suppliers",
+            "text": "Evaluate suppliers",
             "href": "/evaluate-suppliers"
         },
         {
-            "text": "Enter your supplier Evaluation",
+            "text": breadCrumbText,
             "href": "#"
         }
-  ]
+      ]
     }) }}
 {% endblock %}
 
-
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
-{% if(error) %}
-
-{{ CCSErrorSummary({
-  titleText: "There is a problem",
-  errorList: [
-    {
-      text: "You must fill all the fields."
-    }
-  ]
-}) }}
-{%endif %}
-
+    {% if(error) %}
+      {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+              {
+                text: "You must fill all the fields."
+              }
+            ]
+      }) }}
+    {% endif %}
     {{ CCSDialog({
-  title:'This action cannot be undone, please confirm that you want to progress',
-  description:'This action will revert the form to its original state.',
-  redirect:'#',
-  type:'vetting'
-}) }}
-
+          title:'This action cannot be undone, please confirm that you want to progress',
+          description:'This action will revert the form to its original state.',
+          redirect:'#',
+          type:'vetting'
+      }) }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
           {% if agreementId_session == 'RM6187' %}
-          <strong>Enter the supplier’s final score</strong>
-          {% else %}  
-          <strong>{{title}}</strong>
+            <strong>Enter the supplier’s final score</strong>
+          {% else %}
+            <strong>{{ title }}</strong>
           {% endif %}
         </h1>
       </div>
     </div>
     <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      {% include "includes/project_header.njk" %}
-      <div>  
-        {% if agreementId_session != 'RM1043.8' %}  
+      <div class="govuk-grid-column-two-thirds">
+        {% include "includes/project_header.njk" %}
+        <div>
+          {% if agreementId_session != 'RM1043.8' %}
             {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
-              <p class="govuk-body">Enter your final score for this supplier. This is the quality and price score added together.</p>        
-              
-            {% else %}     
+              <p class="govuk-body">Enter your final score for this supplier. This is the quality and price score added together.</p>
+            {% else %}
               <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
-              <p class="govuk-body">You should have evaluated all supplier answers and reviewed this with other evaluators before entering your final score. </p>  
-            {% endif %} 
-        {%else%}
-        {% if stage2_value == 'Stage 2' %}
-          <p class="govuk-body">Enter your final evalution score for this supplier.</p>
-        {%else%}
-          <p class="govuk-body">Enter your shortlisting score for this supplier.</p>
-          {% endif %}
-          {% if stage2_value == 'Stage 2' %}
-            <p class="govuk-body">The final score incorporates all the individual and category weightings.</p>  
-            <p class="govuk-body">You add the shortlisting and further assessment scores together to give the final score.</p>  
+              <p class="govuk-body">You should have evaluated all supplier answers and reviewed this with other evaluators before
+                entering your final score.
+              </p>
+            {% endif %}
           {% else %}
-            <p class="govuk-body">You should enter the total score for each supplier, not the weighted score.</p>  
-            <p class="govuk-body">Weightings are only used in the calculation of the final score for each supplier at the end of stage 2: further assessment.</p>
-          {% endif %}
-        {%endif%}
-        <br>
-      </div>
-
-      <form id="enter_evaluation" name="enter_evaluation" class="form enter_evaluation" action="/enter-evaluation?supplierid={{supplierid}}&suppliername={{suppliername}}" method="POST">
-      {{ csrfProtection(csrf) }}
-        <div class="ccs-page-section">
-       
-
-            <p class="govuk-body"><h2><strong>Supplier name :</strong>{{suppliername}}</h2></p>
             {% if stage2_value == 'Stage 2' %}
-                      {{ CCSInput({
+              <p class="govuk-body">Enter your final evalution score for this supplier.</p>
+            {% else %}
+              <p class="govuk-body">Enter your shortlisting score for this supplier.</p>
+            {% endif %}
+            {% if stage2_value == 'Stage 2' %}
+              <p class="govuk-body">The final score incorporates all the individual and category weightings.</p>
+              <p class="govuk-body">You add the shortlisting and further assessment scores together to give the final score.</p>
+            {% else %}
+              <p class="govuk-body">You should enter the total score for each supplier, not the weighted score.</p>
+              <p class="govuk-body">Weightings are only used in the calculation of the final score for each supplier at the end of
+                stage 2: further assessment.</p>
+            {% endif %}
+          {% endif %}
+          <br></div>
+          <form
+            id="enter_evaluation"
+            name="enter_evaluation"
+            class="form enter_evaluation"
+            action="/enter-evaluation?supplierid={{ supplierid }}&suppliername={{ suppliername }}"
+            method="POST">
+            {{ csrfProtection(csrf) }}
+            <div class="ccs-page-section">
+              <p class="govuk-body">
+                <h2>
+                  <strong>Supplier name :</strong>
+                  {{ suppliername }}</h2>
+              </p>
+              {% if stage2_value == 'Stage 2' %}
+                {{ CCSInput({
                             label: {
                               text: "Final Score ",
                               classes: "govuk-label--m",
@@ -120,12 +128,11 @@
                               step:"0.01",
                                value : marks
 
-                        })
-                      }}
-                {% else %}
-                      {{ CCSInput({
+                        }) }}
+              {% else %}
+                {{ CCSInput({
                             label: {
-                              text: "Final score ",
+                              text: "Score ",
                               classes: "govuk-label--m",
                               id: "enter_evaluation",
                               name: "enter_evaluation"
@@ -141,84 +148,81 @@
                               step:"0.01",
                                value : marks
 
-                        })
-                      }}
-          {% endif %}
-
-<br/>
-        {% if stage2_value == 'Stage 2' %}
-                        {# {{ CCSCharacterCount({
-                            label: {
-                              text: "Final Feedback ",
-                              classes: "govuk-label--m",
-                              name: "enter_evaluation"
-                            },
-                            hint: {
-                             text: "Feedback should be constructive and relevant to the answers provided by the supplier. Include constructive feedback as well as suggestions for improvement."
-                            },
-                            
-                            id: "enter_evaluation_feedback",
-                            name: "enter_evaluation_feedback",
-                            spellcheck: true,
-                            classes: "messagesendcount",
-                            maxlength: "5000",
-                             value: feedBack
-                        })
-                      }} #}
-        {% else %}
-                        {# {{ CCSCharacterCount({
-                            label: {
-                              text: "Final Feedback ",
-                              classes: "govuk-label--m",
-                              name: "enter_evaluation"
-                            },
-                            hint: {
-                             text: "Feedback should be constructive and relevant to the answers the supplier submitted. Try and include feedback about something positive, as well as areas of improvement."
-                            },
-                            
-                            id: "enter_evaluation_feedback",
-                            name: "enter_evaluation_feedback",
-                            spellcheck: true,
-                            classes: "messagesendcount",
-                            maxlength: "5000",
-                             value: feedBack
-                        })
-                      }} #}
-                      {% endif %}
-{# <p><label id="supplierFeedback"></label></p> #}
-
-                     <div class="govuk-button-group">
-                       {% if stage2_value == 'Stage 2' %}
-                        {{ CCSButton({
+                        }) }}
+              {% endif %}
+              <br/>
+              {% if stage2_value == 'Stage 2' %}
+                {# {{ CCSCharacterCount({
+                                                                                            label: {
+                                                                                              text: "Final Feedback ",
+                                                                                              classes: "govuk-label--m",
+                                                                                              name: "enter_evaluation"
+                                                                                            },
+                                                                                            hint: {
+                                                                                             text: "Feedback should be constructive and relevant to the answers provided by the supplier. Include constructive feedback as well as suggestions for improvement."
+                                                                                            },
+                                                                                            
+                                                                                            id: "enter_evaluation_feedback",
+                                                                                            name: "enter_evaluation_feedback",
+                                                                                            spellcheck: true,
+                                                                                            classes: "messagesendcount",
+                                                                                            maxlength: "5000",
+                                                                                             value: feedBack
+                                                                                        })
+                                                                                      }} #}
+                {% else %}
+                {# {{ CCSCharacterCount({
+                                                                                            label: {
+                                                                                              text: "Final Feedback ",
+                                                                                              classes: "govuk-label--m",
+                                                                                              name: "enter_evaluation"
+                                                                                            },
+                                                                                            hint: {
+                                                                                             text: "Feedback should be constructive and relevant to the answers the supplier submitted. Try and include feedback about something positive, as well as areas of improvement."
+                                                                                            },
+                                                                                            
+                                                                                            id: "enter_evaluation_feedback",
+                                                                                            name: "enter_evaluation_feedback",
+                                                                                            spellcheck: true,
+                                                                                            classes: "messagesendcount",
+                                                                                            maxlength: "5000",
+                                                                                             value: feedBack
+                                                                                        })
+                                                                                      }} #}
+              {% endif %}
+              {# <p><label id="supplierFeedback"></label></p> #}
+              <div class="govuk-button-group">
+                {% if stage2_value == 'Stage 2' %}
+                  {{ CCSButton({
                             text: "Save supplier score",
                             action:"submit",
                             classes: " individualScoreBtn"
                         }) }}
-                      {%else%}
-                        {{ CCSButton({
+                {% else %}
+                  {{ CCSButton({
                             text: "Save supplier score",
                             action:"submit",
                             classes: " individualScoreBtn"
                         }) }}
-                      {% endif %}
-                        {% set returnLink = "/evaluate-suppliers" %}
-                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
-                    </div>       
-
+                {% endif %}
+                {% set returnLink = "/evaluate-suppliers" %}
+                <a href="{{ returnLink }}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
+              </div>
+            </div>
+          </form>
         </div>
-
-      </form>
-    </div>    
-
-    <div class="govuk-grid-column-one-third">
-      {{ CCSReleatedContent(releatedContent) }}
-    </div>
+        <div class="govuk-grid-column-one-third">
+          {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
+        </div>
+      </div>
     </div>
   </main>
+{# Loader section #}
   <div class="loader-container">
-                                <div class="loader-division">
-                                  <img src="/assets/images/loader.gif" alt="Loading">
-                                  <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait...</h2>
-                                </div>
-                              </div>
-        {% endblock %}
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+        <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait...</h2>
+      </div>
+  </div>
+{# Loader section #}
+{% endblock %}

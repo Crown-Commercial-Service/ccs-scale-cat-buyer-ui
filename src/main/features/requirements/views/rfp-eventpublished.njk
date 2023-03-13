@@ -58,7 +58,14 @@
                 </div>
             {% else %}
                 <div class="govuk-panel__body">
-                    {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}}  <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+                    {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong>
+                    <p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} 
+                        {% if stage2_value != 'Stage 2' and agreement_id != 'RM1043.8' %}
+                          <br> {{data.board.phoneno}} or 
+                          <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}
+                          </a>
+                        {%endif%}
+                    </p>
                 </div>
             {% endif %}
       </div>

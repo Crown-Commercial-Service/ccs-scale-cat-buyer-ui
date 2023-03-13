@@ -355,6 +355,13 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
 
 
     if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {
+      if(agreement_id == 'RM1557.13'){
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+        if(flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
+        } 
+      }
       res.redirect('/rfp/upload-additional');
     }else{
       if(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){

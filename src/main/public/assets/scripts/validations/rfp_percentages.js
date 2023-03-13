@@ -54,6 +54,11 @@ const checkPercentagesCond = () => {
     errorStore = [];
     const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
+  
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   console.log(Number($("#totalPercentage").text()));
@@ -69,6 +74,7 @@ const checkPercentagesCond = () => {
       totalValue += Number(allTextBox[k].value);
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
         if (subTitle!= 'Social value'){ 
 
@@ -82,7 +88,12 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
           }
           else if(agrement_id == 'RM1043.8'){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for "+subTitle.toLowerCase()+" must be a whole number between " + range.split("-")[0] + " and " + range.split("-")[1], /\w+/, false);
+            if(lotId == 1){
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
+            else{
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
           }
           else{
                fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
@@ -91,7 +102,7 @@ const checkPercentagesCond = () => {
           
         }
         else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Weighting for social value must be a whole number between 10 and 20. To skip this question category, enter ‘0’.", false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
@@ -160,6 +171,10 @@ const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
   const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
   let errorStore =[];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
@@ -179,15 +194,15 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The total weighting must be 100%. Check your entries and make any necessary adjustments."]);
-    ccsZPresentErrorSummary(errorStore)
+     errorStore.push(["#", "The weightings must add up to 100% in total"]);
+     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting for quality') && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {

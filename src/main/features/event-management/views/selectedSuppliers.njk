@@ -17,7 +17,7 @@
            "href": "/event/management?id="+eventId
         },
         {
-            "text": "Invite selected suppliers to stage 2: Further Competition",
+            "text": "Invite selected suppliers to stage 2: Further assessment",
             "href": "#"
         }
   ]
@@ -95,7 +95,7 @@
                             name: "justification",
                             spellcheck: true,
                             classes: "messagesendcount",
-                            maxlength: "500"
+                            maxlength: "5000"
                         })
                       }}
                       
@@ -110,7 +110,7 @@
 </div>    
 
     <div class="govuk-grid-column-one-third">
-      {{ CCSReleatedContent(releatedContent) }}
+      {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
     </div>
     </div>
   </main>

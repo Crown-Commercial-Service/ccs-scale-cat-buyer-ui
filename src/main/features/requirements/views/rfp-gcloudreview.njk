@@ -59,10 +59,10 @@
     {% endif %}
     {% if (checkboxerror==1) %}
       {{ CCSErrorSummary({
-        titleText: "There has been an error publishing your FC",
+        titleText: "There is a problem with publishing FC",
         errorList: [
           {
-            text: "Confirmation checkbox must be checked before progressing",
+            text: "You must check the box to proceed",
             href: "#ccs_rfp_publish_form"
           }
         ]
@@ -155,7 +155,7 @@
                             <div class="govuk-summary-list__row">
                               <dt class="govuk-summary-list__value">
                                
-                                  <p>Change who will lead the project</p>
+                                  <p>Change who will lead your project</p>
                                 
                               </dt>
                               <dd class="govuk-summary-list__value">
@@ -487,7 +487,7 @@
                               </div>
                               <div class="govuk-summary-list__row">
                                 <dt class="govuk-summary-list__key">
-                                   <h3><strong>Describe any pre-market engagement done (Optional)
+                                   <h3><strong>Describe any pre-market engagement done (optional)
                                   </h3></strong>
                                 </dt>
                                 <dd class="govuk-summary-list__value">
@@ -584,7 +584,7 @@
                                       <dd class="govuk-summary-list__value"><p>&nbsp;</p></dd>
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                      <dt class="govuk-summary-list__value"><p>Name of service level or KPI</p></dt>
+                                      <dt class="govuk-summary-list__value"><p>Name of requirement</p></dt>
                                       <dd class="govuk-summary-list__value"><p>{{ data.text }}</p></dd>
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -846,12 +846,12 @@
                         </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Technical criteria</p></dt>
+                        <dt class="govuk-summary-list__value"><p>Technical weighting </p></dt>
                         <dd class="govuk-summary-list__value"><p>{{ technicalgroupquestion1 }}%</p></dd>
                       </div>
                       
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Social value criteria</p></dt>
+                        <dt class="govuk-summary-list__value"><p>Social value weighting</p></dt>
                         <dd class="govuk-summary-list__value"><p>{{ socialvaluegroupquestion1 }}%</p></dd>
                       </div>
               <div class="govuk-summary-list__row">
@@ -1194,6 +1194,7 @@
         attributes: {
         id: "rfp_btn_publish_now"
         },
+        classes: "oneTimeClick",
         text: "Publish and continue"
         }) }}
         

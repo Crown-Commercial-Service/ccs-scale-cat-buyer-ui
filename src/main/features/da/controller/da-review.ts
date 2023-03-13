@@ -190,10 +190,11 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
 
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${proc_id}/events/${event_id}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-    const FETCH_FILEDATA = FetchDocuments?.data;
     
+    const FETCH_FILEDATA = FetchDocuments?.data;
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
+    let fileNameStorageAdditional = [];
     FETCH_FILEDATA?.map(file => {
       if (file.description === "mandatoryfirst") {
         fileNameStoragePrice.push(file.fileName);
@@ -203,10 +204,11 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       }
 
       if (file.description === "optional") {
-        fileNameStorageMandatory.push(file.fileName);
+        fileNameStorageAdditional.push(file.fileName);
       }
       
     });
+    
 
     // const IR35Dataset = {
     //   id: 'Criterion 3',
@@ -765,6 +767,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       maximumFractionDigits: 0,
       useGrouping: false
   });
+  
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -773,10 +776,11 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       project_name: project_name,
       procurementLead,
       procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
-      // document: FileNameStorage[FileNameStorage.length - 1],
-      // documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
+      //document: FileNameStorage[FileNameStorage.length - 1],
+      //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       document: fileNameStoragePrice,
       documents: fileNameStorageMandatory,
+      additionalDocuments:fileNameStorageAdditional,
       // ir35: IR35selected,
       agreement_id,
       proc_id,

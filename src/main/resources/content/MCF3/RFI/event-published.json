@@ -12,6 +12,11 @@
             {"li": "The suppliers you selected can read your RfI and ask questions if they need more information."},
             {"li": "You will need to answer supplier questions by the deadline you set."},
             {"li": "After receiving responses to your RfI, you will need to confirm next steps with suppliers."}
+        ],
+        "next_gcloud": [
+            {"li": "The suppliers can read your RfI and ask questions if they need more information."},
+            {"li": "You will need to answer the supplier questions by the deadline you set."},
+            {"li": "After receiving responses to your RfI, you will need to confirm next steps with suppliers."}
         ]
     },
         "dashboard": {

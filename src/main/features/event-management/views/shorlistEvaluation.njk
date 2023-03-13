@@ -26,7 +26,11 @@
                             <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
                           </div>
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-          <h2 class="govuk-heading-l">{{data.subtitle}}</h2>
+                          {% if (agreement_id == 'RM1043.8') %}
+                          <h2 class="govuk-heading-l">{{data.subtitledos}}</h2>
+                          {%else%}
+                            <h2 class="govuk-heading-l">{{data.subtitle}}</h2>
+                          {%endif%}
           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-8">
           <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>

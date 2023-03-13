@@ -27,7 +27,6 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
-  
 
   const _bodyData = {
     endDate: CurrentTimeStamp,
