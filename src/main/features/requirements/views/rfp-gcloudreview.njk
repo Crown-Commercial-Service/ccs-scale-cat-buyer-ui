@@ -1189,15 +1189,25 @@
       }) }}
 
       <div class="govuk-button-group">
-        
+         {%if publishClickEventStatus == true%}
                       {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        disabled:true,
+        text: "Publish and continue"
+        }) }}
+        {%else%}
+           {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
         classes: "oneTimeClick",
         text: "Publish and continue"
         }) }}
-        
+
+         {%endif%}
                      {# {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now_close"
