@@ -27,7 +27,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const { download } = req.query;
   const lotId = req.session?.lotId;
   const agreementLotName = req.session.agreementLotName;
-  
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(ProjectID)){
+    publishClickEventStatus = true;
+   }
+  }
+    
   if(download!=undefined) {
       const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
       
@@ -295,14 +302,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
         agreementId_session:req.session.agreement_id,
         customStatus,
-        organizationName
+        organizationName,
+        publishClickEventStatus:publishClickEventStatus
       };
 
       if (viewError) {
         appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
       }
-    console.log("appendData",JSON.stringify(appendData));
-    
+        
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(null, logConstant.reviewAndPublishPageLog, req);
 
