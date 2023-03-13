@@ -32,6 +32,10 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
     endDate: CurrentTimeStamp,
   };
   //Fix for SCAT-3440
+
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(ProjectID);
+  req.session['publishclickevents'] = publishactiveprojects;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;

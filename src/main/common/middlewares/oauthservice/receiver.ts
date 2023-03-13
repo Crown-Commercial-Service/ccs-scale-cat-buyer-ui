@@ -88,6 +88,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['errorTextSumary'] = [];
         req.session['CapAss'] = {};
         req.session['isTcUploaded'] = true;
+        req.session['publishclickevents'] = [];
         next();
       } else {
         logger.info('User redirected to logout');

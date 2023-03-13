@@ -1608,13 +1608,24 @@
 
   
                             <div class="govuk-button-group">
+                       {%if publishClickEventStatus == true%}         
                               {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        disabled:true,
+        text: "Publish and continue"
+        }) }}
+        {%else%}
+         {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
         classes: "oneTimeClick",
         text: "Publish and continue"
         }) }}
+        {%endif%}
                               <a href="/da/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
                             </div>
       {% else %}   
