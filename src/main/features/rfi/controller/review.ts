@@ -10,7 +10,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
+import moment from 'moment-business-days';
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -37,7 +37,8 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
     endDate: CurrentTimeStamp,
   };
   //Fix for SCAT-3440
-
+  console.log("BASEURL",BASEURL);
+  console.log("_bodyData",_bodyData);
   let publishactiveprojects  = [];
   publishactiveprojects.push(ProjectID);
   req.session['publishclickevents'] = publishactiveprojects;
