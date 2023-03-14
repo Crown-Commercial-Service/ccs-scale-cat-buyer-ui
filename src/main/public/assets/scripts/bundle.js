@@ -1795,6 +1795,12 @@ CharacterCount.prototype.updateCountMessage = function () {
   displayNumber = Math.abs(remainingNumber);
 
   countMessage.innerHTML = 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb;
+  
+  let heading = document.getElementById('page-heading').innerHTML;
+  if(heading.includes("Invite selected suppliers to stage 2: further assessment")){
+    countMessage.innerHTML = displayNumber + ' ' + charNoun + ' ' + charVerb;
+  }
+
 };
 
 CharacterCount.prototype.handleFocus = function () {
@@ -15138,13 +15144,18 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
+          if(agrement_id == 'RM1043.8') 
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+          else
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
-          
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
+          if(agrement_id == 'RM1043.8') 
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+          else
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false); 
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -15154,13 +15165,13 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
           console.log(range)
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
 
@@ -15483,11 +15494,17 @@ document.addEventListener('DOMContentLoaded', () => {
         totalAnswerd();
         totalPercentage();
         deleteButtons.forEach((db) => {
+
             db.classList.add('ccs-dynaform-hidden')
             
             db.addEventListener('click', (e) => {
                
                 e.preventDefault();
+                let urlParamsDefault = new URLSearchParams(window.location.search);
+                let lotid_Default;
+                if(document.getElementById('lID') !== null) {
+                    lotid_Default = document.getElementById('lID').value;
+                }
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("div");
@@ -15682,6 +15699,22 @@ document.addEventListener('DOMContentLoaded', () => {
                with_value_count--;
                totalAnswerd();
                totalPercentage();
+               if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+                $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                $('.btncheck').text('').text('Add another special term or condition ') 
+            }
+            
                if (with_value_count != 21) {
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
@@ -15894,6 +15927,10 @@ document.addEventListener('DOMContentLoaded', () => {
         else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
             $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
         }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+            $('.btncheck').text('').text('Add another special term or condition ') 
+        }
+       
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -16326,10 +16363,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 with_value_count++;
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
-                  $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                    $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                  $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
                     $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
@@ -16337,6 +16374,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
                     $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
                 }
+                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                    $('.btncheck').text('').text('Add another special term or condition ') 
+                }
+                
             }
         }else{
             document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -19721,7 +19762,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
         }
         else {
-            errorStore = ['There is a problem', 'Please select an option']
+            errorStore = ['There is a problem', 'Select if you want a standstill period']
             ccsZPresentErrorSummary([errorStore]);
         }
         return false;
