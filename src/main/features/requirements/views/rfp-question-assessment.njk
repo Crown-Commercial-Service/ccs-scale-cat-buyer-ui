@@ -154,7 +154,9 @@
                     <h2>
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
-                          {% if (group_id == 'Group 8') %}
+                         {% if (group_id == 'Group 8' and lotId == '3') %}
+                            {{shortTitle}} entered so far
+                          {% elseif (group_id == 'Group 8' and lotId == '1') %}
                             {{shortTitle}} questions entered so far
                           {% else %}
                             {{shortTitle}} entered so far
@@ -171,7 +173,9 @@
                       </h2>
 
                     {% if agreement_id == 'RM1043.8' %}
-                      {% if (group_id == 'Group 8') %}
+                      {% if (group_id == 'Group 8' and lotId == '3') %}
+                        <h2> Total for {{shortTitle}}  : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% elseif (group_id == 'Group 8' and lotId == '1') %}
                         <h2> Total for {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% else %}
                         <h2> Total for  {{shortTitle}}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>

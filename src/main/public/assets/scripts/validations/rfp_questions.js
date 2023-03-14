@@ -328,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
                 $('.btncheck').text('').text('Add another special term or condition ') 
             }
+            
                if (with_value_count != 21) {
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
@@ -543,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
             $('.btncheck').text('').text('Add another special term or condition ') 
         }
+       
         $('.add-another-btn').on('click', function() {
             totalPercentage();
             errorStore = [];
@@ -968,10 +970,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 with_value_count++;
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
-                  $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                    $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                  $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
                     $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
@@ -980,8 +982,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
                 }
                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
-                    $('.btncheck').text('').text('Add another special term or condition') 
+                    $('.btncheck').text('').text('Add another special term or condition ') 
                 }
+                
             }
         }else{
             document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
