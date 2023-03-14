@@ -39,7 +39,11 @@
                           </div>
           <h2 class="govuk-heading-m">{{data.subtitle1}}</h2>  
           <ol type="1" class="govuk-list govuk-list--number">
-              <li>{{data.subsection1_title}}</li>
+              {% if lotid == '3' %}
+                  <li>{{data.subsection1_title}}</li>
+                  {% else %}
+                  <li>{{data.subsection1_titlel1}}</li>
+              {% endif %}
               {% if data.subsection2_title !='' %}
               <li>{{data.subsection2_title}}</li>
               {% endif %}
@@ -51,12 +55,13 @@
        {% else %}
        {% set returnLink = "/dashboard" %}
         {% endif %}
-  <div class="govuk-button-group">
-        {{ CCSButton({
-          text: data.btntext,
-          href:returnLink
-          }) }}
-                                          </div>
+        <div class="govuk-button-group">
+        {% if lotid == '3' %}
+          {{ CCSButton({text: data.btntext,href:returnLink}) }}
+          {% else %}
+          {{ CCSButton({text: data.btntextl1,href:returnLink}) }}
+        {% endif %}
+        </div>
         
       </div>    
     </div>

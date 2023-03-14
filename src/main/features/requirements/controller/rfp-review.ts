@@ -2134,6 +2134,11 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   req.session['publishclickevents'] = publishactiveprojects;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
+    
+    /** Daylight saving fix start */
+    CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+    CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+    /** Daylight saving fix end */
 
      CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{

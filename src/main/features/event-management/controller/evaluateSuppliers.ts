@@ -358,7 +358,7 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
        cmsData=stage1ShortListEvaluationData;
     }
       
-    const appendData = { data: cmsData,projectId,eventId,agreement_id}
+    const appendData = { data: cmsData,projectId,eventId,agreement_id,lotid}
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.furtherAssesmentPageLogg, req);

@@ -154,7 +154,9 @@
                     <h2>
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
-                          {% if (group_id == 'Group 8') %}
+                         {% if (group_id == 'Group 8' and lotId == '3') %}
+                            {{shortTitle}} entered so far
+                          {% elseif (group_id == 'Group 8' and lotId == '1') %}
                             {{shortTitle}} questions entered so far
                           {% else %}
                             {{shortTitle}} entered so far
@@ -171,7 +173,9 @@
                       </h2>
 
                     {% if agreement_id == 'RM1043.8' %}
-                      {% if (group_id == 'Group 8') %}
+                      {% if (group_id == 'Group 8' and lotId == '3') %}
+                        <h2> Total for {{shortTitle}}  : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% elseif (group_id == 'Group 8' and lotId == '1') %}
                         <h2> Total for {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% else %}
                         <h2> Total for  {{shortTitle}}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
@@ -246,12 +250,12 @@
                       {% else%}
                        {% if(agreement_id == 'RM1043.8' and group_id == 'Group 5' and (lotId == '1' or lotId == '3')) %}
                        
-                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
                        {% elseif(agreement_id == 'RM1043.8' and group_id == 'Group 6' and (lotId == '1' or lotId == '3')) %}
                        
-                         {{numberWord[i]}}  {{shortTitle | replace("and", "or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
                        {% else%}
-                         {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                         {{numberWord[i]}} {{shortTitle | replace("questions", "question")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
                       {%endif%}
                       {%endif%}
                       
