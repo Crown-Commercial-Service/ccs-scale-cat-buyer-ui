@@ -984,7 +984,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
     case 'Group 5':
       if(agreement_id == 'RM1043.8') {
-        title = 'essential skill and experience';
+        title = 'essential skills and experience';
       } else {
         title = 'cultural';
       }
