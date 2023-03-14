@@ -344,7 +344,9 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
                     {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
+                      {% if i.question != 'The organisation using the products or services' %}
                       <p class="govuk-body">{{organizationName}}<p>
+                      {%endif%}
                     {%else%}
                       <p class="govuk-body">You have not answered this question<p>
                     {%endif%}
