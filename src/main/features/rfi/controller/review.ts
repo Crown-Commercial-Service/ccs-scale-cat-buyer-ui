@@ -37,8 +37,6 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
     endDate: CurrentTimeStamp,
   };
   //Fix for SCAT-3440
-  console.log("BASEURL",BASEURL);
-  console.log("_bodyData",_bodyData);
   let publishactiveprojects  = [];
   publishactiveprojects.push(ProjectID);
   req.session['publishclickevents'] = publishactiveprojects;
