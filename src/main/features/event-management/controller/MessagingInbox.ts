@@ -39,9 +39,9 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         const receivedMessages: Message[] = draftReceivedMessage.data.messages
 
         if (receivedMessages != undefined) {
-            receivedMessages.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
+            receivedMessages.sort((a, b) => (a.OCDS.date > b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < receivedMessages.length; i++) {
-                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD-MMM-YYYY - HH:mm')
+                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD/MMM/YYYY - HH:mm')
             }
         }
 
