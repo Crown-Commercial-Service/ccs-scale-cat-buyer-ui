@@ -244,7 +244,7 @@
                              {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
                                   <p class="govuk-body-s content_review_length">{{ answer.value }}</p>
                               {% else %}
-                                  <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}
+                                  <p class="govuk-body-s">{{ answer.value | replace(": undefined", ": 0.00") | replace(": ", ": £")}}
                                   <p>
                               {% endif %}
                           {% if i.question != undefined %}
