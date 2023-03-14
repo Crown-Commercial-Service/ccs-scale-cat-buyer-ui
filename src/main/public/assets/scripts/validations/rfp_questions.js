@@ -917,7 +917,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     with_value_count = 5;
                 }
-                if(agreement_id_Default == "RM1043.8" ){
+                
+                if(document.getElementById('lID') !== null) { LOTID_VAR = document.getElementById('lID').value; }
+                
+                if( agreement_id_Default == "RM1043.8" 
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 19' && LOTID_VAR == 1)
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 17' && LOTID_VAR == 3)
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 15' && LOTID_VAR == 3) 
+                ) {
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
                     let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
                     if(termvalue != '' && termdefvalue != ''){
