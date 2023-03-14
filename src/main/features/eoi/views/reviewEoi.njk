@@ -244,7 +244,7 @@
                              {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
                                   <p class="govuk-body-s content_review_length">{{ answer.value }}</p>
                               {% else %}
-                                  <p class="govuk-body-s">{{ answer.value | replace(":", ": £") }}
+                                  <p class="govuk-body-s">{{ answer.value | replace(": undefined", ": 0.00") | replace(": ", ": £")}}
                                   <p>
                               {% endif %}
                           {% if i.question != undefined %}
@@ -472,13 +472,24 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
       ]
       }) }}
                           <div class="govuk-button-group">
+                            {%if publishClickEventStatus == true%}
                             {{ CCSButton({
+        attributes: {
+        id: "eoi_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        disabled:true,
+        text: "Publish and continue"
+        }) }}
+        {%else%}
+        {{ CCSButton({
         attributes: {
         id: "eoi_btn_publish_now"
         },
         classes: "oneTimeClick",
         text: "Publish and continue"
         }) }}
+        {%endif%}
                     {% if agreementId_session == "RM6187" %} 
                             <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
                             </a>
