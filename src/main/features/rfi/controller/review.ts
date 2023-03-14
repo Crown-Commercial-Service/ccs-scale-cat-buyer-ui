@@ -7,6 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
+import moment from 'moment';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
 import { logConstant } from '../../../common/logtracer/logConstant';
@@ -31,6 +32,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
   CurrentTimeStamp = moment(CurrentTimeStamp).utc();
   /** Daylight saving fix end */
+
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
   const _bodyData = {
