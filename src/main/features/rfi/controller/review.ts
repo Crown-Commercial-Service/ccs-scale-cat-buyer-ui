@@ -11,7 +11,7 @@ import moment from 'moment';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
+import moment from 'moment-business-days';
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -27,16 +27,18 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
+
+  /** Daylight saving fix start */
   CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
   CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+  /** Daylight saving fix end */
+
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
-console.log("CurrentTimeStamp",CurrentTimeStamp);
 
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
   //Fix for SCAT-3440
-
   let publishactiveprojects  = [];
   publishactiveprojects.push(ProjectID);
   req.session['publishclickevents'] = publishactiveprojects;
