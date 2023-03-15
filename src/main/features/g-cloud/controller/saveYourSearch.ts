@@ -39,7 +39,7 @@ async function getSearchResults(url: string,hostURL:any,result: any = []){
           result.push(TAStorage);
       }
       if (NextPageUrl) {
-          result = await getSearchResults(NextPageUrl,hosts,result);
+           result = await getSearchResults(NextPageUrl,hosts,result);
       }
       return result;
 }
@@ -119,12 +119,15 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
   
    try {
 
-    let {searchUrl,fetchResults,criteriaData}=req.session;
+      let {searchUrl,criteriaData}=req.session;
       const {search_name,savesearch,saveandcontinue,saveforlater}=req.body;
       let hostURL=`${req.protocol}://${req.headers.host}`;
       var lastUpdate =moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }),'DD/MM/YYYY hh:mm:ss',).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       if(savesearch !== undefined){
-        let sessionsearchUrl= fetchResults;
+        const params = new URLSearchParams(searchUrl);
+        params.delete('filter_parentCategory');
+        const queryString = params.toString();
+        let sessionsearchUrl= queryString;
          searchUrl=await gCloudServiceQueryReplace(searchUrl, "filter_");
          if(savesearch=='new' && search_name !== ''){
           if(search_name.length <= 250){
@@ -135,9 +138,9 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           const savedDetails = await assessments?.filter((item:any) => item.assessmentName !== undefined && item['external-tool-id'] === '14' && item.assessmentName.toLowerCase() == search_name.toLowerCase());
           // unique search name
           if(savedDetails.length===0){
-            const results=await getSearchResults(sessionsearchUrl,hostURL);
-            const allServicesList = Array.prototype.concat(...results);
-            if(allServicesList.length <= 0){
+          const results=await getSearchResults(sessionsearchUrl,hostURL);
+            let allServicesList = Array.prototype.concat(...results);
+             if(allServicesList.length <= 0){
               req.session['isJaggaerError'] = 'Search results not found';
             res.redirect('/g-cloud/search');
             }
@@ -158,7 +161,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             if (response.status == 200) {
               req.session.savedassessmentID=response.data;
               req.session.searchUrl=false;
-              req.session.fetchResults=false;
+              req.session.criteriaData=false;
               if(saveandcontinue !==undefined){
                 res.redirect('/g-cloud/export-results');
               }
@@ -207,7 +210,6 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             req.session.savedassessmentID=savesearch;
            req.session.searchUrl=false;
            req.session.criteriaData=false;
-           req.session.fetchResults=false;
             if(saveandcontinue !==undefined){
               res.redirect('/g-cloud/export-results');
             }
