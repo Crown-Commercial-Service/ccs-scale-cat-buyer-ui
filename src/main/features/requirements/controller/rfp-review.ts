@@ -2199,7 +2199,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
      } 
-     else if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13'){
+     else if(agreement_id == 'RM1557.13'){
       const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
      //CAS-INFO-LOG
      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
@@ -2209,6 +2209,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        }, 5000);
     }
     else {
+
         const agreementPublishedRaw =  await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         //CAS-INFO-LOG
         LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
