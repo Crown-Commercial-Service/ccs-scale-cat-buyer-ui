@@ -158,8 +158,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       } }
 
     
-     console.log('nameJourneysts.length',nameJourneysts.length)
-      if(nameJourneysts.length > 0){
+       if(nameJourneysts.length > 0){
 
         let addcontsts = journeySteps.filter((el: any) => { 
           if(el.step == 30) return true;
