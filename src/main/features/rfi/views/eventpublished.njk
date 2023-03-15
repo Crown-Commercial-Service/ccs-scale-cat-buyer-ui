@@ -26,9 +26,16 @@
   </div>
     <br>
   <div class="govuk-panel govuk-panel--confirmation">
-        <h2 class="govuk-panel__body">
+        {% if agreement_id == "RM1557.13" %}
+        <h2 class="govuk-panel__title">
+          {{data.board.headergcloud}}
+        </h2>
+        {% else %}
+  <h2 class="govuk-panel__title">
           {{data.board.header}}
         </h2>
+        {% endif %}
+        
         <br><br><br>
         <div class="govuk-panel__body">
           {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong>
