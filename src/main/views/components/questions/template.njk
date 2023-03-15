@@ -355,8 +355,8 @@
           {% set classnameForCount = "rfpterm" %}
           {% set countLength = 500 %}
           {% endif %}
-      
-            {% if (agreement_id == 'RM6187') and  group_id == 'Group 4' %}
+
+        {% if ((group_id == "Group 6" and agreement_id == 'RM6187') or (group_id == 'Group 4' and agreement_id == "RM6187")) %}
             {% set classnameForCount = "rfpterm" %}
           {% set countLength = 10000 %}
             {% endif %}
