@@ -126,6 +126,8 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       const jointUrlRetrieve = await gCloudServiceQueryFliter(reqUrl, URL, 1);
       const searchUrl = await gCloudServiceQueryFliter(reqUrl, URL, 2);
       const searchResultsUrl = await gCloudServiceQueryResults(reqUrl, URL, 2);
+      const fetchResults = await gCloudServiceQueryFliter(jointUrlRetrieve, URL, 2);
+      req.session.fetchResults=fetchResults.replace("?", "");
       req.session.searchUrl=searchUrl.replace("?", "");
       req.session.searchResultsUrl=searchResultsUrl.replace("?", "");
       let JointURL: string = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`; 
@@ -277,6 +279,8 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
     const jointUrlRetrieve = await gCloudServiceQueryFliter(reqUrl, URL, 1);
     const searchUrl = await gCloudServiceQueryFliter(reqUrl, URL, 2);
     const searchResultsUrl = await gCloudServiceQueryResults(reqUrl, URL, 2);
+    const fetchResults = await gCloudServiceQueryFliter(jointUrlRetrieve, URL, 2);
+      req.session.fetchResults=fetchResults.replace("?", "");
       req.session.searchUrl=searchUrl.replace("?", "");
       req.session.searchResultsUrl=searchResultsUrl.replace("?", "");
     let JointURL: string = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`; 

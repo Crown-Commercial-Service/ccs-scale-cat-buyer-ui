@@ -119,12 +119,12 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
   
    try {
 
-      let {searchUrl,criteriaData}=req.session;
+    let {searchUrl,fetchResults,criteriaData}=req.session;
       const {search_name,savesearch,saveandcontinue,saveforlater}=req.body;
       let hostURL=`${req.protocol}://${req.headers.host}`;
       var lastUpdate =moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }),'DD/MM/YYYY hh:mm:ss',).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       if(savesearch !== undefined){
-        let sessionsearchUrl= searchUrl;
+        let sessionsearchUrl= fetchResults;
          searchUrl=await gCloudServiceQueryReplace(searchUrl, "filter_");
          if(savesearch=='new' && search_name !== ''){
           if(search_name.length <= 250){
@@ -158,6 +158,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             if (response.status == 200) {
               req.session.savedassessmentID=response.data;
               req.session.searchUrl=false;
+              req.session.fetchResults=false;
               if(saveandcontinue !==undefined){
                 res.redirect('/g-cloud/export-results');
               }
@@ -206,6 +207,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
             req.session.savedassessmentID=savesearch;
            req.session.searchUrl=false;
            req.session.criteriaData=false;
+           req.session.fetchResults=false;
             if(saveandcontinue !==undefined){
               res.redirect('/g-cloud/export-results');
             }
