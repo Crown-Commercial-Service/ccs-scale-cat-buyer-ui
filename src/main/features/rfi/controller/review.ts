@@ -70,7 +70,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
       }
 
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
        
         setTimeout(function(){
@@ -81,6 +81,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
          
        }
        else{
+        
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
        
       //CAS-INFO-LOG 
