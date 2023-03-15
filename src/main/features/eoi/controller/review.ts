@@ -65,7 +65,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
          setTimeout(function(){
           res.redirect('/eoi/event-sent');

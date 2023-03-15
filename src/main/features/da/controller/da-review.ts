@@ -1020,7 +1020,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
           }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         let response = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         setTimeout(function(){
           res.redirect('/da/da-eventpublished');
@@ -1028,7 +1028,6 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       }
       else{
 
-      
       let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
