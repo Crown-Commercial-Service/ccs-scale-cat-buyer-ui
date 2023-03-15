@@ -353,8 +353,14 @@
   {% set classnameForCount = "rpf_5000" %}
   {% else %}
           {% set classnameForCount = "rfpterm" %}
-          {% set countLength = 10000 %}
+          {% set countLength = 500 %}
           {% endif %}
+      
+            {% if (agreement_id == 'RM6187') and  group_id == 'Group 4' %}
+            {% set classnameForCount = "rfpterm" %}
+          {% set countLength = 10000 %}
+            {% endif %}
+
               {% if(agreement_id=="RM6187" and eventType=="rfp" and requirement.OCDS.title=="Enter your question")  %}
             {% set classnameForCount = "messagesendcountDaSocial" %}
             {% set countLength = 2000 %}
