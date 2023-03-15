@@ -66,7 +66,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    
+    //Gettin organization details
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
     
     const name = getOrganizationDetails.data.identifier.legalName;
