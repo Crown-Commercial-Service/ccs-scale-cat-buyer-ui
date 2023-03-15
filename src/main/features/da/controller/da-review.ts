@@ -11,6 +11,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import momentnew from 'moment';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -95,6 +96,16 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     
     const ReviewData = FetchReviewData.data;
+
+    const publishClickeventValue = req.session['publishclickevents'];
+    let publishClickEventStatus = false;
+    if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
+  
+
     //   //Buyer Questions
     //   const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     //   const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -850,7 +861,8 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       selectedeventtype,
       agreementId_session,
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
-      customStatus
+      customStatus,
+      publishClickEventStatus:publishClickEventStatus
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 
@@ -934,10 +946,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   
   req.session.fca_selected_services = [];
   //res.redirect('/da/da-eventpublished');
-   
-  
-
-  if(req.session.selectedSuppliersDA != undefined) {
+   if(req.session.selectedSuppliersDA != undefined) {
     let supplierList = []; 
     supplierList = await GetLotSuppliers(req);
 
@@ -970,15 +979,23 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
- 
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(projectId);
+  req.session['publishclickevents'] = publishactiveprojects;
+ // CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+
+ CurrentTimeStamp = momentnew(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+  CurrentTimeStamp = momentnew(CurrentTimeStamp).utc();
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
+  
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
 
   const BaseURL2 = `/tenders/projects/${projectId}/events/${eventId}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
+    
     const ReviewData2 = FetchReviewData2.data;
     const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
     var review_publish = 0;
@@ -1003,7 +1020,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
           }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         let response = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         setTimeout(function(){
           res.redirect('/da/da-eventpublished');
@@ -1011,7 +1028,6 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       }
       else{
 
-      
       let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
@@ -1034,6 +1050,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       res.redirect('/da/da-eventpublished');
     }
     } catch (error) {
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
       TokenDecoder.decoder(SESSION_ID), "DA Review - Dyanamic framework throws error - Tender Api is causing problem", false)
       DA_REVIEW_RENDER_TEST(req, res, true, true);

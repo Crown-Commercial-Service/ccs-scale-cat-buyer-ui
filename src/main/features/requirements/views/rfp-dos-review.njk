@@ -790,7 +790,8 @@
                       </div>
                     {% endif %}
                    {% endif %}
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <div
+                     class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
@@ -1137,40 +1138,11 @@
                     
                     
                     
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value">
-                            <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Upload more documents (optional)</strong>
-                          </h3>
-                          </dt>
-                          <dd class="govuk-summary-list__value"></dd>
-                          
-
-                    <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" %}
-                          <a
-                                        class="govuk-link"
-                                        href="/rfp/upload-additional">
-                                        Change<span class="govuk-visually-hidden">project name</span>
-                          </a>
-                        {% endif %}
-                      </dd>
+                   
+                      
                    </div>  
 
-                    {% if (document != undefined and document != null and documents | length > 0) %}
-                    {% set rows = 1 %}
-                     {% for doc in documents %}
-                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                      <dt class="govuk-summary-list__value">
-                        <p>Document {{rows}}</p>
-                      </dt>
-                      <dd class="govuk-summary-list__value">
-                        <p>{{ doc }}</p>
-                      </dd>
-                    </div>
-                     {% set rows = rows+1 %}
-                     {%- endfor %}
-                    {% endif %} 
+
 
 
                   <div class="govuk-summary-list__row">
@@ -1181,7 +1153,53 @@
                   
                   </dl>
 
+                  <h2 class="govuk-heading-l">3. Upload documents</h2>
+                    <dl class="govuk-summary-list">
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
+                      </div>
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions">
+                               {% if eventStatus != "published" %}
+                                      <a
+                                        class="govuk-link"
+                                        href="/rfp/upload-additional">
+                                        Change<span class="govuk-visually-hidden">project name</span>
+                                      </a>
+                                    {% endif %}
+                        </dd>
+                      </div>
+                        {% if (document != undefined and document != null and documents | length > 0) %}
+                          {% set rows = 1 %}
+                          {% for doc in documents %}
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value">
+                              <p>Document {{rows}}</p>
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                              <p>{{ doc }}</p>
+                            </dd>
+                          </div>
+                          {% set rows = rows+1 %}
+                          {%- endfor %}
+                          {% else %} 
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value"><p>Upload additional documents (optional)</p></dt>
+                            <dd class="govuk-summary-list__value"><p>No files attached</p></dd>
+                          </div>
+                          {% endif %} 
 
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
+                      </div>
+                    </dl>
+                      
 
 
                   {% else %}
@@ -1993,7 +2011,7 @@
                 {# START----------------------Your assessment criteria #}
                 {% block Your_assessment_criteria %}
                   {% if (agreement_id == "RM1043.8") and (lotId == 1)or(lotId == 3) %}
-<h2 class="govuk-heading-l">3. Your assessment criteria
+<h2 class="govuk-heading-l">4. Your assessment criteria
                     </h2>
                   {% else %}
 <h2 class="govuk-heading-l">5. Your assessment criteria
@@ -2760,7 +2778,7 @@
                    
                       
              
-<h2 class="govuk-heading-l">4. Set your timeline
+<h2 class="govuk-heading-l">5. Set your timeline
               </h2>
 
                     <dl class="govuk-summary-list">
@@ -3131,7 +3149,7 @@
                      {% if agreementId_session == 'RM1043.8' %} 
                      <div class="govuk-inset-text">
                       {# <p class="govuk-body">Publishing compiles all your details and sends them to all suppliers. Please be patient as this could take up to 30 seconds.  #}
-                    <p class="govuk-body">Your further competition will now be sent to suppliers. Please be patient as this could take up to 30 seconds. 
+                    <p class="govuk-body">If you need to make any significant changes – including changes to scope or timelines – after publishing this further competiton, you will need to cancel and start a new project.
                      </p>
                      </div>
                      {% endif %}
@@ -3140,7 +3158,7 @@
                      
               
               {# After publishing this event, if changes are required, you will need to cancel and re-publish your event. You may do so at any time. #}
-           If you need to make any significant changes – including changes to scope or timelines – after publishing this further competiton, you will need to cancel and start a new project.
+           {# If you need to make any significant changes – including changes to scope or timelines – after publishing this further competiton, you will need to cancel and start a new project. #}
                     </p>
                     <br>
                     <br>
@@ -3178,15 +3196,26 @@
       }) }}
 
                     <div class="govuk-button-group">
+        {%if publishClickEventStatus == true%}
 
                       {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
         classes: "oneTimeClick",
+        disabled:true,
         text: "Publish and continue"
         }) }}
+       {%else%}
 
+             {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        text: "Publish and continue"
+        }) }}
+        {%endif%}
                       {# {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now_close"

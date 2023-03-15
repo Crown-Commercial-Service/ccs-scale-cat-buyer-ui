@@ -1651,6 +1651,12 @@ CharacterCount.prototype.updateCountMessage = function () {
   displayNumber = Math.abs(remainingNumber);
 
   countMessage.innerHTML = 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb;
+  
+  let heading = document.getElementById('page-heading').innerHTML;
+  if(heading.includes("Invite selected suppliers to stage 2: further assessment")){
+    countMessage.innerHTML = displayNumber + ' ' + charNoun + ' ' + charVerb;
+  }
+
 };
 
 CharacterCount.prototype.handleFocus = function () {

@@ -598,13 +598,25 @@ action="/rfi/review" method="post">
                                       ]
                                 }) }}
                               <div class="govuk-button-group">
+                                {% if publishClickEventStatus == true%}
                                 {{ CCSButton({
+                                    attributes: {
+                                    id: "rfi_btn_publish_now"
+                                    },
+                                    classes: "oneTimeClick",
+                                    disabled:true,
+                                    text: "Publish and continue"
+                                    }) }}
+                                    {%else%}
+                                     {{ CCSButton({
                                     attributes: {
                                     id: "rfi_btn_publish_now"
                                     },
                                     classes: "oneTimeClick",
                                     text: "Publish and continue"
                                     }) }}
+                                    {%endif%}
+
                                     {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}  
                                 <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Request for Information  </a>
                                     {% else %}
