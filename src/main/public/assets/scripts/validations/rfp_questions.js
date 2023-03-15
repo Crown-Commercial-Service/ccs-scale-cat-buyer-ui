@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 else if(urlParamsData.get('agreement_id') == 'RM1557.13' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 4' || urlParamsData.get('group_id') == 'Group 6') && urlParamsData.get('section') == 5){
-                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
+                    errorStore.push(["There is a problem", "The weighting must add up to 100% in total"]);
                 }
                 else{
                     errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
@@ -921,14 +921,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(document.getElementById('lID') !== null) { LOTID_VAR = document.getElementById('lID').value; }
                 
                 if( agreement_id_Default == "RM1043.8" 
-                    
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 19' && LOTID_VAR == 1)
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 17' && LOTID_VAR == 3)
+                    && (urlParams.get('id') == 'Criterion 3' && urlParams.get('group_id') != 'Group 15' && LOTID_VAR == 3) 
                 ) {
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
-                    let termdefvalue = '';
-                    if(document.getElementById('fc_question_precenate_' + with_value_count) != null && document.getElementById('fc_question_precenate_' + with_value_count) != undefined ){
-                        termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
-                    }
-                    
+                    let termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
                     if(termvalue != '' && termdefvalue != ''){
                         if(with_value_count == 20){
                             $('.add-another-btn').addClass("ccs-dynaform-hidden");
@@ -1311,6 +1309,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !(pageHeading.includes("Assisted digital and accessibility requirements (optional)") || (pageHeading.includes("Assisted digital and accessibility requirements (Optional)")))) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
+                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                if(urlParams.get('group_id') == 'Group 4'){
+                                    msgContent = 'Enter a technical question';
+                                }else{
+                                    msgContent = 'Enter a social value question';
+                                }
+                            }
 
                           
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
@@ -1341,8 +1346,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/);
 
                             let percentageCheck;
-                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4' && rootEl.querySelector('.weightage').value == '0'){
-                                 percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/);
+                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6') && rootEl.querySelector('.weightage').value == ''){
+                                if(urlParams.get('group_id') == 'Group 4'){
+                                    percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'Enter a weighting for this technical question', /\wd+/);
+                                 }else{
+                                    percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'Enter a weighting for this social value question', /\wd+/);
+                                 }
+                                
                             }else{
                                  percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
                             }
@@ -1661,7 +1671,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorStore.push(percentageCheck)
                 }
                 } else{
-                     errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
+                     errorStore.push(["There is a problem", "The weighting must add up to 100% in total "]);
                 }
             }
              //Remain Agreement
