@@ -353,7 +353,7 @@
   {% set classnameForCount = "rpf_5000" %}
   {% else %}
           {% set classnameForCount = "rfpterm" %}
-          {% set countLength = 500 %}
+          {% set countLength = 10000 %}
           {% endif %}
               {% if(agreement_id=="RM6187" and eventType=="rfp" and requirement.OCDS.title=="Enter your question")  %}
             {% set classnameForCount = "messagesendcountDaSocial" %}
@@ -444,13 +444,13 @@
           {% set countLength = 500 %}
        
          {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your technical question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your social value question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(requirement.OCDS.title=="Name of the group") %}
