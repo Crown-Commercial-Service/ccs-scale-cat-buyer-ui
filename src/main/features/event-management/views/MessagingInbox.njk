@@ -148,7 +148,7 @@
                     </p>
                 {% endif %}
                 {% endset %}
-                {% if msgfor == 'all' and agreementId == 'RM1043.8' %}
+                {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %}
                     <div class="govuk-grid-column-one-half">
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	

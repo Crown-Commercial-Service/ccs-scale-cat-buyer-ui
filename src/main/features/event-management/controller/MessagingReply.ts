@@ -100,6 +100,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
         const _body = req.body
         let validationError = false
         const errorText = [];
+        let errorMsg = '';
 
         if (!_body.reply_subject_input) {         
             validationError = true;
@@ -115,6 +116,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
                 text: ValidationErrors.SUBJECT_REQUIRED,
                 href: '#reply_message_input'
             });
+            errorMsg = ValidationErrors.SUBJECT_REQUIRED;
         }
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
@@ -150,7 +152,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
               } else { 
                 data = replyData;
               }
-            const appendData = { replyto, data, message: messageReply, validationError: validationError,errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+            const appendData = { replyto, data, message: messageReply, validationError: validationError,errorText: errorText,errorMsg, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
             res.render('MessagingReply', appendData)
         }
         else {

@@ -11,6 +11,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import momentnew from 'moment';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -981,14 +982,20 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   let publishactiveprojects  = [];
   publishactiveprojects.push(projectId);
   req.session['publishclickevents'] = publishactiveprojects;
+ // CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+
+ CurrentTimeStamp = momentnew(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+  CurrentTimeStamp = momentnew(CurrentTimeStamp).utc();
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
+  
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
 
   const BaseURL2 = `/tenders/projects/${projectId}/events/${eventId}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
+    
     const ReviewData2 = FetchReviewData2.data;
     const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
     var review_publish = 0;
@@ -1013,7 +1020,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
           }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         let response = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         setTimeout(function(){
           res.redirect('/da/da-eventpublished');
@@ -1021,7 +1028,6 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       }
       else{
 
-      
       let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
@@ -1044,6 +1050,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       res.redirect('/da/da-eventpublished');
     }
     } catch (error) {
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
       TokenDecoder.decoder(SESSION_ID), "DA Review - Dyanamic framework throws error - Tender Api is causing problem", false)
       DA_REVIEW_RENDER_TEST(req, res, true, true);

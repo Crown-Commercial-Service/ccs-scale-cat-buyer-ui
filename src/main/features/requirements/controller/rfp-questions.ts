@@ -411,7 +411,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       if  (group_id === "Group 2" && (lotId == '1' || lotId == '3')  && id === 'Criterion 3') {
         data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
       }
-      if  (group_id === "Group 10" && lotId == '1' && id === 'Criterion 3') {
+      if  ((group_id === "Group 10" || group_id === "Group 11" || group_id === "Group 19") && lotId == '1' && id === 'Criterion 3') {
         data.rfpTitle =  nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (optional)';
       }
       if  (group_id === "Group 1" && (lotId == '1' || lotId == '3') && id === 'Criterion 3') {

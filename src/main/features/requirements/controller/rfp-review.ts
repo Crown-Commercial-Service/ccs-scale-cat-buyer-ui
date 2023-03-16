@@ -2134,6 +2134,11 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   req.session['publishclickevents'] = publishactiveprojects;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
+    
+    /** Daylight saving fix start */
+    CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+    CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+    /** Daylight saving fix end */
 
      CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
@@ -2194,7 +2199,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
      } 
-     else if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13'){
+     else if(agreement_id == 'RM1557.13'){
       const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
      //CAS-INFO-LOG
      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
@@ -2204,6 +2209,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        }, 5000);
     }
     else {
+
         const agreementPublishedRaw =  await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         //CAS-INFO-LOG
         LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);

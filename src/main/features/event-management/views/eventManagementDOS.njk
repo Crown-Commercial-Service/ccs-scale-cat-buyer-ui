@@ -204,11 +204,11 @@
             {% endif %}
           </h2>
           {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' %}
-            {% if(agreement_header['lotid'] == '1') %}
-              <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l1}}</p>
-            {% else %}
-              <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l3}}</p>
-            {% endif %}
+           {% if(stage2_value != 'Stage 2')  %}
+            <p class="govuk-body">{{data.subsection4_title3_award_description_dos}}</p>
+            {%else%}
+            <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l3}}</p>
+             {% endif %}
           {% endif %}
           {% if (projectStatus == 2) %}
               {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}

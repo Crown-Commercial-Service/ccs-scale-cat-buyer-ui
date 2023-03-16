@@ -284,7 +284,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text: 'Enter the description for this level'
+                                text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                             },
                             maxlength: 5000,
                             classes:"rpf_5000 govuk-!-width-two-thirds"
@@ -355,6 +355,12 @@
           {% set classnameForCount = "rfpterm" %}
           {% set countLength = 500 %}
           {% endif %}
+
+        {% if ((group_id == "Group 6" and agreement_id == 'RM6187') or (group_id == 'Group 4' and agreement_id == "RM6187")) %}
+            {% set classnameForCount = "rfpterm" %}
+          {% set countLength = 10000 %}
+            {% endif %}
+
               {% if(agreement_id=="RM6187" and eventType=="rfp" and requirement.OCDS.title=="Enter your question")  %}
             {% set classnameForCount = "messagesendcountDaSocial" %}
             {% set countLength = 2000 %}
@@ -444,13 +450,13 @@
           {% set countLength = 500 %}
        
          {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your technical question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your social value question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(requirement.OCDS.title=="Name of the group") %}

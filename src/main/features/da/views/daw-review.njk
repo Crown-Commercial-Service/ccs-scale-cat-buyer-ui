@@ -830,7 +830,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <p>{{bc1}}</p>
+                        {% if bc1 %}
+                          <p>{{bc1}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -842,7 +846,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{bc2}}</p>
+                       {% if bc2 %}
+                          <p>{{bc2}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row">

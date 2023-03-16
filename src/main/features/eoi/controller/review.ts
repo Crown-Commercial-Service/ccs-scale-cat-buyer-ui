@@ -65,7 +65,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
          setTimeout(function(){
           res.redirect('/eoi/event-sent');
@@ -108,6 +108,15 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
   const { download } = req.query;
+  
+  const publishClickeventValue = req.session['publishclickevents'];
+    let publishClickEventStatus = false;
+    if(publishClickeventValue.length > 0){
+     if(publishClickeventValue.includes(ProjectID)){
+      publishClickEventStatus = true;
+     }
+    }
+
   if(download!=undefined)
   {
     const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
@@ -115,13 +124,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
     });
-    const publishClickeventValue = req.session['publishclickevents'];
-    let publishClickEventStatus = false;
-    if(publishClickeventValue.length > 0){
-     if(publishClickeventValue.includes(ProjectID)){
-      publishClickEventStatus = true;
-     }
-    }
+    
   
     const file = FetchDocuments;
     const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');

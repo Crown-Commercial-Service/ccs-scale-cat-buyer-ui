@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
         }
         else {
-            errorStore = ['There is a problem', 'Please select an option']
+            errorStore = ['There is a problem', 'Select if you want a standstill period']
             ccsZPresentErrorSummary([errorStore]);
         }
         return false;
