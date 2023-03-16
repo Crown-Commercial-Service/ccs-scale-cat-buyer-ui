@@ -86,10 +86,9 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       }
       
       await nameretrieveProjetActiveEventsPromise.then(async data => {  
-        const events: ActiveEvents[] = data.data;      
-        // const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
-        //   a.projectId < b.projectId ? 1 : -1,
-        // );        
+        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
+          a.projectId < b.projectId ? 1 : -1,
+        );        
         for (let i = 0; i < events.length; i++) {
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
 
