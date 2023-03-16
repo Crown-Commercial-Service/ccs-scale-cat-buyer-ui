@@ -71,8 +71,7 @@ export class EventEngagementMiddleware {
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
       .then(async (data) => {
-        const events: ActiveEvents[] = data.data;
-        //const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
+        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
