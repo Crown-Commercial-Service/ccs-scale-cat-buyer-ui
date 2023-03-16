@@ -134,8 +134,16 @@
 							<fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
 								<div class="govuk-radios" data-module="govuk-radios">
 									{% for item in events %}
+
+										
+										{% if(item.value=="all_information_online") %}
+										{% set checkedStatus = "checked" %}
+										{%else%}
+										{% set checkedStatus = "" %}
+										{% endif %}
+
 										<div class="govuk-radios__item govuk-radios__item--small govuk-!-padding-top-1">
-											<input class="govuk-radios__input govuk-radios__item--small" {{item.disabled}} id="results-per-page-{{item.checkbox_id}}" name="goto_choose" type="radio" value="{{item.value}}" {{item.checked}} aria-describedby="sign-in-item-hint">
+											<input class="govuk-radios__input govuk-radios__item--small" {{item.disabled}} id="results-per-page-{{item.checkbox_id}}" name="goto_choose" type="radio" value="{{item.value}}" {{checkedStatus}} aria-describedby="sign-in-item-hint">
 											<label class="govuk-label govuk-radios__label govuk-!-font-size-24 govuk-!-font-weight-bold govuk-!-padding-top-0" for="results-per-page-{{item.checkbox_id}}">
 												{{item.label}}
 											</label>
