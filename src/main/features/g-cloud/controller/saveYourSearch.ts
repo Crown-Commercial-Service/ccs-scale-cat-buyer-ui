@@ -124,7 +124,10 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
       let hostURL=`${req.protocol}://${req.headers.host}`;
       var lastUpdate =moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }),'DD/MM/YYYY hh:mm:ss',).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       if(savesearch !== undefined){
-        let sessionsearchUrl= searchUrl;
+        const params = new URLSearchParams(searchUrl);
+        params.delete('filter_parentCategory');
+        const queryString = params.toString();
+        let sessionsearchUrl= queryString;
          searchUrl=await gCloudServiceQueryReplace(searchUrl, "filter_");
          if(savesearch=='new' && search_name !== ''){
           if(search_name.length <= 250){
