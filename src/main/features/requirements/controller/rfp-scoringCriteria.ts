@@ -1144,7 +1144,7 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
   });
 
   if(Agreementid == 'RM1043.8' || Agreementid == 'RM1557.13'){
-    return dataRowsList;
+    return dataRowsList.reverse();
   }else{
     return dataRowsList.reverse();
   }
