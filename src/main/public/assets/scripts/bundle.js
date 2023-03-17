@@ -7895,23 +7895,23 @@ const emptyFieldCheckEoi = (add_more='') => {
       checkFieldsEoi();
       
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'You must add term or acronym.'];
+        fieldCheck = [term_field, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'You must add definition for the term or acronym.'];
+        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        fieldCheck = [term_field.id, 'You must add term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
@@ -8862,7 +8862,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($("#page-heading").text().includes("Project scope")) {
       errorText = "You must type first project scope before you can add another"
     } else {
-      errorText = "You must type an objective before you can add another objective"
+      errorText = "Enter an objective before attempting to add another"
     }
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -9749,7 +9749,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "You must choose one option from list before proceeding";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
@@ -10952,11 +10952,11 @@ const emptyFieldCheck = (add_more='') => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
-        fieldCheck = [term_field.id, 'You must add the term or acronym'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
@@ -10983,15 +10983,15 @@ const emptyFieldCheck = (add_more='') => {
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
-        fieldCheck = [term_field.id, 'You must add the term or acronym'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
