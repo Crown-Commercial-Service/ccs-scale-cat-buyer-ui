@@ -22,7 +22,7 @@
  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   
   {% if (agreement_id =='RM1043.8')%}
-    {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.' | safe %}
+    {% set s_name = '<b>'+supplierName + '<br><br>Confirm you wish to award to this supplier.</b>' | safe %}
    {% elseif agreement_id == 'RM6187' %}
    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
   {%else%}
@@ -49,7 +49,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-            {% if (agreement_id =='RM6187') or (agreement_id =='RM1557.13') %}
+            {% if (agreement_id =='RM6187') or (agreement_id =='RM1557.13') or (agreement_id =='RM1043.8') %}
               <strong> Your project</strong>
             {% else %}
               <strong> {{data.title}}</strong>
