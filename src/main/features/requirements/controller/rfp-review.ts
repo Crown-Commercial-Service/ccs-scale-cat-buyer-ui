@@ -12,6 +12,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -2137,10 +2138,10 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
     
     /** Daylight saving fix start */
     CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-    CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+    CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).utc();
     /** Daylight saving fix end */
-
-     CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+    
+     CurrentTimeStamp = CurrentTimeStamp.toISOString();
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2194,7 +2195,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
-
+      
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
