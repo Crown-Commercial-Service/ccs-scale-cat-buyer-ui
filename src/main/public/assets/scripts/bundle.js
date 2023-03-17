@@ -9749,7 +9749,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "You must choose one option from list before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
@@ -18381,7 +18381,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
               msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
