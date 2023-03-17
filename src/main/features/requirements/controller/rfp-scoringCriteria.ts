@@ -1143,8 +1143,8 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
     dataRowsList.push(innerArrObj);
   });
 
-  if(Agreementid == 'RM1043.8' || Agreementid == 'RM1557.13'){
-    return dataRowsList.reverse();
+  if(Agreementid == 'RM1557.13'){
+    return dataRowsList;
   }else{
     return dataRowsList.reverse();
   }
