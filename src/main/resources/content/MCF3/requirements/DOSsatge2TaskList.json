@@ -35,7 +35,7 @@
         {
           "Task": 2,
           "link": "/rfp/procurement-lead",
-          "title": "Change who will lead the project",
+          "title": "Change who will lead your project",
           "required": "optional",
           "status": "Optional"
         },
@@ -68,7 +68,7 @@
         },
         {
           "Task": 3,
-          "title": " Upload assessment document",
+          "title": " Upload assessment documents",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/upload-additional"
@@ -81,7 +81,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Your timeline ",
+          "title": "Set your timeline",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/rfp/response-date"

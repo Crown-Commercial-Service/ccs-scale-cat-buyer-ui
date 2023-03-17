@@ -150,7 +150,11 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
          }
          
          if (assessDocument.IsDocumentError && !assessDocument.IsFile) {
-           errorList.push({ text: "You must upload assessment documents.", href: "#rfp_offline_document" });
+            if(agreementId_session == 'RM1043.8' && stage2_value == "Stage 2"){
+              errorList.push({ text: "Upload assessment documents", href: "#rfp_offline_document" });
+            }else{
+              errorList.push({ text: "You must upload assessment documents.", href: "#rfp_offline_document" });
+            }
            fileError=true;
          }
        }
@@ -173,7 +177,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
         delete req.session["fileDuplicateError"];
       }
       if (fileError && errorList !== null) {

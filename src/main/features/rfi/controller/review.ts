@@ -7,10 +7,11 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
+import moment from 'moment';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
+import moment from 'moment-business-days';
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -26,13 +27,21 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
+
+  /** Daylight saving fix start */
+  CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+  CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+  /** Daylight saving fix end */
+
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
-  
 
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
   //Fix for SCAT-3440
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(ProjectID);
+  req.session['publishclickevents'] = publishactiveprojects;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
@@ -55,18 +64,37 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
 
   if (review_publish == '1') {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-       
-      //CAS-INFO-LOG 
-       LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
-       
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
       }
 
+
+      if(agreementId_session == 'RM1557.13'){
+        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       
+        setTimeout(function(){
+          res.redirect('/rfi/event-sent');
+          }, 5000);
+      //CAS-INFO-LOG 
+      // LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
+         
+       }
+       else{
+        
+      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+       
+      //CAS-INFO-LOG 
+       LoggTracer.infoLogger(null, logConstant.rfiPublishLog, req);
+       
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
+      // }
+
       
         res.redirect('/rfi/event-sent');
+    }
       
 
     } catch (error) {

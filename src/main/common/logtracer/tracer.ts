@@ -27,11 +27,11 @@ export class LoggTracer {
 
 
     const LogMessage = {
-      "environment": "null",
+      "environment": process.env.LOGIT_ENVIRONMENT,
       "logType": "CAS_INFO",
       "level": "info",
       "pageUrl": req.protocol + '://' + req.get('host') + req.originalUrl,
-      "statusCode":(dataSet?.statusCode !=undefined) ? dataSet?.statusCode : null,
+      "statusCode":(dataSet?.status !=undefined) ? dataSet?.status : null,
       "message": message,
       "baseUrl":dataSet?.config?.baseURL,
       "api": dataSet?.config?.url,
@@ -56,7 +56,7 @@ export class LoggTracer {
   // let req = express.request;
 
   const LogMessage = { 
-    "environment": "null",
+    "environment": process.env.LOGIT_ENVIRONMENT,
     "logType": "CAS_ERROR",
     "level": "error",
     "statusCode":(errorLog?.statusCode !=undefined) ? errorLog?.statusCode : null,
@@ -99,7 +99,7 @@ export class LoggTracer {
     
 
     const LogMessage = { 
-      "environment": "null",
+      "environment": process.env.LOGIT_ENVIRONMENT,
       "logType": "CAS_ERROR",
       "level": "error",
       "statusCode":(errorLog?.statusCode !=undefined) ? errorLog?.statusCode : null,

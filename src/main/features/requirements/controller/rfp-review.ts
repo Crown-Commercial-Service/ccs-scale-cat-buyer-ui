@@ -101,6 +101,14 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
   const { checkboxerror } = req.session;
   const agreementId_session = req.session.agreement_id;
   const stage2_value = req.session.stage2_value;
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
+  
   let selectedeventtype;
   if(req.session.selectedRoute=='rfp'){
     selectedeventtype='FC';
@@ -505,7 +513,8 @@ let scoringData = [];
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session,
-      stage2_value
+      stage2_value,
+      publishClickEventStatus:publishClickEventStatus
     };
     
     
@@ -556,6 +565,14 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   const { checkboxerror } = req.session;
   const agreementId_session = req.session.agreement_id;
   const stage2_value = req.session.stage2_value;
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
+  
   let selectedeventtype;
   if(req.session.selectedRoute=='rfp'){
     selectedeventtype='FC';
@@ -1938,7 +1955,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
-      agreementId_session
+      agreementId_session,
+      publishClickEventStatus:publishClickEventStatus
     };
    }
    else{
@@ -2111,8 +2129,16 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
 
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(projectId);
+  req.session['publishclickevents'] = publishactiveprojects;
   let CurrentTimeStamp = req.session.endDate;
   // if(CurrentTimeStamp){
+    
+    /** Daylight saving fix start */
+    CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+    CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+    /** Daylight saving fix end */
 
      CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
@@ -2172,7 +2198,18 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
-     } else {
+     } 
+     else if(agreement_id == 'RM1557.13'){
+      const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+     //CAS-INFO-LOG
+     //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
+
+      setTimeout(function(){
+       res.redirect('/rfp/rfp-eventpublished');
+       }, 5000);
+    }
+    else {
+
         const agreementPublishedRaw =  await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
         //CAS-INFO-LOG
         LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
@@ -2424,6 +2461,13 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
   const agreementId_session = req.session.agreement_id;
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
   let selectedeventtype;
   if(req.session.selectedRoute=='rfp'){
     selectedeventtype='FC';
@@ -2535,6 +2579,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
+    let fileNameStorageAdditional = [];
     FETCH_FILEDATA?.map(file => {
       if (file.description === "mandatoryfirst") {
         fileNameStoragePrice.push(file.fileName);
@@ -2544,7 +2589,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
       }
 
       if (file.description === "optional") {
-        fileNameStorageMandatory.push(file.fileName);
+        fileNameStorageAdditional.push(file.fileName);
       }
       
     });
@@ -3126,7 +3171,7 @@ const IR35selected='';
       //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       document: fileNameStoragePrice,
       documents: fileNameStorageMandatory,
-
+      additionalDocuments:fileNameStorageAdditional,
       ir35: IR35selected,
       agreement_id,
       proc_id,
@@ -3197,7 +3242,8 @@ const IR35selected='';
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
-      agreementId_session
+      agreementId_session,
+      publishClickEventStatus:publishClickEventStatus
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 
@@ -3248,6 +3294,13 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
   const agreementId_session = req.session.agreement_id;
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
   let selectedeventtype;
   if(req.session.selectedRoute=='rfp'){
     selectedeventtype='FC';
@@ -3851,7 +3904,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
        //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
        eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
-      agreementId_session
+      agreementId_session,
+      publishClickEventStatus:publishClickEventStatus
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 

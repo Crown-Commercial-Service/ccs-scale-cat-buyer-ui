@@ -85,7 +85,7 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
          supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(suppourtURL);
       }
       
-      await nameretrieveProjetActiveEventsPromise.then(async data => {        
+      await nameretrieveProjetActiveEventsPromise.then(async data => {  
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
           a.projectId < b.projectId ? 1 : -1,
         );        
@@ -630,7 +630,6 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
   // }
-  
   let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });

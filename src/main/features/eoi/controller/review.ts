@@ -30,6 +30,10 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
     endDate: CurrentTimeStamp,
   };
   
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(ProjectID);
+  req.session['publishclickevents'] = publishactiveprojects;
+  
   //Fix for SCAT-3440
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -55,21 +59,37 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
 
   if (review_publish == '1') {
     try {
+
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      if (response.status == Number(HttpStatusCode.OK)) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      }
+
+      if(agreementId_session == 'RM1557.13'){
+        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+         setTimeout(function(){
+          res.redirect('/eoi/event-sent');
+          }, 5000);
+      }
+      else{
+
+      
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(null, logConstant.eoiPublishLog, req);
       
 
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
-      if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
-      }
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      // }
       // if( agreementId_session == 'RM6187'){
       //   res.redirect('/eoi/confirmation-review');
       // }else{
         res.redirect('/eoi/event-sent');
       // }
+    }
       
     } catch (error) {
       
@@ -88,6 +108,15 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
   const { download } = req.query;
+  
+  const publishClickeventValue = req.session['publishclickevents'];
+    let publishClickEventStatus = false;
+    if(publishClickeventValue.length > 0){
+     if(publishClickeventValue.includes(ProjectID)){
+      publishClickEventStatus = true;
+     }
+    }
+
   if(download!=undefined)
   {
     const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
@@ -95,6 +124,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
     });
+    
+  
     const file = FetchDocuments;
     const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
     const fileData = file.data;
@@ -168,7 +199,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             const duration = obj.values.map(v => v.value);
             let durationTemp=[];
             if(duration[0]!=undefined){
-
+           
               durationTemp = duration[0].replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-')
             }
 
@@ -178,7 +209,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
                   'How long you think the project will run for (Optional): ' +
                   (durationTemp.length == 3
                     ? durationTemp[0] + ' years ' + durationTemp[1] + ' months ' + durationTemp[2] + ' days'
-
                     : ''),
                 selected: true,
               },
@@ -304,7 +334,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       customStatus,
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       supplierLength:supplierLength,
-      agreementId_session
+      agreementId_session,
+      publishClickEventStatus:publishClickEventStatus
     };
     
     

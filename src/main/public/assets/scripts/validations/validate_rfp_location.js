@@ -173,7 +173,7 @@ const ccsZvalidateRfpLocation = (event) => {
       const pageHeading = document.getElementById('page-heading').innerHTML;
       
 
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
        
         
          //const lotid = document.getElementById('LotID').value;
@@ -186,7 +186,7 @@ const ccsZvalidateRfpLocation = (event) => {
 console.log("group_id",group_id);
 
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
-          errMsg = "Select the locations where staff will work";
+          errMsg = "Select at least one location";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
           errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
@@ -194,7 +194,7 @@ console.log("group_id",group_id);
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
           errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
-          errMsg = "You must select at least one region where the research will be taking place";
+          errMsg = "Select at least one location";
         }
         else {
           errMsg=" Please select the checkbox.";

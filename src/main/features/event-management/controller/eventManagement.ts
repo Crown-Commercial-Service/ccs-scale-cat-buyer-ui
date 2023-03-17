@@ -923,7 +923,8 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       let qasCount = 0;
       if (fetchData.data != undefined) {
-        qasCount = fetchData.data.length;
+        qasCount = fetchData.data.QandA;
+        qasCount = qasCount.length;
       }
       let showCloseProject = true;
       if (status.toLowerCase() == "awarded" || status.toLowerCase() =="complete") {
@@ -1675,8 +1676,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
             const appendData: any = {
               releatedContent: releatedContent,
               supplierData,
-              eventId
-              
+              eventId,
+              agreementId_session,
+              lotid
             };
              
               //CAS-INFO-LOG 

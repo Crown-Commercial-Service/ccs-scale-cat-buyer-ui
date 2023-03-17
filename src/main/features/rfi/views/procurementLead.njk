@@ -28,7 +28,7 @@
          href: "/rfi/rfi-tasklist"
       },
       {
-         text: "Change who will lead the project",
+         text: "Change who will lead your project",
          href: "#"
       }
     ]
@@ -81,10 +81,8 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
-         {% if agreementId_session=="RM1557.13" %}
-           	<strong> Change who will lead the Project (optional) </strong>
-         {% elseif agreementId_session == 'RM6187' %}
-           	<strong> Change who will lead the Project (optional) </strong>
+         {% if agreementId_session=="RM1557.13"  or agreementId_session == 'RM6187' %}
+           	<strong> Change who will lead your project (optional) </strong>
 	      {% else %}
 		      <strong> Change who will lead the procurement (optional) </strong>
          {% endif %}

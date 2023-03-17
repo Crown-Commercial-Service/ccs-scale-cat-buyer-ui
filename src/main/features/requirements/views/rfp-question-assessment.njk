@@ -32,6 +32,36 @@
       }
     ]
   }) }}
+  {% elseif agreement_id == 'RM1043.8' %}
+
+      {{ CCSBreadcrumbs({
+        items: [
+        {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+                text: "Procurement overview",
+                href: "/projects/create-or-choose"
+            },
+            {
+              text: "Write and publish your requirements",
+              href: "/rfp/task-list"
+            },
+            {
+              text: "Your assessment criteria",
+              href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+            },
+          {
+            text: bcTitleText
+          }
+        ]
+      }) }}
+
  {% else %}
   {{ CCSBreadcrumbs({
     items: [
@@ -52,7 +82,7 @@
           href: "/rfp/task-list"
         },
         {
-          text: "Your Assessment bases and evaluation weightings",
+          text: "Your assessment criteria",
           href:  "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
         },
       {
@@ -100,6 +130,9 @@
              {%if(prompt.length>1)%}
               <p class="govuk-body">{{prompt[1] | safe}}</p>
              {%endif%} #}
+
+                                   
+            
             {{ CCSInsetText({
                     html: prompt,
                     classes: "govuk-custom_form-content_bold"
@@ -107,10 +140,10 @@
 
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}
-               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,'','',eventManagement_eventType)}}
+               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,'',eventManagement_eventType)}}
                {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}}
               {%else%}
-               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,'','',eventManagement_eventType)}}
+               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,'',eventManagement_eventType)}}
               {%endif%}
               {%- endmacro %}
               
@@ -121,10 +154,12 @@
                     <h2>
                       <span id="questionsCount">{{questionsCount}}</span>
                       {% if agreement_id == 'RM1043.8' %}
-                          {% if (group_id == 'Group 8') %}
-                            {{shortTitle}} questions entered
+                         {% if (group_id == 'Group 8' and lotId == '3') %}
+                            {{shortTitle}} entered so far
+                          {% elseif (group_id == 'Group 8' and lotId == '1') %}
+                            {{shortTitle}} questions entered so far
                           {% else %}
-                            {{shortTitle}} entered
+                            {{shortTitle}} entered so far
                           {% endif %}
                       {% else %}
                           {% if agreement_id == 'RM6187' and group_id == 'Group 6' %}
@@ -138,10 +173,12 @@
                       </h2>
 
                     {% if agreement_id == 'RM1043.8' %}
-                      {% if (group_id == 'Group 8') %}
-                        <h2> Total for the {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% if (group_id == 'Group 8' and lotId == '3') %}
+                        <h2> Total for {{shortTitle}}  : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                      {% elseif (group_id == 'Group 8' and lotId == '1') %}
+                        <h2> Total for {{shortTitle}} questions : <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% else %}
-                        <h2> Total for the {{shortTitle}}{{ ' category' if (group_id == 'Group 9') else '' }}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
+                        <h2> Total for  {{shortTitle}}: <span id="totalPercentage">{{totalPercentage}}</span>% of 100%</h2>
                       {% endif %}
                     {% else %} 
                           {% if (agreement_id == 'RM6187') or (agreement_id == 'RM1557.13') %}
@@ -194,8 +231,8 @@
                     </label> #}
                   <label data-label={{agreement_id}} class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >
                     {% if(agreement_id == 'RM1043.8') %}                        
-                        {% if(group_id == 'Group 7' and lotId == '1') %}
-                          Enter your
+                        {% if(group_id == 'Group 7' and (lotId == '1' or lotId == '3')) %}
+                          Enter a
                         {% else%}
                           Enter your
                         {%endif%}
@@ -204,14 +241,22 @@
                     {% elseif (agreement_id == 'RM1557.13' and ((group_id == 'Group 4') or (group_id == 'Group 6') ))%}
                           Enter your
                     {% else %}
-                          Enter your                 
+                          Enter your                
                     {%endif%}
-                      {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and lotId == '1') %}
+                      {% if(agreement_id == 'RM1043.8' and group_id == 'Group 7' and (lotId == '1' or lotId == '3') )%}
                       {{shortTitle | replace("questions", "question")}}
                       {% elseif (agreement_id == 'RM1043.8' and group_id == 'Group 8' and lotId == '1') %}
                       {{numberWord[i]}} {{shortTitle}} question
                       {% else%}
-                      {{numberWord[i]}} {{shortTitle}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                       {% if(agreement_id == 'RM1043.8' and group_id == 'Group 5' and (lotId == '1' or lotId == '3')) %}
+                       
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                       {% elseif(agreement_id == 'RM1043.8' and group_id == 'Group 6' and (lotId == '1' or lotId == '3')) %}
+                       
+                         {{numberWord[i]}}  {{shortTitle | replace("skills and", "skill or")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}  
+                       {% else%}
+                         {{numberWord[i]}} {{shortTitle | replace("questions", "question")}}{{ '' if agreement_id == 'RM1043.8' else ' question ' }}
+                      {%endif%}
                       {%endif%}
                       
                       <a href="{{i}}" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
@@ -222,13 +267,12 @@
                   {% endfor %}
                 </div>
                 {%endfor%}
-
                 {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
                   {{ CCSButton({
                         text: "Add another question",
                         type:"button",
-                        classes:"add-another-btn govuk-button--secondary"                 
+                        classes:"add-another-btn govuk-button--secondary btncheck"                 
                       })}}
                 </div>
                 {%elseif(section !=='5')%}
@@ -282,7 +326,7 @@
                         }) }}
                   {% endif %}
 
-                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to your assessment criteria</a>
+                  <a href="/rfp/your-assessment?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Your assessment criteria</a>
                 </div>
 
               </form>
@@ -290,7 +334,7 @@
             </div>
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                {{ CCSReleatedContent(releatedContent, socialRelated) }}
+                {{ CCSReleatedContent(releatedContent, socialRelated,agreement_id,'',lotId,'') }}
               </div>
             </div>
 

@@ -2470,6 +2470,14 @@ p + .govuk-heading-s,
   }
 }
 
+@media (min-width: 40.0625em) {
+  .govuk-label--sm {
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 0.31579;
+  }
+}
+
 @media print {
   .govuk-label--s {
     font-size: 14pt;
@@ -4005,6 +4013,14 @@ p + .govuk-heading-s,
 
 .d_button {
   height: 36px;
+}
+
+span#create_supplier_message-error{
+display: none;
+}
+
+span#create_message_input-error{
+display: none;
 }
 
 .govuk-header {
@@ -5714,6 +5730,23 @@ display: flex;
 
 .govuk-radios__label {
   display: inline-block;
+  margin-bottom: 0;
+  padding: 8px 15px 5px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.govuk-radios__label_block {
+  margin-bottom: 0;
+  padding: 8px 15px 5px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+
+.govuk-radios__label_block {
   margin-bottom: 0;
   padding: 8px 15px 5px;
   cursor: pointer;
