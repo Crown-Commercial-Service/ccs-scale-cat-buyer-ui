@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
               msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
