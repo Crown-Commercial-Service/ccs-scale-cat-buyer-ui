@@ -12,6 +12,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { RFI_REVIEW_HELPER } from '../helpers/review';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -30,7 +31,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
 
   /** Daylight saving fix start */
   CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-  CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+  CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).utc();
   /** Daylight saving fix end */
 
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();

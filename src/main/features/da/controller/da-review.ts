@@ -12,6 +12,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
 import momentnew from 'moment';
+import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -984,8 +985,11 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   req.session['publishclickevents'] = publishactiveprojects;
  // CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
- CurrentTimeStamp = momentnew(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-  CurrentTimeStamp = momentnew(CurrentTimeStamp).utc();
+ /** Daylight saving fix start */
+ CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
+ CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).utc();
+ /** Daylight saving fix end */
+
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
   
