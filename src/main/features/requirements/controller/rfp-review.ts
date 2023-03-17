@@ -2141,7 +2141,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
     CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).utc();
     /** Daylight saving fix end */
     
-     CurrentTimeStamp = CurrentTimeStamp.toISOString();
+    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2192,13 +2192,14 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       }
      if(agreement_id == 'RM1043.8' && (lot_id == 1 || lot_id == 3)){
-       const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //  const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
-      
-       setTimeout(function(){
-        res.redirect('/rfp/rfp-eventpublished');
-        }, 5000);
+      res.write(JSON.stringify(_bodyData));
+      res.end();
+      //  setTimeout(function(){
+      //   res.redirect('/rfp/rfp-eventpublished');
+      //   }, 5000);
      } 
      else if(agreement_id == 'RM1557.13'){
       const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
