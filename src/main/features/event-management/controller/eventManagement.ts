@@ -370,11 +370,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             if (end_date != undefined && end_date != null) {
               let day = end_date.substr(0, 10);
               let time = end_date.substr(11, 5);
+              /** Daylight savings */
               if(momentz(new Date(end_date)).tz('Europe/London').isDST()) {
                 filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('DD MMMM YYYY, HH:mm')
               } else {
                 filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm')
               }
+              /** Daylight savings */
             }
 
           } catch (error) {
