@@ -8,6 +8,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
@@ -23,8 +24,18 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const EventID = req.session['eventId'];
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
+
   let CurrentTimeStamp = req.session.endDate;
-  CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
+  let dateSplited = CurrentTimeStamp.split('*')[1];
+  if(moment(new Date(dateSplited)).tz("Europe/London").isDST()) {
+    let dateFormated = moment(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+01:00');
+    CurrentTimeStamp = moment(new Date(dateFormated)).toISOString();
+  } else {
+    let dateFormated = moment(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+00:00');
+    CurrentTimeStamp = moment(new Date(dateFormated)).toISOString();
+  }
+
+  // CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
   
   const _bodyData = {
     endDate: CurrentTimeStamp,

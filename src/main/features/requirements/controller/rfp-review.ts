@@ -2137,11 +2137,17 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   // if(CurrentTimeStamp){
     
     /** Daylight saving fix start */
-    CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-    CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).utc();
+    let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
+    if(isDayLight) {
+      CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().format('YYYY-MM-DD HH:mm');
+      CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).format('YYYY-MM-DDTHH:mm:ss+01:00'); //+01:00
+      CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().toISOString()
+    } else {
+      CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+    }
     /** Daylight saving fix end */
     
-    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+    
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
