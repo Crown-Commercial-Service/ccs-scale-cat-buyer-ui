@@ -39,15 +39,17 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
 
   /** Daylight savings */
   let projectActive = req.session.openProjectActiveEvents;
-  for (let j = 0; j < projectActive.length; j++) {
-    if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
-      if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-        let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
-        let day = end_dateActive.substr(0, 10);
-        let time = end_dateActive.substr(11, 5);
-        projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
-      }
-      }
+  if(projectActive != undefined) {
+    for (let j = 0; j < projectActive.length; j++) {
+      if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
+        if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+          let day = end_dateActive.substr(0, 10);
+          let time = end_dateActive.substr(11, 5);
+          projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+        }
+        }
+    }
   }
   /** Daylight savings */
 
@@ -651,15 +653,17 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
 
   /** Daylight savings */
   let projectActive = req.session.openProjectActiveEvents;
-  for (let j = 0; j < projectActive.length; j++) {
-    if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
-      if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-        let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
-        let day = end_dateActive.substr(0, 10);
-        let time = end_dateActive.substr(11, 5);
-        projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
-      }
-      }
+  if(projectActive != undefined) {
+    for (let j = 0; j < projectActive.length; j++) {
+      if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
+        if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+          let day = end_dateActive.substr(0, 10);
+          let time = end_dateActive.substr(11, 5);
+          projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+        }
+        }
+    }
   }
   /** Daylight savings */
 

@@ -14,7 +14,6 @@ import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel'
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
-import momentz from 'moment-timezone';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import process from 'node:process';
 import { logConstant } from '../../../common/logtracer/logConstant';
@@ -370,13 +369,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             if (end_date != undefined && end_date != null) {
               let day = end_date.substr(0, 10);
               let time = end_date.substr(11, 5);
-              /** Daylight savings */
-              if(momentz(new Date(end_date)).tz('Europe/London').isDST()) {
-                filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('DD MMMM YYYY, HH:mm')
-              } else {
-                filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm')
-              }
-              /** Daylight savings */
+            
+              filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm')
+            
             }
 
           } catch (error) {
@@ -566,11 +561,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             break
           case "EOI":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
-              console.log('*********** 1');
               res.render('awardEventManagement', appendData)
             }
             else {
-              console.log('*********** 2');
               res.render('eventManagement', appendData)
             }
             break
