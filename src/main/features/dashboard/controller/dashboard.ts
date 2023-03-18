@@ -1,7 +1,8 @@
 import * as express from 'express';
 // import moment from 'moment';
 import * as dashboarData from '../../../resources/content/dashboard/ccs-dashboard.json';
-//import moment from 'moment';
+import moment from 'moment';
+import momentz from 'moment-timezone';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import { ActiveEvents } from '@common/middlewares/models/active-events';
 import { eventStatus } from '@common/util/eventStatus';
@@ -36,10 +37,24 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
 
+  /** Daylight savings */
+  let projectActive = req.session.openProjectActiveEvents;
+  for (let j = 0; j < projectActive.length; j++) {
+    if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
+      if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+        let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+        let day = end_dateActive.substr(0, 10);
+        let time = end_dateActive.substr(11, 5);
+        projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+      }
+      }
+  }
+  /** Daylight savings */
+
   const appendData = {
     data: dashboarData,
     searchText,
-    events: req.session.openProjectActiveEvents,
+    events: projectActive,
     historicalEvents: req.session.historicalEvents,
     withOutPaEventsData:withOutPaEventsData
   };
@@ -634,10 +649,24 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
 
+  /** Daylight savings */
+  let projectActive = req.session.openProjectActiveEvents;
+  for (let j = 0; j < projectActive.length; j++) {
+    if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
+      if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+        let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+        let day = end_dateActive.substr(0, 10);
+        let time = end_dateActive.substr(11, 5);
+        projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+      }
+      }
+  }
+  /** Daylight savings */
+
   const appendData = {
     data: dashboarData,
     searchText,
-    events: req.session.openProjectActiveEvents,
+    events: projectActive,
     historicalEvents: req.session.historicalEvents,
     withOutPaEventsData:withOutPaEventsData
   };
