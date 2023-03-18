@@ -5,14 +5,14 @@ import * as https from 'https';
 import * as path from 'path';
 import { app } from './app';
 import config from 'config';
-import momentz from 'moment-timezone';
+// import momentz from 'moment-timezone';
 
 const logger = Logger.getLogger('server');
 const Server_PORT = config.get('PORT');
 const port: any = parseInt(process.env.PORT, 10) || Server_PORT;
 
 //Set default moment timezone id Euro/London (GMT/BST)
-momentz.tz.setDefault("Europe/London");
+// momentz.tz.setDefault("Europe/London");
 
 if (app.locals.ENV === 'development') {
   const sslDirectory = path.join(__dirname, 'resources', 'localhost-ssl');
