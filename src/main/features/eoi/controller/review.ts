@@ -27,12 +27,12 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
 
   let CurrentTimeStamp = req.session.endDate;
   let dateSplited = CurrentTimeStamp.split('*')[1];
-  if(moment(new Date(dateSplited)).tz("Europe/London").isDST()) {
-    let dateFormated = moment(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+01:00');
-    CurrentTimeStamp = moment(new Date(dateFormated)).toISOString();
+  if(momentz(new Date(dateSplited)).tz("Europe/London").isDST()) {
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+01:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
   } else {
-    let dateFormated = moment(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+00:00');
-    CurrentTimeStamp = moment(new Date(dateFormated)).toISOString();
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+00:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
   }
 
   // CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
@@ -84,7 +84,6 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
       }
       else{
 
-      
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       
       //CAS-INFO-LOG 
