@@ -16031,7 +16031,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7' ) {
 
@@ -16086,7 +16086,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                        else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7') {
 
@@ -16708,8 +16708,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
-                                msgContent = 'Enter a nice-to-have skill and experience';
-                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                                msgContent = 'Enter a nice-to-have skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
                                 msgContent = 'Enter a technical question';
@@ -16878,7 +16878,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
                            let msgContent = 'You must enter percentage';
                            if(urlParams.get('group_id') == 'Group 6' ){
-                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgContent = 'Enter a weighting for this nice-to-have skill or experience';
                            }
                            else if(urlParams.get('group_id') == 'Group 9' || (LOTID_VAR == 3 && urlParams.get('group_id') == 'Group 8') ){
                             msgContent = 'Enter a weighting for this social value question';
@@ -17083,7 +17083,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
                        let msgContent = 'You must enter valid question';
                         if(urlParams.get('group_id') == 'Group 6'){
-                        msgContent = 'Enter a nice-to-have skill and experience';
+                        msgContent = 'Enter a nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 8'){
                             msgContent = 'Enter a social value question';
