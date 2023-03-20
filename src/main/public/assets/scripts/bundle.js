@@ -17515,7 +17515,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   rowsAndHead.rows.reverse();
                   var rowlength = rowsAndHead.rows.length;
                     for (let i = 0; i < rowsAndHead.rows.length; i++) {
-                    if (i !== Number(rowlength)) {
+                    if (i !== Number(rowlength)-1) {
                      const ii = i + 1;
                      let elements = document.getElementsByClassName("score_criteria_" + ii);
                       elements[0].classList.remove("ccs-dynaform-hidden");
