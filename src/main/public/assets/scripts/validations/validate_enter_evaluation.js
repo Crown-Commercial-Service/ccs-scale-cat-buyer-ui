@@ -18,14 +18,14 @@ $("#enter_evaluation").submit(function(){
   let fieldId = document.getElementById("enter_evaluation_score")
   ccsZremoveErrorMessage(fieldId);
   if(scoreValue == true){
-    error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", null);
+    error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", null);
     if (error !== true) errorStore.push(error);
     // ccsZaddErrorMessage(document.getElementById("enter_evaluation_score"), "Please enter score between 0 to 100");
     // errorStore.push(error);
 
   }
   if($("#enter_evaluation_score").val() == ''){
-     error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", /^.+$/);
+     error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", /^.+$/);
     errorStore.push(error);
   }
   if($("#enter_evaluation_feedback").val() == ''){
