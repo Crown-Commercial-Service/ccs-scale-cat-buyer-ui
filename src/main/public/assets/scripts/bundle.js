@@ -9562,7 +9562,7 @@ $('.add').addClass('ccs-dynaform-hidden');
 $(document).ready(function () {
 
     const checkType = document.getElementById("rfi_offline_document");
-    const elems = ['rfi', 'eoi','rfp','ca'];
+    const elems = ['rfi', 'eoi','rfp','ca','da'];
     let foundElem = false;
     let type, uploadField;
     while (!foundElem && elems.length > 0) {
@@ -9644,10 +9644,20 @@ $(document).ready(function () {
                 }
 
             }
+            const removeErrorFieldsRfpScoreQuestion = () => {
+                // $('.govuk-error-message').remove();
+                $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+                $('.govuk-error-summary').remove();
+                $('.govuk-input').removeClass('govuk-input--error');
+                $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+            }; 
             const noError = ErrorCheckArray.every(element => element.type === "none");
             const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
             const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
+            let errorStore = [];
+            let fieldCheck = '';
             if(noError){
+                removeErrorFieldsRfpScoreQuestion();
                 $(`#${type}_offline_document`).removeClass("govuk-input--error")
                 $(`#upload_doc_form`).removeClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -9665,7 +9675,10 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                errorStore.push(fieldCheck);
+                ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
             }
         
@@ -11866,10 +11879,10 @@ const emptyQuestionFieldCheck = () => {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         if(urlParams.get('agreement_id') == 'RM6187'){
-          errText = "You must ask at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else if(urlParams.get('agreement_id') == 'RM1557.13'){
-          errText = "Enter at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else{
           errText = "You must add at least one question";
@@ -11877,8 +11890,8 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-        if(urlParams.get('agreement_id') == 'RM1557.13'){
-          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed.", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
         }
         else{
           fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -11894,19 +11907,35 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-    if(urlParams.get('agreement_id') == 'RM6187'){
-      errText = "You must ask at least one question";
-    }else{
-      errText = "You must add at least one question";
-    }
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+    
+    for (var i = 1; i < totalCountindex; i++) {
+      // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+         if(i==1){
+            if(urlParams.get('agreement_id') == 'RM6187'){
+              errText = "Enter at least one question";
+            }else{
+              errText = "Enter at least one question";
+            }
+           fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+         }
+         else{
+           if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+           }
+           else{
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+           }
+         }
+       }
+     }
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
 
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheck();
+  errorStore = emptyQuestionFieldCheckForSave();
 
   //}
 

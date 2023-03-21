@@ -56,14 +56,13 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
                     }
                 }
         // var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
-
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
         supplierDetails.score = (score != undefined) ? score : 0;
         
         supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-        supplierDetails.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null ? (supplierFiltedData.address !== undefined) ? supplierFiltedData.address.streetAddress : "Nil" : {} as SupplierAddress;
+        supplierDetails.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null ? (supplierFiltedData.address !== undefined) ? supplierFiltedData.address : "Nil" : {} as SupplierAddress;
         supplierDetails.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null ? (supplierFiltedData.contactPoint !== undefined) ? supplierFiltedData.contactPoint.name : "Nil" : "";
         supplierDetails.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null ? (supplierFiltedData.contactPoint !== undefined) ? supplierFiltedData.contactPoint.email : "Nil" : "";
         supplierDetails.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null ? (supplierFiltedData.identifier !== undefined) ? supplierFiltedData.identifier.uri : "Nil" : "";
@@ -110,6 +109,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
 
     res.render('confirmSupplier', appendData);
   } catch (error) {
+    console.log('error',error)
     LoggTracer.errorLogger(
       res,
       error,

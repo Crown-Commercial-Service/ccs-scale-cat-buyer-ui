@@ -1137,6 +1137,17 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
   //status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
 
+  let stage2_value = 'Stage 1';
+  try{
+    const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    const stage2_dynamic_api_data = stage2_dynamic_api.data;
+    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+    if(stage2_data.length > 0) stage2_value = 'Stage 2';
+  }catch(e){
+
+  }
+
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
@@ -1227,7 +1238,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
         }
       }
       
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent,stage2_value };
 
        //CAS-INFO-LOG 
        LoggTracer.infoLogger(null, logConstant.reviewYourSupplierEvaluationPageLogg, req);
