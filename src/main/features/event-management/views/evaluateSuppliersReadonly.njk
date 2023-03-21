@@ -99,9 +99,16 @@
                           })
                         }}
                     {% else %}
+
+                      {% set textLbl = "Final Score " %}
+                      
+                      {% if (agreementId_session == "RM1043.8") and stage2_value == 'Stage 1' %}
+                        {% set textLbl = "Score" %}
+                      {% endif %}
+
                         {{ CCSInput({
                               label: {
-                                text: "Final Score ",
+                                text: textLbl,
                                 classes: "govuk-label--m",
                                 id: "enter_evaluation_Score",
                                 name: "enter_evaluation"
