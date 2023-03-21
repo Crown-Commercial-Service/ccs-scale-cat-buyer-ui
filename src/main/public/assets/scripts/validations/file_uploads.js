@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     const checkType = document.getElementById("rfi_offline_document");
-    const elems = ['rfi', 'eoi','rfp','ca'];
+    const elems = ['rfi', 'eoi','rfp','ca','da'];
     let foundElem = false;
     let type, uploadField;
     while (!foundElem && elems.length > 0) {
@@ -84,10 +84,20 @@ $(document).ready(function () {
                 }
 
             }
+            const removeErrorFieldsRfpScoreQuestion = () => {
+                // $('.govuk-error-message').remove();
+                $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+                $('.govuk-error-summary').remove();
+                $('.govuk-input').removeClass('govuk-input--error');
+                $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+            }; 
             const noError = ErrorCheckArray.every(element => element.type === "none");
             const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
             const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
+            let errorStore = [];
+            let fieldCheck = '';
             if(noError){
+                removeErrorFieldsRfpScoreQuestion();
                 $(`#${type}_offline_document`).removeClass("govuk-input--error")
                 $(`#upload_doc_form`).removeClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -105,7 +115,10 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                errorStore.push(fieldCheck);
+                ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
             }
         

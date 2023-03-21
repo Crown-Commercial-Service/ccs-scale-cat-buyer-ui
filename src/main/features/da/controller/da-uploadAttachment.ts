@@ -314,7 +314,7 @@ export const DA_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   //  res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
   res.redirect(`/da/upload-doc`);
   } else {
-    req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
+    req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false};
     res.redirect(`/da/upload-attachment`);
   }
 
