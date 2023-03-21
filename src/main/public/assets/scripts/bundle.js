@@ -9790,7 +9790,7 @@ const ccsZvalidateCaaAssFCSecurity = (event) => {
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "You must select how you will build your RFI");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select how you will build your RfI");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
@@ -17490,12 +17490,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+        if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13')){ 
           if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
             let question1 = document.getElementById('rfp_score_criteria_name_1').value;
             let question2 = document.getElementById('rfp_score_criteria_point_1').value;
             let question3 = document.getElementById('rfp_score_criteria_desc_1').value;
-            if(question1 != '' && question2 != '' && question3 != '' ){
+            if(question1 != '' || question2 != '' || question3 != '' ){
               openpop.classList.add('showpopup');
             }else{
               for (let score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
@@ -17511,10 +17511,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 with_value_count = rowsAndHead.rows.length + 1;
                 rowsAndHead.rows.unshift({ text: "Ignore" })
       
-                if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+                if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13')){ 
                   rowsAndHead.rows.reverse();
+                  var rowlength = rowsAndHead.rows.length;
                     for (let i = 0; i < rowsAndHead.rows.length; i++) {
-                    if (i !== 4) {
+                    if (i !== Number(rowlength)-1) {
                      const ii = i + 1;
                      let elements = document.getElementsByClassName("score_criteria_" + ii);
                       elements[0].classList.remove("ccs-dynaform-hidden");
@@ -19857,14 +19858,14 @@ $("#enter_evaluation").submit(function(){
   let fieldId = document.getElementById("enter_evaluation_score")
   ccsZremoveErrorMessage(fieldId);
   if(scoreValue == true){
-    error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", null);
+    error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", null);
     if (error !== true) errorStore.push(error);
     // ccsZaddErrorMessage(document.getElementById("enter_evaluation_score"), "Please enter score between 0 to 100");
     // errorStore.push(error);
 
   }
   if($("#enter_evaluation_score").val() == ''){
-     error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", /^.+$/);
+     error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", /^.+$/);
     errorStore.push(error);
   }
   if($("#enter_evaluation_feedback").val() == ''){
@@ -20170,7 +20171,7 @@ const ccsZvalidateEoiProjectName = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Your project must have a name.", /^.+$/);
+  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Enter the name of your project", /^.+$/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_eoi_project_name_form"].submit();
