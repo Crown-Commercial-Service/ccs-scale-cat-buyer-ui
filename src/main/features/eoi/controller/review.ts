@@ -264,7 +264,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       //Fix for SCAT-4146 - arranging the questions order
       let expected_eoi_keydates=EOI_DATA_TIMELINE_DATES;
     
-      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
+      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1)).shift()
   
       for(let i=0;i<expected_eoi_keydates[0].answer.length;i++){
         let data=expected_eoi_keydates[0].answer[i].values[0].value;
@@ -345,7 +345,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.eoireviewAndPublishPageLog, req);
-
+    
     res.render('reviewEoi', appendData);
     
     

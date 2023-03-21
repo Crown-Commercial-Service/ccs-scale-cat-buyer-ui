@@ -108,7 +108,7 @@
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Name your project
+              Name your project (optional)
             </dt>
             {% if project_name | length > 0 %}
               <dd class="govuk-summary-list__value">
@@ -202,10 +202,11 @@
         </dl>
         <h2 class="govuk-heading-m">2. Build your EOI
         </h2>
+        <hr/>
         <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
+          {# <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Choose how to build your EoI
+              Choose how to build your EoI   BBBBB
             </dt>
             {% if ccs_eoi_type == 'all_online' %}
               <dd class="govuk-summary-list__value">
@@ -223,12 +224,13 @@
                 </a>
               {% endif %}
             </dd>
-          </div>
+          </div> #}
+          
           {% for item in eoi_data %}
           
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                {{ item.title }} 
+                {{ item.title }}
               </dt>
               {% if data['eoi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
@@ -297,7 +299,7 @@
                 <dl class="govuk-summary-list">
                   <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                      Upload documents
+                      Upload documents (optional)
                     </dt>
                     {% if documents | length > 0 %}
                       <dd class="govuk-summary-list__value">
@@ -398,7 +400,7 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
 
               {% if agreement_id != "RM6187" %}
                 <div class="govuk-inset-text">
-                <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
+                  <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
                 </div>
                 <p class="govuk-body">
                   After publishing this EoI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
@@ -418,18 +420,17 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                 </p>
                 <br>
                   <br>
-
-  {% if agreement_id == "RM6187" %}
-                  {{ CCSWarningText({
-    text: "By publishing this EoI you are stating that, to the best of your knowledge, the information you have provided is correct.",
-    iconFallbackText: "Warning"
-    }) }}
-  {% else %}
-                    {{ CCSWarningText({
-    text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
-    iconFallbackText: "Warning"
-    }) }}
-  {% endif %}
+                  {% if agreement_id == "RM6187" %}
+                                  {{ CCSWarningText({
+                    text: "By publishing this EoI you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                    }) }}
+                  {% else %}
+                                    {{ CCSWarningText({
+                    text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                    }) }}
+                  {% endif %}
                     <div class="ccs-link-group">
                       <span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -461,55 +462,55 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                         {{ csrfProtection(csrf) }}
                         {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}
                           {{ CCSCheckboxes({
-      idPrefix: "eoi_publish_confirmation",
-      name: "eoi_publish_confirmation",
-      items: [
-      {
-      "value": 1,
-      html: "<label><strong>By checking this box, I confirm the statements above</strong></label>",
-      Checked: ""
-      }
-      ]
-      }) }}
+                            idPrefix: "eoi_publish_confirmation",
+                            name: "eoi_publish_confirmation",
+                            items: [
+                            {
+                            "value": 1,
+                            html: "<label><strong>By checking this box, I confirm the statements above</strong></label>",
+                            Checked: ""
+                            }
+                            ]
+                            }) }}
                           <div class="govuk-button-group">
                             {%if publishClickEventStatus == true%}
                             {{ CCSButton({
-        attributes: {
-        id: "eoi_btn_publish_now"
-        },
-        classes: "oneTimeClick",
-        disabled:true,
-        text: "Publish and continue"
-        }) }}
-        {%else%}
-        {{ CCSButton({
-        attributes: {
-        id: "eoi_btn_publish_now"
-        },
-        classes: "oneTimeClick",
-        text: "Publish and continue"
-        }) }}
-        {%endif%}
-                    {% if agreementId_session == "RM6187" %} 
-                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
-                            </a>
-                    {% else %}
-                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement
-                            </a>
-                    {% endif %}        
-                          </div>
-                        {% else %}
-                          <div class="govuk-button-group">
-                            <a href="/event/management?id={{ event_id }}" class="govuk-link govuk-link--no-visited-state">Return to your project
-                            </a>
-                          </div>
-                        {% endif %}
-                        {{ CCSInput({
-      id: "finished_pre_engage",
-      name: "finished_pre_engage",
-      type: "hidden",
-      value: "true"
-      }) }}
+                                attributes: {
+                                id: "eoi_btn_publish_now"
+                                },
+                                classes: "oneTimeClick",
+                                disabled:true,
+                                text: "Publish and continue"
+                                }) }}
+                                {%else%}
+                                {{ CCSButton({
+                                attributes: {
+                                id: "eoi_btn_publish_now"
+                                },
+                                classes: "oneTimeClick",
+                                text: "Publish and continue"
+                                }) }}
+                                {%endif%}
+                                {% if agreementId_session == "RM6187" %} 
+                                        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
+                                        </a>
+                                {% else %}
+                                        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement
+                                        </a>
+                                {% endif %}        
+                                      </div>
+                                    {% else %}
+                                      <div class="govuk-button-group">
+                                        <a href="/event/management?id={{ event_id }}" class="govuk-link govuk-link--no-visited-state">Return to your project
+                                        </a>
+                                      </div>
+                                    {% endif %}
+                                    {{ CCSInput({
+                                    id: "finished_pre_engage",
+                                    name: "finished_pre_engage",
+                                    type: "hidden",
+                                    value: "true"
+                                    }) }}
                       </form>
                     </div>
                   </div>
