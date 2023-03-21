@@ -9790,7 +9790,7 @@ const ccsZvalidateCaaAssFCSecurity = (event) => {
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "You must select how you will build your RFI");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select how you will build your RfI");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
