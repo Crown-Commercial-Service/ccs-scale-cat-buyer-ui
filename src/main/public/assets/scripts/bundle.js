@@ -23088,15 +23088,15 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
   });
 
   let countOfpublishBtn = 0;
-  $('.oneTimeClick').click(function(e) {
-    $(this).attr("disabled", true);
-    if(countOfpublishBtn == 0) {
-      $(this).parents('form').submit();
-    }
-    countOfpublishBtn++;
-  });
+  // $('.oneTimeClick').click(function(e) {
+  //   $(this).attr("disabled", true);
+  //   if(countOfpublishBtn == 0) {
+  //     $(this).parents('form').submit();
+  //   }
+  //   countOfpublishBtn++;
+  // });
 
-
+  
   // CAS-32
   if(document.forms.length > 0) {
     const publishDateMismatchFormEvent = document.forms[0].id;
@@ -23156,8 +23156,13 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
               });
               return false;
             } else {
-              document.getElementById(publishDateMismatchFormEvent).submit();
-              return true;
+              $('.oneTimeClick').attr("disabled", true);
+              if(countOfpublishBtn == 0) {
+                document.getElementById(publishDateMismatchFormEvent).submit();
+                return true;
+              } else {
+                return false;
+              }
             }
           }).fail((res) => {
             console.log(res);
