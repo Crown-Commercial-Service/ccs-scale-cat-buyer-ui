@@ -22430,3 +22430,72 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       });
     });
   });
+
+
+
+  if (document.getElementsByClassName('backdrop-Qanda').length > 0) {
+    $(".dialog-close-Qanda").remove();
+    $(".dialog-close-Qanda").remove();
+    var elGo = document.querySelector(".backdrop-Qanda").querySelector(".nodeDialogTitle");
+    let divFirst = document.createElement('div');
+    divFirst.className = "govuk-form-group";
+    elGo.after(divFirst)
+
+    let QAInput = document.createElement('input');
+    QAInput.type  = 'email';
+    QAInput.name  = 'qa_email';
+    QAInput.id  = 'qa_email';
+    QAInput.placeholder  = 'Email';
+    QAInput.className = "govuk-input govuk-input--width-20";
+    document.querySelector(".govuk-form-group").append(QAInput);
+
+    const openpopGC = document.querySelector('.backdrop-Qanda')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-Qanda").on('click', function(){
+      return false;
+      // openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      // openpopGC.classList.remove('showpopup');
+      return false;
+    });
+    deconf = document.getElementById('redirect-button-Qanda');
+    deconf.addEventListener('click', ev => {
+      var validRegex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+      let inputVal = $("#qa_email").val();
+      console.log(inputVal.match(validRegex));
+      if(inputVal == '') {
+        QAInputErrorRemove();
+        QAInputError('Enter the email');
+      } else if (!validateEmail(inputVal)) {
+        QAInputErrorRemove();
+        QAInputError('Enter the valid email');
+      } else {
+        QAInputErrorRemove();
+        //Form submission
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // console.log(`/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`);
+        window.location.href = `/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`;
+      }
+
+    });
+    function QAInputErrorRemove() {
+        $('.govuk-form-group').removeClass("govuk-form-group--error");
+        $("#qa_email").prev('span').remove();
+        $("#qa_email").removeClass("govuk-input--error");
+    }
+    function QAInputError(msg) {
+        $('.govuk-form-group').addClass("govuk-form-group--error");
+        $("#qa_email").val('');
+        $("#qa_email").focus();
+        $("#qa_email").before(`<span class="govuk-error-message">${msg}</span>`);
+        $("#qa_email").addClass("govuk-input--error");
+    }
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
+  }
