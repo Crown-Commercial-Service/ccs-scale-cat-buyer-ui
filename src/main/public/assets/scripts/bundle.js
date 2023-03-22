@@ -23095,3 +23095,84 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
     }
     countOfpublishBtn++;
   });
+
+
+  // CAS-32
+  if(document.forms.length > 0) {
+    const publishDateMismatchFormEvent = document.forms[0].id;
+    if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+  
+      let checkBoxConfirmation;
+      if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+        checkBoxConfirmation = 'rfp_publish_confirmation';
+      }
+  
+      
+  
+      document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
+        event.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (!document.getElementById(checkBoxConfirmation).checked) {
+            $('#checkbox_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#checkbox_error_summary_list").html('<li><a href="#'+checkBoxConfirmation+'">You must check this box to confirm that you have read and confirm the statements above</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            return false;
+          } 
+  
+          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+  
+         $.ajax({
+            url: `/rfp/publish_date_mismatch`,
+            type: "GET",
+            contentType: "application/json",
+          }).done(function (result) {
+            var bodytg = document.body;
+            bodytg.classList.remove("pageblur");
+  
+            if(result.warning) {
+              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Go back and continue with timeline';
+              const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
+              openpopGC.classList.add('showpopup');
+              $(".dialog-close-publishTimelineMismatch").on('click', function(){
+                timelineRevertCancel();
+                openpopGC.classList.remove('showpopup');
+              });
+              $(".close-dialog-close").on('click', function(){
+                openpopGC.classList.remove('showpopup');
+              });
+              deconf = document.getElementById('redirect-button-publishTimelineMismatch');
+              deconf.addEventListener('click', ev => {
+                document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+                var bodytg = document.body;
+                bodytg.classList.add("pageblur");
+                openpopGC.classList.remove('showpopup');
+                if(result.eventType == 'FC') {
+                  window.location.href = window.location.origin+'/rfp/response-date';
+                }
+                //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
+              });
+              return false;
+            } else {
+              document.getElementById(publishDateMismatchFormEvent).submit();
+              return true;
+            }
+          }).fail((res) => {
+            console.log(res);
+          })
+        })
+      });
+      
+    }
+  }
+  
+  function timelineRevertCancel() {
+    $.ajax({
+      url: `/rfp/publish_date_mismatch/cancel`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (res) {
+    });
+  }
