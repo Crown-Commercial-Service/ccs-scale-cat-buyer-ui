@@ -45,6 +45,14 @@
     {% endif %}
 {% endblock %}
 {% block content %}
+<div class="govuk-error-summary hide-block" id="checkbox_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="checkbox_error_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (viewError == true) and (apiError == false) %}
       {{ CCSErrorSummary({
