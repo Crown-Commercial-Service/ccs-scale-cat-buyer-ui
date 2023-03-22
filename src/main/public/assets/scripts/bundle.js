@@ -20128,7 +20128,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "Select at least one location");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -21398,7 +21398,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
