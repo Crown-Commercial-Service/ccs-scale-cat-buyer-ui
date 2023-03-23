@@ -45,7 +45,7 @@
             "taskStatus":"Cannot start yet"
         },
         {
-            "title": "Upload any additional documents (optional)",
+            "title": "Upload additional documents (optional)",
             "hreftitle": "Add or change upload",
             "href": "/rfp/upload-additional",
             "mandatory":false,

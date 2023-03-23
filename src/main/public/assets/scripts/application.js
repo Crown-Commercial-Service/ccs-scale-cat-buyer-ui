@@ -401,10 +401,10 @@ setInputFilter(
   document.getElementById('eoi_resource_start_date-month'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter(
-  document.getElementById('eoi_resource_start_date-year'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
-);
+// setInputFilter(
+//   document.getElementById('eoi_resource_start_date-year'),
+//   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
+// );
 setInputFilter(
   document.getElementById('eoi_duration-days'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
@@ -1729,4 +1729,13 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
         document.location.href="/evaluate-confirm"
       });
     });
+  });
+
+  let countOfpublishBtn = 0;
+  $('.oneTimeClick').click(function(e) {
+    $(this).attr("disabled", true);
+    if(countOfpublishBtn == 0) {
+      $(this).parents('form').submit();
+    }
+    countOfpublishBtn++;
   });

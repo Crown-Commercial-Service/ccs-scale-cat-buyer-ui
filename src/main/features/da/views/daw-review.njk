@@ -198,7 +198,7 @@
           <div class="govuk-summary-list__row">
           {% if agreementId_session == 'RM6187' %}
             <dt class="govuk-summary-list__value">
-          <p>Change who will lead the project</p>
+          <p>Change who will lead your project</p>
         </dt>
           {% else %}
             <dt class="govuk-summary-list__value">
@@ -830,7 +830,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <p>{{bc1}}</p>
+                        {% if bc1 %}
+                          <p>{{bc1}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -842,7 +846,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{bc2}}</p>
+                       {% if bc2 %}
+                          <p>{{bc2}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row">
@@ -1040,9 +1048,9 @@
           </dt>
               {% if  document != undefined and document !=null and document | length > 0 %}
                 <dd class="govuk-summary-list__value">
-                  {% for doc in document %}
+                   {% for doc in document %}
                       <p class="govuk-body-s">{{ doc | safe }}</p>
-                  {%- endfor %}
+                    {%- endfor %}
                 </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
@@ -1060,7 +1068,7 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__value">
-            <p>Upload more documents (optional)</p>
+            <p>Upload your core terms, call-off order form and schedules (terms and conditions)</p>
           </dt>
               {# <dd class="govuk-summary-list__value"> #}
                 {% if(document !=undefined and document !=null and documents | length > 0) %}
@@ -1087,6 +1095,37 @@
                 {% endif %}
               </dd>
             </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__value">
+            <p>Upload any additional documents (optional)</p>
+          </dt>
+              {# <dd class="govuk-summary-list__value"> #}
+                {% if(document !=undefined and document !=null and documents | length > 0) %}
+                <dd class="govuk-summary-list__value">
+                  <ul class="govuk-list govuk-list--none">
+                    {% for doc in additionalDocuments %}
+                      <li>
+                        <span class="govuk-body-s">{{doc}}</span>
+                        </li>
+                    {%- endfor %}
+                  </ul>
+                </dd>
+              {% else %}
+                <dd class="govuk-summary-list__value">
+            
+          </dd>
+              {% endif %}
+              {# </dd> #}
+              <dd class="govuk-summary-list__actions">
+              {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED")%}
+                <a class="govuk-link" href="/da/upload-additional">
+              Change<span class="govuk-visually-hidden"> procurement lead</span>
+                </a>
+                {% endif %}
+              </dd>
+            </div>
+
             {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
@@ -1569,7 +1608,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      html: "<label><strong>By checking this box, I confirm that I have read the statements above.</strong></label>",
       Checked: ""
       }
       ]
@@ -1577,12 +1616,24 @@
 
   
                             <div class="govuk-button-group">
+                       {%if publishClickEventStatus == true%}         
                               {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
+        classes: "oneTimeClick",
+        disabled:true,
         text: "Publish and continue"
         }) }}
+        {%else%}
+         {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        text: "Publish and continue"
+        }) }}
+        {%endif%}
                               <a href="/da/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
                             </div>
       {% else %}   

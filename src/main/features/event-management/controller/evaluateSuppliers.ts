@@ -177,7 +177,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       stage2_value = 'Stage 2';
     }
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
         
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);
@@ -352,13 +352,16 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
   const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
     res.locals.agreement_header = { project_name: project_name, projectId, agreementName, agreementId_session, agreementLotName, lotid }
     let cmsData;
+    let stage_value;
     if(stage2_data.length > 0){
-       cmsData=stage2ShortListEvaluationData;
+      stage_value = 'stage 2';
+      cmsData=stage2ShortListEvaluationData;
     }else{
-       cmsData=stage1ShortListEvaluationData;
+      stage_value = 'stage 1';
+      cmsData=stage1ShortListEvaluationData;
     }
       
-    const appendData = { data: cmsData,projectId,eventId,agreement_id}
+    const appendData = { data: cmsData,projectId,eventId,agreement_id,lotid,stage_value}
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.furtherAssesmentPageLogg, req);

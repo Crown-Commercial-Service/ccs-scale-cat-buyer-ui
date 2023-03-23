@@ -20,12 +20,19 @@
 
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-          {% if (viewError == true) %}
+    {% if (viewError == true) %}
+
+    {% if(agreement_header['agreementId_session']=='RM1043.8') %}
+        {% set errText = "Confirm that you are ready to award your contract" %}
+    {% else %}
+        {% set errText = "You must check this box to confirm that you have read and confirm the statements above" %}
+    {% endif %}
+
       {{ CCSErrorSummary({
         titleText: "There is a problem with supplier to be awarded",
         errorList: [
           {
-            text: "You must check this box to confirm that you have read and confirm the statements above",
+            text: errText,
             href: "#ccs_award_supplier_form"
           }
         ]
@@ -124,7 +131,7 @@
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}
@@ -229,7 +236,7 @@
         id: "btn_award_supplier"
         },
          classes: s_classes,
-        text: "Award supplier"
+        text: "Award Supplier"
         }) }}
                                   <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
                                 </div>

@@ -5,7 +5,7 @@
 {% if stage2_value == 'Stage 2' %} 
 {% set title = 'Your project' %}
 {% else %}
-    {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+    {% if(agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
         {% set title = 'Your project' %}
     {% else %}
         {% set title = 'Event management' %}
@@ -104,10 +104,15 @@
         {%endif%}
         <br>
       {% endif %}  
+
+      {% if(agreement_header['agreementId_session']=='RM1043.8') %}
+        <h1 class="govuk-heading-m"> {{eventManagementData.supplierDetails.supplierName}}</h1>
+        <p> {{eventManagementData.supplierDetails.supplierId}}</p>
+      {%else%}
         <h3> <strong>Supplier name</strong></h3>
-
-       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
-
+        <p> {{eventManagementData.supplierDetails.supplierName}}</p>
+      {%endif%}
+       
        <p> <strong>Address:</strong></p>
        <p> {{eventManagementData.supplierDetails.supplierAddress}}</p>
        {# <p> {{eventManagementData.supplierDetails.streetAddress}}</p>
@@ -141,7 +146,7 @@
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}

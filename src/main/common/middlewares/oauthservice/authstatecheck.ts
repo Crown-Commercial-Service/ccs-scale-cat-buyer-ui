@@ -116,7 +116,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
   const today = new Date();
   const endDate = new Date(expiryTimestamp * 1000);
   const minutes = parseInt((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
-  if (minutes <= 2) {
+  if (minutes <= 14) {
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
     //@ Create the authentication credetial to to allow the re-direct
     let auth_credentails: any = {

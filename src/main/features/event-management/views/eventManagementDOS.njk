@@ -60,8 +60,12 @@
         <p>Manage your project  from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.<br><br>
           You can close this project using the link under the project name below.</p>
         {% else %}
-        <p>
+         <p>
+            {% if status.toUpperCase() === 'PUBLISHED' %}
+          Manage your project from this page including responding to supplier clarification questions or messages in your inbox. See supplier responses to your published project.<br><br>
+           {% else %}
           Manage your project from this page including responding to supplier clarification questions or messages in your inbox. See supplier answers to your published project.<br><br>
+          {% endif %}
           You can close this project using the link under the project name below.
         </p>
         {% endif %}
@@ -75,7 +79,11 @@
 
             {% if (projectStatus == 2) %}
               {% if (showCloseProject) %}
-                <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
+                  {% if(status.toUpperCase() == 'EVALUATED' and stage2_value != 'Stage 2') %}
+                    <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content2 }}</a>
+                  {% else %}
+                  <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+                  {% endif %}
               {% else %}
                 <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
               {% endif %}
@@ -151,7 +159,29 @@
             <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
           </p>
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+          {% if(stage2_value == 'Stage 1') %}
+              {% if(status.toUpperCase() == 'PUBLISHED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATING') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% endif %}
+          {% elif(stage2_value == 'Stage 2') %}
+              {% if(status.toUpperCase() == 'PUBLISHED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
+              {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATING') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% elif(status.toUpperCase() == 'EVALUATED') %}
+                <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
+              {% endif %}
+          {% else %}
+              <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+          {% endif %}
           <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
         </p>
       </div>
@@ -163,17 +193,29 @@
         {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">3.</span>
-            {% if status.toUpperCase() == 'EVALUATING' %}
-              {{data.subsection4_title3_eval_dos_after}}
+            {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                {% if stage2_value == 'Stage 2' %}
+                  {{data.subsection4_title3_eval_dos_after_stage2}}
+                {% else %}
+                  {{data.subsection4_title3_eval_dos_after}}
+                {% endif %}
             {% else %}
               {{data.subsection4_title3_eval_dos}}
             {% endif %}
           </h2>
-          {% if status.toUpperCase() == 'EVALUATING' %}
-            <p class="govuk-body">{{data.subsection4_para3_eval_dos_after}}</p>
+          {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' %}
+           {% if(stage2_value != 'Stage 2')  %}
+            <p class="govuk-body">{{data.subsection4_title3_award_description_dos}}</p>
+            {%else%}
+            <p class="govuk-body">{{data.subsection4_para3_eval_dos_after_l3}}</p>
+             {% endif %}
           {% endif %}
           {% if (projectStatus == 2) %}
-            <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+              {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+                 <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+              {% else %}
+                 <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+              {% endif %}
           {% else %}
             <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
           {% endif %}
@@ -185,23 +227,29 @@
           <p class="govuk-grid-column-one-half">
             <strong>{{data.subsection4_title3_eval_task1}}</strong></p>
             <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}</p>
+            <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2_dos}}</p>
               <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
               <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}</p>
                 <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}</p>
+                <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_dos}}</p>
                   <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                 {% else %}
+                  {% if (status.toUpperCase() == 'EVALUATED') %}
                   <h2 class="govuk-heading-m">
                     <span class="proc-task-list__section-number">3.</span>
+                    {{data.subsection4_title3_eval_dos_after}}</h2>
+                     {% else %}
+                      <h2 class="govuk-heading-m">
+                    <span class="proc-task-list__section-number">3.</span>
                     {{data.subsection4_title_dos}}</h2>
+                    {% endif %}
                     {% if (projectStatus == 2 and status.toUpperCase() == 'EVALUATED') %}
                   <p class="govuk-body">{{ data.subsection4_title3_evaluated_description_dos }}</p>
                   {% else %}
                   <p class="govuk-body">{{ data.subsection4_title3_description_dos }}</p>
                   {% endif %}
                   {% if (projectStatus == 2) %}
-                    <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+                    <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
                   {% endif %}
                   <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong></p>
                 </div>
@@ -211,11 +259,21 @@
                   <p class="govuk-grid-column-one-half">
                     <strong>{{data.subsection4_title3_task1}}</strong></p>
                     <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}</p>
+                    <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_dos}}</p>
                       <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                         <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-                        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}</p>
+                        <p class="govuk-grid-column-one-half">
+                          {% if(stage2_value == 'Stage 2')  %}
+                            {% if status.toUpperCase() == 'EVALUATED' %}
+                              Remaining suppliers with no response
+                            {%else%}
+                            {{data.subsection4_title3_task4_dos}}
+                            {%endif%}
+                          {%else%}
+                            {{data.subsection4_title3_task4_dos}}
+                          {%endif%}
+                        </p>
                           <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
                         {% endif %}
                       </div>
@@ -263,7 +321,11 @@
                             {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' %}
                             <p class="govuk-body">{{data.subsection4_dos_eval_descr_stg1_dos}}</p>
                             {% else %}
+                                 {% if status.toUpperCase() ==='EVALUATING'%}
+                                 <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr_dos}}</p>
+                                 {% else %}
                                 <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+                                {% endif  %}
                             {% endif  %}
                           {% else %}
                               <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
@@ -280,12 +342,10 @@
                                 <thead class="govuk-table__head">
                                   <tr class="govuk-table__row">
                                     <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
-
                                     {% if status.toUpperCase() ==='TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATING' %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
-                                      <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2_dos}}</th>
+                                      <th scope="col" class="govuk-table__header">Supplier answer</th>
                                     {% endif %}
-
                                     {% if status.toUpperCase() === 'EVALUATED' %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2_dos}}</th>
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
@@ -380,7 +440,6 @@
                                             <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
                                             <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
                                             <td class="govuk-text-align govuk-!-text-align-left border-none">
-
                                               {% if (showallDownload) %}
 
                                                 {% if status.toUpperCase() === 'TO-BE-EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
@@ -392,6 +451,7 @@
                                                 {% endif %}
 
                                               {% endif %}
+                                              
                                             </td>
                                             {% if status.toUpperCase() === 'EVALUATED' %}
                                               <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
@@ -405,6 +465,7 @@
                                           </tr>
                                         </tbody>
                                       </table>
+                                      
                                     </div>
                                   </div>
                                   {% endif %}
@@ -515,9 +576,9 @@
                                     Evaluate suppliers</h2>
                                   <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
                                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
-                                  {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                                  {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
                                   <p>You can start supplier evaluation after downloading supplier responses. </p>
-                                  {% endif %}
+                                  {% endif %} #}
                                   {% if (status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING') %}
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
@@ -533,10 +594,11 @@
                                             href:"/eventStateChange?StateChange=1"
                                           }) }}
                                           {% endif %}
-                                      </div>
-                                      <div class="govuk-!-padding-top-6">
+                                           <div class="govuk-!-padding-top-6">
                                   <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                 </div>
+                                      </div>
+                                     
                                     {% elseif status.toUpperCase() === 'PUBLISHED' %}
                                       <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
                                      <div class="govuk-!-padding-top-6">
@@ -547,11 +609,11 @@
                                   {% endif %}
                                 {% else %}
                                   {% if status.toUpperCase() === 'PUBLISHED' %}
-                                    <h2 class="govuk-heading-m">
+                                    {# <h2 class="govuk-heading-m">
                                       <span class="proc-task-list__section-number">5.</span>
                                      Evaluate suppliers</h2>
                                     <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
-                                    <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
+                                    <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p> #}
 
                                     {% if supplierDetailsDataList != null and(supplierDetailsDataList.length > 0 and showallDownload) %}
 
@@ -573,7 +635,7 @@
                                        </div>
                                 </div>
                                     {% elseif status.toUpperCase() === 'PUBLISHED' %}
-                                      <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
+                                      {# <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong> #}
                                        <div class="govuk-!-padding-top-6">
                                         <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                       </div>

@@ -799,7 +799,13 @@
                                 <p>Maximum estimated contract value (optional)</p>
                             {% endif %}
                         </dt>
-                        <dd class="govuk-summary-list__value"><p>{{ bc1 }}</p></dd>
+                        <dd class="govuk-summary-list__value">
+                         {% if bc1 %}
+                          <p>{{bc1}}</p>
+                         {% else %}
+                          <p>£0.00</p>
+                         {% endif %}
+                        </dd>
                       </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
@@ -809,7 +815,13 @@
                               <p>Minimum estimated contract value (optional)</p>
                             {% endif %}
                         </dt>
-                        <dd class="govuk-summary-list__value"><p>{{ bc2 }}</p></dd>
+                        <dd class="govuk-summary-list__value">
+                           {% if bc2 %}
+                            <p>{{bc2}}</p>
+                          {% else %}
+                            <p>£0.00</p>
+                          {% endif %}
+                        </dd>
                       </div>
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
@@ -1035,7 +1047,7 @@
                         </div>
                         <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__value">
-                            <p>Upload more documents (optional)</p>
+                            <p>Upload your core terms, call-off order form and schedules (terms and conditions)</p>
                           </dt>
                           {# <dd class="govuk-summary-list__value"> #}
                           {% if(document !=undefined and document !=null and documents | length > 0) %}
@@ -1055,6 +1067,35 @@
                           <dd class="govuk-summary-list__actions">
                             {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
                               <a class="govuk-link" href="/rfp/upload-doc">
+                                Change<span class="govuk-visually-hidden">
+                                  procurement lead</span>
+                              </a>
+                            {% endif %}
+                          </dd>
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__value">
+                            <p>Upload additional documents (optional)</p>
+                          </dt>
+                          {# <dd class="govuk-summary-list__value"> #}
+                          {% if(document !=undefined and document !=null and documents | length > 0) %}
+                            <dd class="govuk-summary-list__value">
+                              <ul class="govuk-list govuk-list--none">
+                                {% for doc in additionalDocuments %}
+                                  <li>
+                                    <p class="govuk-body">{{ doc }}</p>
+                                  </li>
+                                {%- endfor %}
+                              </ul>
+                            </dd>
+                          {% else %}
+                            <dd class="govuk-summary-list__value"></dd>
+                          {% endif %}
+                          {# </dd> #}
+                          <dd class="govuk-summary-list__actions">
+                            {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED") %}
+                              <a class="govuk-link" href="/rfp/upload-additional">
                                 Change<span class="govuk-visually-hidden">
                                   procurement lead</span>
                               </a>
@@ -1594,14 +1635,24 @@
       }) }}
 
       <div class="govuk-button-group">
-        
+         {%if publishClickEventStatus == true%}
                       {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
+        classes: "oneTimeClick",
+        disabled:true,
         text: "Publish and continue"
         }) }}
-        
+        {%else%}
+          {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        text: "Publish and continue"
+        }) }}
+          {%endif%}
                      {# {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now_close"
