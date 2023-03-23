@@ -11,8 +11,8 @@ import * as DOScmsData from '../../../resources/content/MCF3/requirements/DOSrfp
 import * as DOS2cmsData from '../../../resources/content/MCF3/requirements/DOSstage2-response-date.json';
 import * as GCloudData from '../../../resources/content/requirements/Gcloudrfp-response-date.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
 import config from 'config';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 const momentCssHolidays = async () => {
   let basebankURL = `/bank-holidays.json`;
@@ -69,9 +69,7 @@ const DOS_Days = {
   
 };
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
-  
   await momentCssHolidays();
-  
   let predefinedDays;
   if(req.session.agreement_id == 'RM6187') {  //MCF3
     predefinedDays = MCF3_Days;
@@ -616,7 +614,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-  
      if(req.session.isTimelineRevert) {
         let arrOfCurrentTimeline = [];
         arrOfCurrentTimeline.push(
@@ -2010,7 +2007,7 @@ let appendData = {
 
 
   } catch (error) {
-    LoggTracer.errorLogger(
+     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2030,12 +2027,11 @@ function changeDateTimeFormat(value){
 
 
 const timelineForcePostForPublish = async (req, res, arr: any) => {
-
+  
   const filterWithQuestions = arr.map(aQuestions => {
     const anEntry = aQuestions.split('*');
     return { Question: anEntry[0], value: anEntry[1] };
   });
-
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const stage2_value = req.session.stage2_value;
