@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';

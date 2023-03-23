@@ -2200,7 +2200,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
         }, 5000);
      } 
      else if(agreement_id == 'RM1557.13'){
-      // const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      const agreementPublishedRaw =  TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
      //CAS-INFO-LOG
      //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
 
