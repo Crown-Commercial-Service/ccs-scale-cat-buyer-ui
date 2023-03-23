@@ -19,7 +19,7 @@ export const EVENT_MANAGEMENT_QA_SUPPLIERS =  async (req: express.Request, res: 
   let projectIds:any;
   let isSupplierQA= false;
   let projectId;
-  let email;
+  
 
   try {
     if(req.query.id != undefined) {
@@ -27,7 +27,6 @@ export const EVENT_MANAGEMENT_QA_SUPPLIERS =  async (req: express.Request, res: 
       projectIds = req.query.prId;
       isSupplierQA = true;
       projectId = req.query.prId;
-      email = req.query.email;
     } else {
       eventIds=req.session.eventId;
       projectIds = req.session.projectId;
