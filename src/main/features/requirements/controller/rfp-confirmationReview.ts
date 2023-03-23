@@ -141,6 +141,14 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
            }
          }
+         if(req.session.agreement_id == 'RM1557.13' && eventType == 'FC'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
+         }
+         if(req.session.agreement_id == 'RM1557.13' && eventType == 'RFI'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started'); 
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Cannot start yet'); 
+         }
      } else {
          warning = false;
      }
