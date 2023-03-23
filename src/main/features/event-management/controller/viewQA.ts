@@ -36,7 +36,7 @@ export const EVENT_MANAGEMENT_QA_SUPPLIERS =  async (req: express.Request, res: 
       res.locals.agreement_header = req.session.agreement_header;
     }
 
-    const baseURL = `/tenders/supplier/${email}/projects/${projectIds}/events/${eventIds}/q-and-a`;
+    const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
     const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
     let data = inboxData;
 
