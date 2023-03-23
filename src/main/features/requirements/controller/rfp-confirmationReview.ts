@@ -9,7 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
-
+import moment from 'moment';
 /**
  *
  * @param req
@@ -78,7 +78,6 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
 
 export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.Response) => {
   // const { SESSION_ID } = req.cookies; //jwt
-  
    const projectId = req.session.projectId;
    const proc_id = req.session.projectId;
    const event_id = req.session.eventId;
@@ -126,7 +125,7 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
      let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 1").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
      let currentDate = moment(new Date(), 'DD/MM/YYYY').format("YYYY-MM-DD");
      publishDate = moment(publishDate, 'YYYY-MM-DD').format("YYYY-MM-DD");
-     let warning = false;
+    let warning = false;
      
      if(publishDate < currentDate) {
          warning = true;
@@ -148,7 +147,7 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
      res.json({ warning: warning, eventType: eventType});
  
    } catch (error) {
-     LoggTracer.errorLogger(
+      LoggTracer.errorLogger(
        res,
        error,
        `${req.headers.host}${req.originalUrl}`,
