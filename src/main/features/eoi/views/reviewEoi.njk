@@ -514,5 +514,25 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                       </form>
                     </div>
                   </div>
+
+    
+{# CAS-32 #}
+{{ CCSDialog({
+  title:'Timeline date mismatch warning',
+  description:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  redirect:'#',
+  type:'publishTimelineMismatch'
+}) }}
+
+{# Loader container #}
+  <div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+        {# <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2> #}
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
+
+
                 </main>
               {% endblock %}
