@@ -20128,7 +20128,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "Select at least one location");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -21398,7 +21398,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -23100,11 +23100,15 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
   // CAS-32
   if(document.forms.length > 0) {
     const publishDateMismatchFormEvent = document.forms[0].id;
-    if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+    if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
   
       let checkBoxConfirmation;
       if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
         checkBoxConfirmation = 'rfp_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_rfi_publish_form'){
+        checkBoxConfirmation = 'rfi_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
+        checkBoxConfirmation = 'eoi_publish_confirmation';
       }
   
       
@@ -23152,6 +23156,17 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
                 if(result.eventType == 'FC') {
                   window.location.href = window.location.origin+'/rfp/response-date';
                 }
+                if(result.eventType == 'RFI') {
+                  window.location.href = window.location.origin+'/rfi/response-date';
+                }
+                if(result.eventType == 'EOI') {
+                  window.location.href = window.location.origin+'/eoi/response-date';
+                }
+                if(result.eventType == 'DA') {
+                  window.location.href = window.location.origin+'/da/response-date';
+                }
+
+                
                 //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
               });
               return false;

@@ -151,10 +151,17 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
          }
-         if(req.session.agreement_id == 'RM1557.13' && eventType == 'RFI'){
+         if(eventType == 'RFI' && (req.session.agreement_id == 'RM1557.13' || req.session.agreement_id == 'RM6187') ){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started'); 
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Cannot start yet'); 
-         }
+         }else if(eventType == 'DA' && req.session.agreement_id == 'RM6187') {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
+         }else if(eventType == 'EOI' && req.session.agreement_id == 'RM6187') {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started'); 
+           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Cannot start yet');
+        }
+
      } else {
          warning = false;
        }
