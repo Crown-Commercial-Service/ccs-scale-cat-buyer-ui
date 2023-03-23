@@ -134,6 +134,8 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
          if(eventType == 'FC' && req.session.agreement_id == 'RM1043.8') {
            if(stage2_value !== undefined && stage2_value === "Stage 2"){
              //Stage 2 --> DOS6
+             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started'); 
+             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Cannot start yet'); 
            } else {
              //Stage 1 --> DOS6
              //Journey need to be revert 34, 35
@@ -141,7 +143,11 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
            }
          }
-         if(req.session.agreement_id == 'RM1557.13' && eventType == 'FC'){
+         else if(eventType == 'FC' && req.session.agreement_id == 'RM6187') {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
+        }
+        if(req.session.agreement_id == 'RM1557.13' && eventType == 'FC'){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
          }
@@ -151,7 +157,7 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
          }
      } else {
          warning = false;
-     }
+       }
      res.json({ warning: warning, eventType: eventType});
  
    } catch (error) {

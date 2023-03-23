@@ -42,7 +42,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
