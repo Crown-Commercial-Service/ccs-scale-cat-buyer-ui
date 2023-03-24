@@ -164,7 +164,7 @@ Change<span class="govuk-visually-hidden">project name</span>
 <dt class="govuk-summary-list__key">
               {% if agreementId_session == 'RM6187'%}
                   <p class="govuk-body">
-                      Who will lead the project (optional)
+                      Change who will lead your project (optional)
                   </p>
               {% else %}
                   <p class="govuk-body">
@@ -434,13 +434,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                           <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
-                              <p class="govuk-body">
-                              {% if agreementId_session == 'RM6187' %}
-Upload documents (optional)
-{% else %}
-Upload documents
-{% endif %}
-</p>
+                              <p class="govuk-body">Upload documents</p>
                             </dt>
                             {% if documents | length > 0 %}
                               <dd class="govuk-summary-list__value">
@@ -546,11 +540,12 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
 
                               {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                                   <div class="govuk-inset-text">
-                                    <p class="govuk-body">Your RfI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+                                    <p class="govuk-body">If you need to make any significant changes – including changes to scope or timelines – after publishing this RfI, you will need to cancel and start a new project.
+ </p>
                                   </div>
-                                  <p class="govuk-body">
+                                  {# <p class="govuk-body">
                                     If you need to make any significant changes – including changes to scope or timelines – after publishing this RfI, you will need to cancel and start a new project.
-                                  </p>
+                                  </p> #}
                               {% else %}
                                   <div class="govuk-inset-text">
                                     <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
