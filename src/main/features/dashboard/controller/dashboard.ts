@@ -35,14 +35,26 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
+  /** CAS-87 */
+  let activeListDash = req.session.openProjectActiveEvents;
+  let pastListDash = req.session.historicalEvents;
+
+  activeListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
+  pastListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
 
   const appendData = {
     data: dashboarData,
     searchText,
-    events: req.session.openProjectActiveEvents,
-    historicalEvents: req.session.historicalEvents,
+    events: activeListDash,
+    historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData
   };
+  /** CAS-87 */
   res.render('dashboard', appendData);
 };
 
@@ -86,9 +98,10 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       }
       
       await nameretrieveProjetActiveEventsPromise.then(async data => {  
-        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
-          a.projectId < b.projectId ? 1 : -1,
-        );        
+        const events: ActiveEvents[] = data.data; 
+        // const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
+        //   a.projectId < b.projectId ? 1 : -1,
+        // );        
         for (let i = 0; i < events.length; i++) {
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
 
@@ -634,12 +647,25 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
 
+  /** CAS-87 */
+  let activeListDash = req.session.openProjectActiveEvents;
+  let pastListDash = req.session.historicalEvents;
+
+  activeListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
+  pastListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
   const appendData = {
     data: dashboarData,
     searchText,
-    events: req.session.openProjectActiveEvents,
-    historicalEvents: req.session.historicalEvents,
+    events: activeListDash,
+    historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData
   };
+  /** CAS-87 */
   res.render('dashboard', appendData);
 };
