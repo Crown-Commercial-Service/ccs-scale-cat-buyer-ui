@@ -211,10 +211,14 @@
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
-        <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">
-  Confirm Scores
-</button>
-{% endif %}
+          <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">
+            {% if (agreementId_session == 'RM1043.8') %}
+              Complete evaluation
+            {% else %}
+              Confirm Scores
+            {% endif %}
+          </button>
+        {% endif %}
   
 {% if (agreementId_session == 'RM1043.8') %}
   {% if (ConfirmFlag) %}
