@@ -18978,20 +18978,22 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
              isErrorSingle = true;
             ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
           }
-          if (target_field.value.trim() == ''){
-            errField = target_field;
-             isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
+          if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
+            errorStore.push(fieldCheck);
           }
 
           if (target_field.value.trim() == '0'){
-            errField = target_field;
-             isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
+            errorStore.push(fieldCheck);
           }
 
           if (isErrorSingle) {
-            fieldCheck = [errField.id, 'You must add information in all fields.'];
+            fieldCheck = [errField.id, 'You must add information in all fields'];
             errorStore.push(fieldCheck);
           }
         }
@@ -18999,15 +19001,15 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
        
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            fieldCheck = [definition_field.id, 'You must add information in all fields'];
             ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
             ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
-            ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
             fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
             errorStore.push(fieldCheck);
             fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 0 and 100'];
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
             errorStore.push(fieldCheck);
           }
           else {
@@ -19026,25 +19028,25 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
+              ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 0 and 100'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field.value.trim() == '0'){
-              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1.'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
               errorStore.push(fieldCheck);
             }
             
             if (field1) {
-              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
+              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed');
               isError = true;
             }
             if (field2) {
-              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed.');
+              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed');
               isError = true;
             }
             if (isError) {
