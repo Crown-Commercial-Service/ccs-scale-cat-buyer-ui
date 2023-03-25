@@ -36,8 +36,10 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
   /** CAS-87 */
-  let activeListDash = req.session.openProjectActiveEvents;
-  let pastListDash = req.session.historicalEvents;
+  let activeListDash = [];
+  let pastListDash = [];
+  activeListDash = req.session.openProjectActiveEvents;
+  pastListDash = req.session.historicalEvents;
 
   activeListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
@@ -609,7 +611,6 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
-    console.log("errerrerr",err);
     
     LoggTracer.errorLogger(
       res,
@@ -648,8 +649,10 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   });
 
   /** CAS-87 */
-  let activeListDash = req.session.openProjectActiveEvents;
-  let pastListDash = req.session.historicalEvents;
+  let activeListDash = [];
+  let pastListDash = [];
+  activeListDash = req.session.openProjectActiveEvents;
+  pastListDash = req.session.historicalEvents;
 
   activeListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
