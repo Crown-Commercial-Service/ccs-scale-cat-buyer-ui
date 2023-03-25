@@ -406,7 +406,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
         }
 
-
+        if(!req.session.isTimelineRevert) {
         let rfp_clarification_period_endGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         rfp_clarification_period_end = rfp_clarification_period_endGet!=undefined?new Date(rfp_clarification_period_endGet):rfp_clarification_period_end;
        
@@ -495,6 +495,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       //   let supplier_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 13").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
       //   supplier_start_date = supplier_start_dateGet!=undefined?new Date(supplier_start_dateGet):supplier_start_date;
 
+      }
 
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
@@ -635,6 +636,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         `Question 12*${appendData.contract_signed_date}`,
         `Question 13*${appendData.supplier_start_date}`
       );
+      
       await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
       res.redirect('/rfp/response-date');
       } else {
@@ -2071,6 +2073,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
       .map(aQuestion => aQuestion.OCDS.id);
+      let lastCount = 0;
     for (const answers of allunfilledAnswer) {
       const proc_id = req.session.projectId;
       const event_id = req.session.eventId;
@@ -2096,17 +2099,21 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      lastCount++;
+      if(lastCount == allunfilledAnswer.length) {
+        req.session.isTimelineRevert = false;
+      }
     }
     req.session.isTimelineRevert = false;
   } catch (error) {
-    // LoggTracer.errorLogger(
-    //   res,
-    //   error,
-    //   `${req.headers.host}${req.originalUrl}`,
-    //   null,
-    //   TokenDecoder.decoder(SESSION_ID),
-    //   'Issue at timeline dates update force - Regards publish date & timeline date mismatch issue',
-    //   true,
-    // );
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Issue at timeline dates update force - Regards publish date & timeline date mismatch issue',
+      true,
+    );
   }
 }
