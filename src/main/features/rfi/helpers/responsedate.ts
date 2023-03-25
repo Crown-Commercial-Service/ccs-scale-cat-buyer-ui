@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -208,7 +209,22 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
       }
 
-      res.render('response-date', appendData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
+      if(req.session.isTimelineRevert) {
+          let arrOfCurrentTimeline = [];
+          arrOfCurrentTimeline.push(
+            `Question 1*${appendData.rfi_clarification_date}`,
+            `Question 2*${appendData.rfi_clarification_period_end}`,
+            `Question 3*${appendData.deadline_period_for_clarification_period}`,
+            `Question 4*${appendData.supplier_period_for_clarification_period}`,
+            `Question 5*${appendData.supplier_dealine_for_clarification_period}`
+          );
+          await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
+          res.redirect('/rfi/response-date');
+      } else {
+        res.render('response-date', appendData);
+      }
     }
 
     else {
@@ -430,3 +446,85 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     );
   }
 };
+
+const timelineForcePostForPublish = async (req, res, arr: any) => {
+
+  const filterWithQuestions = arr.map(aQuestions => {
+    const anEntry = aQuestions.split('*');
+    return { Question: anEntry[0], value: anEntry[1] };
+  });
+  const proc_id = req.session.projectId;
+  const event_id = req.session.eventId;
+  const stage2_value = req.session.stage2_value;
+  const { SESSION_ID } = req.cookies;
+  const { projectId,eventId } = req.session;
+  const agreement_id = req.session.agreement_id;
+  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  baseURL = baseURL + '/criteria';
+  const keyDateselector = 'Key Dates';
+  try {
+    const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+    const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+    let criterianStorage = [];
+    for (const aURI of extracted_criterion_based) {
+      const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+      const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+      const criterian_array = fetch_criterian_group_data?.data;
+      const rebased_object_with_requirements = criterian_array?.map(anItem => {
+        const object = anItem;
+        object['criterianId'] = aURI;
+        return object;
+      });
+      criterianStorage.push(rebased_object_with_requirements);
+    }
+
+    criterianStorage = criterianStorage.flat();
+    criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
+    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+    const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+    const fetchQuestionsData = fetchQuestions.data;
+
+    const allunfilledAnswer = fetchQuestionsData
+      .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
+      .map(aQuestion => aQuestion.OCDS.id);
+    for (const answers of allunfilledAnswer) {
+      const proc_id = req.session.projectId;
+      const event_id = req.session.eventId;
+      const id = Criterian_ID;
+      const group_id = 'Key Dates';
+      const question_id = answers;
+      const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
+      const findFilterValues = findFilterQuestion[0].value;
+      const filtervalues=moment(
+        findFilterValues,
+        'DD MMMM YYYY, HH:mm:ss ',
+      ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+      const answerformater = {
+        value: filtervalues,
+        selected: true,
+        text: answers,
+      };
+      const answerBody = {
+        nonOCDS: {
+          answered: true,
+          options: [answerformater],
+        },
+      };
+      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+    }
+    req.session.isTimelineRevert = false;
+  } catch (error) {
+    // LoggTracer.errorLogger(
+    //   res,
+    //   error,
+    //   `${req.headers.host}${req.originalUrl}`,
+    //   null,
+    //   TokenDecoder.decoder(SESSION_ID),
+    //   'Issue at timeline dates update force - Regards publish date & timeline date mismatch issue',
+    //   true,
+    // );
+  }
+}
