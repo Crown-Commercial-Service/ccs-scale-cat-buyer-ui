@@ -1,0 +1,44 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
+
+{% set title = 'QA ' %}
+{% block breadCrumb %}
+{%if(isSupplierQA !==true)%}	
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+     {
+      "text": "Your inbox",
+      "href": "/message/inbox"
+    },
+    {
+      "text": "Questions and clarifications",
+      "href": "#"
+    }
+  ]
+    }) }}
+        {%endif%}	
+{% endblock %}
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        
+    </main>
+    {{ CCSDialog({
+        title:"Enter the email that you use to access your e-sourcing account:",
+        description:"",
+        redirect:'#',
+        type:'Qanda'
+    }) }}
+{% endblock %}
+<script>
+    alert('Test');
+</script>
