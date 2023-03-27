@@ -135,6 +135,12 @@
     classes: "govuk-button--secondary",
     href: "/rfp/review?download=1"
     }) }}
+         {% elseif(selectedEventType=='FC' and  agreementId_session=='RM6187')  %}
+                      {{ CCSButton({
+    text: "State export your published further competition",
+    classes: "govuk-button--secondary",
+    href: "/rfp/review?download=1"
+    }) }}
                     {% else %}
                       {{ CCSButton({
     text: "Export your draft further competition",
