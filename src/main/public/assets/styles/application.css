@@ -9399,11 +9399,12 @@ p,
 .backdrop-award.showpopup,
 .backdrop-publishTimelineMismatch.showpopup,
 .backdrop-supplierConfirmAllPopup.showpopup,
-.backdrop-confirmLowScoreSupplierPopup.showpopup
+.backdrop-confirmLowScoreSupplierPopup.showpopup,
+.backdrop-Qanda.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete,.backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
   position: fixed;
   top: 0px;
   left: 0px;

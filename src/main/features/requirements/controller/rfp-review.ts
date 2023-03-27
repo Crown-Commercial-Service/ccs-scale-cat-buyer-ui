@@ -12,6 +12,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -2136,11 +2137,17 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   // if(CurrentTimeStamp){
     
     /** Daylight saving fix start */
-    CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-    CurrentTimeStamp = moment(CurrentTimeStamp).utc();
+    let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
+    if(isDayLight) {
+      CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().format('YYYY-MM-DD HH:mm');
+      CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).format('YYYY-MM-DDTHH:mm:ss+01:00'); //+01:00
+      CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().toISOString()
+    } else {
+      CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+    }
     /** Daylight saving fix end */
-
-     CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+    
+    
   // }else{
   //   CurrentTimeStamp = new Date().toISOString();
   // }
@@ -2194,7 +2201,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       //CAS-INFO-LOG
       //LoggTracer.infoLogger(agreementPublishedRaw, logConstant.agreementPublished, req);
-
+      
        setTimeout(function(){
         res.redirect('/rfp/rfp-eventpublished');
         }, 5000);
