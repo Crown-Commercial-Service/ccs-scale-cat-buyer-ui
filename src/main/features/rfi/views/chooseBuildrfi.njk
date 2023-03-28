@@ -136,7 +136,7 @@
 									{% for item in events %}
 
 										
-										{% if(item.value=="all_information_online") %}
+										{% if(item.value=="all_information_online" and checked==true) %}
 										{% set checkedStatus = "checked" %}
 										{%else%}
 										{% set checkedStatus = "" %}

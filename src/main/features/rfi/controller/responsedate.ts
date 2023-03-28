@@ -218,9 +218,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_hourFormat,
     selected_question_id,
   } = req.body;
-  console.log("selected_question_id",selected_question_id);
   let questionId = Number(selected_question_id?.split('Question ').join(''));
-  console.log("questionId",questionId);
   const { timeline } = req.session;
 
   clarification_date_day = Number(clarification_date_day);

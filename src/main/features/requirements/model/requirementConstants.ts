@@ -38,6 +38,10 @@ export enum REQUIREMENT_PATHS {
   //CONFIRMATION REVIEW
   RFP_GET_CONFIRMATION_REVIEW = '/rfp/confirmation_review',
 
+  //PUBLISH DATE MISMATCH
+  PUBLISH_DATE_MISMATCH = '/rfp/publish_date_mismatch',
+  PUBLISH_DATE_MISMATCH_CANCEL = '/rfp/publish_date_mismatch/cancel',
+
   //Selected service
   RFP_GET_SELECTED_SERVICE = '/rfp/selected_service',
   RFP_POST_SELECT_SERVICES='/rfp/select-services',

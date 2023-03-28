@@ -18991,7 +18991,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
           if (definition_field.value.trim() == ''){
             errField = definition_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
           }
           if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
             ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
@@ -19018,11 +19018,11 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields'];
             ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
             ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
             fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
             errorStore.push(fieldCheck);
             fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
             errorStore.push(fieldCheck);
@@ -19036,9 +19036,9 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+              ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
               isError = true;
-              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
               errorStore.push(fieldCheck);
             }
 
@@ -23105,10 +23105,111 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
   });
 
   let countOfpublishBtn = 0;
-  $('.oneTimeClick').click(function(e) {
-    $(this).attr("disabled", true);
-    if(countOfpublishBtn == 0) {
-      $(this).parents('form').submit();
+  // $('.oneTimeClick').click(function(e) {
+  //   $(this).attr("disabled", true);
+  //   if(countOfpublishBtn == 0) {
+  //     $(this).parents('form').submit();
+  //   }
+  //   countOfpublishBtn++;
+  // });
+
+  
+  // CAS-32
+  if(document.forms.length > 0) {
+    const publishDateMismatchFormEvent = document.forms[0].id;
+    if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
+  
+      let checkBoxConfirmation;
+      if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+        checkBoxConfirmation = 'rfp_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_rfi_publish_form'){
+        checkBoxConfirmation = 'rfi_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
+        checkBoxConfirmation = 'eoi_publish_confirmation';
+      }
+  
+      
+  
+      document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
+        event.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (!document.getElementById(checkBoxConfirmation).checked) {
+            $('#checkbox_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#checkbox_error_summary_list").html('<li><a href="#'+checkBoxConfirmation+'">You must check this box to confirm that you have read and confirm the statements above</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            return false;
+          } 
+  
+          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+  
+         $.ajax({
+            url: `/rfp/publish_date_mismatch`,
+            type: "GET",
+            contentType: "application/json",
+          }).done(function (result) {
+            var bodytg = document.body;
+            bodytg.classList.remove("pageblur");
+  
+            if(result.warning) {
+              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Go back and continue with timeline';
+              const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
+              openpopGC.classList.add('showpopup');
+              $(".dialog-close-publishTimelineMismatch").on('click', function(){
+                timelineRevertCancel();
+                openpopGC.classList.remove('showpopup');
+              });
+              $(".close-dialog-close").on('click', function(){
+                openpopGC.classList.remove('showpopup');
+              });
+              deconf = document.getElementById('redirect-button-publishTimelineMismatch');
+              deconf.addEventListener('click', ev => {
+                document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+                var bodytg = document.body;
+                bodytg.classList.add("pageblur");
+                openpopGC.classList.remove('showpopup');
+                if(result.eventType == 'FC') {
+                  window.location.href = window.location.origin+'/rfp/response-date';
+                }
+                if(result.eventType == 'RFI') {
+                  window.location.href = window.location.origin+'/rfi/response-date';
+                }
+                if(result.eventType == 'EOI') {
+                  window.location.href = window.location.origin+'/eoi/response-date';
+                }
+                if(result.eventType == 'DA') {
+                  window.location.href = window.location.origin+'/da/response-date';
+                }
+
+                
+                //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
+              });
+              return false;
+            } else {
+              $('.oneTimeClick').attr("disabled", true);
+              if(countOfpublishBtn == 0) {
+                document.getElementById(publishDateMismatchFormEvent).submit();
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }).fail((res) => {
+            console.log(res);
+          })
+        })
+      });
+      
     }
-    countOfpublishBtn++;
-  });
+  }
+  
+  function timelineRevertCancel() {
+    $.ajax({
+      url: `/rfp/publish_date_mismatch/cancel`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (res) {
+    });
+  }
