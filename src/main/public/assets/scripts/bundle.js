@@ -16292,7 +16292,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
-                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    if(urlParams.get('group_id') == 'Group 4'){
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this technical question",'','',false);
+                                     }else{
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this social value question",'','',false);
+                                     }
                                     errorStore.push(fieldCheck)
                                 }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
@@ -16627,7 +16631,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             } 
                     }
                 }else{
-                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase() && pageHeading.trim().toLowerCase()  != 'write your technical questions') {
                     if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
                         const field1 = countWords1(term_field.value) > 50;
                         const field2 = countWords1(definition_field.value) > 150;
@@ -18986,7 +18990,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() == ''){
                 errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
           }
           if (definition_field.value.trim() == ''){
             errField = definition_field;
@@ -19017,10 +19021,10 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+            ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
             ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
             ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
             errorStore.push(fieldCheck);
             fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
             errorStore.push(fieldCheck);
@@ -19030,9 +19034,9 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
