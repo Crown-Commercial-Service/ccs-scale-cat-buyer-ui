@@ -43,7 +43,7 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 <h3 class="govuk-heading-xl">{{data.title}}</h3>
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{data.line5}}</p>
+                <p id="remove_radio" class="govuk-body">{{data.line5}}</p>
                 <form id="gcloud_save_your_services_form" class="govuk-check-form-custom" name="gcloud_save_your_services_form" action="/g-cloud/save-your-search" method="POST">
                     {{ csrfProtection(csrf) }}
                      <div><p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">{{searchResults|safe}}</p></div><br> 
