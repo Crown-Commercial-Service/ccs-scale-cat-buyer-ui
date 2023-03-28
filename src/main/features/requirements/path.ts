@@ -127,6 +127,18 @@ export default function (app: Application): void {
   );
 
   app.get(
+    REQUIREMENT_PATHS.PUBLISH_DATE_MISMATCH,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.PUBLISH_DATE_MISMATCH,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.PUBLISH_DATE_MISMATCH_CANCEL,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.PUBLISH_DATE_MISMATCH_CANCEL,
+  );
+
+  app.get(
     REQUIREMENT_PATHS.RFP_GET_SELECTED_SERVICE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_SELECTED_SERVICE,
