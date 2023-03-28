@@ -121,11 +121,11 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
      const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
      let fetchQuestionsData = fetchQuestions.data;
 
-     let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 1").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+     let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
      let currentDate = moment(new Date(), 'DD/MM/YYYY').format("YYYY-MM-DD");
      publishDate = moment(publishDate, 'YYYY-MM-DD').format("YYYY-MM-DD");
     let warning = false;
-
+//31-03-23  //02-04-23
      if(publishDate < currentDate) {
          warning = true;
 
@@ -162,6 +162,28 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
         }
 
      } else {
+        var selected_question_id = "Question 1";
+        var date = new Date();
+        const filtervalues=moment(
+          date,
+          'DD MMMM YYYY, HH:mm:ss ',
+        ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+        const answerformater = {
+          value: filtervalues,
+          selected: true,
+          text: selected_question_id,
+        };
+        const answerBody = {
+          nonOCDS: {
+            answered: true,
+            options: [answerformater],
+          },
+        };
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${selected_question_id}`;
+      
+        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+
+
          warning = false;
        }
      res.json({ warning: warning, eventType: eventType});
