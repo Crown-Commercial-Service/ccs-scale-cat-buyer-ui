@@ -12,8 +12,10 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 //import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 // eoi TaskList
-export const GET_TYPE = (req: express.Request, res: express.Response) => {
+export const GET_TYPE = async (req: express.Request, res: express.Response) => {
   const { agreement_id } = req.session;
+  const { SESSION_ID } = req.cookies;
+  const { eventId } = req.session;
   const releatedContent = req.session.releatedContent;
   const agreementId_session = req.session.agreement_id;
     let forceChangeDataJson;
@@ -23,7 +25,17 @@ export const GET_TYPE = (req: express.Request, res: express.Response) => {
       forceChangeDataJson = cmsData; 
     }
    
-  const windowAppendData = { data: forceChangeDataJson, agreement_id: agreement_id, releatedContent };
+    let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    
+    let journeys=journeySteps.find((item: { step: number; }) => item.step == 19);
+    
+    let checked=false;  
+    if(journeys.state =='Completed'){
+     
+      checked=true;
+    }
+
+  const windowAppendData = { data: forceChangeDataJson, agreement_id: agreement_id, releatedContent,checked };
  
   //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourEoiPageLog, req);
