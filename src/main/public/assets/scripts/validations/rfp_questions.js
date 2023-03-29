@@ -863,7 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
-                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    if(urlParams.get('group_id') == 'Group 4'){
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this technical question",'','',false);
+                                     }else{
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this social value question",'','',false);
+                                     }
                                     errorStore.push(fieldCheck)
                                 }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
@@ -1198,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             } 
                     }
                 }else{
-                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase() && pageHeading.trim().toLowerCase()  != 'write your technical questions') {
                     if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
                         const field1 = countWords1(term_field.value) > 50;
                         const field2 = countWords1(definition_field.value) > 150;

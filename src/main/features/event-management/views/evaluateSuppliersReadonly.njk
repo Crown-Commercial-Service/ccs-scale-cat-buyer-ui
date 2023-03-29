@@ -65,7 +65,7 @@
 
         <form id="enter_evaluation" name="enter_evaluation" class="form enter_evaluation" action="/enter-evaluation?supplierid={{supplierid}}&suppliername={{suppliername}}" method="POST">
         {{ csrfProtection(csrf) }}
-          <div class="ccs-page-section">
+         
         
 
               <p class="govuk-body"><h2><strong>Supplier name :</strong>{{supplierDetails.supplierName}}</h2></p>
@@ -82,7 +82,7 @@
                               },
                               value:supplierDetails.score,
                               suffix: {
-                                text: ""
+                                text: "%"
                               },
                               id: "enter_evaluation_score_readOnly",
                               name: "enter_evaluation_score",
@@ -164,7 +164,6 @@
                           <a href="{{redirectUrl}}" class="govuk-link govuk-link--no-visited-state">Return to Your Project</a>
                       </div>       
 
-          </div>
 
         </form>
       </div>    

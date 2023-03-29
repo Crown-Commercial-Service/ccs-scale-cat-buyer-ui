@@ -308,7 +308,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() == ''){
                 errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
           }
           if (definition_field.value.trim() == ''){
             errField = definition_field;
@@ -339,10 +339,10 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+            ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
             ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
             ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
             errorStore.push(fieldCheck);
             fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
             errorStore.push(fieldCheck);
@@ -352,9 +352,9 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
