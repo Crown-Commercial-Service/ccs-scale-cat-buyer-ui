@@ -188,11 +188,14 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       deadline_for_submission_of_stage_one.setHours(predefinedDays.defaultEndingHour);
       deadline_for_submission_of_stage_one.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////7
-      const EvaluationProcessStart = deadline_for_submission_of_stage_one;
+      let EvaluationProcessStart = deadline_for_submission_of_stage_one;
+      if(req.session.isTimelineRevert && stage2_value === "Stage 2" ){
+        EvaluationProcessStart = new Date()
+      }
       const EvaluationProcessStartDate = `${EvaluationProcessStart.getDate()}-${
         EvaluationProcessStart.getMonth() + 1
       }-${EvaluationProcessStart.getFullYear()}`;
-      
+     
       let evaluation_process_start_date ='';
       if(req.session.agreement_id == 'RM1043.8') {  //DOS
        evaluation_process_start_date = moment(EvaluationProcessStartDate, 'DD-MM-YYYY').businessAdd(
@@ -210,6 +213,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       
       evaluation_process_start_date.setHours(predefinedDays.defaultEndingHour);
       evaluation_process_start_date.setMinutes(predefinedDays.defaultEndingMinutes);
+      
+      
+
       //////////////////////////////////////8
       const BidderPresentations = evaluation_process_start_date;
       const BidderPresentationsDate = `${BidderPresentations.getDate()}-${
@@ -339,7 +345,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           if(fetchQuestionsData[i].nonOCDS.options.length>0){
          
           let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-            
           if(i==0){
             if(stage2_value === "Stage 2"){
               fetchQuestionsData[i].nonOCDS.options[0].value=moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
@@ -352,49 +357,87 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           {
           fetchQuestionsData[i].nonOCDS.options[0].value=moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
           }
-
           if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
             if(i==0){
+              if(req.session.isTimelineRevert){
+                rfp_clarification_date = moment(new Date(), 'YYYY-MM-DD').format('DD MMMM YYYY');
+              }
+              else{
               if(value!==undefined){
                 rfp_clarification_date=moment(value).format('DD MMMM YYYY');
               }
             }
+            }
             if(i==1){
-             
+              if(req.session.isTimelineRevert){
+                rfp_clarification_period_end = changeDateTimeFormat(evaluation_process_start_date)
+              }
+              else{
               if(value!==undefined){
                 rfp_clarification_period_end=changeDateTimeFormat(value);
               }
+            }
               
             }
             if(i==2){
+              if(req.session.isTimelineRevert){
+                deadline_period_for_clarification_period =changeDateTimeFormat(bidder_presentations_date) 
+              }
+              else{
               if(value!==undefined){
                 deadline_period_for_clarification_period=changeDateTimeFormat(value);
               }
             }
+            }
             if(i==3){
+              if(req.session.isTimelineRevert){
+                supplier_period_for_clarification_period = changeDateTimeFormat(standstill_period_starts_date)
+              }
+              else{
               if(value!==undefined){
                 supplier_period_for_clarification_period=changeDateTimeFormat(value);
               }
             }
+            }
             if(i==4){
+              if(req.session.isTimelineRevert){
+                supplier_dealine_for_clarification_period = changeDateTimeFormat(proposed_award_date)
+              }
+              else{
               if(value!==undefined){
                 supplier_dealine_for_clarification_period=changeDateTimeFormat(value);
               }
             }
+            }
             if(i==5){
+              if(req.session.isTimelineRevert){
+                deadline_for_submission_of_stage_one = changeDateTimeFormat(expected_signature_date)
+              }
+              else{
               if(value!==undefined){
                 deadline_for_submission_of_stage_one=changeDateTimeFormat(value);
               }
             }
+            }
             if(i==6){
+              if(req.session.isTimelineRevert){
+                evaluation_process_start_date =changeDateTimeFormat(contract_signed_date)
+              }
+              else{
               if(value!==undefined){
                 evaluation_process_start_date=changeDateTimeFormat(value);
               }
             }
+            }
             if(i==7){
+              if(req.session.isTimelineRevert){
+                bidder_presentations_date = changeDateTimeFormat(supplier_start_date)
+              }
+              else{
               if(value!==undefined){
                 bidder_presentations_date=changeDateTimeFormat(value);
               }
+            }
             }
             
           }
@@ -403,7 +446,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
         }
 
-
+        if(!req.session.isTimelineRevert) {
         let rfp_clarification_period_endGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
         rfp_clarification_period_end = rfp_clarification_period_endGet!=undefined?new Date(rfp_clarification_period_endGet):rfp_clarification_period_end;
        
@@ -491,7 +534,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       //   let supplier_start_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 13").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
       //   supplier_start_date = supplier_start_dateGet!=undefined?new Date(supplier_start_dateGet):supplier_start_date;
-
+      }
 
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
@@ -2007,7 +2050,7 @@ let appendData = {
 
 
   } catch (error) {
-     LoggTracer.errorLogger(
+    LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2068,6 +2111,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
       .map(aQuestion => aQuestion.OCDS.id);
+      let lastCount = 0;
     for (const answers of allunfilledAnswer) {
       const proc_id = req.session.projectId;
       const event_id = req.session.eventId;
@@ -2093,17 +2137,21 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      lastCount++;
+      if(lastCount == allunfilledAnswer.length) {
+        req.session.isTimelineRevert = false;
+      }
     }
     req.session.isTimelineRevert = false;
   } catch (error) {
-    // LoggTracer.errorLogger(
-    //   res,
-    //   error,
-    //   `${req.headers.host}${req.originalUrl}`,
-    //   null,
-    //   TokenDecoder.decoder(SESSION_ID),
-    //   'Issue at timeline dates update force - Regards publish date & timeline date mismatch issue',
-    //   true,
-    // );
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Issue at timeline dates update force - Regards publish date & timeline date mismatch issue',
+      true,
+    );
   }
 }
