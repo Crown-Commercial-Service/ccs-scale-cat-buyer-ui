@@ -23158,7 +23158,7 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
             bodytg.classList.remove("pageblur");
   
             if(result.warning) {
-              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Go back and continue with timeline';
+              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
               const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
               openpopGC.classList.add('showpopup');
               $(".dialog-close-publishTimelineMismatch").on('click', function(){
