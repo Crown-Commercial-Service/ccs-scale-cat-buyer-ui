@@ -39,8 +39,12 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   /** CAS-87 */
   let activeListDash = [];
   let pastListDash = [];
-  activeListDash = req.session.openProjectActiveEvents;
-  pastListDash = req.session.historicalEvents;
+  if(req.session.openProjectActiveEvents != undefined){
+    activeListDash = req.session.openProjectActiveEvents;
+  }
+  if(req.session.historicalEvents != undefined){
+    pastListDash = req.session.historicalEvents;
+  }
 
   activeListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
@@ -667,8 +671,12 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   /** CAS-87 */
   let activeListDash = [];
   let pastListDash = [];
+  if(req.session.openProjectActiveEvents != undefined){
   activeListDash = req.session.openProjectActiveEvents;
+  }
+  if(req.session.historicalEvents != undefined){
   pastListDash = req.session.historicalEvents;
+  }
 
   activeListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
