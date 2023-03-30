@@ -16646,7 +16646,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         fieldMsg = 'Enter a weighting for this social value question';
                                         descMsg = 'Enter a weighting for this social value question';
                                         fieldCheck = [definition_field.id, descMsg];
-                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                        ccsZaddErrorMessage(definition_field, 'Enter a weighting for this social value question');
                                     }else{
                                         fieldCheck = [definition_field.id, descMsg];
                                         ccsZaddErrorMessage(definition_field, 'You must enter percentage');
