@@ -17545,7 +17545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13')){ 
+        if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
           if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
             let question1 = document.getElementById('rfp_score_criteria_name_1').value;
             let question2 = document.getElementById('rfp_score_criteria_point_1').value;
@@ -17566,7 +17566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 with_value_count = rowsAndHead.rows.length + 1;
                 rowsAndHead.rows.unshift({ text: "Ignore" })
       
-                if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13')){ 
+                if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
                   rowsAndHead.rows.reverse();
                   var rowlength = rowsAndHead.rows.length;
                     for (let i = 0; i < rowsAndHead.rows.length; i++) {
