@@ -14522,7 +14522,7 @@ function isProjectExtensionValid() {
    if (projectRunInDays != null && projectRunInDays > 0 && extensionRunInDays != null && extensionRunInDays > 0) {
       let tempProjectRunInDays = Number(projectRunInDays);
       let tempExtensionRunInDays = Number(extensionRunInDays);
-      if (tempProjectRunInDays > tempExtensionRunInDays) {
+      if (tempProjectRunInDays >= tempExtensionRunInDays) {
 
          if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
 
