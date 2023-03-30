@@ -16642,9 +16642,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ccsZaddErrorMessage(term_field, 'You must enter valid question');
                                     errorStore.push(fieldCheck);
                                 } else if (definition_field.value.trim() === '') {
-                                    fieldCheck = [definition_field.id, descMsg];
-                                    ccsZaddErrorMessage(definition_field, 'You must enter percentage');
-                                    errorStore.push(fieldCheck);                        
+                                    if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6'){
+                                        fieldMsg = 'Enter a weighting for this social value question';
+                                        descMsg = 'Enter a weighting for this social value question';
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                    }else{
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                    }
+                                    errorStore.push(fieldCheck);
+                                                            
                                 } 
                         }
                     }
