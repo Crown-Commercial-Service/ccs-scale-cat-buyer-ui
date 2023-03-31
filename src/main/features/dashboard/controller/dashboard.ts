@@ -36,17 +36,33 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
+  /** CAS-87 */
+  let activeListDash = [];
+  let pastListDash = [];
+  if(req.session.openProjectActiveEvents != undefined){
+    activeListDash = req.session.openProjectActiveEvents;
+  }
+  if(req.session.historicalEvents != undefined){
+    pastListDash = req.session.historicalEvents;
+  }
+
+  activeListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
+  pastListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
 
   /** Daylight savings */
-  let projectActive = req.session.openProjectActiveEvents;
-  if(projectActive != undefined) {
-    for (let j = 0; j < projectActive.length; j++) {
-      if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
-        if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-          let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+  if(activeListDash != undefined) {
+    for (let j = 0; j < activeListDash.length; j++) {
+      if(Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
+        if(momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          let end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
           let day = end_dateActive.substr(0, 10);
           let time = end_dateActive.substr(11, 5);
-          projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
         }
         }
     }
@@ -56,10 +72,11 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   const appendData = {
     data: dashboarData,
     searchText,
-    events: projectActive,
-    historicalEvents: req.session.historicalEvents,
+    events: activeListDash,
+    historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData
   };
+  /** CAS-87 */
   res.render('dashboard', appendData);
 };
 
@@ -103,9 +120,10 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       }
       
       await nameretrieveProjetActiveEventsPromise.then(async data => {  
-        const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
-          a.projectId < b.projectId ? 1 : -1,
-        );        
+        const events: ActiveEvents[] = data.data; 
+        // const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
+        //   a.projectId < b.projectId ? 1 : -1,
+        // );        
         for (let i = 0; i < events.length; i++) {
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
 
@@ -613,7 +631,6 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
-    console.log("errerrerr",err);
     
     LoggTracer.errorLogger(
       res,
@@ -651,16 +668,32 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     return agroupitem?.activeEvent?.eventType != "PA";
   });
 
+  /** CAS-87 */
+  let activeListDash = [];
+  let pastListDash = [];
+  if(req.session.openProjectActiveEvents != undefined){
+  activeListDash = req.session.openProjectActiveEvents;
+  }
+  if(req.session.historicalEvents != undefined){
+  pastListDash = req.session.historicalEvents;
+  }
+
+  activeListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
+  pastListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
   /** Daylight savings */
-  let projectActive = req.session.openProjectActiveEvents;
-  if(projectActive != undefined) {
-    for (let j = 0; j < projectActive.length; j++) {
-      if(Object.keys(projectActive[j].activeEvent.tenderPeriod).length !== 0) {
-        if(momentz(new Date(projectActive[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-          let end_dateActive = projectActive[j].activeEvent.tenderPeriod.endDate;
+  if(activeListDash != undefined) {
+    for (let j = 0; j < activeListDash.length; j++) {
+      if(Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
+        if(momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          let end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
           let day = end_dateActive.substr(0, 10);
           let time = end_dateActive.substr(11, 5);
-          projectActive[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
         }
         }
     }
@@ -670,9 +703,10 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   const appendData = {
     data: dashboarData,
     searchText,
-    events: projectActive,
-    historicalEvents: req.session.historicalEvents,
+    events: activeListDash,
+    historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData
   };
+  /** CAS-87 */
   res.render('dashboard', appendData);
 };
