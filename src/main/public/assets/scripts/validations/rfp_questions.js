@@ -422,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(agreement_id_Default=='RM1043.8'){
         var total_countva=20;
         var withValue=21;
-        with_value_count = 20
     }
     else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
         var total_countva=20;
