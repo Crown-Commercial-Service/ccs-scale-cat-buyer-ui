@@ -62,7 +62,7 @@ function checkSublevels(
           if (agreement_id == 'RM6263') {
             //DSP
             eventTask['link'] = `/rfi/online-task-list`;
-          } else if (agreement_id == 'RM6187' || agreement_id == 'RM1043.8') {
+          } else if (agreement_id == 'RM1043.8') {
             //MCF3 or DOS or gcloud
             eventTask['link'] = `/rfi/choose-build-your-rfi`;
           } else {
