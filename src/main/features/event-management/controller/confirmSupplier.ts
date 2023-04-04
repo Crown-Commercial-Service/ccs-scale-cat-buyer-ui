@@ -56,7 +56,6 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
                     }
                 }
         // var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
-
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
@@ -111,6 +110,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
 
     res.render('confirmSupplier', appendData);
   } catch (error) {
+    console.log('error',error)
     LoggTracer.errorLogger(
       res,
       error,

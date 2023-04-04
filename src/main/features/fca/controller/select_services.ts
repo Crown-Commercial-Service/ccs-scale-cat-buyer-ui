@@ -59,6 +59,15 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
         }).flat();
         
         let loop = CAPACITY_CONCAT_OPTIONS;
+        loop.sort(function (a, b) {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
         let eptObj = [];
         for(let j = 0; j < loop.length; j++) { eptObj.push({'requirement-id': loop[j]['requirement-id'], name: loop[j].name}); }
         

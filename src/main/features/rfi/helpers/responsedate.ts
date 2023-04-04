@@ -479,14 +479,12 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       });
       criterianStorage.push(rebased_object_with_requirements);
     }
-
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
-
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
       .map(aQuestion => aQuestion.OCDS.id);

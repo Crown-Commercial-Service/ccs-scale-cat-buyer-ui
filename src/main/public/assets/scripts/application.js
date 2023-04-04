@@ -42,7 +42,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -1776,7 +1776,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           }).done(function (result) {
             var bodytg = document.body;
             bodytg.classList.remove("pageblur");
-
             if(result.warning) {
               document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
               const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
@@ -1806,7 +1805,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
                 if(result.eventType == 'DA') {
                   window.location.href = window.location.origin+'/da/response-date';
                 }
-
 
                 //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
               });

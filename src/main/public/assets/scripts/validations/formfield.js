@@ -56,7 +56,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
@@ -97,7 +97,7 @@ const ccsZvalidateCaaAssFCSecurity = (event) => {
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "You must select how you will build your RFI");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select how you will build your RfI");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();

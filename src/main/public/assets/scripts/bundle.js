@@ -1795,12 +1795,13 @@ CharacterCount.prototype.updateCountMessage = function () {
   displayNumber = Math.abs(remainingNumber);
 
   countMessage.innerHTML = 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb;
-  
+  if(document.getElementById('page-heading')!=undefined && document.getElementById('page-heading')!=null){
+
   let heading = document.getElementById('page-heading').innerHTML;
   if(heading.includes("Invite selected suppliers to stage 2: further assessment")){
     countMessage.innerHTML = displayNumber + ' ' + charNoun + ' ' + charVerb;
   }
-
+  }
 };
 
 CharacterCount.prototype.handleFocus = function () {
@@ -6698,7 +6699,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                    }
                    with_value_count--;
-                  
+                   totalAnswerd()
                    if (with_value_count != 11) {
                     
                     $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -6854,7 +6855,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ccsZPresentErrorSummary(errorStore);
                     return;
                 }
-                totalAnswerd();
+                //totalAnswerd();
             } else ccsZPresentErrorSummary(errorStore);
         });
 
@@ -7895,23 +7896,23 @@ const emptyFieldCheckEoi = (add_more='') => {
       checkFieldsEoi();
       
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'You must add term or acronym.'];
+        fieldCheck = [term_field, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'You must add definition for the term or acronym.'];
+        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        fieldCheck = [term_field.id, 'You must add term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
@@ -8862,7 +8863,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($("#page-heading").text().includes("Project scope")) {
       errorText = "You must type first project scope before you can add another"
     } else {
-      errorText = "You must type an objective before you can add another objective"
+      errorText = "Enter an objective before attempting to add another"
     }
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -9562,7 +9563,7 @@ $('.add').addClass('ccs-dynaform-hidden');
 $(document).ready(function () {
 
     const checkType = document.getElementById("rfi_offline_document");
-    const elems = ['rfi', 'eoi','rfp','ca'];
+    const elems = ['rfi', 'eoi','rfp','ca','da'];
     let foundElem = false;
     let type, uploadField;
     while (!foundElem && elems.length > 0) {
@@ -9644,10 +9645,20 @@ $(document).ready(function () {
                 }
 
             }
+            const removeErrorFieldsRfpScoreQuestion = () => {
+                // $('.govuk-error-message').remove();
+                $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+                $('.govuk-error-summary').remove();
+                $('.govuk-input').removeClass('govuk-input--error');
+                $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+            }; 
             const noError = ErrorCheckArray.every(element => element.type === "none");
             const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
             const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
+            let errorStore = [];
+            let fieldCheck = '';
             if(noError){
+                removeErrorFieldsRfpScoreQuestion();
                 $(`#${type}_offline_document`).removeClass("govuk-input--error")
                 $(`#upload_doc_form`).removeClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -9665,7 +9676,10 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                errorStore.push(fieldCheck);
+                ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
             }
         
@@ -9749,7 +9763,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
@@ -9790,7 +9804,7 @@ const ccsZvalidateCaaAssFCSecurity = (event) => {
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "You must select how you will build your RFI");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select how you will build your RfI");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
@@ -10284,6 +10298,19 @@ $('input[type=radio]').click(function () {
     $('#g_cloud_new_search_name').addClass('govuk-!-display-none')
   }
 });
+// window back refresh radio button
+if (document.querySelectorAll('#save-search').length==1) {
+ $(document).ready(function () {
+    setTimeout(function() { 
+      $( "#remove_radio" ).trigger( "click" );
+      $('#search_name').val('');
+    }, 1000);
+    $( "#remove_radio" ).on( "click", function() {
+     $("input[type='radio']").prop('checked', false);
+    });
+});
+}
+
 
 // to hide the new search name input filed on load
 document.addEventListener('DOMContentLoaded', () => {
@@ -10952,11 +10979,11 @@ const emptyFieldCheck = (add_more='') => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
-        fieldCheck = [term_field.id, 'You must add the term or acronym'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
@@ -10983,15 +11010,15 @@ const emptyFieldCheck = (add_more='') => {
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym');
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id != 'RM1557.13') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym');
-        fieldCheck = [term_field.id, 'You must add the term or acronym'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
@@ -11185,15 +11212,15 @@ const ccsZResetAddress = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    let selectors = [2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
         let year = $(`#clarification_date-year_${element}`);
         let hour = $(`#clarification_date-hour_${element}`);
         let minutes = $(`#clarification_date-minute_${element}`);
-
-        let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+        
+        let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
 
         day.on('blur', () => {
             let value = day;
@@ -11293,7 +11320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        /*responseDate.on('submit', (e) => {
+        responseDate.on('submit', (e) => {
             e.preventDefault();
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
@@ -11305,9 +11332,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error") 
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a date and time");
                 const errorStore = [
-                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                    [parentID, "Enter a date and time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11315,9 +11342,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                 const errorStore = [
-                    [parentID, "Date invalid or empty. Please enter the valid date"]
+                    [parentID, "Enter a complete date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11347,48 +11374,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else {
                 if (!isValidDate(year.val(), month.val(), day.val())) {
                     day.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                     const errorStore = [
-                        [parentID, "Please enter valid date"]
+                        [parentID, "Enter a complete date"]
                     ]
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
-                    let currentDate = new Date();
+                    let currentDate = new Date(document.getElementsByClassName(`clarification_${element - 1}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val());
+                    let nextDate = new Date();
+                    let isNextDate = false;
+                    if(selectors.length + 1 > element){
+                        nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
+                        isNextDate = true;
+                    }
+                    
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future"); 
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
                         const errorStore = [
-                            [parentID, "Date should be in future"]
+                            [parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]
                         ]
             
                         ccsZPresentErrorSummary(errorStore);
-                    } else {
-                        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+                    } else if(isNextDate && (enteredDate > nextDate)){
+                        day.addClass("govuk-input--error")
+                        month.addClass("govuk-input--error")
+                        year.addClass("govuk-input--error")
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
+                        const errorStore = [
+                            [parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]
+                        ]
+                        ccsZPresentErrorSummary(errorStore);
+                    }else {
+                        document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
                     }
                 }
             }
-        });*/
+        });
 
         function getParentId(element) {
             let parentID = '';
@@ -11866,10 +11909,10 @@ const emptyQuestionFieldCheck = () => {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         if(urlParams.get('agreement_id') == 'RM6187'){
-          errText = "You must ask at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else if(urlParams.get('agreement_id') == 'RM1557.13'){
-          errText = "Enter at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else{
           errText = "You must add at least one question";
@@ -11877,8 +11920,8 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-        if(urlParams.get('agreement_id') == 'RM1557.13'){
-          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed.", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
         }
         else{
           fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -11894,19 +11937,35 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-    if(urlParams.get('agreement_id') == 'RM6187'){
-      errText = "You must ask at least one question";
-    }else{
-      errText = "You must add at least one question";
-    }
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+    
+    for (var i = 1; i < totalCountindex; i++) {
+      // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+         if(i==1){
+            if(urlParams.get('agreement_id') == 'RM6187'){
+              errText = "Enter at least one question";
+            }else{
+              errText = "Enter at least one question";
+            }
+           fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+         }
+         else{
+           if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+           }
+           else{
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+           }
+         }
+       }
+     }
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
 
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheck();
+  errorStore = emptyQuestionFieldCheckForSave();
 
   //}
 
@@ -14479,7 +14538,7 @@ function isProjectExtensionValid() {
    if (projectRunInDays != null && projectRunInDays > 0 && extensionRunInDays != null && extensionRunInDays > 0) {
       let tempProjectRunInDays = Number(projectRunInDays);
       let tempExtensionRunInDays = Number(extensionRunInDays);
-      if (tempProjectRunInDays > tempExtensionRunInDays) {
+      if (tempProjectRunInDays >= tempExtensionRunInDays) {
 
          if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
 
@@ -16031,7 +16090,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7' ) {
 
@@ -16086,7 +16145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                        else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7') {
 
@@ -16249,7 +16308,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
-                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    if(urlParams.get('group_id') == 'Group 4'){
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this technical question",'','',false);
+                                     }else{
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this social value question",'','',false);
+                                     }
                                     errorStore.push(fieldCheck)
                                 }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
@@ -16584,7 +16647,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             } 
                     }
                 }else{
-                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase() && pageHeading.trim().toLowerCase()  != 'write your technical questions') {
                     if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
                         const field1 = countWords1(term_field.value) > 50;
                         const field2 = countWords1(definition_field.value) > 150;
@@ -16595,9 +16658,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ccsZaddErrorMessage(term_field, 'You must enter valid question');
                                     errorStore.push(fieldCheck);
                                 } else if (definition_field.value.trim() === '') {
-                                    fieldCheck = [definition_field.id, descMsg];
-                                    ccsZaddErrorMessage(definition_field, 'You must enter percentage');
-                                    errorStore.push(fieldCheck);                        
+                                    if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6'){
+                                        fieldMsg = 'Enter a weighting for this social value question';
+                                        descMsg = 'Enter a weighting for this social value question';
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'Enter a weighting for this social value question');
+                                    }else{
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                    }
+                                    errorStore.push(fieldCheck);
+                                                            
                                 } 
                         }
                     }
@@ -16708,8 +16779,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
-                                msgContent = 'Enter a nice-to-have skill and experience';
-                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                                msgContent = 'Enter a nice-to-have skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
                                 msgContent = 'Enter a technical question';
@@ -16878,7 +16949,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
                            let msgContent = 'You must enter percentage';
                            if(urlParams.get('group_id') == 'Group 6' ){
-                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgContent = 'Enter a weighting for this nice-to-have skill or experience';
                            }
                            else if(urlParams.get('group_id') == 'Group 9' || (LOTID_VAR == 3 && urlParams.get('group_id') == 'Group 8') ){
                             msgContent = 'Enter a weighting for this social value question';
@@ -17083,7 +17154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
                        let msgContent = 'You must enter valid question';
                         if(urlParams.get('group_id') == 'Group 6'){
-                        msgContent = 'Enter a nice-to-have skill and experience';
+                        msgContent = 'Enter a nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 8'){
                             msgContent = 'Enter a social value question';
@@ -17490,12 +17561,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+        if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
           if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
             let question1 = document.getElementById('rfp_score_criteria_name_1').value;
             let question2 = document.getElementById('rfp_score_criteria_point_1').value;
             let question3 = document.getElementById('rfp_score_criteria_desc_1').value;
-            if(question1 != '' && question2 != '' && question3 != '' ){
+            if(question1 != '' || question2 != '' || question3 != '' ){
               openpop.classList.add('showpopup');
             }else{
               for (let score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
@@ -17511,10 +17582,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 with_value_count = rowsAndHead.rows.length + 1;
                 rowsAndHead.rows.unshift({ text: "Ignore" })
       
-                if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+                if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
                   rowsAndHead.rows.reverse();
+                  var rowlength = rowsAndHead.rows.length;
                     for (let i = 0; i < rowsAndHead.rows.length; i++) {
-                    if (i !== 4) {
+                    if (i !== Number(rowlength)-1) {
                      const ii = i + 1;
                      let elements = document.getElementsByClassName("score_criteria_" + ii);
                       elements[0].classList.remove("ccs-dynaform-hidden");
@@ -18381,7 +18453,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
               msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
@@ -18566,7 +18638,7 @@ $('#rfp_singleselect').on('submit', event => {
 
   if (headerText.includes('existing supplier') && ischecked) {
     var ccs_vetting_type = document.getElementById('ccs_vetting_type').checked;
-
+    
     var rfp_security_confirmation = document.getElementById('rfp_security_confirmation');
     if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
@@ -18583,8 +18655,9 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+      ccsZPresentErrorSummary([['rfp_security_confirmation', 'Provide the name of the incumbent supplier.']]);
     } else {
       document.forms['rfp_singleselect'].submit();
     }
@@ -18941,27 +19014,29 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             if (term_field.value.trim() == ''){
                 errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
           }
           if (definition_field.value.trim() == ''){
             errField = definition_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
           }
-          if (target_field.value.trim() == ''){
-            errField = target_field;
-             isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
+          if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
+            errorStore.push(fieldCheck);
           }
 
           if (target_field.value.trim() == '0'){
-            errField = target_field;
-             isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
+            errorStore.push(fieldCheck);
           }
 
           if (isErrorSingle) {
-            fieldCheck = [errField.id, 'You must add information in all fields.'];
+            fieldCheck = [errField.id, 'You must add information in all fields'];
             errorStore.push(fieldCheck);
           }
         }
@@ -18969,52 +19044,52 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
        
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
-            ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+            fieldCheck = [definition_field.id, 'You must add information in all fields'];
+            ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 0 and 100'];
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
             errorStore.push(fieldCheck);
           }
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria');
+              ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
               isError = true;
-              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria'];
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'Enter a success target between 0 and 100');
+              ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 0 and 100'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field.value.trim() == '0'){
-              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1.');
+              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1.'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
               errorStore.push(fieldCheck);
             }
             
             if (field1) {
-              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
+              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed');
               isError = true;
             }
             if (field2) {
-              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed.');
+              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed');
               isError = true;
             }
             if (isError) {
@@ -19857,14 +19932,14 @@ $("#enter_evaluation").submit(function(){
   let fieldId = document.getElementById("enter_evaluation_score")
   ccsZremoveErrorMessage(fieldId);
   if(scoreValue == true){
-    error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", null);
+    error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", null);
     if (error !== true) errorStore.push(error);
     // ccsZaddErrorMessage(document.getElementById("enter_evaluation_score"), "Please enter score between 0 to 100");
     // errorStore.push(error);
 
   }
   if($("#enter_evaluation_score").val() == ''){
-     error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", /^.+$/);
+     error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", /^.+$/);
     errorStore.push(error);
   }
   if($("#enter_evaluation_feedback").val() == ''){
@@ -20098,7 +20173,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "Select at least one location");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -20170,7 +20245,7 @@ const ccsZvalidateEoiProjectName = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Your project must have a name.", /^.+$/);
+  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Enter the name of your project", /^.+$/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_eoi_project_name_form"].submit();
@@ -20229,22 +20304,42 @@ const ccsZvalidateEoiProject = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('eoi_publish_confirmation') !== null) {
-    const checker = document.getElementById('eoi_publish_confirmation');
-    checker.addEventListener('change', event => {
-      if (event.target.checked) {
-        document.getElementById('eoi_btn_publish_now').classList.remove('govuk-button--disabled');
-        document.getElementById('eoi_btn_publish_now').removeAttribute('disabled');
-        document.getElementById('eoi_btn_publish_now').removeAttribute('aria-disabled');
-      } else {
-        document.getElementById('eoi_btn_publish_now').classList.add('govuk-button--disabled');
-        document.getElementById('eoi_btn_publish_now').setAttribute('disabled', true);
-        document.getElementById('eoi_btn_publish_now').setAttribute('aria-disabled', true);
-      }
-    });
+  if (document.getElementById('eoi_publish_confirmation') !== null) { 
+    publishConfirmation('eoi_publish_confirmation', 'eoi_btn_publish_now')
+  }
+  
+  if (document.getElementById('rfp_publish_confirmation') !== null) { 
+    publishConfirmation('rfp_publish_confirmation', 'rfp_btn_publish_now')
+  }
+  
+  if (document.getElementById('rfi_publish_confirmation') !== null) { 
+    publishConfirmation('rfi_publish_confirmation', 'rfi_btn_publish_now')
   }
 });
 
+function publishConfirmation (publishConfirmationId, publishBtn){
+  publishBtnDisable(publishBtn);
+  const checker = document.getElementById(publishConfirmationId);
+  checker.addEventListener('change', event => {
+    if (event.target.checked) {
+      publishBtnEnable(publishBtn);
+    } else {
+      publishBtnDisable(publishBtn);
+    }
+  });
+}
+
+function publishBtnDisable(btnId){
+  document.getElementById(btnId).classList.add('govuk-button--disabled');
+  document.getElementById(btnId).setAttribute('disabled', true);
+  document.getElementById(btnId).setAttribute('aria-disabled', true);
+}
+
+function publishBtnEnable(btnId){
+  document.getElementById(btnId).classList.remove('govuk-button--disabled');
+  document.getElementById(btnId).removeAttribute('disabled');
+  document.getElementById(btnId).removeAttribute('aria-disabled');
+}
 const ccsZvalidateEoiSecurity1 = (event) => {
   event.preventDefault();
 
@@ -21348,7 +21443,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -23082,7 +23177,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           }).done(function (result) {
             var bodytg = document.body;
             bodytg.classList.remove("pageblur");
-
             if(result.warning) {
               document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
               const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
@@ -23112,7 +23206,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
                 if(result.eventType == 'DA') {
                   window.location.href = window.location.origin+'/da/response-date';
                 }
-
 
                 //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
               });

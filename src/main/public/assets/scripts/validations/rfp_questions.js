@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7' ) {
 
@@ -700,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                        else if(urlParams.get('group_id') == 'Group 6') {
 
-                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 7') {
 
@@ -863,7 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
                                 if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
-                                    var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "You must enter valid percentage",'','',false);
+                                    if(urlParams.get('group_id') == 'Group 4'){
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this technical question",'','',false);
+                                     }else{
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this social value question",'','',false);
+                                     }
                                     errorStore.push(fieldCheck)
                                 }else{
                                 var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
@@ -1198,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             } 
                     }
                 }else{
-                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase() && pageHeading.trim().toLowerCase()  != 'write your technical questions') {
                     if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
                         const field1 = countWords1(term_field.value) > 50;
                         const field2 = countWords1(definition_field.value) > 150;
@@ -1209,9 +1213,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ccsZaddErrorMessage(term_field, 'You must enter valid question');
                                     errorStore.push(fieldCheck);
                                 } else if (definition_field.value.trim() === '') {
-                                    fieldCheck = [definition_field.id, descMsg];
-                                    ccsZaddErrorMessage(definition_field, 'You must enter percentage');
-                                    errorStore.push(fieldCheck);                        
+                                    if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6'){
+                                        fieldMsg = 'Enter a weighting for this social value question';
+                                        descMsg = 'Enter a weighting for this social value question';
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'Enter a weighting for this social value question');
+                                    }else{
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                    }
+                                    errorStore.push(fieldCheck);
+                                                            
                                 } 
                         }
                     }
@@ -1322,8 +1334,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
-                                msgContent = 'Enter a nice-to-have skill and experience';
-                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill and experience';
+                                msgContent = 'Enter a nice-to-have skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
                             }
                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
                                 msgContent = 'Enter a technical question';
@@ -1492,7 +1504,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
                            let msgContent = 'You must enter percentage';
                            if(urlParams.get('group_id') == 'Group 6' ){
-                            msgContent = 'Enter a weighting for this nice-to-have skill and experience';
+                            msgContent = 'Enter a weighting for this nice-to-have skill or experience';
                            }
                            else if(urlParams.get('group_id') == 'Group 9' || (LOTID_VAR == 3 && urlParams.get('group_id') == 'Group 8') ){
                             msgContent = 'Enter a weighting for this social value question';
@@ -1697,7 +1709,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
                        let msgContent = 'You must enter valid question';
                         if(urlParams.get('group_id') == 'Group 6'){
-                        msgContent = 'Enter a nice-to-have skill and experience';
+                        msgContent = 'Enter a nice-to-have skill or experience';
                         }
                         else if(urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 8'){
                             msgContent = 'Enter a social value question';

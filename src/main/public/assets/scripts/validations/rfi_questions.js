@@ -342,10 +342,10 @@ const emptyQuestionFieldCheck = () => {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         if(urlParams.get('agreement_id') == 'RM6187'){
-          errText = "You must ask at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else if(urlParams.get('agreement_id') == 'RM1557.13'){
-          errText = "Enter at least one question";
+          errText = "Enter at least one question before attempting to add another";
         }
         else{
           errText = "You must add at least one question";
@@ -353,8 +353,8 @@ const emptyQuestionFieldCheck = () => {
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-        if(urlParams.get('agreement_id') == 'RM1557.13'){
-          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed.", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
         }
         else{
           fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -370,19 +370,35 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-    if(urlParams.get('agreement_id') == 'RM6187'){
-      errText = "You must ask at least one question";
-    }else{
-      errText = "You must add at least one question";
-    }
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+    
+    for (var i = 1; i < totalCountindex; i++) {
+      // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+         if(i==1){
+            if(urlParams.get('agreement_id') == 'RM6187'){
+              errText = "Enter at least one question";
+            }else{
+              errText = "Enter at least one question";
+            }
+           fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+         }
+         else{
+           if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+           }
+           else{
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+           }
+         }
+       }
+     }
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
 
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheck();
+  errorStore = emptyQuestionFieldCheckForSave();
 
   //}
 

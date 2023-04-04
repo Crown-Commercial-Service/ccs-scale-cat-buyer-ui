@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
               msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
@@ -233,7 +233,7 @@ $('#rfp_singleselect').on('submit', event => {
 
   if (headerText.includes('existing supplier') && ischecked) {
     var ccs_vetting_type = document.getElementById('ccs_vetting_type').checked;
-
+    
     var rfp_security_confirmation = document.getElementById('rfp_security_confirmation');
     if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
@@ -250,8 +250,9 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
+      ccsZPresentErrorSummary([['rfp_security_confirmation', 'Provide the name of the incumbent supplier.']]);
     } else {
       document.forms['rfp_singleselect'].submit();
     }

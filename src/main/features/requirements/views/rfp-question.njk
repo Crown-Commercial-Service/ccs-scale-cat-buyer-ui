@@ -241,7 +241,7 @@ text: bcTitleText
                     </label>
                  {% elseif (group_id == 'Group 15') and (lotId == '3') %}
                        <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">
-                        {{numberWord[i] | capitalize}}
+                        {{numberWord[i] | trim | capitalize}}
                        {{shortTitle}} requirement <a href="{{i}}" id="del_dos_question_{{i}}"
                             class='del govuk-link govuk-link--no-visited-state' title='delete'> X
                         </a>

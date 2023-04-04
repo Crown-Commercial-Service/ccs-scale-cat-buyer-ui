@@ -3250,7 +3250,8 @@ const IR35selected='';
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session,
-      publishClickEventStatus:publishClickEventStatus
+      publishClickEventStatus:publishClickEventStatus,
+      selectedEventType : req.session['eventManagement_eventType']
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 
