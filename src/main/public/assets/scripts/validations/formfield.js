@@ -65,10 +65,10 @@ const ccsZvalidateEoiSecurity = (event) => {
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
     
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-        if(urlParams.get('agreement_id') == 'RM6187')
-          fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+    if ($('#rfp_security_confirmation').val().length === 0) {      
+      if(urlParams.get('agreement_id') == 'RM6187')
+           fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+      else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_security_confirmation').val().length > 500) {
