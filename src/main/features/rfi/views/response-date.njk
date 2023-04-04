@@ -118,7 +118,7 @@
                             <a href="#rfi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
                                 class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19" hidden>I do not want to change this date and time</a>
                         </div>
-                        <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form_{{loop.index}}">
+                        <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfp_response_date_form_{{loop.index}}">
                         {{ csrfProtection(csrf) }}
                         <input type="hidden" value="{{agreementId_session}}" id="agreementID">
 

@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    let selectors = [2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
         let year = $(`#clarification_date-year_${element}`);
         let hour = $(`#clarification_date-hour_${element}`);
         let minutes = $(`#clarification_date-minute_${element}`);
-
-        let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+        
+        let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
 
         day.on('blur', () => {
             let value = day;
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        /*responseDate.on('submit', (e) => {
+        responseDate.on('submit', (e) => {
             e.preventDefault();
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
@@ -120,9 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error") 
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a date and time");
                 const errorStore = [
-                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                    [parentID, "Enter a date and time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -130,9 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                 const errorStore = [
-                    [parentID, "Date invalid or empty. Please enter the valid date"]
+                    [parentID, "Enter a complete date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -162,48 +162,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else {
                 if (!isValidDate(year.val(), month.val(), day.val())) {
                     day.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                     const errorStore = [
-                        [parentID, "Please enter valid date"]
+                        [parentID, "Enter a complete date"]
                     ]
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
-                    let currentDate = new Date();
+                    let currentDate = new Date(document.getElementsByClassName(`clarification_${element - 1}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val());
+                    let nextDate = new Date();
+                    let isNextDate = false;
+                    if(selectors.length + 1 > element){
+                        nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
+                        isNextDate = true;
+                    }
+                    
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future"); 
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
                         const errorStore = [
-                            [parentID, "Date should be in future"]
+                            [parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]
                         ]
             
                         ccsZPresentErrorSummary(errorStore);
-                    } else {
-                        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+                    } else if(isNextDate && (enteredDate > nextDate)){
+                        day.addClass("govuk-input--error")
+                        month.addClass("govuk-input--error")
+                        year.addClass("govuk-input--error")
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
+                        const errorStore = [
+                            [parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]
+                        ]
+                        ccsZPresentErrorSummary(errorStore);
+                    }else {
+                        document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
                     }
                 }
             }
-        });*/
+        });
 
         function getParentId(element) {
             let parentID = '';
