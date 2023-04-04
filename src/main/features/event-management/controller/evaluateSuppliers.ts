@@ -355,10 +355,10 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
     let stage_value;
     if(stage2_data.length > 0){
       stage_value = 'stage 2';
-       cmsData=stage2ShortListEvaluationData;
+      cmsData=stage2ShortListEvaluationData;
     }else{
       stage_value = 'stage 1';
-       cmsData=stage1ShortListEvaluationData;
+      cmsData=stage1ShortListEvaluationData;
     }
       
     const appendData = { data: cmsData,projectId,eventId,agreement_id,lotid,stage_value}

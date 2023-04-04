@@ -12,6 +12,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
 import momentnew from 'moment';
+import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
@@ -984,9 +985,16 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   req.session['publishclickevents'] = publishactiveprojects;
  // CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
- CurrentTimeStamp = momentnew(new Date(CurrentTimeStamp)).utc().format('YYYY-MM-DD HH:mm');
-  CurrentTimeStamp = momentnew(CurrentTimeStamp).utc();
-  CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+ /** Daylight saving fix start */
+ let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
+ if(isDayLight) {
+   CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().format('YYYY-MM-DD HH:mm');
+   CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).format('YYYY-MM-DDTHH:mm:ss+01:00'); //+01:00
+   CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().toISOString()
+ } else {
+   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+ }
+ /** Daylight saving fix end */
 
   
   const _bodyData = {
