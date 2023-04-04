@@ -657,29 +657,30 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     
      //CAS-INFO-LOG
      LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-     if(req.session.isTimelineRevert) {
-        let arrOfCurrentTimeline = [];
-        arrOfCurrentTimeline.push(
-          `Question 1*${appendData.rfp_clarification_date}`,
-          `Question 2*${appendData.rfp_clarification_period_end}`,
-          `Question 3*${appendData.deadline_period_for_clarification_period}`,
-          `Question 4*${appendData.supplier_period_for_clarification_period}`,
-          `Question 5*${appendData.supplier_dealine_for_clarification_period}`,
-          `Question 6*${appendData.deadline_for_submission_of_stage_one}`,
-          `Question 7*${appendData.evaluation_process_start_date}`,
-          `Question 8*${appendData.bidder_presentations_date}`,
-          `Question 9*${appendData.standstill_period_starts_date}`,
-          `Question 10*${appendData.proposed_award_date}`,
-          `Question 11*${appendData.expected_signature_date}`,
-          `Question 12*${appendData.contract_signed_date}`,
-          `Question 13*${appendData.supplier_start_date}`
-        );
-        await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
-        res.redirect('/rfp/response-date');
-    } else {
-      res.render('rfp-responsedate.njk', appendData);
-    }
-
+     //CAS-32
+    if(req.session.isTimelineRevert) {
+      let arrOfCurrentTimeline = [];
+      arrOfCurrentTimeline.push(
+        `Question 1*${appendData.rfp_clarification_date}`,
+        `Question 2*${appendData.rfp_clarification_period_end}`,
+        `Question 3*${appendData.deadline_period_for_clarification_period}`,
+        `Question 4*${appendData.supplier_period_for_clarification_period}`,
+        `Question 5*${appendData.supplier_dealine_for_clarification_period}`,
+        `Question 6*${appendData.deadline_for_submission_of_stage_one}`,
+        `Question 7*${appendData.evaluation_process_start_date}`,
+        `Question 8*${appendData.bidder_presentations_date}`,
+        `Question 9*${appendData.standstill_period_starts_date}`,
+        `Question 10*${appendData.proposed_award_date}`,
+        `Question 11*${appendData.expected_signature_date}`,
+        `Question 12*${appendData.contract_signed_date}`,
+        `Question 13*${appendData.supplier_start_date}`
+      );
+      
+      await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
+      res.redirect('/rfp/response-date');
+      } else {
+        res.render('rfp-responsedate.njk', appendData);
+      }
     }
     else if(req.session.questionID=='Question 2'){ 
       rfp_clarification_date =req.session.rfppublishdate;
@@ -2068,9 +2069,9 @@ function changeDateTimeFormat(value){
          { timeStyle: 'short', timeZone: 'Europe/London' })}`;
 }
 
-
+//CAS-32
 const timelineForcePostForPublish = async (req, res, arr: any) => {
-  
+
   const filterWithQuestions = arr.map(aQuestions => {
     const anEntry = aQuestions.split('*');
     return { Question: anEntry[0], value: anEntry[1] };
@@ -2100,14 +2101,12 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       });
       criterianStorage.push(rebased_object_with_requirements);
     }
-    
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
-    
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
       .map(aQuestion => aQuestion.OCDS.id);

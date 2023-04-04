@@ -208,8 +208,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
         req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
       }
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
+      //CAS-32
       if(req.session.isTimelineRevert) {
           let arrOfCurrentTimeline = [];
           arrOfCurrentTimeline.push(
@@ -223,7 +225,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           res.redirect('/rfi/response-date');
       } else {
         res.render('response-date', appendData);
-      }      
+      }
     }
 
     else {
@@ -445,9 +447,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     );
   }
 };
-
+//CAS-32
 const timelineForcePostForPublish = async (req, res, arr: any) => {
-  
+
   const filterWithQuestions = arr.map(aQuestions => {
     const anEntry = aQuestions.split('*');
     return { Question: anEntry[0], value: anEntry[1] };
@@ -477,14 +479,12 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       });
       criterianStorage.push(rebased_object_with_requirements);
     }
-    
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
-    
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length != 0) //CAS-32 - minor changes were made in this place
       .map(aQuestion => aQuestion.OCDS.id);

@@ -1739,13 +1739,10 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
   //   }
   //   countOfpublishBtn++;
   // });
-
-  
-  // CAS-32
   if(document.forms.length > 0) {
     const publishDateMismatchFormEvent = document.forms[0].id;
     if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
-  
+
       let checkBoxConfirmation;
       if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
         checkBoxConfirmation = 'rfp_publish_confirmation';
@@ -1754,9 +1751,9 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
         checkBoxConfirmation = 'eoi_publish_confirmation';
       }
-  
-      
-  
+
+
+
       document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
         event.addEventListener('submit', function (event) {
           event.preventDefault();
@@ -1767,11 +1764,11 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             return false;
           } 
-  
+
           document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
           var bodytg = document.body;
           bodytg.classList.add("pageblur");
-  
+
          $.ajax({
             url: `/rfp/publish_date_mismatch`,
             type: "GET",
@@ -1779,7 +1776,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           }).done(function (result) {
             var bodytg = document.body;
             bodytg.classList.remove("pageblur");
-  
             if(result.warning) {
               document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
               const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
@@ -1810,7 +1806,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
                   window.location.href = window.location.origin+'/da/response-date';
                 }
 
-                
                 //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
               });
               return false;
@@ -1828,10 +1823,10 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           })
         })
       });
-      
+
     }
   }
-  
+
   function timelineRevertCancel() {
     $.ajax({
       url: `/rfp/publish_date_mismatch/cancel`,
@@ -1839,4 +1834,71 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       contentType: "application/json",
     }).done(function (res) {
     });
+  }
+
+  if (document.getElementsByClassName('backdrop-Qanda').length > 0) {
+    $(".dialog-close-Qanda").remove();
+    $(".dialog-close-Qanda").remove();
+    var elGo = document.querySelector(".backdrop-Qanda").querySelector(".nodeDialogTitle");
+    let divFirst = document.createElement('div');
+    divFirst.className = "govuk-form-group";
+    elGo.after(divFirst)
+
+    let QAInput = document.createElement('input');
+    QAInput.type  = 'email';
+    QAInput.name  = 'qa_email';
+    QAInput.id  = 'qa_email';
+    QAInput.placeholder  = 'Email';
+    QAInput.className = "govuk-input govuk-input--width-20";
+    document.querySelector(".govuk-form-group").append(QAInput);
+
+    const openpopGC = document.querySelector('.backdrop-Qanda')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-Qanda").on('click', function(){
+      return false;
+      // openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      // openpopGC.classList.remove('showpopup');
+      return false;
+    });
+    deconf = document.getElementById('redirect-button-Qanda');
+    deconf.addEventListener('click', ev => {
+      var validRegex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+      let inputVal = $("#qa_email").val();
+      console.log(inputVal.match(validRegex));
+      if(inputVal == '') {
+        QAInputErrorRemove();
+        QAInputError('Enter the email');
+      } else if (!validateEmail(inputVal)) {
+        QAInputErrorRemove();
+        QAInputError('Enter the valid email');
+      } else {
+        QAInputErrorRemove();
+        //Form submission
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // console.log(`/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`);
+        window.location.href = `/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`;
+      }
+
+    });
+    function QAInputErrorRemove() {
+        $('.govuk-form-group').removeClass("govuk-form-group--error");
+        $("#qa_email").prev('span').remove();
+        $("#qa_email").removeClass("govuk-input--error");
+    }
+    function QAInputError(msg) {
+        $('.govuk-form-group').addClass("govuk-form-group--error");
+        $("#qa_email").val('');
+        $("#qa_email").focus();
+        $("#qa_email").before(`<span class="govuk-error-message">${msg}</span>`);
+        $("#qa_email").addClass("govuk-input--error");
+    }
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
   }
