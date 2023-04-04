@@ -9763,14 +9763,19 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
+  let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
+    if(urlParams.get('agreement_id') == 'RM6187')
+    msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
+  
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
     
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+    if ($('#rfp_security_confirmation').val().length === 0) {      
+      if(urlParams.get('agreement_id') == 'RM6187')
+           fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+      else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_security_confirmation').val().length > 500) {
@@ -18656,8 +18661,8 @@ $('#rfp_singleselect').on('submit', event => {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
     } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
-      ccsZPresentErrorSummary([['rfp_security_confirmation', 'Provide the name of the incumbent supplier.']]);
+      ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
+      ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
     } else {
       document.forms['rfp_singleselect'].submit();
     }
