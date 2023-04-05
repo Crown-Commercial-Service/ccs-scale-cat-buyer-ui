@@ -38,6 +38,54 @@ document.addEventListener('DOMContentLoaded', () => {
         let textboxelements = document.querySelectorAll('.order_1');
         let textboxelementsorder2 = document.querySelectorAll('.order_2');
         let urlParamsData = new URLSearchParams(window.location.search);
+        var urlParamsDefault = new URLSearchParams(window.location.search);
+        var agreement_id_Default =  urlParamsDefault.get('agreement_id')
+        var lotid_Default;
+        var group_id =  urlParamsDefault.get('group_id')
+        var startWithVal=false
+        if(document.getElementById('lID') !== null) {
+            lotid_Default = document.getElementById('lID').value;
+        }
+    
+            var total_countva=10;
+            var withValue=11;
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {
+                var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+            }   
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
+            var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+        }    
+        else if(agreement_id_Default=='RM1043.8'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
+            var total_countva=5;
+            var withValue=6;
+        }else{
+            if($('.question_count').hasClass("question_count")) {      
+                   
+                var total_countva=50;
+               var withValue=51;
+           }else{
+               var total_countva=10;
+               var withValue=11;
+               with_value_count = 10;
+           }
+        } 
+
+
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -313,17 +361,38 @@ document.addEventListener('DOMContentLoaded', () => {
                with_value_count--;
                totalAnswerd();
                totalPercentage();
+              
                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
                 $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
             }
-            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
             }
-            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {    
+                if(startWithVal){    
+                   $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
             }
             else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                if(startWithVal){  
+                    $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
             }
             else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
                 $('.btncheck').text('').text('Add another special term or condition ') 
@@ -332,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (with_value_count != 21) {
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
+               //startWithVal = false;
            });
             
             
@@ -398,51 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
       
-    var urlParamsDefault = new URLSearchParams(window.location.search);
-    var agreement_id_Default =  urlParamsDefault.get('agreement_id')
-    var lotid_Default;
-    var group_id =  urlParamsDefault.get('group_id')
-
-    if(document.getElementById('lID') !== null) {
-        lotid_Default = document.getElementById('lID').value;
-    }
-
-        var total_countva=10;
-        var withValue=11;
-    if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {
-            var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-        }   
-    else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
-        var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-    }    
-    else if(agreement_id_Default=='RM1043.8'){
-        var total_countva=20;
-        var withValue=21;
-        with_value_count = 20
-    }
-    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
-        var total_countva=20;
-        var withValue=21;
-        with_value_count = 20
-    }
-    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
-        var total_countva=5;
-        var withValue=6;
-    }else{
-        if($('.question_count').hasClass("question_count")) {      
-               
-            var total_countva=50;
-           var withValue=51;
-       }else{
-           var total_countva=10;
-           var withValue=11;
-           with_value_count = 10;
-       }
-    }
+   
    
     let deleteButtonClicked = false
         
@@ -530,7 +556,13 @@ document.addEventListener('DOMContentLoaded', () => {
             with_value_count++;
         }
        
-        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+        if(with_value_count==20){
+            startWithVal =true;
+        }
+       
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {   
+            
+           
             $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
         }
         else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
@@ -980,24 +1012,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 // }
                 
                 with_value_count++;
-                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
-                    $('.btncheck').text('').text('Add another special term or condition ') 
-                }
+              
                 
-            }
-        }else{
+                 }
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {    
+                     if(startWithVal){
+                        $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
+                     }
+                     else{   
+                        $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                     }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                     $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')  
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')   
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                     $('.btncheck').text('').text('Add another special term or condition ') 
+                 }
+      
+                }else{
             document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
             //Added this condation section 5 (step 43/44/45)
