@@ -9764,8 +9764,8 @@ const ccsZvalidateRfiSecurity = (event) => {
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
   let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
-    if(urlParams.get('agreement_id') == 'RM6187')
-    msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
+    // if(urlParams.get('agreement_id') == 'RM6187')
+    // msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
   
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
