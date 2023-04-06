@@ -250,10 +250,12 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0 && document.getElementById('agreementID').value != 'RM1557.13') {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
-      ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
-    } else {
+    } 
+    // else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0 && document.getElementById('agreementID').value != 'RM1557.13') {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
+    //   ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
+    // } 
+    else {
       document.forms['rfp_singleselect'].submit();
     }
   } else {
