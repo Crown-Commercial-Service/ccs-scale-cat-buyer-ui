@@ -373,12 +373,16 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   <p class="govuk-body">
                   {% if item.mandatory == false %}
                   {# {% if item.title == "Who the organisation using the products or services is" %} #}
-                    <strong>{{item.title}} (optional)</strong>
+                    {{item.title}} (optional)
                       {# {% else %} #}
                       {# {{item.title}} #}
                       {# {% endif %} #}
                       {% else %}
-                    {{item.title}}
+                      {% if item.title == 'Where the supplier will work' %}
+                        Where the supplied staff will work
+                      {% else %}
+                        {{item.title}}
+                      {% endif %}
                   {% endif %}
                   </p>
                 </dt>
