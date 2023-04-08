@@ -94,6 +94,7 @@ export function statusStepsDataFilter(
   agreement_id: string,
   projectId: string,
   event_id: string,
+  stage2_value?: any
 ) {
   const { events } = data;
 
@@ -117,6 +118,11 @@ export function statusStepsDataFilter(
       break;
     case 'rfp':
       stepsByType = steps.slice(26, 41); //result: step 27 to 41
+      if (stage2_value != undefined && stage2_value == "Stage 2" && agreement_id == 'RM1043.8') {
+        let result = steps.filter((obj: any) => { return obj.step === 86; });
+        stepsByType.splice(6, 0, result[0]);
+        console.log(stepsByType);
+       }
       break;
     case 'FCA':
       stepsByType = steps.slice(74, 80); //result: step 75 to 80
