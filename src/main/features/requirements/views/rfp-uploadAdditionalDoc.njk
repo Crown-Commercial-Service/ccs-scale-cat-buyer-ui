@@ -1,0 +1,228 @@
+
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+
+{% block breadCrumb %}
+  {% if(agreementId_session == 'RM1043.8') %}
+    {% if(data.title == 'Upload assessment documents ') %}
+      {{ CCSBreadcrumbs({
+        items:[
+          {
+            "text": "Your Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+          },
+          {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+          },
+          {
+            "text": "Write and publish your requirements",
+            "href": "/rfp/task-list"
+          },
+          {
+            "text": "Upload pricing schedules and other documents",
+            "href": "/rfp/upload-supporting-doc"
+          },
+          {
+            "text": "Upload assessment documents",
+            "href": "#"
+          }
+        ]  
+        }) }}
+        
+    {% else %}
+      {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+          },
+          {
+            text: "Write and publish your requirements",
+            href: "/rfp/task-list"
+          },
+          {
+            text: "Upload pricing schedules and other documents",
+            href: "/rfp/task-list"
+          },
+          {
+            text: 'Upload additional documents',
+            href: "#"
+          }
+        ]
+      }) }}
+    {% endif %}
+  {% else %}
+      {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+          },
+          {
+            text: "Write and publish your requirements",
+            href: "/rfp/task-list"
+          },
+          {
+            text: "Upload documentation",
+            href: "upload"
+          },
+          {
+            text: 'Upload additional documents',
+            href: "#"
+          }
+        ]
+      }) }}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %} 
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if (fileError)%}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem with",
+                errorList: errorlist
+            }) }}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                  {# {% if(agreementId_session == 'RM1043.8') %} #}
+                    {# Upload documents (optional) #}
+                   {# {% else %} #}
+                    {{data.title}}
+                  {# {% endif %} #}
+                </h1>
+            </div>
+        </div>
+        
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %} 
+                <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-9">
+                    <div class="govuk-grid-column-full">
+                        <p class="govuk-body">{{data.line1}}</p>
+                        {% if agreementId_session != 'RM1043.8' and agreementId_session != 'RM1557.13' and agreementId_session != 'RM6187' %}
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>{{data.line2}}</li>
+                            <li>{{data.line3}}</li>
+                            <li>{{data.line4}}</li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+              <div id="upload_doc_form">
+                <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full" id="documents_upload">
+                        <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">{{data.subtitle5}}</label>
+                        <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
+                        <p class="govuk-body-s">{{data.p1}}<br>{{data.p2}}</p>
+                            {% if (files.length > 0)%}
+                              <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                                <ul class="app-task-list">
+                                  {% for file in files %}
+
+                                    <li class="app-task-list__item">
+                                      <div class="govuk-grid-row">
+                                        <div class="govuk-grid-column-one-third text-overflow ">
+                                          <p class="govuk-body">
+                                            <a href="/rfp/upload-additional?file_id={{file.id}}" class="govuk-link">
+                                              <strong>{{file.fileName}}</strong>
+                                            </a>
+                                          </p>
+                                        </div>
+                                        <div class="govuk-grid-column-one-third">
+                                          <p>{{file.fileSize | KbtoMb}} MB</p>
+                                        </div>
+                                        <div class="govuk-grid-column-one-third">
+                                          <p>
+                                            <a class="app-task-list__tag" href="/rfp/files/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      {% set hreflink = items.OCDS.description | replace(" ", "_") %}
+                                      {% set criterion_id = items.id | replace(" ", "_") %}
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              </div>
+                              {%endif%}
+                            {% if (storage < 1000000000) %}
+                         <form action="/rfp/upload-additional" method="post" encType="multipart/form-data">
+                            {{ csrfProtection(csrf) }}
+                            {{ 
+                              CCSFileUpload({
+                                id: "rfp_offline_document",
+                                name: "rfp_offline_document",
+                                value: data['rfp_offline_document'],
+                                multiple: true,
+                                label: {
+                                text: "",
+                                classes: "govuk-label--m"
+                                }
+                              }) 
+                            }}
+                            </div>
+                            <div class="govuk-grid-column-full">
+                              {{ CCSButton({
+                                      text: "Upload",
+                                      type: "submit",
+                                      classes: "govuk-button--secondary"
+                                    })
+                                }}
+                            </div>
+                            {{ CCSInput({
+                                    id: "rfp_file_started",
+                                    name: "rfp_file_started",
+                                    type: "hidden",
+                                    value: true
+                                  })
+                            }}
+                    </div>
+                </div>
+                </form>
+                {%endif%}
+                <form action="/rfp/upload-additional/proceed" method="post">
+                  {{ csrfProtection(csrf) }}
+                  <div class="govuk-button-group govuk-!-margin-top-9">
+                  {{ CCSButton({
+                  text: "Save and continue",
+                  type: "submit"
+                  })
+                  }}
+                  <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                  </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
+            </div>
+        </div>
+          
+    </main>
+{% endblock %}
+

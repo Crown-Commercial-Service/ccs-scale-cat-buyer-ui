@@ -77,6 +77,10 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL_PROCEED = '/rfp/upload-additional/proceed',
 
+  RFP_GET_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
+  RFP_POST_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
+  RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED = '/rfp/upload-additional-doc/proceed',
+
  //Add cllaborator DA
  DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
  DA_POST_ADD_COLLABORATOR_JSENABLED = '/da/get-collaborator-detail/js-enabled',
