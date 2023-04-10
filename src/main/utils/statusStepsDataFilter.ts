@@ -42,6 +42,7 @@ function checkSublevels(
   agreement_id: string,
   projectId: string,
   event_id: string,
+  stage2_value?: any
 ) {
   if (nameSublevel.length) {
     obj[nameSublevel[0]].forEach((eventTask: any) => {
@@ -73,7 +74,13 @@ function checkSublevels(
           eventTask[
             'link'
           ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        } /*  else if (stepInfo.step == 30) {
+        } 
+        if (stepInfo.step == 86 && stage2_value != "Stage 2") {
+          eventTask[
+            'status'
+          ] = `Cannot start yet`;
+        }
+        /*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
           ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
@@ -144,6 +151,6 @@ export function statusStepsDataFilter(
       break;
   }
   events.forEach((event: any) => {
-    checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id);
+    checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id,stage2_value);
   });
 }
