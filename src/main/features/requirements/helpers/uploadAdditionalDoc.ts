@@ -58,7 +58,6 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
       }
       res.send(fileData);
     } catch (error) {
-      console.log(error);
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -91,24 +90,15 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
       const stage2_value = req.session.stage2_value;
       FETCH_FILEDATA?.map(file => {
        
-        // if (file.description === "mandatoryfirst") {
-        //   fileNameStoragePricing.push(file.fileName);
-        // }
-        // if (file.description === "mandatorysecond") {
-        //   fileNameStorageTermsnCond.push(file.fileName);
-        // }
-        if(stage2_value == "Stage 2"){
-          if (file.description === "mandatorysecond") {
+        // if(stage2_value == "Stage 2"){
+        //   if (file.description === "mandatorysecond") {
+        //     fileNameadditional.push(file);
+        //   }
+        // }else{
+          if (file.description === "secondoptional") {
             fileNameadditional.push(file);
           }
-        }else{
-          if (file.description === "optional") {
-            fileNameadditional.push(file);
-          }
-        }
-        
-        
-
+        //}
 
       });
       const FILEDATA_NEW = FETCH_FILEDATA.filter(anItem => anItem.description == "mandatorysecond");
@@ -151,7 +141,7 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
          
          if (assessDocument.IsDocumentError && !assessDocument.IsFile) {
             if(agreementId_session == 'RM1043.8' && stage2_value == "Stage 2"){
-              errorList.push({ text: "Upload assessment documents", href: "#rfp_offline_document" });
+              errorList.push({ text: "Upload addidtional documents", href: "#rfp_offline_document" });
             }else{
               errorList.push({ text: "You must upload assessment documents.", href: "#rfp_offline_document" });
             }
@@ -226,13 +216,11 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
           }
         }
       }
-      console.log("Additional");
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.uploadAdditionalPageLog, req);
 
       res.render(`${selectedRoute.toLowerCase()}-uploadAdditionalDoc`, windowAppendData);
     } catch (error) {
-      console.log(error);
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),

@@ -80,6 +80,7 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
   RFP_POST_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
   RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED = '/rfp/upload-additional-doc/proceed',
+  RFP_GET_REMOVE_ADDITIONAL_DOC_FILES = '/rfp/files/remove_additional_doc',
 
  //Add cllaborator DA
  DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',

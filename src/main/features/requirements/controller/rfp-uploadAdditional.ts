@@ -331,7 +331,9 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
         }
-        res.redirect(`/rfp/task-list`);
+
+        res.redirect(`/rfp/upload-additional-doc`);
+        //res.redirect(`/rfp/task-list`);
       }
     } else {
       if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 2"){

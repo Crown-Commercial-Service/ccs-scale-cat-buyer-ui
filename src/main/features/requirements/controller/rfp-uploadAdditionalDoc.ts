@@ -65,11 +65,12 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
               contentType: file.mimetype,
               filename: file.name,
             });
-            if(stage2_value == 'Stage 2'){
-              formData.append('description', 'mandatorysecond');
-            }else{
-              formData.append('description', 'optional');
-            }
+
+            // if(stage2_value == 'Stage 2'){
+            //   formData.append('description', 'mandatorysecond');
+            // }else{
+              formData.append('description', 'secondoptional');
+            //}
             
             formData.append('audience', 'supplier');
             const formHeaders = formData.getHeaders();
@@ -97,7 +98,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
                   href: '#documents_upload',
                   text: fileName,
                 });
-                ADDITIONALUPLOADHELPER(req, res, true, FileFilterArray);
+                ADDITIONALUPLOADHELPER_DOC(req, res, true, FileFilterArray);
               } else {
                 await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
                   headers: {
@@ -130,8 +131,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
         }
 
         if (FileFilterArray.length > 0) {
-          ADDITIONALUPLOADHELPER(req, res, true, FileFilterArray);
-        } else res.redirect(`/${selRoute}/upload-additional`);
+          ADDITIONALUPLOADHELPER_DOC(req, res, true, FileFilterArray);
+        } else res.redirect(`/${selRoute}/upload-additional-doc`);
       } else {
         const fileName = offline_document.name;
         const fileMimeType = offline_document.mimetype;
@@ -146,11 +147,11 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          if(stage2_value == 'Stage 2'){
-            formData.append('description', 'mandatorysecond');
-          }else{
-            formData.append('description', 'optional');
-          }
+          // if(stage2_value == 'Stage 2'){
+          //   formData.append('description', 'mandatorysecond');
+          // }else{
+            formData.append('description', 'secondoptional');
+          //}
           formData.append('audience', 'supplier');
           const formHeaders = formData.getHeaders();
           try {
@@ -169,7 +170,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
               }
               // }
             }
-            // ------file duplicate check end
+
+           // ------file duplicate check end
             if (duplicateFile) {
               req.session['isAssessUploaded'] = false
               req.session["fileDuplicateError"] = true;
@@ -177,8 +179,9 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
                 href: '#documents_upload',
                 text: fileName,
               });
-              ADDITIONALUPLOADHELPER(req, res, true, FileFilterArray);
+              ADDITIONALUPLOADHELPER_DOC(req, res, true, FileFilterArray);
             } else {
+
               await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
                 headers: {
                   ...formHeaders,
@@ -188,7 +191,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
              //CAS-INFO-LOG 
              LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
 
-              res.redirect(`/${selRoute}/upload-additional`);
+            res.redirect(`/${selRoute}/upload-additional-doc`);
             }
           } catch (error) {
             delete error?.config?.['headers'];
@@ -215,7 +218,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
             text: fileName,
           });
 
-          ADDITIONALUPLOADHELPER(req, res, true, FileFilterArray);
+          ADDITIONALUPLOADHELPER_DOC(req, res, true, FileFilterArray);
         }
       }
     } else {
@@ -233,7 +236,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
 
 };
 
-export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_REMOVE_ADDITIONAL_DOC_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
+
   let { selectedRoute } = req.session
   if (selectedRoute === 'FC') selectedRoute = 'RFP'
   const { SESSION_ID } = req.cookies //jwt
@@ -248,7 +252,7 @@ export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
    
-    res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional`)
+    res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional-doc`)
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -291,6 +295,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
       let fileNameStorageTermsnCond = [];
       let fileNameStoragePricing = [];
       let additionalfile = [];
+      let additionalDocfile = [];
       FETCH_FILEDATA?.map(file => {
 
         if (file.description === "mandatoryfirst") {
@@ -302,37 +307,18 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
         if (file.description === "optional") {
           additionalfile.push(file.fileName);
         }
+        if (file.description === "secondoptional") {
+          additionalDocfile.push(file.fileName);
+        }
       });
 
-      if (agreementId_session !== 'RM1043.8') {
-        if (fileNameStorageTermsnCond.length > 0 && fileNameStoragePricing.length > 0) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-          let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
-          if(flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
-          } 
-          if(agreementId_session == 'RM1557.13' || agreementId_session == 'RM6187') {
-            res.redirect(`/rfp/task-list`);
-          }else{
-            res.redirect(`/rfp/IR35`);
-          }
-          
-        } else {
-          res.redirect(`/rfp/upload`);
-        }
-      } else {
-        let nextStep = 32;
+        // stage 2 => console.log(step,'step') __31
         if (stage2_value !== undefined && stage2_value === "Stage 2") {
-          step = 32;
-          nextStep = 33;
+          step = 86;
         }
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-        let flag = await ShouldEventStatusBeUpdated(eventId, nextStep, req);
-        if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
-        }
         res.redirect(`/rfp/task-list`);
-      }
+
     } else {
       if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 2"){
         req.session["assessDocument"] = { "IsDocumentError": true, "IsFile": req.session['isAssessUploaded'] ? true : false };

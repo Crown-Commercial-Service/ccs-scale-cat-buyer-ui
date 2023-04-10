@@ -3,41 +3,10 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract Award Service' %}
+{% set title = 'Upload additional documents | Contract Award Service' %}
 
 {% block breadCrumb %}
-  {% if(agreementId_session == 'RM1043.8') %}
-    {% if(data.title == 'Upload assessment documents ') %}
-      {{ CCSBreadcrumbs({
-        items:[
-          {
-            "text": "Your Dashboard",
-            "href": "/dashboard"
-          },
-          {
-            "text": "Choose a commercial agreement",
-            "href": "/projects/choose-agreement"
-          },
-          {
-            "text": "Procurement overview",
-            "href": "/projects/create-or-choose"
-          },
-          {
-            "text": "Write and publish your requirements",
-            "href": "/rfp/task-list"
-          },
-          {
-            "text": "Upload pricing schedules and other documents",
-            "href": "/rfp/upload-supporting-doc"
-          },
-          {
-            "text": "Upload assessment documents",
-            "href": "#"
-          }
-        ]  
-        }) }}
-        
-    {% else %}
+  
       {{ CCSBreadcrumbs({
         items: [
           {
@@ -66,37 +35,7 @@
           }
         ]
       }) }}
-    {% endif %}
-  {% else %}
-      {{ CCSBreadcrumbs({
-        items: [
-          {
-            text: "Dashboard",
-            href: "/dashboard"
-          },
-          {
-            text: "Choose a commercial agreement",
-            href: "/projects/choose-agreement"
-          },
-          {
-            text: "Procurement overview",
-            href: "/projects/create-or-choose"
-          },
-          {
-            text: "Write and publish your requirements",
-            href: "/rfp/task-list"
-          },
-          {
-            text: "Upload documentation",
-            href: "upload"
-          },
-          {
-            text: 'Upload additional documents',
-            href: "#"
-          }
-        ]
-      }) }}
-  {% endif %}
+
 {% endblock %}
 
 
@@ -111,11 +50,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                  {# {% if(agreementId_session == 'RM1043.8') %} #}
-                    {# Upload documents (optional) #}
-                   {# {% else %} #}
-                    {{data.title}}
-                  {# {% endif %} #}
+                   Upload additional documents (optional) 
                 </h1>
             </div>
         </div>
@@ -150,7 +85,7 @@
                                       <div class="govuk-grid-row">
                                         <div class="govuk-grid-column-one-third text-overflow ">
                                           <p class="govuk-body">
-                                            <a href="/rfp/upload-additional?file_id={{file.id}}" class="govuk-link">
+                                            <a href="/rfp/upload-additional-doc?file_id={{file.id}}" class="govuk-link">
                                               <strong>{{file.fileName}}</strong>
                                             </a>
                                           </p>
@@ -160,7 +95,7 @@
                                         </div>
                                         <div class="govuk-grid-column-one-third">
                                           <p>
-                                            <a class="app-task-list__tag" href="/rfp/files/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                            <a class="app-task-list__tag" href="/rfp/files/remove_additional_doc?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
                                           </p>
                                         </div>
                                       </div>
@@ -172,7 +107,7 @@
                               </div>
                               {%endif%}
                             {% if (storage < 1000000000) %}
-                         <form action="/rfp/upload-additional" method="post" encType="multipart/form-data">
+                         <form action="/rfp/upload-additional-doc" method="post" encType="multipart/form-data">
                             {{ csrfProtection(csrf) }}
                             {{ 
                               CCSFileUpload({
@@ -206,7 +141,7 @@
                 </div>
                 </form>
                 {%endif%}
-                <form action="/rfp/upload-additional/proceed" method="post">
+                <form action="/rfp/upload-additional-doc/proceed" method="post">
                   {{ csrfProtection(csrf) }}
                   <div class="govuk-button-group govuk-!-margin-top-9">
                   {{ CCSButton({
