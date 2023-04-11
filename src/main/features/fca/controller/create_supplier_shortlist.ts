@@ -60,9 +60,9 @@ export const CREATE_SUPPLIER_SHORTLIST = async (req: express.Request, res: expre
             if(overWritePaJoury)  {
                 const bottomLinkChange = journeySteps.filter((el: any) => {
                     if(el.step == 1 || el.step == 80) {
-                        if(el.state == 'Completed') {
+                       // if(el.state == 'Completed') {
                             return true;
-                        }
+                       // }
                     }
                     return false;
                 });

@@ -66,10 +66,10 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
   const name = req.body['gcloud_projLongName'];
-  const { eventId } = req.session;
+  // const { eventId } = req.session;
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
-  const agreementLotName = req.session.agreementLotName;
-  const lotId = req.session.lotId;
+  // const agreementLotName = req.session.agreementLotName;
+  // const lotId = req.session.lotId;
   try {
     if (name) {
       if(name.length <= 250){
@@ -81,7 +81,8 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
          LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
         if (response.status == HttpStatusCode.OK) 
         req.session.project_name = name;
-        const returnUrl = `/projects/create-or-choose?lotId=${lotId}&agreementLotName=${agreementLotName}`;
+        // const returnUrl = `/projects/create-or-choose?lotId=${lotId}&agreementLotName=${agreementLotName}`;
+        const returnUrl = `/g-cloud/add-collaborators`;
         res.redirect(returnUrl);
 
       }else{

@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
               msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
@@ -233,7 +233,7 @@ $('#rfp_singleselect').on('submit', event => {
 
   if (headerText.includes('existing supplier') && ischecked) {
     var ccs_vetting_type = document.getElementById('ccs_vetting_type').checked;
-
+    
     var rfp_security_confirmation = document.getElementById('rfp_security_confirmation');
     if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
@@ -250,9 +250,12 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    // } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-    //   ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
-    } else {
+    } 
+    // else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0 && document.getElementById('agreementID').value != 'RM1557.13') {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
+    //   ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
+    // } 
+    else {
       document.forms['rfp_singleselect'].submit();
     }
   } else {
@@ -270,9 +273,11 @@ $('#rfp_singleselect').on('submit', event => {
           ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
         }
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'Choose if this is a new, replacement or expanded service.']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
       }else{
-        ccsZPresentErrorSummary([['ccs_vetting_type', 'You must choose one option from list before proceeding']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
     if (ccs_vetting_type) {
@@ -281,9 +286,11 @@ $('#rfp_singleselect').on('submit', event => {
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
       }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose if this is a new, replacement or expanded service.');
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
       }else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'You must choose one option from list before proceeding');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
     }
@@ -292,5 +299,5 @@ $('#rfp_singleselect').on('submit', event => {
 });
 
 $('#rfp_security_confirmation').on('input', function() {
-  $(this).val($(this).val().replace(/[^a-z0-9,]/gi, ''));
+  $(this).val($(this).val().replace(/[^a-z0-9,\s]/gi, ''));
 });

@@ -2,7 +2,13 @@
     <div class="ccs-callout-panel">
         <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
         <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" data-test={{releatedContent.social_link}} rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+            
+            {% if (agreement_id == 'RM1043.8') %}
+                <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" data-test={{releatedContent.social_link}} rel="noopener noreferrer">{{releatedContent.name}}, Lot {{lotId}}: {{releatedContent.lotName}}</a>
+            {% else %}
+                <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" data-test={{releatedContent.social_link}} rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+            {% endif %}
+
             {%  if socialRelated.social_link != 'undefined' %}
                 <br><br><a target="_blank" href={{socialRelated.social_link}}>{{socialRelated.social_label}}</a>
             {% endif %}

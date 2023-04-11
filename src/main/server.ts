@@ -5,10 +5,14 @@ import * as https from 'https';
 import * as path from 'path';
 import { app } from './app';
 import config from 'config';
+// import momentz from 'moment-timezone';
 
 const logger = Logger.getLogger('server');
 const Server_PORT = config.get('PORT');
 const port: any = parseInt(process.env.PORT, 10) || Server_PORT;
+
+//Set default moment timezone id Euro/London (GMT/BST)
+// momentz.tz.setDefault("Europe/London");
 
 if (app.locals.ENV === 'development') {
   const sslDirectory = path.join(__dirname, 'resources', 'localhost-ssl');
@@ -25,10 +29,11 @@ if (app.locals.ENV === 'development') {
     logger.info(`Application started: http://localhost:${port}`);
   });
 
-  ELB.setTimeout(0);
+  // ELB.setTimeout(0);
   ELB.keepAliveTimeout = 60 * 100000;
   ELB.headersTimeout = 61 * 100000;
-  // ELB.requestTimeout = 61 * 100000;
+  ELB.requestTimeout = 61 * 100000;
+
   ELB.on('connection', function(socket) {
      console.log("A new connection was made by a client.");
      socket.setTimeout(30 * 100000); 

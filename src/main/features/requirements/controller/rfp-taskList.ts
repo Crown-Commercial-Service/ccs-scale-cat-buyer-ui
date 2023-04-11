@@ -86,7 +86,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   }else{
     selectedeventtype= req.session.selectedeventtype;
   }
-  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,projectId,eventId,stage2_value };
+  const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,lotid,projectId,eventId,stage2_value };
 
   try {
 
@@ -100,8 +100,67 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(el.step == 27 && el.state == 'Completed') return true;
         return false;
       });
+      
+      if(agreementId_session == "RM1043.8" && stage2_value !== undefined && stage2_value === "Stage 2"){
 
-      if(nameJourneysts.length > 0){
+      //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
+       
+        let timelineStatus = journeySteps.filter((el: any) => {
+          if(el.step == 33 && el.state == 'Completed') return true;
+          return false;
+        });
+
+        if(req.session?.endDate==undefined || req.session?.endDate==null){
+          
+            if(timelineStatus[0]?.state == 'Completed'){
+              
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started'); 
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Cannot start yet'); 
+      
+            }
+      
+          }
+      }
+
+      if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 1"){
+      
+        let timelineStatus = journeySteps.filter((el: any) => {
+          if(el.step == 34 && el.state == 'Completed') return true;
+          return false;
+        });
+
+        if(req.session?.endDate==undefined || req.session?.endDate==null){
+          
+            if(timelineStatus[0]?.state == 'Completed'){
+              
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started'); 
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Cannot start yet'); 
+      
+            }
+      
+          }
+
+      }
+
+
+      if(agreementId_session == 'RM6187') {
+      let timelineStatus = journeySteps.filter((el: any) => {
+        if(el.step == 36 && el.state == 'Completed') return true;
+        return false;
+      });
+
+      if(req.session?.endDate==undefined || req.session?.endDate==null){
+       if(timelineStatus[0]?.state == 'Completed'){
+          
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started'); 
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet'); 
+  
+        }
+  
+      } }
+
+    
+       if(nameJourneysts.length > 0){
 
         let addcontsts = journeySteps.filter((el: any) => { 
           if(el.step == 30) return true;
@@ -142,11 +201,13 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(element.step == 29 && element.state == 'Not started') { element.state = 'Optional'; }
     });
 
+    console.log(JSON.stringify(journeySteps))
+
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
     else{      
-      statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+      statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId,stage2_value);
     }
 
      // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
@@ -246,7 +307,7 @@ LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
     
   } catch (error) {
 
-console.log("error",error);
+
     LoggTracer.errorLogger(
       res,
       error,

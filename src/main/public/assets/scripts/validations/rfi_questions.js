@@ -57,9 +57,17 @@ const urlParams = new URLSearchParams(queryString);
     }
 
     }
-
+    
   //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
+      var divHide = $('div.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
       e.preventDefault();
       $(".govuk-error-summary").remove();
       errorStore = emptyQuestionFieldCheck();
@@ -122,7 +130,6 @@ const urlParams = new URLSearchParams(queryString);
 
                          eptArr.push(nextLevel_coll)
                            if(ml == 1) {
-                               console.log(`First: ${ml} - ${next_coll}`)
                                
                                let last;
                                
@@ -140,7 +147,6 @@ const urlParams = new URLSearchParams(queryString);
                               
                            } else {
                                next_coll = next_coll + 1;
-                               console.log(`Usual: ${ml} - ${next_coll}`)
                            
                             // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
                             // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
@@ -169,9 +175,7 @@ const urlParams = new URLSearchParams(queryString);
                        }
                    ml++;}
                    if(eptArr.length > 0) {
-                       console.log(eptArr);
                        let removeLogic = eptArr.at(-1);
-                       console.log(`removeLogic: ${removeLogic}`);
                       
                        
                        //ID BASED
@@ -337,16 +341,20 @@ const emptyQuestionFieldCheck = () => {
    // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
     if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
-        if((urlParams.get('agreement_id') == 'RM6187') || (urlParams.get('agreement_id') == 'RM1557.13')){
-          errText = "You must ask at least one question";
-        }else{
+        if(urlParams.get('agreement_id') == 'RM6187'){
+          errText = "Enter at least one question before attempting to add another";
+        }
+        else if(urlParams.get('agreement_id') == 'RM1557.13'){
+          errText = "Enter at least one question before attempting to add another";
+        }
+        else{
           errText = "You must add at least one question";
         }
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-        if(urlParams.get('agreement_id') == 'RM1557.13'){
-          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must add question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
         }
         else{
           fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
@@ -362,19 +370,35 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-    if(urlParams.get('agreement_id') == 'RM6187'){
-      errText = "You must ask at least one question";
-    }else{
-      errText = "You must add at least one question";
-    }
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+    
+    for (var i = 1; i < totalCountindex; i++) {
+      // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+         if(i==1){
+            if(urlParams.get('agreement_id') == 'RM6187'){
+              errText = "Enter at least one question";
+            }else{
+              errText = "Enter at least one question";
+            }
+           fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+         }
+         else{
+           if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+           }
+           else{
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+           }
+         }
+       }
+     }
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
 
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheck();
+  errorStore = emptyQuestionFieldCheckForSave();
 
   //}
 

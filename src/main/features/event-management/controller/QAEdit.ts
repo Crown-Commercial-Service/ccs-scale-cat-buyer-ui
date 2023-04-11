@@ -10,8 +10,8 @@ import { MessageDetails } from '../model/messgeDetails';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
-    static readonly Question_REQUIRED: string = 'Question has not been defined'
+    static readonly Clarification_REQUIRED: string = 'Enter a clarification'
+    static readonly Question_REQUIRED: string = 'Enter a question'
     static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
      }
@@ -75,7 +75,8 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
     const { id } = req.session['messageID'];
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
-
+    const agreementId = req.session.agreement_id;
+    res.locals.agreement_header = req.session.agreement_header;
     try {
        
         const _body = req.body
@@ -140,10 +141,10 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
                 }
                
                 const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-           const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText }
+           const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
 
            //CAS-INFO-LOG 
-        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req);
+        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req); 
             res.render('QAEdit', appendData);
         }
 else{
@@ -214,6 +215,8 @@ else{
 
     }
  } catch (err) {
+    console.log("err",err);
+    
         LoggTracer.errorLogger(
             res,
             err,

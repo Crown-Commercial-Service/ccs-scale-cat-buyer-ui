@@ -13,6 +13,70 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  * @param req 
  * @param res 
  */
+export const EVENT_MANAGEMENT_QA_SUPPLIERS =  async (req: express.Request, res: express.Response) => {
+  let appendData: any;
+  let eventIds:any;
+  let projectIds:any;
+  let isSupplierQA= false;
+  let projectId;
+  
+
+  try {
+    if(req.query.id != undefined) {
+      eventIds=req.query.id;
+      projectIds = req.query.prId;
+      isSupplierQA = true;
+      projectId = req.query.prId;
+    } else {
+      eventIds=req.session.eventId;
+      projectIds = req.session.projectId;
+      projectId = req.session.projectId;
+      isSupplierQA= false;
+      res.locals.agreement_header = req.session.agreement_header;
+    }
+
+    const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
+    const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
+    let data = inboxData;
+
+    let response = fetchData.data;
+
+    let projectName = response.projectName;
+    let agreementName = response.agreementName;
+    let agreementId_session = response.agreementId;
+    let agreementLotName = response.lotName;
+    let lotid = response.lotId;
+   
+    res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
+    
+    appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA }	
+
+    res.render('viewQA', appendData)	
+  } catch (error) {	
+    if (error.response.status === 401) {
+      res.redirect('/401');
+    } else if (error.response.status === 404) {
+      res.redirect('/401');
+    } else {
+      console.log('error ***************');
+      console.log(error);
+      res.redirect('/401');
+    }
+  }
+}
+
+export const EVENT_MANAGEMENT_QA_POPUP =  async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  if(SESSION_ID != undefined) {
+    res.redirect('/401');
+  }
+  let appendData: any;
+  let eventId = req.query.id;
+  let projectId = req.query.prId;
+  let isSupplierQA = true;
+  appendData = {projectId: projectId, eventId: eventId, isSupplierQA};
+  res.render('viewQAPopup', appendData)	
+}
 export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const agreementId = req.session.agreement_id;
@@ -75,7 +139,7 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
           let agreementId_session=response.agreementId;
           let agreementLotName=response.lotName;
           let lotid=response.lotId;
-          
+         
           res.locals.agreement_header = { project_name: projectName, projectId, agreementName, agreementId_session, agreementLotName, lotid }
           
         appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: eventIds, eventType: req.session.eventManagement_eventType, eventName: projectName, isSupplierQA, agreementId}	
@@ -95,8 +159,6 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
         );	
     }	
 }
-
-
 
 export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: express.Response) => {
     const { supplier_qa_url } = req.session;

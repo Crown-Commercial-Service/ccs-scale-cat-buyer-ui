@@ -72,7 +72,6 @@ try {
       res.render('rfp-eventpublished.njk', appendData)
     }
 }catch (error) {
-  console.log('Error in publish page',error)
   LoggTracer.errorLogger(
     res,
     error,

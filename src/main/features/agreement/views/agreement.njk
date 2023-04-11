@@ -25,7 +25,7 @@
                   {% if agreement_id != 'RM1557.13' %}
                     {{selectedAgreement.name}}
                   {% else %}
-                    {{selectedAgreement.name}} ({{agreement_id}}, {{agreement_id}}L4)
+                    {{selectedAgreement.name}} ({{agreement_id}})
                   {% endif %}
                 <span>Agreement number: {{agreement_id}}</span>
               </h2>
@@ -52,17 +52,17 @@
                   <p class="govuk-body"></p>
                   <p class="govuk-body">
                     {% if agreement_id == 'RM1043.8' %}
-                    <a href="/fca/supplier/list?agreement={{agreement_id}}&lot={{item.number | replace("Lot ", "")}}" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                    <a href="/fca/supplier/list?agreement={{agreement_id}}&lot={{item.number | replace("Lot ", "")}}" onclick="return true;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
                       <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
                     {% else %}
-                    <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{item.number | replace("Lot ", "")}}/lot-suppliers" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                    <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{item.number | replace("Lot ", "")}}/lot-suppliers" onclick="return true;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
                       <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
                     {% endif %}
                   </p>
                 </dd>
               {% endfor %}
               {% else %} {# GCLOUD #}
-                       {% for item in sortedItems %}
+                        {% for item in sortedItems %}
                         {% if item.number == '4' %}
                           <dt>
                             <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">{{item.name}}</a>
@@ -72,7 +72,7 @@
                           <dd>
                             <p class="govuk-body"></p>
                             <p class="govuk-body">
-                            <a rel="noopener noreferrer" target="_blank" href="/fca/supplier/list?agreement={{agreement_id}}&lot={{item.number | replace("Lot ", "")}}" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                            <a rel="noopener noreferrer" target="_blank" href="/fca/supplier/list?agreement={{agreement_id}}&lot={{item.number | replace("Lot ", "")}}" onclick="return true;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
                             <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
                             </p>
                           </dd>
@@ -104,7 +104,7 @@
                       {% if agreement.number != 'RM1557.13' %}
                         {{agreement.name}} ({{agreement.number}})
                       {% else %}
-                        {{agreement.name}} ({{agreement.number}}, {{agreement.number}}L4)
+                        {{agreement.name}} ({{agreement.number}})
                       {% endif %}
                     </span>
                   </h2>
@@ -151,7 +151,7 @@
                             <p class="govuk-body">e.g. content delivery networks or accounting software</p>
                            </dd>
 
-                          {% for lot in agreement.lotDetails %}
+                           {% for lot in agreement.lotDetails %}
                             {% if lot.number == '4' %}
                               <dt>
                                 <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">{{lot.name}}</a>

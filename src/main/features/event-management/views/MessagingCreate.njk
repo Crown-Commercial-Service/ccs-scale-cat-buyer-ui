@@ -11,7 +11,7 @@
   }
 ] %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' or agreementId == 'RM6187' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -24,7 +24,7 @@
     },
     {
       "text": "Your inbox",
-      "href": "/message/inbox?type=received"
+      "href": "/message/inbox?type=create"
     },
     {
       "text": "Message",
@@ -120,11 +120,11 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
-      <a href="{{data.backlink}}">back</a>
+              <a href="{{data.backlink}}">Back</a>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
-            {{data.subtitle}}
+            Write a new message
           </h1>
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
@@ -207,7 +207,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label govuk-label" for="create_message_input">Your {{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
@@ -225,16 +225,16 @@
 
             <div class="govuk-button-group">
               
-              {% if agreementId == 'RM6187' %}
+              {% if agreementId == 'RM6187' or agreementId == 'RM1557.13' %}
                   {{ CCSButton({
-                      text: data.btnText,
+                      text: data.btnText2,
                       action:"submit",
                       classes:"btn-sendmsg"
                   })
                   }}
               {% else %}
                   {{ CCSButton({
-                      text: data.btnText2,
+                      text: data.btnText,
                       action:"submit"
                   })
                   }}

@@ -92,10 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     }
     document.getElementById("ccs_rfiTerm_add").classList.remove("ccs-dynaform-hidden");
-
+    var divHide = $('fieldset.ccs-dynaform-hidden').length;
+    if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 2')){
+        with_value_count++;
+    }
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-      
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -328,25 +330,47 @@ const emptyFieldCheck = (add_more='') => {
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
-      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
-        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
-      if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must include the descripton of the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must include the descripton of the term or acronym.'];
+      
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
-      if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must add the term or acronym.');
-        fieldCheck = [term_field.id, 'You must add the term or acronym.'];
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }

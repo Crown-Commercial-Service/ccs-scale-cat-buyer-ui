@@ -19,7 +19,7 @@
 ] %}
 
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' or agreementId == 'RM6187' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -140,8 +140,8 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/createSupplier" method="POST">
       {{ csrfProtection(csrf) }}
-          <a href="{{data.backlink}}">back</a>
-          <br>
+              <a href="{{data.backlink}}">Back</a>
+              <br>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
@@ -168,7 +168,7 @@
                 </label>
                 <span id="create_message-error" class="govuk-error-message">
                   <span class="govuk-visually-hidden">Error:</span> 
-                  message cannot be sent unless a Supplier has been defined - message cannot be completed
+                  Select a supplier
                 </span>
                 <select class="govuk-select govuk-select--error" id="create_supplier_message" name="create_supplier_message" aria-describedby="create_message-error">
                   {% for members in supplierData %}

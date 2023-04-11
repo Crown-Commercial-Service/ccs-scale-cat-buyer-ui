@@ -77,17 +77,21 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
         req.session['notValidText'] = 'Project length should be below 190 characters.';
         res.redirect('/rfp/name-your-project');
       }else{
-      const _body = {
-        name: name,
-      };
-      const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       
+      let new_name =  name.replace(/[\r\n]/gm, '');
+      
+      const _body = {
+        name: new_name,
+      };
+      
+      const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+      if (response.status == HttpStatusCode.OK) req.session.project_name = new_name;
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
 
-    //  const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
-      if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
+      const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
+     
       res.redirect('/rfp/procurement-lead');
       }
     } else {

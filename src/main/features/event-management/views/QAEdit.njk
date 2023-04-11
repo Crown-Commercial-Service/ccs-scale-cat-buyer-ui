@@ -92,7 +92,7 @@
           <a href="/event/qa-add?id={{message.OCDS.id}}">Back</a></br></br></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
           <p class="govuk-body ">Classification: <strong>{{message.nonOCDS.classification}}</strong></p>
-          <p class="govuk-body ">Date: <strong>{{message.OCDS.date | datedd_mm_yyyy}}</strong></p>
+          <p class="govuk-body ">Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong></p>
            </br>
           <label class="govuk-label"></label></br>
           <p class="govuk-body ">Subject: {{message.OCDS.title}}</p>
@@ -101,18 +101,162 @@
 
             <h2 class="govuk-heading-m">Edit and publish the question and clarification</h2>
               
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
              Question
-             <br>
-             <br>
-             <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.question}}</textarea>
+             {% if QaContent.IsquestionNotDefined  or QaContent.Question_count%}
+                <div class="govuk-form-group govuk-form-group--error">
+                  {% if QaContent.IsquestionNotDefined %}
+                  <span id="message_QA_Edit_Question_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.questionErrorMessage}}
+                 </span>
+                
+                 {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Question_input",
+                        name:"message_QA_Edit_Question_input",
+                        value: "",
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+                
+                </div>
+                 {% else %}
+                 <span id="message_QA_Edit_Question_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.questionErrorMessage_count}}
+                 </span>
+                
+                 {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Question_input",
+                        name:"message_QA_Edit_Question_input",
+                        value: QA.question,
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+                
+                </div>
+                 {% endif %}
+                 
+              {% else %}
+                <div class="govuk-form-group">
+               
+                 
+                 {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Question_input",
+                        name:"message_QA_Edit_Question_input",
+                        value: QA.question,
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+                </div>
+              {% endif %}
+             {# <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.question}}</textarea> #}
               </div>
             
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
              Clarification
-             <br>
-             <br>
-             <textarea value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.answer}}</textarea>
+             {% if QaContent.IsclarificationNotDefined or QaContent.clarification_count %}
+                <div class="govuk-form-group govuk-form-group--error">
+                 {% if QaContent.IsclarificationNotDefined %}
+                 <p id="message_QA_Edit_Answer_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.clarificationErrorMessage}}
+                 </p>
+                
+                  {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Answer_input",
+                        name:"message_QA_Edit_Answer_input",
+                        value: "",
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+                
+                </div>
+                 {% else %}
+                 <p id="message_QA_Edit_Answer_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.clarificationErrorMessage_count}}
+                 </p>
+                
+                  {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Answer_input",
+                        name:"message_QA_Edit_Answer_input",
+                        value: QA.answer,
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+
+                </div>
+                  {% endif %}
+                  
+              {% else %}
+                <div class="govuk-form-group">
+              
+                {{  CCSCharacterCount({
+                        label: {
+                          text: "",
+                          classes: "govuk-textarea govuk-textarea--error1 govuk-js-character-count govuk-!-width-one-half"
+                        },
+                        hint: {
+                          text: ""
+                        },
+                        id: "message_QA_Edit_Answer_input",
+                        name:"message_QA_Edit_Answer_input",
+                        value: QA.answer,
+                        maxlength: 5000,
+                        rows:"5",
+                        classes:"govuk-textarea govuk-js-character-count govuk-!-width-one-half messagesendcount"
+                      })
+                  }}
+                
+                </div>
+              {% endif %}
+             {# <textarea value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.answer}}</textarea> #}
               </div>
             <div class="govuk-button-group">
               {{ CCSButton({

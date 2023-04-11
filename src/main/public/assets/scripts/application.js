@@ -42,7 +42,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -61,6 +61,9 @@ $(".focusdata").click(function () {
 
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
 $("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
@@ -220,8 +223,8 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
 if (document.getElementById('supplierMsgCancel') !== null)
   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
@@ -398,10 +401,10 @@ setInputFilter(
   document.getElementById('eoi_resource_start_date-month'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter(
-  document.getElementById('eoi_resource_start_date-year'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
-);
+// setInputFilter(
+//   document.getElementById('eoi_resource_start_date-year'),
+//   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
+// );
 setInputFilter(
   document.getElementById('eoi_duration-days'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
@@ -1579,23 +1582,47 @@ document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
     //   });
     // });
 
-    //startEvalDos6Btn
-    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
-      event.addEventListener('click', function(event) {
-        document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
-        var bodytg = document.body;
-        bodytg.classList.add("pageblur");
-      });
-    });
+    
 
 document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
   event.addEventListener('click', function (event) {
     document.getElementById("invite_short_list_suppliers").submit();
   })
-
-
 })
 
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    // document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr">Retrieving supplier responses</p><p class="govuk-body loader-desc">Please allow some time for this operation to complete. Once finished, you will be able to download supplier responses. We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>';
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
 
 document.querySelectorAll(".download").forEach(function (event) {
   event.addEventListener('click', function (event) {
@@ -1609,6 +1636,7 @@ document.querySelectorAll(".download").forEach(function (event) {
         responseType: 'blob' // to avoid binary data being mangled on charset conversion
       },
       beforeSend: function () {
+        document.querySelector(".loderMakeRes").innerHTML = "<p class='govuk-body loader-desc-hdr'>Downloading supplier responses</p><p class='govuk-body loader-desc'>Please allow some time for this operation to complete. Once finished, your downloaded responses can be found in the 'Downloads' section of your browser.  We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>";
         var bodytg = document.body;
         bodytg.classList.add("pageblur");
       },
@@ -1644,7 +1672,7 @@ document.querySelectorAll(".download").forEach(function (event) {
           } else {
             window.location.href = downloadUrl;
           }
-
+          
           setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
         }
       },
@@ -1680,4 +1708,197 @@ if (document.querySelectorAll('.suppliersAwardConfirm')) {
     })
   })
 }
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
+  });
 
+  let countOfpublishBtn = 0;
+  // $('.oneTimeClick').click(function(e) {
+  //   $(this).attr("disabled", true);
+  //   if(countOfpublishBtn == 0) {
+  //     $(this).parents('form').submit();
+  //   }
+  //   countOfpublishBtn++;
+  // });
+  if(document.forms.length > 0) {
+    const publishDateMismatchFormEvent = document.forms[0].id;
+    if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
+
+      let checkBoxConfirmation;
+      if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+        checkBoxConfirmation = 'rfp_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_rfi_publish_form'){
+        checkBoxConfirmation = 'rfi_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
+        checkBoxConfirmation = 'eoi_publish_confirmation';
+      }
+
+
+
+      document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
+        event.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (!document.getElementById(checkBoxConfirmation).checked) {
+            $('#checkbox_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#checkbox_error_summary_list").html('<li><a href="#'+checkBoxConfirmation+'">You must check this box to confirm that you have read and confirm the statements above</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            return false;
+          } 
+
+          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+
+         $.ajax({
+            url: `/rfp/publish_date_mismatch`,
+            type: "GET",
+            contentType: "application/json",
+          }).done(function (result) {
+            var bodytg = document.body;
+            bodytg.classList.remove("pageblur");
+            if(result.warning) {
+              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
+              const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
+              openpopGC.classList.add('showpopup');
+              $(".dialog-close-publishTimelineMismatch").on('click', function(){
+                timelineRevertCancel();
+                openpopGC.classList.remove('showpopup');
+              });
+              $(".close-dialog-close").on('click', function(){
+                openpopGC.classList.remove('showpopup');
+              });
+              deconf = document.getElementById('redirect-button-publishTimelineMismatch');
+              deconf.addEventListener('click', ev => {
+                document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+                var bodytg = document.body;
+                bodytg.classList.add("pageblur");
+                openpopGC.classList.remove('showpopup');
+                if(result.eventType == 'FC') {
+                  window.location.href = window.location.origin+'/rfp/response-date';
+                }
+                if(result.eventType == 'RFI') {
+                  window.location.href = window.location.origin+'/rfi/response-date';
+                }
+                if(result.eventType == 'EOI') {
+                  window.location.href = window.location.origin+'/eoi/response-date';
+                }
+                if(result.eventType == 'DA') {
+                  window.location.href = window.location.origin+'/da/response-date';
+                }
+
+                //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
+              });
+              return false;
+            } else {
+              $('.oneTimeClick').attr("disabled", true);
+              if(countOfpublishBtn == 0) {
+                document.getElementById(publishDateMismatchFormEvent).submit();
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }).fail((res) => {
+            console.log(res);
+          })
+        })
+      });
+
+    }
+  }
+
+  function timelineRevertCancel() {
+    $.ajax({
+      url: `/rfp/publish_date_mismatch/cancel`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (res) {
+    });
+  }
+
+  if (document.getElementsByClassName('backdrop-Qanda').length > 0) {
+    $(".dialog-close-Qanda").remove();
+    $(".dialog-close-Qanda").remove();
+    var elGo = document.querySelector(".backdrop-Qanda").querySelector(".nodeDialogTitle");
+    let divFirst = document.createElement('div');
+    divFirst.className = "govuk-form-group";
+    elGo.after(divFirst)
+
+    let QAInput = document.createElement('input');
+    QAInput.type  = 'email';
+    QAInput.name  = 'qa_email';
+    QAInput.id  = 'qa_email';
+    QAInput.placeholder  = 'Email';
+    QAInput.className = "govuk-input govuk-input--width-20";
+    document.querySelector(".govuk-form-group").append(QAInput);
+
+    const openpopGC = document.querySelector('.backdrop-Qanda')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-Qanda").on('click', function(){
+      return false;
+      // openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      // openpopGC.classList.remove('showpopup');
+      return false;
+    });
+    deconf = document.getElementById('redirect-button-Qanda');
+    deconf.addEventListener('click', ev => {
+      var validRegex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+      let inputVal = $("#qa_email").val();
+      console.log(inputVal.match(validRegex));
+      if(inputVal == '') {
+        QAInputErrorRemove();
+        QAInputError('Enter the email');
+      } else if (!validateEmail(inputVal)) {
+        QAInputErrorRemove();
+        QAInputError('Enter the valid email');
+      } else {
+        QAInputErrorRemove();
+        //Form submission
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // console.log(`/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`);
+        window.location.href = `/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`;
+      }
+
+    });
+    function QAInputErrorRemove() {
+        $('.govuk-form-group').removeClass("govuk-form-group--error");
+        $("#qa_email").prev('span').remove();
+        $("#qa_email").removeClass("govuk-input--error");
+    }
+    function QAInputError(msg) {
+        $('.govuk-form-group').addClass("govuk-form-group--error");
+        $("#qa_email").val('');
+        $("#qa_email").focus();
+        $("#qa_email").before(`<span class="govuk-error-message">${msg}</span>`);
+        $("#qa_email").addClass("govuk-input--error");
+    }
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
+  }

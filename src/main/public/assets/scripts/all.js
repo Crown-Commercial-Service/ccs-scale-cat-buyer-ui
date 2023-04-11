@@ -1651,6 +1651,13 @@ CharacterCount.prototype.updateCountMessage = function () {
   displayNumber = Math.abs(remainingNumber);
 
   countMessage.innerHTML = 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb;
+  if(document.getElementById('page-heading')!=undefined && document.getElementById('page-heading')!=null){
+
+  let heading = document.getElementById('page-heading').innerHTML;
+  if(heading.includes("Invite selected suppliers to stage 2: further assessment")){
+    countMessage.innerHTML = displayNumber + ' ' + charNoun + ' ' + charVerb;
+  }
+  }
 };
 
 CharacterCount.prototype.handleFocus = function () {

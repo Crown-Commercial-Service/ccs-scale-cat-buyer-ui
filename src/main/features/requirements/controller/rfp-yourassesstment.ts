@@ -171,7 +171,6 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
 
       //CAS-INFO-LOG
       LoggTracer.infoLogger(fetch_dynamic_api, logConstant.yourassesstments, req);
-
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

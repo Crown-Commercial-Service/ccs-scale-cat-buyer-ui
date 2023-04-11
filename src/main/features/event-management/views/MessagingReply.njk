@@ -211,7 +211,22 @@
                 })
               }}
            
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+            
+              {% if agreementId == 'RM1557.13' %}
+                    {% set ttiletext = data.GCMessage %}
+                {% else %}
+                  {% set ttiletext = data.Message %}
+                {% endif %}
+              {% if validationError %}
+              <div class="govuk-form-group govuk-form-group--error">
+              
+                <label class="govuk-label govuk-label" for="reply_subject_input">
+                {{ttiletext}}
+              </label>
+                  <span id="reply_subject_input-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> 
+                {{errorMsg}}
+              </span>
                
                {{ CCSCharacterCount({           
                 id: "reply_message_input",
@@ -220,7 +235,7 @@
                maxlength: 5000,
                 classes: "govuk-textarea govuk-js-character-count messagesendcount",
                 label: {
-                  text: data.Message,
+                  text: "",
                   classes: "govuk-label"
                 }
                 })
@@ -228,6 +243,24 @@
 
              
               </div>
+              {% else %}
+              <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+                {{ CCSCharacterCount({           
+                id: "reply_message_input",
+                name: "reply_message_input",
+               rows:"5",
+               maxlength: 5000,
+                classes: "govuk-textarea govuk-js-character-count messagesendcount",
+                label: {
+                  text: ttiletext,
+                  classes: "govuk-label"
+                }
+                })
+              }}
+
+                </div>
+
+              {% endif %}
 
             <div class="govuk-button-group">
         

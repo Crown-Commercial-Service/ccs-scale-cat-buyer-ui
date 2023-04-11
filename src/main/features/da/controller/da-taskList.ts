@@ -71,7 +71,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
   if(req.session.selectedSuppliersDA == undefined  ||  req.session.selectedSuppliersDA == null) {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    let actualStatus = journeySteps.find(d=>d.step == 34)?.state;
+    let actualStatus = journeySteps.find(d=>d.step == 33)?.state;
     if(actualStatus === 'Completed') {
       let supplierList = [];
       const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
@@ -81,9 +81,9 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       suppliers = suppliers.data;
       supplierList = suppliers.suppliers;
       if(supplierList.length != 1) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Cannot start yet');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet');
       }
     }
   }

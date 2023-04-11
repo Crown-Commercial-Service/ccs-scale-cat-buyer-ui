@@ -175,7 +175,7 @@
                                         <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
             class="govuk-link govuk-link--no-visited-state change" >change</a>
             
-                                    <div id="rfp_clarification_date_expanded_{{loop.index}}">
+                                    <div id="rfp_clarification_date_expanded_{{loop.index}}" class="hideFirst">
                                         <div>
                                             <label class="govuk-label govuk-body">
                                                 <strong id="lbl-clarification_copy">{{
@@ -185,7 +185,7 @@
                 class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                                         </div>
                                         
-                                        <form action="/da/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form">
+                                        <form action="/da/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{ loop.index }}">
                                         {{ csrfProtection(csrf) }}
                                             <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
                                                 <div class="govuk-date-input govuk-!-margin-top-5" id="clarification_date">

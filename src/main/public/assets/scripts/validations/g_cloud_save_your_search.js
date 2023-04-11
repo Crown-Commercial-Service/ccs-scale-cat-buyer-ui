@@ -24,6 +24,19 @@ $('input[type=radio]').click(function () {
     $('#g_cloud_new_search_name').addClass('govuk-!-display-none')
   }
 });
+// window back refresh radio button
+if (document.querySelectorAll('#save-search').length==1) {
+ $(document).ready(function () {
+    setTimeout(function() { 
+      $( "#remove_radio" ).trigger( "click" );
+      $('#search_name').val('');
+    }, 1000);
+    $( "#remove_radio" ).on( "click", function() {
+     $("input[type='radio']").prop('checked', false);
+    });
+});
+}
+
 
 // to hide the new search name input filed on load
 document.addEventListener('DOMContentLoaded', () => {

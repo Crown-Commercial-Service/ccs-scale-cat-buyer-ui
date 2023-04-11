@@ -27,7 +27,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const { download } = req.query;
   const lotId = req.session?.lotId;
   const agreementLotName = req.session.agreementLotName;
-  
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(ProjectID)){
+    publishClickEventStatus = true;
+   }
+  }
+    
   if(download!=undefined) {
       const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
       
@@ -224,6 +231,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
 
     for(let i=0;i<expected_rfi_keydates[0].answer.length;i++){
       let data=expected_rfi_keydates[0].answer[i].values[0].value;
+      if(i == 3){
+        req.session.endDate = data;
+      }
       let day=data.substr(0,10);
       let time=data.substr(11,5);
       if(i==0){
@@ -292,14 +302,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
         agreementId_session:req.session.agreement_id,
         customStatus,
-        organizationName
+        organizationName,
+        publishClickEventStatus:publishClickEventStatus
       };
 
       if (viewError) {
         appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
       }
-    console.log("appendData",JSON.stringify(appendData));
-    
+        
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(null, logConstant.reviewAndPublishPageLog, req);
 

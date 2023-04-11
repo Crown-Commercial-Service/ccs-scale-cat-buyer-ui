@@ -54,6 +54,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   console.log("showWritePublish",showWritePublish);
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
+  
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   console.log("eventTypesURL",eventTypesURL);
@@ -132,6 +133,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       console.log("9");
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
+     
     } catch (journeyError) {
       console.log("10");
       const _body = {
@@ -169,25 +171,38 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           event.status = step.state;
         }
       }
+
+     
       if (step.step == 2) {
 
         if(agreementId_session == 'RM1043.8'){ //DOS
           event.status = '';
         }
-
+        
         if (
           req.session['journey_status'][2].state == 'In progress' ||
           req.session['journey_status'][1].state == 'Completed'
         ) {
+          
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+      
+            event.buttonDisable = true;
+          } else {
+         
           event.buttonDisable = false;
         }
       }
+      
       if (step.step == 3) {
+       
         if (req.session['journey_status'][1].state == 'In progress') {
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+       
+          event.buttonDisable = true;
+        }else {
+         
           event.buttonDisable = false;
         }
       }
@@ -266,7 +281,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.procurementPage, req);
 
-    appendData = { ...appendData, agreementName, releatedContent, agreementId_session, stepstocontinueDAA,ScrollTo };
+    appendData = { ...appendData, agreementName, releatedContent, agreementId_session,lotid, stepstocontinueDAA,ScrollTo };
    if (agreementId_session == 'RM1557.13' && lotId=='4') {
       res.render('gcloud_lot4-procurement', appendData);
     } else{

@@ -15,9 +15,9 @@ export class ValidationErrors {
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
     static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
 
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'	
-    static readonly Question_REQUIRED: string = 'Question has not been defined'	
-    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'	
+    static readonly Clarification_REQUIRED: string = 'Enter a clarification'	
+    static readonly Question_REQUIRED: string = 'Enter a question'	
+    static readonly Clarification_REQUIRED_count: string = 'Enter a clarification'	
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
 
 }
@@ -129,6 +129,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
     const agreementId = req.session.agreement_id;
+    res.locals.agreement_header = req.session.agreement_header;
     try {
         const _body = req.body
         let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
@@ -199,7 +200,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
           }
     
             const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-            const appendData = { data, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            const appendData = { data, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
 
             //CAS-INFO-LOG 
        LoggTracer.infoLogger(null, logConstant.qaAdd2ndStepLogger, req);
@@ -240,18 +241,21 @@ else{
         
 
         const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
-        
-       const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
-        //CAS-INFO-LOG 
-        LoggTracer.infoLogger(responses, logConstant.saveMessages, req);
 
-        if (response.status == 200) {
-            req.session["createdqa"]=true;
-            res.redirect('/message/inbox')
-        } else {
-            req.session["createdqa"]=false;
-            res.redirect('/message/inbox')
-        }
+        // const responses = await 
+       TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+       //CAS-INFO-LOG 
+        //LoggTracer.infoLogger(responses, logConstant.saveMessages, req);
+       req.session["createdqa"]=true;
+       res.redirect('/message/inbox');
+        // if (response.status == 200) {
+        //     req.session["createdqa"]=true;
+        //     res.redirect('/message/inbox')
+        // } else {
+        //     req.session["createdqa"]=false;
+        //     res.redirect('/message/inbox')
+        // }
+
     }
     } catch (err) {
         LoggTracer.errorLogger(

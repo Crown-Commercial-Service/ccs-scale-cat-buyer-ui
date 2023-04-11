@@ -16,7 +16,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Evaluate Suppliers",
+      "text": "Evaluate suppliers",
       "href": "#"
     }
   ]
@@ -61,21 +61,21 @@
                      </p>
             </div>
 
-              <div class="ccs-page-section">
+              <div>
                 {% if agreementId_session != 'RM1043.8' %}
                   {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" %}
                     <p>{{data.subtitle_mcf1}}</p>
                     <p>{{data.subtitle_mcf2}}</p>
                     <p>{{data.subtitle_mcf3}}</p>
                     <p class="govuk-!-padding-bottom-9">
-                    You may wish to download <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">the Award Recommendation Report,</a> {{data.subtitle_mcf4}}
+                    You may wish to download <a href="/evaluate-suppliers?download=1" class="govuk-link govuk-link--no-visited-state">the Award Recommendation Report,</a> {{data.subtitle_mcf4}}
                     </p>
                   {% else %}
                     <p>{{data.subtitle}}</p>                   
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
-                         {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
+                         {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
                     </p>
                   {% endif %}
                     {%else%}
@@ -84,9 +84,16 @@
                           <p>{{data.subtitle1_dos}}</p>
                           <p>{{data.subtitle2_dos}}</p>
                           <p class="govuk-!-padding-bottom-9">
-                              You may wish to download the <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Award Recommendation Report,</a> which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.</p>
+                              You may wish to download the <a href="/evaluate-suppliers?download=1" class="govuk-link govuk-link--no-visited-state">Award Recommendation Report,</a> which can be used to capture your final scores and feedback, an overview of the process and your recommendation to award.</p>
                         {% else %}
-                        <p>You are required to evaluate the responses from all suppliers.</p>
+                         
+                          {% if(ConfirmFlag) and agreementId_session == 'RM1043.8' %}
+                          <p>You are required to evaluate the responses from all suppliers. Download the supplier responses to start evaluation.</p>
+                          <p>You need to evaluate supplier responses based upon the requirements and guidance that you published.</p>
+                          <p>The evaluators will need to agree on a score and feedback for every question response, as well as a final score for each supplier. You will need to input the final score for each supplier using ‘Add or edit final score’ below.</p>
+                          {% else %}
+                           <p>You are required to evaluate the responses from all suppliers.</p>
+                          {% endif %}
                         {% endif %}
                     {%endif%}
               <div>  
@@ -95,7 +102,7 @@
 </div> 
 </div>
       <div class="govuk-grid-column-one-third-from-desktop">
-          {{ CCSReleatedContent(releatedContent) }}
+          {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
       </div> 
     </div>
      <div class="govuk-grid-row">
@@ -104,10 +111,12 @@
     
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
-          {% if agreementId_session == 'RM6187' %}
+          {% if (agreementId_session == 'RM6187') %}
            
            {% else %}
-           <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
+            {% if (agreementId_session == 'RM1043.8') %}
+                <p> The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p> 
+            {% endif %}
         {% endif %}
           
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -125,7 +134,13 @@
                 {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header">
+                      {% if (agreementId_session == 'RM1043.8') %}
+                        Supplier’s answer</th>
+                      {% else %}  
+                        {{data.subsection4_table_th_3}}
+                      {% endif %}
+                    </th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
                 {% endif %}
@@ -174,7 +189,7 @@
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             
-            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
+            {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') or (agreementId_session == 'RM1043.8') %}
            
            {% else %}
            <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>
@@ -196,22 +211,72 @@
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
-        <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
-  Confirm Scores
-</button>
+          <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">
+            Complete evaluation
+          </button>
+        {% endif %}
+  
+{% if (agreementId_session == 'RM1043.8') %}
+  {% if (ConfirmFlag) %}
+      <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
+    {% else %}
+        
+  {% endif %}
+{% else %}
+    <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
 {% endif %}
-        <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
  </div>
  
+{# Popup Start #}
+{# Title Condition #}
+{% if stage2_value == 'Stage 1'%}
+  {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
+    {% set popTitle = "You are about to complete your evaluation" %}
+  {% else %}
+    {% set popTitle = "You are about to complete your shortlisting evaluation" %}
+  {% endif %} 
+{%else%}
+  {% set popTitle = "You are about to complete your evaluation" %}
+{%endif%}
+{# Description Condition #}
+{% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
+  {% set popDescription = "Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation." %}
+{%else%}
+  {% if stage2_value == 'Stage 2'%}
+    {% if(agreement_header['lotid'] == '3') %}
+      {% set popDescription = "Click Continue, or click Return to further edit your scores. " %}
+    {%else%}
+      {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}
+    {%endif%}
+  {%else%}
+    {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores." %}
+  {%endif%}
+{%endif%}
+{# Model Macro #}
+ {{ 
+  CCSDialog({
+    title: popTitle,
+    description:popDescription,
+    redirect:'#',
+    type:'supplierConfirmAllPopup'
+  }) 
+}}
+{# Popup End #}
+
+{# Loader Container #}
+<div class="loader-container">
+  <div class="loader-division">
+    <img src="/assets/images/loader.gif" alt="Loading">
+    <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait....</h2>
+  </div>
+</div>  
+
+</main>     
 
 
-      
-   </main>     
 
 
-
-
-<div class="backdrop-evaluatesuppliers" id="evaluatesupplierspopup">
+{# <div class="backdrop-evaluatesuppliers" id="evaluatesupplierspopup">
   <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
     <div class="pop_logo govuk-grid-column-full">
       <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
@@ -252,6 +317,7 @@
       </div>
     </h1></div>
   </div>
-</div>
+</div> #}
+
 
 {% endblock %}

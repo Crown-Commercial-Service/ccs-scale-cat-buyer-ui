@@ -108,7 +108,7 @@
         titleText: "There has been an error publishing your DA",
         errorList: [
           {
-            text: "Confirmation checkbox must be checked before progressing",
+            text: "Confirm that the information you have provided is correct",
             href: "#ccs_rfp_publish_form"
           }
         ]
@@ -129,8 +129,8 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
         <br><br>
-        <p class="govuk-body">{{data.subtitle}}
-        </p><br><br>
+        {# <p class="govuk-body">{{data.subtitle}}
+        </p><br><br> #}
         {%if(selectedeventtype=='DA')%}
         {{ CCSButton({
     text: "Export your draft direct award",
@@ -198,7 +198,7 @@
           <div class="govuk-summary-list__row">
           {% if agreementId_session == 'RM6187' %}
             <dt class="govuk-summary-list__value">
-          <p>Change who will lead the project</p>
+          <p>Change who will lead your project</p>
         </dt>
           {% else %}
             <dt class="govuk-summary-list__value">
@@ -400,7 +400,7 @@
 {%block Section_3%}
     
       <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-m">3. Add context to your {%if(selectedeventtype=='DA')%}direct award{%else%}further competition{%endif%} </h2>
+            <h2 class="govuk-heading-m">3. Add context and requirements</h2>
               <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -605,10 +605,10 @@
                   {% else %}
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                        <p>The date you want the project to start</p>
-                        {% if(indicativedurationYear != '') %} 
-                        <p>How long you think the project will run for (optional)</p>
-                        {% endif %}
+                        <p>How long the project will last </p>
+                        {# {% if(indicativedurationYear != '') %} 
+                        <p>How long the project will last</p>
+                        {% endif %} #}
                     </dt>
                     <dd class="govuk-summary-list__value">
                         <p>{{startdate}}</p>
@@ -642,7 +642,7 @@
                   {% if agreementId_session == "RM6187" %}
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">                      
-                        <p>Name of the organisation doing the procurement</p>
+                        <p>Name of the Contracting Authority</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                         <p>{{buyingorg1}}</p>
@@ -650,7 +650,7 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">                      
-                        <p>Name of the organisation using the products or services</p>
+                        <p>Organisation you are buying on behalf of (optional)</p>
                     </dt>
                     <dd class="govuk-summary-list__value content_review_length">
                         <p>{{buyingorg2}}</p>
@@ -674,7 +674,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Describe any pre-market engagement you've done (optional) </p>
+                    <p class="govuk-!-margin-bottom-0">Pre-market engagement done (optional)</p>
                   </dt>
                   <dd class="govuk-summary-list__value content_review_length">
                       <p>{{summarize}}</p>
@@ -704,7 +704,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Tell us if there is an existing supplier?</p>
+                    <p class="govuk-!-margin-bottom-0">Tell us if there is an existing supplier</p>
                   </dt>
                   <dd class="govuk-summary-list__value">
                       <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
@@ -719,7 +719,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Management information and reporting requirements</p>
+                    <p class="govuk-!-margin-bottom-0">Management information and reporting</p>
                   </dt>
                   <dd class="govuk-summary-list__value content_review_length">
                       <p> {{managementinfo}}</p>
@@ -748,7 +748,7 @@
                   {% set i=1 %}
                   {%if serviceLevel !=undefined and serviceLevel !=null and serviceLevel | length >0 %}
                       {% for data in serviceLevel %}
-                        {% set text=numberWordBig[i] + " service level requirement/KPI" %}
+                        {% set text=numberWordBig[i] + " service level requirement or KPI" %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <h3><strong>{{text}}</strong></h3>
@@ -762,7 +762,7 @@
                           <dt class="govuk-summary-list__value"><p>Description of the criteria</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.value}}</p></dd>
                         </div>
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value"><p>Your success target</p>
+                          <dt class="govuk-summary-list__value"><p>Success target</p>
                           </dt><dd class="govuk-summary-list__value"><p>{{data.percent}}% required target</p></dd>
                         </div>
                         
@@ -810,7 +810,7 @@
                    {% endif %}
                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__key">
-                      <h3 class="govuk-!-margin-bottom-0"><strong>Your project budget (optional)</strong></h3>
+                      <h3 class="govuk-!-margin-bottom-0"><strong>Set your project budget (optional)</strong></h3>
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
@@ -830,7 +830,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <p>{{bc1}}</p>
+                        {% if bc1 %}
+                          <p>{{bc1}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -842,7 +846,11 @@
                         {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">
-                      <p>{{bc2}}</p>
+                       {% if bc2 %}
+                          <p>{{bc2}}</p>
+                        {% else %}
+                          <p>£0.00</p>
+                        {% endif %}
                     </dd>
                   </div>
                   <div class="govuk-summary-list__row">
@@ -874,7 +882,7 @@
                                       <dt class="govuk-summary-list__value"><p>{{text}}</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.group}}</p></dd>
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                      <dt class="govuk-summary-list__value"><p>Description of the requirement</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.title}}</p></dd>
+                                      <dt class="govuk-summary-list__value"><p>Requirement description</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.title}}</p></dd>
                                     </div>
                         
                                 {% set i=i+1 %}
@@ -886,10 +894,10 @@
                                       <dt class="govuk-summary-list__value"><p>{{text}}</p></dt><dd class="govuk-summary-list__value"><p>{{data.group}}</p></dd>
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                      <dt class="govuk-summary-list__value"><p>Name of the requirement</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.title}}</p></dd>
+                                      <dt class="govuk-summary-list__value"><p>Requirement title</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.title}}</p></dd>
                                     </div>
                                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                                      <dt class="govuk-summary-list__value"><p>Description of the requirement</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.desc}}</p></dd>
+                                      <dt class="govuk-summary-list__value"><p>Requirement description</p></dt><dd class="govuk-summary-list__value content_review_length"><p>{{data.desc}}</p></dd>
                                     </div>
                                 {% set i=i+1 %}
                               {% endfor %}
@@ -1022,9 +1030,9 @@
 {%endblock%}
 {# END----------------------People, skills, security and location #}
 {% else %}
-  {# START----------------------4.Upload pricing schedules and any other supporting documents #}
+  {# START----------------------4.Upload pricing schedules and other documents #}
   {%block Upload_pricing_schedules2%}
-          <h2 class="govuk-heading-m">4. Upload pricing schedules and any other supporting documents </h2>
+          <h2 class="govuk-heading-m">4. Upload pricing schedules and other documents </h2>
           <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
@@ -1036,13 +1044,13 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__value">
-            <p>Upload your pricing schedule</p>
+            <p>Upload your pricing schedule (attachment 4)</p>
           </dt>
               {% if  document != undefined and document !=null and document | length > 0 %}
                 <dd class="govuk-summary-list__value">
-                  <p class="govuk-body-s">
-                    {{ document | safe }}
-                  </p>
+                   {% for doc in document %}
+                      <p class="govuk-body-s">{{ doc | safe }}</p>
+                    {%- endfor %}
                 </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
@@ -1060,7 +1068,7 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__value">
-            <p>Upload more documents (optional)</p>
+            <p>Upload T&Cs document</p>
           </dt>
               {# <dd class="govuk-summary-list__value"> #}
                 {% if(document !=undefined and document !=null and documents | length > 0) %}
@@ -1087,6 +1095,37 @@
                 {% endif %}
               </dd>
             </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__value">
+            <p>Upload any additional documents (optional)</p>
+          </dt>
+              {# <dd class="govuk-summary-list__value"> #}
+                {% if(document !=undefined and document !=null and documents | length > 0) %}
+                <dd class="govuk-summary-list__value">
+                  <ul class="govuk-list govuk-list--none">
+                    {% for doc in additionalDocuments %}
+                      <li>
+                        <span class="govuk-body-s">{{doc}}</span>
+                        </li>
+                    {%- endfor %}
+                  </ul>
+                </dd>
+              {% else %}
+                <dd class="govuk-summary-list__value">
+            
+          </dd>
+              {% endif %}
+              {# </dd> #}
+              <dd class="govuk-summary-list__actions">
+              {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED")%}
+                <a class="govuk-link" href="/da/upload-additional">
+              Change<span class="govuk-visually-hidden"> procurement lead</span>
+                </a>
+                {% endif %}
+              </dd>
+            </div>
+
             {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
@@ -1335,14 +1374,10 @@
  {%block Review_and_publish_your_further_competition%}
 <h2 class="govuk-heading-m">6. Review and publish </h2>
 <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-            </dt>
-            <dd class="govuk-summary-list__value">
-            </dd>
-            <dd class="govuk-summary-list__actions">
-            </dd>
-          </div>
+        <dt class="govuk-summary-list__key">
+        <h3><strong>Select your supplier for direct award</strong></h3>
+      </dt>
+      <dd class="govuk-summary-list__value">&nbsp;</dd>
     <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__value">
         <p> Supplier selected for direct award</p>
@@ -1370,7 +1405,7 @@
     </div>
     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
       <dt class="govuk-summary-list__key">
-        <h3><strong>Your timeline</strong></h3>
+        <h3><strong>Set your timeline</strong></h3>
       </dt>
       <dd class="govuk-summary-list__value">&nbsp;</dd>
       <dd class="govuk-summary-list__actions">
@@ -1569,7 +1604,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      html: "<label><strong>By checking this box, I confirm that I have read the statements above.</strong></label>",
       Checked: ""
       }
       ]
@@ -1577,12 +1612,24 @@
 
   
                             <div class="govuk-button-group">
+                       {%if publishClickEventStatus == true%}         
                               {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
+        classes: "oneTimeClick",
+        disabled:true,
         text: "Publish and continue"
         }) }}
+        {%else%}
+         {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        classes: "oneTimeClick",
+        text: "Publish and continue"
+        }) }}
+        {%endif%}
                               <a href="/da/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
                             </div>
       {% else %}   
@@ -1602,6 +1649,22 @@
                         </div>
                       </div>
 
+  {# CAS-32 #}
+{{ CCSDialog({
+  title:'Reset your publish date',
+  description:'Your project creation date is different from your project publishing date. This means the publish date on the timeline is incorrect. To fix this, click Reset timeline below to update the publish date to todays date. ',
+  redirect:'#',
+  type:'publishTimelineMismatch'
+}) }}
+
+{# Loader container #}
+  <div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+        {# <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2> #}
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
                     </main>
 
                   {% endblock %}

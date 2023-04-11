@@ -62,6 +62,8 @@
   color: #0b0c0c;
 }
 
+
+
 @media print {
   .govuk-link[href^="/"]:after, a[href^="/"]:after, .app-step-nav-header__title[href^="/"]:after, .app-step-nav-related__link[href^="/"]:after, .govuk-link[href^="http://"]:after, a[href^="http://"]:after, .app-step-nav-header__title[href^="http://"]:after, .app-step-nav-related__link[href^="http://"]:after, .govuk-link[href^="https://"]:after, a[href^="https://"]:after, .app-step-nav-header__title[href^="https://"]:after, .app-step-nav-related__link[href^="https://"]:after {
     content: " (" attr(href) ")";
@@ -2468,6 +2470,14 @@ p + .govuk-heading-s,
   }
 }
 
+@media (min-width: 40.0625em) {
+  .govuk-label--sm {
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 0.31579;
+  }
+}
+
 @media print {
   .govuk-label--s {
     font-size: 14pt;
@@ -4005,6 +4015,14 @@ p + .govuk-heading-s,
   height: 36px;
 }
 
+span#create_supplier_message-error{
+display: none;
+}
+
+span#create_message_input-error,span#create_subject_input-error{
+display: none;
+}
+
 .govuk-header {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -4991,6 +5009,9 @@ p + .govuk-heading-s,
   left: 0;
   right: auto;
 }
+.govuk-grid-row.ccs-page-section.ccs-noborder {
+  border-bottom: 0;
+}
 .js-enabled .govuk-filter-search .govuk-accordion__icon::after, .js-enabled .govuk-filter-search .govuk-accordion__icon::before {
   width: 100% !important;
   background: transparent;
@@ -5046,6 +5067,30 @@ display: inline-block;
   overflow: hidden;
   height: 100%;
 }
+
+.loader-desc {
+  line-height: 50px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.loderMakeRes {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 44px;
+  padding: 0 50px 50px;
+}
+
+.loader-desc-hdr {
+  font-weight: 400;
+  font-size: 42px;
+  text-align: center;
+}
+
+.loader-container.loader-block {
+display: flex;
+}
+
 .pageblur .loader-container {
   display: flex;
 }
@@ -5685,6 +5730,23 @@ display: inline-block;
 
 .govuk-radios__label {
   display: inline-block;
+  margin-bottom: 0;
+  padding: 8px 15px 5px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.govuk-radios__label_block {
+  margin-bottom: 0;
+  padding: 8px 15px 5px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+
+.govuk-radios__label_block {
   margin-bottom: 0;
   padding: 8px 15px 5px;
   cursor: pointer;
@@ -9331,13 +9393,18 @@ p,
 .backdrop-close.showpopup, .backdrop-close.showpopup .messagepop, 
 .backdrop-supplier-popup.showpopup, .backdrop-supplier-popup.showpopup .messagepop,
 .backdrop-gcloud_delete.showpopup,
+.backdrop-nextstepspopup.showpopup,
 .showpopup .messagepop,
 .backdrop-award .messagepop,
-.backdrop-award.showpopup
+.backdrop-award.showpopup,
+.backdrop-publishTimelineMismatch.showpopup,
+.backdrop-supplierConfirmAllPopup.showpopup,
+.backdrop-confirmLowScoreSupplierPopup.showpopup,
+.backdrop-Qanda.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
   position: fixed;
   top: 0px;
   left: 0px;

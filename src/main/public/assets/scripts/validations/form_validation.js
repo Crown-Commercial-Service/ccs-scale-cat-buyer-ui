@@ -231,6 +231,16 @@ const ccsZremoveErrorMessage = (element) => {
 
 };
 
+const ccsZremoveErrorMessageRFIDate = () => {
+
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+};
+
 /**
  * Add an error message around an element, if not already present
  *  - adds 'error' classes to the 'form group' and the input and
@@ -280,7 +290,6 @@ const ccsZaddErrorMessage = (element, message) => {
  * above the erroring input
  */
 const ccsZcreateCcsErrorMsg = (elName, message) => {
-
   let errorElement = document.createElement("span");
   errorElement.id = elName + "-error";
   errorElement.className = "govuk-error-message";
@@ -388,7 +397,6 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
   
-
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
 

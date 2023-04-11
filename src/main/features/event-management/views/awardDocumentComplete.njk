@@ -2,10 +2,10 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% if (agreementId == 'RM1043.8') or (agreementId == 'RM1557.13') %} 
-{% set title = 'Your project' %}
+{% if (agreementId == 'RM6187') or (agreementId == 'RM1043.8') or (agreementId == 'RM1557.13') %} 
+ {% set title = 'Your project' %}
 {% else %}
-{% set title = 'Award documents' %}
+ {% set title = 'Award documents' %}
 {% endif %} 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -103,7 +103,7 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Supplier name</th>
-                  {% if (agreementId == "RM6187") or (agreementId == "RM1557.13") %}
+                  {% if (agreementId == "RM6187") or (agreementId == "RM1557.13") or (agreementId == "RM1043.8") %}
                   <th scope="col" class="govuk-table__header govuk-text-align ">Award templates</th>
                   {% else %}
                   <th scope="col" class="govuk-table__header govuk-text-align ">Documents Template</th>
@@ -142,7 +142,7 @@
 
        <h2> <strong>Unsuccessful supplier templates </strong></h2>
         </br>
-        {% if agreementId == 'RM1043.8' or agreementId == 'RM6187' %}
+        {% if agreementId == 'RM6187' %}
             <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below. Please make a copy of the supplier names and contact emails below, because you will need to notify all unsuccessful suppliers using your organisation’s email account.</p>
         {% else %}
             <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below.
@@ -160,7 +160,7 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  {% if (agreementId == "RM6187") or (agreementId == "RM1557.13") %}
+                  {% if (agreementId == "RM6187") or (agreementId == "RM1557.13") or (agreementId == "RM1043.8") %}
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   {% else %}
                   <th scope="col" class="govuk-table__header">Supplier's name</th>

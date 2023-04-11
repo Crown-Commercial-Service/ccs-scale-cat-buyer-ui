@@ -19,15 +19,22 @@ for(const selector of rfp_totalElementSelectors){
     elementSelector.fadeIn(); 
     elementSelectorCancel.fadeIn(); 
     elementSelector.on('click', () => {
+        let element = document.getElementById(`ccs_rfp_response_date_form_${selector}`);
+        element.reset();
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementID);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
+        if($('.hideFirst:visible').length){
+                $('.hideFirst').hide();
+                $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRFP();
+        
     });
     let errorSelector = $("#click-error");
     let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);

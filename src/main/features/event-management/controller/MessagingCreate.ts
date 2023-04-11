@@ -11,15 +11,16 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 export class ValidationErrors {
-    static readonly SUPPLIER_REQUIRED: string = 'message cannot be broadcast unless a Supplier has been defined - broadcast cannot be completed'
-    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined - broadcast cannot be completed'
-    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined - broadcast cannot be completed'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Subject has been defined - broadcast cannot be completed'
+    static readonly SUPPLIER_REQUIRED: string = 'Select a supplier'
+    static readonly CLASSIFICATION_REQUIRED: string = 'Select a message classification'
+    static readonly SUBJECT_REQUIRED: string = 'Enter a subject'
+    static readonly MESSAGE_REQUIRED: string = 'Enter a message'
     
-    static readonly SINGLE_SUPPLIER_REQUIRED: string = 'message cannot be sent unless a Supplier has been defined - message cannot be completed'
-    static readonly SINGLE_CLASSIFICATION_REQUIRED: string = 'Message cannot be sent unless a Classification has been defined - message cannot be completed'
-    static readonly SINGLE_MESSAGE_REQUIRED: string = 'Message cannot be sent unless a Message Body has been defined - message cannot be completed'
-    static readonly SINGLE_SUBJECT_REQUIRED: string = 'message cannot be sent unless a Subject has been defined - message cannot be completed'
+    
+    static readonly SINGLE_SUPPLIER_REQUIRED: string = 'Select a supplier'
+    static readonly SINGLE_CLASSIFICATION_REQUIRED: string = 'Select a message classification'
+    static readonly SINGLE_SUBJECT_REQUIRED: string = 'Enter a subject'
+    static readonly SINGLE_MESSAGE_REQUIRED: string = 'Enter a message'
     
 }
 
@@ -126,17 +127,6 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             IsClassificationNotDefined = false
         }
 
-        if (!_body.create_message_input) {
-            IsMessageNotDefined = true
-            validationError = true
-            errorText.push({
-                text: ValidationErrors.MESSAGE_REQUIRED,
-                href: '#create_message_input'
-            });
-        } else {
-            IsMessageNotDefined = false
-        }
-
         if (!_body.create_subject_input) {
             IsSubjectNotDefined = true
             validationError = true
@@ -146,6 +136,17 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             });
         } else {
             IsSubjectNotDefined = false
+        }
+
+        if (!_body.create_message_input) {
+            IsMessageNotDefined = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.MESSAGE_REQUIRED,
+                href: '#create_message_input'
+            });
+        } else {
+            IsMessageNotDefined = false
         }
 
         const message: CreateMessage = {
@@ -374,17 +375,6 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
             IsClassificationNotDefined = false
         }
 
-        if (!_body.create_message_input) {
-            IsMessageNotDefined = true
-            validationError = true
-            errorText.push({
-                text: ValidationErrors.SINGLE_MESSAGE_REQUIRED,
-                href: '#create_message_input'
-            });
-        } else {
-            IsMessageNotDefined = false
-        }
-
         if (!_body.create_subject_input) {
             IsSubjectNotDefined = true
             validationError = true
@@ -396,6 +386,17 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
             IsSubjectNotDefined = false
         }
 
+        if (!_body.create_message_input) {
+            IsMessageNotDefined = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.SINGLE_MESSAGE_REQUIRED,
+                href: '#create_message_input'
+            });
+        } else {
+            IsMessageNotDefined = false
+        }
+
         const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
 
         const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
@@ -403,6 +404,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
         
          //CAS-INFO-LOG 
          LoggTracer.infoLogger(SUPPLIER_DATA, logConstant.messageSupplierList, req);
+         SUPPLIER_DATA = SUPPLIER_DATA.suppliers.sort((a: any, b: any) => (a.name < b.name ? -1 : 1));
          
         const message: CreateMessage = {
             create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
@@ -457,7 +459,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
                 data = inboxData;
               }
 
-            const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
+            const appendData = { supplierList:SUPPLIER_DATA,data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
            
              
             //CAS-INFO-LOG 

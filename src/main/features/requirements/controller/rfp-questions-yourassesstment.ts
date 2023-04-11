@@ -55,18 +55,18 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
-    
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const groupSixRelated = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Your social value question');
     const groupSixRelatedq1 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Quality');
     const groupSixRelatedq2 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Technical Criteria');
     const groupSixRelatedq3 = fetch_dynamic_api_data.some((el: any) => el.nonOCDS.questionType == 'ReadMe');
+    const groupSixRelatedq4 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Set the overall weighting');
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
     
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    
+    //Gettin organization details
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
     
     const name = getOrganizationDetails.data.identifier.legalName;
@@ -177,7 +177,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
     }
-    
+    else if(ChoosenAgreement == 'RM1043.8' && id === 'Criterion 2' && group_id == 'Group 3') {
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+    }
     else {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
@@ -278,6 +281,22 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         data.form_name = 'suppliers_to_evaluate';
       }
     }
+  
+    if(agreement_id == "RM1043.8") {
+      if  ((group_id == "Group 6" || group_id == "Group 1") && (req.session?.lotId == '1' || req.session?.lotId == '3') && id === 'Criterion 2') {
+       
+          data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+      }
+      if  (((group_id == "Group 10" && req.session?.lotId == '3')|| (group_id == "Group 12" && req.session?.lotId == '1')) && id === 'Criterion 2') {
+       
+        data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+      }
+      if  (((group_id == "Group 8" && req.session?.lotId == '3')|| (group_id == "Group 9" && req.session?.lotId == '1')) && id === 'Criterion 2') {
+       
+        data.rfpTitle =  nonOCDS.mandatory === false ? OCDS?.description + ' (optional)' : OCDS?.description;
+      }
+    }
+   
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
@@ -285,7 +304,6 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.rfpTitle, req);
-
     res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -966,7 +984,7 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
     case 'Group 5':
       if(agreement_id == 'RM1043.8') {
-        title = 'essential skill or experience';
+        title = 'essential skills and experience';
       } else {
         title = 'cultural';
       }
@@ -987,14 +1005,14 @@ const mapTitle = (groupId, agreement_id, lotId) => {
       break;
       case 'Group 8':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = 'social value question'; } else { title = 'cultural fit'; }
+        if(lotId == 3) { title = 'social value questions'; } else { title = 'cultural fit'; }
       } else {
         title = '';
       }
       break;
       case 'Group 9':
       if(agreement_id == 'RM1043.8') {
-        if(lotId == 3) { title = ''; } else { title = 'social value question'; }
+        if(lotId == 3) { title = ''; } else { title = 'social value questions'; }
       } else {
         title = '';
       }

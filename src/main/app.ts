@@ -23,6 +23,11 @@ import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
+/**
+ * Content Security Policy
+ */
+
+
 
 // setup logging of HTTP requests
 /**
@@ -64,6 +69,10 @@ app.use((req, res, next) => {
     'Cache-Control',
     'no-cache, max-age=0, must-revalidate, no-store',
   );
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' 'unsafe-inline' *.googletagmanager.com  https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img-src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io; child-src blob:"
+  );
   if(process.env.LOGIN_DIRECTOR_URL == "NONE") {
     res.locals.LOGIN_DIRECTOR_URL = '/oauth/login';
   } else {
@@ -75,27 +84,43 @@ app.use((req, res, next) => {
   res.locals.assetBundlerMode = env.trim();
   switch (process.env.ROLLBAR_HOST) {
     case 'local': {
-      process.env.ROLLBAR_ENVIRONMENT = 'local'
+      process.env.ROLLBAR_ENVIRONMENT = 'local';
+      process.env.LOGIT_ENVIRONMENT = 'LOCAL'
       break;
     }
     case 'dev': {
-      process.env.ROLLBAR_ENVIRONMENT = 'development'
+      process.env.ROLLBAR_ENVIRONMENT = 'development';
+      process.env.LOGIT_ENVIRONMENT = 'DEV';
       break;
     }
     case 'int': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'SIT';
       break;
     }
     case 'uat': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'UAT';
       break;
     }
     case 'nft': {
-      process.env.ROLLBAR_ENVIRONMENT = 'sandbox'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'NFT';
+      break;
+    }
+    case 'prd': {
+      process.env.ROLLBAR_ENVIRONMENT = 'production';
+      process.env.LOGIT_ENVIRONMENT = 'PROD';
+      break;
+    }
+    case 'pre': {
+      process.env.ROLLBAR_ENVIRONMENT = 'pre-production';
+      process.env.LOGIT_ENVIRONMENT = 'PRE-PROD';
       break;
     }
     default: {
-      process.env.ROLLBAR_ENVIRONMENT = 'production'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'SANDBOX';
       break;
     }
   }

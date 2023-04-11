@@ -82,7 +82,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         forceChangeDataJson = cmsData;
       }
       if(RfiUploadError){
-        errorList.push({ text: "Please attach the file before upload. ", href: "#rfi_offline_document" })
+        errorList.push({ text: "Please attach the file before upload ", href: "#rfi_offline_document" })
       }
       let windowAppendData = {
         lotId,

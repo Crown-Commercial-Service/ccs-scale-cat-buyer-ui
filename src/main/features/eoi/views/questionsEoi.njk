@@ -281,11 +281,10 @@
                             },
                             id: "eoi_resource_start_date-year",
                             name: "eoi_resource_start_date-year",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-4",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-4 startdateyearlimitEoi",
                             type: "number", 
                             inputmode:"numeric",
                             value: startdate[0],
-                            max: "2025",
                             min: "2021",
                             maxlength: "4"
                           }) }}
@@ -319,7 +318,10 @@
                       <p id="event-name-error-pyear" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span>
                       </p>
-
+                  {% if (requirement.nonOCDS.options[0].value | length) %}
+                  {% set howLongDate = requirement.nonOCDS.options[0].value.replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-') %}
+                  {% endif %}
+                     
                       <div class="govuk-date-input" id="eoi_duration">
                         <div class="govuk-date-input__item">
                           <div class="govuk-form-group">
@@ -339,7 +341,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[0].value,
+                            value: howLongDate[0],
                             max: "100",
                             min: "0",
                             maxlength: maxLength
@@ -359,7 +361,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[1].value,
+                            value: howLongDate[1],
                             max: "12",
                             min: "0",
                             maxlength: "2"
@@ -379,7 +381,7 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2 eoi_duration",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[2].value,
+                            value: howLongDate[2],
                             max: "31",
                             min: "0",
                             maxlength: "2"
@@ -704,8 +706,8 @@
                               
                              
                                 {{ CCSInput({
-                                      label: {
-                                        text: "Enter the name of the existing supplier. For multiple suppliers, separate with a comma after each",
+                                       label: {
+                                        html: "You have the option to enter the name of an existing supplier.<br>For multiple suppliers separate with a comma after each",
                                         classes: "govuk-label govuk-date-input__label",
                                         for: "rfp_security_confirmation"
                                       },

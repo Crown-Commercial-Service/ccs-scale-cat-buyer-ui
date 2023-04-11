@@ -33,7 +33,7 @@
                 {
                     "Task": 2,
                     "link": "/rfp/procurement-lead",
-                    "title": "Change who will lead the project",
+                    "title": "Change who will lead your project",
                     "required": "optional",
                     "status": "Optional"
                 },
@@ -64,7 +64,7 @@
             "eventTitle": "Add context and requirements",
             "eventDescription": "You can include the following:",
             "eventdescriptionlist": [{
-                "description1": "any pre-tender market engagement you’ve done",
+                "description1": "any pre-market engagement you’ve done",
                 "description2": "the terms and acronyms you use",
                 "description3": "your service levels and KPIs",
                 "description4": "how long you expect the contract to run",
