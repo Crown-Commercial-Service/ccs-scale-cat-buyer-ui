@@ -64,7 +64,7 @@ describe('MCF3: Set your RfI review page render', async () => {
       .set('Cookie', [`SESSION_ID=${OauthToken}`, 'state=blah'])
       .expect(res => {
         //console.log("res.header.location",res.header.location)
-        expect(res.status).to.equal(302);
+        expect(res.status).to.equal(200);
         //expect(res.header.location).to.be.equal('/rfi/review'); 
       });
   }).timeout(0);

@@ -38,7 +38,7 @@ describe('GCLOUD: Add Context Post', async () => {
     req.session = getProJson;
     req.session.nonOCDSList=contextnonOCDS;
    // getProJson.nonOCDSList=contextnonOCDS;
-    console.log("SessionPOSTTEDD",JSON.stringify(req.session.nonOCDSList));
+    //console.log("SessionPOSTTEDD",JSON.stringify(req.session.nonOCDSList));
     // req.session.isLocationMandatoryError=false;
     req.session.access_token=OauthToken; 
         

@@ -23,6 +23,8 @@ let mocha = new Mocha({
     },
 });
 
+
+
 // fs.readdirSync(__dirname).filter(function(file){
 //     return file.substr(-8) === '.test.ts';
 // }).forEach(function(file){
@@ -33,33 +35,20 @@ let mocha = new Mocha({
  //mocha.addFile(path.join("src/test/unit/aggrements", "aggrements.test.ts"));
  //mocha.addFile(path.join("src/test/unit/procurements", "procurements.test.ts"));
  
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiTaskList.test.ts"));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiNameAproject.test.ts"));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiProcurementLead.test.ts"));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiAddCollabarator.test.ts"));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiAddContext.test.ts'));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiAddContextPost.test.ts'));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiUploadDocuments.test.ts'));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiSupplier.test.ts'));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiResponseDate.test.ts'));
-//  mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiReview.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiTaskList.test.ts"));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiNameAproject.test.ts"));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiProcurementLead.test.ts"));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", "rfiAddCollabarator.test.ts"));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiAddContext.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiAddContextPost.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiUploadDocuments.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiSupplier.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiResponseDate.test.ts'));
+ mocha.addFile(path.join("src/test/unit/mcf/rfi", 'rfiReview.test.ts'));
  
-mocha.addFile(path.join("src/test/unit/gcloud", "rfiTaskList.test.ts"));
-mocha.addFile(path.join("src/test/unit/gcloud", "rfiNameAproject.test.ts"));
-mocha.addFile(path.join("src/test/unit/gcloud", "rfiProcurementLead.test.ts"));
-mocha.addFile(path.join("src/test/unit/gcloud", "rfiAddCollabarator.test.ts"));
-mocha.addFile(path.join("src/test/unit/gcloud", 'rfiAddContext.test.ts'));
-mocha.addFile(path.join("src/test/unit/gcloud", 'rfiAddContextPost.test.ts'));
- mocha.addFile(path.join("src/test/unit/gcloud", 'rfiUploadDocuments.test.ts'));
- mocha.addFile(path.join("src/test/unit/gcloud", 'rfiSupplier.test.ts'));
- mocha.addFile(path.join("src/test/unit/gcloud", 'rfiResponseDate.test.ts'));
- mocha.addFile(path.join("src/test/unit/gcloud", 'rfiReview.test.ts'));
- 
-    //const aggrements =['RM6187','RM1557.13','RM1043.8'];
-
     const aggrements =['RM6187'];
 
-    Promise.all([getProcurmentJson(1)],[questionSetup(1)],[getProcurmentGcloudJson(1)],[questionSetupGcloud(1)]).then((values) => {
+    Promise.all([getProcurmentJson(1)],[questionSetup(1)]).then((values) => {
         mocha.run()
        
         .on('fail', function(test, err) {
@@ -72,6 +61,10 @@ mocha.addFile(path.join("src/test/unit/gcloud", 'rfiAddContextPost.test.ts'));
             console.log('All done');
         });
     });
+
+
+   
+
 //}
 
 

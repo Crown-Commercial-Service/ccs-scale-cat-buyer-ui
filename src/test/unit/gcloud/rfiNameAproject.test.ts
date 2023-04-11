@@ -47,7 +47,7 @@ describe('GCLOUD: Name a project', async () => {
   }).timeout(0);
 
   it('gcloud should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = "UNIT TEST gcloud Procurment till add collabrator";
+    const dummyName = "New unit test gcloud";
     
     let procId = getgcloudProJson.procurements[0].procurementID;
     let eventId = getgcloudProJson.procurements[0].eventId;
