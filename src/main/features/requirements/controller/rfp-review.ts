@@ -173,6 +173,7 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
     const FETCH_FILEDATA = FetchDocuments?.data;
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
     //console.log("test")
+    let fileNameStorageAdditonalDoc = [];
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
     let fileNameStorageMandatorySecond = [];
@@ -183,6 +184,10 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
         }
         if (file.description === "optional") {
           fileNameStorageMandatorySecond.push(file.fileName);
+        }
+  
+        if (file.description === "secondoptional") {
+          fileNameStorageAdditonalDoc.push(file.fileName);
         }
   
         if (file.description === "mandatorysecond") {
@@ -417,6 +422,7 @@ let scoringData = [];
       //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       document: fileNameStoragePrice,
       documentsoptional: fileNameStorageMandatorySecond,
+      documentssecoptional : fileNameStorageAdditonalDoc,
       documents: fileNameStorageMandatory,
 
       ir35: IR35selected,
@@ -3834,6 +3840,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       document: fileNameStoragePrice,
       documents: fileNameStorageMandatory,
       documentsOptional:fileNameStorageOptional,
+      documentssecopt : fileNameStorageAdditonalDoc,
 
       ir35: IR35selected,
       agreement_id,

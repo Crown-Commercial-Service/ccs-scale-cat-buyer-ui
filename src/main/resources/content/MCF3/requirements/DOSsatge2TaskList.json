@@ -72,6 +72,13 @@
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/upload-additional"
+        },
+        {
+          "Task": 4,
+          "title": "Upload additional documents (optional)",
+          "required": "optional",
+          "status": "Optional",
+          "link": "/rfp/upload-additional-doc"
         }
       ]
     },
