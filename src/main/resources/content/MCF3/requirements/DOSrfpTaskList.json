@@ -162,13 +162,20 @@
                 },
                 {
                     "Task": 6,
+                    "title": "Upload additional documents (optional)",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 7,
                     "title": "Set your timeline",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"
                 },
                 {
-                    "Task": 7,
+                    "Task": 8,
                     "title": "Review and publish stage 2",
                     "required": "optional",
                     "link": "/rfp/IR35",
