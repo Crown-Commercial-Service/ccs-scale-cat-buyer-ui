@@ -849,7 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     errorStore.push(error);
                             }
 
-                            if (textboxCount == 19) {
+                            if (textboxCount == 19 && with_value_count == 20) {
 
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
@@ -956,7 +956,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 if(document.getElementById('lID') !== null) { LOTID_VAR = document.getElementById('lID').value; }
-                
+                 
                 if( agreement_id_Default == "RM1043.8") {
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
                     let termdefvalue = '';
@@ -985,34 +985,53 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                       } 
                       else{
-                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+                           if(startWithVal && urlParamsDefault.get('id') == 'Criterion 3' && ((lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 19'))||(lotid_Default == 3 && (urlParamsDefault.get('group_id') == 'Group 17' || urlParamsDefault.get('group_id') == 'Group 15')))){
+                            with_value_count++;
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
-                //Added this condation section 5 (step 43/44/45)
+                              
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            if (with_value_count === 20 ) {
+                                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                             }     
+            
+                        }
+                        else{
 
-                if (with_value_count > 2) {
-                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    // }else {
-                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    // }
+                        
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+                            //Added this condation section 5 (step 43/44/45)
+
+                            if (with_value_count > 2) {
+                                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                                // }else {
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                                // }
+                            }
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            //Add question set more than 5
+                            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+                            //   if (with_value_count === 5) {
+                            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+                            //     ccsZPresentErrorSummary(errorStore);
+                            //     return;
+                            //   }
+                            // }
+                            
+                            with_value_count++;
                 }
-                if (document.getElementById("questionsCount") != undefined) {
-                    document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
-                }
-                document
-                    .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
-                    .classList.remove('ccs-dynaform-hidden');
-                //Add question set more than 5
-                // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
-                //   if (with_value_count === 5) {
-                //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
-                //     ccsZPresentErrorSummary(errorStore);
-                //     return;
-                //   }
-                // }
-                
-                with_value_count++;
-              
                 
                  }
                 if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {    
