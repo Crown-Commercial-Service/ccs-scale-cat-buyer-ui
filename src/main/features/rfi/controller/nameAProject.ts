@@ -80,9 +80,10 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
       
-      const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
+      
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Completed');
+      const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
       res.redirect('/rfi/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;

@@ -3,7 +3,6 @@ import * as express from 'express';
 //import * as cmsData from '../../../resources/content/requirements/nameYourProject.json';
 import * as cmsData from '../../../resources/content/MCF3/requirements/confirmation_review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -75,7 +74,7 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
     );
   }
 };
-
+//CAS-32
 export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.Response) => {
   // const { SESSION_ID } = req.cookies; //jwt
    const projectId = req.session.projectId;
@@ -84,23 +83,23 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
    const { SESSION_ID } = req.cookies;
    const stage2_value = req.session.stage2_value;
    const agreementId_session = req.session.agreement_id;
-   
-   
+
+
    const eventType = req.session.eventManagement_eventType;
- 
+
    let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
    baseURL = baseURL + '/criteria';
    const keyDateselector = 'Key Dates';
    let selectedeventtype=req.session.selectedeventtype;
    try {
-   
+
      const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
      const fetch_dynamic_api_data = fetch_dynamic_api?.data;
      const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
-    
+
      let criterianStorage = [];
      for (const aURI of extracted_criterion_based) {
-      
+
        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
        const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
        const criterian_array = fetch_criterian_group_data?.data;
@@ -109,27 +108,27 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
          object['criterianId'] = aURI;
          return object;
        });
-       
+
        criterianStorage.push(rebased_object_with_requirements);
      }
-   
+
      criterianStorage = criterianStorage.flat();
      criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
      const Criterian_ID = criterianStorage[0].criterianId;
      const prompt = criterianStorage[0].nonOCDS.prompt;
      const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-     
+
      const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
      let fetchQuestionsData = fetchQuestions.data;
- 
+
      let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
      let currentDate = moment(new Date(), 'DD/MM/YYYY').format("YYYY-MM-DD");
      publishDate = moment(publishDate, 'YYYY-MM-DD').format("YYYY-MM-DD");
     let warning = false;
-     
+//31-03-23  //02-04-23
      if(publishDate < currentDate) {
          warning = true;
-         
+
          req.session.isTimelineRevert = true;
          if(eventType == 'FC' && req.session.agreement_id == 'RM1043.8') {
            if(stage2_value !== undefined && stage2_value === "Stage 2"){
@@ -164,29 +163,31 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
 
      } else {
         var selected_question_id = "Question 1";
-          var date = new Date();
-          const filtervalues=moment(
-            date,
-            'DD MMMM YYYY, HH:mm:ss ',
-          ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
-          const answerformater = {
-            value: filtervalues,
-            selected: true,
-            text: selected_question_id,
-          };
-          const answerBody = {
-            nonOCDS: {
-              answered: true,
-              options: [answerformater],
-            },
-          };
-          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${selected_question_id}`;
+        var date = new Date();
+        const filtervalues=moment(
+          date,
+          'DD MMMM YYYY, HH:mm:ss ',
+        ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+        const answerformater = {
+          value: filtervalues,
+          selected: true,
+          text: selected_question_id,
+        };
+        const answerBody = {
+          nonOCDS: {
+            answered: true,
+            options: [answerformater],
+          },
+        };
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${selected_question_id}`;
+      
+        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
 
-          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+
          warning = false;
        }
      res.json({ warning: warning, eventType: eventType});
- 
+
    } catch (error) {
       LoggTracer.errorLogger(
        res,
@@ -199,7 +200,7 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
      );
    }
  };
- 
+//CAS-32
  export const PUBLISH_DATE_MISMATCH_CANCEL = async (req: express.Request, res: express.Response) => {
    req.session.isTimelineRevert = false;
    res.sendStatus(200);

@@ -9763,21 +9763,26 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
+  let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
+    // if(urlParams.get('agreement_id') == 'RM6187')
+    // msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
+  
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+  //if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
     
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_security_confirmation').val().length > 500) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
+    // if ($('#rfp_security_confirmation').val().length === 0) {      
+    //   if(urlParams.get('agreement_id') == 'RM6187')
+    //        fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+    //   else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
+    // }
+    // else if ($('#rfp_security_confirmation').val().length > 500) {
+    //   fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
+    // }
+  //}
 
   if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
@@ -10602,6 +10607,7 @@ document.addEventListener('DOMContentLoaded', () => {
 $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
+let gcloudFormURL = "/g-cloud/get-collaborator-detail/js-enabled";
 
 $('#potential-collaborator').hide()
 
@@ -10614,6 +10620,47 @@ $('#rfi_collaborators').on('change', function () {
     }
 
     var ajaxRequest = $.post(rfiFormURL, data, function (data) {
+
+      let { userName, firstName, lastName, tel } = data;
+      let collegueName = firstName + " " + lastName;
+      let id = userName;
+
+      $('#potential-collaborator').show()
+
+      $('#show_collab_name').html(collegueName)
+      $('#show_collab_email').html(id)
+      $('#show_collab-phone').html(tel)
+
+      $("#rfi_collaborator_append").val(id);
+      $('#ccs_collab_add').prop("disabled", false)
+
+    })
+      .fail(function () {
+        console.log("failed")
+      })
+      .always(function () {
+        console.log("finsihed")
+      });
+  }
+  else {
+    $('#show_collab_name').html("")
+    $('#show_collab_email').html("")
+    $('#show_collab-phone').html("")
+    $('#ccs_collab_add').prop("disabled", true)
+  }
+
+
+
+});
+$('#gcloud_collaborators').on('change', function () {
+  let id = this.value;
+
+  if (id !== "") {
+    let data = {
+      "gcloud_collaborators": id
+    }
+
+    var ajaxRequest = $.post(gcloudFormURL, data, function (data) {
 
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
@@ -11212,115 +11259,115 @@ const ccsZResetAddress = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    let selectors = [2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
         let year = $(`#clarification_date-year_${element}`);
         let hour = $(`#clarification_date-hour_${element}`);
         let minutes = $(`#clarification_date-minute_${element}`);
+        
+        let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
 
-        let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+        // day.on('blur', () => {
+        //     let value = day;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 31;
+        //         let startmonthCheck = Number(value.val()) < 1;
+        //         if (matchValue || endmonthCheck || startmonthCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        day.on('blur', () => {
-            let value = day;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 31;
-                let startmonthCheck = Number(value.val()) < 1;
-                if (matchValue || endmonthCheck || startmonthCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
+        // month.on('blur', () => {
+        //     let value = month;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 12;
+        //         let startmonthCheck = Number(value.val()) <= 0;
+        //         if (matchValue || endmonthCheck || startmonthCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        month.on('blur', () => {
-            let value = month;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 12;
-                let startmonthCheck = Number(value.val()) <= 0;
-                if (matchValue || endmonthCheck || startmonthCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
-
-        year.on('blur', () => {
-            let value = year;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d{4}$/);
-                let endyearCheck = Number(value.val()) > 2121;
-                let currentYear = new Date().getFullYear();
-                let preYear = currentYear-1;
-                let startyearCheck = Number(value.val()) < preYear;
+        // year.on('blur', () => {
+        //     let value = year;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d{4}$/);
+        //         let endyearCheck = Number(value.val()) > 2121;
+        //         let currentYear = new Date().getFullYear();
+        //         let preYear = currentYear-1;
+        //         let startyearCheck = Number(value.val()) < preYear;
               
-                if (matchValue || endyearCheck || startyearCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
+        //         if (matchValue || endyearCheck || startyearCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        hour.on('blur', () => {
-            let value = hour;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 23;
-                let startmonthCheck = Number(value.val()) <= 0;
-                if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-                } else {
-                    if (matchValue || endmonthCheck || startmonthCheck || value == '') {
-                        value.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hours");
-                    } else {
-                        value.removeClass("govuk-input--error");
-                        ccsZremoveErrorMessage(document.getElementById(parentID));
-                    }
-                }
-            }
-        });
+        // hour.on('blur', () => {
+        //     let value = hour;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 23;
+        //         let startmonthCheck = Number(value.val()) <= 0;
+        //         if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        //         } else {
+        //             if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+        //                 value.addClass("govuk-input--error")
+        //                 ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hours");
+        //             } else {
+        //                 value.removeClass("govuk-input--error");
+        //                 ccsZremoveErrorMessage(document.getElementById(parentID));
+        //             }
+        //         }
+        //     }
+        // });
 
-        minutes.on('blur', () => {
-            let value = minutes;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 59;
-                let startmonthCheck = Number(value.val()) < 0;
-                if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-                } else {
-                    if (matchValue || endmonthCheck || startmonthCheck || value == '') {
-                        value.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
-                    } else {
-                        value.removeClass("govuk-input--error");
-                        ccsZremoveErrorMessage(document.getElementById(parentID));
-                    }
-                }
-            }
-        });
+        // minutes.on('blur', () => {
+        //     let value = minutes;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 59;
+        //         let startmonthCheck = Number(value.val()) < 0;
+        //         if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        //         } else {
+        //             if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+        //                 value.addClass("govuk-input--error")
+        //                 ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
+        //             } else {
+        //                 value.removeClass("govuk-input--error");
+        //                 ccsZremoveErrorMessage(document.getElementById(parentID));
+        //             }
+        //         }
+        //     }
+        // });
 
-        /*responseDate.on('submit', (e) => {
+        responseDate.on('submit', (e) => {
             e.preventDefault();
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
@@ -11332,9 +11379,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error") 
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date and Time invalid or empty. Please enter the valid date and time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a date and time");
                 const errorStore = [
-                    [parentID, "Date and Time invalid or empty. Please enter the valid date and time"]
+                    [parentID, "Enter a date and time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11342,9 +11389,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date invalid or empty. Please enter the valid date");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                 const errorStore = [
-                    [parentID, "Date invalid or empty. Please enter the valid date"]
+                    [parentID, "Enter a complete date"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
@@ -11374,48 +11421,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 ccsZPresentErrorSummary(errorStore);
             } else if (hour.val() != undefined && hour.val() == "") {
                 hour.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else if (minutes.val() != undefined && minutes.val() == "") {
                 minutes.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Time invalid or empty. Please enter the valid time");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
                 const errorStore = [
-                    [parentID, "Time invalid or empty. Please enter the valid time"]
+                    [parentID, "Enter a complete time"]
                 ]
     
                 ccsZPresentErrorSummary(errorStore);
             }else {
                 if (!isValidDate(year.val(), month.val(), day.val())) {
                     day.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
                     const errorStore = [
-                        [parentID, "Please enter valid date"]
+                        [parentID, "Enter a complete date"]
                     ]
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
-                    let currentDate = new Date();
+                    let currentDate = new Date(document.getElementsByClassName(`clarification_${element - 1}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val());
+                    let nextDate = new Date();
+                    let isNextDate = false;
+                    if(selectors.length + 1 > element){
+                        nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
+                        isNextDate = true;
+                    }
+                    
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future"); 
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
                         const errorStore = [
-                            [parentID, "Date should be in future"]
+                            [parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]
                         ]
             
                         ccsZPresentErrorSummary(errorStore);
-                    } else {
-                        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+                    } else if(isNextDate && (enteredDate > nextDate)){
+                        day.addClass("govuk-input--error")
+                        month.addClass("govuk-input--error")
+                        year.addClass("govuk-input--error")
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
+                        const errorStore = [
+                            [parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]
+                        ]
+                        ccsZPresentErrorSummary(errorStore);
+                    }else {
+                        document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
                     }
                 }
             }
-        });*/
+        });
 
         function getParentId(element) {
             let parentID = '';
@@ -12045,7 +12108,7 @@ for (const selector of totalElementSelectors) {
         }
         elementSelectorClicked.fadeOut();
         elementSelectorClicked.find('input').val('');
-        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {
@@ -12172,6 +12235,8 @@ for(const selector of rfp_totalElementSelectors){
     elementSelector.fadeIn(); 
     elementSelectorCancel.fadeIn(); 
     elementSelector.on('click', () => {
+        let element = document.getElementById(`ccs_rfp_response_date_form_${selector}`);
+        element.reset();
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementID);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
@@ -18639,10 +18704,12 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
-      ccsZPresentErrorSummary([['rfp_security_confirmation', 'Provide the name of the incumbent supplier.']]);
-    } else {
+    } 
+    // else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0 && document.getElementById('agreementID').value != 'RM1557.13') {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
+    //   ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
+    // } 
+    else {
       document.forms['rfp_singleselect'].submit();
     }
   } else {
@@ -23124,13 +23191,10 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
   //   }
   //   countOfpublishBtn++;
   // });
-
-  
-  // CAS-32
   if(document.forms.length > 0) {
     const publishDateMismatchFormEvent = document.forms[0].id;
     if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
-  
+
       let checkBoxConfirmation;
       if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
         checkBoxConfirmation = 'rfp_publish_confirmation';
@@ -23139,9 +23203,9 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
         checkBoxConfirmation = 'eoi_publish_confirmation';
       }
-  
-      
-  
+
+
+
       document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
         event.addEventListener('submit', function (event) {
           event.preventDefault();
@@ -23152,11 +23216,11 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             return false;
           } 
-  
+
           document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
           var bodytg = document.body;
           bodytg.classList.add("pageblur");
-  
+
          $.ajax({
             url: `/rfp/publish_date_mismatch`,
             type: "GET",
@@ -23164,7 +23228,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           }).done(function (result) {
             var bodytg = document.body;
             bodytg.classList.remove("pageblur");
-  
             if(result.warning) {
               document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
               const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
@@ -23195,7 +23258,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
                   window.location.href = window.location.origin+'/da/response-date';
                 }
 
-                
                 //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
               });
               return false;
@@ -23213,10 +23275,10 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
           })
         })
       });
-      
+
     }
   }
-  
+
   function timelineRevertCancel() {
     $.ajax({
       url: `/rfp/publish_date_mismatch/cancel`,
@@ -23224,4 +23286,71 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       contentType: "application/json",
     }).done(function (res) {
     });
+  }
+
+  if (document.getElementsByClassName('backdrop-Qanda').length > 0) {
+    $(".dialog-close-Qanda").remove();
+    $(".dialog-close-Qanda").remove();
+    var elGo = document.querySelector(".backdrop-Qanda").querySelector(".nodeDialogTitle");
+    let divFirst = document.createElement('div');
+    divFirst.className = "govuk-form-group";
+    elGo.after(divFirst)
+
+    let QAInput = document.createElement('input');
+    QAInput.type  = 'email';
+    QAInput.name  = 'qa_email';
+    QAInput.id  = 'qa_email';
+    QAInput.placeholder  = 'Email';
+    QAInput.className = "govuk-input govuk-input--width-20";
+    document.querySelector(".govuk-form-group").append(QAInput);
+
+    const openpopGC = document.querySelector('.backdrop-Qanda')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-Qanda").on('click', function(){
+      return false;
+      // openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      // openpopGC.classList.remove('showpopup');
+      return false;
+    });
+    deconf = document.getElementById('redirect-button-Qanda');
+    deconf.addEventListener('click', ev => {
+      var validRegex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+      let inputVal = $("#qa_email").val();
+      console.log(inputVal.match(validRegex));
+      if(inputVal == '') {
+        QAInputErrorRemove();
+        QAInputError('Enter the email');
+      } else if (!validateEmail(inputVal)) {
+        QAInputErrorRemove();
+        QAInputError('Enter the valid email');
+      } else {
+        QAInputErrorRemove();
+        //Form submission
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // console.log(`/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`);
+        window.location.href = `/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`;
+      }
+
+    });
+    function QAInputErrorRemove() {
+        $('.govuk-form-group').removeClass("govuk-form-group--error");
+        $("#qa_email").prev('span').remove();
+        $("#qa_email").removeClass("govuk-input--error");
+    }
+    function QAInputError(msg) {
+        $('.govuk-form-group').addClass("govuk-form-group--error");
+        $("#qa_email").val('');
+        $("#qa_email").focus();
+        $("#qa_email").before(`<span class="govuk-error-message">${msg}</span>`);
+        $("#qa_email").addClass("govuk-input--error");
+    }
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
   }

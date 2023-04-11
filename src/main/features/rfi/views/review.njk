@@ -50,7 +50,14 @@
   {% endif %}
 {% endif %}
 
-
+<div class="govuk-error-summary hide-block" id="checkbox_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="checkbox_error_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if (viewError == true) and (apiError == false) %}
@@ -306,7 +313,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
                 
-                  {% if agreementId_session == "RM1557.13" %}
+                  {% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}
                       {% if i.question == 'Name of the Contracting Authority' %}
                           <p class="govuk-body">
                               Name of the organisation doing the procurement
@@ -366,12 +373,16 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   <p class="govuk-body">
                   {% if item.mandatory == false %}
                   {# {% if item.title == "Who the organisation using the products or services is" %} #}
-                    <strong>{{item.title}} (optional)</strong>
+                    {{item.title}} (optional)
                       {# {% else %} #}
                       {# {{item.title}} #}
                       {# {% endif %} #}
                       {% else %}
-                    {{item.title}}
+                      {% if item.title == 'Where the supplier will work' %}
+                        Where the supplied staff will work
+                      {% else %}
+                        {{item.title}}
+                      {% endif %}
                   {% endif %}
                   </p>
                 </dt>
@@ -638,8 +649,8 @@ action="/rfi/review" method="post">
                       </div>
                       {# CAS-32 #}
 {{ CCSDialog({
-  title:'Timeline date mismatch warning',
-  description:'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+  title:'Reset your publish date',
+  description:'Your project creation date is different from your project publishing date. This means the publish date on the timeline is incorrect. To fix this, click `Reset timeline` below to update the publish date to today`s date.',
   redirect:'#',
   type:'publishTimelineMismatch'
 }) }}

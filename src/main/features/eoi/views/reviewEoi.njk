@@ -230,7 +230,14 @@
           
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                {{ item.title }}
+               
+                 {% if item.mandatory==false %}
+                {{ item.title }} (optional)
+                 {% else %}
+                 {{ item.title }}
+                {% endif %}
+                 
+                
               </dt>
               {% if data['eoi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
