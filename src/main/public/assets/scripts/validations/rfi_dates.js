@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val());
                     let nextDate = new Date();
                     let isNextDate = false;
-                    if(selectors.length + 1 > element){
+                    if(selectors.length + 1 > element && document.getElementsByClassName(`clarification_${element+ 1}`).length > 0){
                         nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
                         isNextDate = true;
                     }
