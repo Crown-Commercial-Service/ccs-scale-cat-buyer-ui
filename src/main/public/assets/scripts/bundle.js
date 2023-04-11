@@ -12107,7 +12107,7 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        elementSelectorClicked.find('input').val('');
+        elementSelectorClicked.find('input[type=text]').val('');
         ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
