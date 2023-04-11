@@ -59,7 +59,7 @@ for (const selector of totalElementSelectors) {
         }
         elementSelectorClicked.fadeOut();
         elementSelectorClicked.find('input').val('');
-        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {

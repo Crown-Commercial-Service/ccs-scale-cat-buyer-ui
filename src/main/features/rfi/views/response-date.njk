@@ -85,7 +85,7 @@
                     <div id="rfi_clarification_date" class="govuk-!-margin-left-0 govuk-!-margin-bottom-0">
     
                         {% if(requirement.nonOCDS.options[0].selected)%}
-                    <label class="govuk-label govuk-body govuk-!-margin-bottom-0"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
+                    <label class="govuk-label govuk-body govuk-!-margin-bottom-0"><strong id="lbl-clarification"  class="clarification_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong></label>
                     {%endif %}
                     
                     {% if( requirement.nonOCDS.options.length == 0)%}
