@@ -75,11 +75,11 @@ function checkSublevels(
             'link'
           ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
         } 
-        if (stepInfo.step == 86 && stage2_value != "Stage 2") {
-          eventTask[
-            'status'
-          ] = `Cannot start yet`;
-        }
+        // if (stepInfo.step == 86 && stage2_value != "Stage 2") {
+        //   eventTask[
+        //     'status'
+        //   ] = `Cannot start yet`;
+        // }
         /*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
