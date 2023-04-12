@@ -10607,6 +10607,7 @@ document.addEventListener('DOMContentLoaded', () => {
 $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
+let gcloudFormURL = "/g-cloud/get-collaborator-detail/js-enabled";
 
 $('#potential-collaborator').hide()
 
@@ -10619,6 +10620,47 @@ $('#rfi_collaborators').on('change', function () {
     }
 
     var ajaxRequest = $.post(rfiFormURL, data, function (data) {
+
+      let { userName, firstName, lastName, tel } = data;
+      let collegueName = firstName + " " + lastName;
+      let id = userName;
+
+      $('#potential-collaborator').show()
+
+      $('#show_collab_name').html(collegueName)
+      $('#show_collab_email').html(id)
+      $('#show_collab-phone').html(tel)
+
+      $("#rfi_collaborator_append").val(id);
+      $('#ccs_collab_add').prop("disabled", false)
+
+    })
+      .fail(function () {
+        console.log("failed")
+      })
+      .always(function () {
+        console.log("finsihed")
+      });
+  }
+  else {
+    $('#show_collab_name').html("")
+    $('#show_collab_email').html("")
+    $('#show_collab-phone').html("")
+    $('#ccs_collab_add').prop("disabled", true)
+  }
+
+
+
+});
+$('#gcloud_collaborators').on('change', function () {
+  let id = this.value;
+
+  if (id !== "") {
+    let data = {
+      "gcloud_collaborators": id
+    }
+
+    var ajaxRequest = $.post(gcloudFormURL, data, function (data) {
 
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
@@ -11407,7 +11449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val());
                     let nextDate = new Date();
                     let isNextDate = false;
-                    if(selectors.length + 1 > element){
+                    if(selectors.length + 1 > element && document.getElementsByClassName(`clarification_${element+ 1}`).length > 0){
                         nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
                         isNextDate = true;
                     }
@@ -12065,8 +12107,8 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        elementSelectorClicked.find('input').val('');
-        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        elementSelectorClicked.find('input[type=text]').val('');
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {
@@ -15490,6 +15532,54 @@ document.addEventListener('DOMContentLoaded', () => {
         let textboxelements = document.querySelectorAll('.order_1');
         let textboxelementsorder2 = document.querySelectorAll('.order_2');
         let urlParamsData = new URLSearchParams(window.location.search);
+        var urlParamsDefault = new URLSearchParams(window.location.search);
+        var agreement_id_Default =  urlParamsDefault.get('agreement_id')
+        var lotid_Default;
+        var group_id =  urlParamsDefault.get('group_id')
+        var startWithVal=false
+        if(document.getElementById('lID') !== null) {
+            lotid_Default = document.getElementById('lID').value;
+        }
+    
+            var total_countva=10;
+            var withValue=11;
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {
+                var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+            }   
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
+            var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+        }    
+        else if(agreement_id_Default=='RM1043.8'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
+            var total_countva=5;
+            var withValue=6;
+        }else{
+            if($('.question_count').hasClass("question_count")) {      
+                   
+                var total_countva=50;
+               var withValue=51;
+           }else{
+               var total_countva=10;
+               var withValue=11;
+               with_value_count = 10;
+           }
+        } 
+
+
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
@@ -15765,17 +15855,38 @@ document.addEventListener('DOMContentLoaded', () => {
                with_value_count--;
                totalAnswerd();
                totalPercentage();
+              
                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
                 $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
             }
-            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
             }
-            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {    
+                if(startWithVal){    
+                   $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
             }
             else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
-                $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                if(startWithVal){  
+                    $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
             }
             else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
                 $('.btncheck').text('').text('Add another special term or condition ') 
@@ -15784,6 +15895,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (with_value_count != 21) {
                 $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                }
+               //startWithVal = false;
            });
             
             
@@ -15850,50 +15962,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
       
-    var urlParamsDefault = new URLSearchParams(window.location.search);
-    var agreement_id_Default =  urlParamsDefault.get('agreement_id')
-    var lotid_Default;
-    var group_id =  urlParamsDefault.get('group_id')
-
-    if(document.getElementById('lID') !== null) {
-        lotid_Default = document.getElementById('lID').value;
-    }
-
-        var total_countva=10;
-        var withValue=11;
-    if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {
-            var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-        }   
-    else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
-        var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-    }    
-    else if(agreement_id_Default=='RM1043.8'){
-        var total_countva=20;
-        var withValue=21;
-    }
-    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
-        var total_countva=20;
-        var withValue=21;
-        with_value_count = 20
-    }
-    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
-        var total_countva=5;
-        var withValue=6;
-    }else{
-        if($('.question_count').hasClass("question_count")) {      
-               
-            var total_countva=50;
-           var withValue=51;
-       }else{
-           var total_countva=10;
-           var withValue=11;
-           with_value_count = 10;
-       }
-    }
+   
    
     let deleteButtonClicked = false
         
@@ -15981,7 +16050,13 @@ document.addEventListener('DOMContentLoaded', () => {
             with_value_count++;
         }
        
-        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+        if(with_value_count==20){
+            startWithVal =true;
+        }
+       
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {   
+            
+           
             $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
         }
         else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
@@ -16268,7 +16343,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     errorStore.push(error);
                             }
 
-                            if (textboxCount == 19) {
+                            if (textboxCount == 19 && with_value_count == 20) {
 
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
@@ -16375,7 +16450,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 if(document.getElementById('lID') !== null) { LOTID_VAR = document.getElementById('lID').value; }
-                
+                 
                 if( agreement_id_Default == "RM1043.8") {
                     let termvalue = document.getElementById('fc_question_' + with_value_count).value;
                     let termdefvalue = '';
@@ -16404,51 +16479,92 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                       } 
                       else{
-                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+                           if(startWithVal && urlParamsDefault.get('id') == 'Criterion 3' && ((lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 19'))||(lotid_Default == 3 && (urlParamsDefault.get('group_id') == 'Group 17' || urlParamsDefault.get('group_id') == 'Group 15')))){
+                            with_value_count++;
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
-                //Added this condation section 5 (step 43/44/45)
+                              
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            if (with_value_count === 20 ) {
+                                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                             }     
+            
+                        }
+                        else{
 
-                if (with_value_count > 2) {
-                    // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    // }else {
-                    //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    // }
-                }
-                if (document.getElementById("questionsCount") != undefined) {
-                    document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
-                }
-                document
-                    .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
-                    .classList.remove('ccs-dynaform-hidden');
-                //Add question set more than 5
-                // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
-                //   if (with_value_count === 5) {
-                //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
-                //     ccsZPresentErrorSummary(errorStore);
-                //     return;
-                //   }
-                // }
-                
-                with_value_count++;
-                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
-                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
-                }
-                else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
-                    $('.btncheck').text('').text('Add another special term or condition ') 
+                        
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+                            //Added this condation section 5 (step 43/44/45)
+
+                            if (with_value_count > 2) {
+                                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                                // }else {
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                                // }
+                            }
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            //Add question set more than 5
+                            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+                            //   if (with_value_count === 5) {
+                            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+                            //     ccsZPresentErrorSummary(errorStore);
+                            //     return;
+                            //   }
+                            // }
+                            
+                            with_value_count++;
                 }
                 
-            }
-        }else{
+                 }
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {    
+                     if(startWithVal){
+                        $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
+                     }
+                     else{   
+                        $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                     }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                     $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')  
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')   
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                     $('.btncheck').text('').text('Add another special term or condition ') 
+                 }
+      
+                }else{
             document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
 
             //Added this condation section 5 (step 43/44/45)

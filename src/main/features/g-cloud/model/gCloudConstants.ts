@@ -20,6 +20,12 @@ export enum GCloud_PATHS {
      GET_ADD_PROJECT_NAME ='/g-cloud/project-name',
      POST_ADD_PROJECT_NAME ='/g-cloud/project-name',
      GET_SERVICES='/g-cloud/services',
+     GET_ADD_COLLABORATOR='/g-cloud/add-collaborators',
+     POST_PROCEED_COLLABORTORS = '/g-cloud/proceed-collaborators',
+     POST_ADD_COLLABORATOR = '/g-cloud/get-collaborator-detail',
+  POST_ADD_COLLABORATOR_TO_JAGGER = '/g-cloud/add-collaborator-detail',
+  POST_ADD_COLLABORATOR_JSENABLED = '/g-cloud/get-collaborator-detail/js-enabled',
+  POST_DELETE_COLLABORATOR_TO_JAGGER='/g-cloud/delete-collaborators',
      
 
 
