@@ -332,9 +332,12 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
         }
-
-        res.redirect(`/rfp/upload-additional-doc`);
-        //res.redirect(`/rfp/task-list`);
+        if (stage2_value !== undefined && stage2_value === "Stage 2") {
+          res.redirect(`/rfp/upload-additional-doc`);
+        }else{
+          res.redirect(`/rfp/task-list`);
+        }
+     
       }
     } else {
       if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 2"){
