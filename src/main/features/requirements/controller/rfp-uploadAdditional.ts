@@ -329,6 +329,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(eventId, nextStep, req);
         if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
         }
 
