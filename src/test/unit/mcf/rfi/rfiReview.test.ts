@@ -34,6 +34,7 @@ describe('MCF3: Set your RfI review page render', async () => {
     req.session = getProJson
     req.session.access_token=OauthToken; 
     req.session.endDate="Question 4*20 February 2023, 16:00";
+    req.session['publishclickevents']=[];
       next();
     });
     parentApp.use(app);

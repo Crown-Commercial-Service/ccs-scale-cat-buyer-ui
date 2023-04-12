@@ -57,7 +57,7 @@ app.use(express.json({limit: '500mb'}))
 app.use(express.urlencoded({limit: '500mb', extended: true, parameterLimit: 1000000}));
 app.use(cookieParser());
 if (env !== 'mocha') {
-  new CsrfProtection().enableFor(app)
+ new CsrfProtection().enableFor(app)
 }
 
 //Implementation of secure Request Methods 
