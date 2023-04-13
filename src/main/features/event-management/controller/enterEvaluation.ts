@@ -1,17 +1,11 @@
 import * as express from 'express'
-//import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
-// import { Procurement } from '../../procurement/model/project';
-// import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/enterEvaluation.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-//import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-// import { logConstant } from '../../../common/logtracer/logConstant';
-//simport { idText } from 'typescript'
 /**
  * 
  * @Rediect 
@@ -59,17 +53,14 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
 
     for(var m=0;m<supplierdata.data.length;m++)
     {
-      // if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
-      // { Old Logic
       if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].score != null )
       {
-        feedBack= ''; //supplierdata.data[m].comment Old Logic
+        feedBack= '';
         marks = supplierdata.data[m].score;
       }
     }
     
-    //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session,lotid }
+    const appendData = {stage2_value, releatedContent, data: eventManagementData, error: isEmptyProjectError, feedBack, marks, eventId, suppliername, supplierid, suppliers: localData , agreementId_session, lotid}
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
