@@ -86,7 +86,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       fileNameStorageTermsNcond=[];
       FETCH_FILEDATA?.map(file => {
         if(stage2_value == "Stage 2"){
-          if (file.description === "optional") {
+          if (file.description === "mandatorysecond") {
             fileNameStorageTermsNcond.push(file);
           }
         }else{

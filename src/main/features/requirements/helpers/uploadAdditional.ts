@@ -98,7 +98,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         //   fileNameStorageTermsnCond.push(file.fileName);
         // }
         if(stage2_value == "Stage 2"){
-          if (file.description === "mandatorysecond") {
+          if (file.description === "mandatorythird") {
             fileNameadditional.push(file);
           }
         }else{

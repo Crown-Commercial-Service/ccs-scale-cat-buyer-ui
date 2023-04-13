@@ -69,7 +69,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               filename: file.name,
             });
             if(stage2_value == 'Stage 2'){
-              formData.append('description', 'optional');
+              formData.append('description', 'mandatorysecond');
             }else{
               formData.append('description', 'mandatorysecond');
             }
@@ -151,7 +151,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
             
           });
           if(stage2_value == 'Stage 2'){
-            formData.append('description', 'optional');
+            formData.append('description', 'mandatorysecond');
           }else{
             formData.append('description', 'mandatorysecond');
           }
@@ -294,6 +294,7 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
 
     let fileNameStorageTermsnCond = [];
     let fileNameStoragePricing = [];
+    let uploadadditional=[];
     let additionalfile=[];
     FETCH_FILEDATA?.map(file => {
       
@@ -303,6 +304,11 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
       if (file.description === "mandatorysecond") {
         fileNameStorageTermsnCond.push(file.fileName);
       }
+
+      if (file.description === "mandatorythirtd") {
+        uploadadditional.push(file.fileName);
+      }
+
       if (file.description === "optional") {
         additionalfile.push(file.fileName);
       }
@@ -312,12 +318,12 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
     if(agreement_id === 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
       if(additionalfile.length>0 && fileNameStoragePricing.length>0)
       {
-            let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
-            flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
-            if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
-            }
+          //  let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+          //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
+          //  flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
+          //  if (flag) {
+          //    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
+          //  }
       }
     }
    
@@ -326,12 +332,12 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
       
         if(agreement_id === 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
 
-           let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
-              flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
-              if (flag) {
-                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
-              }
+          //  let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+          //     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
+          //     flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
+          //     if (flag) {
+          //       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
+          //     }
         }else{
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
           let flag=await ShouldEventStatusBeUpdated(eventId,33,req);

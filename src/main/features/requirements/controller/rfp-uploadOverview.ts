@@ -28,6 +28,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   const { isJaggaerError } = req.session;
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
+  let { stage2_value } = req.session;
   res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   
     
@@ -76,9 +77,17 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
         uploadDatas.taskList[1].taskStatus="Done";
       }
       
-
-      if (file.description === "optional") {
+      if (file.description === "mandatorythird") {
         uploadDatas.taskList[2].taskStatus="Done";
+      }
+      if(agreementId_session == 'RM1043.8') { //DOS
+        if (file.description === "secondoptional") {
+          uploadDatas.taskList[3].taskStatus="Done";
+        }
+      }else{
+        if (file.description === "optional") {
+          uploadDatas.taskList[2].taskStatus="Done";
+        }
       }
     });
     
@@ -98,19 +107,25 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
 
   const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
-    if(agreementId_session == 'RM6187') { 
-    let flags = await ShouldEventStatusBeUpdated(eventId, 32, req);
-   
-          if(flags) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
-          } 
+
+    if(agreementId_session == 'RM1043.8' && stage2_value == 'Stage 2') { 
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'In progress');
+    }else{
+
+      if(agreementId_session == 'RM6187') { 
+      let flags = await ShouldEventStatusBeUpdated(eventId, 32, req);
+    
+            if(flags) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
+            } 
 
         }
 
-    let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
-    if(flag)
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+      let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
+      if(flag)
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+      }
     }
     //37 changes to 30 BALWINDER 
     res.render('rfp-uploadOverview', appendData);

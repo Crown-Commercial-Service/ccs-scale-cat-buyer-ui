@@ -128,7 +128,7 @@ export function statusStepsDataFilter(
       if(agreement_id == 'RM1043.8'){
         if (stage2_value != undefined && stage2_value == "Stage 2") {
           let result = steps.filter((obj: any) => { return obj.step === 86; });
-          stepsByType.splice(6, 0, result[0]);
+          stepsByType.splice(3, 0, result[0]);
           console.log(stepsByType);
          }else{
           let result = steps.filter((obj: any) => { return obj.step === 86; });

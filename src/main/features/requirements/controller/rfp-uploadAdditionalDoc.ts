@@ -312,11 +312,11 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
         }
       });
 
-        // stage 2 => console.log(step,'step') __31
-        if (stage2_value !== undefined && stage2_value === "Stage 2") {
-          step = 86;
-        }
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+        // // stage 2 => console.log(step,'step') __31
+        // if (stage2_value !== undefined && stage2_value === "Stage 2") {
+        //   step = 86;
+        // }
+        // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
         res.redirect(`/rfp/task-list`);
 
     } else {
