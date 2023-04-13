@@ -1346,34 +1346,40 @@ document.addEventListener('DOMContentLoaded', () => {
                          
                             if(labelText.trim() == 'Name of the requirement'){
                                 
-                                msg = 'You must enter your name of the requirement';
+                                msg = 'Enter the name of the requirement';
                             }else if(labelText.trim() == 'Describe the requirement'){
                                
-                                msg = 'You must enter your description of the requirement';
+                                msg = 'Enter the description of the requirement';
                             }else{
                                
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
                           
-                                desmsg = 'You must enter your description of the requirement';
+                                desmsg = 'Enter the description of the requirement';
                             }else{
                                
-                                desmsg = 'You must enter your name of the requirement';
+                                desmsg = 'Enter the name of the requirement';
                             }
                          
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                    
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                               
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {

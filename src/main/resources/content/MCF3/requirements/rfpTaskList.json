@@ -82,7 +82,7 @@
 
         {
             "eventno": 4,
-            "eventTitle": "Upload documentation",
+            "eventTitle": "Upload your pricing schedule and other documents",
             "eventDescription": "Upload your pricing schedule, terms and conditions, and any additional information that will help suppliers understand your project.",
             "eventTask": [{
                     "Task": 1,
