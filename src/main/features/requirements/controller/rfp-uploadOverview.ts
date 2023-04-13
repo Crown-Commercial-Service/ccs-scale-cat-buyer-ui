@@ -1,6 +1,7 @@
   //@ts-nocheck
 import * as express from 'express';
 import * as uploadData from '../../../resources/content/requirements/rfpUploadOverview.json';
+import * as DosuploadData from '../../../resources/content/MCF3/requirements/rfpUploadOverviewDos.json';
 import * as Mcf3uploadData from '../../../resources/content/MCF3/requirements/rfpUploadOverview.json';
 import * as GClouduploadData from '../../../resources/content/requirements/rfpGCLOUDUploadOverview.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -40,6 +41,10 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     else if(agreementId_session == 'RM1557.13') { //GCloud
       uploadDatas = GClouduploadData;
     }
+    else if(agreementId_session == 'RM1043.8') { //DOS
+      uploadDatas = DosuploadData;
+    }
+    
      
 
     
@@ -49,7 +54,13 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     }else{
       uploadDatas.taskList[1].taskStatus="Cannot start yet";
     }
-    uploadDatas.taskList[2].taskStatus="Optional";
+
+    if(agreementId_session == 'RM1043.8') { //DOS
+      uploadDatas.taskList[2].taskStatus="Cannot start yet";
+    }
+    else{
+      uploadDatas.taskList[2].taskStatus="Optional";
+    }
    
     FETCH_FILEDATA?.map(file => {
       
@@ -76,6 +87,9 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
       forceChangeDataJson = uploadDatas;
     }
     else if(agreementId_session == 'RM1557.13') { //GCloud
+      forceChangeDataJson = uploadDatas;
+    }
+    else if(agreementId_session == 'RM1043.8') { //DOS
       forceChangeDataJson = uploadDatas;
     }
      else { 

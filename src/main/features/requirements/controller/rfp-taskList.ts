@@ -70,6 +70,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     //DOS
     cmsData = chooseRouteDataDOSMCF;
     if(stage2_value !== undefined && stage2_value === "Stage 2"){
+   
     cmsData = stage2DataDOS
     }
   }else if(agreementId_session == 'RM1557.13' && lotid=='4') {
@@ -201,7 +202,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(element.step == 29 && element.state == 'Not started') { element.state = 'Optional'; }
     });
 
-    console.log(JSON.stringify(journeySteps))
+    console.log('step',JSON.stringify(journeySteps))
 
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);

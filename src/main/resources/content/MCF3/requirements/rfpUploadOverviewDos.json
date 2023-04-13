@@ -1,0 +1,68 @@
+{
+    "breadCrumbs": [{
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "/rfp/task-list"
+        },
+        {
+            "text": "Upload your pricing schedule and other documents ",
+            "href": "#"
+        }
+    ],
+
+    "title": "Upload your pricing schedule and other documents ",
+    "subtitle": null,
+    "description1": "You should use a pricing schedule to set out what you want suppliers to give prices for. This will help suppliers know what you want specific costs for, and will help you evaluate them fairly.",
+    "description2": "You must also upload the terms and conditions for your project. ",
+    "description3": "You can add more documents with information about your project, such as information about the context for your project, terms and acronyms and information about your organisation.",
+    "description4": "You can download a pricing schedule template, but you may not need to use it depending on what you're buying. If you do use the schedule, you'll need to amend it to fit your requirements.",
+    "description_title1":"Pricing schedule",
+    "description_title2":"Core terms, call-off order form and schedules (terms and conditions)",
+    "description_title3":"Additional documents (optional)",
+
+    "taskList": [
+        {
+            "title": "Upload your pricing schedule (attachment 4)",
+            "hreftitle": "Add or change upload",
+            "href": "/rfp/upload-attachment",
+            "mandatory":true,
+            "taskStatus":"To do"
+        },
+        {
+            "title": "Upload your core terms, call-off order form and schedules (terms and conditions)",
+            "hreftitle": "Add or change upload",
+            "href": "/rfp/upload-doc",
+            "mandatory":true,
+            "taskStatus":"Cannot start yet"
+        },
+        {
+            "title": "Upload assessment documents",
+            "hreftitle": "Add or change upload",
+            "href": "/rfp/upload-additional",
+            "mandatory":true,
+            "taskStatus":"Cannot start yet"
+        },
+        {
+            "title": "Upload additional documents (optional)",
+            "hreftitle": "Add or change upload",
+            "href": "/rfp/upload-additional-doc",
+            "mandatory":false,
+            "taskStatus":"Optional"
+        }
+    ],
+    "backJump": {
+        "title": "Return to Write and publish your requirements",
+        "href": "/rfp/task-list"
+    }
+}
