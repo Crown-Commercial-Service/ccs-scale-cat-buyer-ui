@@ -1366,14 +1366,20 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                    
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                               
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
