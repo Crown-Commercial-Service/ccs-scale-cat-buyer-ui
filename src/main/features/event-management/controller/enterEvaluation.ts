@@ -60,12 +60,10 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
       }
     }
     
-    const templating_values = {stage2_value, releatedContent, data: eventManagementData, error: isEmptyProjectError, feedBack, marks, eventId, suppliername, supplierid, suppliers: localData , agreementId_session, lotid}
-    
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
 
-    res.render('enterEvaluation', templating_values);     
+    res.render('enterEvaluation', {stage2_value, releatedContent, data: eventManagementData, error: isEmptyProjectError, feedBack, marks, eventId, suppliername, supplierid, suppliers: localData , agreementId_session, lotid});     
     
   } catch (err) {
     LoggTracer.errorLogger(
