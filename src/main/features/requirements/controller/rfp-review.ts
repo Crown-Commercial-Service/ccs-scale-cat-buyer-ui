@@ -3840,7 +3840,6 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
       document: fileNameStoragePrice,
       documents: fileNameStorageMandatory,
       documentsOptional:fileNameStorageOptional,
-      documentssecopt : fileNameStorageAdditonalDoc,
 
       ir35: IR35selected,
       agreement_id,
