@@ -79,8 +79,18 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             data = dos6InboxData;
           } else { 
             data = inboxData;
-          }        
-            const appendData = {type, data, msgThreadList:messageThreadingList, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId }
+          }
+          let convertMB = Object.values(message.nonOCDS.attachments[0]); 
+          let digit = 2;
+          let  attachmentSize ;
+          if(convertMB[2] > 1024){
+              attachmentSize = byteConverter(convertMB[2], digit, "MB" );
+          }
+          else{
+              attachmentSize =convertMB[2] + " KB";
+          }
+        
+         const appendData = {type, data, msgThreadList:messageThreadingList, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId ,attachmentSize:attachmentSize}
             res.render('eventManagementDetails', appendData)
         }
     } catch (err) {
@@ -177,4 +187,19 @@ async function getChildMethod(parentMessageId: string,projectId :string,eventId:
         await getChildMethod(childMessage.data.nonOCDS.parentId,projectId,eventId,SESSION_ID);
     }
     return messageThreadingList;
+}
+
+function byteConverter(bytes:any , decimals:any , only:any ) {
+    const K_UNIT = 1024;
+    const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+
+    if(bytes== 0) return "0 Byte";
+  
+    if(only==="MB") return (bytes / (K_UNIT*K_UNIT)).toFixed(decimals) + " MB" ;
+    if(only==="KB") return (bytes / (K_UNIT*K_UNIT)).toFixed(decimals) + " KB" ;
+  
+    let i = Math.floor(Math.log(bytes) / Math.log(K_UNIT));
+    let resp = parseFloat((bytes / Math.pow(K_UNIT, i)).toFixed(decimals)) + " " + SIZES[i];
+  
+    return resp;
 }
