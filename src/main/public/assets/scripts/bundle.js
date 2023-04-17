@@ -20688,7 +20688,7 @@ const ccsZvalidateRfiProject = (event) => {
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
