@@ -11,8 +11,13 @@ import * as journyData from '../procurement/model/tasklist.json';
    //let stepId=parseInt(req.query.stepId);
   try{
   const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+  console.log('journeySteps',journeySteps)
   let defaultStatus=journyData.states.find(item => item.step === stepId)?.state;
+  console.log('defaultStatus',defaultStatus)
+
   let actualStatus=journeySteps.find(d=>d.step==stepId)?.state;
+  console.log('actualStatus',actualStatus)
+
   if(defaultStatus==actualStatus || actualStatus=="Not started")
   {
     return true;

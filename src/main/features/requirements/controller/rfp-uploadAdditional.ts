@@ -327,15 +327,18 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
           res.redirect(`/rfp/upload`);
         }
       } else {
+
         let nextStep = 32;
         if (stage2_value !== undefined && stage2_value === "Stage 2") {
           step = 86;
           nextStep = 30;
         }
+       
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(eventId, nextStep, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
+         const response =   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
+        
         }
         if (stage2_value !== undefined && stage2_value === "Stage 2") {
           res.redirect(`/rfp/upload-additional-doc`);

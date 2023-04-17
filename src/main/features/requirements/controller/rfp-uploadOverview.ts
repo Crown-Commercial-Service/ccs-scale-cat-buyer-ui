@@ -52,20 +52,30 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     uploadDatas.taskList[0].taskStatus="To do";
     if(agreementId_session == 'RM1557.13') { //GCloud
       uploadDatas.taskList[1].taskStatus="To do";
+    }
+    else if(agreementId_session == 'RM1043.8') { //dos
+      uploadDatas.taskList[1].taskStatus="To do";
     }else{
       uploadDatas.taskList[1].taskStatus="Cannot start yet";
     }
 
     if(agreementId_session == 'RM1043.8') { //DOS
-      uploadDatas.taskList[2].taskStatus="Cannot start yet";
+      uploadDatas.taskList[2].taskStatus="To do";
     }
     else{
       uploadDatas.taskList[2].taskStatus="Optional";
     }
-   
+    // if(agreementId_session == 'RM1043.8') { //DOS
+    //   uploadDatas.taskList[3].taskStatus="Optional";
+    // }
+
+    let uploadAddDoc = req.session['isuploadAdditionalDoc']
+    let firstupload = false;
+    let secondupload = false;
+    let thirdupload = false;
     FETCH_FILEDATA?.map(file => {
-      
       if (file.description === "mandatoryfirst") {
+        firstupload =true;
         uploadDatas.taskList[0].taskStatus="Done";
       }
       
@@ -74,10 +84,12 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
        }
 
       if (file.description === "mandatorysecond") {
+        secondupload = true;
         uploadDatas.taskList[1].taskStatus="Done";
       }
       
       if (file.description === "mandatorythird") {
+        thirdupload = true;
         uploadDatas.taskList[2].taskStatus="Done";
       }
       if(agreementId_session == 'RM1043.8') { //DOS
@@ -89,6 +101,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
           uploadDatas.taskList[2].taskStatus="Done";
         }
       }
+      
     });
     
     let forceChangeDataJson;
@@ -105,11 +118,14 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
       forceChangeDataJson = uploadData;
     }
 
+    
   const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
 
     if(agreementId_session == 'RM1043.8' && stage2_value == 'Stage 2') { 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'In progress');
+      if(firstupload != true && secondupload != true && thirdupload != true){
+       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'In progress');
+      }
     }else{
 
       if(agreementId_session == 'RM6187') { 

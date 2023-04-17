@@ -111,7 +111,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
 
 
       });
-      const FILEDATA_NEW = FETCH_FILEDATA.filter(anItem => anItem.description == "mandatorysecond");
+      const FILEDATA_NEW = FETCH_FILEDATA.filter(anItem => anItem.description == "mandatorythird");
       const TOTALSUM = fileNameadditional.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
@@ -148,7 +148,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
          if (errorList==null) {
            errorList=[];
          }
-         
+         console.log('assessDocument upload addtional',assessDocument)
          if (assessDocument.IsDocumentError && !assessDocument.IsFile) {
             if(agreementId_session == 'RM1043.8' && stage2_value == "Stage 2"){
               errorList.push({ text: "Upload assessment documents", href: "#rfp_offline_document" });
@@ -184,6 +184,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
       if(stage2_value == "Stage 2"){
+        console.log('FILEDATA_NEW',FILEDATA_NEW)
         if (FILEDATA_NEW != undefined && FILEDATA_NEW != null && FILEDATA_NEW.length > 0) {
           req.session['isAssessUploaded'] = true;
         }

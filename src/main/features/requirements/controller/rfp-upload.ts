@@ -381,15 +381,15 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
     }
     
   } else {
-    if(agreement_id === 'RM1043.8' && stage2_value == "Stage 2"){
-     let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
-      flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
-      if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
-      }
-      res.redirect(`/rfp/upload-additional`);
-    }else{
+   // if(agreement_id === 'RM1043.8' && stage2_value == "Stage 2"){
+    //  let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
+    //   flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
+    //   if (flag) {
+    //     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
+    //   }
+    //   res.redirect(`/rfp/upload-additional`);
+    // }else{
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const releatedContent = req.session.releatedContent;
@@ -412,7 +412,7 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
       req.session["termsNcond"] = { "IsDocumentError": true, "IsFile": req.session['isTcUploaded'] ? true : false };
       res.redirect(`/rfp/upload-doc`);
 
-    }
+  //  }
     
 
   }

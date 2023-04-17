@@ -137,7 +137,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
          if (errorList==null) {
            errorList=[];
          }
-         
+        console.log('termsNcond',termsNcond) 
          if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
            errorList.push({ text: "Upload your core terms, call-off order form and schedules", href: "#rfp_offline_document" });
            fileError=true;

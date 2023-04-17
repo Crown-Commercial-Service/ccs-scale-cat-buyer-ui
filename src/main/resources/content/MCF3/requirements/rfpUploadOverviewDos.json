@@ -44,14 +44,14 @@
             "hreftitle": "Add or change upload",
             "href": "/rfp/upload-doc",
             "mandatory":true,
-            "taskStatus":"Cannot start yet"
+            "taskStatus":"To do"
         },
         {
             "title": "Upload assessment documents",
             "hreftitle": "Add or change upload",
             "href": "/rfp/upload-additional",
             "mandatory":true,
-            "taskStatus":"Cannot start yet"
+            "taskStatus":"To do"
         },
         {
             "title": "Upload additional documents (optional)",

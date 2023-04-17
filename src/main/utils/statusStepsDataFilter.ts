@@ -80,6 +80,11 @@ function checkSublevels(
             'status'
           ] = `Cannot start yet`;
         }
+        // if (stepInfo.step == 30 && stage2_value == "Stage 2") {
+        //   eventTask[
+        //     'status'
+        //   ] = `Cannot start yet`;
+        // }
         /*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
