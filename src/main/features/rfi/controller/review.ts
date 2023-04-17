@@ -28,7 +28,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
-
+  console.log("test1")
   /** Daylight saving fix start */
  let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
  if(isDayLight) {
@@ -39,10 +39,11 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
    CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
  }
  /** Daylight saving fix end */
-
+ console.log("test2")
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
+
   //Fix for SCAT-3440
   let publishactiveprojects  = [];
   publishactiveprojects.push(ProjectID);
@@ -53,6 +54,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+console.log("test3",JSON.stringify(_bodyData))
 
   const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
@@ -60,17 +62,23 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
     const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
     var review_publish = 0;
     if(eventStatus2=='published'){
+      console.log("test4")
+
       review_publish = 1;
       }else{
+        console.log("test5")
         if (finished_pre_engage && rfi_publish_confirmation === '1') {
+          console.log("test6")
           review_publish = 1;
         }
       }
 
   if (review_publish == '1') {
+    console.log("test7")
     try {
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
+        console.log("test8")
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
       }
 
@@ -86,7 +94,9 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
          
        }
        else{
-        
+        console.log("test10")
+        console.log("BASEURL",BASEURL)
+        console.log("_bodyData",JSON.stringify(_bodyData))
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
        
       //CAS-INFO-LOG 

@@ -27,7 +27,7 @@ describe('MCF3: Name a project', async () => {
     parentApp = express();
     parentApp.use(function (req, res, next) {
     
-      getProJson.project_name = "New UNIT TEST ANAND MCF Procurment";
+      getProJson.project_name = "UNIT TEST RESPONSEDATE";
       req.session = getProJson;
       req.session.procurements= getProJson.procurements;
       req.session.access_token=OauthToken;    
@@ -46,7 +46,7 @@ describe('MCF3: Name a project', async () => {
   }).timeout(0);
 
   it('should redirect to procurement lead if name fulfilled', async () => {
-    const dummyName = "New UNIT TEST ANAND MCF Procurment";
+    const dummyName = "UNIT TEST RESPONSEDATE";
     
     let procId = getProJson.procurements[0].procurementID;
     let eventId = getProJson.procurements[0].eventId;

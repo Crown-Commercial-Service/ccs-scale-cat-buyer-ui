@@ -14,6 +14,9 @@ import { JSDOM } from 'jsdom';
 import { getToken } from 'test/utils/getToken';
 import  mcfData from '../../../data/mcf/rfi/rfiReview.json';
 const getProJson = require('test/utils/getJson').getProJson
+import config from 'config';
+import moment from 'moment-business-days';
+import  {getResponseDate} from './helper/responseDate';
 
 chais.should();
 chais.use(chaiHttp);
@@ -32,8 +35,14 @@ describe('MCF3: Set your RfI review page render', async () => {
     parentApp = express();
     parentApp.use(function (req, res, next) {
     req.session = getProJson
+    //req.session = mcfData
     req.session.access_token=OauthToken; 
-    req.session.endDate="Question 4*20 February 2023, 16:00";
+    let preDefineDays = getResponseDate();
+    
+    let supplier_period_for_clarification_period = preDefineDays.responseDate.supplier_period_for_clarification_period;
+    console.log("FINAL REVIEW supplier_period_for_clarification_period",supplier_period_for_clarification_period)
+    //req.session.endDate="Question 4*20 February 2023, 16:00";
+    req.session.endDate=supplier_period_for_clarification_period;
     req.session['publishclickevents']=[];
       next();
     });
