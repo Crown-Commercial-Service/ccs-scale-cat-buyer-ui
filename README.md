@@ -19,8 +19,14 @@ $ npm install
 ```
 
 ```bash
-$ npm configure
+$ npm run build-assets
 ```
+
+If you want the assets (the `css` and the `JavaScripts`) to be automatically updated when you change them, in a separate terminal run:
+
+```bash
+$ npm run watch-assets
+``
 
 Run:
 
