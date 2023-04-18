@@ -52,10 +52,18 @@
 
       {% for item in formOptions %}
         {% if item.disabled != 'true' %}
+       
+        {% if(item.value=="all_online" and checked==true) %}
+										{% set checkedStatus = "checked" %}
+										{%else%}
+										{% set checkedStatus = "" %}
+										{% endif %}
+
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
               html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              checked:checkedStatus,
               hint : {
                 text: item.hint.text
               }

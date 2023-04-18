@@ -4019,7 +4019,7 @@ span#create_supplier_message-error{
 display: none;
 }
 
-span#create_message_input-error{
+span#create_message_input-error,span#reply_message_input-error{
 display: none;
 }
 

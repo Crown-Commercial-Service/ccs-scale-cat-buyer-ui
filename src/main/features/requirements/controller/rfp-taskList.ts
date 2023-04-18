@@ -102,6 +102,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       });
       
       if(agreementId_session == "RM1043.8" && stage2_value !== undefined && stage2_value === "Stage 2"){
+
+      //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
        
         let timelineStatus = journeySteps.filter((el: any) => {
           if(el.step == 33 && el.state == 'Completed') return true;
@@ -199,11 +201,13 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(element.step == 29 && element.state == 'Not started') { element.state = 'Optional'; }
     });
 
+    console.log(JSON.stringify(journeySteps))
+
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
     else{      
-      statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+      statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId,stage2_value);
     }
 
      // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
