@@ -339,16 +339,16 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
       if(req.session.agreement_id=='RM1043.8'&&req.session?.stage2_value !== undefined && req.session?.stage2_value === "Stage 2"){
         let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet');
         }
-        flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
-        if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Optional');
-        }
-        flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
-        if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
-        }
+        // flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+        // if (flag) {
+        //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Cannot start yet');
+        // }
+        //  flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
+        // if (flag) {
+        //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
+        // }
         if(req.session?.stage2_value === "Stage 2"){
           res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
         }else{

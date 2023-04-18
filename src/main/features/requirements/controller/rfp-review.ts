@@ -120,9 +120,9 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
   try {
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
         }
       }else{
         let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);
@@ -590,9 +590,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   try {
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
         }
       }else{
         let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);

@@ -271,6 +271,7 @@ export class QuestionHelper {
           if (response.status == HttpStatusCode.OK) {
             let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
             if (flag) {
+              console.log('inside 31 optional')
               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Optional');
             }
 

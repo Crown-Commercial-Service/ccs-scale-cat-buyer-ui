@@ -76,6 +76,7 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL_PROCEED = '/rfp/upload-additional/proceed',
+  RFP_GET_REMOVE_ADDITIONAL_FILES = '/rfp/files/remove_additional',
 
   RFP_GET_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
   RFP_POST_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
