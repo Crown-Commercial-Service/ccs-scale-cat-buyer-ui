@@ -109,24 +109,72 @@
                   <strong>Supplier name:</strong>
                   {{ suppliername }}</h2>
               </p>
+
+              {% if stage2_value == 'Stage 2' %}
                 {{ CCSInput({
-                  label: {
-                    text: "Final Score: ",
-                    classes: "govuk-label--m",
-                    id: "enter_evaluation",
-                    name: "enter_evaluation"
-                  },
-                  hint: {
-                    classes: "govuk-hint"
-                  },
-                  id: "enter_evaluation_score",
-                  name: "enter_evaluation_score",
-                  classes: "govuk-input--width-4 dimensions removeErr percentage_limit_dos6",
-                  maxlength: "6",
-                  type:"number",
-                    step:"0.01",
-                      value : marks
-                  }) }}
+                            label: {
+                              text: "Final Score ",
+                              classes: "govuk-label--m",
+                              id: "enter_evaluation",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                              classes: "govuk-hint"
+                            },
+                            id: "enter_evaluation_score",
+                            name: "enter_evaluation_score",
+                            classes: "govuk-input--width-4 dimensions removeErr percentage_limit_dos6",
+                            maxlength: "6",
+                            type:"number",
+                              step:"0.01",
+                               value : marks
+
+                        }) }}
+              {% else %}
+              {% if agreementId_session != 'RM1043.8' %}
+              {{ CCSInput({
+                            label: {
+                              text: "Final Score: ",
+                              classes: "govuk-label--m",
+                              id: "enter_evaluation",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                              classes: "govuk-hint"
+                            },
+                            id: "enter_evaluation_score",
+                            name: "enter_evaluation_score",
+                            classes: "govuk-input--width-4 dimensions removeErr percentage_limit_dos6",
+                            maxlength: "6",
+                            type:"number",
+                              step:"0.01",
+                               value : marks
+
+                        }) }}
+
+              {% else %}
+                {{ CCSInput({
+                            label: {
+                              text: "Score: ",
+                              classes: "govuk-label--m",
+                              id: "enter_evaluation",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                              classes: "govuk-hint"
+                            },
+                            id: "enter_evaluation_score",
+                            name: "enter_evaluation_score",
+                            classes: "govuk-input--width-4 dimensions removeErr percentage_limit_dos6",
+                            maxlength: "6",
+                            type:"number",
+                              step:"0.01",
+                               value : marks
+
+                        }) }}
+              {% endif %}
+              {% endif %}
+
               <br/>
               {% if stage2_value == 'Stage 2' %}
                 {# {{ CCSCharacterCount({

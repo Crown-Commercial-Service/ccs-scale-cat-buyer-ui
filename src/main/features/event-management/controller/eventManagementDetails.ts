@@ -80,22 +80,25 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
           } else { 
             data = inboxData;
           }
-          let convertMB = Object.values(message.nonOCDS.attachments[0]); 
-          let digit = 2;
-          let  attachmentSize ;
-          if(convertMB[2] > 1024){
-              attachmentSize = byteConverter(convertMB[2], digit, "MB" );
-          }
-          else{
-              attachmentSize =convertMB[2] + " KB";
+          let attachmentSize = '0 KB';
+          if(message.nonOCDS?.attachments.length > 0){
+            let convertMB = Object.values(message.nonOCDS?.attachments[0]); 
+            let digit = 2;
+            if(convertMB[2] > 1024){
+                attachmentSize = byteConverter(convertMB[2], digit, "MB" );
+            }
+            else{
+                attachmentSize = convertMB[2] + " KB";
+            }
           }
         
          const appendData = {type, data, msgThreadList:messageThreadingList, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId ,attachmentSize:attachmentSize}
-            res.render('eventManagementDetails', appendData)
+          
+         res.render('eventManagementDetails', appendData)
         }
     } catch (err) {
         
-        if(err.response.status !== undefined) {
+        if(err.response?.status !== undefined) {
             console.log("*********** error.response.status - ",err.response.status);
           }
           console.log(err.config.metadata.startTime);

@@ -1346,20 +1346,20 @@ document.addEventListener('DOMContentLoaded', () => {
                          
                             if(labelText.trim() == 'Name of the requirement'){
                                 
-                                msg = 'You must enter your name of the requirement';
+                                msg = 'Enter the name of the requirement';
                             }else if(labelText.trim() == 'Describe the requirement'){
                                
-                                msg = 'You must enter your description of the requirement';
+                                msg = 'Enter the description of the requirement';
                             }else{
                                
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
                           
-                                desmsg = 'You must enter your description of the requirement';
+                                desmsg = 'Enter the description of the requirement';
                             }else{
                                
-                                desmsg = 'You must enter your name of the requirement';
+                                desmsg = 'Enter the name of the requirement';
                             }
                          
                             if (index === 0) {

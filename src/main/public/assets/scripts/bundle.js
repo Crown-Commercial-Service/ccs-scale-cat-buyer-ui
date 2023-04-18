@@ -9676,8 +9676,8 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
                 errorStore.push(fieldCheck);
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
@@ -16840,20 +16840,20 @@ document.addEventListener('DOMContentLoaded', () => {
                          
                             if(labelText.trim() == 'Name of the requirement'){
                                 
-                                msg = 'You must enter your name of the requirement';
+                                msg = 'Enter the name of the requirement';
                             }else if(labelText.trim() == 'Describe the requirement'){
                                
-                                msg = 'You must enter your description of the requirement';
+                                msg = 'Enter the description of the requirement';
                             }else{
                                
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
                           
-                                desmsg = 'You must enter your description of the requirement';
+                                desmsg = 'Enter the description of the requirement';
                             }else{
                                
-                                desmsg = 'You must enter your name of the requirement';
+                                desmsg = 'Enter the name of the requirement';
                             }
                          
                             if (index === 0) {
@@ -20688,7 +20688,7 @@ const ccsZvalidateRfiProject = (event) => {
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
