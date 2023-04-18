@@ -247,6 +247,7 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
   const EventId = req.session['eventId']
   const { file_id } = req.query
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  const stage2_value = req.session.stage2_value;
   try {
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
 
@@ -254,7 +255,13 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
     LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
 
     if(agreementId_session == 'RM1043.8'){
-      res.redirect(`/rfp/upload-additional`)
+      if(stage2_value !== undefined && stage2_value === "Stage 2"){
+        res.redirect(`/rfp/upload-doc`)
+      }
+      else{
+        res.redirect(`/rfp/upload-additional`)
+      }
+      
     }else{
       res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`)
     }

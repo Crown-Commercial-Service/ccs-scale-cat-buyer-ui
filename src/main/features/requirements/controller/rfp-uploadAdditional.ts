@@ -233,7 +233,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
 
 };
 
-export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_REMOVE_ADDITIONAL_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
   let { selectedRoute } = req.session
   if (selectedRoute === 'FC') selectedRoute = 'RFP'
   const { SESSION_ID } = req.cookies //jwt
@@ -247,7 +247,6 @@ export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request
 
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
-   
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional`)
   } catch (error) {
     LoggTracer.errorLogger(

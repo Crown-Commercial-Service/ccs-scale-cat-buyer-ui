@@ -141,6 +141,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         Rfp_confirm_upload: false,
         IsFileError: false,
         agreementId_session: req.session.agreement_id,
+        stage2_value
       };
       
       if (assessDocument != undefined) {
@@ -148,7 +149,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
          if (errorList==null) {
            errorList=[];
          }
-         console.log('assessDocument upload addtional',assessDocument)
+         
          if (assessDocument.IsDocumentError && !assessDocument.IsFile) {
             if(agreementId_session == 'RM1043.8' && stage2_value == "Stage 2"){
               errorList.push({ text: "Upload assessment documents", href: "#rfp_offline_document" });
@@ -184,7 +185,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
       if(stage2_value == "Stage 2"){
-        console.log('FILEDATA_NEW',FILEDATA_NEW)
+        
         if (FILEDATA_NEW != undefined && FILEDATA_NEW != null && FILEDATA_NEW.length > 0) {
           req.session['isAssessUploaded'] = true;
         }

@@ -149,7 +149,12 @@
                   type: "submit"
                   })
                   }}
-                  <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                   {% if agreementId_session=='RM1043.8' and stage2_value == 'Stage 2' %}
+                      <a href="/rfp/upload" class="govuk-link govuk-link--no-visited-state">Return to Upload your pricing schedule and other documents</a>
+                      {%else%}
+                         <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                      {%endif%}
+                 
                   </div>
                 </form>
             </div>

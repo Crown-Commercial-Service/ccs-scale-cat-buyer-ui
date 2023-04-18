@@ -160,7 +160,12 @@
                                         </div>
                                         <div class="govuk-grid-column-one-third">
                                           <p>
-                                            <a class="app-task-list__tag" href="/rfp/files/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                             {% if agreementId_session=='RM1043.8' and stage2_value == 'Stage 2' %}
+                                              <a class="app-task-list__tag" href="/rfp/files/remove_additional?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                              {%else%}
+                                                <a class="app-task-list__tag" href="/rfp/files/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                              {%endif%}
+                                            
                                           </p>
                                         </div>
                                       </div>
@@ -214,7 +219,12 @@
                   type: "submit"
                   })
                   }}
-                  <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                   {% if agreementId_session=='RM1043.8' and stage2_value == 'Stage 2' %}
+                      <a href="/rfp/upload" class="govuk-link govuk-link--no-visited-state">Return to Upload your pricing schedule and other documents</a>
+                      {%else%}
+                        <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                      {%endif%}
+                  
                   </div>
                 </form>
             </div>
