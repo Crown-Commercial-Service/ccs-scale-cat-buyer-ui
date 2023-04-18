@@ -8947,6 +8947,7 @@ for (const selector of eoi_totalElementSelectors) {
 
     errorSelector.on('click', () => {
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         if (elementSelector.selector === elementSelectorClicked.selector) {
@@ -8957,12 +8958,14 @@ for (const selector of eoi_totalElementSelectors) {
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
+    
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
         if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
  
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -9676,8 +9679,8 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
                 errorStore.push(fieldCheck);
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
@@ -12269,6 +12272,7 @@ for(const selector of rfp_totalElementSelectors){
     errorSelector.on('click', () => {
         
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
@@ -12286,6 +12290,7 @@ for(const selector of rfp_totalElementSelectors){
         if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -16840,34 +16845,40 @@ document.addEventListener('DOMContentLoaded', () => {
                          
                             if(labelText.trim() == 'Name of the requirement'){
                                 
-                                msg = 'You must enter your name of the requirement';
+                                msg = 'Enter the name of the requirement';
                             }else if(labelText.trim() == 'Describe the requirement'){
                                
-                                msg = 'You must enter your description of the requirement';
+                                msg = 'Enter the description of the requirement';
                             }else{
                                
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
                           
-                                desmsg = 'You must enter your description of the requirement';
+                                desmsg = 'Enter the description of the requirement';
                             }else{
                                
-                                desmsg = 'You must enter your name of the requirement';
+                                desmsg = 'Enter the name of the requirement';
                             }
                          
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                    
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
                               
                                 if (element.value == '' || element.value === undefined || element.value === null) {
                                     ccsZvalidateWithRegex(element.id, msg,/\w+/)
-                                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
@@ -20682,7 +20693,7 @@ const ccsZvalidateRfiProject = (event) => {
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
