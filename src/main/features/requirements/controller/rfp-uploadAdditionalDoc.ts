@@ -227,7 +227,6 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
       res.render('error/500')
     };
   } else {
-    console.log('file else')
     req.session["fileObjectIsEmpty"] = true;
     res.redirect(req.url);
     //res.redirect(`/${selRoute}/rfp/upload-additional`);
