@@ -16,7 +16,7 @@
         "build": "yarn webpack --config webpack.config.js",
         "build:prod": "NODE_ENV=production yarn    webpack --mode production --config webpack.config.js",
         "test": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/aggrements/index.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-test-all",
-       "test-mcf-dummy": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/mcf/rfi/rfiResponseDate.test.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-test-all",
+       "test-mcf-dummy": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/mcf/rfi/rfiReview.test.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-test-all",
        "test-mcf": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/aggrements/index.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-test-all",
        "test-gcloud": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/aggrements/gcloudIndex.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-test-all",
         "test:coverage": "SET NODE_ENV==development nyc --reporter=text npm test",

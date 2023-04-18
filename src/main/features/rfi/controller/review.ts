@@ -28,7 +28,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
-  console.log("test1")
+  console.log("test1",CurrentTimeStamp)
   /** Daylight saving fix start */
  let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
  if(isDayLight) {
@@ -94,7 +94,7 @@ console.log("test3",JSON.stringify(_bodyData))
          
        }
        else{
-        console.log("test10")
+        console.log("test1011")
         console.log("BASEURL",BASEURL)
         console.log("_bodyData",JSON.stringify(_bodyData))
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);

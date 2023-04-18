@@ -35,12 +35,16 @@ describe('MCF3: Set your RfI review page render', async () => {
     parentApp = express();
     parentApp.use(function (req, res, next) {
     req.session = getProJson
-    //req.session = mcfData
+    req.session = mcfData
     req.session.access_token=OauthToken; 
     let preDefineDays = getResponseDate();
     
-    let supplier_period_for_clarification_period = preDefineDays.responseDate.supplier_period_for_clarification_period;
+    //2023-05-02T16:00:00Z
+console.log("preDefineDays",preDefineDays)
+    let supplier_period_for_clarification_period = preDefineDays.responseDateWithQuestion.supplier_period_for_clarification_period;
+    
     console.log("FINAL REVIEW supplier_period_for_clarification_period",supplier_period_for_clarification_period)
+   
     //req.session.endDate="Question 4*20 February 2023, 16:00";
     req.session.endDate=supplier_period_for_clarification_period;
     req.session['publishclickevents']=[];

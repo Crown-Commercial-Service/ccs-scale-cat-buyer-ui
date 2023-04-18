@@ -88,11 +88,11 @@ export function getResponseDate(){
       
 
        const responseDateData = {
-         responseDateWithQuestion :{ "rfi_clarification_date":`Question 1*${rfi_clarification_dateNew}`,
-         "rfi_clarification_period_end":`Question 2*${rfi_clarification_period_end}`,
-         "deadline_period_for_clarification_period":`Question 3*${deadline_period_for_clarification_period}`,
-         "supplier_period_for_clarification_period":`Question 4*${supplier_period_for_clarification_period}`,
-         "supplier_dealine_for_clarification_period":`Question 5*${supplier_dealine_for_clarification_period}`
+         responseDateWithQuestion :{ "rfi_clarification_date":`${rfi_clarification_dateNew}`,
+         "rfi_clarification_period_end":`${rfi_clarification_period_end}`,
+         "deadline_period_for_clarification_period":`${deadline_period_for_clarification_period}`,
+         "supplier_period_for_clarification_period":`${supplier_period_for_clarification_period}`,
+         "supplier_dealine_for_clarification_period":`${supplier_dealine_for_clarification_period}`
        },
       
        responseDate :{ "rfi_clarification_date":`Question 1*${rfi_clarification_date}`,
