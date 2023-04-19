@@ -1032,7 +1032,9 @@
             {% endif %} #}
 
             {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <div class="ccs-width-container">
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            </div>
             {% endif %}
 
           {% if agreementId_session == "RM6187" and eventType == "EOI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
