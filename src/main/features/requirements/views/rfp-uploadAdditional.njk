@@ -27,8 +27,8 @@
             "href": "/rfp/task-list"
           },
           {
-            "text": "Upload pricing schedules and other documents",
-            "href": "/rfp/task-list"
+            "text": "Upload your pricing schedules and other documents",
+            "href": "/rfp/upload"
           },
           {
             "text": "Upload assessment documents",
@@ -68,6 +68,36 @@
       }) }}
     {% endif %}
   {% else %}
+   {% if(agreementId_session == 'RM1557.13') %}
+      {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Dashboard",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+          },
+          {
+            text: "Write and publish your requirements",
+            href: "/rfp/task-list"
+          },
+          {
+            text: "Upload documentation",
+            href: "/rfp/upload"
+          },
+          {
+            text: 'Upload additional documents',
+            href: "#"
+          }
+        ]
+      }) }}
+   {%else%}
       {{ CCSBreadcrumbs({
         items: [
           {
@@ -97,21 +127,14 @@
         ]
       }) }}
   {% endif %}
+  {% endif %}
 {% endblock %}
 
 
 {% block content %} 
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
-          {% if(agreementId_session == 'RM1043.8') %}
-                {% if(data.title == 'Upload assessment documents ') %}
-                  {{ CCSErrorSummary({titleText: "There is a problem",errorList: errorlist}) }}
-                {% else %}
-                    {{ CCSErrorSummary({titleText: "There is a problem with",errorList: errorlist}) }}
-                {% endif %}
-          {% else %}
-            {{ CCSErrorSummary({titleText: "There is a problem with",errorList: errorlist}) }}
-          {% endif %}
+             {{ CCSErrorSummary({titleText: "There is a problem",errorList: errorlist}) }}
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">

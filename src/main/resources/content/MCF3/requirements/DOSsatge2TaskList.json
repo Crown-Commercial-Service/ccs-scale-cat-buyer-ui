@@ -51,7 +51,6 @@
     {
       "eventno": 2,
       "eventTitle": "Upload documentation",
-      "eventDescription": "Upload your pricing schedule, terms and conditions, and any additional information that will help suppliers understand your project.",
       "eventTask": [{
               "Task": 1,
               "title": "Upload your pricing schedule and other documents",
