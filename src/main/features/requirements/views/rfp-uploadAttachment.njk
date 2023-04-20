@@ -19,7 +19,7 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with",
+                titleText: "There is a problem",
                 errorList: errorlist
             }) }}
         {% endif %}
@@ -237,7 +237,11 @@
                                 type: "submit"
                                 })
                             }}
-                            <a href="/rfp/upload" class="govuk-link govuk-link--no-visited-state">Return to Upload your pricing schedule and other documents</a>
+                             {% if agreementId_session=='RM1043.8' and stage2_value == 'Stage 2' %}
+                              <a href="/rfp/upload" class="govuk-link govuk-link--no-visited-state">Return to Upload your pricing schedule and other documents</a>
+                              {%else%}
+                               <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                              {%endif%}
                     </div>
                 </form>
             </div>

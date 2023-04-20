@@ -103,6 +103,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -110,16 +111,18 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
                 errorStore.push(fieldCheck);
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
         
             else{
@@ -128,7 +131,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
-
+                $(`#rfp_offline_document-error`).hide();
             }
 
 

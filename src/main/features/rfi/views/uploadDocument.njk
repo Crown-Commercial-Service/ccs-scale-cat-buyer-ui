@@ -18,7 +18,7 @@
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (RfiUploadError)%}
    {{ CCSErrorSummary({
-    titleText: "There is a problem with these files",
+    titleText: "There is a problem",
     errorList: errorlist
   }) }}
     {% endif %}
@@ -29,12 +29,12 @@
                   errorList: errorlist
             }) }} #}
             {{ CCSErrorSummary({
-                  titleText: "There is a problem with these files",
+                  titleText: "There is a problem",
                   errorList: errorlist
             }) }}
         {% else %}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with these files",
+                titleText: "There is a problem",
                 errorList: errorlist
             }) }}
       {% endif %}

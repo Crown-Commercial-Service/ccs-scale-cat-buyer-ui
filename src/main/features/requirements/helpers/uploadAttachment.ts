@@ -199,10 +199,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       
       if(selectedRoute == 'dos'){
         if(stage2_value !== undefined && stage2_value === "Stage 2"){
-          let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
-          if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
-          }
+          // let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+          // if (flag) {
+          //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+          // }
         }
       }
       

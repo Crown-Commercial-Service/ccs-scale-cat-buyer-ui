@@ -79,15 +79,6 @@ function copyCcsTemplate() {
     .pipe(gulp.dest(`${assetsDirectory}/styles`))
 }
 
-gulp.task('default',
-  gulp.series(
-    gulp.parallel(
-      'sass-ccs-frontend',
-      'copy-files',
-    )
-  )
-)
-
 
 gulp.task('styles', () => {
   return gulp.src('src/main/public/assets/sass/**/*.scss')
@@ -97,10 +88,14 @@ gulp.task('styles', () => {
 
 gulp.task('clean', () => {
   return del([
-      'src/main/public/assets/styles/',
+      'src/main/public/assets/styles/**/*',
+      '!src/main/public/assets/styles/application.css',
+      '!src/main/public/assets/styles/additional.css',
+      '!src/main/public/assets/styles/bundle.min.css',
+      '!src/main/public/assets/styles/custom.css',
+      '!src/main/public/assets/styles/govuk_fac_style.css'
   ]);
 });
-
 
 
 gulp.task('pack-scripts', () => {
@@ -117,6 +112,11 @@ gulp.task('pack-styles', () => {
         .pipe(gulp.dest('src/main/public/assets/styles'));
 });
 
-gulp.task('default', gulp.series(['clean', 'styles']));
-
-// gulp.watch(['src/main/public/assets/scripts/app.js', 'src/main/public/assets/scripts/validations/*.js', 'src/main/public/assets/scripts/application.js'], gulp.series('pack-scripts'));
+gulp.task('default',
+  gulp.series(
+    gulp.parallel(
+      'clean',
+      'styles'
+    )
+  )
+)

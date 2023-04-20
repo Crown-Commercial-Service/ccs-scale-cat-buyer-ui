@@ -8947,6 +8947,7 @@ for (const selector of eoi_totalElementSelectors) {
 
     errorSelector.on('click', () => {
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         if (elementSelector.selector === elementSelectorClicked.selector) {
@@ -8957,12 +8958,14 @@ for (const selector of eoi_totalElementSelectors) {
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
+    
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
         if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
  
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -9664,6 +9667,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -9671,16 +9675,18 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
                 errorStore.push(fieldCheck);
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
         
             else{
@@ -9689,7 +9695,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
-
+                $(`#rfp_offline_document-error`).hide();
             }
 
 
@@ -12269,6 +12275,7 @@ for(const selector of rfp_totalElementSelectors){
     errorSelector.on('click', () => {
         
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
@@ -12286,6 +12293,7 @@ for(const selector of rfp_totalElementSelectors){
         if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -20688,7 +20696,7 @@ const ccsZvalidateRfiProject = (event) => {
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
