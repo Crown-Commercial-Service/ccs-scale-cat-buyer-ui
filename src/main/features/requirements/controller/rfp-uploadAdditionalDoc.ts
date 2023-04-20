@@ -10,8 +10,6 @@ import { ADDITIONALUPLOADHELPER_DOC } from '../helpers/uploadAdditionalDoc';
 import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
 // import Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additional.json';
-import * as DosuploadData from '../../../resources/content/MCF3/requirements/rfpUploadOverviewDos.json';
-
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
@@ -275,10 +273,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
   const { projectId, eventId } = req.session;
   const agreementId_session = req.session.agreement_id;
   let { selectedRoute, stage2_value } = req.session;
-  let uploadDatas;
-  if(agreementId_session == 'RM1043.8') { //DOS
-    uploadDatas = DosuploadData;
-  }
+  
   try {
   
     if (req.session['isAssessUploaded']) {
@@ -318,13 +313,12 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
           additionalDocfile.push(file.fileName);
         }
       });
-      uploadDatas.taskList[3].taskStatus="Done";
+    
        res.redirect(`/rfp/task-list`);
 
     } else {
       if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 2"){
-        uploadDatas.taskList[3].taskStatus="Done";
-        res.redirect(`/rfp/task-list`);
+         res.redirect(`/rfp/task-list`);
       }else{
         if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 1"){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
