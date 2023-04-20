@@ -1026,20 +1026,32 @@
             {% endif %}
           {% endif %}
 
+  {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <div class="ccs-width-container">
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            </div>
+            {% endif %}
+
+             {% if agreementId_session == "RM6187" and eventType == "EOI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <div class="ccs-width-container">
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            </div>
+            {% endif %}
+
+  
+             {% if agreementId_session == "RM6187" and (eventType == "FC" or eventType == "DA") and status.toUpperCase() == 'CLOSED' and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+           
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+
           <div class="govuk-!-margin-top-6">
             {# {% if agreementId_session == "RM6187" and eventType != "RFI" and eventType != "EOI" and eventType != "FC" %}
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %} #}
 
-            {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            {% endif %}
+            
 
-          {% if agreementId_session == "RM6187" and eventType == "EOI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
-            <div class="ccs-width-container">
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            </div>
-            {% endif %}
+         
 
           </div>
 

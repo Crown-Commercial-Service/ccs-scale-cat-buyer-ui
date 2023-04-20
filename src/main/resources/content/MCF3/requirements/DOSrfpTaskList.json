@@ -141,41 +141,20 @@
                 },
                 {
                     "Task": 3,
-                    "title": "Upload pricing schedules",
+                    "title": "Upload your pricing schedule and other documents",
                     "required": "mandatory",
                     "link": "/rfp/upload",
                     "status": "Todo"
                 },
                 {
                     "Task": 4,
-                    "title": "Upload terms and conditions",
-                    "required": "mandatory",
-                    "link": "/rfp/upload",
-                    "status": "Todo"
-                },
-                {
-                    "Task": 5,
-                    "title": "Upload assessment documents",
-                    "required": "mandatory",
-                    "link": "/rfp/upload",
-                    "status": "Todo"
-                },
-                {
-                    "Task": 6,
-                    "title": "Upload additional documents (optional)",
-                    "required": "mandatory",
-                    "link": "/rfp/upload",
-                    "status": "Todo"
-                },
-                {
-                    "Task": 7,
                     "title": "Set your timeline",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"
                 },
                 {
-                    "Task": 8,
+                    "Task": 5,
                     "title": "Review and publish stage 2",
                     "required": "optional",
                     "link": "/rfp/IR35",
