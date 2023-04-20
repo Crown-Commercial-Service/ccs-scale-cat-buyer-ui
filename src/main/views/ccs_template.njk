@@ -50,7 +50,7 @@
 
     {% endblock %}
     {% block head %}
-      {% include "webpack/css.njk" %}
+      {% include "css.njk" %}
     {% endblock %}
 
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
@@ -102,7 +102,7 @@
 
     {% block bodyEnd %}
       {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-      {% include "webpack/js.njk" %}
+      {% include "js.njk" %}
     {% endblock %}
 
   </body>
