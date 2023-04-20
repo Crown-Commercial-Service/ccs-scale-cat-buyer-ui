@@ -311,9 +311,6 @@ export class QuestionHelper {
       }
       else {
 
-      
-        console.log("mandatoryGroupList.length",mandatoryGroupList.length);
-        console.log("mandatoryNum",mandatoryNum);
         if (
           mandatoryGroupList != null &&
           mandatoryGroupList.length > 0 &&
