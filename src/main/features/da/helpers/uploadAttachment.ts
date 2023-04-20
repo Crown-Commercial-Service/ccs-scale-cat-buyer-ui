@@ -122,13 +122,13 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         }
         
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          errorList.push({ text: "Pricing schedule must be uploaded", href: "#rfp_offline_document" });
           fileError=true;
         }
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {

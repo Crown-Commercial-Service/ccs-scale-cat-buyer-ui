@@ -86,7 +86,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       fileNameStorageTermsNcond=[];
       FETCH_FILEDATA?.map(file => {
         if(stage2_value == "Stage 2"){
-          if (file.description === "optional") {
+          if (file.description === "mandatorysecond") {
             fileNameStorageTermsNcond.push(file);
           }
         }else{
@@ -130,6 +130,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         releatedContent: releatedContent,
         storage: TOTALSUM,
         agreement_id:agreement_id,
+        stage2_value
       };
      
       if (termsNcond != undefined) {
@@ -137,7 +138,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
          if (errorList==null) {
            errorList=[];
          }
-         
+        
          if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
            errorList.push({ text: "Upload your core terms, call-off order form and schedules", href: "#rfp_offline_document" });
            fileError=true;

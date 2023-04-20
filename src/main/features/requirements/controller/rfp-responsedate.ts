@@ -19,9 +19,9 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const agreement_id = req.session.agreement_id;
   if(agreement_id == 'RM1043.8'){
     if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-      let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
       }
     }else{
       let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
@@ -126,7 +126,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     }  
     else if (agreement_id=='RM1043.8') {
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
         if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
