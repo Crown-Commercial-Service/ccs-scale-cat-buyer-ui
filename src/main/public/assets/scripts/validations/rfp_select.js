@@ -276,7 +276,10 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
-      }else{
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
+      }
+      else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
@@ -289,7 +292,10 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
-      }else{
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
+      }
+      else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
