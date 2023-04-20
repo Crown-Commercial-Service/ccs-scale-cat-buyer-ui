@@ -133,9 +133,15 @@ export class QuestionHelper {
                   innerMandatoryNum += 1;
                   isSingleSelect = true;
                 }
-                if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
-                  innerMandatoryNum += 1;
+
+                if(agreement_id=="RM6187"){
+                  
+                }else{
+                  if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
+                    innerMandatoryNum += 1;
+                  }
                 }
+                
                 //Patch SCAT-7162
                 if (
                   agreement_id == 'RM1043.8' &&
@@ -306,7 +312,8 @@ export class QuestionHelper {
       else {
 
       
-
+        console.log("mandatoryGroupList.length",mandatoryGroupList.length);
+        console.log("mandatoryNum",mandatoryNum);
         if (
           mandatoryGroupList != null &&
           mandatoryGroupList.length > 0 &&
