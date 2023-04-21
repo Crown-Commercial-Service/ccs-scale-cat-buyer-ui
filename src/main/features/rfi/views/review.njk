@@ -66,7 +66,7 @@
 titleText: "There is a problem with publishing RFI",
 errorList: [
 {
-text: "You must check the box to confirm the above statement",
+text: "Confirm that the information you have provided is correct",
 href: "#ccs_rfi_publish_form"
 }
 ]
@@ -171,7 +171,7 @@ Change<span class="govuk-visually-hidden">project name</span>
 <dt class="govuk-summary-list__key">
               {% if agreementId_session == 'RM6187'%}
                   <p class="govuk-body">
-                      Who will lead the project (optional)
+                      Change who will lead your project (optional)
                   </p>
               {% else %}
                   <p class="govuk-body">
@@ -313,7 +313,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
                 
-                  {% if agreementId_session == "RM1557.13" %}
+                  {% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}
                       {% if i.question == 'Name of the Contracting Authority' %}
                           <p class="govuk-body">
                               Name of the organisation doing the procurement
@@ -351,7 +351,9 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                   {% if i.question != 'Name of the organisation doing the procurement' %}
                     {% if agreementId_session == "RM6187" or agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
+                      {% if i.question != 'The organisation using the products or services' %}
                       <p class="govuk-body">{{organizationName}}<p>
+                      {%endif%}
                     {%else%}
                       <p class="govuk-body">You have not answered this question<p>
                     {%endif%}
@@ -371,12 +373,16 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                   <p class="govuk-body">
                   {% if item.mandatory == false %}
                   {# {% if item.title == "Who the organisation using the products or services is" %} #}
-                    <strong>{{item.title}} (optional)</strong>
+                    {{item.title}} (optional)
                       {# {% else %} #}
                       {# {{item.title}} #}
                       {# {% endif %} #}
                       {% else %}
-                    {{item.title}}
+                      {% if item.title == 'Where the supplier will work' %}
+                        Where the supplied staff will work
+                      {% else %}
+                        {{item.title}}
+                      {% endif %}
                   {% endif %}
                   </p>
                 </dt>
@@ -439,13 +445,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
 
                           <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
-                              <p class="govuk-body">
-                              {% if agreementId_session == 'RM6187' %}
-Upload documents (optional)
-{% else %}
-Upload documents
-{% endif %}
-</p>
+                              <p class="govuk-body">Upload documents</p>
                             </dt>
                             {% if documents | length > 0 %}
                               <dd class="govuk-summary-list__value">
@@ -546,16 +546,18 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                           <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                               <p class="govuk-body">
-                                <h2 class="govuk-heading-m"> Publish your RfI</h2>
+                                <h2 class="govuk-heading-xl focus-data">
+                    Publish your RfI</h2>
                               </p>
 
                               {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
                                   <div class="govuk-inset-text">
-                                    <p class="govuk-body">Your RfI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
+                                    <p class="govuk-body">If you need to make any significant changes – including changes to scope or timelines – after publishing this RfI, you will need to cancel and start a new project.
+ </p>
                                   </div>
-                                  <p class="govuk-body">
+                                  {# <p class="govuk-body">
                                     If you need to make any significant changes – including changes to scope or timelines – after publishing this RfI, you will need to cancel and start a new project.
-                                  </p>
+                                  </p> #}
                               {% else %}
                                   <div class="govuk-inset-text">
                                     <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>

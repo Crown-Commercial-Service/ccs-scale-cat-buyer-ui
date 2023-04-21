@@ -22,7 +22,7 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (viewError == true) %}
 
-    {% if(agreement_header['agreementId_session']=='RM1043.8') %}
+    {% if(agreement_header['agreementId_session']=='RM1043.8') or (agreement_header['agreementId_session']=='RM6187') %}
         {% set errText = "Confirm that you are ready to award your contract" %}
     {% else %}
         {% set errText = "You must check this box to confirm that you have read and confirm the statements above" %}

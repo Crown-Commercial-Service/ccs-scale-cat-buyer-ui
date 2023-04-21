@@ -120,9 +120,9 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
   try {
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
         }
       }else{
         let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);
@@ -173,6 +173,7 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
     const FETCH_FILEDATA = FetchDocuments?.data;
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
     //console.log("test")
+    let fileNameStorageAdditonalDoc = [];
     let fileNameStoragePrice = [];
     let fileNameStorageMandatory = [];
     let fileNameStorageMandatorySecond = [];
@@ -183,6 +184,10 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
         }
         if (file.description === "optional") {
           fileNameStorageMandatorySecond.push(file.fileName);
+        }
+  
+        if (file.description === "secondoptional") {
+          fileNameStorageAdditonalDoc.push(file.fileName);
         }
   
         if (file.description === "mandatorysecond") {
@@ -417,6 +422,7 @@ let scoringData = [];
       //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       document: fileNameStoragePrice,
       documentsoptional: fileNameStorageMandatorySecond,
+      documentssecoptional : fileNameStorageAdditonalDoc,
       documents: fileNameStorageMandatory,
 
       ir35: IR35selected,
@@ -584,9 +590,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   try {
     if (agreementId_session=='RM1043.8') {//DOS
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
         }
       }else{
         let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);
@@ -3250,7 +3256,8 @@ const IR35selected='';
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session,
-      publishClickEventStatus:publishClickEventStatus
+      publishClickEventStatus:publishClickEventStatus,
+      selectedEventType : req.session['eventManagement_eventType']
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 

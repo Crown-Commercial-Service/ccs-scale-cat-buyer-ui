@@ -19,6 +19,8 @@ for(const selector of rfp_totalElementSelectors){
     elementSelector.fadeIn(); 
     elementSelectorCancel.fadeIn(); 
     elementSelector.on('click', () => {
+        let element = document.getElementById(`ccs_rfp_response_date_form_${selector}`);
+        element.reset();
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementID);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
@@ -51,6 +53,7 @@ for(const selector of rfp_totalElementSelectors){
     errorSelector.on('click', () => {
         
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
@@ -68,6 +71,7 @@ for(const selector of rfp_totalElementSelectors){
         if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 

@@ -133,9 +133,15 @@ export class QuestionHelper {
                   innerMandatoryNum += 1;
                   isSingleSelect = true;
                 }
-                if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
-                  innerMandatoryNum += 1;
+
+                if(agreement_id=="RM6187"){
+                  
+                }else{
+                  if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
+                    innerMandatoryNum += 1;
+                  }
                 }
+                
                 //Patch SCAT-7162
                 if (
                   agreement_id == 'RM1043.8' &&
@@ -271,6 +277,7 @@ export class QuestionHelper {
           if (response.status == HttpStatusCode.OK) {
             let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
             if (flag) {
+              console.log('inside 31 optional')
               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Optional');
             }
 
@@ -303,8 +310,6 @@ export class QuestionHelper {
         }
       }
       else {
-
-      
 
         if (
           mandatoryGroupList != null &&

@@ -788,7 +788,7 @@
                                           <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                             <li>start the next stage of your project (from the 'Procurement overview' page)</li>
                                             <li>copy all the details of this project to procure from your own platform</li>
-                                            <li>start another pre-tender market engagement event</li>
+                                            <li>start another pre-market engagement event</li>
                                           </ul>
                                         {% else %}
                                           <p>When you have the supplier responses,you can close this project and then:</p>
@@ -840,7 +840,7 @@
                                 <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-9">
                                   <li>start the next stage of your project(from the procurement overview page)</li>
                                   <li>copy all the details of this project to procure from your own platform</li>
-                                  <li>start another pre-tender market enagagement project</li>
+                                  <li>start another pre market enagagement project</li>
                                 </ul>
                               {% endif %}
                                  
@@ -1026,20 +1026,32 @@
             {% endif %}
           {% endif %}
 
+  {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <div class="ccs-width-container">
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            </div>
+            {% endif %}
+
+             {% if agreementId_session == "RM6187" and eventType == "EOI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+            <div class="ccs-width-container">
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            </div>
+            {% endif %}
+
+  
+             {% if agreementId_session == "RM6187" and (eventType == "FC" or eventType == "DA") and status.toUpperCase() == 'CLOSED' and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+           
+            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+            {% endif %}
+
           <div class="govuk-!-margin-top-6">
             {# {% if agreementId_session == "RM6187" and eventType != "RFI" and eventType != "EOI" and eventType != "FC" %}
             <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
             {% endif %} #}
 
-            {% if agreementId_session == "RM6187" and eventType == "RFI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            {% endif %}
+            
 
-          {% if agreementId_session == "RM6187" and eventType == "EOI" and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
-            <div class="ccs-width-container">
-            <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
-            </div>
-            {% endif %}
+         
 
           </div>
 

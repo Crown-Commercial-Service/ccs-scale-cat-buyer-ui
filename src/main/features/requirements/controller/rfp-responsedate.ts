@@ -19,9 +19,9 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const agreement_id = req.session.agreement_id;
   if(agreement_id == 'RM1043.8'){
     if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-      let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
       }
     }else{
       let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
@@ -126,7 +126,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     }  
     else if (agreement_id=='RM1043.8') {
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
         if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
@@ -450,27 +450,21 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     let errorText='';
     if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
     {
-      if(agreement_id == 'RM1043.8'){
-        errorText='Enter a date and time';
-      }else{
-        errorText='Date and Time invalid or empty. Please enter the valid date and time';
-      }
+     
+      errorText='Enter a date and time';
+     
     }
     else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
-      if(agreement_id == 'RM1043.8'){
-        errorText='Enter a complete date';
-      }else{
-        errorText='Date invalid or empty. Please enter the valid date';
-      }
+      
+      errorText='Enter a complete date';
+     
     }
     else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
     {
-      if(agreement_id == 'RM1043.8'){
-        errorText='Enter a complete time';
-      }else{
-        errorText='Time invalid or empty. Please enter the valid time';
-      }
+      
+      errorText='Enter a complete time';
+      
     }
 
     const errorItem = {     

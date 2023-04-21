@@ -19,6 +19,8 @@ import { logConstant } from '../../../common/logtracer/logConstant';
   
   const releatedContent = req.session.releatedContent;
   const { buildYorrfierror } = req.session;
+  const { SESSION_ID } = req.cookies;
+  const { eventId } = req.session;
   req.session['buildYorrfierror'] = false;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -27,8 +29,15 @@ import { logConstant } from '../../../common/logtracer/logConstant';
   const agreementLotName = req.session.agreementLotName;
   const projectId = req.session.projectId;
   res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
-  appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid };
+  let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+  let journeys=journeySteps.find((item: { step: number; }) => item.step == 81);
+    let checked=false;  
+  if(journeys.state =='Completed'){
+    checked=true;
+  }
+  appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid,checked };
   
+
   //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourRfiPageLog, req);
 

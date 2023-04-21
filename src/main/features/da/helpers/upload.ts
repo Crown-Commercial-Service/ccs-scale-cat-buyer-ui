@@ -107,14 +107,14 @@ export const FILEUPLOADHELPER: express.Handler = async (
          }
          
          if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
-           errorList.push({ text: "You must upload terms and conditions.", href: "#rfp_offline_document" });
+           errorList.push({ text: "Upload your core terms, call-off order form and schedules", href: "#da_offline_document" });
            fileError=true;
          }
        }
 
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#da_offline_document" })
         delete req.session["fileObjectIsEmpty"]
       }
       if (fileDuplicateError) {

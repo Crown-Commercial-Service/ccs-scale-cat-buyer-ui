@@ -347,6 +347,9 @@
                                       <th scope="col" class="govuk-table__header">Supplier answer</th>
                                     {% endif %}
                                     {% if status.toUpperCase() === 'EVALUATED' %}
+                                       {% if(stage2_value == 'Stage 2')  %}
+                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
+                                       {% endif %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2_dos}}</th>
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
@@ -393,6 +396,11 @@
                                           {%endif%}
 
                                           {% if status.toUpperCase() === 'EVALUATED' %}
+                                          {% if(stage2_value == 'Stage 2')  %}
+                                            <td class="govuk-text-align govuk-!-text-align-left">
+                                              {{ supplier.responseDate }}
+                                            </td>
+                                           {%endif%}
                                             <td class="govuk-text-align govuk-!-text-align-left">
                                               <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
                                             </td>
@@ -451,7 +459,9 @@
                                                 {% endif %}
 
                                               {% endif %}
-                                              
+                                              {% if status.toUpperCase() === 'EVALUATED' and stage2_value == 'Stage 2' %}
+                                               <a href="/eventmanagement?download=1" class="govuk-link download">{{data.backJump.title}}</a>
+                                              {% endif %}
                                             </td>
                                             {% if status.toUpperCase() === 'EVALUATED' %}
                                               <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
@@ -574,7 +584,11 @@
                                   <h2 class="govuk-heading-m">
                                     <span class="proc-task-list__section-number">5.</span>
                                     Evaluate suppliers</h2>
-                                  <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
+                                    {%if(stage2_value == 'Stage 2')%}
+                                      <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project. </p>
+                                    {%else%}
+                                      <p>You need to evaluate supplier responses using the Statement of Requirements, criteria, questions and methodology as set out in your bid pack. You will need to provide each supplier with a score and feedback for every question response, as well as a final evaluation score.</p>
+                                    {% endif %}
                                   <p>You can only enter your final evaluation score for each supplier in this service. You will need to complete your full evaluation offline.</p>
                                   {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
                                   <p>You can start supplier evaluation after downloading supplier responses. </p>

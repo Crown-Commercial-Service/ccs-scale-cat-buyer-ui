@@ -128,7 +128,7 @@
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
-                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
+                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{ loop.index }}">
                                                     {{ csrfProtection(csrf) }}
                                                         <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
@@ -142,7 +142,7 @@
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-day'] }}" required>
+                                        value="{{ data['clarification_date-day'] }}" >
                                                                     </div>
                                                                 </div>
 
@@ -154,7 +154,7 @@
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-month'] }}" required>
+                                        value="{{ data['clarification_date-month'] }}" >
                                                                     </div>
                                                                 </div>
 
@@ -166,7 +166,7 @@
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-4"
                                         id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-year'] }}" required>
+                                        value="{{ data['clarification_date-year'] }}" >
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -183,7 +183,7 @@
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-hour'] }}" required>
+                                        value="{{ data['clarification_date-hour'] }}" >
                                                                     </div>
                                                                 </div>
 

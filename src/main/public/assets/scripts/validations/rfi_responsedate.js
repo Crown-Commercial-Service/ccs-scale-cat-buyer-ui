@@ -58,8 +58,8 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        elementSelectorClicked.find('input').val('');
-        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        elementSelectorClicked.find('input[type=text]').val('');
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {
