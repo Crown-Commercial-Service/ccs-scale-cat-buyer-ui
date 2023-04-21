@@ -131,6 +131,7 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
         Rfp_confirm_upload: false,
         IsFileError: false,
         agreementId_session: req.session.agreement_id,
+        stage2_value
       };
       
       if (assessDocument != undefined) {

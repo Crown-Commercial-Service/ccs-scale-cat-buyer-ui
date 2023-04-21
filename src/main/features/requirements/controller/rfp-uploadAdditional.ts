@@ -66,7 +66,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
               filename: file.name,
             });
             if(stage2_value == 'Stage 2'){
-              formData.append('description', 'mandatorysecond');
+              formData.append('description', 'mandatorythird');
             }else{
               formData.append('description', 'optional');
             }
@@ -147,7 +147,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
             filename: offline_document.name,
           });
           if(stage2_value == 'Stage 2'){
-            formData.append('description', 'mandatorysecond');
+            formData.append('description', 'mandatorythird');
           }else{
             formData.append('description', 'optional');
           }
@@ -233,7 +233,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
 
 };
 
-export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_REMOVE_ADDITIONAL_FILES: express.Handler = async (req: express.Request, res: express.Response) => {
   let { selectedRoute } = req.session
   if (selectedRoute === 'FC') selectedRoute = 'RFP'
   const { SESSION_ID } = req.cookies //jwt
@@ -247,7 +247,6 @@ export const RFP_GET_REMOVE_FILES: express.Handler = async (req: express.Request
 
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.UploadDocumentDeleted, req);
-   
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional`)
   } catch (error) {
     LoggTracer.errorLogger(
@@ -290,6 +289,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
 
       let fileNameStorageTermsnCond = [];
       let fileNameStoragePricing = [];
+      let uploadAdditonal = [];
       let additionalfile = [];
       FETCH_FILEDATA?.map(file => {
 
@@ -299,6 +299,11 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         if (file.description === "mandatorysecond") {
           fileNameStorageTermsnCond.push(file.fileName);
         }
+
+        if (file.description === "mandatorythird") {
+          uploadAdditonal.push(file.fileName);
+        }
+
         if (file.description === "optional") {
           additionalfile.push(file.fileName);
         }
@@ -321,16 +326,18 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
           res.redirect(`/rfp/upload`);
         }
       } else {
+
         let nextStep = 32;
         if (stage2_value !== undefined && stage2_value === "Stage 2") {
-          step = 32;
-          nextStep = 33;
+          step = 86;
+          nextStep = 30;
         }
+       
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(eventId, nextStep, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
+         const response =   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${nextStep}`, 'Not started');
+        
         }
         if (stage2_value !== undefined && stage2_value === "Stage 2") {
           res.redirect(`/rfp/upload-additional-doc`);

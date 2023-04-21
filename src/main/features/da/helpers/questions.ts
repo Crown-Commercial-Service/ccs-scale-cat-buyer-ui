@@ -46,7 +46,9 @@ export class QuestionHelper {
      
       for (let i = 0; i < mandatoryGroupList.length; i++) {
         let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
+        
         if (isMandatory) {
+        
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
@@ -63,14 +65,20 @@ export class QuestionHelper {
             let answer = ''
             let selectedLocation;
             if (questionType == 'Text' || questionType == 'Percentage') {
+            
               let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
+              
               let textNum = 0;
               if (textMandatoryNum != null && textMandatoryNum > 0) {
+              
                 for (let j = 0; j < textMandatoryNum; j++) {
                   answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (answer != '' && answer != undefined) { textNum += 1; }
+                 
+                  if (gid != 'Group 16' && answer != '' && answer != undefined) {  textNum += 1; }
                 }
+                
                 if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+
               }
             }
             else if (questionType === 'MultiSelect') {
@@ -87,6 +95,9 @@ export class QuestionHelper {
                 let value = question_api_data?.[k]?.nonOCDS.options?.[j]['value'];
                 if (selectedLocation && !isSingleSelect) { innerMandatoryNum += 1; isSingleSelect = true; }
                 if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
+                if (gid === 'Group 16' && value !== undefined && value === 'Yes' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
               }
@@ -123,10 +134,11 @@ export class QuestionHelper {
               //mandatoryNumberinGroup += 1;
             }
           }
+          
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
-
+      
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
         
@@ -236,9 +248,12 @@ export class QuestionHelper {
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
       let mandatoryNum = 0;
+     
       for (let i = 0; i < mandatoryGroupList.length; i++) {
         let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
+        
         if (isMandatory) {
+         
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
@@ -284,6 +299,9 @@ export class QuestionHelper {
                 if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
+
+                
+
               }
             }
             else if (questionType === 'Date') {

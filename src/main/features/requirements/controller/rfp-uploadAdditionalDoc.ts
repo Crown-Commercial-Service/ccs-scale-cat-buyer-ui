@@ -41,7 +41,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   //const journeyStatus = req.session['journey_status'];
-
+ 
+ 
   if (req.files != undefined && req.files != null) {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
     const FileFilterArray = [];
@@ -105,7 +106,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
                     ...formHeaders,
                   },
                 });
-                req.session['isAssessUploaded'] = true
+                // req.session['isAssessUploaded'] = true
            
              //CAS-INFO-LOG 
              LoggTracer.infoLogger(null, logConstant.UploadDocumentUpdated, req);
@@ -173,7 +174,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
 
            // ------file duplicate check end
             if (duplicateFile) {
-              req.session['isAssessUploaded'] = false
+             // req.session['isAssessUploaded'] = false
               req.session["fileDuplicateError"] = true;
               FileFilterArray.push({
                 href: '#documents_upload',
@@ -225,6 +226,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expre
       res.render('error/500')
     };
   } else {
+    console.log('file else')
     req.session["fileObjectIsEmpty"] = true;
     res.redirect(req.url);
     //res.redirect(`/${selRoute}/rfp/upload-additional`);
@@ -271,10 +273,10 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
   const { projectId, eventId } = req.session;
   const agreementId_session = req.session.agreement_id;
   let { selectedRoute, stage2_value } = req.session;
+  
   try {
-    
+  
     if (req.session['isAssessUploaded']) {
-
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
       if (selectedRoute === 'dos') selectedRoute = 'RFP';
       let DefaultJID;
@@ -311,18 +313,12 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (re
           additionalDocfile.push(file.fileName);
         }
       });
-
-        // stage 2 => console.log(step,'step') __31
-        if (stage2_value !== undefined && stage2_value === "Stage 2") {
-          step = 86;
-        }
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-        res.redirect(`/rfp/task-list`);
+    
+       res.redirect(`/rfp/task-list`);
 
     } else {
       if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 2"){
-        req.session["assessDocument"] = { "IsDocumentError": true, "IsFile": req.session['isAssessUploaded'] ? true : false };
-        res.redirect(`/rfp/upload-additional`);
+         res.redirect(`/rfp/task-list`);
       }else{
         if(agreementId_session === 'RM1043.8' && stage2_value == "Stage 1"){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');

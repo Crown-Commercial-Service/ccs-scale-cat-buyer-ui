@@ -57,25 +57,24 @@ const ccsZvalidateRfiSecurity = (event) => {
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
   let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
-    // if(urlParams.get('agreement_id') == 'RM6187')
-    // msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
+      if(urlParams.get('agreement_id') == 'RM6187' && getGroup(event) === 'Group 7') msg = "Select whether there is an existing supplier";
   
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  //if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
     
-    // if ($('#rfp_security_confirmation').val().length === 0) {      
-    //   if(urlParams.get('agreement_id') == 'RM6187')
-    //        fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
-    //   else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
-    // }
-    // else if ($('#rfp_security_confirmation').val().length > 500) {
-    //   fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
-    // }
-  //}
+    if ($('#rfp_security_confirmation').val().length === 0) {      
+       if(urlParams.get('agreement_id') == 'RM6187' && getGroup(event) === 'Group 7')
+            fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+       else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+       if (fieldCheck !== true) errorStore.push(fieldCheck);
+     }
+     else if ($('#rfp_security_confirmation').val().length > 500) {
+       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+       if (fieldCheck !== true) errorStore.push(fieldCheck);
+     }
+  }
 
   if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
   else ccsZPresentErrorSummary(errorStore);

@@ -8947,6 +8947,7 @@ for (const selector of eoi_totalElementSelectors) {
 
     errorSelector.on('click', () => {
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         if (elementSelector.selector === elementSelectorClicked.selector) {
@@ -8957,12 +8958,14 @@ for (const selector of eoi_totalElementSelectors) {
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
+    
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
         if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
  
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -9664,6 +9667,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -9671,16 +9675,18 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
                 errorStore.push(fieldCheck);
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
             }
         
             else{
@@ -9689,7 +9695,7 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
-
+                $(`#rfp_offline_document-error`).hide();
             }
 
 
@@ -9764,25 +9770,24 @@ const ccsZvalidateRfiSecurity = (event) => {
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
   let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
-    // if(urlParams.get('agreement_id') == 'RM6187')
-    // msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select whether there is an existing supplier";
+      if(urlParams.get('agreement_id') == 'RM6187' && getGroup(event) === 'Group 7') msg = "Select whether there is an existing supplier";
   
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  //if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
-    
-    // if ($('#rfp_security_confirmation').val().length === 0) {      
-    //   if(urlParams.get('agreement_id') == 'RM6187')
-    //        fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
-    //   else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
-    // }
-    // else if ($('#rfp_security_confirmation').val().length > 500) {
-    //   fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
-    // }
-  //}
+    console.log(getGroup(event))
+    if ($('#rfp_security_confirmation').val().length === 0) {      
+       if(urlParams.get('agreement_id') == 'RM6187' && (getGroup(event) === 'Group 7' || getGroup(event) ==="Group 16"))
+            fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+       else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+       if (fieldCheck !== true) errorStore.push(fieldCheck);
+     }
+     else if ($('#rfp_security_confirmation').val().length > 500) {
+       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+       if (fieldCheck !== true) errorStore.push(fieldCheck);
+     }
+  }
 
   if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
@@ -12269,6 +12274,7 @@ for(const selector of rfp_totalElementSelectors){
     errorSelector.on('click', () => {
         
         let storedClickedID = localStorage.getItem('dateItem');
+        if(storedClickedID!=null){
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
         let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
@@ -12286,6 +12292,7 @@ for(const selector of rfp_totalElementSelectors){
         if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
         }
+    }
     });
 }
 
@@ -18810,7 +18817,10 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
-      }else{
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
+      }
+      else{
         ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
@@ -18823,7 +18833,10 @@ $('#rfp_singleselect').on('submit', event => {
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
       }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
-      }else{
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
+      }
+      else{
         ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
@@ -20688,7 +20701,7 @@ const ccsZvalidateRfiProject = (event) => {
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background.");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
     }else{
       fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
     }
