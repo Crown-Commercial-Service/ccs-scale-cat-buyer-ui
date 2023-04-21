@@ -336,7 +336,7 @@ for(let i=0;i<suppliersList.length;i++){
         const csv = json2csv.parse(JsonData);
         res.header('Content-Type', 'text/csv');
         res.attachment("FCA_AllSuppliers_List.csv");         
-        res.send(csv);
+        res.send('\ufeff' + csv);
     
       }else{
         res.render('fca_supplier_list',appendData );
