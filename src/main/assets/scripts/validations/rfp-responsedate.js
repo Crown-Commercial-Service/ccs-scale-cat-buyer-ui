@@ -82,6 +82,13 @@ for(const selector of rfp_totalElementSelectors){
     let elementID = "#rfp_cancel_change_clarification_date_"+selector;
     let elementSelector = $(elementID);
     elementSelector.on('click', () => {
+
+        $(`#clarification_date-day_${selector}`).val("");
+        $(`#clarification_date-month_${selector}`).val("");
+        $(`#clarification_date-year_${selector}`).val("");
+        $(`#clarification_date-hour_${selector}`).val("");
+        $(`#clarification_date-minute_${selector}`).val("");
+        
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0) {
