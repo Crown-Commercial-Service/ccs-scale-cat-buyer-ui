@@ -199,9 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                         const errorStore = [
-                            [parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]
+                            [parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]
                         ]
             
                         ccsZPresentErrorSummary(errorStore);
@@ -209,9 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
                         const errorStore = [
-                            [parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]
+                            [parentID, "You cannot change this date and time to be later than the next step in the timeline"]
                         ]
                         ccsZPresentErrorSummary(errorStore);
                     }else {

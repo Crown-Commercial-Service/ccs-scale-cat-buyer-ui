@@ -83,7 +83,11 @@ const ccsZvalidateRfPStrategy = event => {
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the details of your existing team');
         }
         else{
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+          if(agreement_id == "RM1043.8" && group_id == "Group 8" && pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the business problem you need to solve');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+          }
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
@@ -100,7 +104,7 @@ const ccsZvalidateRfPStrategy = event => {
         if ($('#rfp_prob_statement_n').val().length === 0) {
  
           if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the number of rounds');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter details about how often research will happen');
           }
           else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
             fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
@@ -174,12 +178,12 @@ const ccsZvalidateRfPStrategy = event => {
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per round');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details about the number of participants');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter research dates');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details about research dates');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {

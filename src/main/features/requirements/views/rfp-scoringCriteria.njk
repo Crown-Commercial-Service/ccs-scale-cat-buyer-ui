@@ -91,10 +91,10 @@
 
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}
-               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}}
+               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,'',lotId)}}
                {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}}
               {%else%}
-               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}}
+               {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,'',lotId)}}
               {%endif%}
               {%- endmacro %}
               
