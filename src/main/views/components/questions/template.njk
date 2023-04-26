@@ -1534,7 +1534,7 @@
                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) and form_name !== 'service_levels_kpi_form' and  form_name !== 'ccs_rfp_acronyms_form' and form_name !== 'service_user_type_form' %}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1583,7 +1583,7 @@
 
                           {% call CCSFieldset({
                             legend: {
-                              html: NumberWord[i]+" key<a href="+i+" class='clear-fields del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                              html: NumberWord[i]+" key<a href="+i+" class='clear-fields del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden  remove_icon' title='delete'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -2065,7 +2065,7 @@
                           {% endif %}
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2317,7 +2317,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
