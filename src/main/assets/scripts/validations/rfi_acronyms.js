@@ -179,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementsByClassName('term_acronym_fieldset acronym_'+target)[0].classList.add("ccs-dynaform-hidden");
 
         document.getElementById('rfi_term_' + target).value = "";
+        document.getElementById('rfi_term_' + target).dispatchEvent(new Event("keyup"));
         document.getElementById('rfi_term_definition_' + target).value = "";
+        document.getElementById('rfi_term_definition_' + target).dispatchEvent(new Event("keyup"));
 
 
         if (prev_coll > 1) {

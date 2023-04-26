@@ -134,12 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let removeLogic = eptArr.at(-1);
             console.log(`removeLogic: ${removeLogic}`);
             document.getElementById('eoi_term_' + removeLogic).value = "";
+            document.getElementById('eoi_term_' + removeLogic).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_definition_' + removeLogic).value = "";
+            document.getElementById('eoi_term_definition_' + removeLogic).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
         } else {
             target_fieldset.classList.add("ccs-dynaform-hidden");
             document.getElementById('eoi_term_' + target).value = "";
+            document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_definition_' + target).value = "";
+            document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
             if (prev_coll > 1) {
                 document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
             }
@@ -148,7 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         target_fieldset.classList.add("ccs-dynaform-hidden");
         document.getElementById('eoi_term_' + target).value = "";
+        document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
         document.getElementById('eoi_term_definition_' + target).value = "";
+        document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
         if (prev_coll > 1) {
             document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }

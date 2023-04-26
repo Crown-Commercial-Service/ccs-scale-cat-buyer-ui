@@ -358,6 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
             this_fieldset.classList.add('ccs-dynaform-hidden');
           }
         }
+        let resetcount = resetTierData.length +1;
+        document.getElementById('rfp_score_criteria_name_' + resetcount).dispatchEvent(new Event("keyup"));
+        document.getElementById('rfp_score_criteria_desc_' + resetcount).dispatchEvent(new Event("keyup"));
 
         for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
           if (score_criteria_fieldset == 1) {

@@ -277,19 +277,23 @@ document.addEventListener('DOMContentLoaded', () => {
                        var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
                        if(fc_question_precenate_fir){
                         document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
                        if(fc_question_precenate_sec){
                         document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
                        if(fc_question_precenate_third){
                         document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
                        }
                        //ID BASED
                        var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
                        if(fc_question_precenate_El){
                          document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                        // fc_question_precenate_El.dispatchEvent(new Event("keyup"));
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
@@ -298,25 +302,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
-                   
                        target_fieldset.classList.add("ccs-dynaform-hidden");
                        
                        var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
                        }
-                       //ID BASED
+                      //ID BASED
                        var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
                          document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
+                      //   fc_question_precenate_El.dispatchEvent(new Event("keyup"));
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -338,19 +345,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
                        if(fc_question_precenate_fir){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
                        if(fc_question_precenate_sec){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
                        }
                        var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
                        if(fc_question_precenate_third){
                         document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
                        }
                        //ID BASED
                        var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
                        if(fc_question_precenate_El){
                          document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
+                       // fc_question_precenate_El.dispatchEvent(new Event("keyup"));
                        }
              
                    if (prev_coll > 1) {

@@ -1596,6 +1596,9 @@ CharacterCount.prototype.bindChangeEvents = function () {
 // fields by directly changing its `value`. These changes don't trigger events
 // in JavaScript, so we need to poll to handle when and if they occur.
 CharacterCount.prototype.checkIfValueChanged = function () {
+  if(this.$textarea.oldValue == '' && this.$textarea.value == ''){
+   this.updateCountMessage();
+  }
   if (!this.$textarea.oldValue) this.$textarea.oldValue = '';
   if (this.$textarea.value !== this.$textarea.oldValue) {
     this.$textarea.oldValue = this.$textarea.value;
@@ -1608,7 +1611,6 @@ CharacterCount.prototype.updateCountMessage = function () {
   var countElement = this.$textarea;
   var options = this.options;
   var countMessage = this.$countMessage;
-
   // Determine the remaining number of characters/words
   var currentLength = this.count(countElement.value);
   var maxLength = this.maxLength;
