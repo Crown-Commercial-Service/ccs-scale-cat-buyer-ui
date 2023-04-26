@@ -109,8 +109,10 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       
       contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
       // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
-      contactData['Trading name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
-      contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+     // contactData['Trading name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+     contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
+            
+     contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
       contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
       
 
