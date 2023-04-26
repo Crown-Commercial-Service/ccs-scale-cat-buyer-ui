@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    let selectors = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
@@ -186,15 +187,26 @@ document.addEventListener('DOMContentLoaded', () => {
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
-                    let currentDate = new Date(document.getElementsByClassName(`clarification_${element - 1}`)[0].innerText);
-                    let enteredDate = new Date(year.val(), month.val() - 1, day.val());
+
+
+                    let currentDate = new Date(document.getElementsByClassName(`dynamicid_${element - 1}`)[0].innerText);
+                    let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
+        
                     let nextDate = new Date();
                     let isNextDate = false;
-                    if(selectors.length + 1 > element && document.getElementsByClassName(`clarification_${element+ 1}`).length > 0){
-                        nextDate = new Date(document.getElementsByClassName(`clarification_${element+ 1}`)[0].innerText);
+                    if(selectors.length + 1 > element && document.getElementsByClassName(`dynamicid_${element+ 1}`).length > 0){
+                        // parent = document.getElementById('showDateDiv5');
+                        // children = parent.children[1].children[0].children[0].innerHTML
+                        // console.log("element",element)
+                        // parent = document.getElementById(`showDateDiv${element+ 1}`);
+                        // children = parent.children[1].children[0].children[0].innerHTML
+                        // console.log("children",children);
+
+                        nextDate = new Date(document.getElementsByClassName(`dynamicid_${element+ 1}`)[0].innerText);
+                        
                         isNextDate = true;
                     }
-                    
+
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
