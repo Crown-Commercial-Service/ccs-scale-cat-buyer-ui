@@ -151,7 +151,7 @@
                         })
                         %}
 
-                    {% if (agreement_id == 'RM1043.8' and lotId == '1')  %}
+                    {% if (agreement_id == 'RM1043.8' and requirement.OCDS.title == 'Enter the name for this level')  %}
                         {% set closebtnhtml = '' %}
                       {% else %}
                         {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>" %}
