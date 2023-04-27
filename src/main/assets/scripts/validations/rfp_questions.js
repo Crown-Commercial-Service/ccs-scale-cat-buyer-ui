@@ -545,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
            
             }
 
-            // $("#del_fc_question_"+box_num).removeClass("ccs-dynaform-hidden");
+            $("#del_fc_question_"+box_num).removeClass("ccs-dynaform-hidden");
 
 
 
