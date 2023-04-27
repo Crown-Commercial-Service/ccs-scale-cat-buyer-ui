@@ -65,10 +65,10 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     else{
       uploadDatas.taskList[2].taskStatus="Optional";
     }
-    // if(agreementId_session == 'RM1043.8') { //DOS
-    //   uploadDatas.taskList[3].taskStatus="Optional";
-    // }
-
+   
+    if(agreementId_session == 'RM1043.8') { //DOS
+      uploadDatas.taskList[3].taskStatus="Optional";
+    }
     let uploadAddDoc = req.session['isuploadAdditionalDoc']
     let firstupload = false;
     let secondupload = false;

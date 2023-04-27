@@ -1,6 +1,6 @@
+dist: xenial
 language: shell
 os: linux
-dist: xenial
 
 branches:
   only:
@@ -17,6 +17,13 @@ before_install:
   - unzip terraform_"$TF_VERSION"_linux_amd64.zip
   - sudo mv terraform /usr/local/bin/
   - rm terraform_"$TF_VERSION"_linux_amd64.zip
+
+before_deploy:
+  - nvm install 16.13.1
+  - nvm use 16.13.1
+  - npm ci
+  - npm run build-assets
+  - rm -rf node_modules/
 
 deploy:
   # SBX1 - modify CF_ENVIRONMENT as required
