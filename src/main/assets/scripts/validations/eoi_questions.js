@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 document.getElementById('eoi_question_'+current_col).value=first;
                                
                             }
-        
+         
                             console.log(Sibling.classList);
                             Sibling = Sibling.nextElementSibling;
                         } else {
@@ -129,12 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         let removeLogic = eptArr.at(-1);
                         console.log(`removeLogic: ${removeLogic}`);
                         document.getElementById('eoi_question_' + removeLogic).value = "";
-                       
+                        document.getElementById('eoi_question_' + removeLogic).dispatchEvent(new Event("keyup"));
                         document.getElementById('fc_question_' + removeLogic).closest("div").classList.add("ccs-dynaform-hidden")
                     } else {
                         target_fieldset.classList.add("ccs-dynaform-hidden");
                         document.getElementById('eoi_question_' + target).value = "";
-                       
+                        document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                           document.querySelector('#fc_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                         }
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     target_fieldset.classList.add("ccs-dynaform-hidden");
                     document.getElementById('eoi_question_' + target).value = "";
-                    
+                    document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
                     if (prev_coll > 1) {
                       document.querySelector('#main_eoi_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                     }
