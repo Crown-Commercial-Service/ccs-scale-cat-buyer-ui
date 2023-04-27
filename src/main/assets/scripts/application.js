@@ -172,6 +172,10 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
+  if (document.getElementById('choose_build_rfi') !== null)
+  document.getElementById('choose_build_rfi').addEventListener('submit', ccsZvalidateRfiMcfType);
+
+
 if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
