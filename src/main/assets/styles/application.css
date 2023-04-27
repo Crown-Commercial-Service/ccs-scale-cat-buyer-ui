@@ -4022,6 +4022,15 @@ display: none;
 span#create_message_input-error,span#reply_message_input-error{
 display: none;
 }
+.backdrop-supplierConfirmAllPopup{
+  display: none !important;
+}
+.backdrop-supplierConfirmAllPopup:target{
+  display: block !important;
+}
+#backdrop-supplierConfirmAllPopup .messagepop{
+  display: block !important;
+}
 
 .govuk-header {
   font-family: "GDS Transport", arial, sans-serif;
