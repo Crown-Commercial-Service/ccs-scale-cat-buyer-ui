@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                    }
                    with_value_count--;
-                  
+                   totalAnswerd()
                    if (with_value_count != 11) {
                     
                     $('.add-another-btn').removeClass("ccs-dynaform-hidden");
@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ccsZPresentErrorSummary(errorStore);
                     return;
                 }
-                totalAnswerd();
+                //totalAnswerd();
             } else ccsZPresentErrorSummary(errorStore);
         });
 

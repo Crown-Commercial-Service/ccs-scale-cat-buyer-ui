@@ -69,6 +69,14 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   }
   /** Daylight savings */
 
+  activeListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+
+  pastListDash.sort(function(a: any, b: any){
+    return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
+  });
+  
   const appendData = {
     data: dashboarData,
     searchText,

@@ -284,23 +284,23 @@ const emptyFieldCheckEoi = (add_more='') => {
       checkFieldsEoi();
       
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'You must add term or acronym.'];
+        fieldCheck = [term_field, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'You must add definition for the term or acronym.'];
+        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        fieldCheck = [term_field.id, 'You must add term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }

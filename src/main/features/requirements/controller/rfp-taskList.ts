@@ -12,6 +12,7 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 /**
  *
  * @Rediect
@@ -70,6 +71,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     //DOS
     cmsData = chooseRouteDataDOSMCF;
     if(stage2_value !== undefined && stage2_value === "Stage 2"){
+   
     cmsData = stage2DataDOS
     }
   }else if(agreementId_session == 'RM1557.13' && lotid=='4') {
@@ -100,8 +102,10 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(el.step == 27 && el.state == 'Completed') return true;
         return false;
       });
-      
+     
       if(agreementId_session == "RM1043.8" && stage2_value !== undefined && stage2_value === "Stage 2"){
+
+      //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Optional');
        
         let timelineStatus = journeySteps.filter((el: any) => {
           if(el.step == 33 && el.state == 'Completed') return true;
@@ -156,20 +160,31 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         }
   
       } }
-
-    
        if(nameJourneysts.length > 0){
-
+        
         let addcontsts = journeySteps.filter((el: any) => { 
           if(el.step == 30) return true;
           return false;
         });
-
-        if(addcontsts[0].state == 'Cannot start yet'){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+        
+        if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
+          if(addcontsts[0].state == 'Not started'){
+          //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+           
+          }
+      
+        }
+        else{
+          if(addcontsts[0].state == 'Cannot start yet'){
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+           
+          }
         }
 
+        
+
       }else{
+        
         let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
         if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
       }
@@ -199,13 +214,97 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         if(element.step == 29 && element.state == 'Not started') { element.state = 'Optional'; }
     });
 
+       //cas-1116
+      
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+    const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    
+    let firstupload = false;
+    let secondupload = false;
+    let thirdupload = false;
+
+    FETCH_FILEDATA?.map(file => {
+    
+      if (file.description === "mandatoryfirst") {
+        firstupload =true
+      
+      }
+      if (file.description === "mandatorysecond") {
+        secondupload =true
+      }
+
+      if (file.description === "mandatorythird") {
+        thirdupload =true
+      }
+
+      if (file.description === "optional") {
+       // additionalfile.push(file.fileName);
+      }
+    });
+   
+    if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value == "Stage 2"){     
+    if(firstupload == true && secondupload == true && thirdupload == true){
+
+      journeySteps.forEach(function (element, i) {
+        if(element.step == 86 ) { element.state = 'Completed'; }
+    });
+   //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Completed');
+      let timelineStatus = journeySteps.filter((el: any) => {
+                if(el.step == 86 && el.state == 'Completed') return true;
+                return false;
+              });
+      
+        
+      // let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+      
+      if(timelineStatus[0]?.state == 'Completed'){
+        journeySteps.forEach(function (element, i) {
+          if(element.step == 30 ) { element.state = 'Not started'; }
+      });
+     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started');
+      }
+      
+    }
+   
+    if(firstupload != true || secondupload != true || thirdupload != true){
+       let timelineStatus = journeySteps.filter((el: any) => {
+                if(el.step == 30 && el.state == 'Completed') return true;
+                return false;
+              });
+        
+        if(timelineStatus[0]?.state != 'Completed'){
+          journeySteps.forEach(function (element, i) {
+            if(element.step == 30 ) { element.state = 'Cannot start yet'; }
+        });
+    //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet');
+        }
+        let overviewStatus = journeySteps.filter((el: any) => {
+        if(el.step == 86 && el.state == 'Not started') return true;
+        return false;
+      });
+          
+          if(overviewStatus[0]?.state != 'Not started'){
+        journeySteps.forEach(function (element, i) {
+          if(element.step == 86 ) { element.state = 'In progress'; }
+      });
+    }
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'In progress');
+    }
+  }
+
+
     if(selectedeventtype=='DA'){
       statusStepsDataFilter(cmsData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
-    else{      
-      statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+    else{ 
+     
+    //  if(agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value !== "Stage 2"){     
+        
+        statusStepsDataFilter(cmsData, journeySteps, 'rfp', agreementId_session, projectId, eventId,stage2_value);
+     // }
     }
-
+   
      // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
     if(agreementId_session != 'RM1043.8'){ // For DOS
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -302,9 +401,7 @@ LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
     }
     
   } catch (error) {
-
-
-    LoggTracer.errorLogger(
+     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

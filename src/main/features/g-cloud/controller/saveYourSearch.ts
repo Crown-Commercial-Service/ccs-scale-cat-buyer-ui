@@ -160,8 +160,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
 
             if (response.status == 200) {
               req.session.savedassessmentID=response.data;
-              req.session.searchUrl=false;
-              req.session.criteriaData=false;
+              
               if(saveandcontinue !==undefined){
                 res.redirect('/g-cloud/export-results');
               }
@@ -208,8 +207,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           
           if (response.status == 200) {
             req.session.savedassessmentID=savesearch;
-           req.session.searchUrl=false;
-           req.session.criteriaData=false;
+           
             if(saveandcontinue !==undefined){
               res.redirect('/g-cloud/export-results');
             }
