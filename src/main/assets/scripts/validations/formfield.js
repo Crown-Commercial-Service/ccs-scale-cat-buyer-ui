@@ -108,6 +108,17 @@ const ccsZvalidateRfiType = (event) => {
   else ccsZPresentErrorSummary(errorStore);
 };
 
+const ccsZvalidateRfiMcfType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "results-per-page-1", "Select how you will build your RfI");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["choose_build_rfi"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+
 const ccsZvalidateEoiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 

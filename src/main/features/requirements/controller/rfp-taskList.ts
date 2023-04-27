@@ -255,10 +255,14 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
                 return false;
               });
       
-        
+        let timelineStatusResult = journeySteps.filter((el: any) => {
+                  if(el.step == 30 && el.state == 'Completed') return true;
+                  return false;
+                });      
       // let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
       
-      if(timelineStatus[0]?.state == 'Completed'){
+      if(timelineStatus[0]?.state == 'Completed' && timelineStatusResult[0]?.state != 'Completed'){
+        
         journeySteps.forEach(function (element, i) {
           if(element.step == 30 ) { element.state = 'Not started'; }
       });
