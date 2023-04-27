@@ -128,21 +128,27 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
       if(supData!=undefined) {
-        var completion = "No"
+        var completion = "No";
+        let score = "0";
         if(ScoresAndFeedbackURLdata.data[i].score === undefined) {
           completion = "No"
+          score = "pending"
         } else if(ScoresAndFeedbackURLdata.data[i].score > 0) {
           completion = "Yes"
+          score = ScoresAndFeedbackURLdata.data[i].score;
         } else {
           completion = "No"
+          score = ScoresAndFeedbackURLdata.data[i].score;
         }
-          
+        console.log(ScoresAndFeedbackURLdata.data[i].score);
+        
        let dataPrepared = {
         "id": supData[i].supplier.id,
         "name": supData[i].supplier.name,
         "responseState": supData[i].responseState,
         "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
+         "score":score
       }
     
      if (supplierdata.data.responders[i].responseState == 'Submitted') {
