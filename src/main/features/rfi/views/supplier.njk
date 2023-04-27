@@ -99,7 +99,7 @@
                       <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
                       <div id="rfi_required_suppliers-item-hint" class="govuk-hint">
                         {% if supplier.organization.identifier.legalName | length > 0 %}
-                          <label>Trading name: {{supplier.organization.identifier.legalName}}</label>
+                          <label>{{supplier.organization.identifier.legalName}}</label>
                           <br>
                         {% endif %}
                       </div>
