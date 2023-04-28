@@ -95,10 +95,10 @@
                   </div>
                   {% for supplier in suppliers_list %}
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-6 govuk-!-margin-bottom-5">
-                      <h3 class="govuk-heading-m">Company name: {{supplier.organization.name}}</h3>
+                      <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
                       <div id="rfi_required_suppliers-item-hint" class="govuk-hint">
                         {% if supplier.organization.identifier.legalName | length > 0 %}
-                          <label>Trading name: {{supplier.organization.identifier.legalName}}</label>
+                          <label>{{supplier.organization.identifier.legalName}}</label>
                           <br>
                         {% endif %}
                       </div>

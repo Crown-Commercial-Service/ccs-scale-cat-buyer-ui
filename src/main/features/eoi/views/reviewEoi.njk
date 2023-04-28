@@ -63,7 +63,7 @@
         titleText: "There is a problem with publishing EOI",
         errorList: [
           {
-            text: "You must check this box to confirm that you have read and confirm the statements above.",
+            text: "Confirm that the information you have provided is correct",
             href: "#ccs_eoi_publish_form"
           }
         ]
@@ -163,7 +163,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Add colleagues to your project
+              Add colleagues to your project (optional)
             </dt>
             {% if procurementColleagues | length > 0 %}
               <dd class="govuk-summary-list__value">
@@ -202,8 +202,9 @@
         </dl>
         <h2 class="govuk-heading-m">2. Build your EOI
         </h2>
+        <hr/>
         <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
+          {# <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Choose how to build your EoI
             </dt>
@@ -223,12 +224,20 @@
                 </a>
               {% endif %}
             </dd>
-          </div>
+          </div> #}
+          
           {% for item in eoi_data %}
           
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                {{ item.title }} 
+               
+                 {% if item.mandatory==false %}
+                {{ item.title }} (optional)
+                 {% else %}
+                 {{ item.title }}
+                {% endif %}
+                 
+                
               </dt>
               {% if data['eoi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
@@ -292,12 +301,12 @@
                   {% endfor %}
                 </dl>
                 <h2 class="govuk-heading-m">
-                  3. Review and publish your EoI
+                  3. Review and publish
                 </h2>
                 <dl class="govuk-summary-list">
                   <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
-                      Upload documents
+                      Upload documents (optional)
                     </dt>
                     {% if documents | length > 0 %}
                       <dd class="govuk-summary-list__value">
@@ -338,7 +347,7 @@
                     </dt>
 
                     <dd class="govuk-summary-list__value">
-                      <p class="govuk-body-s">{{supplierLength}} &nbsp suppliers selected</p>
+                      <p class="govuk-body-s">{{supplierLength}} &nbsp suppliers</p>
                     </dd>
                     <dd class="govuk-summary-list__actions">
                                 {% if eventStatus != "published" and closeStatus!="CLOSED" %}
@@ -398,18 +407,19 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
 
               {% if agreement_id != "RM6187" %}
                 <div class="govuk-inset-text">
-                <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
+                  <p class="govuk-body">Publishing compiles your information and sends it to all suppliers. Please be patient as this could take up to 30 seconds. </p>
                 </div>
                 <p class="govuk-body">
                   After publishing this EoI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
                 </p>
               {% else %}  
                 <div class="govuk-inset-text">
-                <p class="govuk-body">Your EoI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p>
-                </div>
+                {# <p class="govuk-body">Your EoI will now be sent to suppliers. Please be patient as this could take up to 30 seconds. </p> #}
                 <p class="govuk-body">
                   If you need to make any significant changes – including changes to scope or timelines – after publishing this EoI, you will need to cancel and start a new project.
                 </p>
+                </div>
+                
               {% endif %}  
                 <p class="govuk-body">
                 {% if agreement_id != "RM6187" %}
@@ -418,18 +428,17 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                 </p>
                 <br>
                   <br>
-
-  {% if agreement_id == "RM6187" %}
-                  {{ CCSWarningText({
-    text: "By publishing this EoI you are stating that, to the best of your knowledge, the information you have provided is correct.",
-    iconFallbackText: "Warning"
-    }) }}
-  {% else %}
-                    {{ CCSWarningText({
-    text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
-    iconFallbackText: "Warning"
-    }) }}
-  {% endif %}
+                  {% if agreement_id == "RM6187" %}
+                                  {{ CCSWarningText({
+                    text: "By publishing this EoI you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                    }) }}
+                  {% else %}
+                                    {{ CCSWarningText({
+                    text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                    }) }}
+                  {% endif %}
                     <div class="ccs-link-group">
                       <span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -448,9 +457,10 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                         <!-- <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state focusdata">
                           link 1</a> -->
                       </span>
-                      <br></div>
+                      
+                      </div>
                       <br>
-                        <br></div>
+                        </div>
                       </div>
                       <form
                         id="ccs_eoi_publish_form"
@@ -461,57 +471,77 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                         {{ csrfProtection(csrf) }}
                         {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}
                           {{ CCSCheckboxes({
-      idPrefix: "eoi_publish_confirmation",
-      name: "eoi_publish_confirmation",
-      items: [
-      {
-      "value": 1,
-      html: "<label><strong>By checking this box, I confirm the statements above</strong></label>",
-      Checked: ""
-      }
-      ]
-      }) }}
+                            idPrefix: "eoi_publish_confirmation",
+                            name: "eoi_publish_confirmation",
+                            items: [
+                            {
+                            "value": 1,
+                            html: "<label><strong>By checking this box, I confirm the statements above</strong></label>",
+                            Checked: ""
+                            }
+                            ]
+                            }) }}
                           <div class="govuk-button-group">
                             {%if publishClickEventStatus == true%}
                             {{ CCSButton({
-        attributes: {
-        id: "eoi_btn_publish_now"
-        },
-        classes: "oneTimeClick",
-        disabled:true,
-        text: "Publish and continue"
-        }) }}
-        {%else%}
-        {{ CCSButton({
-        attributes: {
-        id: "eoi_btn_publish_now"
-        },
-        classes: "oneTimeClick",
-        text: "Publish and continue"
-        }) }}
-        {%endif%}
-                    {% if agreementId_session == "RM6187" %} 
-                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
-                            </a>
-                    {% else %}
-                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement
-                            </a>
-                    {% endif %}        
-                          </div>
-                        {% else %}
-                          <div class="govuk-button-group">
-                            <a href="/event/management?id={{ event_id }}" class="govuk-link govuk-link--no-visited-state">Return to your project
-                            </a>
-                          </div>
-                        {% endif %}
-                        {{ CCSInput({
-      id: "finished_pre_engage",
-      name: "finished_pre_engage",
-      type: "hidden",
-      value: "true"
-      }) }}
+                                attributes: {
+                                id: "eoi_btn_publish_now"
+                                },
+                                classes: "oneTimeClick",
+                                disabled:true,
+                                text: "Publish and continue"
+                                }) }}
+                                {%else%}
+                                {{ CCSButton({
+                                attributes: {
+                                id: "eoi_btn_publish_now"
+                                },
+                                classes: "oneTimeClick",
+                                text: "Publish and continue"
+                                }) }}
+                                {%endif%}
+                                {% if agreementId_session == "RM6187" %} 
+                                        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
+                                        </a>
+                                {% else %}
+                                        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement
+                                        </a>
+                                {% endif %}        
+                                      </div>
+                                    {% else %}
+                                      <div class="govuk-button-group">
+                                        <a href="/event/management?id={{ event_id }}" class="govuk-link govuk-link--no-visited-state">Return to your project
+                                        </a>
+                                      </div>
+                                    {% endif %}
+                                    {{ CCSInput({
+                                    id: "finished_pre_engage",
+                                    name: "finished_pre_engage",
+                                    type: "hidden",
+                                    value: "true"
+                                    }) }}
                       </form>
                     </div>
                   </div>
+
+    
+{# CAS-32 #}
+{{ CCSDialog({
+  title:'Reset your publish date',
+  description:'Your project creation date is different from your project publishing date. This means the publish date on the timeline is incorrect. To fix this, click Reset timeline below to update the publish date to todays date. ',
+  redirect:'#',
+  type:'publishTimelineMismatch'
+}) }}
+
+{# Loader container #}
+  <div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+        {# <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2> #}
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
+
+
                 </main>
               {% endblock %}

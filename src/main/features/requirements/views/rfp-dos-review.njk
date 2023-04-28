@@ -42,6 +42,14 @@
   {% endif %}
 {% endblock %}
 {% block content %}
+<div class="govuk-error-summary hide-block" id="checkbox_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="checkbox_error_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (viewError == true) and (apiError == false) %}
       {{ CCSErrorSummary({
@@ -59,7 +67,7 @@
         titleText: "There has been an error publishing your FC",
         errorList: [
           {
-            text: "Confirmation checkbox must be checked before progressing",
+            text: "Confirm that the information you have provided is correct",
             href: "#ccs_rfp_publish_form"
           }
         ]
@@ -790,7 +798,8 @@
                       </div>
                     {% endif %}
                    {% endif %}
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <div
+                     class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
                         
                           <h3 class="govuk-!-margin-bottom-0">
@@ -1137,40 +1146,11 @@
                     
                     
                     
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value">
-                            <h3 class="govuk-!-margin-bottom-0">
-                            <strong>Upload more documents (optional)</strong>
-                          </h3>
-                          </dt>
-                          <dd class="govuk-summary-list__value"></dd>
-                          
-
-                    <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" %}
-                          <a
-                                        class="govuk-link"
-                                        href="/rfp/upload-additional">
-                                        Change<span class="govuk-visually-hidden">project name</span>
-                          </a>
-                        {% endif %}
-                      </dd>
+                   
+                      
                    </div>  
 
-                    {% if (document != undefined and document != null and documents | length > 0) %}
-                    {% set rows = 1 %}
-                     {% for doc in documents %}
-                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                      <dt class="govuk-summary-list__value">
-                        <p>Document {{rows}}</p>
-                      </dt>
-                      <dd class="govuk-summary-list__value">
-                        <p>{{ doc }}</p>
-                      </dd>
-                    </div>
-                     {% set rows = rows+1 %}
-                     {%- endfor %}
-                    {% endif %} 
+
 
 
                   <div class="govuk-summary-list__row">
@@ -1181,7 +1161,53 @@
                   
                   </dl>
 
+                  <h2 class="govuk-heading-l">3. Upload documents</h2>
+                    <dl class="govuk-summary-list">
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
+                      </div>
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions">
+                               {% if eventStatus != "published" %}
+                                      <a
+                                        class="govuk-link"
+                                        href="/rfp/upload-additional">
+                                        Change<span class="govuk-visually-hidden">project name</span>
+                                      </a>
+                                    {% endif %}
+                        </dd>
+                      </div>
+                        {% if (document != undefined and document != null and documents | length > 0) %}
+                          {% set rows = 1 %}
+                          {% for doc in documents %}
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value">
+                              <p>Document {{rows}}</p>
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                              <p>{{ doc }}</p>
+                            </dd>
+                          </div>
+                          {% set rows = rows+1 %}
+                          {%- endfor %}
+                          {% else %} 
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value"><p>Upload additional documents (optional)</p></dt>
+                            <dd class="govuk-summary-list__value"><p>No files attached</p></dd>
+                          </div>
+                          {% endif %} 
 
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
+                      </div>
+                    </dl>
+                      
 
 
                   {% else %}
@@ -1993,7 +2019,7 @@
                 {# START----------------------Your assessment criteria #}
                 {% block Your_assessment_criteria %}
                   {% if (agreement_id == "RM1043.8") and (lotId == 1)or(lotId == 3) %}
-<h2 class="govuk-heading-l">3. Your assessment criteria
+<h2 class="govuk-heading-l">4. Your assessment criteria
                     </h2>
                   {% else %}
 <h2 class="govuk-heading-l">5. Your assessment criteria
@@ -2760,7 +2786,7 @@
                    
                       
              
-<h2 class="govuk-heading-l">4. Set your timeline
+<h2 class="govuk-heading-l">5. Set your timeline
               </h2>
 
                     <dl class="govuk-summary-list">
@@ -3229,5 +3255,22 @@
                 </form>
               </div>
             </div>
+
+{# CAS-32 #}
+{{ CCSDialog({
+  title:'Reset your publish date',
+  description:'Your project creation date is different from your project publishing date. This means the publish date on the timeline is incorrect. To fix this, click `Reset timeline` below to update the publish date to today`s date.',
+  redirect:'#',
+  type:'publishTimelineMismatch'
+}) }}
+
+{# Loader container #}
+  <div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+        {# <h2 class="govuk-heading-m govuk-!-margin-top-4 loderMakeRes">Downloading responses</h2> #}
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
           </main>
         {% endblock %}

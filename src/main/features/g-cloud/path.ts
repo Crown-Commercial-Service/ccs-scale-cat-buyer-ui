@@ -104,6 +104,23 @@ export default function (app: Application): void {
     gcloudController.POST_SAVE_YOUR_SEARCH_RESULTS,
   );
 
+   //@GET '/g-cloud/add-collaborators'
+   app.get(
+    GCloud_PATHS.GET_ADD_COLLABORATOR,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    gcloudController.GET_ADD_COLLABORATOR,
+  );
+  //@POST '/g-cloud/get-collaborator-detail'
+  app.post(GCloud_PATHS.POST_ADD_COLLABORATOR, AUTH, gcloudController.POST_ADD_COLLABORATOR);
+    //@POST '/g-cloud/proceed-collaborators'
+    app.post(GCloud_PATHS.POST_PROCEED_COLLABORTORS, AUTH, gcloudController.POST_PROCEED_COLLABORATORS);
+    //@POST '/g-cloud/get-collaborator-detail/js-enabled'
+  app.post(GCloud_PATHS.POST_ADD_COLLABORATOR_JSENABLED, AUTH, gcloudController.POST_ADD_COLLABORATOR_JSENABLED);
+
+  //@POST '/g-cloud/add-collaborator-detail'
+  app.post(GCloud_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, gcloudController.POST_ADD_COLLABORATOR_TO_JAGGER);
+
+  app.get(GCloud_PATHS.POST_DELETE_COLLABORATOR_TO_JAGGER, AUTH, gcloudController.POST_DELETE_COLLABORATOR_TO_JAGGER);
   
 
 }

@@ -50,29 +50,14 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Upload pricing schedules and other documents",
-      "eventTask": [
-        {
-          "Task": 1,
-          "title": " Upload your pricing schedule",
-          "required": "optional",
-          "status": "Todo",
-          "link": "/rfp/upload-attachment"
-        },
-        {
-          "Task": 2,
-          "title": "Upload your core terms, call-off order form and schedules (terms and conditions) ",
-          "required": "optional",
-          "link": "/rfp/upload-doc",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 3,
-          "title": " Upload assessment documents",
-          "required": "optional",
-          "status": "Cannot start yet",
-          "link": "/rfp/upload-additional"
-        }
+      "eventTitle": "Upload documentation",
+      "eventTask": [{
+              "Task": 1,
+              "title": "Upload your pricing schedule and other documents",
+              "required": "mandatory",
+              "link": "/rfp/upload",
+              "status": "Todo"
+          }
       ]
     },
     {

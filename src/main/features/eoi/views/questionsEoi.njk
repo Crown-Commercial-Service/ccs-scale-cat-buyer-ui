@@ -471,7 +471,7 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -595,7 +595,7 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -706,8 +706,8 @@
                               
                              
                                 {{ CCSInput({
-                                      label: {
-                                        text: "Enter the name of the existing supplier. For multiple suppliers, separate with a comma after each",
+                                       label: {
+                                        html: "You have the option to enter the name of an existing supplier.<br>For multiple suppliers separate with a comma after each",
                                         classes: "govuk-label govuk-date-input__label",
                                         for: "rfp_security_confirmation"
                                       },
@@ -834,7 +834,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },

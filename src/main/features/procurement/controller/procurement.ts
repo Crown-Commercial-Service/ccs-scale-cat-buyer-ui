@@ -47,6 +47,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
+  
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let forceChangeDataJson;
@@ -118,6 +119,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     try {
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
+     
     } catch (journeyError) {
       const _body = {
         'journey-id': req.session.eventId,
@@ -151,25 +153,38 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           event.status = step.state;
         }
       }
+
+     
       if (step.step == 2) {
 
         if(agreementId_session == 'RM1043.8'){ //DOS
           event.status = '';
         }
-
+        
         if (
           req.session['journey_status'][2].state == 'In progress' ||
           req.session['journey_status'][1].state == 'Completed'
         ) {
+          
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+      
+            event.buttonDisable = true;
+          } else {
+         
           event.buttonDisable = false;
         }
       }
+      
       if (step.step == 3) {
+       
         if (req.session['journey_status'][1].state == 'In progress') {
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+       
+          event.buttonDisable = true;
+        }else {
+         
           event.buttonDisable = false;
         }
       }

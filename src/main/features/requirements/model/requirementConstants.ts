@@ -38,6 +38,10 @@ export enum REQUIREMENT_PATHS {
   //CONFIRMATION REVIEW
   RFP_GET_CONFIRMATION_REVIEW = '/rfp/confirmation_review',
 
+  //PUBLISH DATE MISMATCH
+  PUBLISH_DATE_MISMATCH = '/rfp/publish_date_mismatch',
+  PUBLISH_DATE_MISMATCH_CANCEL = '/rfp/publish_date_mismatch/cancel',
+
   //Selected service
   RFP_GET_SELECTED_SERVICE = '/rfp/selected_service',
   RFP_POST_SELECT_SERVICES='/rfp/select-services',
@@ -72,6 +76,12 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL_PROCEED = '/rfp/upload-additional/proceed',
+  RFP_GET_REMOVE_ADDITIONAL_FILES = '/rfp/files/remove_additional',
+
+  RFP_GET_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
+  RFP_POST_UPLOAD_ADDITIONAL_DOC = '/rfp/upload-additional-doc',
+  RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED = '/rfp/upload-additional-doc/proceed',
+  RFP_GET_REMOVE_ADDITIONAL_DOC_FILES = '/rfp/files/remove_additional_doc',
 
  //Add cllaborator DA
  DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',

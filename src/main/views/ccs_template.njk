@@ -32,7 +32,7 @@
       gtag('config', '{{GLOBAL_SITE_TAG_ID}}');
     </script>
     <meta charset="utf-8">
-    <title>{{ title }}| Crown Commercial Service</title>
+    <title>{{ title }} | Crown Commercial Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="{{ themeColor | default('#0b0c0c') }}">
     {# Hardcoded value of $govuk-black #}
@@ -50,7 +50,7 @@
 
     {% endblock %}
     {% block head %}
-      {% include "webpack/css.njk" %}
+      {% include "css.njk" %}
     {% endblock %}
 
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
@@ -102,7 +102,7 @@
 
     {% block bodyEnd %}
       {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-      {% include "webpack/js.njk" %}
+      {% include "js.njk" %}
     {% endblock %}
 
   </body>

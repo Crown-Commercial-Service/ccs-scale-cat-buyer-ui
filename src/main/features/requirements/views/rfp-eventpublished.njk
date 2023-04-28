@@ -35,7 +35,7 @@
   </div>
     <br>
   <div class="govuk-panel govuk-panel--confirmation">
-        <h2 class="govuk-panel__body">
+        <h2 class="govuk-panel__title">
         {%if(selectedeventtype=='DA')%}
         {{data.board.headerDA}}
         {%else%}
@@ -54,7 +54,7 @@
         <br><br><br>
             {% if (agreement_id == 'RM1557.13')  %}
                 <div class="govuk-panel__body">
-                    <strong class="govuk-!-font-size-24">{{data.board.ref}} {{ rfi_ref_no }} </strong> <p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+                    <strong class="govuk-!-font-size-24">{{data.board.ref}} {{ rfi_ref_no }} </strong> <p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
                 </div>
             {% else %}
                 <div class="govuk-panel__body">

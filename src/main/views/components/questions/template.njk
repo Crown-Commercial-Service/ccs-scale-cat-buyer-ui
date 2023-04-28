@@ -301,7 +301,7 @@
                             hint: {
                                 text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                             },
-                            maxlength: 500,
+                            maxlength: 5000,
                             classes:"rfpterm rpf_500 govuk-!-width-two-thirds"
                         }) }}
               {% endif %}
@@ -355,6 +355,12 @@
           {% set classnameForCount = "rfpterm" %}
           {% set countLength = 500 %}
           {% endif %}
+
+        {% if ((group_id == "Group 6" and agreement_id == 'RM6187') or (group_id == 'Group 4' and agreement_id == "RM6187")) %}
+            {% set classnameForCount = "rfpterm" %}
+          {% set countLength = 10000 %}
+            {% endif %}
+
               {% if(agreement_id=="RM6187" and eventType=="rfp" and requirement.OCDS.title=="Enter your question")  %}
             {% set classnameForCount = "messagesendcountDaSocial" %}
             {% set countLength = 2000 %}
@@ -444,13 +450,13 @@
           {% set countLength = 500 %}
        
          {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your technical question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(agreement_id=="RM6187" and eventType=="da" and requirement.OCDS.title=="Enter your social value question")  %}
-            {% set classnameForCount = "messagesendcountDaSocial" %}
-            {% set countLength = 2000 %}
+            {% set classnameForCount = "rfpterm" %}
+            {% set countLength = 10000 %}
           {% endif %}
 
           {% if(requirement.OCDS.title=="Name of the group") %}
@@ -1455,7 +1461,7 @@
                             <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
                               <div class="govuk-form-group yeswho">
                               
-                                  {{ CCSInput({
+                                  {{ CCSCharacterCount({
                                       label: {
                                         html: "You have the option to enter the name of an existing supplier.<br>For multiple suppliers separate with a comma after each",
                                         classes: "govuk-label govuk-date-input__label",
@@ -1528,7 +1534,7 @@
                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) and form_name !== 'service_levels_kpi_form' and  form_name !== 'ccs_rfp_acronyms_form' and form_name !== 'service_user_type_form' %}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1577,7 +1583,7 @@
 
                           {% call CCSFieldset({
                             legend: {
-                              html: NumberWord[i]+" key<a href="+i+" class='clear-fields del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                              html: NumberWord[i]+" key<a href="+i+" class='clear-fields del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden  remove_icon' title='delete'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -2059,7 +2065,7 @@
                           {% endif %}
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2311,7 +2317,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },

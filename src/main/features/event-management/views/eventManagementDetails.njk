@@ -208,6 +208,7 @@
   <p class="govuk-body">
     {% for attachemnt in messageDetails.nonOCDS.attachments%}
       <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}&id={{id}}">{{attachemnt.name}}</a>
+      <span>( {{attachmentSize}} )</span>
     {% endfor %}
   </p>
   <p class="govuk-body">{{messageDetails.OCDS.description }}</p>

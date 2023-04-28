@@ -8,6 +8,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
@@ -23,8 +24,18 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const EventID = req.session['eventId'];
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
+
   let CurrentTimeStamp = req.session.endDate;
-  CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
+  let dateSplited = CurrentTimeStamp.split('*')[1];
+  if(momentz(new Date(dateSplited)).tz("Europe/London").isDST()) {
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+01:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
+  } else {
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+00:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
+  }
+
+  // CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
   
   const _bodyData = {
     endDate: CurrentTimeStamp,
@@ -65,7 +76,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
 
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13'){
+      if(agreementId_session == 'RM1557.13'){
         const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
          setTimeout(function(){
           res.redirect('/eoi/event-sent');
@@ -73,7 +84,6 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
       }
       else{
 
-      
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       
       //CAS-INFO-LOG 
@@ -170,17 +180,18 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         title: question.OCDS.description,
         id: question.OCDS.id,
         criterian: question.nonOCDS.criterian,
+        mandatory:question.nonOCDS.mandatory,
         answers: question.OCDS.requirements.map(o => {
           return { question: o.OCDS?.title, questionType: o.nonOCDS.questionType, values: o.nonOCDS.options };
         }),
       };
     });
-
     const FilteredSetWithTrue = ExtractedEOI_Answers.map(questions => {
       return {
         title: questions.title,
         id: questions.id,
         criterian: questions.criterian,
+        mandatory:questions.mandatory,
         answer: questions.answers.map(answer => {
           const obj = {
             question: answer.question,
@@ -222,7 +233,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         }),
       };
     });
-
+   
     const EOI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
     const project_name = req.session.project_name;
@@ -264,7 +275,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       //Fix for SCAT-4146 - arranging the questions order
       let expected_eoi_keydates=EOI_DATA_TIMELINE_DATES;
     
-      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
+      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1)).shift()
   
       for(let i=0;i<expected_eoi_keydates[0].answer.length;i++){
         let data=expected_eoi_keydates[0].answer[i].values[0].value;
@@ -345,7 +356,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(null, logConstant.eoireviewAndPublishPageLog, req);
-
+    
     res.render('reviewEoi', appendData);
     
     

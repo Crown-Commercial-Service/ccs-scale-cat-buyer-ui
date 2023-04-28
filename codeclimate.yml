@@ -1,0 +1,39 @@
+version: "2" 
+
+checks:
+  argument-count:
+    enabled: true
+    config:
+      threshold: 8
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 8
+  file-lines:
+    enabled: true
+    config:
+      threshold: 500
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 10
+  method-count:
+    enabled: true
+    config:
+    threshold: 20
+  method-lines:
+    enabled: true
+    config:
+    threshold: 70
+  nested-control-flow:
+    enabled: true
+    config:
+      threshold: 8
+  return-statements:
+    enabled: true
+    config:
+      threshold: 8
+  similar-code:
+    enabled: true
+    config:
+  threshold: 68
