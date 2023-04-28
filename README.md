@@ -18,14 +18,22 @@ Install dependencies by executing the following command:
 $ npm install
 ```
 
+You will then need to build the assets by running:
+
 ```bash
-$ npm configure
+$ npm run build-assets
 ```
+
+If you want the assets (the `css` and the `JavaScripts`) to be automatically updated when you change them, in a separate terminal run:
+
+```bash
+$ npm run watch-assets
+``
 
 Run:
 
 ```bash
-$ npm start
+$ npm run start:dev
 ```
 
 Or for windows PC
@@ -38,22 +46,6 @@ The applications's home page will be available at http://localhost:3000
 
 ## Developing
 
-### Code style
-
-We use [ESLint](https://github.com/typescript-eslint/typescript-eslint)
-alongside [sass-lint](https://github.com/sasstools/sass-lint)
-
-Running the linting:
-
-```bash
-$ npm run lint
-```
-Running the unit test case:
-
-```bash
-$ npm run test:routes
-```
-
 ### Making CSS / JS Changes
 
 We use packed and minified scripts and stylesheets in the web application.
@@ -64,20 +56,65 @@ When you have made changes to scripts/styles and want to promote them to the pac
 $ npm run build-assets
 ```
 
-This is also run as part of the npm setup task.
+**NOTE:** if you have run `npm run watch-assets` then your packed assets will be automatically updated when you make changes to a CSS or JavaScript file.
 
-### Running the tests
+### Code style
 
-This template app uses [Mocha](https://mochajs.org/) as the test engine. You can run unit tests by executing
-the following command:
+We use [ESLint](https://github.com/typescript-eslint/typescript-eslint).
 
-Running accessibility tests:
+Run the linting:
+
+```bash
+$ npm run lint
+```
+
+### Unit tests
+
+**NOTE:** if you are using windows, you need to run `SET NODE_ENV=development` before running the tests.
+
+This template app uses [Mocha](https://mochajs.org/) as the test engine.
+After running the tests you should be able to find the generated reports in the `mochawesome-report/` folder.
+
+Run all the test case:
+
+```bash
+$ npm test
+```
+
+Run the routes test case:
+
+```bash
+$ npm run test:routes
+```
+
+Run the unit test case:
+
+```bash
+$ npm run test:unit
+```
+
+Run the accessibility test case:
 
 ```bash
 $ npm run test:a11y
 ```
-
 Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
+
+### Test coverage
+
+**NOTE:** due to a memory issue, the cause of which is currently unknown, this script does not yet work
+
+We use [Instanbul nyc](https://github.com/istanbuljs/nyc).
+
+To run the tests and record test coverage, run the command:
+
+```bash
+$ npm run test:coverage
+```
+
+### Feature tests
+
+TODO: This are still to be added
 
 ### Healthcheck
 

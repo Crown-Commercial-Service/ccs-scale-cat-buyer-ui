@@ -7,6 +7,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/formValidationError.njk" import summary, inline %}
 
 {% set lead = lead.OCDS.contact.email %}
 
@@ -58,19 +59,9 @@
 {% block content %}
 
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    {% if (error) %}
-
-      {{ CCSErrorSummary({
-  titleText: "There is a problem",
-  errorList: [
-    {
-      text: "You cannot add this user. Please try with another user.",
-      href: "#"
-    }
-  ]
-}) }}
-    {%endif %}
     
+    {{ summary({errors: error.summary}) }}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <div class="govuk-grid-row">
@@ -141,29 +132,27 @@
             {% endif %}
 
         {% endif %}
-
-        
-
         <div class="ccs-page-section">
           <p class="govuk-body">Add colleagues</p>
-          <form method="POST" action="/rfp/get-collaborator-detail">
+          <form method="POST" action="/rfp/add-collaborator-detail">
             {{ csrfProtection(csrf) }}
-            <div class="govuk-button-group">
+            
+            <div class="govuk-body">
+              <div class="govuk-form-group">
+              
               {{ CCSSelect({
-          id: "rfp_collaborators",
-          name: "rfp_collaborators",
-          items: sortedMembers
-          })
-          }}
-          &nbsp;
-          {{ CCSButton({
-          text: "Add",
-          classes: "ccs-dynaform-hidden",
-          attributes: {
-          id: "ccs_collab_view"
-          },
-          type: "submit"
-          }) }}
+                id: "rfp_collaborators",
+                name: "rfp_collaborators",
+                items: sortedMembers,
+                errorMessage: error.inline["rfp_collaborators"]
+                })
+                }}
+               </div>
+          
+              {{ CCSButton({
+              text: "Add",
+              type: "submit"
+              }) }}
             </div>
           </form>
         </div>
@@ -172,7 +161,7 @@
         {% else %}
           {% set addcolleaguedetails = "" %}
         {% endif %}
-        <form method="POST" action="/rfp/add-collaborator-detail" >
+        {# <form method="POST" action="/rfp/add-collaborator-detail" >
           {{ csrfProtection(csrf) }}
           <div class="ccs-page-section" id="potential-collaborator">
             <div id="potential-collaborator-detail" class={{addcolleaguedetails}}>
@@ -223,7 +212,7 @@
               {% endif %}
               </div>
 
-            </form>
+            </form> #}
             <div id="collaborators-section">
               {% for collaborator in collaborators %}
                 {% if collaborator.OCDS.contact.email !== lead %}
@@ -272,16 +261,16 @@
                   {{ csrfProtection(csrf) }}
 
                   {{ CCSInput({
-      id: "rfi_collaborators_added",
-      name: "rfi_collaborators_added",
-      type: "hidden",
-      value: true
-      }) }}
+                      id: "rfi_collaborators_added",
+                      name: "rfi_collaborators_added",
+                      type: "hidden",
+                      value: true
+                      }) }}
 
-                  <div class="govuk-button-group">
-                    {{ CCSButton({
-        text: "Save and continue"
-        }) }}
+                                  <div class="govuk-button-group">
+                                    {{ CCSButton({
+                        text: "Save and continue"
+                        }) }}
                     <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
                   </div>
                 </form>

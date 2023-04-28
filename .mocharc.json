@@ -1,0 +1,10 @@
+{
+  "exit": true,
+  "recursive": true,
+  "require": [
+    "ts-node/register",
+    "tsconfig-paths/register"
+  ],
+  "reporter": "mochawesome",
+  "timeout": "10000"
+}

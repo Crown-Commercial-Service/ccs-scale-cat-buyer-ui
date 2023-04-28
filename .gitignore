@@ -36,3 +36,11 @@ src/test/routes/features/__Mock__/env.ts
 
 # Local setup files
 envs.ts
+
+# Ignore compiled files
+src/main/public/assets/files/
+src/main/public/assets/fonts/
+src/main/public/assets/images/
+src/main/public/assets/scripts/
+src/main/public/assets/styles/
+src/main/public/assets/svg/
