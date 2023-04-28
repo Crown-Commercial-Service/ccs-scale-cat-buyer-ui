@@ -19,14 +19,14 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
   try {
     const usersTempRaw = await TenderApi.Instance(SESSION_ID).get(url);
     const usersTemp = usersTempRaw.data;
-    
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(usersTempRaw, logConstant.getUserDetails, req);
 
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     const UserOrgRaw = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     const dataRaw = UserOrgRaw.data;
-    
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(UserOrgRaw, logConstant.getUserOrgProfile, req);
 
@@ -97,25 +97,19 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
 
 export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId ,eventId} = req.session;
-  const { rfp_procurement_lead_input: userMail } = req.body;
-  const url = `/tenders/projects/${projectId}/users/${userMail}`;
+  const { projectId, eventId } = req.session;
+  const { rfp_procurement_lead_input } = req.body;
+  const url = `/tenders/projects/${projectId}/users/${rfp_procurement_lead_input}`;
   try {
     const _body = {
       userType: 'PROJECT_OWNER',
     };
     const updateRaw = await TenderApi.Instance(SESSION_ID).put(url, _body);
-
     //CAS-INFO-LOG
     LoggTracer.infoLogger(updateRaw, logConstant.changeLeadProcurementUpdate, req);
-
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
-
     res.redirect('/rfp/add-collaborators');
   } catch (error) {
-    
-    
-
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
     );
@@ -128,7 +122,6 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       'Tender Api - getting users from organization or from tenders failed',
       !isJaggaerError,
     );
-      
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/procurement-lead');
   }
