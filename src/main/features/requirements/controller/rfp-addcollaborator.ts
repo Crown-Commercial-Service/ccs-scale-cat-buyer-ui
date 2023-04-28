@@ -12,7 +12,8 @@ import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/addco
 import * as doscmsData from '../../../resources/content/MCF3/requirements/dosaddcollaborator.json';
 import * as gcloudcmsData from '../../../resources/content/requirements/gcloudAddCollaborator.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
+import validation from '@nubz/gds-validation';
+import { genarateFormValidation } from '../../../errors/controller/formValidation';
 // RFI ADD_Collaborator
 /**
  *
@@ -93,9 +94,9 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       lead_data: leadUser,
       agreementLotName,
       error: isJaggaerError,
-      releatedContent: releatedContent,
+      releatedContent: releatedContent
     };
-
+   
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
 
@@ -160,6 +161,7 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
   if (rfi_collaborators === '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/rfi/add-collaborators');
+    
   } else {
     try {
       const user_profile = rfi_collaborators;
@@ -199,53 +201,61 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
 };
 
 export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
-  
   const { SESSION_ID } = req.cookies;
-  const { rfp_collaborator } = req['body'];
-  
-  if (rfp_collaborator == '') {
-    req.session['isJaggaerError'] = true;
-    res.redirect('/rfp/add-collaborators');
-  }else{
-
-  try {
-    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfp_collaborator}`;
-    const userType = {
-      userType: 'TEAM_MEMBER',
-    };
-    
-    try{
-      await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-       
-      //CAS-INFO-LOG
-       LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
-
-      req.session['searched_user'] = [];
-      res.redirect('/rfp/add-collaborators');
-    }catch(err){
-      req.session['isJaggaerError'] = true;
-      res.redirect('/rfp/add-collaborators');
+  const { rfp_collaborators } = req['body'];
+  const fieldValidate = {
+    fields: {
+      'rfp_collaborators': {
+        type: 'nonEmptyString',
+        name: 'Add colleagues',
+        errors :{
+          required : 'Colleagues must be selected from the list'
+        }
+      }
     }
-
-  } catch (err) {
-    const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
-    );
-    LoggTracer.errorLogger(
-      res,
-      err,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
-      !isJaggaerError,
-    );
-    req.session['isJaggaerError'] = isJaggaerError;
-    res.redirect('/rfp/add-collaborators');
   }
-  
+  const errors = validation.getPageErrors(req.body, fieldValidate)
+  if (errors.hasErrors) {
+      req.session['isJaggaerError'] = errors;
+      res.redirect('/rfp/add-collaborators');
+  } else {
+     try{
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfp_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+        console.log(baseURL)
+        try{
+          await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+          LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+          req.session['searched_user'] = [];
+          res.redirect('/rfp/add-collaborators');
+        }catch(err){
+          const errorMessage = `You cannot add this user{ ${rfp_collaborators} }. Please try with another user`;
+          const errors = genarateFormValidation('rfp_collaborators', errorMessage )
+          req.session['isJaggaerError'] = errors;
+          res.redirect('/rfp/add-collaborators');
+        }
+       } catch(err) {
+        console.log(err.response)
+        const isJaggaerError = err.response?.data.errors.some(
+          (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+        );
+        LoggTracer.errorLogger(
+          res,
+          err,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          'Tender agreement failed to be added',
+          !isJaggaerError,
+        );
+        req.session['isJaggaerError'] = isJaggaerError;
+        res.redirect('/rfp/add-collaborators');
+     }
+      
   }
-
+ 
 };
 
 export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {

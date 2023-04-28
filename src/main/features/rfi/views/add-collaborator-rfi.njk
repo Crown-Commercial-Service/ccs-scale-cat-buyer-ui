@@ -1,34 +1,26 @@
 {% extends "template.njk" %}
-
 {% if agreementId_session == 'RM6187' %}
   {% set footerSupportLayer = true %}
   {% set fcaHelperLayer = true %}
 {% endif %}
-
-
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
-
+{% from "macros/formValidationError.njk" import summary, inline %}
 {% set lead = lead.OCDS.contact.email %}
-
-
-{% set organisationUser = userdata%}
-
+{% set organisationUser = userdata %}
 {% set sortedMembers = [{value: "", text: "Select Colleague"}] %}
 {% for user in organisationUser %}
-  {% if user.userName !== lead%}
+  {% if user.userName !== lead %}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
-  {%endif %}  
+  {% endif %}
 {% endfor %}
-
 {% set title = 'Add colleagues | Contract Award Service' %}
-{% set url -%}
-  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{% set url -%} /projects/create-or-choose?lotId={{ lotId }}&agreementLotName={{ agreementLotName }}
 {%- endset %}
 {% block breadCrumb %}
-{% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
-{{ CCSBreadcrumbs({
+  {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
+    {{ CCSBreadcrumbs({
        items: [
         {
         text: "Dashboard",
@@ -51,8 +43,8 @@
         }
         ]
       }) }}
-{% else %}
-{{ CCSBreadcrumbs({
+  {% else %}
+    {{ CCSBreadcrumbs({
        items: [
         {
         text: "Dashboard",
@@ -75,196 +67,219 @@
         }
         ]
       }) }}
-{% endif %}
-{% endblock %}
-
-{% block content %} 
-
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-{% if(error) %}
-
-{{ CCSErrorSummary({
-  titleText: "There is a problem",
-  errorList: [
-    {
-      text: "You cannot add this user. Please try with another user.",
-      href: "#"
-    }
-  ]
-}) }}
-{%endif %}
-
-
-<div class="govuk-grid-row">
-  <h1 class="govuk-heading-xl">
-    {% if agreementId_session == "RM1557.13" %}
-   <strong> Add colleagues to your project (Optional) </strong>
-   {% else %}
-   <strong> {{data.title}} </strong>
-   {% endif %}
-  </h1>
-  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-
-      {% include "includes/project_header.njk" %}
-    </div>
-  </div>
-  {% if agreementId_session == "RM1557.13" %}
-  <div class="ccs-page-section govuk-!-padding-bottom-7">
-    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
-    <p class="govuk-body">Additional colleagues can also help you write your requirements and review and evaluate suppliers.</p>
-    <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">Public Procurement Gateway and Contract Award Service. </a></p>
-    <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this later.</p>
-    <p class="govuk-body">You cannot remove yourself from this project. If you want to be removed, you will need to change the lead colleague, who can then remove you. You can do this in the previous step. </p>
-  </div>
-  {% else %}
-  {% if agreementId_session == 'RM1043.8' %}
-  <div class="ccs-page-section govuk-!-padding-bottom-7">
-    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
-    <p class="govuk-body">{{data.content.pdos1}}</p>
-    <p class="govuk-body">{{data.content.pdos2}}</p>
-    <p class="govuk-body">{{data.content.pdos3}}</p>
-    <p class="govuk-body">{{data.content.pdos4}} </p>
-  </div>
-  {% else %}
-   <div class="ccs-page-section">
-    <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence. It is not possible to add colleagues after a project has been published.</p>
-    <p class="govuk-body">{{data.content.p1}}</p>
-
-  {% if agreementId_session == "RM6187" %}
-      <p>Use the drop-down box below to add colleagues. They will need to be registered with the <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">Public Procurement Gateway and Contract Award Service.</a></p>
-  {% else %}
-      <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
-        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
   {% endif %}
-   
-      <p class="govuk-body">{{data.content.p3}}</p>
-      
-     {% if agreementId_session != 'RM6187' %}
-      {{ CCSInsetText({
+{% endblock %}
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {{ summary({errors: error.summary}) }}
+    <div class="govuk-grid-row">
+      <h1 class="govuk-heading-xl">
+        {% if agreementId_session == "RM1557.13" %}
+          <strong>
+            Add colleagues to your project (Optional)
+          </strong>
+        {% else %}
+          <strong>
+            {{ data.title }}
+          </strong>
+        {% endif %}
+      </h1>
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {% include "includes/project_header.njk" %}
+          </div>
+        </div>
+        {% if agreementId_session == "RM1557.13" %}
+          <div class="ccs-page-section govuk-!-padding-bottom-7">
+            <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it
+              due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence.
+              It is not possible to add colleagues after a project has been published.</p>
+            <p class="govuk-body">Additional colleagues can also help you write your requirements and review and evaluate suppliers.</p>
+            <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be registered with the
+              <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">Public Procurement Gateway and
+                Contract Award Service.
+              </a>
+            </p>
+            <p class="govuk-body">If you need to wait for them to register, you can continue to the next step and come back to this
+              later.</p>
+            <p class="govuk-body">You cannot remove yourself from this project. If you want to be removed, you will need to change
+              the lead colleague, who can then remove you. You can do this in the previous step.
+            </p>
+          </div>
+        {% else %}
+          {% if agreementId_session == 'RM1043.8' %}
+            <div class="ccs-page-section govuk-!-padding-bottom-7">
+              <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it
+                due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence.
+                It is not possible to add colleagues after a project has been published.</p>
+              <p class="govuk-body">{{ data.content.pdos1 }}</p>
+              <p class="govuk-body">{{ data.content.pdos2 }}</p>
+              <p class="govuk-body">{{ data.content.pdos3 }}</p>
+              <p class="govuk-body">{{ data.content.pdos4 }}
+              </p>
+            </div>
+          {% else %}
+            <div class="ccs-page-section">
+              <p class="govuk-inset-text govuk-body">Assign additional colleagues to this project in case you are unable to manage it
+                due to annual leave or any unexpected absences. This will ensure that your project runs smoothly even in your absence.
+                It is not possible to add colleagues after a project has been published.</p>
+              <p class="govuk-body">{{ data.content.p1 }}</p>
+              {% if agreementId_session == "RM6187" %}
+                <p>Use the drop-down box below to add colleagues. They will need to be registered with the
+                  <a href="https://identify.crowncommercial.gov.uk/manage-org/register" target="_blank">Public Procurement Gateway and
+                    Contract Award Service.</a>
+                </p>
+              {% else %}
+                <p class="govuk-body">{{ data.content.p2 }}
+                  <a target="_blank" class="govuk-link govuk-link--no-visited-state" href="{{ data.content.a1.href }}">{{ data.content.a1.text }}</a>
+                </p>
+              {% endif %}
+              <p class="govuk-body">{{ data.content.p3 }}</p>
+              {% if agreementId_session != 'RM6187' %}
+                {{ CCSInsetText({
         html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
           If you are not the lead you can add three colleagues.</p>'
         }) }}
-      {% endif %}
-
-    <p class="govuk-body">{{data.content.p4}} </p>
-    <br><br>
-    </div>
-    {% endif %}
-    {% endif %}
-      <div class="ccs-page-section">
-        <p class="govuk-body">Add colleagues:</p>
-        <form method="POST" action="/rfi/get-collaborator-detail">
-        {{ csrfProtection(csrf) }}
-         <div class="govuk-button-group">
-        {{ CCSSelect({
-        id: "rfi_collaborators",
-        name: "rfi_collaborators",
-        items: sortedMembers
-        })
-        }}
-
-        </div>
-        </form>
-      </div>
-
-      <form method="POST" action="/rfi/add-collaborator-detail" >
-      {{ csrfProtection(csrf) }}
-      <div class="ccs-page-section" id="potential-collaborator">
-        <div id="potential-collaborator-detail">
-          <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
-          </p>
-          <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
-          <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
-        </div>
-
-        {{ CCSInput({
-            id: "rfi_collaborator_append",
-            name: "rfi_collaborator",
-            type: "hidden",
-            value: collaborator['email']
-            }) }}
-
-      {% if agreementId_session == "RM1557.13" %}
-          {{ CCSButton({
-                text: "Add another colleague",
-                attributes: {
-                id: "ccs_collab_add",
-                disabled: true
-                },
-                classes: "govuk-button--secondary"
-        }) }}
-
-      {% else %}
-          {{ CCSButton({
-                text: "Add colleague",
-                attributes: {
-                id: "ccs_collab_add",
-                disabled: true
-                },
-                classes: "govuk-button--secondary"
-                }) }}
-      {% endif %}
-
-      </div>
-        
-      </form>
-      <div id="collaborators-section">
-        {% for collaborator in collaborators %}
-        {% if collaborator.OCDS.contact.email !== lead %}
-        <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.OCDS.id}}">
-          <div id="collaborator-detail">
-
-            <a href='/rfi/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
-            </a>
-            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span> </strong><span
-                id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
-            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
-            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
+              {% endif %}
+              <p class="govuk-body">{{ data.content.p4 }}
+              </p>
+              <br>
+                <br></div>
+              {% endif %}
+            {% endif %}
+            <div class="ccs-page-section">
+              <p class="govuk-body">Add colleagues:</p>
+              <form method="POST" action="/rfi/add-collaborator-detail">
+                {{ csrfProtection(csrf) }}
+                <div class="govuk-body">
+                  <div class="govuk-form-group">
+                    {{ CCSSelect({
+                      id: "rfi_collaborators",
+                      name: "rfi_collaborators",
+                      items: sortedMembers,
+                      errorMessage: error.inline["rfi_collaborators"]
+                      }) }}
+                  </div>
+                  {{ CCSButton({
+                    text: "Add",
+                    type: "submit"
+                    }) }}
+                </div>
+              </form>
+            </div>
+            {# <form method="POST" action="/rfi/add-collaborator-detail" >
+                  {{ csrfProtection(csrf) }}
+                  <div class="ccs-page-section" id="potential-collaborator">
+                    <div id="potential-collaborator-detail">
+                      <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
+                      </p>
+                      <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
+                      <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
+                    </div>
+            
+                    {{ CCSInput({
+                        id: "rfi_collaborator_append",
+                        name: "rfi_collaborator",
+                        type: "hidden",
+                        value: collaborator['email']
+                        }) }}
+            
+                  {% if agreementId_session == "RM1557.13" %}
+                      {{ CCSButton({
+                            text: "Add another colleague",
+                            attributes: {
+                            id: "ccs_collab_add",
+                            disabled: true
+                            },
+                            classes: "govuk-button--secondary"
+                    }) }}
+            
+                  {% else %}
+                      {{ CCSButton({
+                            text: "Add colleague",
+                            attributes: {
+                            id: "ccs_collab_add",
+                            disabled: true
+                            },
+                            classes: "govuk-button--secondary"
+                            }) }}
+                  {% endif %}
+            
+                  </div>
+                    
+                  </form> #}
+            <div id="collaborators-section">
+              {% for collaborator in collaborators %}
+                {% if collaborator.OCDS.contact.email !== lead %}
+                  <div class="ccs-page-section" id="rfi_collaborator_{{ collaborator.OCDS.id }}">
+                    <div id="collaborator-detail">
+                      <a
+                        href='/rfi/delete-collaborators?id={{ collaborator.OCDS.id }}'
+                        class='del govuk-link govuk-link--no-visited-state'
+                        title='delete'>
+                        Remove
+                      </a>
+                      <p class="govuk-body">
+                        <strong>{{ data.content.collegue.name }}<span id="collab_no"></span>
+                        </strong>
+                        <span id="collab_name">{{ collaborator.OCDS.contact.name }}</span>
+                      </p>
+                      <p class="govuk-body">
+                        <strong>{{ data.content.collegue.email }}
+                        </strong>
+                        <span id="collab_email">{{ collaborator.OCDS.contact.email }}</span>
+                      </p>
+                      <p class="govuk-body">
+                        <strong>{{ data.content.collegue.tel }}
+                        </strong>
+                        <span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span>
+                      </p>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="ccs-page-section" id="lead-user-section">
+              <p class="govuk-body">
+                <strong>{{ data.content.lead.name }}
+                </strong>
+                {{ lead_data.OCDS.contact.name }}</p>
+              <p class="govuk-body">
+                <strong>{{ data.content.lead.email }}
+                </strong>
+                {{ lead_data.OCDS.contact.email }}</p>
+              <p class="govuk-body">
+                <strong>{{ data.content.lead.tel }}
+                </strong>
+                {{ lead_data.OCDS.contact.telephone }}</p>
+            </div>
+            <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another
+            collaborator</a> </p> -->
+            <br>
+              <form class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
+                {{ csrfProtection(csrf) }}
+                {{ CCSInput({
+                  id: "rfi_collaborators_added",
+                  name: "rfi_collaborators_added",
+                  type: "hidden",
+                  value: true
+                  }) }}
+                <div class="govuk-button-group">
+                  {{ CCSButton({
+                    text: "Save and continue"
+                    }) }}
+                  {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
+                    <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+                  {% else %}
+                    <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+              {{ CCSReleatedContent(releatedContent) }}
+            </div>
           </div>
-        </div>
-        {%endif%}
-        {% endfor%}
-      </div>
-
-
-
-      <div class="ccs-page-section" id="lead-user-section">
-        <p class="govuk-body"><strong>{{data.content.lead.name}} </strong> {{lead_data.OCDS.contact.name}}</p>
-        <p class="govuk-body"><strong>{{data.content.lead.email}} </strong>{{  lead_data.OCDS.contact.email }}</p>
-        <p class="govuk-body"><strong>{{data.content.lead.tel}} </strong>{{  lead_data.OCDS.contact.telephone }}</p>
-      </div>
-      <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
-      <br>
-<form  class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
-{{ csrfProtection(csrf) }}
-      {{ CCSInput({
-      id: "rfi_collaborators_added",
-      name: "rfi_collaborators_added",
-      type: "hidden",
-      value: true
-      }) }}
-
-      <div class="govuk-button-group">
-        {{ CCSButton({
-        text: "Save and continue"
-        }) }}
-        {% if agreementId_session == "RM6187" or agreementId_session=="RM1557.13" %}
-          <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
-        {% else %}
-          <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
-        {% endif %}
-      </div>
-
-
-    </form>
-
- </div>
-      <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
-      </div>
-   </div>
-  </main>
-{% endblock %}
-
+        </main>
+      {% endblock %}
