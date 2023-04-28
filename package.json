@@ -95,7 +95,7 @@
         "@typescript-eslint/eslint-plugin-tslint": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
         "babel-eslint": "^10.1.0",
-        "browser-sync": "^2.27.5",
+        "browser-sync": "^2.29.1",
         "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
         "chai-http": "^4.3.0",
