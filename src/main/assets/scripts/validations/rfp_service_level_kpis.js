@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("kpiKeyLevel").textContent = '0';
     }
     
-    let with_value_count = 10,
+    let with_value_count = 11,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
