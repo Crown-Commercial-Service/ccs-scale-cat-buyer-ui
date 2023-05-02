@@ -84,7 +84,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       }
       if(RfiUploadError && RfiUploadClick){
          errorList.push({ text: "Please attach the file before upload ", href: "#rfi_offline_document" })
-         req.session.RfiUploadClick = false;
+         req.session.RfiUploadClick = false; // error cleared during refresh
       }
       let windowAppendData = {
         lotId,
