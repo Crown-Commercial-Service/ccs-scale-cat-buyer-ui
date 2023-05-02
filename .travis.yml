@@ -10,10 +10,7 @@ before_install:
 script:
   - echo "Run npm test when tests have been fixed"
 
-before_deploy:
-  - echo "Building the frontent assets"
-  - npm run build-assets
-  - rm -rf node_modules/
+after_success:
   - echo "Determine deployment environment"
   - |
     case $TRAVIS_BRANCH in
@@ -57,6 +54,11 @@ before_deploy:
     else
       echo "Checking for a Sandbox deployment"
     fi
+
+before_deploy:
+  - echo "Building the frontent assets"
+  - npm run build-assets
+  - rm -rf node_modules/
 
 deploy:
   - edge: true
