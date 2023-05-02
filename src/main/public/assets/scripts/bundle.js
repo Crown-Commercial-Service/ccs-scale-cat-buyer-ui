@@ -8735,7 +8735,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       else ccsZPresentErrorSummary(errorStore);
     });
-console.log("121")
+
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
@@ -8743,6 +8743,8 @@ console.log("121")
        db.addEventListener('click', (e) => {
        
         $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -11777,6 +11779,9 @@ const urlParams = new URLSearchParams(queryString);
       db.addEventListener('click', (e) => {
         
         $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
