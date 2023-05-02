@@ -10,6 +10,8 @@ import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/eoi/addcollaborator.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/addcollaborator.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import validation from '@nubz/gds-validation';
+import { genarateFormValidation } from '../../../errors/controller/formValidation';
 
 // EOI ADD_Collaborator
 /**
@@ -199,44 +201,59 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
 
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eoi_collaborator } = req['body'];
- 
-  try {
-    const baseURL = `/tenders/projects/${req.session.projectId}/users/${eoi_collaborator}`;
-    const userType = {
-      userType: 'TEAM_MEMBER',
-    };
-
-      try{
-        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-
-        //CAS-INFO-LOG
-       LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
-
-        req.session['searched_user'] = [];
-        res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
-      }catch(err){
-        req.session['isJaggaerError'] = true;
-        res.redirect('/eoi/add-collaborators');
+  const { eoi_collaborators } = req['body'];
+  const fieldValidate = {
+    fields: {
+      'eoi_collaborators': {
+        type: 'nonEmptyString',
+        name: 'Add colleagues',
+        errors :{
+          required : 'Colleagues must be selected from the list'
+        }
       }
-
-
-  } catch (err) {
-    const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
-    );
-    LoggTracer.errorLogger(
-      res,
-      err,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'EOI Add Collaborator - Tender agreement failed to be added',
-      !isJaggaerError,
-    );
-    req.session['isJaggaerError'] = isJaggaerError;
-    res.redirect('/eoi/add-collaborators');
+    }
   }
+  const errors = validation.getPageErrors(req.body, fieldValidate)
+  if (errors.hasErrors) {
+      req.session['isJaggaerError'] = errors;
+      res.redirect('/eoi/add-collaborators');
+  }else{
+    try {
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${eoi_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+  
+        try{
+          await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+          LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+          req.session['searched_user'] = [];
+          res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
+        }catch(err){
+          const errorMessage = `You cannot add this user{ ${eoi_collaborators} }. Please try with another user`;
+          const errors = genarateFormValidation('eoi_collaborators', errorMessage )
+          req.session['isJaggaerError'] = errors;
+          res.redirect('/eoi/add-collaborators');
+        }
+  
+    } catch (err) {
+      const isJaggaerError = err.response.data.errors.some(
+        (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      );
+      LoggTracer.errorLogger(
+        res,
+        err,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'EOI Add Collaborator - Tender agreement failed to be added',
+        !isJaggaerError,
+      );
+      req.session['isJaggaerError'] = isJaggaerError;
+      res.redirect('/eoi/add-collaborators');
+    }
+  }
+  
 };
 
 export const GET_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {

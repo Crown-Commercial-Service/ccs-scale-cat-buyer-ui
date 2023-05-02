@@ -42,7 +42,6 @@ process.on('unhandledRejection', (reason, promise) => {
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id, closeProj } = req.query
   const events = req.session.openProjectActiveEvents
-  
   const { SESSION_ID } = req.cookies
  const { projectId } = req.session
  
@@ -71,7 +70,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           lotid = element.lotId
           title = element.activeEvent.title
           end_date = element?.activeEvent?.tenderPeriod?.endDate
-        }
+         }
       });
        let supplierDataList;
       if(agreementId_session=='RM1557.13' && lotid=='All'){
@@ -95,6 +94,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       //status=apidata.data[0].dashboardStatus;
       status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+      end_date = apidata.data.filter((d: any) => d.id == eventId)[0].tenderPeriod.endDate;
+      
       let supplierDetails = {} as SupplierDetails;
       // Code Block ends
       
@@ -365,7 +366,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       
       //CAS-INFO-LOG 
       //LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
-
       let filtervalues;
       if(agreementId_session=='RM1557.13' && lotid=='All'){
          filtervalues = "";

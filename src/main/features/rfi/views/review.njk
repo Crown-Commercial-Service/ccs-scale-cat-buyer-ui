@@ -273,9 +273,17 @@ Complete a document offline
 
 <dd class="govuk-summary-list__actions">
 {% if eventStatus != "published"%}
+{% if agreementId_session == "RM1557.13" %}  
+
 <a class="govuk-link" href="/rfi/type">
 Change<span class="govuk-visually-hidden">RFI type</span>
 </a>
+{% else %}
+<a class="govuk-link" href="/rfi/choose-build-your-rfi">
+Change<span class="govuk-visually-hidden">RFI type</span>
+</a>
+{% endif %}
+
 {% endif %}
 </dd>
 </div>
