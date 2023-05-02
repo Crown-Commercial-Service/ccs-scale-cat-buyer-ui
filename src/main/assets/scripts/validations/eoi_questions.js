@@ -71,22 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden')
       
        db.addEventListener('click', (e) => {
-    
+       
+        $('.govuk-error-message').html('');
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
         prev_coll = Number(target) - 1,
        target_fieldset = db.closest("div");
-        console.log("target",target);
-        console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
                 let next_coll = Number(target);
                     let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
-                  console.log("1111")  
-                    
+                 
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -108,9 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 
                             } else {
                                 next_coll = next_coll + 1;
-                                console.log(`Usual: ${ml} - ${next_coll}`)
-                                console.log("nextLevel_coll",nextLevel_coll);
-                                console.log("current_col",current_col);
 
                                 first = document.getElementById('eoi_question_'+nextLevel_coll).value;
                                 console.log("first",first);
