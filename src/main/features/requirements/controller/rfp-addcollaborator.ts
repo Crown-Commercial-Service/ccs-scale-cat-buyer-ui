@@ -26,6 +26,7 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  const { rfp_collaborators : userParam } = req.query;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
@@ -82,6 +83,12 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     }else { //DSP
       forceChangeDataJson = cmsData;
     }
+    
+    if(userParam){
+      const {userName, firstName, lastName, tel } = await getUserData(userParam)
+      collaborator = { email : userName, fullName : `${firstName} ${lastName}`, tel}
+    }
+   
     const windowAppendData = {
       agreementId_session,
       data: forceChangeDataJson,
@@ -128,17 +135,7 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
     res.redirect('/rfp/add-collaborators');
   } else {
     try {
-      const user_profile = rfp_collaborators;
-      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-      const userData = organisation_user_data?.data;
-      
-      const { userName, firstName, lastName, telephone } = userData;
-      let userdetailsData = { userName, firstName, lastName };
-
-      if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-      else userdetailsData = { ...userdetailsData, tel: telephone };
-
+      const userdetailsData = await getUserData(rfp_collaborators)
       res.status(200).json(userdetailsData);
     } catch (error) {
       LoggTracer.errorLogger(
@@ -154,10 +151,25 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
   }
 };
 
+const getUserData = async(user_profile: string) => {
+    
+    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+    const userData = organisation_user_data?.data;
+      
+    const { userName, firstName, lastName, telephone } = userData;
+    let userdetailsData = { userName, firstName, lastName };
+
+    if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+    else userdetailsData = { ...userdetailsData, tel: telephone };
+    return userdetailsData;
+}
+
 export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   
   const { SESSION_ID } = req.cookies;
-  const { rfi_collaborators } = req['body'];
+  console.log(req['body'])
+  const { rfp_collaborators } = req['body'];
   if (rfi_collaborators === '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/rfi/add-collaborators');
@@ -224,20 +236,20 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
       const userType = {
         userType: 'TEAM_MEMBER',
       };
-        console.log(baseURL)
+        
         try{
           await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
           LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
           req.session['searched_user'] = [];
           res.redirect('/rfp/add-collaborators');
         }catch(err){
-          const errorMessage = `You cannot add this user{ ${rfp_collaborators} }. Please try with another user`;
+          const errorMessage = `You cannot add this user{ ${rfp_collaborator} }. Please try with another user`;
           const errors = genarateFormValidation('rfp_collaborators', errorMessage )
           req.session['isJaggaerError'] = errors;
           res.redirect('/rfp/add-collaborators');
         }
        } catch(err) {
-        console.log(err.response)
+        
         const isJaggaerError = err.response?.data.errors.some(
           (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
         );
