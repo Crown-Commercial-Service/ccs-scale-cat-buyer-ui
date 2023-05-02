@@ -9,7 +9,8 @@ import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as DaData from '../../../resources/content/da/da-add-collaborator.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
+import validation from '@nubz/gds-validation';
+import { genarateFormValidation } from '../../../errors/controller/formValidation';
 // RFI ADD_Collaborator
 /**
  *
@@ -176,17 +177,26 @@ export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
 
 export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { rfi_collaborator } = req['body'];
-  
-  if (rfi_collaborator == '') {
-    req.session['isJaggaerError'] = true;
-    res.redirect('/da/add-collaborators');
+  const { rfi_collaborators } = req['body'];
+  const fieldValidate = {
+    fields: {
+      'rfi_collaborators': {
+        type: 'nonEmptyString',
+        name: 'Add colleagues',
+        errors :{
+          required : 'Colleagues must be selected from the list'
+        }
+      }
+    }
+  }
+  const errors = validation.getPageErrors(req.body, fieldValidate)
+  if (errors.hasErrors) {
+      req.session['isJaggaerError'] = errors;
+      res.redirect('/da/add-collaborators');
   }else{
 
-  
-
   try {
-    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborator}`;
+    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
     const userType = {
       userType: 'TEAM_MEMBER',
     };
@@ -209,7 +219,9 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       'DA Add Collaborator Page - Tender agreement failed to be added',
       !isJaggaerError,
     );
-    req.session['isJaggaerError'] = isJaggaerError;
+    const errorMessage = `You cannot add this user { ${rfi_collaborators} }. Please try with another user`;
+    const errors = genarateFormValidation('rfi_collaborators', errorMessage )
+    req.session['isJaggaerError'] = errors;
     res.redirect('/da/add-collaborators');
   }
   

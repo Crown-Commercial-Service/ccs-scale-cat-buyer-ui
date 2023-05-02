@@ -182,7 +182,7 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
         if (file.description === "mandatoryfirst") {
           fileNameStoragePrice.push(file.fileName); 
         }
-        if (file.description === "optional") {
+        if (file.description === "mandatorysecond") {
           fileNameStorageMandatorySecond.push(file.fileName);
         }
   
@@ -190,7 +190,7 @@ const RFP_REVIEW_RENDER_STAGE = async (req: express.Request, res: express.Respon
           fileNameStorageAdditonalDoc.push(file.fileName);
         }
   
-        if (file.description === "mandatorysecond") {
+        if (file.description === "mandatorythird") {
           fileNameStorageMandatory.push(file.fileName);
         }
       }
