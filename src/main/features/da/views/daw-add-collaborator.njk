@@ -7,6 +7,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/formValidationError.njk" import summary, inline %}
 
 
 {% set lead = lead.OCDS.contact.email %}
@@ -58,23 +59,7 @@
 {% block content %} 
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-{% if(error) %}
-
-{{ CCSErrorSummary({
-  titleText: "There is a problem",
-  errorList: [
-    {
-      text: "You cannot add this user. Please try with another user.",
-      href: "#"
-    }
-  ]
-}) }}
-{%endif %}
-
-
-
-
-
+{{ summary({errors: error.summary}) }}
 <div class="govuk-grid-row">
   <h1 class="govuk-heading-xl">
     <strong>{{data.title}}</strong>
@@ -108,28 +93,27 @@
         {% else %}
          <p class="govuk-body">Add colleagues:</p>
          {% endif %}
-        <form method="POST" action="/da/get-collaborator-detail">
+        <form method="POST" action="/da/add-collaborator-detail">
         {{ csrfProtection(csrf) }}
-          <div class="govuk-button-group">
+          <div class="govuk-body">
+              <div class="govuk-form-group">
           {{ CCSSelect({
           id: "rfi_collaborators",
           name: "rfi_collaborators",
-          items: sortedMembers
+          items: sortedMembers,
+          errorMessage: error.inline["rfi_collaborators"]
           })
           }}
-          &nbsp;
+          </div>
           {{ CCSButton({
           text: "Add",
-          attributes: {
-          id: "ccs_collab_view"
-          },
           type: "submit"
           }) }}
           </div>
         </form>
       </div>
 
-      <form method="POST" action="/da/add-collaborator-detail" >
+      {# <form method="POST" action="/da/add-collaborator-detail" >
       {{ csrfProtection(csrf) }}
         <div class="ccs-page-section" id="potential-collaborator">
           <div id="potential-collaborator-detail">
@@ -156,7 +140,7 @@
           }) }}
         </div>
 
-      </form>
+      </form> #}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         {% if collaborator.OCDS.contact.email !== lead %}
