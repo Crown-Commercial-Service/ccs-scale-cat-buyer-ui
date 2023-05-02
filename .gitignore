@@ -44,3 +44,6 @@ src/main/public/assets/images/
 src/main/public/assets/scripts/
 src/main/public/assets/styles/
 src/main/public/assets/svg/
+
+# Redis files
+dump.rdb
