@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       else ccsZPresentErrorSummary(errorStore);
     });
-console.log("121")
+
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
