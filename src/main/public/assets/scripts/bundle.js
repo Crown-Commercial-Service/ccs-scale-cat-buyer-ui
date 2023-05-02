@@ -8743,22 +8743,20 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden')
       
        db.addEventListener('click', (e) => {
-    
+       
+        $('.govuk-error-message').html('');
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
         prev_coll = Number(target) - 1,
        target_fieldset = db.closest("div");
-        console.log("target",target);
-        console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
                 let next_coll = Number(target);
                     let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
-                  console.log("1111")  
-                    
+                 
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -8780,9 +8778,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 
                             } else {
                                 next_coll = next_coll + 1;
-                                console.log(`Usual: ${ml} - ${next_coll}`)
-                                console.log("nextLevel_coll",nextLevel_coll);
-                                console.log("current_col",current_col);
 
                                 first = document.getElementById('eoi_question_'+nextLevel_coll).value;
                                 console.log("first",first);
@@ -9700,6 +9695,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -9708,8 +9704,10 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
+                console.log('inside mime type')
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -9719,6 +9717,7 @@ $(document).ready(function () {
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
         
             else{
@@ -9728,6 +9727,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
 
 
@@ -11780,7 +11780,8 @@ const urlParams = new URLSearchParams(queryString);
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
-
+        
+        $('.govuk-error-message').html('');
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
