@@ -16,7 +16,7 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    {% if (RfiUploadError)%}
+   {% if (RfiUploadError and errorlist.length != 0)%}
    {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: errorlist

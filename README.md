@@ -124,13 +124,40 @@ in [health.ts](src/main/routes/health.ts) file. Make sure you adjust it correctl
 In particular, remember to replace the sample check with checks specific to your frontend app,
 e.g. the ones verifying the state of each service it depends on.
 
+## Deployment
+
+This application is hosted on [GOV.UK PaaS](https://www.cloud.service.gov.uk/) and we use [Travis CI](https://www.travis-ci.com/) to deploy the code.
+When your code changes are merged they will automatically be deployed to the relevant environment.
+
+The environments are mapped as follows:
+
+| Environment     | Branch              |
+|-----------------|---------------------|
+| Development     | `develop`           |
+| Integration     | `release/sit`       |
+| NFT             | `release/nftnew`    |
+| UAT             | `release/uatnew`    |
+| Pre-Production  | `release/pre-prod`  |
+| Production      | `release/prod`      |
+
+So, for example, if you merge your changes into `release/nftnew` the code changes will be deployed into the NFT environment.
+
+### Deploying to Sandbox
+
+The Sandbox environment, specifically Sandbox 2, does not have a "main" branch so to speak of.
+Instead, if you push a branch that matches the following regular expression:
+
+```sh
+^(feature|bugfix)\\/(CAS)-[0-9]+.*$
+```
+
 ## Provisioning
 
 ### Prerequisites
 
 The [Terraform CaT infra](https://github.com/Crown-Commercial-Service/ccs-scale-cat-paas-infra) and [CaT Service API](https://github.com/Crown-Commercial-Service/ccs-scale-cat-service) should have been provisioned against the target environment(s) prior to provisioning of this UI component.
 
-### Local initialisation & provisioning (sandbox spaces only)
+### Local initialisation & provisioning
 
 Terraform state for each space (environment) is persisted to a dedicated AWS account. Access keys for an account in this environment with the appropriate permissions must be obtained before provisioning any infrastructure from a local development machine. The S3 state bucket name and Dynamo DB locaking table name must also be known.
 
@@ -162,18 +189,6 @@ Terraform state for each space (environment) is persisted to a dedicated AWS acc
 
 4. Run `terraform plan` to confirm the changes look ok
 5. Run `terraform apply` to deploy to UK.Gov PaaS
-
-### Provision the service via Travis
-
-The main environments are provisioned automatically via Travis CI. Merges to key branches will trigger an automatic deployment to certain environments - mapped below:
-
-- `develop` branch -> `development` space
-- `release/int` branch -> `int` space
-- `release/nft` branch -> `nft` space
-- `release/uat` branch -> `uat` space
-
-* other environments TBD (these mappings may change as we evolve the process as more environments come online)
-* feature branches can be deployed to specific sandboxes by making minor changes in the `travis.yml` file (follow instructions)
 
 ## License
 
