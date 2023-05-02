@@ -101,7 +101,8 @@ const urlParams = new URLSearchParams(queryString);
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
-
+        
+        $('.govuk-error-message').html('');
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
