@@ -35,6 +35,8 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   req.session.RfiUploadError=false;
+  req.session.RfiUploadClick=true;
+
   if (!req.files) {
     const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
     const journeyStatus = JourneyStatusUpload?.data;
