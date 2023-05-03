@@ -159,13 +159,17 @@
         </div>
         {% if agreementId_session == 'RM1043.8' %}
           {% set addcolleaguedetails = "addcolleaguedetailsdos" %}
+           {% if collaborator['fullName'] !='' %}
+             {% set addcolleaguedetails = "" %}
+           {% endif %}
+
         {% else %}
           {% set addcolleaguedetails = "" %}
         {% endif %}
         <form method="POST" action="/rfp/add-collaborator-detail" >
           {{ csrfProtection(csrf) }}
-          <div class="ccs-page-section" id="potential-collaborator">
-            <div id="potential-collaborator-detail" class={{addcolleaguedetails}}>
+          <div class="ccs-page-section {{addcolleaguedetails}}" id="potential-collaborator">
+            <div id="potential-collaborator-detail">
               <p class="govuk-body" >
                 <strong>{{data.content.collegue.name}}
                 </strong>
@@ -183,7 +187,7 @@
                     </strong>
                     <span id="show_collab-phone">{{collaborator['tel']}}</span>
                   </p>
-                </div>
+               
 
                 {{ CCSInput({
               id: "rfp_collaborator_append",
@@ -209,6 +213,7 @@
                       classes: "govuk-button--secondary"
                   }) }}
               {% endif %}
+               </div>
               </div>
 
             </form>

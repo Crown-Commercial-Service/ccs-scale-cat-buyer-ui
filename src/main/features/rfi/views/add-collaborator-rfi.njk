@@ -169,9 +169,13 @@
                 </div>
               </form>
             </div>
+            {% set addcolleaguedetails = "addcolleaguedetailshidden" %}
+           {% if collaborator['fullName'] !='' %}
+             {% set addcolleaguedetails = "" %}
+           {% endif %}
             <form method="POST" action="/rfi/add-collaborator-detail" >
                   {{ csrfProtection(csrf) }}
-                  <div class="ccs-page-section" id="potential-collaborator">
+                  <div class="ccs-page-section {{addcolleaguedetails}}" id="potential-collaborator">
                     <div id="potential-collaborator-detail">
                       <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
                       </p>

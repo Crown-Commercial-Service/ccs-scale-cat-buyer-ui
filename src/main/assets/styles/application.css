@@ -4986,6 +4986,9 @@ display: none;
 .addcolleaguedetailsdos {
   display: none;
  }
+ .addcolleaguedetailshidden {
+  display: none;
+ }
 /* custom css end @fca */
 
 /* Custom css start @Gcloud */
