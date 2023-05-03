@@ -18,7 +18,7 @@
         <button id="redirect-button-{{params.type}}" class="button dialog-button govuk-button">Continue</button>
         {% endif %}
         <a href={{params.redirect}} class="dialog-close-{{params.type}} govuk-link govuk-link--no-visited-state">
-          {% if(params.type == 'supplierConfirmAllPopup') %}
+          {% if(params.type == 'supplierConfirmAllPopup' or params.type == 'checksupplierConfirmAllPopup') %}
             Return
           {% else %}
             Cancel

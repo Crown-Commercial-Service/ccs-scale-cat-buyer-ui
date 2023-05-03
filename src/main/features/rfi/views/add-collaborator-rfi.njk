@@ -150,8 +150,8 @@
             {% endif %}
             <div class="ccs-page-section">
               <p class="govuk-body">Add colleagues:</p>
-              <form method="POST" action="/rfi/add-collaborator-detail">
-                {{ csrfProtection(csrf) }}
+              <form method="GET" action="/rfi/add-collaborators">
+                {# {{ csrfProtection(csrf) }} #}
                 <div class="govuk-body">
                   <div class="govuk-form-group">
                     {{ CCSSelect({
@@ -163,14 +163,19 @@
                   </div>
                   {{ CCSButton({
                     text: "Add",
-                    type: "submit"
+                    type: "submit",
+                    classes: "add"
                     }) }}
                 </div>
               </form>
             </div>
-            {# <form method="POST" action="/rfi/add-collaborator-detail" >
+            {% set addcolleaguedetails = "addcolleaguedetailshidden" %}
+           {% if collaborator['fullName'] !='' %}
+             {% set addcolleaguedetails = "" %}
+           {% endif %}
+            <form method="POST" action="/rfi/add-collaborator-detail" >
                   {{ csrfProtection(csrf) }}
-                  <div class="ccs-page-section" id="potential-collaborator">
+                  <div class="ccs-page-section {{addcolleaguedetails}}" id="potential-collaborator">
                     <div id="potential-collaborator-detail">
                       <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
                       </p>
@@ -180,7 +185,7 @@
             
                     {{ CCSInput({
                         id: "rfi_collaborator_append",
-                        name: "rfi_collaborator",
+                        name: "rfi_collaborators",
                         type: "hidden",
                         value: collaborator['email']
                         }) }}
@@ -189,8 +194,7 @@
                       {{ CCSButton({
                             text: "Add another colleague",
                             attributes: {
-                            id: "ccs_collab_add",
-                            disabled: true
+                            id: "ccs_collab_add"
                             },
                             classes: "govuk-button--secondary"
                     }) }}
@@ -199,8 +203,7 @@
                       {{ CCSButton({
                             text: "Add colleague",
                             attributes: {
-                            id: "ccs_collab_add",
-                            disabled: true
+                            id: "ccs_collab_add"
                             },
                             classes: "govuk-button--secondary"
                             }) }}
@@ -208,7 +211,7 @@
             
                   </div>
                     
-                  </form> #}
+                  </form>
             <div id="collaborators-section">
               {% for collaborator in collaborators %}
                 {% if collaborator.OCDS.contact.email !== lead %}

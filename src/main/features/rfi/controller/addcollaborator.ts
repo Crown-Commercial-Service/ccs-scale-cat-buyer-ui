@@ -25,6 +25,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  const {rfi_collaborators : userParam} = req.query;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
@@ -78,7 +79,10 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     } else {
       forceChangeDataJson = cmsData;
     }
-
+    if(userParam){
+      const {userName, firstName, lastName, tel } = await getUserData(userParam)
+      collaborator = { email : userName, fullName : `${firstName} ${lastName}`, tel}
+    }
     const windowAppendData = {
       data: forceChangeDataJson,
       userdata: filteredListofOrganisationUser,
@@ -122,21 +126,7 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
   try {
-    const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(null, logConstant.rfigetUserOrgProfile, req);
-
-    const { userName, firstName, lastName, telephone } = userData;
-    let userdetailsData = { userName, firstName, lastName };
-
-
-    if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-    else userdetailsData = { ...userdetailsData, tel: telephone };
-
+    const userdetailsData = await getUserData(rfi_collaborators)
     res.status(200).json(userdetailsData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -150,6 +140,21 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
     );
   }
 };
+
+
+const getUserData = async(user_profile: string) => {
+  const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+  const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+  const userData = organisation_user_data?.data;
+    
+  const { userName, firstName, lastName, telephone } = userData;
+  let userdetailsData = { userName, firstName, lastName };
+
+  if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+  else userdetailsData = { ...userdetailsData, tel: telephone };
+  return userdetailsData;
+}
+
 
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
 

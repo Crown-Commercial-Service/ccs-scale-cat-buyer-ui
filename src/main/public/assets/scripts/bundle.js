@@ -7628,6 +7628,8 @@ if (document.getElementById("eoi_collaborators") !== null) {
     }
   })
 }
+
+$('.add').addClass('ccs-dynaform-hidden');
 if ($('#eoi_keyterm').length > 0) {
   $('.eoi_form').attr('id', 'ccs_eoi_acronyms_form');
   $('.eoi_form').attr('name', 'ccs_eoi_acronyms_form');
@@ -7915,6 +7917,7 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
+    console.log("term_field",term_field);
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
@@ -7923,9 +7926,9 @@ const emptyFieldCheckEoi = (add_more='') => {
         ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
         ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'Enter a term or acronym'];
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
@@ -8743,6 +8746,8 @@ document.addEventListener('DOMContentLoaded', () => {
        db.addEventListener('click', (e) => {
        
         $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -10740,6 +10745,9 @@ $('#gcloud_collaborators').on('change', function () {
 
 });
 
+
+$('.add').addClass('ccs-dynaform-hidden');
+
 if ($('#rfi_keyterm').length > 0) {
   $('.rfi_form').attr('id', 'ccs_rfi_acronyms_form');
   $('.rfi_form').attr('name', 'ccs_rfi_acronyms_form');
@@ -11777,6 +11785,9 @@ const urlParams = new URLSearchParams(queryString);
       db.addEventListener('click', (e) => {
         
         $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
@@ -12280,6 +12291,8 @@ $('#rfp_collaborators').on('change', function () {
 
 
 });
+
+$('.add').addClass('ccs-dynaform-hidden');
 const rfp_totalElementSelectors = Array.from(Array(13+1).keys()).slice(1);
 
 
