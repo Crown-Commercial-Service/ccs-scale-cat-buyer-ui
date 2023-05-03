@@ -7917,7 +7917,7 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
-    console.log("term_field",term_field);
+    
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
