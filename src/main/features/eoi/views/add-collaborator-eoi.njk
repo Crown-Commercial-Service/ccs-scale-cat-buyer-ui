@@ -104,8 +104,8 @@
       <hr>
         <div class="ccs-page-section">
             <p class="govuk-body">Add colleagues</p>
-              <form method="POST" action="/eoi/add-collaborator-detail">
-                {{ csrfProtection(csrf) }}
+              <form method="GET" action="/eoi/add-collaborators">
+                {# {{ csrfProtection(csrf) }} #}
                <div class="govuk-body">
                  <div class="govuk-form-group">
                     {{ CCSSelect({
@@ -117,12 +117,13 @@
                   </div>
                   {{ CCSButton({
                     text: "Add",
-                    type: "submit"
+                    type: "submit",
+                    classes: "add"
                     }) }}
                 </div>
               </form>
           </div>
-            {# <form method="POST" action="/eoi/add-collaborator-detail" >
+            <form method="POST" action="/eoi/add-collaborator-detail" >
                   {{ csrfProtection(csrf) }}
                   <div class="ccs-page-section" id="potential-collaborator">
                     <div id="potential-collaborator-detail">
@@ -134,7 +135,7 @@
             
                     {{ CCSInput({
                         id: "eoi_collaborator_append",
-                        name: "eoi_collaborator",
+                        name: "eoi_collaborators",
                         type: "hidden",
                         value: collaborator['email']
                         }) }}
@@ -142,15 +143,14 @@
                     {{ CCSButton({
                     text: "Add colleague",
                     attributes: {
-                    id: "ccs_collab_add",
-                    disabled: true
+                    id: "ccs_collab_add"
                     },
                     classes: "govuk-button--secondary"
                     }) }}
             
                   </div>
             
-                  </form> #}
+                  </form>
             <div id="collaborators-section">
               {% for collaborator in collaborators %}
                 {% if collaborator.OCDS.contact.email !== lead %}

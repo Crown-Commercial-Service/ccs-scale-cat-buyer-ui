@@ -40,3 +40,5 @@ if (document.getElementById("eoi_collaborators") !== null) {
     }
   })
 }
+
+$('.add').addClass('ccs-dynaform-hidden');
