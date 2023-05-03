@@ -216,7 +216,17 @@
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
-          <a href="#backdrop-supplierConfirmAllPopup" class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
+
+        <noscript>
+          <style type="text/css">
+            .evaluate_suppliers_javascript_disabled { display:none; }
+          </style>
+           <a href="/evaluate-confirm" class="govuk-button no-script-button" data-module="govuk-button" id="evaluate_suppliers">
+            Complete evaluation
+          </a>
+       </noscript>
+
+          <a href="#backdrop-supplierConfirmAllPopup" class="govuk-button evaluate_suppliers_javascript_disabled" data-module="govuk-button" id="evaluate_suppliers">
             Complete evaluation
           </a>
         {% endif %}
