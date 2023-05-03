@@ -189,6 +189,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     if(stage2_data.length > 0){
       stage2_value = 'Stage 2';
     }
+    console.log("agreement_header",agreement_header);
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
           const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,CountConfirmFlag,checkcount,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }

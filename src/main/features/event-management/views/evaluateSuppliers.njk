@@ -47,10 +47,10 @@
     
   </strong></p>
                     <p class="govuk-body">Agreement ID: <strong>
-                      {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-                        {{ agreement_header['agreementId_session']}}L4
+                      {% if(agreementId_session == 'RM1557.13' and agreement_header['lotid']=='4') %}
+                        {{ agreementId_session}}L4
                       {% else %}
-                        {{ agreement_header['agreementId_session'] }}
+                        {{ agreementId_session }}
                       {% endif %}
                     </strong></p>
                       {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
@@ -231,7 +231,15 @@
           </a>
         {% endif %}
         {% if (CountConfirmFlag) and ConfirmFlag === false %}
-          <a href="#backdrop-checksupplierConfirmAllPopup" class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
+        <noscript>
+          <style type="text/css">
+            .evaluate_suppliers_javascript_disabled { display:none; }
+          </style>
+           <a href="/evaluate-confirm" class="govuk-button no-script-button" data-module="govuk-button" id="evaluate_suppliers">
+            Complete evaluation
+          </a>
+       </noscript>
+          <a href="#backdrop-checksupplierConfirmAllPopup" class="govuk-button evaluate_suppliers_javascript_disabled" data-module="govuk-button" id="evaluate_suppliers">
             Complete evaluation
           </a>
         {% endif %}
