@@ -87,3 +87,6 @@ $('#gcloud_collaborators').on('change', function () {
 
 
 });
+
+
+$('.add').addClass('ccs-dynaform-hidden');

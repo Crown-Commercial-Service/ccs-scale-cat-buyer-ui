@@ -23,6 +23,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  const {rfi_collaborators : userParam} = req.query;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
@@ -70,7 +71,12 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
-  
+    
+    if(userParam){
+      const {userName, firstName, lastName, tel } = await getUserData(userParam)
+      collaborator = { email : userName, fullName : `${firstName} ${lastName}`, tel}
+    }
+
     const windowAppendData = {
       data: DaData,
       userdata: filteredListofOrganisationUser,
@@ -116,19 +122,7 @@ export const DA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
     res.redirect('/da/add-collaborators');
   } else {
     try {
-      const user_profile = rfi_collaborators;
-      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-       //CAS-INFO-LOG
-      LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDetailFetch, req);
-      
-      const userData = organisation_user_data?.data;
-      const { userName, firstName, lastName, telephone } = userData;
-      let userdetailsData = { userName, firstName, lastName };
-
-      if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-      else userdetailsData = { ...userdetailsData, tel: telephone };
-
+      const userdetailsData = await getUserData(rfi_collaborators)
       res.status(200).json(userdetailsData);
     } catch (error) {
       LoggTracer.errorLogger(
@@ -143,6 +137,19 @@ export const DA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
     }
   }
 };
+
+const getUserData = async(user_profile: string) => {
+  const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+  const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+  const userData = organisation_user_data?.data;
+    
+  const { userName, firstName, lastName, telephone } = userData;
+  let userdetailsData = { userName, firstName, lastName };
+
+  if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+  else userdetailsData = { ...userdetailsData, tel: telephone };
+  return userdetailsData;
+}
 
 export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
