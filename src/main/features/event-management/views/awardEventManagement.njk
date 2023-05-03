@@ -54,9 +54,9 @@
       <div class="govuk-grid-column-full">
 
       <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
-        {%if status.toLowerCase() == "pre-award" %}
+        {# {%if status.toLowerCase() == "pre-award" %}
           <p>You can close this project using the link under the project name below.</p></br></br>
-        {% endif %}
+        {% endif %} #}
         <div>
           <h2 class="govuk-heading-m">
           {{agreement_header['projectId']+" & "+projectName}}
@@ -531,7 +531,7 @@
 {% else %}
 {% set s_name = 'I acknowledge the responsibility to award this supplier after the standstill period has passed..' | safe %}
 {%if (agreement_header['agreementId_session'] == 'RM1043.8') %}
-{% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
+{% set s_name = 'I acknowledge the responsibility to confirm receipt of the contract signed by the supplier.' | safe %}
 {{ CCSWarningText({
                     text: s_name,
                     classes:"awardOption",
