@@ -161,17 +161,25 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
 
     const supplierSummary = supplierdata.data;
     var count =0;
+    var checkcount =0;
     let ConfirmFlag = false;
+    let CountConfirmFlag = false;
     //count of completionstatus="yes" == count of responders
     for (let k = 0; k < supplierName.length; k++) {
        if(supplierName[k].completionStatus == "Yes" && supplierName[k].responseState == "Submitted" )
        {
          count++;
+       }else{
+        checkcount++;
        }
      }
-     if(count == submittedCount)
+    if(count == submittedCount)
      {
       ConfirmFlag = true;
+     }
+     if(count >= 1)
+     {
+      CountConfirmFlag = true; 
      }
     const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
@@ -182,8 +190,15 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     if(stage2_data.length > 0){
       stage2_value = 'Stage 2';
     }
+    console.log("supplierName",supplierName);
+    console.log("checkcount",checkcount);
+    console.log("checkcount",ConfirmFlag);
+    console.log("CountConfirmFlag",CountConfirmFlag);
+    console.log("count",count);
+    console.log("stage2_value",stage2_value);
+    
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,CountConfirmFlag,checkcount,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
         
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);
