@@ -5,7 +5,7 @@ node_js:
   — 16.13.1
 
 before_install:
-  - npm i -g npm@9.6.5
+  - npm i -g npm@8.19.4
 
 script:
   - echo "Run npm test when tests have been fixed"
