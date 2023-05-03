@@ -7628,6 +7628,8 @@ if (document.getElementById("eoi_collaborators") !== null) {
     }
   })
 }
+
+$('.add').addClass('ccs-dynaform-hidden');
 if ($('#eoi_keyterm').length > 0) {
   $('.eoi_form').attr('id', 'ccs_eoi_acronyms_form');
   $('.eoi_form').attr('name', 'ccs_eoi_acronyms_form');
@@ -7915,6 +7917,7 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
+    console.log("term_field",term_field);
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
@@ -7923,9 +7926,9 @@ const emptyFieldCheckEoi = (add_more='') => {
         ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
         ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'Enter a term or acronym'];
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
@@ -8741,22 +8744,22 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden')
       
        db.addEventListener('click', (e) => {
-    
+       
+        $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
         prev_coll = Number(target) - 1,
        target_fieldset = db.closest("div");
-        console.log("target",target);
-        console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
                 let next_coll = Number(target);
                     let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
-                  console.log("1111")  
-                    
+                 
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -8778,9 +8781,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 
                             } else {
                                 next_coll = next_coll + 1;
-                                console.log(`Usual: ${ml} - ${next_coll}`)
-                                console.log("nextLevel_coll",nextLevel_coll);
-                                console.log("current_col",current_col);
 
                                 first = document.getElementById('eoi_question_'+nextLevel_coll).value;
                                 console.log("first",first);
@@ -9698,6 +9698,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -9706,8 +9707,10 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
+                console.log('inside mime type')
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -9717,6 +9720,7 @@ $(document).ready(function () {
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
         
             else{
@@ -9726,6 +9730,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
 
 
@@ -10739,6 +10744,9 @@ $('#gcloud_collaborators').on('change', function () {
 
 
 });
+
+
+$('.add').addClass('ccs-dynaform-hidden');
 
 if ($('#rfi_keyterm').length > 0) {
   $('.rfi_form').attr('id', 'ccs_rfi_acronyms_form');
@@ -11775,6 +11783,10 @@ const urlParams = new URLSearchParams(queryString);
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
+        
+        $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
 
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -12279,6 +12291,8 @@ $('#rfp_collaborators').on('change', function () {
 
 
 });
+
+$('.add').addClass('ccs-dynaform-hidden');
 const rfp_totalElementSelectors = Array.from(Array(13+1).keys()).slice(1);
 
 
@@ -18946,7 +18960,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("kpiKeyLevel").textContent = '0';
     }
     
-    let with_value_count = 10,
+    let with_value_count = 11,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");

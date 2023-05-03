@@ -101,6 +101,10 @@ const urlParams = new URLSearchParams(queryString);
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
+        
+        $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
 
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
