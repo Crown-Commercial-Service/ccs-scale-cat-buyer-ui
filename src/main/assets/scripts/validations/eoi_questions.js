@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
        db.addEventListener('click', (e) => {
        
         $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
