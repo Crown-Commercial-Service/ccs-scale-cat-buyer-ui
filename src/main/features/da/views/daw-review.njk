@@ -526,7 +526,7 @@
                   {% endif %}
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Work done so far (optional)</p>
+                    <p class="govuk-!-margin-bottom-0"><strong>Work done so far (optional)</strong></p>
                   </dt>
                   <dd class="govuk-summary-list__value content_review_length">
                       <p>{{workcompletedsofar}}</p>
@@ -577,7 +577,7 @@
                   {% endif %}
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__key govuk-!-padding-0">
-                      <h3><strong>Work done so far (optional)</strong></h3>
+                      <h3><strong>How long the project will last</strong></h3>
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-padding-0">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
@@ -625,7 +625,7 @@
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__key"><h3>
                     {% if agreementId_session == "RM6187" %}
-                    <strong>The organisation you are buying on behalf of (optional)</strong></h3>
+                    <strong><u>The organisation you are buying on behalf of (optional)</u></strong></h3>
                     {% else %}
                       <strong>Which phase the project is in (optional)</strong></h3>
                     {% endif %}
@@ -672,24 +672,36 @@
                     <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
                     <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
                   </div>
+                  <br/>
                   <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Pre-market engagement done (optional)</p>
-                  </dt>
-                  <dd class="govuk-summary-list__value content_review_length">
-                      <p>{{summarize}}</p>
-                  </dd>
-                  <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
-                      <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 14">
-                          Change<span class="govuk-visually-hidden">project name</span>
-                      </a>
-                      {% endif %}
-                  </dd>
+                    <dt>                      
+                        <p><strong>Pre-market engagement done (optional)</strong></p>
+                    </dt>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      <p class="govuk-!-margin-bottom-0">Summary of the outcome of any relevant pre-market engagement</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value content_review_length">
+                        <p>{{summarize}}</p>
+                    </dd>
+                    <dd class="govuk-summary-list__actions">
+                        {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
+                        <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 14">
+                            Change<span class="govuk-visually-hidden">project name</span>
+                        </a>
+                        {% endif %}
+                    </dd>
+                  </div>
+                   <br/>
+                  <div class="govuk-summary-list__row">
+                    <dt>                      
+                        <p><strong>Choose if this will be a new, replacement or expanded service or product</strong></p>
+                    </dt>
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Choose if this will be a new, replacement or expanded service or product</p>
+                    <p class="govuk-!-margin-bottom-0">New, replacement or expanded services or products</p>
                   </dt>
                   <dd class="govuk-summary-list__value">
                       <p> {{newreplace}}</p>
@@ -702,9 +714,15 @@
                       {% endif %}
                   </dd>
                   </div>
+                   <br/>
+                   <div class="govuk-summary-list__row">
+                    <dt>                      
+                        <p><strong>Tell us if there is an existing supplier</strong></p>
+                    </dt>
+                  </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Tell us if there is an existing supplier</p>
+                    <p class="govuk-!-margin-bottom-0">Existing supplier name</p>
                   </dt>
                   <dd class="govuk-summary-list__value">
                       <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
@@ -717,9 +735,15 @@
                       {% endif %}
                   </dd>
                   </div>
+                   <br/>
+                  <div class="govuk-summary-list__row">
+                    <dt>                      
+                        <p><strong>Management information and reporting</strong></p>
+                    </dt>
+                  </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                    <p class="govuk-!-margin-bottom-0">Management information and reporting</p>
+                    <p class="govuk-!-margin-bottom-0">Any specific details relating to the provision of management information or reporting by the supplier </p>
                   </dt>
                   <dd class="govuk-summary-list__value content_review_length">
                       <p> {{managementinfo}}</p>
