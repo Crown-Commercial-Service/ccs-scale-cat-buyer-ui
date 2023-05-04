@@ -12,7 +12,7 @@
       <h1 id="dialog-title" class="nodeDialogTitle">{{params.title}}</p></h1>
       <p id="dialog-description">{{params.description}}</p>
       <div class="govuk-button-group">
-        {% if(params.type == 'supplierConfirmAllPopup') %}
+        {% if(params.type == 'supplierConfirmAllPopup'  or params.type == 'checksupplierConfirmAllPopup') %}
         <a href="/evaluate-confirm" id="redirect-button-{{params.type}}" class="dialog-close-{{params.type}} button dialog-button govuk-button govuk-link govuk-link--no-visited-state">Continue</a>
         {% else %}
         <button id="redirect-button-{{params.type}}" class="button dialog-button govuk-button">Continue</button>
