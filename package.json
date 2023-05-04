@@ -5,7 +5,7 @@
     "private": true,
     "engines": {
         "node": ">=16.13.1",
-        "npm": ">= 9.6.0"
+        "npm": ">= 8.19.4"
     },
     "scripts": {
         "start": "ts-node -r tsconfig-paths/register src/main/server.ts",
