@@ -39,6 +39,9 @@
 {% endblock %}
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <input type="hidden" id="agreementId" value={{agreementId_session}} >
+        <input type="hidden" id="stage2_value" value="{{stage2_value}}" >
+        <input type="hidden" id="lotId" value={{lotId}} >
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
