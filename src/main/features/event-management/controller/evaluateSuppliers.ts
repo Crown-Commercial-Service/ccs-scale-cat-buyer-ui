@@ -189,10 +189,6 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     if(stage2_data.length > 0){
       stage2_value = 'Stage 2';
     }
-    console.log("ConfirmFlag",ConfirmFlag);
-    console.log("CountConfirmFlag",CountConfirmFlag);
-    console.log("checkcount",checkcount);
-    console.log("count",count);
     
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
