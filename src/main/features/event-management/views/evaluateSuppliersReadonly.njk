@@ -101,9 +101,11 @@
                     {% else %}
 
                       {% set textLbl = "Final Score " %}
+                      {% set textbtnLbl = "%" %}
                       
                       {% if (agreementId_session == "RM1043.8") and stage2_value == 'Stage 1' %}
                         {% set textLbl = "Score" %}
+                        {% set textbtnLbl = "" %}
                       {% endif %}
 
                         {{ CCSInput({
@@ -118,7 +120,7 @@
                               },
                               value:supplierDetails.score,
                               suffix: {
-                                text: "%"
+                                text: textbtnLbl
                               },
                               id: "enter_evaluation_score_readOnly",
                               name: "enter_evaluation_score",
