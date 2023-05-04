@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("kpiKeyLevel").textContent = '0';
     }
     
-    let with_value_count = 10,
+    let with_value_count = 11,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
@@ -70,13 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if(eptArr.length > 0) {
                 let removeLogic = eptArr.at(-1);
                 document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).dispatchEvent(new Event("keyup"));
                 document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).dispatchEvent(new Event("keyup"));
                 document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
                 document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
             } else {
                 target_fieldset.classList.add("ccs-dynaform-hidden");
                 document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
                 document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
                 document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
                 if (prev_coll > 1) {
                     document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
@@ -86,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             target_fieldset.classList.add("ccs-dynaform-hidden");
             document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
             document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
             document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
             if (prev_coll > 1) {
                 document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");

@@ -37,8 +37,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
       cmsData = gcloudRFIData;
     }
     
-    
-
+    req.session.RfiUploadError=false;
     // const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // if(journeySteps[9].state=="Cannot start yet")
     // {

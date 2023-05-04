@@ -218,7 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         let removeLogic = eptArr.at(-1);
                         console.log(`removeLogic: ${removeLogic}`);
                         document.getElementById('rfp_term_service_group_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_service_group_' + removeLogic).dispatchEvent(new Event("keyup"));
                         document.getElementById('rfp_term_more_details_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_more_details_' + removeLogic).dispatchEvent(new Event("keyup"));
+
                         document.getElementById('rfp_term_service_group_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
                     } else {
                         // target_fieldset.classList.add("ccs-dynaform-hidden");
@@ -230,7 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                          target_fieldset.classList.add("ccs-dynaform-hidden");
                          document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_service_group_' + target).dispatchEvent(new Event("keyup"));
                          document.getElementById('rfp_term_more_details_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                             document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                         }
@@ -246,7 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                          target_fieldset.classList.add("ccs-dynaform-hidden");
                          document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_service_group_' + target).dispatchEvent(new Event("keyup"));
                          document.getElementById('rfp_term_more_details_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                             document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                         }
