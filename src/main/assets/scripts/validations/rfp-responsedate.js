@@ -36,46 +36,19 @@ for(const selector of rfp_totalElementSelectors){
         saveButtonHideDateRFP();
         
     });
-    let errorSelector = $("#click-error");
-    let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
     
-
-    noChanges.click(function() {
-        $( ".govuk-error-message" ).hide();
-        $( ".govuk-error-summary" ).hide();
-        elementClicked = $("#showDateDiv" + selector);
-        elementClicked.removeClass('govuk-form-group--error')
-        
-        
-
-    });
-
-    errorSelector.on('click', () => {
-        
-        let storedClickedID = localStorage.getItem('dateItem');
-        if(storedClickedID!=null){
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
-        if (elementSelector.selector === elementSelectorClicked.selector && hasError ) {
-            elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-           
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
-        let agreementID;
-        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        // if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
-        // ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        // }
-    }
-    });
 }
 
 
+let rfperrorSelector = $("#click-error");
+rfperrorSelector.on('click', () => {
+    let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
+    let elementSelectorClicked = $(ClickedID);
+    elementSelectorClicked.fadeIn();
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
+});
 
 
 for(const selector of rfp_totalElementSelectors){
