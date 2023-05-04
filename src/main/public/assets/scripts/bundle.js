@@ -7917,7 +7917,7 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
-    console.log("term_field",term_field);
+    
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
@@ -8985,10 +8985,10 @@ for (const selector of eoi_totalElementSelectors) {
     
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
+        // if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
  
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        }
+        // ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
+        // }
     }
     });
 }
@@ -12363,9 +12363,9 @@ for(const selector of rfp_totalElementSelectors){
         }
         let agreementID;
         if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        }
+        // if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
+        // ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
+        // }
     }
     });
 }

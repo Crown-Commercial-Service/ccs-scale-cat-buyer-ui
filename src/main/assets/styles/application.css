@@ -4040,7 +4040,6 @@ display: none;
 #backdrop-checksupplierConfirmAllPopup .messagepop{
   display: block !important;
 }
-
 .govuk-header {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -4997,6 +4996,9 @@ display: none;
  }
  .addcolleaguedetailshidden {
   display: none;
+ }
+ .no-script-button {
+  margin-top: -23px !important;
  }
 /* custom css end @fca */
 
