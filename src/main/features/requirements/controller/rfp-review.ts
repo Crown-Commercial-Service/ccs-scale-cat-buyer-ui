@@ -394,9 +394,13 @@ let scoringData = [];
       let bc1, bc2, further_info;
     let reqGroup = [];
     //section 3
-
-
-    req.session['endDate'] = supplier_period_for_clarification_period;
+    if(stage2_value == "Stage 2"){
+      req.session['endDate'] = rfp_clarification_period_end;
+    }else{
+      req.session['endDate'] = supplier_period_for_clarification_period;
+    }
+    
+    
 
     let selectedServices = [];
 
