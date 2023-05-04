@@ -224,36 +224,36 @@
                                             {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 3" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 8" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
                                                 <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
                                             {% endif %}
-                                            <strong id="lbl-clarification" class="clarification_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong>
+                                            <strong id="lbl-clarification" class="clarification_{{ loop.index }} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong>
                                         </label>
                                     {% endif %}
                                     {% if( requirement.nonOCDS.options.length == 0) %}
                                         {% if(requirement.OCDS.id == "Question 2" ) %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="clarification_period_end" class="clarification_2">{{ rfp_clarification_period_end }}</strong>
+                                                <strong id="clarification_period_end" class="clarification_2 dynamicid_{{ loop.index }}">{{ rfp_clarification_period_end }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 3") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="deadline_period_for_clarification_period" class="clarification_3">{{ deadline_period_for_clarification_period }}</strong>
+                                                <strong id="deadline_period_for_clarification_period" class="clarification_3 dynamicid_{{ loop.index }}">{{ deadline_period_for_clarification_period }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 4") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="supplier_period_for_clarification_period" class="clarification_4">{{ supplier_period_for_clarification_period }}</strong>
+                                                <strong id="supplier_period_for_clarification_period" class="clarification_4 dynamicid_{{ loop.index }}">{{ supplier_period_for_clarification_period }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 5") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="supplier_dealine_for_clarification_period" class="clarification_5">{{ supplier_dealine_for_clarification_period }}</strong>
+                                                <strong id="supplier_dealine_for_clarification_period" class="clarification_5 dynamicid_{{ loop.index }}">{{ supplier_dealine_for_clarification_period }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 6") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="deadline_for_submission_of_stage_one" class="clarification_6">{{ deadline_for_submission_of_stage_one }}</strong>
+                                                <strong id="deadline_for_submission_of_stage_one" class="clarification_6 dynamicid_{{ loop.index }}">{{ deadline_for_submission_of_stage_one }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 7") %}
                                             <label class="govuk-label govuk-body">
                                                 {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
                                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p>
                                                 {% endif %}
-                                                <strong id="evaluation_process_start_date" class="clarification_7">{{ evaluation_process_start_date }}</strong>
+                                                <strong id="evaluation_process_start_date" class="clarification_7 dynamicid_{{ loop.index }}">{{ evaluation_process_start_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 8") %}
                                             <label class="govuk-label govuk-body">
@@ -264,11 +264,11 @@
                                                 {% if (agreementId_session == 'RM1043.8') %}
                                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
                                                 {% endif %}
-                                                <strong id="bidder_presentations_date" class="clarification_8">{{ bidder_presentations_date }}</strong>
+                                                <strong id="bidder_presentations_date" class="clarification_8 dynamicid_{{ loop.index }}">{{ bidder_presentations_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 9") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="standstill_period_starts_date" class="clarification_9">{{ standstill_period_starts_date }}</strong>
+                                                <strong id="standstill_period_starts_date" class="clarification_9 dynamicid_{{ loop.index }}">{{ standstill_period_starts_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 10") %}
                                             <label class="govuk-label govuk-body">
@@ -276,23 +276,23 @@
                                                     <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
                                                         require a standstill, change this date to be the same as the date in point 11 below.</p>
                                                 {% endif %}
-                                                <strong id="proposed_award_date" class="clarification_10">{{ proposed_award_date }}</strong>
+                                                <strong id="proposed_award_date" class="clarification_10 dynamicid_{{ loop.index }}">{{ proposed_award_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 11") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="expected_signature_date" class="clarification_11">{{ expected_signature_date }}</strong>
+                                                <strong id="expected_signature_date" class="clarification_11 dynamicid_{{ loop.index }}">{{ expected_signature_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 12") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="contract_signed_date" class="clarification_12">{{ contract_signed_date }}</strong>
+                                                <strong id="contract_signed_date" class="clarification_12 dynamicid_{{ loop.index }}">{{ contract_signed_date }}</strong>
                                             </label>
                                         {% elif(requirement.OCDS.id == "Question 13") %}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="supplier_start_date" class="clarification_13">{{ supplier_start_date }}</strong>
+                                                <strong id="supplier_start_date" class="clarification_13 dynamicid_{{ loop.index }}">{{ supplier_start_date }}</strong>
                                             </label>
                                         {% else %}
                                             <label class="govuk-label govuk-body">
-                                                <strong class="clarification_1">{{ rfp_clarification_date }}</strong>
+                                                <strong class="clarification_1 dynamicid_{{ loop.index }}">{{ rfp_clarification_date }}</strong>
                                             </label>
                                         {% endif %}
                                     {% endif %}

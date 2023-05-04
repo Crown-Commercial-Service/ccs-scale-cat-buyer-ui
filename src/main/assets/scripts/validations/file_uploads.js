@@ -104,6 +104,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -112,8 +113,10 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
+                console.log('inside mime type')
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -123,6 +126,7 @@ $(document).ready(function () {
                 ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
         
             else{
@@ -132,6 +136,7 @@ $(document).ready(function () {
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
                 $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
 
 

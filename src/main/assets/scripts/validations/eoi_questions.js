@@ -71,22 +71,22 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden')
       
        db.addEventListener('click', (e) => {
-    
+       
+        $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
+
         e.preventDefault();
         console.log("e.target.href",e.target.href);
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
         prev_coll = Number(target) - 1,
        target_fieldset = db.closest("div");
-        console.log("target",target);
-        console.log("target_fieldset",target_fieldset);
 
                 let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
                 let next_coll = Number(target);
                     let nextLevel_coll = Number(target);
                 if(target != 20) {
                     let ml = 1;
-                  console.log("1111")  
-                    
+                 
                     let eptArr = [];
                     while (Sibling) {
                         
@@ -108,16 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 
                             } else {
                                 next_coll = next_coll + 1;
-                                console.log(`Usual: ${ml} - ${next_coll}`)
-                                console.log("nextLevel_coll",nextLevel_coll);
-                                console.log("current_col",current_col);
 
                                 first = document.getElementById('eoi_question_'+nextLevel_coll).value;
                                 console.log("first",first);
                                 document.getElementById('eoi_question_'+current_col).value=first;
                                
                             }
-        
+         
                             console.log(Sibling.classList);
                             Sibling = Sibling.nextElementSibling;
                         } else {
@@ -129,12 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         let removeLogic = eptArr.at(-1);
                         console.log(`removeLogic: ${removeLogic}`);
                         document.getElementById('eoi_question_' + removeLogic).value = "";
-                       
+                        document.getElementById('eoi_question_' + removeLogic).dispatchEvent(new Event("keyup"));
                         document.getElementById('fc_question_' + removeLogic).closest("div").classList.add("ccs-dynaform-hidden")
                     } else {
                         target_fieldset.classList.add("ccs-dynaform-hidden");
                         document.getElementById('eoi_question_' + target).value = "";
-                       
+                        document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                           document.querySelector('#fc_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                         }
@@ -143,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     target_fieldset.classList.add("ccs-dynaform-hidden");
                     document.getElementById('eoi_question_' + target).value = "";
-                    
+                    document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
                     if (prev_coll > 1) {
                       document.querySelector('#main_eoi_question_' + next_coll).classList.add("ccs-dynaform-hidden");
                     }

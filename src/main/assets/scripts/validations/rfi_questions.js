@@ -101,6 +101,10 @@ const urlParams = new URLSearchParams(queryString);
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
+        
+        $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
 
         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -182,6 +186,8 @@ const urlParams = new URLSearchParams(queryString);
                        var fc_question_precenate_El = document.getElementById("rfi_question_"+removeLogic);
                        if(fc_question_precenate_El){
                          document.getElementById('rfi_question_'+removeLogic).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
@@ -198,6 +204,7 @@ const urlParams = new URLSearchParams(queryString);
                        var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
                          document.getElementById('rfi_question_'+nextLevel_coll).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
                        }
 
                     //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
@@ -222,6 +229,8 @@ const urlParams = new URLSearchParams(queryString);
                        var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
                        if(fc_question_precenate_El){
                          document.getElementById('rfi_question_'+nextLevel_coll).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+
                        }
              
                    if (prev_coll > 1) {

@@ -131,12 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let removeLogic = eptArr.at(-1);
             console.log(`removeLogic: ${removeLogic}`);
             document.getElementById('eoi_splterm_' + removeLogic).value = "";
-           
+            document.getElementById('eoi_splterm_' + removeLogic).dispatchEvent(new Event("keyup"));
+
             document.getElementById('eoi_splterm_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
         } else {
             target_fieldset.classList.add("ccs-dynaform-hidden");
             document.getElementById('eoi_splterm_' + target).value = "";
-           
+            document.getElementById('eoi_splterm_' + target).dispatchEvent(new Event("keyup"));
             if (prev_coll > 1) {
                 document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
             }
@@ -145,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         target_fieldset.classList.add("ccs-dynaform-hidden");
         document.getElementById('eoi_splterm_' + target).value = "";
-       
+        document.getElementById('eoi_splterm_' + target).dispatchEvent(new Event("keyup"));
         if (prev_coll > 1) {
             document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }

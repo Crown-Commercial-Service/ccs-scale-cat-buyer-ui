@@ -134,12 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let removeLogic = eptArr.at(-1);
             console.log(`removeLogic: ${removeLogic}`);
             document.getElementById('eoi_term_' + removeLogic).value = "";
+            document.getElementById('eoi_term_' + removeLogic).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_definition_' + removeLogic).value = "";
+            document.getElementById('eoi_term_definition_' + removeLogic).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
         } else {
             target_fieldset.classList.add("ccs-dynaform-hidden");
             document.getElementById('eoi_term_' + target).value = "";
+            document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
             document.getElementById('eoi_term_definition_' + target).value = "";
+            document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
             if (prev_coll > 1) {
                 document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
             }
@@ -148,7 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         target_fieldset.classList.add("ccs-dynaform-hidden");
         document.getElementById('eoi_term_' + target).value = "";
+        document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
         document.getElementById('eoi_term_definition_' + target).value = "";
+        document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
         if (prev_coll > 1) {
             document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
@@ -279,6 +285,7 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
+    
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
@@ -287,9 +294,9 @@ const emptyFieldCheckEoi = (add_more='') => {
         ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
         ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
         //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-        fieldCheck = [term_field, 'Enter a term or acronym'];
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
-        fieldCheck = [definition_field, 'Enter a definition for the term or acronym'];
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 

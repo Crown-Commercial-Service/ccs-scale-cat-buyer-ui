@@ -172,14 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
                            if(fc_question_precenate_fir){
                             document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+
                            }
                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
                            if(fc_question_precenate_sec){
                             document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+
                            }
                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
                            if(fc_question_precenate_third){
                             document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+
                            }
                            //ID BASED
                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
@@ -199,14 +205,17 @@ document.addEventListener('DOMContentLoaded', () => {
                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
                            if(fc_question_precenate_fir){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
                            }
                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
                            if(fc_question_precenate_sec){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
                            }
                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
                            if(fc_question_precenate_third){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
                            }
                            //ID BASED
                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);
@@ -233,14 +242,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
                            if(fc_question_precenate_fir){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
                            }
                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
                            if(fc_question_precenate_sec){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
                            }
                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
                            if(fc_question_precenate_third){
                             document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
                            }
                            //ID BASED
                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);

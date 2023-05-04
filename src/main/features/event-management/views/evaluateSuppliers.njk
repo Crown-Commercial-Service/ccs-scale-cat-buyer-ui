@@ -121,6 +121,11 @@
           
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
+            {% if (checkcount >= 1) %}
+              <input type="hidden" id="checkcount" value="yes">
+            {% else %}
+              <input type="hidden" id="checkcount" value="no">
+            {% endif %}
             <table class="govuk-table">
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
@@ -130,7 +135,7 @@
                   <th scope="col" class="govuk-table__header">Response date</th>
                   <th scope="col" class="govuk-table__header">Supplier answer</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_6}}</th>
                 {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
@@ -142,7 +147,7 @@
                       {% endif %}
                     </th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_6}}</th>
                 {% endif %}
                 </tr>
               </thead>
@@ -164,7 +169,7 @@
                         <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                       </td> 
                       <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
-                      <td class="govuk-table__cell"> {{supplier.completionStatus}} </td>
+                      <td class="govuk-table__cell"> {{supplier.score}} </td>
                     </tr>
                 
                 {% endif %} 
@@ -211,17 +216,28 @@
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
-          <button class="govuk-button confir-all-supplier-popup" data-module="govuk-button" id="evaluate_suppliers">
+
+        <noscript>
+          <style type="text/css">
+            .evaluate_suppliers_javascript_disabled { display:none; }
+          </style>
+           <a href="/evaluate-confirm" class="govuk-button no-script-button" data-module="govuk-button" id="evaluate_suppliers">
             Complete evaluation
-          </button>
+          </a>
+       </noscript>
+
+          <a href="#backdrop-supplierConfirmAllPopup" class="govuk-button evaluate_suppliers_javascript_disabled" data-module="govuk-button" id="evaluate_suppliers">
+            Complete evaluation
+          </a>
+        {% endif %}
+        {% if (CountConfirmFlag) and ConfirmFlag === false %}
+          <a href="#backdrop-checksupplierConfirmAllPopup" class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
+            Complete evaluation
+          </a>
         {% endif %}
   
 {% if (agreementId_session == 'RM1043.8') %}
-  {% if (ConfirmFlag) %}
       <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
-    {% else %}
-        
-  {% endif %}
 {% else %}
     <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
 {% endif %}
@@ -240,14 +256,10 @@
 {%endif%}
 {# Description Condition #}
 {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
-  {% set popDescription = "Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation." %}
+  {% set popDescription = "Click 'Continue', or click 'Return' to edit your scores." %}
 {%else%}
   {% if stage2_value == 'Stage 2'%}
-    {% if(agreement_header['lotid'] == '3') %}
-      {% set popDescription = "Click Continue, or click Return to further edit your scores. " %}
-    {%else%}
-      {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores. After this point, you will be unable to edit your evaluation." %}
-    {%endif%}
+      {% set popDescription = "Click Continue, or click Return to edit your scores." %}
   {%else%}
     {% set popDescription = "Click ‘Continue’, or click ‘Return’ to edit your scores." %}
   {%endif%}
@@ -261,6 +273,29 @@
     type:'supplierConfirmAllPopup'
   }) 
 }}
+{% set popDescription = "You have given a score of 0 to one or more suppliers. This means they didn't meet any evaluation criteria. Click 'Continue' if this is correct, or click 'Return' to edit your scores." %}
+{% set popTitleMCFGC = "You are about to complete your evaluation" %}
+
+{% if (CountConfirmFlag) and ConfirmFlag === false and ((agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13')) %}
+   {{ 
+  CCSDialog({
+    title: popTitleMCFGC,
+    description:popDescription,
+    redirect:'#',
+    type:'checksupplierConfirmAllPopup'
+  }) 
+}}
+{% endif %}
+{% if (CountConfirmFlag) and ConfirmFlag === false and (agreementId_session == 'RM1043.8') %}
+   {{ 
+  CCSDialog({
+    title: popTitle,
+    description:popDescription,
+    redirect:'#',
+    type:'checksupplierConfirmAllPopup'
+  }) 
+}}
+{% endif %}
 {# Popup End #}
 
 {# Loader Container #}

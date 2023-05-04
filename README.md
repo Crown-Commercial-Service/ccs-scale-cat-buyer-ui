@@ -46,22 +46,6 @@ The applications's home page will be available at http://localhost:3000
 
 ## Developing
 
-### Code style
-
-We use [ESLint](https://github.com/typescript-eslint/typescript-eslint)
-alongside [sass-lint](https://github.com/sasstools/sass-lint)
-
-Running the linting:
-
-```bash
-$ npm run lint
-```
-Running the unit test case:
-
-```bash
-$ npm run test:routes
-```
-
 ### Making CSS / JS Changes
 
 We use packed and minified scripts and stylesheets in the web application.
@@ -72,20 +56,65 @@ When you have made changes to scripts/styles and want to promote them to the pac
 $ npm run build-assets
 ```
 
-This is also run as part of the npm setup task.
+**NOTE:** if you have run `npm run watch-assets` then your packed assets will be automatically updated when you make changes to a CSS or JavaScript file.
 
-### Running the tests
+### Code style
 
-This template app uses [Mocha](https://mochajs.org/) as the test engine. You can run unit tests by executing
-the following command:
+We use [ESLint](https://github.com/typescript-eslint/typescript-eslint).
 
-Running accessibility tests:
+Run the linting:
+
+```bash
+$ npm run lint
+```
+
+### Unit tests
+
+**NOTE:** if you are using windows, you need to run `SET NODE_ENV=development` before running the tests.
+
+This template app uses [Mocha](https://mochajs.org/) as the test engine.
+After running the tests you should be able to find the generated reports in the `mochawesome-report/` folder.
+
+Run all the test case:
+
+```bash
+$ npm test
+```
+
+Run the routes test case:
+
+```bash
+$ npm run test:routes
+```
+
+Run the unit test case:
+
+```bash
+$ npm run test:unit
+```
+
+Run the accessibility test case:
 
 ```bash
 $ npm run test:a11y
 ```
-
 Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
+
+### Test coverage
+
+**NOTE:** due to a memory issue, the cause of which is currently unknown, this script does not yet work
+
+We use [Instanbul nyc](https://github.com/istanbuljs/nyc).
+
+To run the tests and record test coverage, run the command:
+
+```bash
+$ npm run test:coverage
+```
+
+### Feature tests
+
+TODO: This are still to be added
 
 ### Healthcheck
 
@@ -95,13 +124,40 @@ in [health.ts](src/main/routes/health.ts) file. Make sure you adjust it correctl
 In particular, remember to replace the sample check with checks specific to your frontend app,
 e.g. the ones verifying the state of each service it depends on.
 
+## Deployment
+
+This application is hosted on [GOV.UK PaaS](https://www.cloud.service.gov.uk/) and we use [Travis CI](https://www.travis-ci.com/) to deploy the code.
+When your code changes are merged they will automatically be deployed to the relevant environment.
+
+The environments are mapped as follows:
+
+| Environment     | Branch              |
+|-----------------|---------------------|
+| Development     | `develop`           |
+| Integration     | `release/sit`       |
+| NFT             | `release/nftnew`    |
+| UAT             | `release/uatnew`    |
+| Pre-Production  | `release/pre-prod`  |
+| Production      | `release/prod`      |
+
+So, for example, if you merge your changes into `release/nftnew` the code changes will be deployed into the NFT environment.
+
+### Deploying to Sandbox
+
+The Sandbox environment, specifically Sandbox 2, does not have a "main" branch so to speak of.
+Instead, if you push a branch that matches the following regular expression:
+
+```sh
+^(feature|bugfix)\\/(CAS)-[0-9]+.*$
+```
+
 ## Provisioning
 
 ### Prerequisites
 
 The [Terraform CaT infra](https://github.com/Crown-Commercial-Service/ccs-scale-cat-paas-infra) and [CaT Service API](https://github.com/Crown-Commercial-Service/ccs-scale-cat-service) should have been provisioned against the target environment(s) prior to provisioning of this UI component.
 
-### Local initialisation & provisioning (sandbox spaces only)
+### Local initialisation & provisioning
 
 Terraform state for each space (environment) is persisted to a dedicated AWS account. Access keys for an account in this environment with the appropriate permissions must be obtained before provisioning any infrastructure from a local development machine. The S3 state bucket name and Dynamo DB locaking table name must also be known.
 
@@ -133,18 +189,6 @@ Terraform state for each space (environment) is persisted to a dedicated AWS acc
 
 4. Run `terraform plan` to confirm the changes look ok
 5. Run `terraform apply` to deploy to UK.Gov PaaS
-
-### Provision the service via Travis
-
-The main environments are provisioned automatically via Travis CI. Merges to key branches will trigger an automatic deployment to certain environments - mapped below:
-
-- `develop` branch -> `development` space
-- `release/int` branch -> `int` space
-- `release/nft` branch -> `nft` space
-- `release/uat` branch -> `uat` space
-
-* other environments TBD (these mappings may change as we evolve the process as more environments come online)
-* feature branches can be deployed to specific sandboxes by making minor changes in the `travis.yml` file (follow instructions)
 
 ## License
 
