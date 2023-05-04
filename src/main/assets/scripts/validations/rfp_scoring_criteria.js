@@ -297,7 +297,15 @@ document.addEventListener('DOMContentLoaded', () => {
             activateField += 1;
             document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
             //}
+            if(document.getElementById('agreement_id').value == 'RM1043.8'){
+            if(score_criteria_fieldset > 1 ){
             this_fieldset.classList.remove('ccs-dynaform-hidden');
+            }
+          }
+          else{
+            this_fieldset.classList.remove('ccs-dynaform-hidden');
+          }
+            
             if (score_criteria_fieldset === 9) {
               activateField9thAreFilled = true;
             }
