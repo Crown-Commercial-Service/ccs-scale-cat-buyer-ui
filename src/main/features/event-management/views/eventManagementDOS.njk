@@ -170,7 +170,13 @@
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
               {% endif %}
           {% elif(stage2_value == 'Stage 2') %}
-              {% if(status.toUpperCase() == 'PUBLISHED') %}
+
+              {% if status.toUpperCase() == 'PUBLISHED' and agreement_header['lotid']=='3' %}
+              You can read or download a copy of your published project. You cannot make any changes.
+              {% else %}
+                  Read or download a copy of your published project. You cannot make any changes.
+              {% endif %}
+              {# {% if(status.toUpperCase() == 'PUBLISHED') %}
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
               {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
@@ -178,7 +184,7 @@
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
               {% elif(status.toUpperCase() == 'EVALUATED') %}
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos }}
-              {% endif %}
+              {% endif %} #}
           {% else %}
               <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
           {% endif %}
@@ -243,8 +249,14 @@
                     <span class="proc-task-list__section-number">3.</span>
                     {{data.subsection4_title_dos}}</h2>
                     {% endif %}
-                    {% if (projectStatus == 2 and status.toUpperCase() == 'EVALUATED') %}
-                  <p class="govuk-body">{{ data.subsection4_title3_evaluated_description_dos }}</p>
+                  {% if stage2_value == 'Stage 2' and status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+                    {% if agreement_header['lotid']=='3' and status.toUpperCase() == 'PUBLISHED' %}
+                        <p class="govuk-body">You can find out how many suppliers have expressed an interest in responding to your project in the section below.</p>
+                    {% else %}
+                        <p class="govuk-body">Find out how many suppliers are interested in responding to your project in the section below.</p>
+                    {% endif %}
+                  {% elseif (projectStatus == 2 and status.toUpperCase() == 'EVALUATED') %}
+                   <p class="govuk-body">{{ data.subsection4_title3_evaluated_description_dos }}</p>
                   {% else %}
                   <p class="govuk-body">{{ data.subsection4_title3_description_dos }}</p>
                   {% endif %}
@@ -259,14 +271,21 @@
                   <p class="govuk-grid-column-one-half">
                     <strong>{{data.subsection4_title3_task1}}</strong></p>
                     <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+
                     <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2_dos}}</p>
                       <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+
                       <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}</p>
                         <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+
                         <p class="govuk-grid-column-one-half">
                           {% if(stage2_value == 'Stage 2')  %}
-                            {% if status.toUpperCase() == 'EVALUATED' %}
-                              Remaining suppliers with no response
+                            {% if status.toUpperCase() == 'PUBLISHED' or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+                              {% if agreement_header['lotid']=='3' and status.toUpperCase() == 'PUBLISHED' %} 
+                                Number of suppliers who have not responded
+                              {%else%}
+                                Remaining suppliers with no response
+                              {%endif%}
                             {%else%}
                             {{data.subsection4_title3_task4_dos}}
                             {%endif%}
@@ -641,7 +660,11 @@
                                           </div>
                                       {% else %}
                                               <div class="govuk-!-padding-top-6">
-                                                <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
+                                                {% if status.toUpperCase() === 'PUBLISHED' %}
+                                               
+                                                {% else %}
+                                                 <strong class="govuk-tag govuk-tag--grey">Cannot start yet</strong>
+                                                 {% endif %}
                                                 </div>
                                        {% endif %}
                                        <div class="govuk-!-padding-top-6">

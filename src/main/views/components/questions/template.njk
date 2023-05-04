@@ -150,7 +150,13 @@
                             id:"score_criteria_fieldset"
                         })
                         %}
-                        
+
+                    {% if (agreement_id == 'RM1043.8' and requirement.OCDS.title == 'Enter the name for this level')  %}
+                        {% set closebtnhtml = '' %}
+                      {% else %}
+                        {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>" %}
+                    {% endif %}
+
                     {{ CCSCharacterCount({
                         id: 'rfp_score_criteria_name_1',
                         name: 'score_criteria_level',
@@ -161,7 +167,7 @@
                             html: "Use words that best reflect the scoring level, and that can be used alongside other criteria. <br>  For example ‘pass’ or ‘fail’, or ‘excellent’, ‘good’, ‘poor’."
                         },
                         label: {
-                            html:requirement.OCDS.title+ "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                            html:requirement.OCDS.title+ closebtnhtml,
                             text: requirement.OCDS.title,
                             classes: 'govuk-label govuk-label--m'
                         }

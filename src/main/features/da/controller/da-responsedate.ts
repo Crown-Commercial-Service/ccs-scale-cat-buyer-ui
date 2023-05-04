@@ -292,7 +292,7 @@ function isValidQuestion(
    else{
     switch (questionId) {
       case 'Question 1':
-        errorSelector = 'clarification_date';
+        errorSelector = 'rfp_clarification_date_expanded_1';
         break;
       case 'Question 2':
         if (questionNewDate < new Date(timeline.publish)) {
@@ -303,7 +303,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'clarification_period_end';
+        errorSelector = 'rfp_clarification_date_expanded_2';
         break;
       case 'Question 3':
         if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
@@ -314,7 +314,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'deadline_period_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_3';
         break;
       case 'Question 4':
         if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
@@ -325,7 +325,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'supplier_period_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_4';
         break;
       case 'Question 5':
         if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
@@ -336,7 +336,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'supplier_dealine_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_5';
         break;
            
       
@@ -349,7 +349,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'standstill_period_starts_date';
+        errorSelector = 'rfp_clarification_date_expanded_9';
         break;
       case 'Question 10':
         if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
@@ -360,14 +360,14 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'proposed_award_date';
+        errorSelector = 'rfp_clarification_date_expanded_10';
         break;
       case 'Question 11':
         if (questionNewDate < new Date(timeline.proposedAwardDate)) {
           isValid = false;
           error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
-        errorSelector = 'expected_signature_date';
+        errorSelector = 'rfp_clarification_date_expanded_11';
         break;
       default:
         isValid = true;
@@ -663,57 +663,58 @@ const filtervalues=moment(
         case 'Question 1':
           selector =
             ' Publish your DA - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_date';
+          selectorID = 'rfp_clarification_date_expanded_1';
+          
           break;
         case 'Question 2':
           selector =
             'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_period_end';
+          selectorID = 'rfp_clarification_date_expanded_2';
           break;
         case 'Question 3':
           selector =
             'Deadline for publishing responses to DA clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'deadline_period_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_3';
           break;
         case 'Question 4':
           selector =
             'Deadline for suppliers to submit their DA response - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_period_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_4';
           break;
         case 'Question 5':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_dealine_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_5';
           break;
         case 'Question 6':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'deadline_for_submission_of_stage_one';
+          selectorID = 'rfp_clarification_date_expanded_6';
           break;
         case 'Question 7':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'evaluation_process_start_date';
+          selectorID = 'rfp_clarification_date_expanded_7';
           break;
         case 'Question 8':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'bidder_presentations_date';
+          selectorID = 'rfp_clarification_date_expanded_8';
           break;
         case 'Question 9':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'standstill_period_starts_date';
+          selectorID = 'rfp_clarification_date_expanded_9';
           break;
         case 'Question 10':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'proposed_award_date';
+          selectorID = 'rfp_clarification_date_expanded_10';
           break;
         case 'Question 11':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'expected_signature_date';
+          selectorID = 'rfp_clarification_date_expanded_11';
           break;
         default:
           selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';
