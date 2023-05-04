@@ -173,7 +173,11 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
+        if(req.session?.agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2") {
+          errorList.push({ text: "Select a file to upload", href: "#" })
+        }else{
+          errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
+        }
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {

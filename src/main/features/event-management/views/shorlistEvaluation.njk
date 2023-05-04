@@ -38,7 +38,11 @@
                             <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
                           </div>
           <h2 class="govuk-heading-m">{{data.subtitle1}}</h2>  
-          <ol type="1" class="govuk-list govuk-list--number">
+          {% if (stage_value == 'stage 2' and lotid == '3' and agreement_id == 'RM1043.8') %}
+            <ol type="1" class="govuk-list">
+          {% else %}
+            <ol type="1" class="govuk-list govuk-list--number">
+          {% endif %}
               {% if lotid == '3' and agreement_id == 'RM1043.8' %}
                   <li>{{data.subsection1_title}}</li>
               {% else %}
