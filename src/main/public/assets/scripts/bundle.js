@@ -8945,7 +8945,7 @@ for (const selector of eoi_totalElementSelectors) {
 
 for (const selector of eoi_totalElementSelectors) {
     let elementID = "#change_clarification_date_" + selector;
-    let elementCancelID = "#cancel_change_clarification_date_" + selector;
+    let elementCancelID = "#eoi_cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     let elementSelectorCancel = $(elementCancelID);
     elementSelector.fadeIn();
@@ -8965,39 +8965,22 @@ for (const selector of eoi_totalElementSelectors) {
         elementSelector.hide();
         saveButtonHideDateEoi();
     });
-    var errorSelectorId = '';
-    let errorSelector = $("#click-error");
-
-
-    errorSelector.on('click', () => {
-        let storedClickedID = localStorage.getItem('dateItem');
-        if(storedClickedID!=null){
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        if (elementSelector.selector === elementSelectorClicked.selector) {
-            elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
-    
-        let agreementID;
-        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        // if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
- 
-        // ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        // }
-    }
-    });
 }
 
 
+let eoierrorSelector = $("#click-error");
+eoierrorSelector.on('click', () => {
+    let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
+    let elementSelectorClicked = $(ClickedID);
+    elementSelectorClicked.fadeIn();
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
+});
 
 
 for (const selector of eoi_totalElementSelectors) {
-    let elementID = "#cancel_change_clarification_date_" + selector;
+    let elementID = "#eoi_cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     elementSelector.on('click', () => {
         $(`#clarification_date-day_${selector}`).val("");
@@ -9024,8 +9007,6 @@ for (const selector of eoi_totalElementSelectors) {
             const elementIDChange = $("#change_clarification_date_" + selector);
             elementIDChange.show();
         }
-        // const elementIDChange = $("#change_clarification_date_" + selector);
-        //elementIDChange.show();
         saveButtonUnHideDateEoi();
     });
 }
@@ -12331,46 +12312,23 @@ for(const selector of rfp_totalElementSelectors){
         saveButtonHideDateRFP();
         
     });
-    let errorSelector = $("#click-error");
-    let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
     
-
-    noChanges.click(function() {
-        $( ".govuk-error-message" ).hide();
-        $( ".govuk-error-summary" ).hide();
-        elementClicked = $("#showDateDiv" + selector);
-        elementClicked.removeClass('govuk-form-group--error')
-        
-        
-
-    });
-
-    errorSelector.on('click', () => {
-        
-        let storedClickedID = localStorage.getItem('dateItem');
-        if(storedClickedID!=null){
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
-        if (elementSelector.selector === elementSelectorClicked.selector && hasError ) {
-            elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-           
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
-        let agreementID;
-        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        // if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
-        // ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        // }
-    }
-    });
 }
 
 
+let rfperrorSelector = $("#click-error");
+rfperrorSelector.on('click', () => {
+    let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
+    let elementSelectorClicked = $(ClickedID);
+    if($('.hideFirst:visible').length){
+        $('.hideFirst').hide();
+        $('.change').show(); 
+    }
+    elementSelectorClicked.fadeIn();
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
+});
 
 
 for(const selector of rfp_totalElementSelectors){
