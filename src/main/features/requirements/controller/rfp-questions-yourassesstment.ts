@@ -50,8 +50,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     }
 
      const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
-    
-    const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
@@ -728,8 +727,12 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 (questionNonOCDS.mandatory == true && object_values.length == 0) ||
                 object_values[0]?.value.length == 0
               ) {
-                validationError = true;
-                break;
+                  req.session['IsSuppliersEvaluateError']=false;
+                  if(agreement_id == "RM1043.8" && group_id === 'Group 2' && id === 'Criterion 2') {//DOS
+                     req.session['IsSuppliersEvaluateError']=true;
+                    }
+                    validationError = true;
+                    break;
               }
               let objValueArrayCheck = false;
               object_values.map(obj => {
@@ -745,6 +748,13 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 };
               } else {
                 if(agreement_id == "RM1043.8" && group_id === 'Group 2' && id === 'Criterion 2') {//DOS
+                   req.session['IsSuppliersEvaluateError']=false;
+                    if(object_values[0].value < 3){
+                        validationError = true;
+                        req.session['IsSuppliersEvaluateError']=true;
+                        break;
+                      }
+                 
                   const supplierUpdateUrl = `/tenders/projects/${proc_id}/events/${event_id}`;
                   const _body = {
                     assessmentSupplierTarget: object_values[0].value,
@@ -919,6 +929,8 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add information in both fields.' });
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
       errorText.push({ text: 'You must add at least one objective' });
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false && req.session['IsSuppliersEvaluateError'] == true)
+      errorText.push({ text: 'Enter the quantity, minimum 3' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
     else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)

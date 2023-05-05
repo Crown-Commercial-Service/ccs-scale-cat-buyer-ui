@@ -54,9 +54,9 @@
       <div class="govuk-grid-column-full">
 
       <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
-        {%if status.toLowerCase() == "pre-award" %}
+        {# {%if status.toLowerCase() == "pre-award" %}
           <p>You can close this project using the link under the project name below.</p></br></br>
-        {% endif %}
+        {% endif %} #}
         <div>
           <h2 class="govuk-heading-m">
           {{agreement_header['projectId']+" & "+projectName}}
@@ -274,11 +274,11 @@
                     {% endif %}
                   {% else %}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2_dos}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_2_dos}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">Award</th>
                   {% endif %}
                 </tr>
               </thead>
@@ -310,6 +310,21 @@
                             </th>
                         {% endif %}
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
+                          {% if agreementId_session == 'RM1043.8' %}
+                          <td class="govuk-text-align govuk-!-text-align-left">
+                            <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
+                          </td>
+
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                          </th>
+                          <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
+                            <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
+                          </th>
+                           {% else %}
                           <td class="govuk-text-align govuk-!-text-align-centre">
                             <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
                           </td>
@@ -323,6 +338,7 @@
                           <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
                             <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
                           </th>
+                          {% endif %}
                         {% endif %}
                       </tr>
                         {% endif %}
@@ -330,8 +346,10 @@
                       {% if (showallDownload) %}
                       <tr class="govuk-table__row">
                         <td class="govuk-text-align govuk-!-text-align-left"></td>
+                        {% if agreementId_session != 'RM1043.8' %}
                         <td class="govuk-text-align govuk-!-text-align-left"></td>
-                        <td class="govuk-text-align govuk-!-text-align-left"><a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a></td>
+                         {% endif %}
+                        <td class="govuk-text-align govuk-!-text-align-left"><a href="/supplieranswerall?download_all=1" >Download all</a></td>
                         {% if eventType != 'RFI' and eventType != 'EOI' %}
                           <td class="govuk-text-align govuk-!-text-align-centre"></td>
                           <td class="govuk-text-align govuk-!-text-align-centre"></td>
@@ -513,7 +531,7 @@
 {% else %}
 {% set s_name = 'I acknowledge the responsibility to award this supplier after the standstill period has passed..' | safe %}
 {%if (agreement_header['agreementId_session'] == 'RM1043.8') %}
-{% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
+{% set s_name = 'I acknowledge the responsibility to confirm receipt of the contract signed by the supplier.' | safe %}
 {{ CCSWarningText({
                     text: s_name,
                     classes:"awardOption",

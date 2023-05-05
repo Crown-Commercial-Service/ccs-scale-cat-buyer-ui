@@ -158,7 +158,11 @@ export const FILEUPLOADHELPER: express.Handler = async (
       }
       if (fileDuplicateError) {
         fileError=true;
+        if(req.session?.agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2") {
+          errorList.push({ text: "The selected file has already been uploaded", href: "#" })
+        }else{
         errorList.push({ text: "The chosen file already exist ", href: "#" })
+        }
         delete req.session["fileDuplicateError"];
       }
       if (fileError && errorList !== null) {
