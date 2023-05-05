@@ -39,7 +39,7 @@ async function getSearchResults(url: string,hostURL:any,result: any = []){
           result.push(TAStorage);
       }
       if (NextPageUrl) {
-          result = await getSearchResults(NextPageUrl,hosts,result);
+           result = await getSearchResults(NextPageUrl,hosts,result);
       }
       return result;
 }
