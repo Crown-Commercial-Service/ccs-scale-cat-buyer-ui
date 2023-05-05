@@ -194,7 +194,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
         let supplierDataList = [];
         supplierDataList = await GetLotSuppliers(req);
-
+        
         for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
           let id = supplierdata.data.responders[i]?.supplier?.id;
           let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)?.[0]?.score
@@ -235,6 +235,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         //RANK
         
         let rankCount = 0;
+
+        supplierDetailsDataList = supplierDetailsDataList.filter(x =>x.responseState == "Submitted");
+        
         for (let i = 0; i < supplierDetailsDataList.length; i++) {
           let element =supplierDetailsDataList[i];
           if(!element.rankFlag)
