@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 //import * as cmsData from '../../../resources/content/RFI/review.json';
-import * as cmsData from '../../../resources/content/eoi/review.json';
+import * as cmsData from '../../../resources/content/RFI/review.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -15,7 +15,7 @@ import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { reverse } from 'dns';
 import common from 'mocha/lib/interfaces/common';
-
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 
 
@@ -27,7 +27,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const { download } = req.query;
   const lotId = req.session?.lotId;
   const agreementLotName = req.session.agreementLotName;
-  
+  const publishClickeventValue = req.session['publishclickevents'];
+  let publishClickEventStatus = false;
+  if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(ProjectID)){
+    publishClickEventStatus = true;
+   }
+  }
+    
   if(download!=undefined) {
       const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
       
@@ -52,8 +59,17 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
 
+      const organizationID = req.session.user.payload.ciiOrgId;
+      const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+      const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+      const name = getOrganizationDetails.data.identifier.legalName;
+      const organizationName = name;
+
 
       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
+
       //Buyer Questions
       const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions;
       const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -159,7 +175,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         };
       });
 
-      const RFI_ANSWER_STORAGE = [];
+      let RFI_ANSWER_STORAGE = [];
 
       for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
         for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
@@ -180,11 +196,11 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
             for(let i=0;i<tempGroup4.answer.length;i++) {
               if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
               {
-                const organizationID = req.session.user.payload.ciiOrgId;
-                const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-                const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-                const name = getOrganizationDetails.data.identifier.legalName;
-                const organizationName = name;
+                // const organizationID = req.session.user.payload.ciiOrgId;
+                // const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+                // const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+                // const name = getOrganizationDetails.data.identifier.legalName;
+                // const organizationName = name;
                 tempGroup4.answer[i].values=[
                   {
                     value: organizationName,
@@ -215,6 +231,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
 
     for(let i=0;i<expected_rfi_keydates[0].answer.length;i++){
       let data=expected_rfi_keydates[0].answer[i].values[0].value;
+      if(i == 3){
+        req.session.endDate = data;
+      }
       let day=data.substr(0,10);
       let time=data.substr(11,5);
       if(i==0){
@@ -222,7 +241,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
       else
       {
-        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
       }
     };
         //RFI_ANSWER_STORAGE[3].answer.reverse()
@@ -243,6 +262,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
                   supplierList.push(supplierInfo);
                 }
             }
+          
       }
       else{
       supplierList = await GetLotSuppliers(req);
@@ -262,7 +282,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         forceChangeDataJson = cmsData;
       }
       const customStatus = ReviewData.OCDS.status;
-      
+      RFI_ANSWER_STORAGE = RFI_ANSWER_STORAGE.sort((a, b) => (a.id < b.id ? -1 : 1));
       let appendData = {
         rfi_data: RFI_ANSWER_STORAGE,
         rfi_keydates: expected_rfi_keydates[0],
@@ -281,13 +301,18 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         suppliers_list:supplierList,
         closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
         agreementId_session:req.session.agreement_id,
-        customStatus
+        customStatus,
+        organizationName,
+        publishClickEventStatus:publishClickEventStatus
       };
 
       if (viewError) {
         appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
       }
-    
+        
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.reviewAndPublishPageLog, req);
+
       res.render('review', appendData);
     } catch (error) {
       delete error?.config?.['headers'];

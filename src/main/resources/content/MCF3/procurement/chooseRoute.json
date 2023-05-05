@@ -13,17 +13,17 @@
             "href": "/projects/create-or-choose"
         },
         {
-            "text": "Choose your pre-tender market engagement event",
+            "text": "Choose your pre-market engagement event",
             "href": "#"
         }
 
     ],
 
-    "title": "Choose your pre-tender market engagement event",
+    "title": "Choose your pre-market engagement event",
     "subtitle":null,
     
     "form": {
-        "question": "Choose from the options below",
+        "question": "Choose from the options below.",
         "radioOptions": {
             "idPrefix": "ccs_chose_route",
             "name": "ccs_rfi_type",

@@ -6,6 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -29,7 +30,9 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
         const agreementId_session = req.session.agreement_id;
         const lotid =lotId;
         const agreementName = req.session.agreementName;
-        res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+        const projectId = req.session.projectId;
+
+        res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
       
         const viewData: any = {
           data: cmsData,
@@ -42,6 +45,8 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
           releatedContent: releatedContent,
           agreementId_session: agreementId_session,
         };
+          //CAS-INFO-LOG
+        LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
         res.render('nameAProjectGCloud',viewData);
       } catch (error) {
       
@@ -61,10 +66,10 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
   const name = req.body['gcloud_projLongName'];
-  const { eventId } = req.session;
+  // const { eventId } = req.session;
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
-  const agreementLotName = req.session.agreementLotName;
-  const lotId = req.session.lotId;
+  // const agreementLotName = req.session.agreementLotName;
+  // const lotId = req.session.lotId;
   try {
     if (name) {
       if(name.length <= 250){
@@ -72,9 +77,12 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
           name: name,
         };
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+         //CAS-INFO-LOG
+         LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
         if (response.status == HttpStatusCode.OK) 
         req.session.project_name = name;
-        const returnUrl = `/projects/create-or-choose?lotId=${lotId}&agreementLotName=${agreementLotName}`;
+        // const returnUrl = `/projects/create-or-choose?lotId=${lotId}&agreementLotName=${agreementLotName}`;
+        const returnUrl = `/g-cloud/add-collaborators`;
         res.redirect(returnUrl);
 
       }else{

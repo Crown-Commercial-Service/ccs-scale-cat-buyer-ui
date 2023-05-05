@@ -61,7 +61,7 @@
                         <div id="supplier-list">
                             <div class="govuk-form-group ccs-page-section">
                                 <h3>
-                                    <a href="/da/suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list</a>
+                                    <a href="/da/suppliers?download=1" onclick="return true;" class="govuk-link govuk-link--no-visited-state">Download this list</a>
                                 </h3>
                             </div>
                             {% set formOptions = suppliers_list %}
@@ -156,12 +156,12 @@
           </div>
           </br>  </br>
           {% if(enablebtn) %}
-                    <div class="govuk-button-group">
+                    {# <div class="govuk-button-group">
                         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
                         <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-                    </div>
+                    </div> #}
                     {% endif %}
                 </form>
 

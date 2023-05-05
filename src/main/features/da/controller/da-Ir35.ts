@@ -6,6 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import * as cmsDataMCF from '../../../resources/content/da/da-ir35.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const DA_GET_I35: express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -22,6 +23,8 @@ export const DA_GET_I35: express.Handler = async (req: express.Request, res: exp
     const BaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
     
     const Response = await TenderApi.Instance(SESSION_ID).get(BaseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(Response, logConstant.questionsFetch, req);
     const ResponseData = Response.data;
    let text=ResponseData[0].nonOCDS;
     for(let i=0;i<=ResponseData.length;i++)
@@ -96,6 +99,8 @@ export const DA_POST_I35: express.Handler = async (req: express.Request, res: ex
   
       const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.documentsFetch, req);
       const FETCH_FILEDATA = FetchDocuments?.data;
       let fileNameStorageTermsnCond = [];
       let fileNameStoragePricing = [];
@@ -116,7 +121,9 @@ export const DA_POST_I35: express.Handler = async (req: express.Request, res: ex
       if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
        {
         
-         await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
+         const response = await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
+         //CAS-INFO-LOG
+      LoggTracer.infoLogger(response, logConstant.documentsSave, req);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
     let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
     if(flag){

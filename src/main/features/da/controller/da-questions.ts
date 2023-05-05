@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * @Controller
@@ -35,15 +36,20 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-    // console.log('log12', baseURL );
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.fetchedQuestions, req);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     // console.log('log13', headingBaseURL );
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(heading_fetch_dynamic_api, logConstant.fetchedQuestions, req);
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
     // console.log('log14', organisationBaseURL );
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(getOrganizationDetails, logConstant.collaboratorDetailFetch, req);
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
 
@@ -115,7 +121,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
       }
     });
     const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
 
     req.session?.nonOCDSList = nonOCDSList;
@@ -162,6 +168,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
+      lotId: req.session.lotId,
       proc_id: proc_id,
       event_id: event_id,
       group_id: group_id,
@@ -261,7 +268,9 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     //   }
     // }
 
-    // console.log('logForm', data.form_name );
+    // console.log("data",JSON.stringify(data));
+    //CAS-INFO-LOG
+   LoggTracer.infoLogger(null, logConstant.questionPage, req);
     res.render('daw-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -315,7 +324,11 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    let retrieveAgreement  = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
+    retrieveAgreement = retrieveAgreement.data;
+
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -359,7 +372,11 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 1`;
-          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+
+           //CAS-INFO-LOG
+           LoggTracer.infoLogger(response, logConstant.savequestions, req);
+           
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
@@ -477,13 +494,15 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
 
              
               const slideObj = object_values.slice(0, 3);
+              let dayval = slideObj[0].length == 2?slideObj[0]:'0'+slideObj[0];
+              let monthval = slideObj[1].length == 2?slideObj[1]:'0'+slideObj[1];
               let newArraryForDate = [];
               if (slideObj != null && slideObj.length > 0) {
 
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: slideObj[2]+'-'+slideObj[1]+'-'+slideObj[0], selected: true }],
+                    options: [{ value: slideObj[2]+'-'+monthval+'-'+dayval, selected: true }],
                   },
                 };
                 
@@ -785,17 +804,16 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
                     id: question_ids[i]
                   }
                   // console.log('log10',options);
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(response, logConstant.savequestions, req);
+
                 }
 
               } catch (error) {
-                
-                if (error.response?.status < 500) {
-                  logger.info(error.response.data.errors[0].detail)
-                } else {
-                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-                }
+                // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
+                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
               }
             }
           }
@@ -1007,7 +1025,7 @@ function changeTitle(title) {
       text = 'Tell us if there is an existing supplier';
       break;
     case 'Management information and reporting':
-      text = 'Management information and reporting requirements';
+      text = 'Management information and reporting';
       break;
     case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';

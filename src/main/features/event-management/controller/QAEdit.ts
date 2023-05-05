@@ -7,10 +7,11 @@ import * as dos6LocalTableData from '../../../resources/content/event-management
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { QuestionAndAnswer } from '../model/qaModel';
 import { MessageDetails } from '../model/messgeDetails';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
-    static readonly Question_REQUIRED: string = 'Question has not been defined'
+    static readonly Clarification_REQUIRED: string = 'Enter a clarification'
+    static readonly Question_REQUIRED: string = 'Enter a question'
     static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
      }
@@ -49,6 +50,10 @@ export const EVENT_MANAGEMENT_GET_QA_Edit = async (req: express.Request, res: ex
           }
 
         const appendData = {data, QA: qsDetails,message:messageDetails ,QaContent:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req);
+
         res.render('QAEdit', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -70,7 +75,10 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
     const { id } = req.session['messageID'];
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
+    const agreementId = req.session.agreement_id;
+    res.locals.agreement_header = req.session.agreement_header;
     try {
+       
         const _body = req.body
         let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
         const errorText = [];
@@ -131,13 +139,17 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
                     question:_body.message_QA_Edit_Question_input,
                     answer:_body.message_QA_Edit_Answer_input
                 }
+               
                 const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-           const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText }
+           const appendData = { data: localTableData, message: messageDetails,QA:QA, QaContent:QaContent,validationError: validationError, errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
+
+           //CAS-INFO-LOG 
+        LoggTracer.infoLogger(null, logConstant.QAEditLogger, req); 
             res.render('QAEdit', appendData);
         }
 else{
 
-
+   
         const _requestBody = {
             "question": _body.message_QA_Edit_Question_input,
             "answer": _body.message_QA_Edit_Answer_input
@@ -145,6 +157,54 @@ else{
 
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a/${req.session['qaid']}`
         const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _requestBody);
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(response, logConstant.saveQuestionAndAnsDetails, req);
+
+        var host = req.get('host');
+        var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
+    
+        var textContent = 'The questions and answers for this project have been updated. You can access this, and any future updates, using the following link:\n\n'+urlMain+'\n\nIf you are already authenticated, you will be able to see this page. If not, you will need to authenticate through the Public Procurement Gateway before being able to access the page.';
+        const _requestBodys = {
+            "OCDS": {
+                "title": 'Question clarification for event '+eventId,
+                "description": textContent
+            },
+            "nonOCDS": {
+                "isBroadcast": true,
+                "classification": 'Qualification Clarification'
+            }
+        };
+
+
+        
+
+        const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
+        
+       const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(responses, logConstant.saveMessages, req);
+
+        // var host = req.get('host');
+        // var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
+    
+        // var textContent = 'The questions and answers for this project have been updated. You can access this, and any future updates, using the following link:\n\n'+urlMain+'\n\nIf you are already authenticated, you will be able to see this page. If not, you will need to authenticate through the Public Procurement Gateway before being able to access the page.';
+        // const _requestBodys = {
+        //     "OCDS": {
+        //         "title": 'Question clarification for event '+eventId,
+        //         "description": textContent
+        //     },
+        //     "nonOCDS": {
+        //         "isBroadcast": true,
+        //         "classification": 'Qualification Clarification'
+        //     }
+        // };
+
+            
+        // const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
+
+
+
         if (response.status == 200) {
             req.session["createdqaedit"]=true;
             res.redirect('/message/inbox')
@@ -155,6 +215,8 @@ else{
 
     }
  } catch (err) {
+    console.log("err",err);
+    
         LoggTracer.errorLogger(
             res,
             err,

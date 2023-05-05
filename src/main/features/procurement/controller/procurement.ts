@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { Procurement } from '../model/project';
 import { ccsStatusOverride } from '../../../utils/ccsStatusOverride';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -46,6 +47,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
+  
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let forceChangeDataJson;
@@ -71,20 +73,27 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if(agreementId_session == 'RM1557.13' && lotId=='All') {
       types='';
     }else{
-      const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
-      types = typesRaw.map((typeRaw: any) => typeRaw.type);
+      const typesRaw = await AgreementAPI.Instance(null).get(eventTypesURL);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(typesRaw, logConstant.evenTypeFromAggrementLot, req);
+      const typeRawData = typesRaw.data;
+      types = typeRawData.map((typeRaw: any) => typeRaw.type);
     }
     appendData = { types,lotId, ...appendData };
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-
+    
     let procurement: Procurement;
     if (!elementCached) {
       const _body = {
         agreementId: agreementId_session,
         lotId: (agreementId_session == 'RM1557.13' && lotId=='All')?'All':lotId,
       };
-      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
-      procurement = procurementRaw;
+      const procurementRaw = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(procurementRaw, logConstant.procurementCreated, req);
+
+      procurement = procurementRaw.data;
       req.session.procurements.push(procurement);
       req.session.project_name = procurement['defaultName']['name'];
 
@@ -92,6 +101,9 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       procurement = elementCached;
       req.session.project_name = req.session.project_name;
     }
+
+    
+
     logger.info('procurement.created', procurement);
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.projectId = procurement['procurementID'];
@@ -107,6 +119,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     try {
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
+     
     } catch (journeyError) {
       const _body = {
         'journey-id': req.session.eventId,
@@ -133,32 +146,45 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         : journyData.states.find(item => item.step === event.eventno);
       if (step) {
         if (step.state === 'Not started') {
-          event.status = 'TODO';
+          event.status = 'TO DO';
         } else if (step.state === 'Completed') {
           event.status = 'DONE';
         } else {
           event.status = step.state;
         }
       }
+
+     
       if (step.step == 2) {
 
         if(agreementId_session == 'RM1043.8'){ //DOS
           event.status = '';
         }
-
+        
         if (
           req.session['journey_status'][2].state == 'In progress' ||
           req.session['journey_status'][1].state == 'Completed'
         ) {
+          
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+      
+            event.buttonDisable = true;
+          } else {
+         
           event.buttonDisable = false;
         }
       }
+      
       if (step.step == 3) {
+       
         if (req.session['journey_status'][1].state == 'In progress') {
           event.buttonDisable = true;
-        } else {
+        }else if( req.session.selectedRoute=="PA" && req.session['journey_status'][0].state != 'Completed'){
+       
+          event.buttonDisable = true;
+        }else {
+         
           event.buttonDisable = false;
         }
       }
@@ -175,7 +201,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           if(step_1) {
             let OverWriteStep1;
             if (step_1.state === 'Not started') {
-              OverWriteStep1 = 'TODO';
+              OverWriteStep1 = 'TO DO';
             } else if (step_1.state === 'Completed') {
               OverWriteStep1 = 'DONE';
             } else {
@@ -221,14 +247,18 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
 
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;    
+    const projectId = req.session.projectId;    
     const releatedContent = req.session.releatedContent;
 
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
     let ScrollTo=""
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}
     
-    appendData = { ...appendData, agreementName, releatedContent, agreementId_session, stepstocontinueDAA,ScrollTo };
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.procurementPage, req);
+
+    appendData = { ...appendData, agreementName, releatedContent, agreementId_session,lotid, stepstocontinueDAA,ScrollTo };
    if (agreementId_session == 'RM1557.13' && lotId=='4') {
       res.render('gcloud_lot4-procurement', appendData);
     } else{
@@ -236,7 +266,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

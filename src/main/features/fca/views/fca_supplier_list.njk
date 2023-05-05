@@ -59,13 +59,9 @@
 						<p class="govuk-body">Suppliers rate cards are only available through the supplier filtering tool.</p>
                 	</div>
 					{% endif %}
-
-
-
 					{% if agreementid == 'RM1557.13' %}
 					<div class="govuk-fac-intro">
 					<p class="govuk-body">View and download the list of suppliers on this lot.</p>
-					<p class="govuk-body">Suppliers rate cards are only available through the supplier filtering tool.</p>
 					</div>
 					{% endif %}
 				
@@ -114,7 +110,7 @@
 			</div>
 
 		    <div class="govuk-grid-column-one-third">
-      			{{ CCSReleatedContent(releatedContent) }}
+      			{{ CCSReleatedContent(releatedContent,'',agreementid,'',lotId,'') }}
     	    </div>
 			<div class="govuk-grid-column-full govuk-!-padding-bottom-5">
                 <div class="govuk-grid-row">

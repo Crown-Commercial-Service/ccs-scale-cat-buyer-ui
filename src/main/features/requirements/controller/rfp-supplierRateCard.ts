@@ -50,7 +50,7 @@ export const RFP_SUPPLIER_RATECARD = async (req: express.Request, res: express.R
 
     //Supplier Contact Details
     const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-    const {data: retrieveSupplierContactDetails} = await AgreementAPI.Instance.get(BaseURLSupplierContact);
+    const {data: retrieveSupplierContactDetails} = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
     let contactSupplierDetails;
     const contact = retrieveSupplierContactDetails.find((el: any) => {
       if(el.organization.id === supplierId) { return true; }

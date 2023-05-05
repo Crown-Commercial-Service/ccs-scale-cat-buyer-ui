@@ -33,7 +33,7 @@
                 {
                     "Task": 2,
                     "link": "/rfp/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead your project",
                     "required": "optional",
                     "status": "Optional"
                 },
@@ -71,7 +71,7 @@
             "eventDescription": "You can upload additional documents that will help a supplier to better understand your procurement.",
             "eventTask": [{
                     "Task": 1,
-                    "title": "Upload other documents (optional)",
+                    "title": "Upload additional documents (optional)",
                     "required": "optional",
                     "link": "/rfp/upload-additional",
                     "status": "Todo"
@@ -92,7 +92,7 @@
                 },
                 {
                     "Task": 2,
-                    "title": "How you will score suppliers",
+                    "title": "How you will score supplier responses",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfp/set-scoring-criteria"
@@ -141,34 +141,20 @@
                 },
                 {
                     "Task": 3,
-                    "title": "Upload pricing schedules",
+                    "title": "Upload your pricing schedule and other documents",
                     "required": "mandatory",
                     "link": "/rfp/upload",
                     "status": "Todo"
                 },
                 {
                     "Task": 4,
-                    "title": "Upload terms and conditions",
-                    "required": "mandatory",
-                    "link": "/rfp/upload",
-                    "status": "Todo"
-                },
-                {
-                    "Task": 5,
-                    "title": "Upload assessment documents",
-                    "required": "mandatory",
-                    "link": "/rfp/upload",
-                    "status": "Todo"
-                },
-                {
-                    "Task": 6,
                     "title": "Set your timeline",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"
                 },
                 {
-                    "Task": 7,
+                    "Task": 5,
                     "title": "Review and publish stage 2",
                     "required": "optional",
                     "link": "/rfp/IR35",

@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const organization_id = req.session.user.payload.ciiOrgId;
@@ -16,9 +17,19 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
 
   const url = `/tenders/projects/${projectId}/users`;
   try {
-    const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
+    const usersTempRaw = await TenderApi.Instance(SESSION_ID).get(url);
+    const usersTemp = usersTempRaw.data;
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(usersTempRaw, logConstant.getUserDetails, req);
+
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    const UserOrgRaw = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    const dataRaw = UserOrgRaw.data;
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(UserOrgRaw, logConstant.getUserOrgProfile, req);
+
     const { pageCount } = dataRaw;
     let usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
@@ -66,6 +77,10 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       releatedContent,
       agreementId_session,
     };
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.changeLeadProcurementPage, req);
+
     res.render('procurementLead-rfp', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -82,21 +97,19 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
 
 export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId ,eventId} = req.session;
-  const { rfp_procurement_lead_input: userMail } = req.body;
-  const url = `/tenders/projects/${projectId}/users/${userMail}`;
+  const { projectId, eventId } = req.session;
+  const { rfp_procurement_lead_input } = req.body;
+  const url = `/tenders/projects/${projectId}/users/${rfp_procurement_lead_input}`;
   try {
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    await TenderApi.Instance(SESSION_ID).put(url, _body);
+    const updateRaw = await TenderApi.Instance(SESSION_ID).put(url, _body);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(updateRaw, logConstant.changeLeadProcurementUpdate, req);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
-
     res.redirect('/rfp/add-collaborators');
   } catch (error) {
-    
-    
-
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
     );
@@ -109,7 +122,6 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       'Tender Api - getting users from organization or from tenders failed',
       !isJaggaerError,
     );
-      
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/procurement-lead');
   }

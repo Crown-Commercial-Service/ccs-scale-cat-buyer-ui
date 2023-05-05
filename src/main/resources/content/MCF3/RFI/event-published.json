@@ -2,16 +2,22 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your RfI has been published  ",
+    "title": "Publishing your RfI  ",
     "board": {
-        "header": "Your RfI has been sent to suppliers",
+        "header": "Your RfI has been sent to suppliers.",
+        "headergcloud": "Your RfI is being published. This process may take a few minutes. Once the process is finished, you can access your published event on your dashboard.",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
             {"li": "The suppliers you selected can read your RfI and ask questions if they need more information."},
             {"li": "You will need to answer supplier questions by the deadline you set."},
-            {"li": "After receiving responses to you RfI, you will need to confirm next steps with suppliers."}
+            {"li": "After receiving responses to your RfI, you will need to confirm next steps with suppliers."}
+        ],
+        "next_gcloud": [
+            {"li": "The suppliers can read your RfI and ask questions if they need more information."},
+            {"li": "You will need to answer the supplier questions by the deadline you set."},
+            {"li": "After receiving responses to your RfI, you will need to confirm next steps with suppliers."}
         ]
     },
         "dashboard": {

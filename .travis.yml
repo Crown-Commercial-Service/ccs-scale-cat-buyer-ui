@@ -1,80 +1,112 @@
-language: shell
+dist: bionic
 os: linux
-dist: xenial
+language: node_js
+node_js:
+  — 16.13.1
 
-branches:
-  only:
-    - "/^(feature|bugfix)\\/(SCC|SCAT)-[0-9]+.*$/"
-    - "/^(release)\\/.*$/"
-    - develop
-    - main
-
-# Install dependencies
 before_install:
-  - sudo rm -Rf terraform_"$TF_VERSION"_linux_amd64.zip
-  - sudo rm -Rf terraform
-  - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
-  - unzip terraform_"$TF_VERSION"_linux_amd64.zip
-  - sudo mv terraform /usr/local/bin/
-  - rm terraform_"$TF_VERSION"_linux_amd64.zip
+  - npm i -g npm@8.19.4
+
+script:
+  - echo "Run npm test when tests have been fixed"
+
+after_success:
+  - echo "Determine deployment environment"
+  - |
+    case $TRAVIS_BRANCH in
+      "develop")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=development
+        CF_ENVIRONMENT=dev
+        ;;
+      "release/sit")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=INT
+        CF_ENVIRONMENT=int
+        ;;
+      "release/nftnew")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=nft
+        CF_ENVIRONMENT=nft
+        ;;
+      "release/uatnew")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=uat
+        CF_ENVIRONMENT=uat
+        ;;
+      "release/pre-prod")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=pre-production
+        CF_ENVIRONMENT=pre
+        ;;
+      "release/prod")
+        DEPLOY_BRANCH=TRUE
+        SPACE_NAME=production
+        CF_ENVIRONMENT=prd
+        ;;
+      *)
+        echo "No deployment environment found"
+        ;;
+    esac
+  - |
+    if [ $DEPLOY_BRANCH == "TRUE" ]; then
+      echo "Deploying to the $SPACE_NAME environment"
+    else
+      echo "Checking for a Sandbox deployment"
+    fi
+
+before_deploy:
+  - echo "Building the frontent assets"
+  - npm run build-assets
+  - rm -rf node_modules/
 
 deploy:
-  # SBX - modify CF_ENVIRONMENT as required
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=sbx1 bash ./deploy.sh
+  - edge: true
+    provider: cloudfoundry
+    api: https://api.london.cloud.service.gov.uk
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    organization: ccs-scale-cat
+    deployment_strategy: rolling
+    space: sandbox
+    app_name: sbx1-ccs-scale-cat-buyer-ui
     on:
       all_branches: true
       condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/(SCC|SCAT)-[0-9]+.*$"
 
-  # DEVELOP
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=dev bash ./deploy.sh
+  - edge: true
+    provider: cloudfoundry
+    api: https://api.london.cloud.service.gov.uk
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    organization: ccs-scale-cat
+    deployment_strategy: rolling
+    space: sandbox-2
+    app_name: sbx2-ccs-scale-cat-buyer-ui
     on:
-      branch: develop
+      all_branches: true
+      condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/(CAS)-[0-9]+.*$"
 
-  # INT (SIT)
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=int bash ./deploy.sh
+  - edge: true
+    provider: cloudfoundry
+    api: https://api.london.cloud.service.gov.uk
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    organization: ccs-scale-cat
+    deployment_strategy: rolling
+    space: $SPACE_NAME
+    app_name: $CF_ENVIRONMENT-ccs-scale-cat-buyer-ui
     on:
-      branch: release/int
-
-  # NFT
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=nft bash ./deploy.sh
-    on:
-      branch: release/nft
-
-  # UAT
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=uat bash ./deploy.sh
-    on:
-      branch: release/uat
-
-  # PRE-PRD
-  - provider: script
-    skip_cleanup: true
-    script: CF_ENVIRONMENT=pre bash ./deploy.sh
-    on:
-      branch: release/pre
+      all_branches: true
+      condition: $DEPLOY_BRANCH = TRUE
 
 # WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments 
 env:
   global:
-    # AWS_ACCESS_KEY_ID
-    - secure: "OlTvaeWHYcj2fRyfSljoEFwGmLhCladH+jN4juyiV0c8B2/fHUvS66jH/mNYnbD0AMvCH1b1w1BDIaJHdjNzjYz3pzsu1cYpfuNZLz4Ln8kOmPbPplvZt7QgTDxQZW1ib9VUlxgp13a90j/7Bgyz3gtpjh/knday5zm4c5u5g9N1Q5aWoyW9Ufy0T1eFAltQu/QMsCLSvGWs0KVIInUINC9/dUmoMt+rSm9Y9x5wx9JVPJfSzGXMBzxCmoaVEwJldg+HAr3cY67X1Tl0uQgjY3oL8VMylaQTdpMTnEqNAWr9bl9fRiJdU4RM/ny05vl41jYz8JM8ZqNjnUPLBCkLtptwlTm4ZaEaHwMWWWy/Cmfx50YxXndlphJav8u38AgskVwUJMgPoCBsBgmrg/WHUEgPpq1lf/zZ+9D64SlhcCD0XHgxMBwYE1Z4aVoX0DPzFKrZlHrI8VQvlZhWk3V0tKk2CnqJXLVQ4corMJRCWQg1EYZEWjn0gX1tK4wFS+iH5mOAkM9uM54gNrzHo76Lcd9ln4uvyX3mr+3WWvE8Rdc1hzC53Z2ROEuHamBMGdtrvMj2Uge4JyejFTDwW5P05AoMM9cIXVwTaM+VHlR4JueZFSYpIW6j7D5uLpx7VlaB92Z1aa6ZbEV2Ni1cLZz4JeNfHifneqbZHEpEKOEG+44="
-    # AWS_SECRET_ACCESS_KEY
-    - secure: "dme+4rqV/SVNHSWOuMRmAX/iSJOn3sy1zuJVDBb4m/pj2TZ/m8hkDHnyVAEwEc+1JK4hRqcm+XuNjLcF+LA9+kTJxvcHd+U6JX6u06GHkIKEy6dWgot0pnnwV2zWJnw5gm1Ezf9jXr9WUKH13yNAynerSTpkhCohZcXk7i/gOYJWaxz26EiJ3yu6bJNJr5Puyni3DB69nTZGPFiIRnaBOV0yi7gLr4bpgyLW1Pkqiu2vaj4G8AdrsNDPcbCq2Sjc1+L09pFCsyb+VUdLdZxvxk+TOV2zKBSxEA8GgNyHf1lbomSJ5Ad5wPgnAVT6FlwJlJ2kiTI0UicOj5LNEJcrKJq8YoRlrXh3jcvYfztrGlw9eZCNgWZz0S1Q64XpziJ8DbSxbYEIuobh1ea4z/fDcO2jp0wouzA4fqWm0I3WYRU3zlVzLLlxWiN3uYA4hPIisFH2m7as3OnA2Ccl13FkqpzPxUxvUFwBqo4P5MaEE4RyS7HVLXqKruCP/mHY6MeCvaScOJfjQdSGeG7DNc/g2W74mo9ZZ/8qtRB2PukmmWvhbSdZbuFw+4FN3ut96qaArrbgQOQMawqQa3V5Wzn2rodt5lGfp3BZjWwTvsCP0aEEw81rwMaUY6EY47sJ9XThYHl4c2rrRm4RnyCrBKCTQy48xXKLllVlxGdmHmSaFME="
-    # S3_STATE_BUCKET_NAME
-    - secure: "X+f8b9Q9BHnemZU6RA62w1grF9kTPBsk3CSTqCacmBw8nfcuUK6TC7Q3k0ZZVTgu5+jHHDPOJs6sjKrp0gvEypqa7niJQjyd2NuqoSxDTISZUBouikW83gxIyyW5PBwUhF+51xwmrRHI8moh6TEbf5lNvU+0td7DdK+LMkYpyr2xmO4jg5qGv6BjdCQdMrLxA6Yev32MkZVcDUcrLd5cWa7yqMypu9Y1KzgU5iUYnNsgJw1gTI4S6DIE6RoK7nEfdXFhtz0zMp5d65b9d1yhb7iwckkE4Y703y77tYsOer1uNj9DoiF8ZlpdL5fpfYcWxCXhJ0NW9GptYik4YWuAYVZu8M1N9S1Ft95zesAHa4tY5ntBm5ep0899npTxUhqbrvwpHt7iSuhln5CWVi+45TXSeX2WgHoNYlPl4d9imc64xxwMoHWriDTkktMxjYQXwRc67AOlHj0JIlTr9J4nJOZ4ZxYzaoICsaCvQPzkZ96AKfEZrthejo3b+qLOt+3aEaywVs8gloFv+iPVfzU2aeBFqOA20Blg96sanXhH6aS0pyAikX5MbzgcNfKfGrM15jvItBHnBh9SX98tIRPm0vn9kQln6ra+GGGNk2fDYXR5AXepGIMjN8mFpRgxbXytxWUxyuMKT3oW9bpOPzDlbSgdKMU9Le6RJIiuFh91vjw="
-    # DDB_LOCK_TABLE_NAME
-    - secure: "XD9sR+mXa/zk91KxwJx/oRrAo/MStUMiPIjUMGhWJO1g608ELPYDxqsNrEf+ovlXrDan5qVW0RH7ylU5CHnzpbXuqtukTltMfreXQcXKaIAY2UG6FAE8/TUNHrkF66uYdgUatSsAqJde+QBEzTIpDoRC0ZdRp5cgWgmRfrW6oswG1JbXMrQbsrcbTS3Ccey4NRTpHuIxpoGlIg4TvmR9+uSdH9sYa1yFRti0x7TBMZ4uB7ZiRh4V0w2TKnC4xrRY3ZlSXlepECGTiGvPMBFE5K/jr5DYr2hgcrfaQnviTq/e7Fobl2F9nTEZqSuyc1Dk2baQFEYxBhCyblfoJ5lolvzcjUpgxS+FjOAu3mtMvkqSXcY80OpvxBtzq1/BIfITepWEO8Y1FG9Ti6D1iJYfYj0omgCqFLmT0b6TC6ynVu7lK8OSTR+86baIArhnmi1BFpLG/RTBjE+IT5vJvJ/qtjZFUI6ziSne9dSHwycbMO18AtbYbQJa7DBfo9ZJ4MU3v7zKXcM0xejD9301JRar62+RONc7wrYRqBnfRLpzlFFnIn174k6rokKtzUeN0ShvbRw3OutFiBgRMB/9bZ/zR719jpmYt+E4h4iGT386jxRsEePzsMtmeYwJW55XM9sIjk0AiRycw+kKF3Y8MJyLD72HAc9mOkmwOD95Qm8FEfs="
     # CF_USERNAME
     - secure: "8vR6tbXwHAq7W1WQWaPAEw9kdfCOwiuTB0JKFy6F/I4K35mB9tglw5L6LslXY5V2BAIM3XHnukSzr0l5klk5B5FZwe4UIm+XCD3b+SmAL+zdEvwQEyTRrwpooz26MCXFpGMWU6+YLfGPvST/voM6svfV22VQlC+aGgORakTX9wHlArBo0FCs9/ks58Pks5Ih9s0tkK2D/2h5vStHeKoF/K+pnsO6bJl+xbCA81a5QIRwRGk/yFCYj6sviAdXSj/nNdG0CSQZih5bbwBwWgR+0tvm6k4/8bLUId4MCZk5D2Jk+fKhbskGSRIkZtr0hnbYmyLKsot0dW2XBp8V/5BDmMCHWiG+8RWyV2Xp4JBYPLlBjhHWZoGTAFtrb5pZtW9YgcyzNiF3xlk4y5jWDsD/iUv03RxZ2cISog4tpaETXWrRGSVq7gqmDz3JP0hCoP/LGdp7Eq2ABiffFpNS8CFWOy9Vxi7GztGX8EpX4NGZx9uSypkvnwyAMqrAxDZgO6J+9QGkwDqxp/iFEzcD/CEIXfjRrDM6BnC0cD1bWOQjKyn63Vp7FtnZ++X80u37Mt+FfV2KX1khUtiefaY7fu2hznjQYzxarGWp45kTE2QQaQO25HRpNtdfcDeG0FFxGdr32IovB+gTyFp5oL/xhvxQYc7n+30vmtT38pMmBwbnq9E="
     # CF_PASSWORD
     - secure: "8ARLNJkWSR3w0vnpdIA0YfemXOuO+8a9xvqdXLUYwPGsFzhfeqfsNcKN3ht/McKLAD+8HkrXC/2r3qqYpzi940eujzBcOpk4ufhXuFJokPyPx1Ncko2rCnBxq67mgKu6bWoja5H/FZxnhSPtFw/YjB5tzmeQI5YMWqMbVedjTVpUkkvGkm92QDTTfJXtUM6GtG0y+wFnSINLYpoS4FHNIWfmS2tVTDsORwHwn67btf54ekyQQeT4/kpyKd4c3zoC/0cDjGXVU/OQO6AktHHS3r9ZMftAOPUx/STB32RWoRtdcwAGvvvyXPBu+uADRUV6Puwe4ZCIDaB2EO4oIh4qtTIG5g8E5uyu9RdbOmLdVLYfmJ9Hxd5UwfuTA3rJ/QFWKVGPypK2Cv5pe8QKebRbkQLxrJkjiNMIs+wZQU6yr5FP3I/6QaGppCDSO3p3QFlUTIM+S9hgWSnhGvfm80jHLh+cE7KHqMr3Cea+E7ulijx45KZokV/ZZwN24YyNOWvJsKYJGc8Elqq+ET6cona3kdpA/S7DnLqaPI39nV/mRqtVum2boqcO7yoom0JhgvoqDMupBEMg0BSArJneKiVxkxN6jIOj+3CYwZtg5+f9Pn4O9S/qPOkL8rrU+j7Mf51poDwhtEBMR+w+YZpET6ZLK/iG7zygEqUY8KZYowNoeY4="
-    - TF_VERSION=1.0.5
+    - DEPLOY_BRANCH=FALSE
+    - SPACE_NAME=""
+    - CF_ENVIRONMENT=""

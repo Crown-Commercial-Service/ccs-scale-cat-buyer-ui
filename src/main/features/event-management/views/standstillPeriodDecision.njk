@@ -22,14 +22,14 @@
  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   
   {% if (agreement_id =='RM1043.8')%}
-    {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.' | safe %}
+    {% set s_name = '<b>'+supplierName + '<br><br>Confirm you wish to award to this supplier.</b>' | safe %}
    {% elseif agreement_id == 'RM6187' %}
-   {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+   {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.<br><br>' | safe %}
   {%else%}
     {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
   {%endif%}
   {{ CCSDialog({
-    title:'Confirm your wish to award to this supplier',
+    title:'Confirm you wish to award to this supplier',
     description:s_name | safe,
     redirect:'#',
     type:'vetting'
@@ -49,13 +49,34 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-         <strong> {{data.title}}</strong>
+            {% if (agreement_id =='RM6187') or (agreement_id =='RM1557.13') or (agreement_id =='RM1043.8') %}
+              <strong> Your project</strong>
+            {% else %}
+              <strong> {{data.title}}</strong>
+            {% endif %}
         </h1>
         <div class="project-overview">
-        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
-  </strong></p>
-  {%endif %}
-  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        <p class="govuk-body">Selected agreement: <strong>
+          {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
+            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+            {{ agreement_header['agreementName'] }} Lot 4
+             {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+             {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+            {% else %}
+            {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
+            {% endif %} 
+          {% endif %} 
+
+        </strong>
+      </p>
+  
+  <p class="govuk-body">Agreement ID: <strong>  
+        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementId_session']}}L4
+        {% else %}
+          {{ agreement_header['agreementId_session'] }}
+        {% endif %}</strong></p>
+  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
   
 
         </div>
@@ -65,7 +86,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{projectName}}
+          {{agreement_header['projectId']+" & "+projectName}}
             {# <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong> #}
           </h2>
           <p class="govuk-body">

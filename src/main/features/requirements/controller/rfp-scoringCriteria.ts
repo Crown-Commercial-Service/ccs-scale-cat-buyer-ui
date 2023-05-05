@@ -21,6 +21,8 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 /**
  *
  * @param req
@@ -38,6 +40,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
   res.locals.agreement_header = {
     agreementName,
     project_name,
+    projectId,
     agreementId_session,
     agreementLotName,
     lotid,
@@ -67,11 +70,17 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
 
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
     
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     
     const headingBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsGroupFetch, req);
 
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
@@ -86,7 +95,15 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    let titleText;
+    titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    if(agreementId_session == 'RM1043.8'){
+      if(nonOCDS.mandatory === false){
+        titleText = "How you will score supplier responses (Optional)";
+      }else{
+        titleText = "How you will score supplier responses";
+      }
+    }
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
@@ -136,7 +153,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       }
     });
     const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
 
     req.session?.nonOCDSList = nonOCDSList;
@@ -210,6 +227,18 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
         TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
       }
     }
+    else if(agreementId_session == 'RM1557.13'){
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              element.optiontableDefination = mapTableDefinationData(element,'RM1557.13');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1557.13'));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+    }
     else{
       if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
         TemporaryObjStorage.forEach(x => {
@@ -231,6 +260,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
+      lotId:lotId,
       proc_id: projectId,
       event_id: eventId,
       group_id: group_id,
@@ -264,8 +294,9 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       }
     }
     //res.render('rfp-question-assessment', data);
-    console.log("data",JSON.stringify(data));
-    
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.rfpTitle, req);
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
 
@@ -334,7 +365,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -394,17 +425,11 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             
             let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
             const TAStorage = [];
-            console.log("score_criteria_level",score_criteria_level);
-            console.log("score_criteria_points",score_criteria_points);
-            console.log("score_criteria_desc",score_criteria_desc);
+            
             score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
             score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
             score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
-            //Balwinder
-            console.log("score_criteria_level",score_criteria_level);
-            console.log("score_criteria_points",score_criteria_points);
-            console.log("score_criteria_desc",score_criteria_desc);
-            
+            //Balwinder           
 
             let rows = [];
             let tableData = [];
@@ -420,7 +445,6 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                 row: index + 1, cols: cols
               });
             }
-            console.log("tableData",tableData);
             
             answerValueBody = {
               nonOCDS: {
@@ -464,8 +488,9 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 answerValueBody?.nonOCDS?.options.push(...defaultOptions)
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-
+                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                   break;
                 }
 
@@ -561,7 +586,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
@@ -922,7 +947,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
+
                   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
                   let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
                   
@@ -1114,7 +1143,7 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
     dataRowsList.push(innerArrObj);
   });
 
-  if(Agreementid == 'RM1043.8'){
+  if(Agreementid == 'RM1557.13'){
     return dataRowsList;
   }else{
     return dataRowsList.reverse();

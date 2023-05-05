@@ -8,7 +8,9 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -22,12 +24,26 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const EventID = req.session['eventId'];
   const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
   const { SESSION_ID } = req.cookies;
+
   let CurrentTimeStamp = req.session.endDate;
-  CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
+  let dateSplited = CurrentTimeStamp.split('*')[1];
+  if(momentz(new Date(dateSplited)).tz("Europe/London").isDST()) {
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+01:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
+  } else {
+    let dateFormated = momentz(new Date(dateSplited)).format('YYYY-MM-DDTHH:mm:ss+00:00');
+    CurrentTimeStamp = momentz(new Date(dateFormated)).toISOString();
+  }
+
+  // CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
   
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
+  
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(ProjectID);
+  req.session['publishclickevents'] = publishactiveprojects;
   
   //Fix for SCAT-3440
   const agreementName = req.session.agreementName;
@@ -35,7 +51,9 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
   const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
@@ -52,16 +70,36 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
 
   if (review_publish == '1') {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
+
+      if(agreementId_session == 'RM1557.13'){
+        const agreementPublishedRaw = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+         setTimeout(function(){
+          res.redirect('/eoi/event-sent');
+          }, 5000);
+      }
+      else{
+
+      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.eoiPublishLog, req);
+      
+
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      // if (response.status == Number(HttpStatusCode.OK)) {
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      // }
       // if( agreementId_session == 'RM6187'){
       //   res.redirect('/eoi/confirmation-review');
       // }else{
         res.redirect('/eoi/event-sent');
       // }
+    }
       
     } catch (error) {
       
@@ -80,6 +118,15 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
   const { download } = req.query;
+  
+  const publishClickeventValue = req.session['publishclickevents'];
+    let publishClickEventStatus = false;
+    if(publishClickeventValue.length > 0){
+     if(publishClickeventValue.includes(ProjectID)){
+      publishClickEventStatus = true;
+     }
+    }
+
   if(download!=undefined)
   {
     const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
@@ -87,6 +134,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
     });
+    
+  
     const file = FetchDocuments;
     const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
     const fileData = file.data;
@@ -106,6 +155,9 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
+
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -128,17 +180,18 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         title: question.OCDS.description,
         id: question.OCDS.id,
         criterian: question.nonOCDS.criterian,
+        mandatory:question.nonOCDS.mandatory,
         answers: question.OCDS.requirements.map(o => {
           return { question: o.OCDS?.title, questionType: o.nonOCDS.questionType, values: o.nonOCDS.options };
         }),
       };
     });
-
     const FilteredSetWithTrue = ExtractedEOI_Answers.map(questions => {
       return {
         title: questions.title,
         id: questions.id,
         criterian: questions.criterian,
+        mandatory:questions.mandatory,
         answer: questions.answers.map(answer => {
           const obj = {
             question: answer.question,
@@ -155,12 +208,18 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             ];
           } else if (answer.questionType == 'Duration') {
             const duration = obj.values.map(v => v.value);
+            let durationTemp=[];
+            if(duration[0]!=undefined){
+           
+              durationTemp = duration[0].replace('P','').replace('Y','-').replace('M','-').replace('D','').split('-')
+            }
+
             obj.values = [
               {
                 value:
                   'How long you think the project will run for (Optional): ' +
-                  (duration.length == 3
-                    ? duration[0] + ' years ' + duration[1] + ' months ' + duration[2] + ' days'
+                  (durationTemp.length == 3
+                    ? durationTemp[0] + ' years ' + durationTemp[1] + ' months ' + durationTemp[2] + ' days'
                     : ''),
                 selected: true,
               },
@@ -174,7 +233,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         }),
       };
     });
-
+   
     const EOI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
     const project_name = req.session.project_name;
@@ -216,7 +275,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       //Fix for SCAT-4146 - arranging the questions order
       let expected_eoi_keydates=EOI_DATA_TIMELINE_DATES;
     
-      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
+      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1)).shift()
   
       for(let i=0;i<expected_eoi_keydates[0].answer.length;i++){
         let data=expected_eoi_keydates[0].answer[i].values[0].value;
@@ -240,7 +299,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     // to get suppliers count
   let supplierList = [];
@@ -285,7 +345,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       customStatus,
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       supplierLength:supplierLength,
-      agreementId_session
+      agreementId_session,
+      publishClickEventStatus:publishClickEventStatus
     };
     
     
@@ -293,6 +354,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.eoireviewAndPublishPageLog, req);
     
     res.render('reviewEoi', appendData);
     

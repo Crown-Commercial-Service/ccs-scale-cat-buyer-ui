@@ -6,7 +6,6 @@ import { Helmet } from './modules/helmet';
 import * as path from 'path';
 import favicon from 'serve-favicon';
 import { Nunjucks } from './modules/nunjucks';
-const { setupDev } = require('./setup/development');
 import i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -22,6 +21,11 @@ import { URL } from "url";
 import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
+
+/**
+ * Content Security Policy
+ */
+
 
 
 // setup logging of HTTP requests
@@ -64,32 +68,58 @@ app.use((req, res, next) => {
     'Cache-Control',
     'no-cache, max-age=0, must-revalidate, no-store',
   );
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' 'unsafe-inline' *.googletagmanager.com  https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img-src 'self' *.google-analytics.com *.googletagmanager.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io; child-src blob:"
+  );
+  if(process.env.LOGIN_DIRECTOR_URL == "NONE") {
+    res.locals.LOGIN_DIRECTOR_URL = '/oauth/login';
+  } else {
+    res.locals.LOGIN_DIRECTOR_URL = process.env.LOGIN_DIRECTOR_URL;
+  }
+  
   res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
   res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
   res.locals.assetBundlerMode = env.trim();
   switch (process.env.ROLLBAR_HOST) {
     case 'local': {
-      process.env.ROLLBAR_ENVIRONMENT = 'local'
+      process.env.ROLLBAR_ENVIRONMENT = 'local';
+      process.env.LOGIT_ENVIRONMENT = 'LOCAL'
       break;
     }
     case 'dev': {
-      process.env.ROLLBAR_ENVIRONMENT = 'development'
+      process.env.ROLLBAR_ENVIRONMENT = 'development';
+      process.env.LOGIT_ENVIRONMENT = 'DEV';
       break;
     }
     case 'int': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'SIT';
       break;
     }
     case 'uat': {
-      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      process.env.ROLLBAR_ENVIRONMENT = 'integration';
+      process.env.LOGIT_ENVIRONMENT = 'UAT';
       break;
     }
     case 'nft': {
-      process.env.ROLLBAR_ENVIRONMENT = 'sandbox'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'NFT';
+      break;
+    }
+    case 'prd': {
+      process.env.ROLLBAR_ENVIRONMENT = 'production';
+      process.env.LOGIT_ENVIRONMENT = 'PROD';
+      break;
+    }
+    case 'pre': {
+      process.env.ROLLBAR_ENVIRONMENT = 'pre-production';
+      process.env.LOGIT_ENVIRONMENT = 'PRE-PROD';
       break;
     }
     default: {
-      process.env.ROLLBAR_ENVIRONMENT = 'production'
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox';
+      process.env.LOGIT_ENVIRONMENT = 'SANDBOX';
       break;
     }
   }
@@ -107,19 +137,12 @@ app.enable('trust proxy')
 /**
  * @Routable path getting content from default.json
  */
-let featureRoutes: Array<Object> = config.get('featureDir')
+const featureRoutes: Array<Object> = config.get('featureDir')
 featureRoutes?.forEach((aRoute: any) => {
   glob.sync(__dirname + aRoute?.['path'])
     .map((filename: string) => require(filename))
     .forEach((route: any) => route.default(app));
 });
-
-/**
- * @developementEnvironment
- *  Setting up development environment
- *  
- */
-setupDev(app, developmentMode);
 
 /**
  * @ExceptionHandler

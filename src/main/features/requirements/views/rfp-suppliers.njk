@@ -24,14 +24,17 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
-                {% if agreementId_session != 'RM1557.13' %}
                     {% if agreementId_session == 'RM6187' %}
-                        <p class="govuk-body">Find more information on each supplier on the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website (opens in a new tab).</a></p>
+                        <p class="govuk-body govuk-!-margin-bottom-7">
+                            {{data.subtitle}} <br>
+                            Find more information on each supplier on the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website (opens in a new tab).</a>
+                        </p>    
                     {% else %}
-                        <p class="govuk-body">Find more information on each supplier on the main <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website.</a> <span class='govuk-visually-hidden'> opens in a new window</span> The page will open on a new tab.</p>
-                    {% endif %}
-                {% endif %}	
+                            <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
+                                {% if agreementId_session != 'RM1557.13' %}
+                                    <p class="govuk-body">Find more information on each supplier on the main <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">CCS website.</a> <span class='govuk-visually-hidden'> opens in a new window</span> The page will open on a new tab.</p>
+                                {% endif %}
+                    {% endif %}	
               <form id="ccs-rfp-suppliers-form" class="ccs-rfp-suppliers-form" action="/rfp/suppliers" method="POST">
                 {{ csrfProtection(csrf) }}
                     <br>
@@ -59,7 +62,7 @@
                         <div id="supplier-list">
                             <div class="govuk-form-group ccs-page-section">
                                 <h3>
-                                    <a href="/rfp/suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
+                                    <a href="/rfp/suppliers?download=1" onclick="return true;" class="govuk-link govuk-link--no-visited-state">Download this list
                 </a>
                                 </h3>
                             </div>
@@ -112,12 +115,15 @@
           </div>
           </br>  </br>
           {% if(enablebtn) %}
-                    <div class="govuk-button-group">
+
+                    {#<div class="govuk-button-group">
                         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
                         <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-                    </div>
+
+                    </div>#}
+
                      {% endif %}
                 </form>
 

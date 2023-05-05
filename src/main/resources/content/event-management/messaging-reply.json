@@ -13,15 +13,16 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Message",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Inbox",
     "line1":"[Reply to ]",
     "MessageClassification": "Message Classification",
     "Subject": "Subject",
     "Message": "Message",
+    "GCMessage": "Your Message",
     "btnText": "Send message to supplier",
     "Cancel": {
         "text": "Cancel",
@@ -33,13 +34,13 @@
         "href": "#"
     },
     "tabs": {
-        "text1": "Create Message to ALL Suppliers",
+        "text1": "Write message to all suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Create Message to Supplier",
+        "text4": "Write message to a supplier",
         "href4": "/message/create/supplier?type=received",
         "text5": "Write message to a supplier",
         "text6": "Write message to all suppliers"

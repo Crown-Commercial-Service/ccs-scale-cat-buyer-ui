@@ -1,34 +1,32 @@
 {% extends "template.njk" %}
-
 {% from "components/support/macro.njk" import howToGetSupport %}
-
 {% set title = 'Message Inbox ' %}
 {% set html %}
 <h3 class="govuk-notification-banner__heading">
-    {{data.notification.text}}
+    {{ data.notification.text }}
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+    <a class="govuk-notification-banner__link" href="{{ data.notification.link }}">{{ data.notification.linkText }}</a>
 </p>
 {% endset %}
-	{% set Replyhtml %}	
-<h3 class="govuk-notification-banner__heading">Your message has been sent to {{suppliernameforreplymessage}}</h3>	
+{% set Replyhtml %}
+<h3 class="govuk-notification-banner__heading">Your message has been sent to
+{{ suppliernameforreplymessage }}</h3>
 {% endset %}
 {% set errHtml %}
 <h3 class="govuk-notification-banner__heading">
-    {{data.notification2.text}}
+    {{ data.notification2.text }}
 </h3>
-	<!-- <p class="govuk-body">	
+<!-- <p class="govuk-body">
     <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>	
 </p> -->
 {% endset %}
-
 {% set htmlQA %}
 <h3 class="govuk-notification-banner__heading">
     You successfully updated your clarifications
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+    <a class="govuk-notification-banner__link" href="/view/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% set htmlQAEdit %}
@@ -36,24 +34,23 @@
     The question and clarification has been edited
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+    <a class="govuk-notification-banner__link" href="/view/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% set errHtmlQA %}
 <h3 class="govuk-notification-banner__heading">
-     Your clarifications are not updated
+    Your clarifications are not updated
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+    <a class="govuk-notification-banner__link" href="/view/event/qa">View your clarifications</a>
 </p>
 {% endset %}
-
 {% set htmlQAEdit %}
 <h3 class="govuk-notification-banner__heading">
-  The question and clarifications have been edited
+    The question and clarifications have been edited
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+    <a class="govuk-notification-banner__link" href="/view/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% set errHtmlQAEdit %}
@@ -61,11 +58,11 @@
     The Question and clarifications have not been edited
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+    <a class="govuk-notification-banner__link" href="/view/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' or agreementId == 'RM6187' %}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -94,163 +91,175 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Message",
       "href": "#"
     }
   ]
     }) }}
     {% endif %}
 {% endblock %}
-
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        {% if created == 'true' %}
-            <div class="govuk-grid-column-one-half">
-
-                 {{ govukNotificationBanner({
+        <div class="govuk-grid-row">
+            {% if created == 'true' %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                     html: html,
                     type: "success",
                     titleText: data.notification.title
                     }) }}
-            </div>
-        {% elseif created == 'false' %}
-            <div class="govuk-grid-column-one-half">
-                {{ govukNotificationBanner({
+                </div>
+            {% elseif created == 'false' %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                 html: errHtml,
                 type: "Important",
                 titleText: data.notification2.title
                 }) }}
-            </div>
-        {% endif %}
-            {% if createdreply == 'true' %}	
-                {% set CreatedReplyCustomhtml %}	
-                    <h3 class="govuk-notification-banner__heading">
-                        {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
-                            Your message was sent  to all suppliers
-                        {% else %}
-                            Your message was sent to the supplier
-                        {% endif %}
-                    </h3>
-                    {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
-                    <p class="govuk-body">
-                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
-                    </p>
-                     {% else %}
-                    <p class="govuk-body">
-                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification2.linkText}}</a>
-                    </p>
-                     {% endif %}
-                {% endset %}
-
+                </div>
+            {% endif %}
+            {% if createdreply == 'true' %}
+                {% set CreatedReplyCustomhtml %}
+                <h3 class="govuk-notification-banner__heading">
+                    {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %}
+                        Your message was sent  to all suppliers
+                    {% else %}
+                        Your message was sent to the supplier
+                    {% endif %}
+                </h3>
                 {% if msgfor == 'all' and agreementId == 'RM1043.8' %}
-                    <div class="govuk-grid-column-one-half">	
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{ data.notification.link }}">{{ data.notification.linkText }}</a>
+                    </p>
+                {% endif %}
+                {% if agreementId == 'RM1557.13' %}
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{ data.notification.link }}">{{ data.notification.linkText }}</a>
+                    </p>
+                {% elseif agreementId == 'RM1043.8' %}
+                    {% if msgfor != 'all' %}
+                        <p class="govuk-body">
+                            <a class="govuk-notification-banner__link" href="{{ data.notification.link }}">{{ data.notification2.linkText }}</a>
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{ data.notification.link }}">{{ data.notification2.linkText }}</a>
+                    </p>
+                {% endif %}
+                {% endset %}
+                {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %}
+                    <div class="govuk-grid-column-one-half">
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	
                         type: "success",	
                         titleText: "Message successfully sent"	
-                        }) }}	
-                    </div>	
+                        }) }}
+                    </div>
                 {% else %}
-                    <div class="govuk-grid-column-one-half">	
+                    {% if createdreply == 'true' %}
+                        {% set ttiletext = 'Message sent ' %}
+                    {% else %}
+                        {% set ttiletext = 'Message successfully sent ' %}
+                    {% endif %}
+                    <div class="govuk-grid-column-one-half">
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	
                         type: "success",	
-                        titleText: "Message sent"	
-                        }) }}	
-                    </div>	
+                        titleText: ttiletext	
+                        }) }}
+                    </div>
                 {% endif %}
-            {% elif createdreply == 'false' %}	
-                <div class="govuk-grid-column-one-half">	
+            {% elif createdreply == 'false' %}
+                <div class="govuk-grid-column-one-half">
                     {{ govukNotificationBanner({	
                     html: errHtml,	
                     type: "Important",	
                     titleText: data.notification2.title	
-                    }) }}	
-                </div>	
+                    }) }}
+                </div>
             {% endif %}
-        {% if createdQA == true %}
-            <div class="govuk-grid-column-one-half">
-
-                {{ govukNotificationBanner({
+            {% if createdQA == true %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                 html: htmlQA,
                 type: "success",
                 titleText: "Clarification Added"
                 }) }}
-
-            </div>
-        {% elseif createdQA == false %}
-            <div class="govuk-grid-column-one-half">
-                {{ govukNotificationBanner({
+                </div>
+            {% elseif createdQA == false %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                 html: errHtmlQA,
                 type: "Important",
                 titleText: "Clarification not Added"
                 }) }}
-            </div>
-        {% endif %}
-        {% if createdQAEdit == true %}
-            <div class="govuk-grid-column-one-half">
-
-                {{ govukNotificationBanner({
+                </div>
+            {% endif %}
+            {% if createdQAEdit == true %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                 html: htmlQAEdit,
                 type: "success",
                 titleText: "Question and clarification updated"
                 }) }}
-
-            </div>
-        {% elseif createdQAEdit == false %}
-            <div class="govuk-grid-column-one-half">
-                {{ govukNotificationBanner({
+                </div>
+            {% elseif createdQAEdit == false %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
                 html: errHtmlQA,
                 type: "Important",
                 titleText: "Question and clarification updated"
                 }) }}
-            </div>
-        {% endif %}
-       
-    <div class="govuk-grid-row govuk-!-padding-bottom-7">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-          {{data.title}}
-        </h1>
-        <p class="govuk-body">
-          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
-        </p>
-        {% include "includes/project_header.njk" %}
-      </div>
-    </div>
-
-        <div class="govuk-grid-row messaging-navigation">
+                </div>
+            {% endif %}
+        </div>
+        <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
-                <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
-
-                    <ul class="nav-list messaging-nav-list--primary">
-                    {% if agreementId == 'RM6187' %}
-                        <li class="nav-list__item">
-                           <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text5 }}</a>
-                        </li>
-                        <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.text6 }}</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text4 }}</a>
-                        </li>
-                        <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.text1 }}</a>
-                        </li>
-                    {% endif %}
-                        
-                        <li class="nav-list__item selected">
-                            {{data.tabs.text2}}
-                        </li>
-                        <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
-                        </li>
-                    </ul>
-                </nav>
+                <h1 class="govuk-heading-xl">
+                    {{ data.title }}
+                </h1>
+                <p class="govuk-body">
+                    <strong>Event Id / Name : {{ eventId | upper }} / {{ eventType }}</strong>
+                </p>
+                {% include "includes/project_header.njk" %}
             </div>
         </div>
-
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <div class="messaging-navigation">
+                    <nav
+                        class="global-navigation"
+                        data-toggle="nav"
+                        data-app-uri="http://www.crowncommercial.gov.uk/"
+                        data-app-pathinfo="/">
+                        <ul class="nav-list messaging-nav-list--primary">
+                            {% if agreementId == 'RM6187' %}
+                                <li class="nav-list__item">
+                                    <a class="nav-list__link " href="{{ data.tabs.href4 }}?type=received">{{ data.tabs.text5 }}</a>
+                                </li>
+                                <li class="nav-list__item">
+                                    <a class="nav-list__link " href="{{ data.tabs.href1 }}?type=create">{{ data.tabs.text6 }}</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-list__item">
+                                    <a class="nav-list__link " href="{{ data.tabs.href4 }}?type=received">{{ data.tabs.text4 }}</a>
+                                </li>
+                                <li class="nav-list__item">
+                                    <a class="nav-list__link " href="{{ data.tabs.href1 }}?type=create">{{ data.tabs.text1 }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-list__item selected">
+                                {{ data.tabs.text2 }}
+                            </li>
+                            <li class="nav-list__item">
+                                <a class="nav-list__link " href="{{ data.tabs.href3 }}?type=sent">{{ data.tabs.text3 }}</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
             <div class="govuk-grid-column-full">
                 {% if messages.length > 5 %}
@@ -258,40 +267,55 @@
                     {% else %}
                         <table class="govuk-table">
                         {% endif %}
-                        <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
+                        <caption class="govuk-table__caption govuk-visually-hidden">{{ data.title }}</caption>
                         <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
-                                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-                                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-                                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
-                                {# <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th> #}
+                                <th scope="col" class="govuk-table__header">{{ data.subsection2_table_th_1 }}</th>
+                                <th scope="col" class="govuk-table__header">{{ data.subsection2_table_th_2 }}</th>
+                                <th scope="col" class="govuk-table__header">{{ data.subsection2_table_th_3 }}</th>
+                                <th scope="col" class="govuk-table__header">{{ data.subsection2_table_th_4 }}</th>
                             </tr>
                         </thead>
                         <tbody class="govuk-table__body">
                             {% if messages.length > 0 %}
                                 {% for message in messages %}
-                                    <tr class="govuk-table__row">
-                                        <th scope="row" class="govuk-table__cell">
-                                            <p class="govuk-body govuk-!-margin-bottom-0">
-                                                <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
-                                            </p>
-                                        </th>
-                                        <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
-                                        <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
-                                        {# <td class="govuk-table__cell">
-                                            {% if message.nonOCDS.read == true %}
-                                                <strong class="govuk-tag govuk-tag--green">Read</strong>
-                                            {% else %}
-                                                <strong class="govuk-tag govuk-tag--blue">Unread</strong>
-                                            {% endif %}
-                                        </td> #}
-                                    </tr>
+                                    {% if message.nonOCDS.read === true %}
+                                        <tr class="govuk-table__row">
+                                            <th scope="row" class="govuk-table__cell">
+                                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                                    <a class="govuk-link loaderClick" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
+                                                </p>
+                                            </th>
+                                            <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
+                                            <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
+                                            <td class="govuk-table__cell">Read</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr class="govuk-table__row">
+                                            <th scope="row" class="govuk-table__cell">
+                                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                                    <a class="govuk-link loaderClick" href="/message/details?id={{ message.OCDS.id }}&type=received">
+                                                        <strong>{{ message.OCDS.author.name }}</strong>
+                                                    </a>
+                                                </p>
+                                            </th>
+                                            <td class="govuk-table__cell">
+                                                <strong>{{ message.OCDS.date }}</strong>
+                                            </td>
+                                            <td class="govuk-table__cell">
+                                                <strong>{{ message.OCDS.title }}</strong>
+                                            </td>
+                                            <td class="govuk-table__cell">
+                                                <strong>Unread</strong>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
                                 <tr class="govuk-table__row">
                                     <td scope="row" class="govuk-table__cell">
                                         <strong class="govuk-tag govuk-tag--blue">
-                                            {% if agreementId == 'RM6187' %}
+                                            {% if agreementId == 'RM6187' or agreementId == 'RM1043.8' %}
                                                 You have not received any messages
                                             {% else %}
                                                 You don't have any Received messages
@@ -307,14 +331,21 @@
                     </table>
                 </div>
             </div>
-            {% if type == 'received' %}
-            <p class="govuk-body">
-                <a href="{{data.backJumpDashboard.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJumpDashboard.title}}</a>
-            </p>
-            {% else %}
-            <p class="govuk-body">
-                <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-            </p>
-            {% endif %}
-        </main>
-    {% endblock %}
+            <div class="loader-container">
+                <div class="loader-division">
+                    <img src="/assets/images/loader.gif" alt="Loading">
+                        <h2 class="govuk-heading-m govuk-!-margin-top-4">Please wait..</h2>
+                    </div>
+                </div>
+                {% if type == 'received' %}
+                    <p class="govuk-body">
+                        <a href="{{ data.backJumpDashboard.href }}" class="govuk-link govuk-link--no-visited-state">{{ data.backJumpDashboard.title }}</a>
+                    </p>
+                {% else %}
+                    <p class="govuk-body">
+                        <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Return to Your project</a>
+                        {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a> #}
+                    </p>
+                {% endif %}
+            </main>
+        {% endblock %}

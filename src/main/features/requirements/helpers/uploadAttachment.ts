@@ -9,6 +9,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -88,7 +89,9 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
 
-
+       //CAS-INFO-LOG 
+       LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+      
       let fileNameStoragePricing = [];
       FETCH_FILEDATA?.map(file => {
         if (file.description === "mandatoryfirst") {
@@ -117,6 +120,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
     }
     const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
     const stage2_dynamic_api_data = stage2_dynamic_api.data;
     const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == EventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
     
@@ -143,23 +150,20 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         if (errorList==null) {
           errorList=[];
         }
-        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
-          fileError=true;
-        }
+       
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          errorList.push({ text: "Upload your pricing schedule", href: "#rfp_offline_document" });
           fileError=true;
         }
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding ", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding ", href: "#upload_doc_form" })
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
         delete req.session["fileDuplicateError"];
       }
       
@@ -195,13 +199,17 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       
       if(selectedRoute == 'dos'){
         if(stage2_value !== undefined && stage2_value === "Stage 2"){
-          let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
-          if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
-          }
+          // let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+          // if (flag) {
+          //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+          // }
         }
       }
       
+      
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.uploadPricingDocument, req);
+
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
       
     } catch (error) {

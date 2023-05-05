@@ -13,22 +13,23 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Message",
             "href": "#"
         }
     ],
-    "title": "Inbox",
+    "title": "Your inbox",
     "subtitle": "Write a new message",
     "subtitle2": "Create a new message",
     "signposting": {
-        "line1": "Your message will be sent to all supplier on the list.",
-        "line2": "View supplier List",
+        "line1": "Your message will be sent to all suppliers on the list.",
+        "line2": "View supplier list",
         "link": "#"
     },
     "MessageClassification": "Message classification",
     "Subject": "Subject",
-    "Message": "Your message",
+    "Message": "Message",
     "btnText": "Send to all",
+    "btnText2": "Send to all",
     "btnTextSupplier": "Send to supplier",
     "Cancel": {
         "text": "Cancel",
@@ -47,7 +48,7 @@
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Write message to supplier",
+        "text4": "Write message to a supplier",
         "href4": "/message/create/supplier"
         
     }

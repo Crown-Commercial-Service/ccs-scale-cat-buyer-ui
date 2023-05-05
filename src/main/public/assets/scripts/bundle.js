@@ -1,5 +1,9 @@
+/*! jQuery v3.6.4 | (c) OpenJS Foundation and other contributors | jquery.org/license */
+!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error("jQuery requires a window with a document");return t(e)}:t(e)}("undefined"!=typeof window?window:this,function(C,e){"use strict";var t=[],r=Object.getPrototypeOf,s=t.slice,g=t.flat?function(e){return t.flat.call(e)}:function(e){return t.concat.apply([],e)},u=t.push,i=t.indexOf,n={},o=n.toString,y=n.hasOwnProperty,a=y.toString,l=a.call(Object),v={},m=function(e){return"function"==typeof e&&"number"!=typeof e.nodeType&&"function"!=typeof e.item},x=function(e){return null!=e&&e===e.window},E=C.document,c={type:!0,src:!0,nonce:!0,noModule:!0};function b(e,t,n){var r,i,o=(n=n||E).createElement("script");if(o.text=e,t)for(r in c)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function w(e){return null==e?e+"":"object"==typeof e||"function"==typeof e?n[o.call(e)]||"object":typeof e}var f="3.6.4",S=function(e,t){return new S.fn.init(e,t)};function p(e){var t=!!e&&"length"in e&&e.length,n=w(e);return!m(e)&&!x(e)&&("array"===n||0===t||"number"==typeof t&&0<t&&t-1 in e)}S.fn=S.prototype={jquery:f,constructor:S,length:0,toArray:function(){return s.call(this)},get:function(e){return null==e?s.call(this):e<0?this[e+this.length]:this[e]},pushStack:function(e){var t=S.merge(this.constructor(),e);return t.prevObject=this,t},each:function(e){return S.each(this,e)},map:function(n){return this.pushStack(S.map(this,function(e,t){return n.call(e,t,e)}))},slice:function(){return this.pushStack(s.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},even:function(){return this.pushStack(S.grep(this,function(e,t){return(t+1)%2}))},odd:function(){return this.pushStack(S.grep(this,function(e,t){return t%2}))},eq:function(e){var t=this.length,n=+e+(e<0?t:0);return this.pushStack(0<=n&&n<t?[this[n]]:[])},end:function(){return this.prevObject||this.constructor()},push:u,sort:t.sort,splice:t.splice},S.extend=S.fn.extend=function(){var e,t,n,r,i,o,a=arguments[0]||{},s=1,u=arguments.length,l=!1;for("boolean"==typeof a&&(l=a,a=arguments[s]||{},s++),"object"==typeof a||m(a)||(a={}),s===u&&(a=this,s--);s<u;s++)if(null!=(e=arguments[s]))for(t in e)r=e[t],"__proto__"!==t&&a!==r&&(l&&r&&(S.isPlainObject(r)||(i=Array.isArray(r)))?(n=a[t],o=i&&!Array.isArray(n)?[]:i||S.isPlainObject(n)?n:{},i=!1,a[t]=S.extend(l,o,r)):void 0!==r&&(a[t]=r));return a},S.extend({expando:"jQuery"+(f+Math.random()).replace(/\D/g,""),isReady:!0,error:function(e){throw new Error(e)},noop:function(){},isPlainObject:function(e){var t,n;return!(!e||"[object Object]"!==o.call(e))&&(!(t=r(e))||"function"==typeof(n=y.call(t,"constructor")&&t.constructor)&&a.call(n)===l)},isEmptyObject:function(e){var t;for(t in e)return!1;return!0},globalEval:function(e,t,n){b(e,{nonce:t&&t.nonce},n)},each:function(e,t){var n,r=0;if(p(e)){for(n=e.length;r<n;r++)if(!1===t.call(e[r],r,e[r]))break}else for(r in e)if(!1===t.call(e[r],r,e[r]))break;return e},makeArray:function(e,t){var n=t||[];return null!=e&&(p(Object(e))?S.merge(n,"string"==typeof e?[e]:e):u.call(n,e)),n},inArray:function(e,t,n){return null==t?-1:i.call(t,e,n)},merge:function(e,t){for(var n=+t.length,r=0,i=e.length;r<n;r++)e[i++]=t[r];return e.length=i,e},grep:function(e,t,n){for(var r=[],i=0,o=e.length,a=!n;i<o;i++)!t(e[i],i)!==a&&r.push(e[i]);return r},map:function(e,t,n){var r,i,o=0,a=[];if(p(e))for(r=e.length;o<r;o++)null!=(i=t(e[o],o,n))&&a.push(i);else for(o in e)null!=(i=t(e[o],o,n))&&a.push(i);return g(a)},guid:1,support:v}),"function"==typeof Symbol&&(S.fn[Symbol.iterator]=t[Symbol.iterator]),S.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "),function(e,t){n["[object "+t+"]"]=t.toLowerCase()});var d=function(n){var e,d,b,o,i,h,f,g,w,u,l,T,C,a,E,y,s,c,v,S="sizzle"+1*new Date,p=n.document,k=0,r=0,m=ue(),x=ue(),A=ue(),N=ue(),j=function(e,t){return e===t&&(l=!0),0},D={}.hasOwnProperty,t=[],q=t.pop,L=t.push,H=t.push,O=t.slice,P=function(e,t){for(var n=0,r=e.length;n<r;n++)if(e[n]===t)return n;return-1},R="checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",M="[\\x20\\t\\r\\n\\f]",I="(?:\\\\[\\da-fA-F]{1,6}"+M+"?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",W="\\["+M+"*("+I+")(?:"+M+"*([*^$|!~]?=)"+M+"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|("+I+"))|)"+M+"*\\]",F=":("+I+")(?:\\((('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|((?:\\\\.|[^\\\\()[\\]]|"+W+")*)|.*)\\)|)",$=new RegExp(M+"+","g"),B=new RegExp("^"+M+"+|((?:^|[^\\\\])(?:\\\\.)*)"+M+"+$","g"),_=new RegExp("^"+M+"*,"+M+"*"),z=new RegExp("^"+M+"*([>+~]|"+M+")"+M+"*"),U=new RegExp(M+"|>"),X=new RegExp(F),V=new RegExp("^"+I+"$"),G={ID:new RegExp("^#("+I+")"),CLASS:new RegExp("^\\.("+I+")"),TAG:new RegExp("^("+I+"|[*])"),ATTR:new RegExp("^"+W),PSEUDO:new RegExp("^"+F),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+M+"*(even|odd|(([+-]|)(\\d*)n|)"+M+"*(?:([+-]|)"+M+"*(\\d+)|))"+M+"*\\)|)","i"),bool:new RegExp("^(?:"+R+")$","i"),needsContext:new RegExp("^"+M+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+M+"*((?:-\\d)?\\d*)"+M+"*\\)|)(?=[^-]|$)","i")},Y=/HTML$/i,Q=/^(?:input|select|textarea|button)$/i,J=/^h\d$/i,K=/^[^{]+\{\s*\[native \w/,Z=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,ee=/[+~]/,te=new RegExp("\\\\[\\da-fA-F]{1,6}"+M+"?|\\\\([^\\r\\n\\f])","g"),ne=function(e,t){var n="0x"+e.slice(1)-65536;return t||(n<0?String.fromCharCode(n+65536):String.fromCharCode(n>>10|55296,1023&n|56320))},re=/([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,ie=function(e,t){return t?"\0"===e?"\ufffd":e.slice(0,-1)+"\\"+e.charCodeAt(e.length-1).toString(16)+" ":"\\"+e},oe=function(){T()},ae=be(function(e){return!0===e.disabled&&"fieldset"===e.nodeName.toLowerCase()},{dir:"parentNode",next:"legend"});try{H.apply(t=O.call(p.childNodes),p.childNodes),t[p.childNodes.length].nodeType}catch(e){H={apply:t.length?function(e,t){L.apply(e,O.call(t))}:function(e,t){var n=e.length,r=0;while(e[n++]=t[r++]);e.length=n-1}}}function se(t,e,n,r){var i,o,a,s,u,l,c,f=e&&e.ownerDocument,p=e?e.nodeType:9;if(n=n||[],"string"!=typeof t||!t||1!==p&&9!==p&&11!==p)return n;if(!r&&(T(e),e=e||C,E)){if(11!==p&&(u=Z.exec(t)))if(i=u[1]){if(9===p){if(!(a=e.getElementById(i)))return n;if(a.id===i)return n.push(a),n}else if(f&&(a=f.getElementById(i))&&v(e,a)&&a.id===i)return n.push(a),n}else{if(u[2])return H.apply(n,e.getElementsByTagName(t)),n;if((i=u[3])&&d.getElementsByClassName&&e.getElementsByClassName)return H.apply(n,e.getElementsByClassName(i)),n}if(d.qsa&&!N[t+" "]&&(!y||!y.test(t))&&(1!==p||"object"!==e.nodeName.toLowerCase())){if(c=t,f=e,1===p&&(U.test(t)||z.test(t))){(f=ee.test(t)&&ve(e.parentNode)||e)===e&&d.scope||((s=e.getAttribute("id"))?s=s.replace(re,ie):e.setAttribute("id",s=S)),o=(l=h(t)).length;while(o--)l[o]=(s?"#"+s:":scope")+" "+xe(l[o]);c=l.join(",")}try{return H.apply(n,f.querySelectorAll(c)),n}catch(e){N(t,!0)}finally{s===S&&e.removeAttribute("id")}}}return g(t.replace(B,"$1"),e,n,r)}function ue(){var r=[];return function e(t,n){return r.push(t+" ")>b.cacheLength&&delete e[r.shift()],e[t+" "]=n}}function le(e){return e[S]=!0,e}function ce(e){var t=C.createElement("fieldset");try{return!!e(t)}catch(e){return!1}finally{t.parentNode&&t.parentNode.removeChild(t),t=null}}function fe(e,t){var n=e.split("|"),r=n.length;while(r--)b.attrHandle[n[r]]=t}function pe(e,t){var n=t&&e,r=n&&1===e.nodeType&&1===t.nodeType&&e.sourceIndex-t.sourceIndex;if(r)return r;if(n)while(n=n.nextSibling)if(n===t)return-1;return e?1:-1}function de(t){return function(e){return"input"===e.nodeName.toLowerCase()&&e.type===t}}function he(n){return function(e){var t=e.nodeName.toLowerCase();return("input"===t||"button"===t)&&e.type===n}}function ge(t){return function(e){return"form"in e?e.parentNode&&!1===e.disabled?"label"in e?"label"in e.parentNode?e.parentNode.disabled===t:e.disabled===t:e.isDisabled===t||e.isDisabled!==!t&&ae(e)===t:e.disabled===t:"label"in e&&e.disabled===t}}function ye(a){return le(function(o){return o=+o,le(function(e,t){var n,r=a([],e.length,o),i=r.length;while(i--)e[n=r[i]]&&(e[n]=!(t[n]=e[n]))})})}function ve(e){return e&&"undefined"!=typeof e.getElementsByTagName&&e}for(e in d=se.support={},i=se.isXML=function(e){var t=e&&e.namespaceURI,n=e&&(e.ownerDocument||e).documentElement;return!Y.test(t||n&&n.nodeName||"HTML")},T=se.setDocument=function(e){var t,n,r=e?e.ownerDocument||e:p;return r!=C&&9===r.nodeType&&r.documentElement&&(a=(C=r).documentElement,E=!i(C),p!=C&&(n=C.defaultView)&&n.top!==n&&(n.addEventListener?n.addEventListener("unload",oe,!1):n.attachEvent&&n.attachEvent("onunload",oe)),d.scope=ce(function(e){return a.appendChild(e).appendChild(C.createElement("div")),"undefined"!=typeof e.querySelectorAll&&!e.querySelectorAll(":scope fieldset div").length}),d.cssHas=ce(function(){try{return C.querySelector(":has(*,:jqfake)"),!1}catch(e){return!0}}),d.attributes=ce(function(e){return e.className="i",!e.getAttribute("className")}),d.getElementsByTagName=ce(function(e){return e.appendChild(C.createComment("")),!e.getElementsByTagName("*").length}),d.getElementsByClassName=K.test(C.getElementsByClassName),d.getById=ce(function(e){return a.appendChild(e).id=S,!C.getElementsByName||!C.getElementsByName(S).length}),d.getById?(b.filter.ID=function(e){var t=e.replace(te,ne);return function(e){return e.getAttribute("id")===t}},b.find.ID=function(e,t){if("undefined"!=typeof t.getElementById&&E){var n=t.getElementById(e);return n?[n]:[]}}):(b.filter.ID=function(e){var n=e.replace(te,ne);return function(e){var t="undefined"!=typeof e.getAttributeNode&&e.getAttributeNode("id");return t&&t.value===n}},b.find.ID=function(e,t){if("undefined"!=typeof t.getElementById&&E){var n,r,i,o=t.getElementById(e);if(o){if((n=o.getAttributeNode("id"))&&n.value===e)return[o];i=t.getElementsByName(e),r=0;while(o=i[r++])if((n=o.getAttributeNode("id"))&&n.value===e)return[o]}return[]}}),b.find.TAG=d.getElementsByTagName?function(e,t){return"undefined"!=typeof t.getElementsByTagName?t.getElementsByTagName(e):d.qsa?t.querySelectorAll(e):void 0}:function(e,t){var n,r=[],i=0,o=t.getElementsByTagName(e);if("*"===e){while(n=o[i++])1===n.nodeType&&r.push(n);return r}return o},b.find.CLASS=d.getElementsByClassName&&function(e,t){if("undefined"!=typeof t.getElementsByClassName&&E)return t.getElementsByClassName(e)},s=[],y=[],(d.qsa=K.test(C.querySelectorAll))&&(ce(function(e){var t;a.appendChild(e).innerHTML="<a id='"+S+"'></a><select id='"+S+"-\r\\' msallowcapture=''><option selected=''></option></select>",e.querySelectorAll("[msallowcapture^='']").length&&y.push("[*^$]="+M+"*(?:''|\"\")"),e.querySelectorAll("[selected]").length||y.push("\\["+M+"*(?:value|"+R+")"),e.querySelectorAll("[id~="+S+"-]").length||y.push("~="),(t=C.createElement("input")).setAttribute("name",""),e.appendChild(t),e.querySelectorAll("[name='']").length||y.push("\\["+M+"*name"+M+"*="+M+"*(?:''|\"\")"),e.querySelectorAll(":checked").length||y.push(":checked"),e.querySelectorAll("a#"+S+"+*").length||y.push(".#.+[+~]"),e.querySelectorAll("\\\f"),y.push("[\\r\\n\\f]")}),ce(function(e){e.innerHTML="<a href='' disabled='disabled'></a><select disabled='disabled'><option/></select>";var t=C.createElement("input");t.setAttribute("type","hidden"),e.appendChild(t).setAttribute("name","D"),e.querySelectorAll("[name=d]").length&&y.push("name"+M+"*[*^$|!~]?="),2!==e.querySelectorAll(":enabled").length&&y.push(":enabled",":disabled"),a.appendChild(e).disabled=!0,2!==e.querySelectorAll(":disabled").length&&y.push(":enabled",":disabled"),e.querySelectorAll("*,:x"),y.push(",.*:")})),(d.matchesSelector=K.test(c=a.matches||a.webkitMatchesSelector||a.mozMatchesSelector||a.oMatchesSelector||a.msMatchesSelector))&&ce(function(e){d.disconnectedMatch=c.call(e,"*"),c.call(e,"[s!='']:x"),s.push("!=",F)}),d.cssHas||y.push(":has"),y=y.length&&new RegExp(y.join("|")),s=s.length&&new RegExp(s.join("|")),t=K.test(a.compareDocumentPosition),v=t||K.test(a.contains)?function(e,t){var n=9===e.nodeType&&e.documentElement||e,r=t&&t.parentNode;return e===r||!(!r||1!==r.nodeType||!(n.contains?n.contains(r):e.compareDocumentPosition&&16&e.compareDocumentPosition(r)))}:function(e,t){if(t)while(t=t.parentNode)if(t===e)return!0;return!1},j=t?function(e,t){if(e===t)return l=!0,0;var n=!e.compareDocumentPosition-!t.compareDocumentPosition;return n||(1&(n=(e.ownerDocument||e)==(t.ownerDocument||t)?e.compareDocumentPosition(t):1)||!d.sortDetached&&t.compareDocumentPosition(e)===n?e==C||e.ownerDocument==p&&v(p,e)?-1:t==C||t.ownerDocument==p&&v(p,t)?1:u?P(u,e)-P(u,t):0:4&n?-1:1)}:function(e,t){if(e===t)return l=!0,0;var n,r=0,i=e.parentNode,o=t.parentNode,a=[e],s=[t];if(!i||!o)return e==C?-1:t==C?1:i?-1:o?1:u?P(u,e)-P(u,t):0;if(i===o)return pe(e,t);n=e;while(n=n.parentNode)a.unshift(n);n=t;while(n=n.parentNode)s.unshift(n);while(a[r]===s[r])r++;return r?pe(a[r],s[r]):a[r]==p?-1:s[r]==p?1:0}),C},se.matches=function(e,t){return se(e,null,null,t)},se.matchesSelector=function(e,t){if(T(e),d.matchesSelector&&E&&!N[t+" "]&&(!s||!s.test(t))&&(!y||!y.test(t)))try{var n=c.call(e,t);if(n||d.disconnectedMatch||e.document&&11!==e.document.nodeType)return n}catch(e){N(t,!0)}return 0<se(t,C,null,[e]).length},se.contains=function(e,t){return(e.ownerDocument||e)!=C&&T(e),v(e,t)},se.attr=function(e,t){(e.ownerDocument||e)!=C&&T(e);var n=b.attrHandle[t.toLowerCase()],r=n&&D.call(b.attrHandle,t.toLowerCase())?n(e,t,!E):void 0;return void 0!==r?r:d.attributes||!E?e.getAttribute(t):(r=e.getAttributeNode(t))&&r.specified?r.value:null},se.escape=function(e){return(e+"").replace(re,ie)},se.error=function(e){throw new Error("Syntax error, unrecognized expression: "+e)},se.uniqueSort=function(e){var t,n=[],r=0,i=0;if(l=!d.detectDuplicates,u=!d.sortStable&&e.slice(0),e.sort(j),l){while(t=e[i++])t===e[i]&&(r=n.push(i));while(r--)e.splice(n[r],1)}return u=null,e},o=se.getText=function(e){var t,n="",r=0,i=e.nodeType;if(i){if(1===i||9===i||11===i){if("string"==typeof e.textContent)return e.textContent;for(e=e.firstChild;e;e=e.nextSibling)n+=o(e)}else if(3===i||4===i)return e.nodeValue}else while(t=e[r++])n+=o(t);return n},(b=se.selectors={cacheLength:50,createPseudo:le,match:G,attrHandle:{},find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(e){return e[1]=e[1].replace(te,ne),e[3]=(e[3]||e[4]||e[5]||"").replace(te,ne),"~="===e[2]&&(e[3]=" "+e[3]+" "),e.slice(0,4)},CHILD:function(e){return e[1]=e[1].toLowerCase(),"nth"===e[1].slice(0,3)?(e[3]||se.error(e[0]),e[4]=+(e[4]?e[5]+(e[6]||1):2*("even"===e[3]||"odd"===e[3])),e[5]=+(e[7]+e[8]||"odd"===e[3])):e[3]&&se.error(e[0]),e},PSEUDO:function(e){var t,n=!e[6]&&e[2];return G.CHILD.test(e[0])?null:(e[3]?e[2]=e[4]||e[5]||"":n&&X.test(n)&&(t=h(n,!0))&&(t=n.indexOf(")",n.length-t)-n.length)&&(e[0]=e[0].slice(0,t),e[2]=n.slice(0,t)),e.slice(0,3))}},filter:{TAG:function(e){var t=e.replace(te,ne).toLowerCase();return"*"===e?function(){return!0}:function(e){return e.nodeName&&e.nodeName.toLowerCase()===t}},CLASS:function(e){var t=m[e+" "];return t||(t=new RegExp("(^|"+M+")"+e+"("+M+"|$)"))&&m(e,function(e){return t.test("string"==typeof e.className&&e.className||"undefined"!=typeof e.getAttribute&&e.getAttribute("class")||"")})},ATTR:function(n,r,i){return function(e){var t=se.attr(e,n);return null==t?"!="===r:!r||(t+="","="===r?t===i:"!="===r?t!==i:"^="===r?i&&0===t.indexOf(i):"*="===r?i&&-1<t.indexOf(i):"$="===r?i&&t.slice(-i.length)===i:"~="===r?-1<(" "+t.replace($," ")+" ").indexOf(i):"|="===r&&(t===i||t.slice(0,i.length+1)===i+"-"))}},CHILD:function(h,e,t,g,y){var v="nth"!==h.slice(0,3),m="last"!==h.slice(-4),x="of-type"===e;return 1===g&&0===y?function(e){return!!e.parentNode}:function(e,t,n){var r,i,o,a,s,u,l=v!==m?"nextSibling":"previousSibling",c=e.parentNode,f=x&&e.nodeName.toLowerCase(),p=!n&&!x,d=!1;if(c){if(v){while(l){a=e;while(a=a[l])if(x?a.nodeName.toLowerCase()===f:1===a.nodeType)return!1;u=l="only"===h&&!u&&"nextSibling"}return!0}if(u=[m?c.firstChild:c.lastChild],m&&p){d=(s=(r=(i=(o=(a=c)[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]||[])[0]===k&&r[1])&&r[2],a=s&&c.childNodes[s];while(a=++s&&a&&a[l]||(d=s=0)||u.pop())if(1===a.nodeType&&++d&&a===e){i[h]=[k,s,d];break}}else if(p&&(d=s=(r=(i=(o=(a=e)[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]||[])[0]===k&&r[1]),!1===d)while(a=++s&&a&&a[l]||(d=s=0)||u.pop())if((x?a.nodeName.toLowerCase()===f:1===a.nodeType)&&++d&&(p&&((i=(o=a[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]=[k,d]),a===e))break;return(d-=y)===g||d%g==0&&0<=d/g}}},PSEUDO:function(e,o){var t,a=b.pseudos[e]||b.setFilters[e.toLowerCase()]||se.error("unsupported pseudo: "+e);return a[S]?a(o):1<a.length?(t=[e,e,"",o],b.setFilters.hasOwnProperty(e.toLowerCase())?le(function(e,t){var n,r=a(e,o),i=r.length;while(i--)e[n=P(e,r[i])]=!(t[n]=r[i])}):function(e){return a(e,0,t)}):a}},pseudos:{not:le(function(e){var r=[],i=[],s=f(e.replace(B,"$1"));return s[S]?le(function(e,t,n,r){var i,o=s(e,null,r,[]),a=e.length;while(a--)(i=o[a])&&(e[a]=!(t[a]=i))}):function(e,t,n){return r[0]=e,s(r,null,n,i),r[0]=null,!i.pop()}}),has:le(function(t){return function(e){return 0<se(t,e).length}}),contains:le(function(t){return t=t.replace(te,ne),function(e){return-1<(e.textContent||o(e)).indexOf(t)}}),lang:le(function(n){return V.test(n||"")||se.error("unsupported lang: "+n),n=n.replace(te,ne).toLowerCase(),function(e){var t;do{if(t=E?e.lang:e.getAttribute("xml:lang")||e.getAttribute("lang"))return(t=t.toLowerCase())===n||0===t.indexOf(n+"-")}while((e=e.parentNode)&&1===e.nodeType);return!1}}),target:function(e){var t=n.location&&n.location.hash;return t&&t.slice(1)===e.id},root:function(e){return e===a},focus:function(e){return e===C.activeElement&&(!C.hasFocus||C.hasFocus())&&!!(e.type||e.href||~e.tabIndex)},enabled:ge(!1),disabled:ge(!0),checked:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&!!e.checked||"option"===t&&!!e.selected},selected:function(e){return e.parentNode&&e.parentNode.selectedIndex,!0===e.selected},empty:function(e){for(e=e.firstChild;e;e=e.nextSibling)if(e.nodeType<6)return!1;return!0},parent:function(e){return!b.pseudos.empty(e)},header:function(e){return J.test(e.nodeName)},input:function(e){return Q.test(e.nodeName)},button:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&"button"===e.type||"button"===t},text:function(e){var t;return"input"===e.nodeName.toLowerCase()&&"text"===e.type&&(null==(t=e.getAttribute("type"))||"text"===t.toLowerCase())},first:ye(function(){return[0]}),last:ye(function(e,t){return[t-1]}),eq:ye(function(e,t,n){return[n<0?n+t:n]}),even:ye(function(e,t){for(var n=0;n<t;n+=2)e.push(n);return e}),odd:ye(function(e,t){for(var n=1;n<t;n+=2)e.push(n);return e}),lt:ye(function(e,t,n){for(var r=n<0?n+t:t<n?t:n;0<=--r;)e.push(r);return e}),gt:ye(function(e,t,n){for(var r=n<0?n+t:n;++r<t;)e.push(r);return e})}}).pseudos.nth=b.pseudos.eq,{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})b.pseudos[e]=de(e);for(e in{submit:!0,reset:!0})b.pseudos[e]=he(e);function me(){}function xe(e){for(var t=0,n=e.length,r="";t<n;t++)r+=e[t].value;return r}function be(s,e,t){var u=e.dir,l=e.next,c=l||u,f=t&&"parentNode"===c,p=r++;return e.first?function(e,t,n){while(e=e[u])if(1===e.nodeType||f)return s(e,t,n);return!1}:function(e,t,n){var r,i,o,a=[k,p];if(n){while(e=e[u])if((1===e.nodeType||f)&&s(e,t,n))return!0}else while(e=e[u])if(1===e.nodeType||f)if(i=(o=e[S]||(e[S]={}))[e.uniqueID]||(o[e.uniqueID]={}),l&&l===e.nodeName.toLowerCase())e=e[u]||e;else{if((r=i[c])&&r[0]===k&&r[1]===p)return a[2]=r[2];if((i[c]=a)[2]=s(e,t,n))return!0}return!1}}function we(i){return 1<i.length?function(e,t,n){var r=i.length;while(r--)if(!i[r](e,t,n))return!1;return!0}:i[0]}function Te(e,t,n,r,i){for(var o,a=[],s=0,u=e.length,l=null!=t;s<u;s++)(o=e[s])&&(n&&!n(o,r,i)||(a.push(o),l&&t.push(s)));return a}function Ce(d,h,g,y,v,e){return y&&!y[S]&&(y=Ce(y)),v&&!v[S]&&(v=Ce(v,e)),le(function(e,t,n,r){var i,o,a,s=[],u=[],l=t.length,c=e||function(e,t,n){for(var r=0,i=t.length;r<i;r++)se(e,t[r],n);return n}(h||"*",n.nodeType?[n]:n,[]),f=!d||!e&&h?c:Te(c,s,d,n,r),p=g?v||(e?d:l||y)?[]:t:f;if(g&&g(f,p,n,r),y){i=Te(p,u),y(i,[],n,r),o=i.length;while(o--)(a=i[o])&&(p[u[o]]=!(f[u[o]]=a))}if(e){if(v||d){if(v){i=[],o=p.length;while(o--)(a=p[o])&&i.push(f[o]=a);v(null,p=[],i,r)}o=p.length;while(o--)(a=p[o])&&-1<(i=v?P(e,a):s[o])&&(e[i]=!(t[i]=a))}}else p=Te(p===t?p.splice(l,p.length):p),v?v(null,t,p,r):H.apply(t,p)})}function Ee(e){for(var i,t,n,r=e.length,o=b.relative[e[0].type],a=o||b.relative[" "],s=o?1:0,u=be(function(e){return e===i},a,!0),l=be(function(e){return-1<P(i,e)},a,!0),c=[function(e,t,n){var r=!o&&(n||t!==w)||((i=t).nodeType?u(e,t,n):l(e,t,n));return i=null,r}];s<r;s++)if(t=b.relative[e[s].type])c=[be(we(c),t)];else{if((t=b.filter[e[s].type].apply(null,e[s].matches))[S]){for(n=++s;n<r;n++)if(b.relative[e[n].type])break;return Ce(1<s&&we(c),1<s&&xe(e.slice(0,s-1).concat({value:" "===e[s-2].type?"*":""})).replace(B,"$1"),t,s<n&&Ee(e.slice(s,n)),n<r&&Ee(e=e.slice(n)),n<r&&xe(e))}c.push(t)}return we(c)}return me.prototype=b.filters=b.pseudos,b.setFilters=new me,h=se.tokenize=function(e,t){var n,r,i,o,a,s,u,l=x[e+" "];if(l)return t?0:l.slice(0);a=e,s=[],u=b.preFilter;while(a){for(o in n&&!(r=_.exec(a))||(r&&(a=a.slice(r[0].length)||a),s.push(i=[])),n=!1,(r=z.exec(a))&&(n=r.shift(),i.push({value:n,type:r[0].replace(B," ")}),a=a.slice(n.length)),b.filter)!(r=G[o].exec(a))||u[o]&&!(r=u[o](r))||(n=r.shift(),i.push({value:n,type:o,matches:r}),a=a.slice(n.length));if(!n)break}return t?a.length:a?se.error(e):x(e,s).slice(0)},f=se.compile=function(e,t){var n,y,v,m,x,r,i=[],o=[],a=A[e+" "];if(!a){t||(t=h(e)),n=t.length;while(n--)(a=Ee(t[n]))[S]?i.push(a):o.push(a);(a=A(e,(y=o,m=0<(v=i).length,x=0<y.length,r=function(e,t,n,r,i){var o,a,s,u=0,l="0",c=e&&[],f=[],p=w,d=e||x&&b.find.TAG("*",i),h=k+=null==p?1:Math.random()||.1,g=d.length;for(i&&(w=t==C||t||i);l!==g&&null!=(o=d[l]);l++){if(x&&o){a=0,t||o.ownerDocument==C||(T(o),n=!E);while(s=y[a++])if(s(o,t||C,n)){r.push(o);break}i&&(k=h)}m&&((o=!s&&o)&&u--,e&&c.push(o))}if(u+=l,m&&l!==u){a=0;while(s=v[a++])s(c,f,t,n);if(e){if(0<u)while(l--)c[l]||f[l]||(f[l]=q.call(r));f=Te(f)}H.apply(r,f),i&&!e&&0<f.length&&1<u+v.length&&se.uniqueSort(r)}return i&&(k=h,w=p),c},m?le(r):r))).selector=e}return a},g=se.select=function(e,t,n,r){var i,o,a,s,u,l="function"==typeof e&&e,c=!r&&h(e=l.selector||e);if(n=n||[],1===c.length){if(2<(o=c[0]=c[0].slice(0)).length&&"ID"===(a=o[0]).type&&9===t.nodeType&&E&&b.relative[o[1].type]){if(!(t=(b.find.ID(a.matches[0].replace(te,ne),t)||[])[0]))return n;l&&(t=t.parentNode),e=e.slice(o.shift().value.length)}i=G.needsContext.test(e)?0:o.length;while(i--){if(a=o[i],b.relative[s=a.type])break;if((u=b.find[s])&&(r=u(a.matches[0].replace(te,ne),ee.test(o[0].type)&&ve(t.parentNode)||t))){if(o.splice(i,1),!(e=r.length&&xe(o)))return H.apply(n,r),n;break}}}return(l||f(e,c))(r,t,!E,n,!t||ee.test(e)&&ve(t.parentNode)||t),n},d.sortStable=S.split("").sort(j).join("")===S,d.detectDuplicates=!!l,T(),d.sortDetached=ce(function(e){return 1&e.compareDocumentPosition(C.createElement("fieldset"))}),ce(function(e){return e.innerHTML="<a href='#'></a>","#"===e.firstChild.getAttribute("href")})||fe("type|href|height|width",function(e,t,n){if(!n)return e.getAttribute(t,"type"===t.toLowerCase()?1:2)}),d.attributes&&ce(function(e){return e.innerHTML="<input/>",e.firstChild.setAttribute("value",""),""===e.firstChild.getAttribute("value")})||fe("value",function(e,t,n){if(!n&&"input"===e.nodeName.toLowerCase())return e.defaultValue}),ce(function(e){return null==e.getAttribute("disabled")})||fe(R,function(e,t,n){var r;if(!n)return!0===e[t]?t.toLowerCase():(r=e.getAttributeNode(t))&&r.specified?r.value:null}),se}(C);S.find=d,S.expr=d.selectors,S.expr[":"]=S.expr.pseudos,S.uniqueSort=S.unique=d.uniqueSort,S.text=d.getText,S.isXMLDoc=d.isXML,S.contains=d.contains,S.escapeSelector=d.escape;var h=function(e,t,n){var r=[],i=void 0!==n;while((e=e[t])&&9!==e.nodeType)if(1===e.nodeType){if(i&&S(e).is(n))break;r.push(e)}return r},T=function(e,t){for(var n=[];e;e=e.nextSibling)1===e.nodeType&&e!==t&&n.push(e);return n},k=S.expr.match.needsContext;function A(e,t){return e.nodeName&&e.nodeName.toLowerCase()===t.toLowerCase()}var N=/^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;function j(e,n,r){return m(n)?S.grep(e,function(e,t){return!!n.call(e,t,e)!==r}):n.nodeType?S.grep(e,function(e){return e===n!==r}):"string"!=typeof n?S.grep(e,function(e){return-1<i.call(n,e)!==r}):S.filter(n,e,r)}S.filter=function(e,t,n){var r=t[0];return n&&(e=":not("+e+")"),1===t.length&&1===r.nodeType?S.find.matchesSelector(r,e)?[r]:[]:S.find.matches(e,S.grep(t,function(e){return 1===e.nodeType}))},S.fn.extend({find:function(e){var t,n,r=this.length,i=this;if("string"!=typeof e)return this.pushStack(S(e).filter(function(){for(t=0;t<r;t++)if(S.contains(i[t],this))return!0}));for(n=this.pushStack([]),t=0;t<r;t++)S.find(e,i[t],n);return 1<r?S.uniqueSort(n):n},filter:function(e){return this.pushStack(j(this,e||[],!1))},not:function(e){return this.pushStack(j(this,e||[],!0))},is:function(e){return!!j(this,"string"==typeof e&&k.test(e)?S(e):e||[],!1).length}});var D,q=/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/;(S.fn.init=function(e,t,n){var r,i;if(!e)return this;if(n=n||D,"string"==typeof e){if(!(r="<"===e[0]&&">"===e[e.length-1]&&3<=e.length?[null,e,null]:q.exec(e))||!r[1]&&t)return!t||t.jquery?(t||n).find(e):this.constructor(t).find(e);if(r[1]){if(t=t instanceof S?t[0]:t,S.merge(this,S.parseHTML(r[1],t&&t.nodeType?t.ownerDocument||t:E,!0)),N.test(r[1])&&S.isPlainObject(t))for(r in t)m(this[r])?this[r](t[r]):this.attr(r,t[r]);return this}return(i=E.getElementById(r[2]))&&(this[0]=i,this.length=1),this}return e.nodeType?(this[0]=e,this.length=1,this):m(e)?void 0!==n.ready?n.ready(e):e(S):S.makeArray(e,this)}).prototype=S.fn,D=S(E);var L=/^(?:parents|prev(?:Until|All))/,H={children:!0,contents:!0,next:!0,prev:!0};function O(e,t){while((e=e[t])&&1!==e.nodeType);return e}S.fn.extend({has:function(e){var t=S(e,this),n=t.length;return this.filter(function(){for(var e=0;e<n;e++)if(S.contains(this,t[e]))return!0})},closest:function(e,t){var n,r=0,i=this.length,o=[],a="string"!=typeof e&&S(e);if(!k.test(e))for(;r<i;r++)for(n=this[r];n&&n!==t;n=n.parentNode)if(n.nodeType<11&&(a?-1<a.index(n):1===n.nodeType&&S.find.matchesSelector(n,e))){o.push(n);break}return this.pushStack(1<o.length?S.uniqueSort(o):o)},index:function(e){return e?"string"==typeof e?i.call(S(e),this[0]):i.call(this,e.jquery?e[0]:e):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(e,t){return this.pushStack(S.uniqueSort(S.merge(this.get(),S(e,t))))},addBack:function(e){return this.add(null==e?this.prevObject:this.prevObject.filter(e))}}),S.each({parent:function(e){var t=e.parentNode;return t&&11!==t.nodeType?t:null},parents:function(e){return h(e,"parentNode")},parentsUntil:function(e,t,n){return h(e,"parentNode",n)},next:function(e){return O(e,"nextSibling")},prev:function(e){return O(e,"previousSibling")},nextAll:function(e){return h(e,"nextSibling")},prevAll:function(e){return h(e,"previousSibling")},nextUntil:function(e,t,n){return h(e,"nextSibling",n)},prevUntil:function(e,t,n){return h(e,"previousSibling",n)},siblings:function(e){return T((e.parentNode||{}).firstChild,e)},children:function(e){return T(e.firstChild)},contents:function(e){return null!=e.contentDocument&&r(e.contentDocument)?e.contentDocument:(A(e,"template")&&(e=e.content||e),S.merge([],e.childNodes))}},function(r,i){S.fn[r]=function(e,t){var n=S.map(this,i,e);return"Until"!==r.slice(-5)&&(t=e),t&&"string"==typeof t&&(n=S.filter(t,n)),1<this.length&&(H[r]||S.uniqueSort(n),L.test(r)&&n.reverse()),this.pushStack(n)}});var P=/[^\x20\t\r\n\f]+/g;function R(e){return e}function M(e){throw e}function I(e,t,n,r){var i;try{e&&m(i=e.promise)?i.call(e).done(t).fail(n):e&&m(i=e.then)?i.call(e,t,n):t.apply(void 0,[e].slice(r))}catch(e){n.apply(void 0,[e])}}S.Callbacks=function(r){var e,n;r="string"==typeof r?(e=r,n={},S.each(e.match(P)||[],function(e,t){n[t]=!0}),n):S.extend({},r);var i,t,o,a,s=[],u=[],l=-1,c=function(){for(a=a||r.once,o=i=!0;u.length;l=-1){t=u.shift();while(++l<s.length)!1===s[l].apply(t[0],t[1])&&r.stopOnFalse&&(l=s.length,t=!1)}r.memory||(t=!1),i=!1,a&&(s=t?[]:"")},f={add:function(){return s&&(t&&!i&&(l=s.length-1,u.push(t)),function n(e){S.each(e,function(e,t){m(t)?r.unique&&f.has(t)||s.push(t):t&&t.length&&"string"!==w(t)&&n(t)})}(arguments),t&&!i&&c()),this},remove:function(){return S.each(arguments,function(e,t){var n;while(-1<(n=S.inArray(t,s,n)))s.splice(n,1),n<=l&&l--}),this},has:function(e){return e?-1<S.inArray(e,s):0<s.length},empty:function(){return s&&(s=[]),this},disable:function(){return a=u=[],s=t="",this},disabled:function(){return!s},lock:function(){return a=u=[],t||i||(s=t=""),this},locked:function(){return!!a},fireWith:function(e,t){return a||(t=[e,(t=t||[]).slice?t.slice():t],u.push(t),i||c()),this},fire:function(){return f.fireWith(this,arguments),this},fired:function(){return!!o}};return f},S.extend({Deferred:function(e){var o=[["notify","progress",S.Callbacks("memory"),S.Callbacks("memory"),2],["resolve","done",S.Callbacks("once memory"),S.Callbacks("once memory"),0,"resolved"],["reject","fail",S.Callbacks("once memory"),S.Callbacks("once memory"),1,"rejected"]],i="pending",a={state:function(){return i},always:function(){return s.done(arguments).fail(arguments),this},"catch":function(e){return a.then(null,e)},pipe:function(){var i=arguments;return S.Deferred(function(r){S.each(o,function(e,t){var n=m(i[t[4]])&&i[t[4]];s[t[1]](function(){var e=n&&n.apply(this,arguments);e&&m(e.promise)?e.promise().progress(r.notify).done(r.resolve).fail(r.reject):r[t[0]+"With"](this,n?[e]:arguments)})}),i=null}).promise()},then:function(t,n,r){var u=0;function l(i,o,a,s){return function(){var n=this,r=arguments,e=function(){var e,t;if(!(i<u)){if((e=a.apply(n,r))===o.promise())throw new TypeError("Thenable self-resolution");t=e&&("object"==typeof e||"function"==typeof e)&&e.then,m(t)?s?t.call(e,l(u,o,R,s),l(u,o,M,s)):(u++,t.call(e,l(u,o,R,s),l(u,o,M,s),l(u,o,R,o.notifyWith))):(a!==R&&(n=void 0,r=[e]),(s||o.resolveWith)(n,r))}},t=s?e:function(){try{e()}catch(e){S.Deferred.exceptionHook&&S.Deferred.exceptionHook(e,t.stackTrace),u<=i+1&&(a!==M&&(n=void 0,r=[e]),o.rejectWith(n,r))}};i?t():(S.Deferred.getStackHook&&(t.stackTrace=S.Deferred.getStackHook()),C.setTimeout(t))}}return S.Deferred(function(e){o[0][3].add(l(0,e,m(r)?r:R,e.notifyWith)),o[1][3].add(l(0,e,m(t)?t:R)),o[2][3].add(l(0,e,m(n)?n:M))}).promise()},promise:function(e){return null!=e?S.extend(e,a):a}},s={};return S.each(o,function(e,t){var n=t[2],r=t[5];a[t[1]]=n.add,r&&n.add(function(){i=r},o[3-e][2].disable,o[3-e][3].disable,o[0][2].lock,o[0][3].lock),n.add(t[3].fire),s[t[0]]=function(){return s[t[0]+"With"](this===s?void 0:this,arguments),this},s[t[0]+"With"]=n.fireWith}),a.promise(s),e&&e.call(s,s),s},when:function(e){var n=arguments.length,t=n,r=Array(t),i=s.call(arguments),o=S.Deferred(),a=function(t){return function(e){r[t]=this,i[t]=1<arguments.length?s.call(arguments):e,--n||o.resolveWith(r,i)}};if(n<=1&&(I(e,o.done(a(t)).resolve,o.reject,!n),"pending"===o.state()||m(i[t]&&i[t].then)))return o.then();while(t--)I(i[t],a(t),o.reject);return o.promise()}});var W=/^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;S.Deferred.exceptionHook=function(e,t){C.console&&C.console.warn&&e&&W.test(e.name)&&C.console.warn("jQuery.Deferred exception: "+e.message,e.stack,t)},S.readyException=function(e){C.setTimeout(function(){throw e})};var F=S.Deferred();function $(){E.removeEventListener("DOMContentLoaded",$),C.removeEventListener("load",$),S.ready()}S.fn.ready=function(e){return F.then(e)["catch"](function(e){S.readyException(e)}),this},S.extend({isReady:!1,readyWait:1,ready:function(e){(!0===e?--S.readyWait:S.isReady)||(S.isReady=!0)!==e&&0<--S.readyWait||F.resolveWith(E,[S])}}),S.ready.then=F.then,"complete"===E.readyState||"loading"!==E.readyState&&!E.documentElement.doScroll?C.setTimeout(S.ready):(E.addEventListener("DOMContentLoaded",$),C.addEventListener("load",$));var B=function(e,t,n,r,i,o,a){var s=0,u=e.length,l=null==n;if("object"===w(n))for(s in i=!0,n)B(e,t,s,n[s],!0,o,a);else if(void 0!==r&&(i=!0,m(r)||(a=!0),l&&(a?(t.call(e,r),t=null):(l=t,t=function(e,t,n){return l.call(S(e),n)})),t))for(;s<u;s++)t(e[s],n,a?r:r.call(e[s],s,t(e[s],n)));return i?e:l?t.call(e):u?t(e[0],n):o},_=/^-ms-/,z=/-([a-z])/g;function U(e,t){return t.toUpperCase()}function X(e){return e.replace(_,"ms-").replace(z,U)}var V=function(e){return 1===e.nodeType||9===e.nodeType||!+e.nodeType};function G(){this.expando=S.expando+G.uid++}G.uid=1,G.prototype={cache:function(e){var t=e[this.expando];return t||(t={},V(e)&&(e.nodeType?e[this.expando]=t:Object.defineProperty(e,this.expando,{value:t,configurable:!0}))),t},set:function(e,t,n){var r,i=this.cache(e);if("string"==typeof t)i[X(t)]=n;else for(r in t)i[X(r)]=t[r];return i},get:function(e,t){return void 0===t?this.cache(e):e[this.expando]&&e[this.expando][X(t)]},access:function(e,t,n){return void 0===t||t&&"string"==typeof t&&void 0===n?this.get(e,t):(this.set(e,t,n),void 0!==n?n:t)},remove:function(e,t){var n,r=e[this.expando];if(void 0!==r){if(void 0!==t){n=(t=Array.isArray(t)?t.map(X):(t=X(t))in r?[t]:t.match(P)||[]).length;while(n--)delete r[t[n]]}(void 0===t||S.isEmptyObject(r))&&(e.nodeType?e[this.expando]=void 0:delete e[this.expando])}},hasData:function(e){var t=e[this.expando];return void 0!==t&&!S.isEmptyObject(t)}};var Y=new G,Q=new G,J=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,K=/[A-Z]/g;function Z(e,t,n){var r,i;if(void 0===n&&1===e.nodeType)if(r="data-"+t.replace(K,"-$&").toLowerCase(),"string"==typeof(n=e.getAttribute(r))){try{n="true"===(i=n)||"false"!==i&&("null"===i?null:i===+i+""?+i:J.test(i)?JSON.parse(i):i)}catch(e){}Q.set(e,t,n)}else n=void 0;return n}S.extend({hasData:function(e){return Q.hasData(e)||Y.hasData(e)},data:function(e,t,n){return Q.access(e,t,n)},removeData:function(e,t){Q.remove(e,t)},_data:function(e,t,n){return Y.access(e,t,n)},_removeData:function(e,t){Y.remove(e,t)}}),S.fn.extend({data:function(n,e){var t,r,i,o=this[0],a=o&&o.attributes;if(void 0===n){if(this.length&&(i=Q.get(o),1===o.nodeType&&!Y.get(o,"hasDataAttrs"))){t=a.length;while(t--)a[t]&&0===(r=a[t].name).indexOf("data-")&&(r=X(r.slice(5)),Z(o,r,i[r]));Y.set(o,"hasDataAttrs",!0)}return i}return"object"==typeof n?this.each(function(){Q.set(this,n)}):B(this,function(e){var t;if(o&&void 0===e)return void 0!==(t=Q.get(o,n))?t:void 0!==(t=Z(o,n))?t:void 0;this.each(function(){Q.set(this,n,e)})},null,e,1<arguments.length,null,!0)},removeData:function(e){return this.each(function(){Q.remove(this,e)})}}),S.extend({queue:function(e,t,n){var r;if(e)return t=(t||"fx")+"queue",r=Y.get(e,t),n&&(!r||Array.isArray(n)?r=Y.access(e,t,S.makeArray(n)):r.push(n)),r||[]},dequeue:function(e,t){t=t||"fx";var n=S.queue(e,t),r=n.length,i=n.shift(),o=S._queueHooks(e,t);"inprogress"===i&&(i=n.shift(),r--),i&&("fx"===t&&n.unshift("inprogress"),delete o.stop,i.call(e,function(){S.dequeue(e,t)},o)),!r&&o&&o.empty.fire()},_queueHooks:function(e,t){var n=t+"queueHooks";return Y.get(e,n)||Y.access(e,n,{empty:S.Callbacks("once memory").add(function(){Y.remove(e,[t+"queue",n])})})}}),S.fn.extend({queue:function(t,n){var e=2;return"string"!=typeof t&&(n=t,t="fx",e--),arguments.length<e?S.queue(this[0],t):void 0===n?this:this.each(function(){var e=S.queue(this,t,n);S._queueHooks(this,t),"fx"===t&&"inprogress"!==e[0]&&S.dequeue(this,t)})},dequeue:function(e){return this.each(function(){S.dequeue(this,e)})},clearQueue:function(e){return this.queue(e||"fx",[])},promise:function(e,t){var n,r=1,i=S.Deferred(),o=this,a=this.length,s=function(){--r||i.resolveWith(o,[o])};"string"!=typeof e&&(t=e,e=void 0),e=e||"fx";while(a--)(n=Y.get(o[a],e+"queueHooks"))&&n.empty&&(r++,n.empty.add(s));return s(),i.promise(t)}});var ee=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,te=new RegExp("^(?:([+-])=|)("+ee+")([a-z%]*)$","i"),ne=["Top","Right","Bottom","Left"],re=E.documentElement,ie=function(e){return S.contains(e.ownerDocument,e)},oe={composed:!0};re.getRootNode&&(ie=function(e){return S.contains(e.ownerDocument,e)||e.getRootNode(oe)===e.ownerDocument});var ae=function(e,t){return"none"===(e=t||e).style.display||""===e.style.display&&ie(e)&&"none"===S.css(e,"display")};function se(e,t,n,r){var i,o,a=20,s=r?function(){return r.cur()}:function(){return S.css(e,t,"")},u=s(),l=n&&n[3]||(S.cssNumber[t]?"":"px"),c=e.nodeType&&(S.cssNumber[t]||"px"!==l&&+u)&&te.exec(S.css(e,t));if(c&&c[3]!==l){u/=2,l=l||c[3],c=+u||1;while(a--)S.style(e,t,c+l),(1-o)*(1-(o=s()/u||.5))<=0&&(a=0),c/=o;c*=2,S.style(e,t,c+l),n=n||[]}return n&&(c=+c||+u||0,i=n[1]?c+(n[1]+1)*n[2]:+n[2],r&&(r.unit=l,r.start=c,r.end=i)),i}var ue={};function le(e,t){for(var n,r,i,o,a,s,u,l=[],c=0,f=e.length;c<f;c++)(r=e[c]).style&&(n=r.style.display,t?("none"===n&&(l[c]=Y.get(r,"display")||null,l[c]||(r.style.display="")),""===r.style.display&&ae(r)&&(l[c]=(u=a=o=void 0,a=(i=r).ownerDocument,s=i.nodeName,(u=ue[s])||(o=a.body.appendChild(a.createElement(s)),u=S.css(o,"display"),o.parentNode.removeChild(o),"none"===u&&(u="block"),ue[s]=u)))):"none"!==n&&(l[c]="none",Y.set(r,"display",n)));for(c=0;c<f;c++)null!=l[c]&&(e[c].style.display=l[c]);return e}S.fn.extend({show:function(){return le(this,!0)},hide:function(){return le(this)},toggle:function(e){return"boolean"==typeof e?e?this.show():this.hide():this.each(function(){ae(this)?S(this).show():S(this).hide()})}});var ce,fe,pe=/^(?:checkbox|radio)$/i,de=/<([a-z][^\/\0>\x20\t\r\n\f]*)/i,he=/^$|^module$|\/(?:java|ecma)script/i;ce=E.createDocumentFragment().appendChild(E.createElement("div")),(fe=E.createElement("input")).setAttribute("type","radio"),fe.setAttribute("checked","checked"),fe.setAttribute("name","t"),ce.appendChild(fe),v.checkClone=ce.cloneNode(!0).cloneNode(!0).lastChild.checked,ce.innerHTML="<textarea>x</textarea>",v.noCloneChecked=!!ce.cloneNode(!0).lastChild.defaultValue,ce.innerHTML="<option></option>",v.option=!!ce.lastChild;var ge={thead:[1,"<table>","</table>"],col:[2,"<table><colgroup>","</colgroup></table>"],tr:[2,"<table><tbody>","</tbody></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:[0,"",""]};function ye(e,t){var n;return n="undefined"!=typeof e.getElementsByTagName?e.getElementsByTagName(t||"*"):"undefined"!=typeof e.querySelectorAll?e.querySelectorAll(t||"*"):[],void 0===t||t&&A(e,t)?S.merge([e],n):n}function ve(e,t){for(var n=0,r=e.length;n<r;n++)Y.set(e[n],"globalEval",!t||Y.get(t[n],"globalEval"))}ge.tbody=ge.tfoot=ge.colgroup=ge.caption=ge.thead,ge.th=ge.td,v.option||(ge.optgroup=ge.option=[1,"<select multiple='multiple'>","</select>"]);var me=/<|&#?\w+;/;function xe(e,t,n,r,i){for(var o,a,s,u,l,c,f=t.createDocumentFragment(),p=[],d=0,h=e.length;d<h;d++)if((o=e[d])||0===o)if("object"===w(o))S.merge(p,o.nodeType?[o]:o);else if(me.test(o)){a=a||f.appendChild(t.createElement("div")),s=(de.exec(o)||["",""])[1].toLowerCase(),u=ge[s]||ge._default,a.innerHTML=u[1]+S.htmlPrefilter(o)+u[2],c=u[0];while(c--)a=a.lastChild;S.merge(p,a.childNodes),(a=f.firstChild).textContent=""}else p.push(t.createTextNode(o));f.textContent="",d=0;while(o=p[d++])if(r&&-1<S.inArray(o,r))i&&i.push(o);else if(l=ie(o),a=ye(f.appendChild(o),"script"),l&&ve(a),n){c=0;while(o=a[c++])he.test(o.type||"")&&n.push(o)}return f}var be=/^([^.]*)(?:\.(.+)|)/;function we(){return!0}function Te(){return!1}function Ce(e,t){return e===function(){try{return E.activeElement}catch(e){}}()==("focus"===t)}function Ee(e,t,n,r,i,o){var a,s;if("object"==typeof t){for(s in"string"!=typeof n&&(r=r||n,n=void 0),t)Ee(e,s,n,r,t[s],o);return e}if(null==r&&null==i?(i=n,r=n=void 0):null==i&&("string"==typeof n?(i=r,r=void 0):(i=r,r=n,n=void 0)),!1===i)i=Te;else if(!i)return e;return 1===o&&(a=i,(i=function(e){return S().off(e),a.apply(this,arguments)}).guid=a.guid||(a.guid=S.guid++)),e.each(function(){S.event.add(this,t,i,r,n)})}function Se(e,i,o){o?(Y.set(e,i,!1),S.event.add(e,i,{namespace:!1,handler:function(e){var t,n,r=Y.get(this,i);if(1&e.isTrigger&&this[i]){if(r.length)(S.event.special[i]||{}).delegateType&&e.stopPropagation();else if(r=s.call(arguments),Y.set(this,i,r),t=o(this,i),this[i](),r!==(n=Y.get(this,i))||t?Y.set(this,i,!1):n={},r!==n)return e.stopImmediatePropagation(),e.preventDefault(),n&&n.value}else r.length&&(Y.set(this,i,{value:S.event.trigger(S.extend(r[0],S.Event.prototype),r.slice(1),this)}),e.stopImmediatePropagation())}})):void 0===Y.get(e,i)&&S.event.add(e,i,we)}S.event={global:{},add:function(t,e,n,r,i){var o,a,s,u,l,c,f,p,d,h,g,y=Y.get(t);if(V(t)){n.handler&&(n=(o=n).handler,i=o.selector),i&&S.find.matchesSelector(re,i),n.guid||(n.guid=S.guid++),(u=y.events)||(u=y.events=Object.create(null)),(a=y.handle)||(a=y.handle=function(e){return"undefined"!=typeof S&&S.event.triggered!==e.type?S.event.dispatch.apply(t,arguments):void 0}),l=(e=(e||"").match(P)||[""]).length;while(l--)d=g=(s=be.exec(e[l])||[])[1],h=(s[2]||"").split(".").sort(),d&&(f=S.event.special[d]||{},d=(i?f.delegateType:f.bindType)||d,f=S.event.special[d]||{},c=S.extend({type:d,origType:g,data:r,handler:n,guid:n.guid,selector:i,needsContext:i&&S.expr.match.needsContext.test(i),namespace:h.join(".")},o),(p=u[d])||((p=u[d]=[]).delegateCount=0,f.setup&&!1!==f.setup.call(t,r,h,a)||t.addEventListener&&t.addEventListener(d,a)),f.add&&(f.add.call(t,c),c.handler.guid||(c.handler.guid=n.guid)),i?p.splice(p.delegateCount++,0,c):p.push(c),S.event.global[d]=!0)}},remove:function(e,t,n,r,i){var o,a,s,u,l,c,f,p,d,h,g,y=Y.hasData(e)&&Y.get(e);if(y&&(u=y.events)){l=(t=(t||"").match(P)||[""]).length;while(l--)if(d=g=(s=be.exec(t[l])||[])[1],h=(s[2]||"").split(".").sort(),d){f=S.event.special[d]||{},p=u[d=(r?f.delegateType:f.bindType)||d]||[],s=s[2]&&new RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"),a=o=p.length;while(o--)c=p[o],!i&&g!==c.origType||n&&n.guid!==c.guid||s&&!s.test(c.namespace)||r&&r!==c.selector&&("**"!==r||!c.selector)||(p.splice(o,1),c.selector&&p.delegateCount--,f.remove&&f.remove.call(e,c));a&&!p.length&&(f.teardown&&!1!==f.teardown.call(e,h,y.handle)||S.removeEvent(e,d,y.handle),delete u[d])}else for(d in u)S.event.remove(e,d+t[l],n,r,!0);S.isEmptyObject(u)&&Y.remove(e,"handle events")}},dispatch:function(e){var t,n,r,i,o,a,s=new Array(arguments.length),u=S.event.fix(e),l=(Y.get(this,"events")||Object.create(null))[u.type]||[],c=S.event.special[u.type]||{};for(s[0]=u,t=1;t<arguments.length;t++)s[t]=arguments[t];if(u.delegateTarget=this,!c.preDispatch||!1!==c.preDispatch.call(this,u)){a=S.event.handlers.call(this,u,l),t=0;while((i=a[t++])&&!u.isPropagationStopped()){u.currentTarget=i.elem,n=0;while((o=i.handlers[n++])&&!u.isImmediatePropagationStopped())u.rnamespace&&!1!==o.namespace&&!u.rnamespace.test(o.namespace)||(u.handleObj=o,u.data=o.data,void 0!==(r=((S.event.special[o.origType]||{}).handle||o.handler).apply(i.elem,s))&&!1===(u.result=r)&&(u.preventDefault(),u.stopPropagation()))}return c.postDispatch&&c.postDispatch.call(this,u),u.result}},handlers:function(e,t){var n,r,i,o,a,s=[],u=t.delegateCount,l=e.target;if(u&&l.nodeType&&!("click"===e.type&&1<=e.button))for(;l!==this;l=l.parentNode||this)if(1===l.nodeType&&("click"!==e.type||!0!==l.disabled)){for(o=[],a={},n=0;n<u;n++)void 0===a[i=(r=t[n]).selector+" "]&&(a[i]=r.needsContext?-1<S(i,this).index(l):S.find(i,this,null,[l]).length),a[i]&&o.push(r);o.length&&s.push({elem:l,handlers:o})}return l=this,u<t.length&&s.push({elem:l,handlers:t.slice(u)}),s},addProp:function(t,e){Object.defineProperty(S.Event.prototype,t,{enumerable:!0,configurable:!0,get:m(e)?function(){if(this.originalEvent)return e(this.originalEvent)}:function(){if(this.originalEvent)return this.originalEvent[t]},set:function(e){Object.defineProperty(this,t,{enumerable:!0,configurable:!0,writable:!0,value:e})}})},fix:function(e){return e[S.expando]?e:new S.Event(e)},special:{load:{noBubble:!0},click:{setup:function(e){var t=this||e;return pe.test(t.type)&&t.click&&A(t,"input")&&Se(t,"click",we),!1},trigger:function(e){var t=this||e;return pe.test(t.type)&&t.click&&A(t,"input")&&Se(t,"click"),!0},_default:function(e){var t=e.target;return pe.test(t.type)&&t.click&&A(t,"input")&&Y.get(t,"click")||A(t,"a")}},beforeunload:{postDispatch:function(e){void 0!==e.result&&e.originalEvent&&(e.originalEvent.returnValue=e.result)}}}},S.removeEvent=function(e,t,n){e.removeEventListener&&e.removeEventListener(t,n)},S.Event=function(e,t){if(!(this instanceof S.Event))return new S.Event(e,t);e&&e.type?(this.originalEvent=e,this.type=e.type,this.isDefaultPrevented=e.defaultPrevented||void 0===e.defaultPrevented&&!1===e.returnValue?we:Te,this.target=e.target&&3===e.target.nodeType?e.target.parentNode:e.target,this.currentTarget=e.currentTarget,this.relatedTarget=e.relatedTarget):this.type=e,t&&S.extend(this,t),this.timeStamp=e&&e.timeStamp||Date.now(),this[S.expando]=!0},S.Event.prototype={constructor:S.Event,isDefaultPrevented:Te,isPropagationStopped:Te,isImmediatePropagationStopped:Te,isSimulated:!1,preventDefault:function(){var e=this.originalEvent;this.isDefaultPrevented=we,e&&!this.isSimulated&&e.preventDefault()},stopPropagation:function(){var e=this.originalEvent;this.isPropagationStopped=we,e&&!this.isSimulated&&e.stopPropagation()},stopImmediatePropagation:function(){var e=this.originalEvent;this.isImmediatePropagationStopped=we,e&&!this.isSimulated&&e.stopImmediatePropagation(),this.stopPropagation()}},S.each({altKey:!0,bubbles:!0,cancelable:!0,changedTouches:!0,ctrlKey:!0,detail:!0,eventPhase:!0,metaKey:!0,pageX:!0,pageY:!0,shiftKey:!0,view:!0,"char":!0,code:!0,charCode:!0,key:!0,keyCode:!0,button:!0,buttons:!0,clientX:!0,clientY:!0,offsetX:!0,offsetY:!0,pointerId:!0,pointerType:!0,screenX:!0,screenY:!0,targetTouches:!0,toElement:!0,touches:!0,which:!0},S.event.addProp),S.each({focus:"focusin",blur:"focusout"},function(t,e){S.event.special[t]={setup:function(){return Se(this,t,Ce),!1},trigger:function(){return Se(this,t),!0},_default:function(e){return Y.get(e.target,t)},delegateType:e}}),S.each({mouseenter:"mouseover",mouseleave:"mouseout",pointerenter:"pointerover",pointerleave:"pointerout"},function(e,i){S.event.special[e]={delegateType:i,bindType:i,handle:function(e){var t,n=e.relatedTarget,r=e.handleObj;return n&&(n===this||S.contains(this,n))||(e.type=r.origType,t=r.handler.apply(this,arguments),e.type=i),t}}}),S.fn.extend({on:function(e,t,n,r){return Ee(this,e,t,n,r)},one:function(e,t,n,r){return Ee(this,e,t,n,r,1)},off:function(e,t,n){var r,i;if(e&&e.preventDefault&&e.handleObj)return r=e.handleObj,S(e.delegateTarget).off(r.namespace?r.origType+"."+r.namespace:r.origType,r.selector,r.handler),this;if("object"==typeof e){for(i in e)this.off(i,t,e[i]);return this}return!1!==t&&"function"!=typeof t||(n=t,t=void 0),!1===n&&(n=Te),this.each(function(){S.event.remove(this,e,n,t)})}});var ke=/<script|<style|<link/i,Ae=/checked\s*(?:[^=]|=\s*.checked.)/i,Ne=/^\s*<!\[CDATA\[|\]\]>\s*$/g;function je(e,t){return A(e,"table")&&A(11!==t.nodeType?t:t.firstChild,"tr")&&S(e).children("tbody")[0]||e}function De(e){return e.type=(null!==e.getAttribute("type"))+"/"+e.type,e}function qe(e){return"true/"===(e.type||"").slice(0,5)?e.type=e.type.slice(5):e.removeAttribute("type"),e}function Le(e,t){var n,r,i,o,a,s;if(1===t.nodeType){if(Y.hasData(e)&&(s=Y.get(e).events))for(i in Y.remove(t,"handle events"),s)for(n=0,r=s[i].length;n<r;n++)S.event.add(t,i,s[i][n]);Q.hasData(e)&&(o=Q.access(e),a=S.extend({},o),Q.set(t,a))}}function He(n,r,i,o){r=g(r);var e,t,a,s,u,l,c=0,f=n.length,p=f-1,d=r[0],h=m(d);if(h||1<f&&"string"==typeof d&&!v.checkClone&&Ae.test(d))return n.each(function(e){var t=n.eq(e);h&&(r[0]=d.call(this,e,t.html())),He(t,r,i,o)});if(f&&(t=(e=xe(r,n[0].ownerDocument,!1,n,o)).firstChild,1===e.childNodes.length&&(e=t),t||o)){for(s=(a=S.map(ye(e,"script"),De)).length;c<f;c++)u=e,c!==p&&(u=S.clone(u,!0,!0),s&&S.merge(a,ye(u,"script"))),i.call(n[c],u,c);if(s)for(l=a[a.length-1].ownerDocument,S.map(a,qe),c=0;c<s;c++)u=a[c],he.test(u.type||"")&&!Y.access(u,"globalEval")&&S.contains(l,u)&&(u.src&&"module"!==(u.type||"").toLowerCase()?S._evalUrl&&!u.noModule&&S._evalUrl(u.src,{nonce:u.nonce||u.getAttribute("nonce")},l):b(u.textContent.replace(Ne,""),u,l))}return n}function Oe(e,t,n){for(var r,i=t?S.filter(t,e):e,o=0;null!=(r=i[o]);o++)n||1!==r.nodeType||S.cleanData(ye(r)),r.parentNode&&(n&&ie(r)&&ve(ye(r,"script")),r.parentNode.removeChild(r));return e}S.extend({htmlPrefilter:function(e){return e},clone:function(e,t,n){var r,i,o,a,s,u,l,c=e.cloneNode(!0),f=ie(e);if(!(v.noCloneChecked||1!==e.nodeType&&11!==e.nodeType||S.isXMLDoc(e)))for(a=ye(c),r=0,i=(o=ye(e)).length;r<i;r++)s=o[r],u=a[r],void 0,"input"===(l=u.nodeName.toLowerCase())&&pe.test(s.type)?u.checked=s.checked:"input"!==l&&"textarea"!==l||(u.defaultValue=s.defaultValue);if(t)if(n)for(o=o||ye(e),a=a||ye(c),r=0,i=o.length;r<i;r++)Le(o[r],a[r]);else Le(e,c);return 0<(a=ye(c,"script")).length&&ve(a,!f&&ye(e,"script")),c},cleanData:function(e){for(var t,n,r,i=S.event.special,o=0;void 0!==(n=e[o]);o++)if(V(n)){if(t=n[Y.expando]){if(t.events)for(r in t.events)i[r]?S.event.remove(n,r):S.removeEvent(n,r,t.handle);n[Y.expando]=void 0}n[Q.expando]&&(n[Q.expando]=void 0)}}}),S.fn.extend({detach:function(e){return Oe(this,e,!0)},remove:function(e){return Oe(this,e)},text:function(e){return B(this,function(e){return void 0===e?S.text(this):this.empty().each(function(){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||(this.textContent=e)})},null,e,arguments.length)},append:function(){return He(this,arguments,function(e){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||je(this,e).appendChild(e)})},prepend:function(){return He(this,arguments,function(e){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var t=je(this,e);t.insertBefore(e,t.firstChild)}})},before:function(){return He(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this)})},after:function(){return He(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this.nextSibling)})},empty:function(){for(var e,t=0;null!=(e=this[t]);t++)1===e.nodeType&&(S.cleanData(ye(e,!1)),e.textContent="");return this},clone:function(e,t){return e=null!=e&&e,t=null==t?e:t,this.map(function(){return S.clone(this,e,t)})},html:function(e){return B(this,function(e){var t=this[0]||{},n=0,r=this.length;if(void 0===e&&1===t.nodeType)return t.innerHTML;if("string"==typeof e&&!ke.test(e)&&!ge[(de.exec(e)||["",""])[1].toLowerCase()]){e=S.htmlPrefilter(e);try{for(;n<r;n++)1===(t=this[n]||{}).nodeType&&(S.cleanData(ye(t,!1)),t.innerHTML=e);t=0}catch(e){}}t&&this.empty().append(e)},null,e,arguments.length)},replaceWith:function(){var n=[];return He(this,arguments,function(e){var t=this.parentNode;S.inArray(this,n)<0&&(S.cleanData(ye(this)),t&&t.replaceChild(e,this))},n)}}),S.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(e,a){S.fn[e]=function(e){for(var t,n=[],r=S(e),i=r.length-1,o=0;o<=i;o++)t=o===i?this:this.clone(!0),S(r[o])[a](t),u.apply(n,t.get());return this.pushStack(n)}});var Pe=new RegExp("^("+ee+")(?!px)[a-z%]+$","i"),Re=/^--/,Me=function(e){var t=e.ownerDocument.defaultView;return t&&t.opener||(t=C),t.getComputedStyle(e)},Ie=function(e,t,n){var r,i,o={};for(i in t)o[i]=e.style[i],e.style[i]=t[i];for(i in r=n.call(e),t)e.style[i]=o[i];return r},We=new RegExp(ne.join("|"),"i"),Fe="[\\x20\\t\\r\\n\\f]",$e=new RegExp("^"+Fe+"+|((?:^|[^\\\\])(?:\\\\.)*)"+Fe+"+$","g");function Be(e,t,n){var r,i,o,a,s=Re.test(t),u=e.style;return(n=n||Me(e))&&(a=n.getPropertyValue(t)||n[t],s&&a&&(a=a.replace($e,"$1")||void 0),""!==a||ie(e)||(a=S.style(e,t)),!v.pixelBoxStyles()&&Pe.test(a)&&We.test(t)&&(r=u.width,i=u.minWidth,o=u.maxWidth,u.minWidth=u.maxWidth=u.width=a,a=n.width,u.width=r,u.minWidth=i,u.maxWidth=o)),void 0!==a?a+"":a}function _e(e,t){return{get:function(){if(!e())return(this.get=t).apply(this,arguments);delete this.get}}}!function(){function e(){if(l){u.style.cssText="position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0",l.style.cssText="position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%",re.appendChild(u).appendChild(l);var e=C.getComputedStyle(l);n="1%"!==e.top,s=12===t(e.marginLeft),l.style.right="60%",o=36===t(e.right),r=36===t(e.width),l.style.position="absolute",i=12===t(l.offsetWidth/3),re.removeChild(u),l=null}}function t(e){return Math.round(parseFloat(e))}var n,r,i,o,a,s,u=E.createElement("div"),l=E.createElement("div");l.style&&(l.style.backgroundClip="content-box",l.cloneNode(!0).style.backgroundClip="",v.clearCloneStyle="content-box"===l.style.backgroundClip,S.extend(v,{boxSizingReliable:function(){return e(),r},pixelBoxStyles:function(){return e(),o},pixelPosition:function(){return e(),n},reliableMarginLeft:function(){return e(),s},scrollboxSize:function(){return e(),i},reliableTrDimensions:function(){var e,t,n,r;return null==a&&(e=E.createElement("table"),t=E.createElement("tr"),n=E.createElement("div"),e.style.cssText="position:absolute;left:-11111px;border-collapse:separate",t.style.cssText="border:1px solid",t.style.height="1px",n.style.height="9px",n.style.display="block",re.appendChild(e).appendChild(t).appendChild(n),r=C.getComputedStyle(t),a=parseInt(r.height,10)+parseInt(r.borderTopWidth,10)+parseInt(r.borderBottomWidth,10)===t.offsetHeight,re.removeChild(e)),a}}))}();var ze=["Webkit","Moz","ms"],Ue=E.createElement("div").style,Xe={};function Ve(e){var t=S.cssProps[e]||Xe[e];return t||(e in Ue?e:Xe[e]=function(e){var t=e[0].toUpperCase()+e.slice(1),n=ze.length;while(n--)if((e=ze[n]+t)in Ue)return e}(e)||e)}var Ge=/^(none|table(?!-c[ea]).+)/,Ye={position:"absolute",visibility:"hidden",display:"block"},Qe={letterSpacing:"0",fontWeight:"400"};function Je(e,t,n){var r=te.exec(t);return r?Math.max(0,r[2]-(n||0))+(r[3]||"px"):t}function Ke(e,t,n,r,i,o){var a="width"===t?1:0,s=0,u=0;if(n===(r?"border":"content"))return 0;for(;a<4;a+=2)"margin"===n&&(u+=S.css(e,n+ne[a],!0,i)),r?("content"===n&&(u-=S.css(e,"padding"+ne[a],!0,i)),"margin"!==n&&(u-=S.css(e,"border"+ne[a]+"Width",!0,i))):(u+=S.css(e,"padding"+ne[a],!0,i),"padding"!==n?u+=S.css(e,"border"+ne[a]+"Width",!0,i):s+=S.css(e,"border"+ne[a]+"Width",!0,i));return!r&&0<=o&&(u+=Math.max(0,Math.ceil(e["offset"+t[0].toUpperCase()+t.slice(1)]-o-u-s-.5))||0),u}function Ze(e,t,n){var r=Me(e),i=(!v.boxSizingReliable()||n)&&"border-box"===S.css(e,"boxSizing",!1,r),o=i,a=Be(e,t,r),s="offset"+t[0].toUpperCase()+t.slice(1);if(Pe.test(a)){if(!n)return a;a="auto"}return(!v.boxSizingReliable()&&i||!v.reliableTrDimensions()&&A(e,"tr")||"auto"===a||!parseFloat(a)&&"inline"===S.css(e,"display",!1,r))&&e.getClientRects().length&&(i="border-box"===S.css(e,"boxSizing",!1,r),(o=s in e)&&(a=e[s])),(a=parseFloat(a)||0)+Ke(e,t,n||(i?"border":"content"),o,r,a)+"px"}function et(e,t,n,r,i){return new et.prototype.init(e,t,n,r,i)}S.extend({cssHooks:{opacity:{get:function(e,t){if(t){var n=Be(e,"opacity");return""===n?"1":n}}}},cssNumber:{animationIterationCount:!0,columnCount:!0,fillOpacity:!0,flexGrow:!0,flexShrink:!0,fontWeight:!0,gridArea:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnStart:!0,gridRow:!0,gridRowEnd:!0,gridRowStart:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,widows:!0,zIndex:!0,zoom:!0},cssProps:{},style:function(e,t,n,r){if(e&&3!==e.nodeType&&8!==e.nodeType&&e.style){var i,o,a,s=X(t),u=Re.test(t),l=e.style;if(u||(t=Ve(s)),a=S.cssHooks[t]||S.cssHooks[s],void 0===n)return a&&"get"in a&&void 0!==(i=a.get(e,!1,r))?i:l[t];"string"===(o=typeof n)&&(i=te.exec(n))&&i[1]&&(n=se(e,t,i),o="number"),null!=n&&n==n&&("number"!==o||u||(n+=i&&i[3]||(S.cssNumber[s]?"":"px")),v.clearCloneStyle||""!==n||0!==t.indexOf("background")||(l[t]="inherit"),a&&"set"in a&&void 0===(n=a.set(e,n,r))||(u?l.setProperty(t,n):l[t]=n))}},css:function(e,t,n,r){var i,o,a,s=X(t);return Re.test(t)||(t=Ve(s)),(a=S.cssHooks[t]||S.cssHooks[s])&&"get"in a&&(i=a.get(e,!0,n)),void 0===i&&(i=Be(e,t,r)),"normal"===i&&t in Qe&&(i=Qe[t]),""===n||n?(o=parseFloat(i),!0===n||isFinite(o)?o||0:i):i}}),S.each(["height","width"],function(e,u){S.cssHooks[u]={get:function(e,t,n){if(t)return!Ge.test(S.css(e,"display"))||e.getClientRects().length&&e.getBoundingClientRect().width?Ze(e,u,n):Ie(e,Ye,function(){return Ze(e,u,n)})},set:function(e,t,n){var r,i=Me(e),o=!v.scrollboxSize()&&"absolute"===i.position,a=(o||n)&&"border-box"===S.css(e,"boxSizing",!1,i),s=n?Ke(e,u,n,a,i):0;return a&&o&&(s-=Math.ceil(e["offset"+u[0].toUpperCase()+u.slice(1)]-parseFloat(i[u])-Ke(e,u,"border",!1,i)-.5)),s&&(r=te.exec(t))&&"px"!==(r[3]||"px")&&(e.style[u]=t,t=S.css(e,u)),Je(0,t,s)}}}),S.cssHooks.marginLeft=_e(v.reliableMarginLeft,function(e,t){if(t)return(parseFloat(Be(e,"marginLeft"))||e.getBoundingClientRect().left-Ie(e,{marginLeft:0},function(){return e.getBoundingClientRect().left}))+"px"}),S.each({margin:"",padding:"",border:"Width"},function(i,o){S.cssHooks[i+o]={expand:function(e){for(var t=0,n={},r="string"==typeof e?e.split(" "):[e];t<4;t++)n[i+ne[t]+o]=r[t]||r[t-2]||r[0];return n}},"margin"!==i&&(S.cssHooks[i+o].set=Je)}),S.fn.extend({css:function(e,t){return B(this,function(e,t,n){var r,i,o={},a=0;if(Array.isArray(t)){for(r=Me(e),i=t.length;a<i;a++)o[t[a]]=S.css(e,t[a],!1,r);return o}return void 0!==n?S.style(e,t,n):S.css(e,t)},e,t,1<arguments.length)}}),((S.Tween=et).prototype={constructor:et,init:function(e,t,n,r,i,o){this.elem=e,this.prop=n,this.easing=i||S.easing._default,this.options=t,this.start=this.now=this.cur(),this.end=r,this.unit=o||(S.cssNumber[n]?"":"px")},cur:function(){var e=et.propHooks[this.prop];return e&&e.get?e.get(this):et.propHooks._default.get(this)},run:function(e){var t,n=et.propHooks[this.prop];return this.options.duration?this.pos=t=S.easing[this.easing](e,this.options.duration*e,0,1,this.options.duration):this.pos=t=e,this.now=(this.end-this.start)*t+this.start,this.options.step&&this.options.step.call(this.elem,this.now,this),n&&n.set?n.set(this):et.propHooks._default.set(this),this}}).init.prototype=et.prototype,(et.propHooks={_default:{get:function(e){var t;return 1!==e.elem.nodeType||null!=e.elem[e.prop]&&null==e.elem.style[e.prop]?e.elem[e.prop]:(t=S.css(e.elem,e.prop,""))&&"auto"!==t?t:0},set:function(e){S.fx.step[e.prop]?S.fx.step[e.prop](e):1!==e.elem.nodeType||!S.cssHooks[e.prop]&&null==e.elem.style[Ve(e.prop)]?e.elem[e.prop]=e.now:S.style(e.elem,e.prop,e.now+e.unit)}}}).scrollTop=et.propHooks.scrollLeft={set:function(e){e.elem.nodeType&&e.elem.parentNode&&(e.elem[e.prop]=e.now)}},S.easing={linear:function(e){return e},swing:function(e){return.5-Math.cos(e*Math.PI)/2},_default:"swing"},S.fx=et.prototype.init,S.fx.step={};var tt,nt,rt,it,ot=/^(?:toggle|show|hide)$/,at=/queueHooks$/;function st(){nt&&(!1===E.hidden&&C.requestAnimationFrame?C.requestAnimationFrame(st):C.setTimeout(st,S.fx.interval),S.fx.tick())}function ut(){return C.setTimeout(function(){tt=void 0}),tt=Date.now()}function lt(e,t){var n,r=0,i={height:e};for(t=t?1:0;r<4;r+=2-t)i["margin"+(n=ne[r])]=i["padding"+n]=e;return t&&(i.opacity=i.width=e),i}function ct(e,t,n){for(var r,i=(ft.tweeners[t]||[]).concat(ft.tweeners["*"]),o=0,a=i.length;o<a;o++)if(r=i[o].call(n,t,e))return r}function ft(o,e,t){var n,a,r=0,i=ft.prefilters.length,s=S.Deferred().always(function(){delete u.elem}),u=function(){if(a)return!1;for(var e=tt||ut(),t=Math.max(0,l.startTime+l.duration-e),n=1-(t/l.duration||0),r=0,i=l.tweens.length;r<i;r++)l.tweens[r].run(n);return s.notifyWith(o,[l,n,t]),n<1&&i?t:(i||s.notifyWith(o,[l,1,0]),s.resolveWith(o,[l]),!1)},l=s.promise({elem:o,props:S.extend({},e),opts:S.extend(!0,{specialEasing:{},easing:S.easing._default},t),originalProperties:e,originalOptions:t,startTime:tt||ut(),duration:t.duration,tweens:[],createTween:function(e,t){var n=S.Tween(o,l.opts,e,t,l.opts.specialEasing[e]||l.opts.easing);return l.tweens.push(n),n},stop:function(e){var t=0,n=e?l.tweens.length:0;if(a)return this;for(a=!0;t<n;t++)l.tweens[t].run(1);return e?(s.notifyWith(o,[l,1,0]),s.resolveWith(o,[l,e])):s.rejectWith(o,[l,e]),this}}),c=l.props;for(!function(e,t){var n,r,i,o,a;for(n in e)if(i=t[r=X(n)],o=e[n],Array.isArray(o)&&(i=o[1],o=e[n]=o[0]),n!==r&&(e[r]=o,delete e[n]),(a=S.cssHooks[r])&&"expand"in a)for(n in o=a.expand(o),delete e[r],o)n in e||(e[n]=o[n],t[n]=i);else t[r]=i}(c,l.opts.specialEasing);r<i;r++)if(n=ft.prefilters[r].call(l,o,c,l.opts))return m(n.stop)&&(S._queueHooks(l.elem,l.opts.queue).stop=n.stop.bind(n)),n;return S.map(c,ct,l),m(l.opts.start)&&l.opts.start.call(o,l),l.progress(l.opts.progress).done(l.opts.done,l.opts.complete).fail(l.opts.fail).always(l.opts.always),S.fx.timer(S.extend(u,{elem:o,anim:l,queue:l.opts.queue})),l}S.Animation=S.extend(ft,{tweeners:{"*":[function(e,t){var n=this.createTween(e,t);return se(n.elem,e,te.exec(t),n),n}]},tweener:function(e,t){m(e)?(t=e,e=["*"]):e=e.match(P);for(var n,r=0,i=e.length;r<i;r++)n=e[r],ft.tweeners[n]=ft.tweeners[n]||[],ft.tweeners[n].unshift(t)},prefilters:[function(e,t,n){var r,i,o,a,s,u,l,c,f="width"in t||"height"in t,p=this,d={},h=e.style,g=e.nodeType&&ae(e),y=Y.get(e,"fxshow");for(r in n.queue||(null==(a=S._queueHooks(e,"fx")).unqueued&&(a.unqueued=0,s=a.empty.fire,a.empty.fire=function(){a.unqueued||s()}),a.unqueued++,p.always(function(){p.always(function(){a.unqueued--,S.queue(e,"fx").length||a.empty.fire()})})),t)if(i=t[r],ot.test(i)){if(delete t[r],o=o||"toggle"===i,i===(g?"hide":"show")){if("show"!==i||!y||void 0===y[r])continue;g=!0}d[r]=y&&y[r]||S.style(e,r)}if((u=!S.isEmptyObject(t))||!S.isEmptyObject(d))for(r in f&&1===e.nodeType&&(n.overflow=[h.overflow,h.overflowX,h.overflowY],null==(l=y&&y.display)&&(l=Y.get(e,"display")),"none"===(c=S.css(e,"display"))&&(l?c=l:(le([e],!0),l=e.style.display||l,c=S.css(e,"display"),le([e]))),("inline"===c||"inline-block"===c&&null!=l)&&"none"===S.css(e,"float")&&(u||(p.done(function(){h.display=l}),null==l&&(c=h.display,l="none"===c?"":c)),h.display="inline-block")),n.overflow&&(h.overflow="hidden",p.always(function(){h.overflow=n.overflow[0],h.overflowX=n.overflow[1],h.overflowY=n.overflow[2]})),u=!1,d)u||(y?"hidden"in y&&(g=y.hidden):y=Y.access(e,"fxshow",{display:l}),o&&(y.hidden=!g),g&&le([e],!0),p.done(function(){for(r in g||le([e]),Y.remove(e,"fxshow"),d)S.style(e,r,d[r])})),u=ct(g?y[r]:0,r,p),r in y||(y[r]=u.start,g&&(u.end=u.start,u.start=0))}],prefilter:function(e,t){t?ft.prefilters.unshift(e):ft.prefilters.push(e)}}),S.speed=function(e,t,n){var r=e&&"object"==typeof e?S.extend({},e):{complete:n||!n&&t||m(e)&&e,duration:e,easing:n&&t||t&&!m(t)&&t};return S.fx.off?r.duration=0:"number"!=typeof r.duration&&(r.duration in S.fx.speeds?r.duration=S.fx.speeds[r.duration]:r.duration=S.fx.speeds._default),null!=r.queue&&!0!==r.queue||(r.queue="fx"),r.old=r.complete,r.complete=function(){m(r.old)&&r.old.call(this),r.queue&&S.dequeue(this,r.queue)},r},S.fn.extend({fadeTo:function(e,t,n,r){return this.filter(ae).css("opacity",0).show().end().animate({opacity:t},e,n,r)},animate:function(t,e,n,r){var i=S.isEmptyObject(t),o=S.speed(e,n,r),a=function(){var e=ft(this,S.extend({},t),o);(i||Y.get(this,"finish"))&&e.stop(!0)};return a.finish=a,i||!1===o.queue?this.each(a):this.queue(o.queue,a)},stop:function(i,e,o){var a=function(e){var t=e.stop;delete e.stop,t(o)};return"string"!=typeof i&&(o=e,e=i,i=void 0),e&&this.queue(i||"fx",[]),this.each(function(){var e=!0,t=null!=i&&i+"queueHooks",n=S.timers,r=Y.get(this);if(t)r[t]&&r[t].stop&&a(r[t]);else for(t in r)r[t]&&r[t].stop&&at.test(t)&&a(r[t]);for(t=n.length;t--;)n[t].elem!==this||null!=i&&n[t].queue!==i||(n[t].anim.stop(o),e=!1,n.splice(t,1));!e&&o||S.dequeue(this,i)})},finish:function(a){return!1!==a&&(a=a||"fx"),this.each(function(){var e,t=Y.get(this),n=t[a+"queue"],r=t[a+"queueHooks"],i=S.timers,o=n?n.length:0;for(t.finish=!0,S.queue(this,a,[]),r&&r.stop&&r.stop.call(this,!0),e=i.length;e--;)i[e].elem===this&&i[e].queue===a&&(i[e].anim.stop(!0),i.splice(e,1));for(e=0;e<o;e++)n[e]&&n[e].finish&&n[e].finish.call(this);delete t.finish})}}),S.each(["toggle","show","hide"],function(e,r){var i=S.fn[r];S.fn[r]=function(e,t,n){return null==e||"boolean"==typeof e?i.apply(this,arguments):this.animate(lt(r,!0),e,t,n)}}),S.each({slideDown:lt("show"),slideUp:lt("hide"),slideToggle:lt("toggle"),fadeIn:{opacity:"show"},fadeOut:{opacity:"hide"},fadeToggle:{opacity:"toggle"}},function(e,r){S.fn[e]=function(e,t,n){return this.animate(r,e,t,n)}}),S.timers=[],S.fx.tick=function(){var e,t=0,n=S.timers;for(tt=Date.now();t<n.length;t++)(e=n[t])()||n[t]!==e||n.splice(t--,1);n.length||S.fx.stop(),tt=void 0},S.fx.timer=function(e){S.timers.push(e),S.fx.start()},S.fx.interval=13,S.fx.start=function(){nt||(nt=!0,st())},S.fx.stop=function(){nt=null},S.fx.speeds={slow:600,fast:200,_default:400},S.fn.delay=function(r,e){return r=S.fx&&S.fx.speeds[r]||r,e=e||"fx",this.queue(e,function(e,t){var n=C.setTimeout(e,r);t.stop=function(){C.clearTimeout(n)}})},rt=E.createElement("input"),it=E.createElement("select").appendChild(E.createElement("option")),rt.type="checkbox",v.checkOn=""!==rt.value,v.optSelected=it.selected,(rt=E.createElement("input")).value="t",rt.type="radio",v.radioValue="t"===rt.value;var pt,dt=S.expr.attrHandle;S.fn.extend({attr:function(e,t){return B(this,S.attr,e,t,1<arguments.length)},removeAttr:function(e){return this.each(function(){S.removeAttr(this,e)})}}),S.extend({attr:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return"undefined"==typeof e.getAttribute?S.prop(e,t,n):(1===o&&S.isXMLDoc(e)||(i=S.attrHooks[t.toLowerCase()]||(S.expr.match.bool.test(t)?pt:void 0)),void 0!==n?null===n?void S.removeAttr(e,t):i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:(e.setAttribute(t,n+""),n):i&&"get"in i&&null!==(r=i.get(e,t))?r:null==(r=S.find.attr(e,t))?void 0:r)},attrHooks:{type:{set:function(e,t){if(!v.radioValue&&"radio"===t&&A(e,"input")){var n=e.value;return e.setAttribute("type",t),n&&(e.value=n),t}}}},removeAttr:function(e,t){var n,r=0,i=t&&t.match(P);if(i&&1===e.nodeType)while(n=i[r++])e.removeAttribute(n)}}),pt={set:function(e,t,n){return!1===t?S.removeAttr(e,n):e.setAttribute(n,n),n}},S.each(S.expr.match.bool.source.match(/\w+/g),function(e,t){var a=dt[t]||S.find.attr;dt[t]=function(e,t,n){var r,i,o=t.toLowerCase();return n||(i=dt[o],dt[o]=r,r=null!=a(e,t,n)?o:null,dt[o]=i),r}});var ht=/^(?:input|select|textarea|button)$/i,gt=/^(?:a|area)$/i;function yt(e){return(e.match(P)||[]).join(" ")}function vt(e){return e.getAttribute&&e.getAttribute("class")||""}function mt(e){return Array.isArray(e)?e:"string"==typeof e&&e.match(P)||[]}S.fn.extend({prop:function(e,t){return B(this,S.prop,e,t,1<arguments.length)},removeProp:function(e){return this.each(function(){delete this[S.propFix[e]||e]})}}),S.extend({prop:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return 1===o&&S.isXMLDoc(e)||(t=S.propFix[t]||t,i=S.propHooks[t]),void 0!==n?i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:e[t]=n:i&&"get"in i&&null!==(r=i.get(e,t))?r:e[t]},propHooks:{tabIndex:{get:function(e){var t=S.find.attr(e,"tabindex");return t?parseInt(t,10):ht.test(e.nodeName)||gt.test(e.nodeName)&&e.href?0:-1}}},propFix:{"for":"htmlFor","class":"className"}}),v.optSelected||(S.propHooks.selected={get:function(e){var t=e.parentNode;return t&&t.parentNode&&t.parentNode.selectedIndex,null},set:function(e){var t=e.parentNode;t&&(t.selectedIndex,t.parentNode&&t.parentNode.selectedIndex)}}),S.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){S.propFix[this.toLowerCase()]=this}),S.fn.extend({addClass:function(t){var e,n,r,i,o,a;return m(t)?this.each(function(e){S(this).addClass(t.call(this,e,vt(this)))}):(e=mt(t)).length?this.each(function(){if(r=vt(this),n=1===this.nodeType&&" "+yt(r)+" "){for(o=0;o<e.length;o++)i=e[o],n.indexOf(" "+i+" ")<0&&(n+=i+" ");a=yt(n),r!==a&&this.setAttribute("class",a)}}):this},removeClass:function(t){var e,n,r,i,o,a;return m(t)?this.each(function(e){S(this).removeClass(t.call(this,e,vt(this)))}):arguments.length?(e=mt(t)).length?this.each(function(){if(r=vt(this),n=1===this.nodeType&&" "+yt(r)+" "){for(o=0;o<e.length;o++){i=e[o];while(-1<n.indexOf(" "+i+" "))n=n.replace(" "+i+" "," ")}a=yt(n),r!==a&&this.setAttribute("class",a)}}):this:this.attr("class","")},toggleClass:function(t,n){var e,r,i,o,a=typeof t,s="string"===a||Array.isArray(t);return m(t)?this.each(function(e){S(this).toggleClass(t.call(this,e,vt(this),n),n)}):"boolean"==typeof n&&s?n?this.addClass(t):this.removeClass(t):(e=mt(t),this.each(function(){if(s)for(o=S(this),i=0;i<e.length;i++)r=e[i],o.hasClass(r)?o.removeClass(r):o.addClass(r);else void 0!==t&&"boolean"!==a||((r=vt(this))&&Y.set(this,"__className__",r),this.setAttribute&&this.setAttribute("class",r||!1===t?"":Y.get(this,"__className__")||""))}))},hasClass:function(e){var t,n,r=0;t=" "+e+" ";while(n=this[r++])if(1===n.nodeType&&-1<(" "+yt(vt(n))+" ").indexOf(t))return!0;return!1}});var xt=/\r/g;S.fn.extend({val:function(n){var r,e,i,t=this[0];return arguments.length?(i=m(n),this.each(function(e){var t;1===this.nodeType&&(null==(t=i?n.call(this,e,S(this).val()):n)?t="":"number"==typeof t?t+="":Array.isArray(t)&&(t=S.map(t,function(e){return null==e?"":e+""})),(r=S.valHooks[this.type]||S.valHooks[this.nodeName.toLowerCase()])&&"set"in r&&void 0!==r.set(this,t,"value")||(this.value=t))})):t?(r=S.valHooks[t.type]||S.valHooks[t.nodeName.toLowerCase()])&&"get"in r&&void 0!==(e=r.get(t,"value"))?e:"string"==typeof(e=t.value)?e.replace(xt,""):null==e?"":e:void 0}}),S.extend({valHooks:{option:{get:function(e){var t=S.find.attr(e,"value");return null!=t?t:yt(S.text(e))}},select:{get:function(e){var t,n,r,i=e.options,o=e.selectedIndex,a="select-one"===e.type,s=a?null:[],u=a?o+1:i.length;for(r=o<0?u:a?o:0;r<u;r++)if(((n=i[r]).selected||r===o)&&!n.disabled&&(!n.parentNode.disabled||!A(n.parentNode,"optgroup"))){if(t=S(n).val(),a)return t;s.push(t)}return s},set:function(e,t){var n,r,i=e.options,o=S.makeArray(t),a=i.length;while(a--)((r=i[a]).selected=-1<S.inArray(S.valHooks.option.get(r),o))&&(n=!0);return n||(e.selectedIndex=-1),o}}}}),S.each(["radio","checkbox"],function(){S.valHooks[this]={set:function(e,t){if(Array.isArray(t))return e.checked=-1<S.inArray(S(e).val(),t)}},v.checkOn||(S.valHooks[this].get=function(e){return null===e.getAttribute("value")?"on":e.value})}),v.focusin="onfocusin"in C;var bt=/^(?:focusinfocus|focusoutblur)$/,wt=function(e){e.stopPropagation()};S.extend(S.event,{trigger:function(e,t,n,r){var i,o,a,s,u,l,c,f,p=[n||E],d=y.call(e,"type")?e.type:e,h=y.call(e,"namespace")?e.namespace.split("."):[];if(o=f=a=n=n||E,3!==n.nodeType&&8!==n.nodeType&&!bt.test(d+S.event.triggered)&&(-1<d.indexOf(".")&&(d=(h=d.split(".")).shift(),h.sort()),u=d.indexOf(":")<0&&"on"+d,(e=e[S.expando]?e:new S.Event(d,"object"==typeof e&&e)).isTrigger=r?2:3,e.namespace=h.join("."),e.rnamespace=e.namespace?new RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,e.result=void 0,e.target||(e.target=n),t=null==t?[e]:S.makeArray(t,[e]),c=S.event.special[d]||{},r||!c.trigger||!1!==c.trigger.apply(n,t))){if(!r&&!c.noBubble&&!x(n)){for(s=c.delegateType||d,bt.test(s+d)||(o=o.parentNode);o;o=o.parentNode)p.push(o),a=o;a===(n.ownerDocument||E)&&p.push(a.defaultView||a.parentWindow||C)}i=0;while((o=p[i++])&&!e.isPropagationStopped())f=o,e.type=1<i?s:c.bindType||d,(l=(Y.get(o,"events")||Object.create(null))[e.type]&&Y.get(o,"handle"))&&l.apply(o,t),(l=u&&o[u])&&l.apply&&V(o)&&(e.result=l.apply(o,t),!1===e.result&&e.preventDefault());return e.type=d,r||e.isDefaultPrevented()||c._default&&!1!==c._default.apply(p.pop(),t)||!V(n)||u&&m(n[d])&&!x(n)&&((a=n[u])&&(n[u]=null),S.event.triggered=d,e.isPropagationStopped()&&f.addEventListener(d,wt),n[d](),e.isPropagationStopped()&&f.removeEventListener(d,wt),S.event.triggered=void 0,a&&(n[u]=a)),e.result}},simulate:function(e,t,n){var r=S.extend(new S.Event,n,{type:e,isSimulated:!0});S.event.trigger(r,null,t)}}),S.fn.extend({trigger:function(e,t){return this.each(function(){S.event.trigger(e,t,this)})},triggerHandler:function(e,t){var n=this[0];if(n)return S.event.trigger(e,t,n,!0)}}),v.focusin||S.each({focus:"focusin",blur:"focusout"},function(n,r){var i=function(e){S.event.simulate(r,e.target,S.event.fix(e))};S.event.special[r]={setup:function(){var e=this.ownerDocument||this.document||this,t=Y.access(e,r);t||e.addEventListener(n,i,!0),Y.access(e,r,(t||0)+1)},teardown:function(){var e=this.ownerDocument||this.document||this,t=Y.access(e,r)-1;t?Y.access(e,r,t):(e.removeEventListener(n,i,!0),Y.remove(e,r))}}});var Tt=C.location,Ct={guid:Date.now()},Et=/\?/;S.parseXML=function(e){var t,n;if(!e||"string"!=typeof e)return null;try{t=(new C.DOMParser).parseFromString(e,"text/xml")}catch(e){}return n=t&&t.getElementsByTagName("parsererror")[0],t&&!n||S.error("Invalid XML: "+(n?S.map(n.childNodes,function(e){return e.textContent}).join("\n"):e)),t};var St=/\[\]$/,kt=/\r?\n/g,At=/^(?:submit|button|image|reset|file)$/i,Nt=/^(?:input|select|textarea|keygen)/i;function jt(n,e,r,i){var t;if(Array.isArray(e))S.each(e,function(e,t){r||St.test(n)?i(n,t):jt(n+"["+("object"==typeof t&&null!=t?e:"")+"]",t,r,i)});else if(r||"object"!==w(e))i(n,e);else for(t in e)jt(n+"["+t+"]",e[t],r,i)}S.param=function(e,t){var n,r=[],i=function(e,t){var n=m(t)?t():t;r[r.length]=encodeURIComponent(e)+"="+encodeURIComponent(null==n?"":n)};if(null==e)return"";if(Array.isArray(e)||e.jquery&&!S.isPlainObject(e))S.each(e,function(){i(this.name,this.value)});else for(n in e)jt(n,e[n],t,i);return r.join("&")},S.fn.extend({serialize:function(){return S.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var e=S.prop(this,"elements");return e?S.makeArray(e):this}).filter(function(){var e=this.type;return this.name&&!S(this).is(":disabled")&&Nt.test(this.nodeName)&&!At.test(e)&&(this.checked||!pe.test(e))}).map(function(e,t){var n=S(this).val();return null==n?null:Array.isArray(n)?S.map(n,function(e){return{name:t.name,value:e.replace(kt,"\r\n")}}):{name:t.name,value:n.replace(kt,"\r\n")}}).get()}});var Dt=/%20/g,qt=/#.*$/,Lt=/([?&])_=[^&]*/,Ht=/^(.*?):[ \t]*([^\r\n]*)$/gm,Ot=/^(?:GET|HEAD)$/,Pt=/^\/\//,Rt={},Mt={},It="*/".concat("*"),Wt=E.createElement("a");function Ft(o){return function(e,t){"string"!=typeof e&&(t=e,e="*");var n,r=0,i=e.toLowerCase().match(P)||[];if(m(t))while(n=i[r++])"+"===n[0]?(n=n.slice(1)||"*",(o[n]=o[n]||[]).unshift(t)):(o[n]=o[n]||[]).push(t)}}function $t(t,i,o,a){var s={},u=t===Mt;function l(e){var r;return s[e]=!0,S.each(t[e]||[],function(e,t){var n=t(i,o,a);return"string"!=typeof n||u||s[n]?u?!(r=n):void 0:(i.dataTypes.unshift(n),l(n),!1)}),r}return l(i.dataTypes[0])||!s["*"]&&l("*")}function Bt(e,t){var n,r,i=S.ajaxSettings.flatOptions||{};for(n in t)void 0!==t[n]&&((i[n]?e:r||(r={}))[n]=t[n]);return r&&S.extend(!0,e,r),e}Wt.href=Tt.href,S.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:Tt.href,type:"GET",isLocal:/^(?:about|app|app-storage|.+-extension|file|res|widget):$/.test(Tt.protocol),global:!0,processData:!0,async:!0,contentType:"application/x-www-form-urlencoded; charset=UTF-8",accepts:{"*":It,text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript"},contents:{xml:/\bxml\b/,html:/\bhtml/,json:/\bjson\b/},responseFields:{xml:"responseXML",text:"responseText",json:"responseJSON"},converters:{"* text":String,"text html":!0,"text json":JSON.parse,"text xml":S.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(e,t){return t?Bt(Bt(e,S.ajaxSettings),t):Bt(S.ajaxSettings,e)},ajaxPrefilter:Ft(Rt),ajaxTransport:Ft(Mt),ajax:function(e,t){"object"==typeof e&&(t=e,e=void 0),t=t||{};var c,f,p,n,d,r,h,g,i,o,y=S.ajaxSetup({},t),v=y.context||y,m=y.context&&(v.nodeType||v.jquery)?S(v):S.event,x=S.Deferred(),b=S.Callbacks("once memory"),w=y.statusCode||{},a={},s={},u="canceled",T={readyState:0,getResponseHeader:function(e){var t;if(h){if(!n){n={};while(t=Ht.exec(p))n[t[1].toLowerCase()+" "]=(n[t[1].toLowerCase()+" "]||[]).concat(t[2])}t=n[e.toLowerCase()+" "]}return null==t?null:t.join(", ")},getAllResponseHeaders:function(){return h?p:null},setRequestHeader:function(e,t){return null==h&&(e=s[e.toLowerCase()]=s[e.toLowerCase()]||e,a[e]=t),this},overrideMimeType:function(e){return null==h&&(y.mimeType=e),this},statusCode:function(e){var t;if(e)if(h)T.always(e[T.status]);else for(t in e)w[t]=[w[t],e[t]];return this},abort:function(e){var t=e||u;return c&&c.abort(t),l(0,t),this}};if(x.promise(T),y.url=((e||y.url||Tt.href)+"").replace(Pt,Tt.protocol+"//"),y.type=t.method||t.type||y.method||y.type,y.dataTypes=(y.dataType||"*").toLowerCase().match(P)||[""],null==y.crossDomain){r=E.createElement("a");try{r.href=y.url,r.href=r.href,y.crossDomain=Wt.protocol+"//"+Wt.host!=r.protocol+"//"+r.host}catch(e){y.crossDomain=!0}}if(y.data&&y.processData&&"string"!=typeof y.data&&(y.data=S.param(y.data,y.traditional)),$t(Rt,y,t,T),h)return T;for(i in(g=S.event&&y.global)&&0==S.active++&&S.event.trigger("ajaxStart"),y.type=y.type.toUpperCase(),y.hasContent=!Ot.test(y.type),f=y.url.replace(qt,""),y.hasContent?y.data&&y.processData&&0===(y.contentType||"").indexOf("application/x-www-form-urlencoded")&&(y.data=y.data.replace(Dt,"+")):(o=y.url.slice(f.length),y.data&&(y.processData||"string"==typeof y.data)&&(f+=(Et.test(f)?"&":"?")+y.data,delete y.data),!1===y.cache&&(f=f.replace(Lt,"$1"),o=(Et.test(f)?"&":"?")+"_="+Ct.guid+++o),y.url=f+o),y.ifModified&&(S.lastModified[f]&&T.setRequestHeader("If-Modified-Since",S.lastModified[f]),S.etag[f]&&T.setRequestHeader("If-None-Match",S.etag[f])),(y.data&&y.hasContent&&!1!==y.contentType||t.contentType)&&T.setRequestHeader("Content-Type",y.contentType),T.setRequestHeader("Accept",y.dataTypes[0]&&y.accepts[y.dataTypes[0]]?y.accepts[y.dataTypes[0]]+("*"!==y.dataTypes[0]?", "+It+"; q=0.01":""):y.accepts["*"]),y.headers)T.setRequestHeader(i,y.headers[i]);if(y.beforeSend&&(!1===y.beforeSend.call(v,T,y)||h))return T.abort();if(u="abort",b.add(y.complete),T.done(y.success),T.fail(y.error),c=$t(Mt,y,t,T)){if(T.readyState=1,g&&m.trigger("ajaxSend",[T,y]),h)return T;y.async&&0<y.timeout&&(d=C.setTimeout(function(){T.abort("timeout")},y.timeout));try{h=!1,c.send(a,l)}catch(e){if(h)throw e;l(-1,e)}}else l(-1,"No Transport");function l(e,t,n,r){var i,o,a,s,u,l=t;h||(h=!0,d&&C.clearTimeout(d),c=void 0,p=r||"",T.readyState=0<e?4:0,i=200<=e&&e<300||304===e,n&&(s=function(e,t,n){var r,i,o,a,s=e.contents,u=e.dataTypes;while("*"===u[0])u.shift(),void 0===r&&(r=e.mimeType||t.getResponseHeader("Content-Type"));if(r)for(i in s)if(s[i]&&s[i].test(r)){u.unshift(i);break}if(u[0]in n)o=u[0];else{for(i in n){if(!u[0]||e.converters[i+" "+u[0]]){o=i;break}a||(a=i)}o=o||a}if(o)return o!==u[0]&&u.unshift(o),n[o]}(y,T,n)),!i&&-1<S.inArray("script",y.dataTypes)&&S.inArray("json",y.dataTypes)<0&&(y.converters["text script"]=function(){}),s=function(e,t,n,r){var i,o,a,s,u,l={},c=e.dataTypes.slice();if(c[1])for(a in e.converters)l[a.toLowerCase()]=e.converters[a];o=c.shift();while(o)if(e.responseFields[o]&&(n[e.responseFields[o]]=t),!u&&r&&e.dataFilter&&(t=e.dataFilter(t,e.dataType)),u=o,o=c.shift())if("*"===o)o=u;else if("*"!==u&&u!==o){if(!(a=l[u+" "+o]||l["* "+o]))for(i in l)if((s=i.split(" "))[1]===o&&(a=l[u+" "+s[0]]||l["* "+s[0]])){!0===a?a=l[i]:!0!==l[i]&&(o=s[0],c.unshift(s[1]));break}if(!0!==a)if(a&&e["throws"])t=a(t);else try{t=a(t)}catch(e){return{state:"parsererror",error:a?e:"No conversion from "+u+" to "+o}}}return{state:"success",data:t}}(y,s,T,i),i?(y.ifModified&&((u=T.getResponseHeader("Last-Modified"))&&(S.lastModified[f]=u),(u=T.getResponseHeader("etag"))&&(S.etag[f]=u)),204===e||"HEAD"===y.type?l="nocontent":304===e?l="notmodified":(l=s.state,o=s.data,i=!(a=s.error))):(a=l,!e&&l||(l="error",e<0&&(e=0))),T.status=e,T.statusText=(t||l)+"",i?x.resolveWith(v,[o,l,T]):x.rejectWith(v,[T,l,a]),T.statusCode(w),w=void 0,g&&m.trigger(i?"ajaxSuccess":"ajaxError",[T,y,i?o:a]),b.fireWith(v,[T,l]),g&&(m.trigger("ajaxComplete",[T,y]),--S.active||S.event.trigger("ajaxStop")))}return T},getJSON:function(e,t,n){return S.get(e,t,n,"json")},getScript:function(e,t){return S.get(e,void 0,t,"script")}}),S.each(["get","post"],function(e,i){S[i]=function(e,t,n,r){return m(t)&&(r=r||n,n=t,t=void 0),S.ajax(S.extend({url:e,type:i,dataType:r,data:t,success:n},S.isPlainObject(e)&&e))}}),S.ajaxPrefilter(function(e){var t;for(t in e.headers)"content-type"===t.toLowerCase()&&(e.contentType=e.headers[t]||"")}),S._evalUrl=function(e,t,n){return S.ajax({url:e,type:"GET",dataType:"script",cache:!0,async:!1,global:!1,converters:{"text script":function(){}},dataFilter:function(e){S.globalEval(e,t,n)}})},S.fn.extend({wrapAll:function(e){var t;return this[0]&&(m(e)&&(e=e.call(this[0])),t=S(e,this[0].ownerDocument).eq(0).clone(!0),this[0].parentNode&&t.insertBefore(this[0]),t.map(function(){var e=this;while(e.firstElementChild)e=e.firstElementChild;return e}).append(this)),this},wrapInner:function(n){return m(n)?this.each(function(e){S(this).wrapInner(n.call(this,e))}):this.each(function(){var e=S(this),t=e.contents();t.length?t.wrapAll(n):e.append(n)})},wrap:function(t){var n=m(t);return this.each(function(e){S(this).wrapAll(n?t.call(this,e):t)})},unwrap:function(e){return this.parent(e).not("body").each(function(){S(this).replaceWith(this.childNodes)}),this}}),S.expr.pseudos.hidden=function(e){return!S.expr.pseudos.visible(e)},S.expr.pseudos.visible=function(e){return!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)},S.ajaxSettings.xhr=function(){try{return new C.XMLHttpRequest}catch(e){}};var _t={0:200,1223:204},zt=S.ajaxSettings.xhr();v.cors=!!zt&&"withCredentials"in zt,v.ajax=zt=!!zt,S.ajaxTransport(function(i){var o,a;if(v.cors||zt&&!i.crossDomain)return{send:function(e,t){var n,r=i.xhr();if(r.open(i.type,i.url,i.async,i.username,i.password),i.xhrFields)for(n in i.xhrFields)r[n]=i.xhrFields[n];for(n in i.mimeType&&r.overrideMimeType&&r.overrideMimeType(i.mimeType),i.crossDomain||e["X-Requested-With"]||(e["X-Requested-With"]="XMLHttpRequest"),e)r.setRequestHeader(n,e[n]);o=function(e){return function(){o&&(o=a=r.onload=r.onerror=r.onabort=r.ontimeout=r.onreadystatechange=null,"abort"===e?r.abort():"error"===e?"number"!=typeof r.status?t(0,"error"):t(r.status,r.statusText):t(_t[r.status]||r.status,r.statusText,"text"!==(r.responseType||"text")||"string"!=typeof r.responseText?{binary:r.response}:{text:r.responseText},r.getAllResponseHeaders()))}},r.onload=o(),a=r.onerror=r.ontimeout=o("error"),void 0!==r.onabort?r.onabort=a:r.onreadystatechange=function(){4===r.readyState&&C.setTimeout(function(){o&&a()})},o=o("abort");try{r.send(i.hasContent&&i.data||null)}catch(e){if(o)throw e}},abort:function(){o&&o()}}}),S.ajaxPrefilter(function(e){e.crossDomain&&(e.contents.script=!1)}),S.ajaxSetup({accepts:{script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},contents:{script:/\b(?:java|ecma)script\b/},converters:{"text script":function(e){return S.globalEval(e),e}}}),S.ajaxPrefilter("script",function(e){void 0===e.cache&&(e.cache=!1),e.crossDomain&&(e.type="GET")}),S.ajaxTransport("script",function(n){var r,i;if(n.crossDomain||n.scriptAttrs)return{send:function(e,t){r=S("<script>").attr(n.scriptAttrs||{}).prop({charset:n.scriptCharset,src:n.url}).on("load error",i=function(e){r.remove(),i=null,e&&t("error"===e.type?404:200,e.type)}),E.head.appendChild(r[0])},abort:function(){i&&i()}}});var Ut,Xt=[],Vt=/(=)\?(?=&|$)|\?\?/;S.ajaxSetup({jsonp:"callback",jsonpCallback:function(){var e=Xt.pop()||S.expando+"_"+Ct.guid++;return this[e]=!0,e}}),S.ajaxPrefilter("json jsonp",function(e,t,n){var r,i,o,a=!1!==e.jsonp&&(Vt.test(e.url)?"url":"string"==typeof e.data&&0===(e.contentType||"").indexOf("application/x-www-form-urlencoded")&&Vt.test(e.data)&&"data");if(a||"jsonp"===e.dataTypes[0])return r=e.jsonpCallback=m(e.jsonpCallback)?e.jsonpCallback():e.jsonpCallback,a?e[a]=e[a].replace(Vt,"$1"+r):!1!==e.jsonp&&(e.url+=(Et.test(e.url)?"&":"?")+e.jsonp+"="+r),e.converters["script json"]=function(){return o||S.error(r+" was not called"),o[0]},e.dataTypes[0]="json",i=C[r],C[r]=function(){o=arguments},n.always(function(){void 0===i?S(C).removeProp(r):C[r]=i,e[r]&&(e.jsonpCallback=t.jsonpCallback,Xt.push(r)),o&&m(i)&&i(o[0]),o=i=void 0}),"script"}),v.createHTMLDocument=((Ut=E.implementation.createHTMLDocument("").body).innerHTML="<form></form><form></form>",2===Ut.childNodes.length),S.parseHTML=function(e,t,n){return"string"!=typeof e?[]:("boolean"==typeof t&&(n=t,t=!1),t||(v.createHTMLDocument?((r=(t=E.implementation.createHTMLDocument("")).createElement("base")).href=E.location.href,t.head.appendChild(r)):t=E),o=!n&&[],(i=N.exec(e))?[t.createElement(i[1])]:(i=xe([e],t,o),o&&o.length&&S(o).remove(),S.merge([],i.childNodes)));var r,i,o},S.fn.load=function(e,t,n){var r,i,o,a=this,s=e.indexOf(" ");return-1<s&&(r=yt(e.slice(s)),e=e.slice(0,s)),m(t)?(n=t,t=void 0):t&&"object"==typeof t&&(i="POST"),0<a.length&&S.ajax({url:e,type:i||"GET",dataType:"html",data:t}).done(function(e){o=arguments,a.html(r?S("<div>").append(S.parseHTML(e)).find(r):e)}).always(n&&function(e,t){a.each(function(){n.apply(this,o||[e.responseText,t,e])})}),this},S.expr.pseudos.animated=function(t){return S.grep(S.timers,function(e){return t===e.elem}).length},S.offset={setOffset:function(e,t,n){var r,i,o,a,s,u,l=S.css(e,"position"),c=S(e),f={};"static"===l&&(e.style.position="relative"),s=c.offset(),o=S.css(e,"top"),u=S.css(e,"left"),("absolute"===l||"fixed"===l)&&-1<(o+u).indexOf("auto")?(a=(r=c.position()).top,i=r.left):(a=parseFloat(o)||0,i=parseFloat(u)||0),m(t)&&(t=t.call(e,n,S.extend({},s))),null!=t.top&&(f.top=t.top-s.top+a),null!=t.left&&(f.left=t.left-s.left+i),"using"in t?t.using.call(e,f):c.css(f)}},S.fn.extend({offset:function(t){if(arguments.length)return void 0===t?this:this.each(function(e){S.offset.setOffset(this,t,e)});var e,n,r=this[0];return r?r.getClientRects().length?(e=r.getBoundingClientRect(),n=r.ownerDocument.defaultView,{top:e.top+n.pageYOffset,left:e.left+n.pageXOffset}):{top:0,left:0}:void 0},position:function(){if(this[0]){var e,t,n,r=this[0],i={top:0,left:0};if("fixed"===S.css(r,"position"))t=r.getBoundingClientRect();else{t=this.offset(),n=r.ownerDocument,e=r.offsetParent||n.documentElement;while(e&&(e===n.body||e===n.documentElement)&&"static"===S.css(e,"position"))e=e.parentNode;e&&e!==r&&1===e.nodeType&&((i=S(e).offset()).top+=S.css(e,"borderTopWidth",!0),i.left+=S.css(e,"borderLeftWidth",!0))}return{top:t.top-i.top-S.css(r,"marginTop",!0),left:t.left-i.left-S.css(r,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){var e=this.offsetParent;while(e&&"static"===S.css(e,"position"))e=e.offsetParent;return e||re})}}),S.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(t,i){var o="pageYOffset"===i;S.fn[t]=function(e){return B(this,function(e,t,n){var r;if(x(e)?r=e:9===e.nodeType&&(r=e.defaultView),void 0===n)return r?r[i]:e[t];r?r.scrollTo(o?r.pageXOffset:n,o?n:r.pageYOffset):e[t]=n},t,e,arguments.length)}}),S.each(["top","left"],function(e,n){S.cssHooks[n]=_e(v.pixelPosition,function(e,t){if(t)return t=Be(e,n),Pe.test(t)?S(e).position()[n]+"px":t})}),S.each({Height:"height",Width:"width"},function(a,s){S.each({padding:"inner"+a,content:s,"":"outer"+a},function(r,o){S.fn[o]=function(e,t){var n=arguments.length&&(r||"boolean"!=typeof e),i=r||(!0===e||!0===t?"margin":"border");return B(this,function(e,t,n){var r;return x(e)?0===o.indexOf("outer")?e["inner"+a]:e.document.documentElement["client"+a]:9===e.nodeType?(r=e.documentElement,Math.max(e.body["scroll"+a],r["scroll"+a],e.body["offset"+a],r["offset"+a],r["client"+a])):void 0===n?S.css(e,t,i):S.style(e,t,n,i)},s,n?e:void 0,n)}})}),S.each(["ajaxStart","ajaxStop","ajaxComplete","ajaxError","ajaxSuccess","ajaxSend"],function(e,t){S.fn[t]=function(e){return this.on(t,e)}}),S.fn.extend({bind:function(e,t,n){return this.on(e,null,t,n)},unbind:function(e,t){return this.off(e,null,t)},delegate:function(e,t,n,r){return this.on(t,e,n,r)},undelegate:function(e,t,n){return 1===arguments.length?this.off(e,"**"):this.off(t,e||"**",n)},hover:function(e,t){return this.mouseenter(e).mouseleave(t||e)}}),S.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "),function(e,n){S.fn[n]=function(e,t){return 0<arguments.length?this.on(n,null,e,t):this.trigger(n)}});var Gt=/^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;S.proxy=function(e,t){var n,r,i;if("string"==typeof t&&(n=e[t],t=e,e=n),m(e))return r=s.call(arguments,2),(i=function(){return e.apply(t||this,r.concat(s.call(arguments)))}).guid=e.guid=e.guid||S.guid++,i},S.holdReady=function(e){e?S.readyWait++:S.ready(!0)},S.isArray=Array.isArray,S.parseJSON=JSON.parse,S.nodeName=A,S.isFunction=m,S.isWindow=x,S.camelCase=X,S.type=w,S.now=Date.now,S.isNumeric=function(e){var t=S.type(e);return("number"===t||"string"===t)&&!isNaN(e-parseFloat(e))},S.trim=function(e){return null==e?"":(e+"").replace(Gt,"$1")},"function"==typeof define&&define.amd&&define("jquery",[],function(){return S});var Yt=C.jQuery,Qt=C.$;return S.noConflict=function(e){return C.$===S&&(C.$=Qt),e&&C.jQuery===S&&(C.jQuery=Yt),S},"undefined"==typeof e&&(C.jQuery=C.$=S),S});
+
+!function(){"use strict";if("undefined"!=typeof window){var t=window.navigator.userAgent.match(/Edge\/(\d{2})\./),e=t?parseInt(t[1],10):null,n=!!e&&(16<=e&&e<=18);if(!("objectFit"in document.documentElement.style!=!1)||n){var o=function(t,e,i){var n,o,l,a,d;if((i=i.split(" ")).length<2&&(i[1]=i[0]),"x"===t)n=i[0],o=i[1],l="left",a="right",d=e.clientWidth;else{if("y"!==t)return;n=i[1],o=i[0],l="top",a="bottom",d=e.clientHeight}if(n!==l&&o!==l){if(n!==a&&o!==a)return"center"===n||"50%"===n?(e.style[l]="50%",void(e.style["margin-"+l]=d/-2+"px")):void(0<=n.indexOf("%")?(n=parseInt(n,10))<50?(e.style[l]=n+"%",e.style["margin-"+l]=d*(n/-100)+"px"):(n=100-n,e.style[a]=n+"%",e.style["margin-"+a]=d*(n/-100)+"px"):e.style[l]=n);e.style[a]="0"}else e.style[l]="0"},l=function(t){var e=t.dataset?t.dataset.objectFit:t.getAttribute("data-object-fit"),i=t.dataset?t.dataset.objectPosition:t.getAttribute("data-object-position");e=e||"cover",i=i||"50% 50%";var n=t.parentNode;return function(t){var e=window.getComputedStyle(t,null),i=e.getPropertyValue("position"),n=e.getPropertyValue("overflow"),o=e.getPropertyValue("display");i&&"static"!==i||(t.style.position="relative"),"hidden"!==n&&(t.style.overflow="hidden"),o&&"inline"!==o||(t.style.display="block"),0===t.clientHeight&&(t.style.height="100%"),-1===t.className.indexOf("object-fit-polyfill")&&(t.className=t.className+" object-fit-polyfill")}(n),function(t){var e=window.getComputedStyle(t,null),i={"max-width":"none","max-height":"none","min-width":"0px","min-height":"0px",top:"auto",right:"auto",bottom:"auto",left:"auto","margin-top":"0px","margin-right":"0px","margin-bottom":"0px","margin-left":"0px"};for(var n in i)e.getPropertyValue(n)!==i[n]&&(t.style[n]=i[n])}(t),t.style.position="absolute",t.style.width="auto",t.style.height="auto","scale-down"===e&&(e=t.clientWidth<n.clientWidth&&t.clientHeight<n.clientHeight?"none":"contain"),"none"===e?(o("x",t,i),void o("y",t,i)):"fill"===e?(t.style.width="100%",t.style.height="100%",o("x",t,i),void o("y",t,i)):(t.style.height="100%",void("cover"===e&&t.clientWidth>n.clientWidth||"contain"===e&&t.clientWidth<n.clientWidth?(t.style.top="0",t.style.marginTop="0",o("x",t,i)):(t.style.width="100%",t.style.height="auto",t.style.left="0",t.style.marginLeft="0",o("y",t,i))))},i=function(t){if(void 0===t||t instanceof Event)t=document.querySelectorAll("[data-object-fit]");else if(t&&t.nodeName)t=[t];else{if("object"!=typeof t||!t.length||!t[0].nodeName)return!1;t=t}for(var e=0;e<t.length;e++)if(t[e].nodeName){var i=t[e].nodeName.toLowerCase();if("img"===i){if(n)continue;t[e].complete?l(t[e]):t[e].addEventListener("load",function(){l(this)})}else"video"===i?0<t[e].readyState?l(t[e]):t[e].addEventListener("loadedmetadata",function(){l(this)}):l(t[e])}return!0};"loading"===document.readyState?document.addEventListener("DOMContentLoaded",i):i(),window.addEventListener("resize",i),window.objectFitPolyfill=i}else window.objectFitPolyfill=function(){return!1}}}();
 /* global $ */
-$('.remove_icon').removeClass('hide');
+
 document.addEventListener("DOMContentLoaded", function (event) {
 
 
@@ -1740,6 +1744,9 @@ CharacterCount.prototype.bindChangeEvents = function () {
 // fields by directly changing its `value`. These changes don't trigger events
 // in JavaScript, so we need to poll to handle when and if they occur.
 CharacterCount.prototype.checkIfValueChanged = function () {
+  if(this.$textarea.oldValue == '' && this.$textarea.value == ''){
+   this.updateCountMessage();
+  }
   if (!this.$textarea.oldValue) this.$textarea.oldValue = '';
   if (this.$textarea.value !== this.$textarea.oldValue) {
     this.$textarea.oldValue = this.$textarea.value;
@@ -1752,7 +1759,6 @@ CharacterCount.prototype.updateCountMessage = function () {
   var countElement = this.$textarea;
   var options = this.options;
   var countMessage = this.$countMessage;
-
   // Determine the remaining number of characters/words
   var currentLength = this.count(countElement.value);
   var maxLength = this.maxLength;
@@ -1795,6 +1801,13 @@ CharacterCount.prototype.updateCountMessage = function () {
   displayNumber = Math.abs(remainingNumber);
 
   countMessage.innerHTML = 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb;
+  if(document.getElementById('page-heading')!=undefined && document.getElementById('page-heading')!=null){
+
+  let heading = document.getElementById('page-heading').innerHTML;
+  if(heading.includes("Invite selected suppliers to stage 2: further assessment")){
+    countMessage.innerHTML = displayNumber + ' ' + charNoun + ' ' + charVerb;
+  }
+  }
 };
 
 CharacterCount.prototype.handleFocus = function () {
@@ -2899,6 +2912,15 @@ var docCookies = {
             cookies: [{ name: "1P_JAR", path: "/", domain: ".google.com" }],
         },
         {
+            title: "",
+            description:
+                "<p>We use Glassbox software to collect information about how you use CCS. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.</p><p> Glassbox stores information about:</p><ul><li>browsing activity</li><li>click-stream activity,</li><li>session heatmaps and</li><li>scrolls</li></ul><p>This information can’t be used to identify who you are.</p><p>We don’t allow Glassbox to use or share our analytics data.</p>",
+            cookie_type: "glassbox",
+            enabled: null,
+            adjustable: true,
+            cookies: null,
+        },
+        {
             title: "Cookies that help with our communications and marketing",
             description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - Contract Award Service (CAS).",
             cookie_type: "marketing",
@@ -2920,7 +2942,7 @@ var docCookies = {
     var oneyear = 31540000;
     var twodays = 172800; // var onemonth = 2.628e+6;
     // Set the default cookies. This JSON Object is saved as the cookie, but we use `initial_cookie_preferences` to maintain structure and various sanity checks
-    var cookie_preferences = { essentials: true, usage: false, marketing: false };
+    var cookie_preferences = { essentials: true, usage: false, glassbox:false, marketing: false };
     /**
      * When user accept the cookie, show this
      */ function hideMessage() {
@@ -2936,6 +2958,7 @@ var docCookies = {
         hideMessage();
         updateSeenCookie();
         fireGTM();
+        fireGBX();
     }
     function fireGTM() {
         (function (w, d, s, l, i) {
@@ -2948,6 +2971,14 @@ var docCookies = {
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", tagManager);
+
+    }
+    function fireGBX() {
+         var script = document.createElement('script'); 
+         script.id = "_cls_detector"; 
+         script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; 
+         script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); 
+         document.head.appendChild(script); 
     }
     function updateSeenCookie() {
         // 1 year = 3.154e+7
@@ -2960,7 +2991,7 @@ var docCookies = {
         // This is to check if the method was updateSeenCookie() was called from 'Accept all cookies' or cookie settings page
         // (in which case cookie_preferences_set will be set already)
         if (!docCookies.hasItem("cookie_preferences_set")) {
-            var cookie_preferences_accepted = { essentials: true, usage: true, marketing: true };
+            var cookie_preferences_accepted = { essentials: true, usage: true, glassbox: true, marketing: true };
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences_accepted), oneyear, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
             // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), oneyear, "/", ".crowncommercial.gov.uk");
@@ -2969,7 +3000,7 @@ var docCookies = {
         // will be updated with this user's choices
         else {
             // console.log('cookie_preferences', cookie_preferences);
-            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false ? twodays : oneyear;
+            var cookie_timer = cookie_preferences["marketing"] === false && cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false ? twodays : oneyear;
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), cookie_timer, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, cookie_timer, "/", ".crowncommercial.gov.uk");
@@ -3000,7 +3031,7 @@ var docCookies = {
                 }
             }
         });
-        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
+        var cookie_timer = cookie_preferences["usage"] === false && cookie_preferences["glassbox"] === false && cookie_preferences["marketing"] === false ? twodays : oneyear;
         docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // createCookie('cookie_preferences', JSON.stringify(cookie_preferences), 365, '/');
         // check if cookie_preferences_set is set, if not, set it
         // we're checking this first because we don't want to reset to today every time
@@ -3673,7 +3704,7 @@ const showEvaluateSuppliersPopup = (event) => {
               //document.body.scrollTop = document.documentElement.scrollTop = 0;
             }
             $(this).addClass('selected');
-            $('.pop').slideFadeToggle();
+            // $('.pop').slideFadeToggle();
           }
     // }
     // else
@@ -3699,7 +3730,6 @@ const showEvaluateSuppliersPopup = (event) => {
     // }
   };
 
-
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
       e.removeClass('selected');
@@ -3722,13 +3752,15 @@ const showEvaluateSuppliersPopup = (event) => {
 
   $('.dialog-close-evaluatesuppliers').on('click', function () {
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    deselect($('.dialog-close-evaluatesuppliers'));
+    // deselect($('.dialog-close-evaluatesuppliers'));
     return false;
   });
 
   $('#redirect-button-evaluatesuppliers').on('click', function () {
     deselect($('.dialog-close-evaluatesuppliers'));
     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.location.href="/evaluate-confirm"//scat-5013
       return false;
     
@@ -3746,6 +3778,48 @@ const showEvaluateSuppliersPopup = (event) => {
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
   };
+
+  /**
+   * A popup will appear if the buyer selects a low-scoring supplier.
+   * @param {String} suppliername 
+   * @param {String} redirectUrl 
+   */
+  const showSuppliersAwardPopup = (suppliername, redirectUrl) => {
+    // Create H2 element
+    var elGo = document.querySelector(".backdrop-confirmLowScoreSupplierPopup").querySelector(".nodeDialogTitle");
+    let h2Ele = document.createElement('h2');
+    h2Ele.textContent = suppliername;
+    elGo.after(h2Ele);
+
+    const openpopGC = document.querySelector('.backdrop-confirmLowScoreSupplierPopup')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-confirmLowScoreSupplierPopup").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      openpopGC.classList.remove('showpopup');
+    });
+    deconf = document.getElementById('redirect-button-confirmLowScoreSupplierPopup');
+    deconf.addEventListener('click', ev => {
+      openpopGC.classList.remove('showpopup');
+      document.location.href = redirectUrl;
+    });
+
+    // if ($(this).hasClass('selected')) {
+    //     deselect($(this));
+    //     $(".backdrop-evaluatesuppliers").fadeOut(200);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    // } else {
+    //     $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+    //     document.getElementById("suppliersAwardPopup").style.paddingTop="1000";
+    //     document.getElementById("suppliersName").innerHTML = suppliername;
+    //     $('#redirect-button-confirmsuppliers').attr("href", redirectUrl);
+    //     $(this).addClass('selected');
+    //     $('.pop').slideFadeToggle();
+    // }
+  };
+
 const showPopup = (event) => {
     debugger;
     event.preventDefault();
@@ -3800,16 +3874,32 @@ const showPopup = (event) => {
   
   const loseyouprojectShowPopup = (event) => {
     event.preventDefault();
-    $(".backdrop-nextsteps").fadeTo(200, 1);
-    document.getElementById("nextstepspopup").style.paddingTop="1000";
-    let btnSend = document.querySelector('#redirect-button-nextsteps');
-    if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-      btnSend.setAttribute('name', 'Next Step');
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    } else {
-      btnSend.setAttribute('name', 'CCS website');
-    }
-    $('.pop').slideFadeToggle();
+    const openpopGC = document.querySelector('.backdrop-nextstepspopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-nextstepspopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-nextstepspopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        document.location.href="/rfi/closerfi"
+      });
+    // $(".backdrop-nextsteps").fadeTo(200, 1);
+    // document.getElementById("nextstepspopup").style.paddingTop="1000";
+    // let btnSend = document.querySelector('#redirect-button-nextsteps');
+    // if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+    //   btnSend.setAttribute('name', 'Next Step');
+    //   document.body.scrollTop = document.documentElement.scrollTop = 0;
+    // } else {
+    //   btnSend.setAttribute('name', 'CCS website');
+    // }
+    // $('.pop').slideFadeToggle();
+
+
+
   };
 
 
@@ -6409,66 +6499,296 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPercentage();
         deleteButtons.forEach((db) => {
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+              
+                    e.preventDefault();
+            let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+              prev_coll = Number(target) - 1,
+              target_fieldset = db.closest("div");
+    
+                   let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+                   if(target != 20) {
+                       let ml = 1;
+                       
+                      
+                       let eptArr = [];
+                       while (Sibling) {
+    
+                        let siblingClassList = Sibling.classList;
+                           if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                             let current_col = nextLevel_coll;  
+                             nextLevel_coll = (nextLevel_coll + 1);
+    
+                             eptArr.push(nextLevel_coll)
+                            
+                               if(ml == 1) {
+                                   console.log(`First: ${ml} - ${next_coll}`)
+                                   let first;
+                                   let last;
+                                   let percentage;
+                                  
+                                   var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                   if(fc_question_precenate_fir){
+                                    first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                  
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                   }
+                                   var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                   if(fc_question_precenate_sec){
+                                    var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                 
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                   }
+                                   var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                   if(fc_question_precenate_third){
+                                     percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                   
+                                    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                   }
+                                   //ID BASED
+                                   var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                   if(fc_question_precenate_El){
+                                     last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                    
+                                     document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                   }
+                                  
+                               
+                                
+                                
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+    
+                                  
+                               } else {
+                                   next_coll = next_coll + 1;
+                                   console.log(`Usual: ${ml} - ${next_coll}`)
+                              
+                                // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                               
+                                   
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                let first;
+                                let last;
+                                let percentage;
+    
+                                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                                if(fc_question_precenate_fir){
+                                 first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                                }
+                                var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                                if(fc_question_precenate_sec){
+                                 var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                                }
+                                var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                                if(fc_question_precenate_third){
+                                  percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                 
+                                 document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                                }
+                                //ID BASED
+                                var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                                if(fc_question_precenate_El){
+                                  last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 
+                                  document.getElementById('fc_question_precenate_'+current_col).value=last;
+                                }
+                                
+                               }
+           
+                              
+                               Sibling = Sibling.nextElementSibling;
+                           } else {
+                               Sibling = false;
+                           }
+                       ml++;}
+                       if(eptArr.length > 0) {
+                          
+                           let removeLogic = eptArr.at(-1);
+                          
+                          
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                        
+                        document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                    } else {
+                       
+                           target_fieldset.classList.add("ccs-dynaform-hidden");
+                           
+                           var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+next_coll).value="";
+                           }
+    
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                        //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                        
+                           if (prev_coll > 1) {
+                            document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                           }
+                           $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                       }
+                   } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+    
+                    var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+next_coll)[0];
+                           if(fc_question_precenate_fir){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[0].value="";
+                            fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+                           }
+                           var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+next_coll)[1];
+                           if(fc_question_precenate_sec){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[1].value="";
+                            fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+                           }
+                           var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+next_coll)[2];
+                           if(fc_question_precenate_third){
+                            document.getElementsByClassName('class_question_remove_'+next_coll)[2].value="";
+                            fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+                           }
+                           //ID BASED
+                           var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+next_coll);
+                           if(fc_question_precenate_El){
+                             document.getElementById('fc_question_precenate_'+next_coll).value="";
+                           }
+                 
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+                   with_value_count--;
+                   totalAnswerd()
+                   if (with_value_count != 11) {
                     
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               });
+
+            // db.addEventListener('click', (e) => {
+            //     console.log("Delete")
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
                     
-                }
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                    
+            //     }
                 
-              //  console.log("Target",precentageValueofLast);
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+            //   //  console.log("Target",precentageValueofLast);
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-                }
+            //     }
 
-                $('.class_question_remove_' + target).val("");
+            //     $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
 
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-                    //console.log("PREVIOUSS")
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                } else {
-                    //console.log("Else statement")
-                }
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+            //         //console.log("PREVIOUSS")
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+            //         //console.log("Else statement")
+            //     }
 
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                with_value_count--;
-            });
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     with_value_count--;
+            // });
+
+
         });
 
         for (var box_num = 10; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
             if (this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
                 if (box_num === 10) {
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
                         $('.add-another-btn').closest('.ccs-page-section').css("border-bottom", "0px");
@@ -6491,7 +6811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         $('.add-another-btn').on('click', function() {
-         console.log("question selected in DA")
+         
            // $('.govuk-error-summary').remove();
            // $('.govuk-form-group--error').remove();
             removeErrorFieldsDAScoreQuestion();
@@ -6502,7 +6822,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyQuestionFieldCheckDa("add_more");
             }
             
+            if (with_value_count === 10){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+           
+
             if (with_value_count === 11 && document.getElementById("fc_question_10_1").value != "") {
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 errorStore.push(["There is a problem", "Cannot add another question already 10 questions created"]);
             } else {
                 errorStore = emptyQuestionFieldCheckDa("add_more");
@@ -6515,7 +6841,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (with_value_count > 2) {
                     prev_input = with_value_count - 1;
-                    document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                 //   document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
                 }
 
                 if (pageHeading.includes('Write your social value questions')) {
@@ -6547,67 +6873,67 @@ document.addEventListener('DOMContentLoaded', () => {
                     ccsZPresentErrorSummary(errorStore);
                     return;
                 }
-                totalAnswerd();
+                //totalAnswerd();
             } else ccsZPresentErrorSummary(errorStore);
         });
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                e.preventDefault();
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         e.preventDefault();
                 
-                const pageHeading = document.getElementById('page-heading').innerHTML;
-                const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
+        //         const pageHeading = document.getElementById('page-heading').innerHTML;
+        //         const AnswerdQuestion = document.getElementById('questionsCount').innerHTML;
 
-                if (pageHeading.includes('Write your social value questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your social value questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                if (pageHeading.includes('Write your technical questions')) {
-                    if (document.getElementById("questionsCount") != undefined) {
-                        document.getElementById("questionsCount").innerHTML =(with_value_count-1);
-                    }
-                }
+        //         if (pageHeading.includes('Write your technical questions')) {
+        //             if (document.getElementById("questionsCount") != undefined) {
+        //                 document.getElementById("questionsCount").innerHTML =(with_value_count-1);
+        //             }
+        //         }
 
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
     }
 
     const emptyQuestionFieldCheckDa = (add_more='') => {
@@ -7263,6 +7589,7 @@ if(totalVetting<100 || totalVetting>100)
 $('#ccs_collab_view').hide();
 
 let formURL = "/eoi/get-collaborator-detail/js-enabled";
+$('#potential-collaborator').hide()
 
 if (document.getElementById("eoi_collaborators") !== null) {
   document.getElementById('eoi_collaborators').addEventListener('change', function () {
@@ -7277,7 +7604,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
         let { userName, firstName, lastName, tel } = data;
         let collegueName = firstName + " " + lastName;
         let id = userName;
-
+        $('#potential-collaborator').show()
         $('#eoi_show_collab_name').html(collegueName)
         $('#eoi_show_collab_email').html(id)
         $('#eoi_show_collab-phone').html(tel)
@@ -7301,6 +7628,8 @@ if (document.getElementById("eoi_collaborators") !== null) {
     }
   })
 }
+
+$('.add').addClass('ccs-dynaform-hidden');
 if ($('#eoi_keyterm').length > 0) {
   $('.eoi_form').attr('id', 'ccs_eoi_acronyms_form');
   $('.eoi_form').attr('name', 'ccs_eoi_acronyms_form');
@@ -7323,7 +7652,7 @@ document.addEventListener('DOMContentLoaded', () => {
         term_box = document.getElementById("eoi_term_" + acronym_fieldset);
 
       if (term_box.value !== "") {
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
+       // this_fieldset.classList.remove('ccs-dynaform-hidden');
 
         if (acronym_fieldset === 20) {
           document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
@@ -7363,7 +7692,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+         // document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -7386,22 +7715,106 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+            
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + current_col).value = first.value;
+                    document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    var last  = Sibling.querySelector("[name='value']");
+                    console.log(first.value)
+                    console.log(last.value)
+                    document.getElementById('eoi_term_' + next_coll).value = first.value;
+                    document.getElementById('eoi_term_definition_' + next_coll).value = last.value;
+                }
 
-        document.getElementById('eoi_term_' + target).value = "";
-        document.getElementById('eoi_term_definition_' + target).value = "";
-
-
-        if (prev_coll > 1) {
-          document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_term_' + removeLogic).value = "";
+            document.getElementById('eoi_term_' + removeLogic).dispatchEvent(new Event("keyup"));
+            document.getElementById('eoi_term_definition_' + removeLogic).value = "";
+            document.getElementById('eoi_term_definition_' + removeLogic).dispatchEvent(new Event("keyup"));
+            document.getElementById('eoi_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_term_' + target).value = "";
+            document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
+            document.getElementById('eoi_term_definition_' + target).value = "";
+            document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
+    } else {
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+        document.getElementById('eoi_term_' + target).value = "";
+        document.getElementById('eoi_term_' + target).dispatchEvent(new Event("keyup"));
+        document.getElementById('eoi_term_definition_' + target).value = "";
+        document.getElementById('eoi_term_definition_' + target).dispatchEvent(new Event("keyup"));
+        if (prev_coll > 1) {
+            document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
         document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoiTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_term_' + target).value = "";
+        // document.getElementById('eoi_term_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoiTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+     
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -7504,25 +7917,29 @@ const emptyFieldCheckEoi = (add_more='') => {
 
   for (var x = 1; x < 21; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
+    
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
       
       if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
-        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        //fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
-        fieldCheck = [term_field.id, 'You must add term or acronym.'];
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
@@ -7843,16 +8260,38 @@ const MonthCheck = () => {
     }
 }
 
+$(".startdateyearlimitEoi").keyup(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+
+    if (maxLen >= 4) {
+       return false;
+    }
+
+ });
+ $(".startdateyearlimitEoi").keypress(function (e) {
+    var maxLen = $(this).val().length;
+    let value = $(this).val();
+    var keyCode = e.which;
+    if (maxLen >= 4) {
+
+       return false;
+    }
+
+ });
+ 
 const currentYearDate = new Date();
 const currentYear = currentYearDate.getFullYear()
 
 
 const YearCheck = () => {
     const YearValues = YearSelector.val();
-    if (YearValues < currentYear) {
+    let matchValue = !YearSelector.val().match(/^\d{4}$/);
+    if (YearValues<1 || matchValue) {
         YearSelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-year').html('Enter a valid year');
+        $('#event-name-error-year').html('Enter a year using the YYYY format');
     }
     else if (YearValues == "") {
         YearSelector.removeClass('govuk-form-group--error');
@@ -7875,37 +8314,11 @@ projectYears.on('blur', () => {
     if (projectYears.val() < 0) {
         projectYears.addClass('govuk-form-group--error');
         $('.p_durations').addClass('govuk-form-group--error');
-        $('#eoi-event-name-error-pdate').html('Enter a valid Year')
+        $('#eoi-event-name-error-pdate').html('Enter a valid year')
     }else{
-        let yrValidation = false;
-        let durationDays = document.getElementById('eoi_duration-days');
-        let durationMonth = document.getElementById('eoi_duration-months');
-        DaysProjectRun = Number(durationDays.value);
-        MonthProjectRun = Number(durationMonth.value);
-        let YearProjectRun = Number(projectYears.val());
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            if(yrValidation){
-                projectYears.addClass('govuk-form-group--error');
-                $('.p_durations').addClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
-            }else {
-                projectYears.removeClass('govuk-form-group--error');
-                $('.p_durations').removeClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('')
-            }
-            $('#eoi_duration-months').blur();
-            $('#eoi_duration-days').blur();
+        projectYears.removeClass('govuk-form-group--error');
+        $('.p_durations').removeClass('govuk-form-group--error');
+        $('#eoi-event-name-error-pdate').html('')
     }
 })
 
@@ -7913,37 +8326,12 @@ projectMonths.on('blur', () => {
     if (projectMonths.val() < 0) {
         projectMonths.addClass('govuk-form-group--error');
         $('.p_durations').addClass('govuk-form-group--error');
-        $('#eoi-event-name-error-pdate').html('Enter a valid Month')
+        $('#eoi-event-name-error-pdate').html('Enter a valid month')
     }else{
-        let yrValidation = false;
-        let durationYear = document.getElementById('eoi_duration-years');
-        let durationDay = document.getElementById('eoi_duration-days');
-        YearProjectRun = Number(durationYear.value);
-        DaysProjectRun = Number(durationDay.value);
-        let MonthProjectRun = Number(projectMonths.val());
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            if(yrValidation){
-                projectMonths.addClass('govuk-form-group--error');
-                $('.p_durations').addClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
-            }else {
-                projectMonths.removeClass('govuk-form-group--error');
-                $('.p_durations').removeClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('')
-            }
-            $('#eoi_duration-days').blur();
-            // $('#eoi_duration-years').blur();
+        projectMonths.removeClass('govuk-form-group--error');
+        $('.p_durations').removeClass('govuk-form-group--error');
+        $('#eoi-event-name-error-pdate').html('')
+          
     }
     
 })
@@ -7955,35 +8343,9 @@ projectDays.on('blur', () => {
         $('.p_durations').addClass('govuk-form-group--error');
         $('#eoi-event-name-error-pdate').html('Enter a valid date')
     }else{
-        let yrValidation = false;
-        let durationYear = document.getElementById('eoi_duration-years');
-        let durationMonth = document.getElementById('eoi_duration-months');
-        YearProjectRun = Number(durationYear.value);
-        MonthProjectRun = Number(durationMonth.value);
-        let DaysProjectRun = Number(projectDays.val());
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            if(yrValidation){
-                projectDays.addClass('govuk-form-group--error');
-                $('.p_durations').addClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
-            }else {
-                projectDays.removeClass('govuk-form-group--error');
-                $('.p_durations').removeClass('govuk-form-group--error');
-                $('#eoi-event-name-error-pdate').html('')
-            }
-            // $('#eoi_duration-years').blur();
-            // $('#eoi_duration-months').blur();
+        projectDays.removeClass('govuk-form-group--error');
+        $('.p_durations').removeClass('govuk-form-group--error');
+        $('#eoi-event-name-error-pdate').html('')
     }
 })
 
@@ -7991,6 +8353,7 @@ projectDays.on('blur', () => {
 
 $('.save-button').on('click', (e) => {
 if(document.getElementById("eoi_resource_start_date-day") != null){
+    e.preventDefault();
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
@@ -7999,33 +8362,103 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
    
     const todayDate = new Date();
 
+    DaySelector.removeClass('govuk-form-group--error');
+    MonthSelector.removeClass('govuk-form-group--error');
+    YearSelector.removeClass('govuk-form-group--error');
+    $('.durations').removeClass('govuk-form-group--error');
+    $('#event-name-error-date').html('');
+    $('#event-name-error-month').html('');
+    $('#event-name-error-year').html('');
+    ccsZPresentErrorSummary();
+    
+    const YearValuesNew = YearSelector.val();
+    let matchValueNew = !YearSelector.val().match(/^\d{4}$/);
 
-    if (Day == "") {
-        const errorStore = [["eoi_resource_start_date", "Project start day cannot be Empty"]]
+    // DaySelector.addClass('govuk-form-group--error');
+    // MonthSelector.addClass('govuk-form-group--error');
+    // YearSelector.addClass('govuk-form-group--error');
+
+    if(Day == "" && Month == "" && Year == ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start date"]]
         DaySelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-date').html('Enter a valid date')
-        ccsZPresentErrorSummary(errorStore);
-        e.preventDefault()
-    }
-
-    if (Month == "") {
-        const errorStore = [["eoi_resource_start_date", "Project start Month cannot be Empty"]]
+        $('#event-name-error-date').html('Enter a project start date')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day == "" && Month != "" && Year != ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start day"]]
+        DaySelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-date').html('Enter a project start day')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day != "" && Month == "" && Year != ""){
+        const errorStore = [["eoi_resource_start_date-month", "Enter a project start month"]]
         MonthSelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-month').html('Enter a valid month');
-        ccsZPresentErrorSummary(errorStore);
-        e.preventDefault()
-    }
-
-    if (Year == "") {
-        const errorStore = [["eoi_resource_start_date", "Porject start Year cannot be Empty"]]
+        $('#event-name-error-month').html('Enter a project start month')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day != "" && Month != "" && Year == ""){
+        const errorStore = [["eoi_resource_start_date-year", "Enter a project start year"]]
         YearSelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-year').html('Enter a valid year');
+        $('#event-name-error-year').html('Enter a project start year')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day != "" && Month == "" && Year == ""){
+        const errorStore = [["eoi_resource_start_date-month", "Enter a project start month and year"]]
+        MonthSelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-month').html('Enter a project start month and year')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day == "" && Month != "" && Year == ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start day and year"]]
+        DaySelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-date').html('Enter a project start day and year')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if(Day == "" && Month == "" && Year != ""){
+        const errorStore = [["eoi_resource_start_date", "Enter a project start day and month"]]
+        DaySelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-date').html('Enter a project start day and month')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if (YearValuesNew<1 || matchValueNew) {
+        const errorStore = [["eoi_resource_start_date-year", "Enter a year using the YYYY format"]]
+        DaySelector.addClass('govuk-form-group--error');
+        MonthSelector.addClass('govuk-form-group--error');
+        YearSelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-year').html('Enter a year using the YYYY format')
+        ccsZPresentErrorSummary(errorStore);    
+    }else if (getTimeOfFormDate < todayDate.getTime()) {
+        $('#event-name-error-year').html('Enter a project start date in the future');
+        DaySelector.addClass('govuk-form-group--error');
+        MonthSelector.addClass('govuk-form-group--error');
+        YearSelector.addClass('govuk-form-group--error');
+        $('.durations').addClass('govuk-form-group--error');
+        const errorStore = [["eoi_resource_start_date", "Enter a project start date in the future"]];
         ccsZPresentErrorSummary(errorStore);
-        e.preventDefault()
+    }else{
+        document.forms['ccs_eoi_date_form'].submit();
     }
+    
+    // if (Day == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Project start date cannot be empty"]]
+    //     DaySelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-date').html('Enter a valid date')
+    //     ccsZPresentErrorSummary(errorStore);
+    // }else if (Month == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Project start month cannot be empty"]]
+    //     MonthSelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-month').html('Enter a valid month');
+    //     ccsZPresentErrorSummary(errorStore);
+    // }else if (Year == "") {
+    //     const errorStore = [["eoi_resource_start_date", "Porject start year cannot be empty"]]
+    //     YearSelector.addClass('govuk-form-group--error');
+    //     $('.durations').addClass('govuk-form-group--error');
+    //     $('#event-name-error-year').html('Enter a valid year');
+    //     ccsZPresentErrorSummary(errorStore);
+    // }
 
 
 
@@ -8038,56 +8471,51 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
         //ccsZPresentErrorSummary(errorStore);
     }
     
-    if (getTimeOfFormDate > getMSOfExpiryDate) {
-        e.preventDefault();
-       
-        $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
-        DaySelector.addClass('govuk-form-group--error');
-        MonthSelector.addClass('govuk-form-group--error');
-        YearSelector.addClass('govuk-form-group--error');
-        $('.durations').addClass('govuk-form-group--error');
-        const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
-        ccsZPresentErrorSummary(errorStore);
-    }
-    else if (getTimeOfFormDate < todayDate.getTime()) {
-        e.preventDefault();
-        $('#event-name-error-date').html('Start date must be a valid future date');
-        DaySelector.addClass('govuk-form-group--error');
-        MonthSelector.addClass('govuk-form-group--error');
-        YearSelector.addClass('govuk-form-group--error');
-        $('.durations').addClass('govuk-form-group--error');
-        const errorStore = [["eoi_resource_start_date", "Start date must be a valid future date"]];
-        ccsZPresentErrorSummary(errorStore);
-    }
-    else {
-        let yrValidation = false;
-            const durationYear = document.getElementById('eoi_duration-years');
-            const durationMonth = document.getElementById('eoi_duration-months');
-            const durationDay = document.getElementById('eoi_duration-days');
 
-            if(durationYear.value!='' || durationMonth.value!='' || durationDay.value!=''){
-            const YearProjectRun = Number(durationYear.value);
-            const MonthProjectRun = Number(durationMonth.value);
-            const DaysProjectRun = Number(durationDay.value);
-            
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            if(yrValidation){
-                e.preventDefault()
-               return;
-            }
-            }
-               
-            document.forms['ccs_eoi_date_form'].submit();
+    if (Day != "" && Month != "" && Year != ""){
+        
+
+        //if (getTimeOfFormDate > getMSOfExpiryDate) {
+        
+        //     $('#event-name-error-date').html('11It is recommended that your project does not start after lot expiry date');
+        //     DaySelector.addClass('govuk-form-group--error');
+        //     MonthSelector.addClass('govuk-form-group--error');
+        //     YearSelector.addClass('govuk-form-group--error');
+        //     $('.durations').addClass('govuk-form-group--error');
+        //     const errorStore = [["eoi_resource_start_date", "22It is recommended that your project does not start after lot expiry date"]]
+        //    // ccsZPresentErrorSummary(errorStore);
+        //}
+        // if (YearValuesNew<1 || matchValue) {
+           
+        //     $('#event-name-error-date').html('Enter a year using the YYYY format');
+        //     DaySelector.addClass('govuk-form-group--error');
+        //     MonthSelector.addClass('govuk-form-group--error');
+        //     YearSelector.addClass('govuk-form-group--error');
+        //     $('.durations').addClass('govuk-form-group--error');
+        //     const errorStore = [["eoi_resource_start_date", "Enter a year using the YYYY format"]];
+        //     ccsZPresentErrorSummary(errorStore);
+
+        //     // const errorStore = [["eoi_resource_start_date-year", "Enter a year using the YYYY format"]]
+        //     // DaySelector.addClass('govuk-form-group--error');
+        //     // $('.durations').addClass('govuk-form-group--error');
+        //     // $('#event-name-error-year').html('Enter a year using the YYYY format')
+        //     // ccsZPresentErrorSummary(errorStore);    
+    
+           
+        // }else 
+        // if (getTimeOfFormDate < todayDate.getTime()) {
+        //     $('#event-name-error-date').html('Enter a project start date in the future');
+        //     DaySelector.addClass('govuk-form-group--error');
+        //     MonthSelector.addClass('govuk-form-group--error');
+        //     YearSelector.addClass('govuk-form-group--error');
+        //     $('.durations').addClass('govuk-form-group--error');
+        //     const errorStore = [["eoi_resource_start_date", "Enter a project start date in the future"]];
+        //     ccsZPresentErrorSummary(errorStore);
+        // }
+        // else {
+                
+        //     document.forms['ccs_eoi_date_form'].submit();
+        // }
     }
 
 }
@@ -8152,8 +8580,8 @@ const ccsZvalidateEoiDate = (event) => {
     var agreement_expiry_date =expiryYears+","+expiryMonth+","+expiryDate;
     fieldCheck =agreement_expiry_date !=null? isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date):null;
       if(fieldCheck !=null && fieldCheck !== true) {
-        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "Start date cannot be after agreement expiry date");
-          errorStore.push(["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]);
+        ccsZaddErrorMessage(document.getElementById("eoi_resource_start_date"), "It is recommended that your project does not start after lot expiry date");
+          errorStore.push(["eoi_resource_start_date", "It is recommended that your project does not start after lot expiry date"]);
       }
   }
   }
@@ -8265,9 +8693,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
+       
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+        //let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
         document.getElementById("eoi_question_"+text_box_num+"-info" ).classList.add('ccs-dynaform-hidden');
-        the_label.classList.add('ccs-dynaform-hidden');
+        //the_label.classList.add('ccs-dynaform-hidden');
         filled_input++;
         with_value_count = text_box_num;
       }
@@ -8290,6 +8720,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("eoi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
+
         document.querySelector('label[for=eoi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
         document.getElementById("eoi_question_"+with_value_count+"-info" ).classList.remove('ccs-dynaform-hidden');
 
@@ -8310,29 +8742,112 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
+      
+       db.addEventListener('click', (e) => {
+       
+        $('.govuk-error-message').html('');
+        $("div").removeClass("govuk-form-group--error");
 
         e.preventDefault();
+        console.log("e.target.href",e.target.href);
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        prev_coll = Number(target) - 1,
+       target_fieldset = db.closest("div");
 
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-        document.getElementById('eoi_question_' + target).value = "";
-        document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
-        if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
-        document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-        document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
-        if (prev_box > 1) {
-          document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+                let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+                let next_coll = Number(target);
+                    let nextLevel_coll = Number(target);
+                if(target != 20) {
+                    let ml = 1;
+                 
+                    let eptArr = [];
+                    while (Sibling) {
+                        
+                        let siblingClassList = Sibling.classList;
+                        if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                           let current_col = nextLevel_coll;
+                            nextLevel_coll = (nextLevel_coll + 1);
+
+                            eptArr.push(nextLevel_coll)
+                            if(ml == 1) {
+                                console.log(`First: ${ml} - ${next_coll}`)
+                                console.log("nextLevel_coll",nextLevel_coll);
+                                console.log("current_col",current_col);
+                                
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                                
+                            } else {
+                                next_coll = next_coll + 1;
+
+                                first = document.getElementById('eoi_question_'+nextLevel_coll).value;
+                                console.log("first",first);
+                                document.getElementById('eoi_question_'+current_col).value=first;
+                               
+                            }
+         
+                            console.log(Sibling.classList);
+                            Sibling = Sibling.nextElementSibling;
+                        } else {
+                            Sibling = false;
+                        }
+                    ml++;}
+                    if(eptArr.length > 0) {
+                        console.log(eptArr);
+                        let removeLogic = eptArr.at(-1);
+                        console.log(`removeLogic: ${removeLogic}`);
+                        document.getElementById('eoi_question_' + removeLogic).value = "";
+                        document.getElementById('eoi_question_' + removeLogic).dispatchEvent(new Event("keyup"));
+                        document.getElementById('fc_question_' + removeLogic).closest("div").classList.add("ccs-dynaform-hidden")
+                    } else {
+                        target_fieldset.classList.add("ccs-dynaform-hidden");
+                        document.getElementById('eoi_question_' + target).value = "";
+                        document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
+                        if (prev_coll > 1) {
+                          document.querySelector('#fc_question_' + next_coll).classList.add("ccs-dynaform-hidden");
+                        }
+                        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                    }
+                } else {
+                    target_fieldset.classList.add("ccs-dynaform-hidden");
+                    document.getElementById('eoi_question_' + target).value = "";
+                    document.getElementById('eoi_question_' + target).dispatchEvent(new Event("keyup"));
+                    if (prev_coll > 1) {
+                      document.querySelector('#main_eoi_question_' + next_coll).classList.add("ccs-dynaform-hidden");
+                    }
+                    document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                }
+                with_value_count--;
+                if (with_value_count != 21) {
+                    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+                }
+
+
+      //   e.preventDefault();
+    
+      //   let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_box = Number(target) - 1;
+      //   document.getElementById('eoi_question_' + target).value = "";
+      //   document.getElementById('eoi_question_' + target).classList.add("ccs-dynaform-hidden");
+      //   let parentNode = document.querySelector('label[for=eoi_question_' + target + ']').parentNode;
+      //   if (parentNode.children["eoi_question_" + target + '-error'] !== undefined) {
+      //     parentNode.removeChild(document.getElementById("eoi_question_" + target + '-error'))
+      //     parentNode.classList.remove("govuk-form-group--error");
+      //     parentNode.children["eoi_question_" + target].classList.remove("govuk-input--error");
+      //   }
+      //   //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
+      //   document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+      //   document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
+      //   if (prev_box > 1) {
+      //     document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+      //   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+       });
+
+
     });
 
 
@@ -8360,20 +8875,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  
+
   const emptyObjectiveFieldCheck = () => {
+    var words = ['','first ','second ','third ','fourth ', 'fifth ','sixth','seventh ','eighth ','nineth ','tenth'];
+
     let fieldCheck = "",
       errorStore = [];
 
     let errorText = '';
     if ($("#page-heading").text().includes("Project scope")) {
-      errorText = "You must type at least one project scope before you can add another"
+      errorText = "You must type first project scope before you can add another"
     } else {
-      errorText = "You must type an objective before you can add another objective"
+      errorText = "Enter an objective before attempting to add another"
     }
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
-      if (!document.getElementById("eoi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+      if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+        if ($("#page-heading").text().includes("Project scope")) {
+          errorText = `You must type ${words[i]} project scope before you can add another`;
+        }
         fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, errorText, /\w+/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
@@ -8423,7 +8945,7 @@ for (const selector of eoi_totalElementSelectors) {
 
 for (const selector of eoi_totalElementSelectors) {
     let elementID = "#change_clarification_date_" + selector;
-    let elementCancelID = "#cancel_change_clarification_date_" + selector;
+    let elementCancelID = "#eoi_cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     let elementSelectorCancel = $(elementCancelID);
     elementSelector.fadeIn();
@@ -8435,43 +8957,38 @@ for (const selector of eoi_totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
+        if($('.eoi_hideFirst:visible').length){
+            $('.eoi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateEoi();
     });
-    var errorSelectorId = '';
-    let errorSelector = $("#click-error");
-
-
-    errorSelector.on('click', () => {
-        let storedClickedID = localStorage.getItem('dateItem');
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        if (elementSelector.selector === elementSelectorClicked.selector) {
-            elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
-        let agreementID;
-        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        if(agreementID != 'RM1043.8' && agreementID != 'RM1557.13') {
- 
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        }
-    });
 }
 
 
+let eoierrorSelector = $("#click-error");
+eoierrorSelector.on('click', () => {
+    let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
+    let elementSelectorClicked = $(ClickedID);
+    elementSelectorClicked.fadeIn();
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
+});
 
 
 for (const selector of eoi_totalElementSelectors) {
-    let elementID = "#cancel_change_clarification_date_" + selector;
+    let elementID = "#eoi_cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     elementSelector.on('click', () => {
-
+        $(`#clarification_date-day_${selector}`).val("");
+        $(`#clarification_date-month_${selector}`).val("");
+        $(`#clarification_date-year_${selector}`).val("");
+        $(`#clarification_date-hour_${selector}`).val("");
+        $(`#clarification_date-minute_${selector}`).val("");
+        
         let ClickedID = "#eoi_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0) {
@@ -8490,8 +9007,6 @@ for (const selector of eoi_totalElementSelectors) {
             const elementIDChange = $("#change_clarification_date_" + selector);
             elementIDChange.show();
         }
-        // const elementIDChange = $("#change_clarification_date_" + selector);
-        //elementIDChange.show();
         saveButtonUnHideDateEoi();
     });
 }
@@ -8592,22 +9107,97 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        prev_coll = Number(target) - 1,
+        target_fieldset = db.closest("fieldset");
+        
+    let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+    console.log(`target: ${target}`)
+    if(target != 20) {
+        let ml = 1;
+        
+        let next_coll = Number(target);
+        let nextLevel_coll = Number(target);
+        let eptArr = [];
+        while (Sibling) {
+          
+            let siblingClassList = Sibling.classList;
+            if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+               let current_col = nextLevel_coll;
+                nextLevel_coll = (nextLevel_coll + 1);
+                eptArr.push(nextLevel_coll)
+                if(ml == 1) {
+                    console.log(`First: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                    document.getElementById('eoi_splterm_' + current_col).value = first.value;
+                    //document.getElementById('eoi_term_definition_' + current_col).value = last.value;
+                    // target_fieldset.querySelector("[name='term']").value = first.value;
+                    // target_fieldset.querySelector("[name='value']").value = last.value;
+                } else {
+                    next_coll = next_coll + 1;
+                    console.log(`Usual: ${ml} - ${next_coll}`)
+                    var first = Sibling.querySelector("[name='term']");
+                    
+                  
+                    document.getElementById('eoi_splterm_' + next_coll).value = first.value;
+                   
+                }
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
+                console.log(Sibling.classList);
+                Sibling = Sibling.nextElementSibling;
+            } else {
+                Sibling = false;
+            }
+        ml++;}
+        if(eptArr.length > 0) {
+            console.log(eptArr);
+            let removeLogic = eptArr.at(-1);
+            console.log(`removeLogic: ${removeLogic}`);
+            document.getElementById('eoi_splterm_' + removeLogic).value = "";
+            document.getElementById('eoi_splterm_' + removeLogic).dispatchEvent(new Event("keyup"));
 
-        document.getElementById('eoi_splterm_' + target).value = "";
-        // document.getElementById('eoi_splterm_definition_' + target).value = "";
-
-
-        if (prev_coll > 1) {
-          document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            document.getElementById('eoi_splterm_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('eoi_splterm_' + target).value = "";
+            document.getElementById('eoi_splterm_' + target).dispatchEvent(new Event("keyup"));
+            if (prev_coll > 1) {
+                document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
+    } else {
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+        document.getElementById('eoi_splterm_' + target).value = "";
+        document.getElementById('eoi_splterm_' + target).dispatchEvent(new Event("keyup"));
+        if (prev_coll > 1) {
+            document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
         document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
+    }
+    with_value_count--;
+    if (with_value_count != 21) {
+        document.getElementById("ccs_eoisplTerm_add").classList.remove("ccs-dynaform-hidden");
+    }
+});
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_coll = Number(target) - 1,
+        //   target_fieldset = db.closest("fieldset");
+
+        // target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        // document.getElementById('eoi_splterm_' + target).value = "";
+        // // document.getElementById('eoi_splterm_definition_' + target).value = "";
+
+
+        // if (prev_coll > 1) {
+        //   document.querySelector('.splterm_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+
+        // document.getElementById("ccs_eoisplTerm_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+    //  });
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
@@ -8971,7 +9561,7 @@ $('.add').addClass('ccs-dynaform-hidden');
           }
       });
       if (checkError) {
-          fieldCheck = [itemForm.id, 'Minimum one service you have to pick'];
+          fieldCheck = [itemForm.id, 'Select at least one service'];
           errorStore.push(fieldCheck);
           ccsZPresentErrorSummary(errorStore);
       }
@@ -8987,7 +9577,7 @@ $('.add').addClass('ccs-dynaform-hidden');
 $(document).ready(function () {
 
     const checkType = document.getElementById("rfi_offline_document");
-    const elems = ['rfi', 'eoi','rfp','ca'];
+    const elems = ['rfi', 'eoi','rfp','ca','da'];
     let foundElem = false;
     let type, uploadField;
     while (!foundElem && elems.length > 0) {
@@ -9009,12 +9599,12 @@ $(document).ready(function () {
         "ppt": "application/vnd.ms-powerpoint",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "rdf": "application/rdf+xml", 
-        "rtf": "application/rtf",
+        "rtf": ["application/rtf","text/rtf"],
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
         "xml": "text/xml", 
-        "zip": "application/x-zip-compressed"
+        "zip": ["application/x-zip-compressed","application/zip", "application/octet-stream", "multipart/x-zip", "application/zip-compressed"]
     } 
     
     if (uploadField != null && uploadField != undefined) {
@@ -9030,10 +9620,14 @@ $(document).ready(function () {
         
             
 
-            const allValidMimeTypes = Object.values(FileMimeType);
+            const allMimeTypes = Object.values(FileMimeType);
+            const allValidMimeTypes = allMimeTypes.flat(1);
             const ErrorCheckArray = [];
 
             for(const file of FileList){
+
+                console.log('*********************************filetype');
+                console.log(file.type);
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
@@ -9065,15 +9659,27 @@ $(document).ready(function () {
                 }
 
             }
+            const removeErrorFieldsRfpScoreQuestion = () => {
+                // $('.govuk-error-message').remove();
+                $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+                $('.govuk-error-summary').remove();
+                $('.govuk-input').removeClass('govuk-input--error');
+                $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+            }; 
             const noError = ErrorCheckArray.every(element => element.type === "none");
             const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
             const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
+            let errorStore = [];
+            let fieldCheck = '';
             if(noError){
+                removeErrorFieldsRfpScoreQuestion();
                 $(`#${type}_offline_document`).removeClass("govuk-input--error")
                 $(`#upload_doc_form`).removeClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
+                $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForSize){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
@@ -9081,13 +9687,21 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
+                console.log('inside mime type')
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
-                $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                $(`#${type}_upload_error_summary`).text("The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+                fieldCheck = ['upload_doc_form', 'The selected file must be csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip'];
+                errorStore.push(fieldCheck);
+                ccsZPresentErrorSummary(errorStore);
                 $(`.doc_upload_button`).hide();
+                $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
         
             else{
@@ -9096,7 +9710,8 @@ $(document).ready(function () {
                 $(`#${type}_offline_document`).val() === "";
                 $(`#${type}_upload_error_summary`).text("");
                 $(`.doc_upload_button`).show();
-
+                $(`#rfp_offline_document-error`).hide();
+                $(`#rfi_offline_document-error`).hide();
             }
 
 
@@ -9112,6 +9727,154 @@ $(document).ready(function () {
         }
     }
 });
+function initializeErrorStoreForFieldCheck(event) {
+  event.preventDefault();
+  let fieldCheck = "", errorStore = [];
+  return { fieldCheck, errorStore };
+}
+
+function getGroup (event) {
+  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
+}
+
+const ccsZvalidateIR35acknowledgement = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateCompetitionRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateBuildType= (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateProjectPhase = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateRfiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  let msg = (getGroup(event) === 'Group 6') ? "Select whether this is a new or replacement product or service, or ‘Not sure’" : "Select a security clearance level";
+      if(urlParams.get('agreement_id') == 'RM6187' && getGroup(event) === 'Group 7') msg = "Select whether there is an existing supplier";
+  
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  // if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+  //   // errorStore.length = 0;
+    
+  //   if ($('#rfp_security_confirmation').val().length === 0) {      
+  //      if(urlParams.get('agreement_id') == 'RM6187' && getGroup(event) === 'Group 7')
+  //           fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.');
+  //      else fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+  //      if (fieldCheck !== true) errorStore.push(fieldCheck);
+  //    }
+  //    else if ($('#rfp_security_confirmation').val().length > 500) {
+  //      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+  //      if (fieldCheck !== true) errorStore.push(fieldCheck);
+  //    }
+  // }
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfpSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateCaaAssFCSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select how you will build your RfI");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfiMcfType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "results-per-page-1", "Select how you will build your RfI");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["choose_build_rfi"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+
+const ccsZvalidateEoiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiServiceType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidatePreMarketRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
 
 
 /*************************************************************************
@@ -9345,6 +10108,16 @@ const ccsZremoveErrorMessage = (element) => {
 
 };
 
+const ccsZremoveErrorMessageRFIDate = () => {
+
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+};
+
 /**
  * Add an error message around an element, if not already present
  *  - adds 'error' classes to the 'form group' and the input and
@@ -9394,7 +10167,6 @@ const ccsZaddErrorMessage = (element, message) => {
  * above the erroring input
  */
 const ccsZcreateCcsErrorMsg = (elName, message) => {
-
   let errorElement = document.createElement("span");
   errorElement.id = elName + "-error";
   errorElement.className = "govuk-error-message";
@@ -9502,7 +10274,6 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
   
-
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
 
@@ -9538,139 +10309,6 @@ const ccsZaddDateErrorMessage = (element,addelement, message) => {
 };
 
 
-function initializeErrorStoreForFieldCheck(event) {
-  event.preventDefault();
-  let fieldCheck = "", errorStore = [];
-  return { fieldCheck, errorStore };
-}
-
-function getGroup (event) {
-  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
-}
-
-const ccsZvalidateIR35acknowledgement = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateCompetitionRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateBuildType= (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateProjectPhase = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateRfiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
-    // errorStore.length = 0;
-    
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_security_confirmation').val().length > 500) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfpSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateCaaAssFCSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiServiceType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidatePreMarketRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
 $('input[type=radio]').click(function () {
   // to uncheck new and other names dynamically
   let clicked = this;
@@ -9697,6 +10335,19 @@ $('input[type=radio]').click(function () {
     $('#g_cloud_new_search_name').addClass('govuk-!-display-none')
   }
 });
+// window back refresh radio button
+if (document.querySelectorAll('#save-search').length==1) {
+ $(document).ready(function () {
+    setTimeout(function() { 
+      $( "#remove_radio" ).trigger( "click" );
+      $('#search_name').val('');
+    }, 1000);
+    $( "#remove_radio" ).on( "click", function() {
+     $("input[type='radio']").prop('checked', false);
+    });
+});
+}
+
 
 // to hide the new search name input filed on load
 document.addEventListener('DOMContentLoaded', () => {
@@ -9988,7 +10639,9 @@ document.addEventListener('DOMContentLoaded', () => {
 $('#ccs_collab_view').hide();
 
 let rfiFormURL = "/rfi/get-collaborator-detail/js-enabled";
+let gcloudFormURL = "/g-cloud/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfi_collaborators').on('change', function () {
   let id = this.value;
@@ -10003,6 +10656,49 @@ $('#rfi_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
+
+      $('#potential-collaborator').show()
+
+      $('#show_collab_name').html(collegueName)
+      $('#show_collab_email').html(id)
+      $('#show_collab-phone').html(tel)
+
+      $("#rfi_collaborator_append").val(id);
+      $('#ccs_collab_add').prop("disabled", false)
+
+    })
+      .fail(function () {
+        console.log("failed")
+      })
+      .always(function () {
+        console.log("finsihed")
+      });
+  }
+  else {
+    $('#show_collab_name').html("")
+    $('#show_collab_email').html("")
+    $('#show_collab-phone').html("")
+    $('#ccs_collab_add').prop("disabled", true)
+  }
+
+
+
+});
+$('#gcloud_collaborators').on('change', function () {
+  let id = this.value;
+
+  if (id !== "") {
+    let data = {
+      "gcloud_collaborators": id
+    }
+
+    var ajaxRequest = $.post(gcloudFormURL, data, function (data) {
+
+      let { userName, firstName, lastName, tel } = data;
+      let collegueName = firstName + " " + lastName;
+      let id = userName;
+
+      $('#potential-collaborator').show()
 
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
@@ -10030,6 +10726,9 @@ $('#rfi_collaborators').on('change', function () {
 
 });
 
+
+$('.add').addClass('ccs-dynaform-hidden');
+
 if ($('#rfi_keyterm').length > 0) {
   $('.rfi_form').attr('id', 'ccs_rfi_acronyms_form');
   $('.rfi_form').attr('name', 'ccs_rfi_acronyms_form');
@@ -10056,14 +10755,14 @@ const buttonTermsHidden = () => {
 
 let rfi_term_def = document.querySelectorAll('.rfitermdef');
 rfi_term_def.forEach(ele => {
-  ele.addEventListener('keydown', (event) => {
-    removeErrorFields();
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
   });
 }); 
 let rfitermtext = document.querySelectorAll('.rfitermtext');
 rfitermtext.forEach(ele => {
-  ele.addEventListener('keydown', (event) => {
-    removeErrorFields();
+  ele.addEventListener('keyup', (event) => {
+    checkFields();
   });
 });
 const urlParams = new URLSearchParams(window.location.search);
@@ -10123,10 +10822,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     }
     document.getElementById("ccs_rfiTerm_add").classList.remove("ccs-dynaform-hidden");
-
+    var divHide = $('fieldset.ccs-dynaform-hidden').length;
+    if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 2')){
+        with_value_count++;
+    }
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-      
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -10172,8 +10873,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           for (var k=1;k<=total_count;k++)
           {
-            document.getElementById("rfi_label_term_"+k).innerText="";
-            document.getElementById("rfi_label_acronym_"+k).innerText="";
+            // document.getElementById("rfi_label_term_"+k).innerText="";
+            // document.getElementById("rfi_label_acronym_"+k).innerText="";
           }
           for (var i=target;i<total_count_index;i++){
             var j=Number(i)+1;
@@ -10185,20 +10886,20 @@ document.addEventListener('DOMContentLoaded', () => {
            {
             document.getElementById('rfi_term_' + i).value=document.getElementById('rfi_term_' + j).value;
             document.getElementById('rfi_term_definition_' + i).value=document.getElementById('rfi_term_definition_' + j).value;
-            document.getElementById("rfi_label_term_"+i).innerText="";
-            document.getElementById("rfi_label_acronym_"+i).innerText="";
+            // document.getElementById("rfi_label_term_"+i).innerText="";
+            // document.getElementById("rfi_label_acronym_"+i).innerText="";
           }
            else
            {
              target=i;
-             document.getElementById("rfi_label_acronym_"+i).innerText="";
+            //  document.getElementById("rfi_label_acronym_"+i).innerText="";
              break;
            }
           }
           else
         {
           target=i;
-           document.getElementById("rfi_label_acronym_"+i).innerText="";
+          //  document.getElementById("rfi_label_acronym_"+i).innerText="";
            break;
         }
           }
@@ -10208,7 +10909,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementsByClassName('term_acronym_fieldset acronym_'+target)[0].classList.add("ccs-dynaform-hidden");
 
         document.getElementById('rfi_term_' + target).value = "";
+        document.getElementById('rfi_term_' + target).dispatchEvent(new Event("keyup"));
         document.getElementById('rfi_term_definition_' + target).value = "";
+        document.getElementById('rfi_term_definition_' + target).dispatchEvent(new Event("keyup"));
 
 
         if (prev_coll > 1) {
@@ -10331,7 +11034,23 @@ const removeErrorFields = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+$('.rfi_term_definition').keyup(function(e) {
+  var tlength = $(this).val().length;
+  $(this).val($(this).val().substring(0, maxchars));
+  var tlength = $(this).val().length;
+  remain = maxchars - parseInt(tlength);
+  $(this).text(remain);
 
+});
+$(".rfi_term_definition").keypress(function(e) {
+  var maxLen = $(this).val().length;
+  var keyCode = e.which;
+
+  if (maxLen >= 10000 && (keyCode != 8) && (keyCode < 48 || keyCode > 57)) {
+      return false;
+  }
+
+});
 
     
 const emptyFieldCheck = (add_more='') => {
@@ -10343,23 +11062,47 @@ const emptyFieldCheck = (add_more='') => {
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
-      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
-        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
-        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
 
-      if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must enter the definition for the term or acronym.');
-        fieldCheck = [definition_field.id, 'You must enter the definition for the term or acronym.'];
+      
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id == 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
+        errorStore.push(fieldCheck);
+      }
+
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(definition_field, 'Enter a definition for the term or acronym');
+        fieldCheck = [definition_field.id, 'Enter a definition for the term or acronym'];
         errorStore.push(fieldCheck);
       }
       
 
-      if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must enter the term or acronym.');
-        fieldCheck = [term_field.id, 'You must enter the term or acronym.'];
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '' && agrement_id != 'RM1557.13') {
+        ccsZaddErrorMessage(term_field, 'Enter a term or acronym');
+        fieldCheck = [term_field.id, 'Enter a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }
@@ -10377,12 +11120,13 @@ const ccsZCountRfiTerms = (event) => {
   // {
     for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_term_"+i).innerText="";
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining2 of 500";
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -10401,13 +11145,14 @@ const ccsZCountRfiAcronyms = (event) => {
   // {
     for(var i=1;i<=total_count;i++)
     {
-      document.getElementById("rfi_label_acronym_"+i).innerText="";
-      document.getElementById("rfi_label_term_"+i).innerText="";
+      // document.getElementById("rfi_label_acronym_"+i).innerText="";
+      // document.getElementById("rfi_label_term_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining1 of "+maxlength;
+    labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -10552,148 +11297,233 @@ const ccsZResetAddress = (event) => {
 document.addEventListener('DOMContentLoaded', () => {
 
     let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
         let year = $(`#clarification_date-year_${element}`);
         let hour = $(`#clarification_date-hour_${element}`);
         let minutes = $(`#clarification_date-minute_${element}`);
+        
+        let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
 
-        let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+        // day.on('blur', () => {
+        //     let value = day;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 31;
+        //         let startmonthCheck = Number(value.val()) < 1;
+        //         if (matchValue || endmonthCheck || startmonthCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        day.on('blur', () => {
-            let value = day;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 31;
-                let startmonthCheck = Number(value.val()) < 1;
-                if (matchValue || endmonthCheck || startmonthCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
+        // month.on('blur', () => {
+        //     let value = month;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 12;
+        //         let startmonthCheck = Number(value.val()) <= 0;
+        //         if (matchValue || endmonthCheck || startmonthCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        month.on('blur', () => {
-            let value = month;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 12;
-                let startmonthCheck = Number(value.val()) <= 0;
-                if (matchValue || endmonthCheck || startmonthCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
+        // year.on('blur', () => {
+        //     let value = year;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d{4}$/);
+        //         let endyearCheck = Number(value.val()) > 2121;
+        //         let currentYear = new Date().getFullYear();
+        //         let preYear = currentYear-1;
+        //         let startyearCheck = Number(value.val()) < preYear;
+              
+        //         if (matchValue || endyearCheck || startyearCheck) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
+        //         } else {
+        //             value.removeClass("govuk-input--error");
+        //             ccsZremoveErrorMessage(document.getElementById(parentID));
+        //         }
+        //     }
+        // });
 
-        year.on('blur', () => {
-            let value = year;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d{4}$/);
-                let endyearCheck = Number(value.val()) > 2121;
-                let currentYear = new Date().getFullYear();
-                let startyearCheck = Number(value.val()) < currentYear;
-                if (matchValue || endyearCheck || startyearCheck) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
-                } else {
-                    value.removeClass("govuk-input--error");
-                    ccsZremoveErrorMessage(document.getElementById(parentID));
-                }
-            }
-        });
+        // hour.on('blur', () => {
+        //     let value = hour;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 23;
+        //         let startmonthCheck = Number(value.val()) <= 0;
+        //         if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        //         } else {
+        //             if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+        //                 value.addClass("govuk-input--error")
+        //                 ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hours");
+        //             } else {
+        //                 value.removeClass("govuk-input--error");
+        //                 ccsZremoveErrorMessage(document.getElementById(parentID));
+        //             }
+        //         }
+        //     }
+        // });
 
-        hour.on('blur', () => {
-            let value = hour;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 23;
-                let startmonthCheck = Number(value.val()) <= 0;
-                if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-                } else {
-                    if (matchValue || endmonthCheck || startmonthCheck || value == '') {
-                        value.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hours");
-                    } else {
-                        value.removeClass("govuk-input--error");
-                        ccsZremoveErrorMessage(document.getElementById(parentID));
-                    }
-                }
-            }
-        });
-
-        minutes.on('blur', () => {
-            let value = minutes;
-            if (value != undefined && value.val() != '') {
-                let parentID = getParentId(element);
-                let matchValue = !value.val().match(/^\d\d?$/);
-                let endmonthCheck = Number(value.val()) > 59;
-                let startmonthCheck = Number(value.val()) < 0;
-                if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-                    value.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-                } else {
-                    if (matchValue || endmonthCheck || startmonthCheck || value == '') {
-                        value.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
-                    } else {
-                        value.removeClass("govuk-input--error");
-                        ccsZremoveErrorMessage(document.getElementById(parentID));
-                    }
-                }
-            }
-        });
+        // minutes.on('blur', () => {
+        //     let value = minutes;
+        //     if (value != undefined && value.val() != '') {
+        //         let parentID = getParentId(element);
+        //         let matchValue = !value.val().match(/^\d\d?$/);
+        //         let endmonthCheck = Number(value.val()) > 59;
+        //         let startmonthCheck = Number(value.val()) < 0;
+        //         if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+        //             value.addClass("govuk-input--error")
+        //             ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        //         } else {
+        //             if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+        //                 value.addClass("govuk-input--error")
+        //                 ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
+        //             } else {
+        //                 value.removeClass("govuk-input--error");
+        //                 ccsZremoveErrorMessage(document.getElementById(parentID));
+        //             }
+        //         }
+        //     }
+        // });
 
         responseDate.on('submit', (e) => {
             e.preventDefault();
             day.removeClass("govuk-input--error")
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
-
             let parentID = getParentId(element);
             ccsZremoveErrorMessage(document.getElementById(parentID));
-
-            if ((year.val() != undefined && year.val() == "") && (month.val() != undefined && month.val() == "") && (day.val() != undefined && day.val() == "")) {
+            ccsZremoveErrorMessageRFIDate();
+            if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
+                day.addClass("govuk-input--error")
+                month.addClass("govuk-input--error")
+                year.addClass("govuk-input--error") 
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a date and time");
+                const errorStore = [
+                    [parentID, "Enter a date and time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            } else if ((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) {
                 day.addClass("govuk-input--error")
                 month.addClass("govuk-input--error")
                 year.addClass("govuk-input--error")
-                ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
+                const errorStore = [
+                    [parentID, "Enter a complete date"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
             } else if (day.val() != undefined && day.val() == "") {
                 day.addClass("govuk-input--error")
                 ccsZaddErrorMessage(document.getElementById(parentID), "Day should not be empty");
+                const errorStore = [
+                    [parentID, "Day should not be empty"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
             } else if (month.val() != undefined && month.val() == "") {
                 month.addClass("govuk-input--error")
                 ccsZaddErrorMessage(document.getElementById(parentID), "Month should not be empty");
+                const errorStore = [
+                    [parentID, "Month should not be empty"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
             } else if (year.val() != undefined && year.val() == "") {
                 year.addClass("govuk-input--error")
                 ccsZaddErrorMessage(document.getElementById(parentID), "Year should not be empty");
-            } else {
+                const errorStore = [
+                    [parentID, "Year should not be empty"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            } else if (hour.val() != undefined && hour.val() == "") {
+                hour.addClass("govuk-input--error")
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
+                const errorStore = [
+                    [parentID, "Enter a complete time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            }else if (minutes.val() != undefined && minutes.val() == "") {
+                minutes.addClass("govuk-input--error")
+                ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete time");
+                const errorStore = [
+                    [parentID, "Enter a complete time"]
+                ]
+    
+                ccsZPresentErrorSummary(errorStore);
+            }else {
                 if (!isValidDate(year.val(), month.val(), day.val())) {
                     day.addClass("govuk-input--error")
-                    ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+                    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a complete date");
+                    const errorStore = [
+                        [parentID, "Enter a complete date"]
+                    ]
+        
+                    ccsZPresentErrorSummary(errorStore);
                 } else {
-                    let currentDate = new Date();
-                    let enteredDate = new Date(year.val(), month.val() - 1, day.val());
+
+
+                    let currentDate = new Date(document.getElementsByClassName(`dynamicid_${element - 1}`)[0].innerText);
+                    let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
+        
+                    let nextDate = new Date();
+                    let isNextDate = false;
+                    if(selectors.length + 1 > element && document.getElementsByClassName(`dynamicid_${element+ 1}`).length > 0){
+                        // parent = document.getElementById('showDateDiv5');
+                        // children = parent.children[1].children[0].children[0].innerHTML
+                        // console.log("element",element)
+                        // parent = document.getElementById(`showDateDiv${element+ 1}`);
+                        // children = parent.children[1].children[0].children[0].innerHTML
+                        // console.log("children",children);
+
+                        nextDate = new Date(document.getElementsByClassName(`dynamicid_${element+ 1}`)[0].innerText);
+                        
+                        isNextDate = true;
+                    }
+
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
-                        ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future");
-                    } else {
-                        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
+                        const errorStore = [
+                            [parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]
+                        ]
+            
+                        ccsZPresentErrorSummary(errorStore);
+                    } else if(isNextDate && (enteredDate > nextDate)){
+                        day.addClass("govuk-input--error")
+                        month.addClass("govuk-input--error")
+                        year.addClass("govuk-input--error")
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
+                        const errorStore = [
+                            [parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]
+                        ]
+                        ccsZPresentErrorSummary(errorStore);
+                    }else {
+                        document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
                     }
                 }
             }
@@ -10831,20 +11661,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 $('.add').addClass('ccs-dynaform-hidden');
+
+let totalCount = 20;
+let totalCountindex = 21;
+
 document.addEventListener('DOMContentLoaded', () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
+const queryString = window.location.search;
+
+const urlParams = new URLSearchParams(queryString);
+  if(urlParamsDefault.get('agreement_id') == 'RM6187'){
+    totalCount = 10;
+    totalCountindex = 11;
+  }
+  
 
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
     let question_length = $('.add').length;
-    if(question_length == 20){
-      document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
+    if(question_length == totalCount){
+      
+     // document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
     }
-    let with_value_count = 20,
+    let with_value_count = totalCount,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
+      document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
       //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
-    for (var text_box_num = 20; text_box_num >= 1; text_box_num--) {
+    for (var text_box_num = totalCount; text_box_num >= 1; text_box_num--) {
 
       let this_box = document.getElementById("rfi_question_" + text_box_num);
       this_box.addEventListener('input', ccsZCountRfiQuestions);
@@ -10853,33 +11695,49 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("rfi_question_" + text_box_num).classList.remove('ccs-dynaform-hidden');
         let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
         the_label.classList.remove('ccs-dynaform-hidden');
+        
+        
+        
+
       }
       else{
       if (this_box.value !== "") {
         this_box.classList.remove('ccs-dynaform-hidden');
 
-        if (text_box_num === 20) {
+        if (text_box_num === totalCount) {
+         
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
 
       } else {
-        let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
-        the_label.classList.add('ccs-dynaform-hidden');
+        // let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
+        // the_label.classList.add('ccs-dynaform-hidden');
+        
+        document.querySelector('#fc_question_' + text_box_num).classList.add("ccs-dynaform-hidden");
+
         with_value_count = text_box_num;
       }
     }
 
     }
-
-    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+    
+  //  document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+  var divHide = $('div.ccs-dynaform-hidden').length;
+  if(divHide == 0 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 1' && (urlParams.get('group_id') == 'Group 3')){
+      with_value_count++;
+  }
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
+      var divHide = $('div.ccs-dynaform-hidden').length;
+      if(divHide == 1 && with_value_count == 19){
+        with_value_count = totalCount;
+      }
       e.preventDefault();
       $(".govuk-error-summary").remove();
       errorStore = emptyQuestionFieldCheck();
       if (errorStore.length == 0) {
 
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-
+        document.querySelector('#fc_question_' + with_value_count).classList.remove("ccs-dynaform-hidden");
         document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
 
         if (with_value_count > 2) {
@@ -10888,8 +11746,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         with_value_count++;
-        console.log("with_value_countadd>",with_value_count)
-        if (with_value_count === 21) {
+      
+        if (with_value_count === totalCountindex) {
+          
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
       }
@@ -10905,65 +11764,219 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
+        
+        $('.govuk-error-message').html('');
+        
+        $("div").removeClass("govuk-form-group--error");
 
         e.preventDefault();
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+         
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+              
+
+               if(target != totalCountindex) {
+                   let ml = 1;
+                   
+                   let next_coll = Number(target);
+                   let nextLevel_coll = Number(target);
+                
+                   
+                   let eptArr = [];
+                   while (Sibling) {
+
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
+
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               
+                               let last;
+                               
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                                 document.getElementById('rfi_question_'+current_col).value=last;
+                               }
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                          
+                            let last;
+                          
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("rfi_question_"+nextLevel_coll).value;
+                              document.getElementById('rfi_question_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                        
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       let removeLogic = eptArr.at(-1);
+                      
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+removeLogic).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
+                } else {
+                   
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+                       }
+
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                      
+                       document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("rfi_question_"+nextLevel_coll);
+                       if(fc_question_precenate_El){
+                         document.getElementById('rfi_question_'+nextLevel_coll).value="";
+                         fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   
+                   document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+               with_value_count--;
+               if (with_value_count != 11) {
+             
+                document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+               }
+           });
+
+
+
+
+
+
+
+
+
         //debugger;
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_box = Number(target) - 1;
-          for (var k=1;k<=10;k++)
-          {
-            document.getElementById("rfi_label_question_"+k).innerText="";
+
+
+
+        // let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //   prev_box = Number(target) - 1;
+        //   for (var k=1;k<=10;k++)
+        //   {
+        //     document.getElementById("rfi_label_question_"+k).innerText="";
             
-          }
-        for (var i=target;i<11;i++){
-          var j=Number(i)+1;
-         let nextelmnt= document.getElementById('rfi_question_' + j);
-        //  let prevelmnt= document.getElementById('rfi_question_' + i);
-        if(nextelmnt!=null){
-         if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
-         {
-          document.getElementById('rfi_question_' + i).value=nextelmnt.value;
-          document.getElementById("rfi_label_question_"+i).innerText="";
-         }
-         else
-         {
-           target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-         }
-        }
-        else
-        {
-          target=i;
-           document.getElementById("rfi_label_question_"+i).innerText="";
-           break;
-        }
-        }
+        //   }
+        // for (var i=target;i<11;i++){
+        //   var j=Number(i)+1;
+        //  let nextelmnt= document.getElementById('rfi_question_' + j);
+        // //  let prevelmnt= document.getElementById('rfi_question_' + i);
+        // if(nextelmnt!=null){
+        //  if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
+        //  {
+        //   document.getElementById('rfi_question_' + i).value=nextelmnt.value;
+        //   document.getElementById("rfi_label_question_"+i).innerText="";
+        //  }
+        //  else
+        //  {
+        //    target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        //  }
+        // }
+        // else
+        // {
+        //   target=i;
+        //    document.getElementById("rfi_label_question_"+i).innerText="";
+        //    break;
+        // }
+        // }
 
-        document.getElementById('rfi_question_' + target).value = "";
-        document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
-        let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
-        if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
-          parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
-          parentNode.classList.remove("govuk-form-group--error");
-          parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
-        }
-        //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
-        document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
+        // document.getElementById('rfi_question_' + target).value = "";
+        // document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
+        // let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
+        // if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
+        //   parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
+        //   parentNode.classList.remove("govuk-form-group--error");
+        //   parentNode.children["rfi_question_" + target].classList.remove("govuk-input--error");
+        // }
+        // //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
+        // document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
 
-        if (prev_box > 1) {
-          //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-        console.log("with_value_count>>>",with_value_count)
-      });
+        // if (prev_box > 1) {
+        //   //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+        // }
+        // document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
+        // with_value_count--;
+        // console.log("with_value_count>>>",with_value_count)
+   //   });
     });
 
 
-    let length = 21;
+    let length = totalCountindex;
     while (--length) {
-      console.log(length);
+     
       let element = document.querySelector("#rfi_question_" + length);
       element.addEventListener('focusout', (event) => {
         let eleValue = event.target.value;
@@ -10996,18 +12009,28 @@ const emptyQuestionFieldCheck = () => {
   //if (event_typ !== "Request for Information") {
   //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  for (var i = 1; i < 21; i++) {
-    if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+  for (var i = 1; i < totalCountindex; i++) {
+   // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+    if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         if(urlParams.get('agreement_id') == 'RM6187'){
-          errText = "You must ask at least one question";
-        }else{
+          errText = "Enter at least one question before attempting to add another";
+        }
+        else if(urlParams.get('agreement_id') == 'RM1557.13'){
+          errText = "Enter at least one question before attempting to add another";
+        }
+        else{
           errText = "You must add at least one question";
         }
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
       }
       else{
-      fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+        }
+        else{
+          fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        }
       }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
@@ -11019,12 +12042,28 @@ const emptyQuestionFieldCheck = () => {
 const emptyQuestionFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-    if(urlParams.get('agreement_id') == 'RM6187'){
-      errText = "You must ask at least one question";
-    }else{
-      errText = "You must add at least one question";
-    }
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+    
+    for (var i = 1; i < totalCountindex; i++) {
+      // if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+       if (!document.getElementById("fc_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+         if(i==1){
+            if(urlParams.get('agreement_id') == 'RM6187'){
+              errText = "Enter at least one question";
+            }else{
+              errText = "Enter at least one question";
+            }
+           fieldCheck = ccsZvalidateWithRegex("rfi_question_1", errText, /\w+/);
+         }
+         else{
+           if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "Enter a question before you proceed", /\w+/);
+           }
+           else{
+             fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+           }
+         }
+       }
+     }
   if (fieldCheck !== true) errorStore.push(fieldCheck);
     return errorStore;
 };
@@ -11047,14 +12086,15 @@ const ccsZCountRfiQuestions = (event) => {
   const arr=inputId.split("rfi_question_");
   // if(element.value.length<500)
   // {
-    for(var i=1;i<=20;i++)
+    for(var i=1;i<=totalCount;i++)
     {
-      document.getElementById("rfi_label_question_"+i).innerText="";
+      // document.getElementById("rfi_label_question_"+i).innerText="";
     }
     let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText=count + " remaining of "+maxlength;
+    // labelElement.innerText="You have "+count+" characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -11092,6 +12132,10 @@ for (const selector of totalElementSelectors) {
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
+        if($('.rfi_hideFirst:visible').length){
+            $('.rfi_hideFirst').hide();
+            $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRfi();
@@ -11121,7 +12165,8 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        elementSelectorClicked.find('input[type=text]').val('');
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
 
         if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {
@@ -11185,6 +12230,7 @@ $('#ccs_collab_view').hide();
 
 let rfpFormURL = "/rfp/get-collaborator-detail/js-enabled";
 
+$('#potential-collaborator').hide()
 
 $('#rfp_collaborators').on('change', function () {
   let id = this.value;
@@ -11199,7 +12245,7 @@ $('#rfp_collaborators').on('change', function () {
       let { userName, firstName, lastName, tel } = data;
       let collegueName = firstName + " " + lastName;
       let id = userName;
-
+      $('#potential-collaborator').show()
       $('#show_collab_name').html(collegueName)
       $('#show_collab_email').html(id)
       $('#show_collab-phone').html(tel)
@@ -11226,6 +12272,8 @@ $('#rfp_collaborators').on('change', function () {
 
 
 });
+
+$('.add').addClass('ccs-dynaform-hidden');
 const rfp_totalElementSelectors = Array.from(Array(13+1).keys()).slice(1);
 
 
@@ -11247,60 +12295,53 @@ for(const selector of rfp_totalElementSelectors){
     elementSelector.fadeIn(); 
     elementSelectorCancel.fadeIn(); 
     elementSelector.on('click', () => {
+        let element = document.getElementById(`ccs_rfp_response_date_form_${selector}`);
+        element.reset();
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementID);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
+        if($('.hideFirst:visible').length){
+                $('.hideFirst').hide();
+                $('.change').show(); 
+        }
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
         saveButtonHideDateRFP();
+        
     });
-    let errorSelector = $("#click-error");
-    let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
     
-
-    noChanges.click(function() {
-        $( ".govuk-error-message" ).hide();
-        $( ".govuk-error-summary" ).hide();
-        elementClicked = $("#showDateDiv" + selector);
-        elementClicked.removeClass('govuk-form-group--error')
-        
-        
-
-    });
-
-    errorSelector.on('click', () => {
-        
-        let storedClickedID = localStorage.getItem('dateItem');
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
-        if (elementSelector.selector === elementSelectorClicked.selector && hasError ) {
-            elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-           
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
-        let agreementID;
-        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
-        if(agreementID != 'RM1043.8'  && agreementID != 'RM1557.13') {
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-        }
-    });
 }
 
 
+let rfperrorSelector = $("#click-error");
+rfperrorSelector.on('click', () => {
+    let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
+    let elementSelectorClicked = $(ClickedID);
+    if($('.hideFirst:visible').length){
+        $('.hideFirst').hide();
+        $('.change').show(); 
+    }
+    elementSelectorClicked.fadeIn();
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
+});
 
 
 for(const selector of rfp_totalElementSelectors){
     let elementID = "#rfp_cancel_change_clarification_date_"+selector;
     let elementSelector = $(elementID);
     elementSelector.on('click', () => {
+
+        $(`#clarification_date-day_${selector}`).val("");
+        $(`#clarification_date-month_${selector}`).val("");
+        $(`#clarification_date-year_${selector}`).val("");
+        $(`#clarification_date-hour_${selector}`).val("");
+        $(`#clarification_date-minute_${selector}`).val("");
+        
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0) {
@@ -11469,40 +12510,7 @@ function deselect(e) {
 }
 
 });
-
-$('input[type="radio"]').on('click change', function(e) {
-    if (e.currentTarget.value === 'Yes') {
-       $('#conditional-rfp_radio_security_confirmation').fadeIn();
-    } else {
-        $('#conditional-rfp_radio_security_confirmation').hide();
-    }
-});
-const removeErrorFieldsRfpIR35 = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
-    $('.govuk-error-summary').remove();
-    $(".govuk-input").removeClass("govuk-input--error");
-    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
-  }
-
-$('#rfp_IR35_form').on('submit', (event) => {
-    event.preventDefault();
-    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
-    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
-    //errorStore = emptyFieldCheckRfpKPI();
-  
-    if (radioButtonOne || radioButtonTwo) {
-      document.forms["rfp_IR35_form"].submit();
-    }
-    else {
-        removeErrorFieldsRfpIR35();
-        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
-      ccsZPresentErrorSummary([errorStore]);
-    }
-  
-  });
-const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+const countWords1 = (str) => { return str?str.trim().split(/\s+/).length:false };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -11558,6 +12566,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore = emptyFieldCheckRfp1();
                 if (errorStore.length == 0) {
                     removeErrorFieldsRfp1();
+                    let termvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    let termdefvalue = document.getElementById('rfp_term_' + with_value_count).value;
+                    if(termvalue != '' && termdefvalue != ''){
+                    if(with_value_count == 20){
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    else{
+                    with_value_count++;
+                    document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+                    if (with_value_count === 20 ) {
+                        document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                    }
+                    }
+                  }
+                  else{
                     document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
                     $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
                     // if(agreementID == 'RM1043.8' && q_mandatory != true) {
@@ -11567,6 +12591,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //     }
                     // }
                     with_value_count++;
+                  }
                     // let hideBtnCount = agreementID == 'RM1043.8' && lID == '1' ? 17 : 21 ;
                     if (with_value_count === 21 ) {
                         document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -11649,12 +12674,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         let removeLogic = eptArr.at(-1);
                         console.log(`removeLogic: ${removeLogic}`);
                         document.getElementById('rfp_term_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_' + removeLogic).dispatchEvent(new Event("keyup"));
+
                         document.getElementById('rfp_term_definition_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_definition_' + removeLogic).dispatchEvent(new Event("keyup"));
                         document.getElementById('rfp_term_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
                     } else {
                         target_fieldset.classList.add("ccs-dynaform-hidden");
                         document.getElementById('rfp_term_' + target).value = "";
+                        document.getElementById('rfp_term_' + target).dispatchEvent(new Event("keyup"));
                         document.getElementById('rfp_term_definition_' + target).value = "";
+                        document.getElementById('rfp_term_definition_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                             document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                         }
@@ -11663,7 +12693,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     target_fieldset.classList.add("ccs-dynaform-hidden");
                     document.getElementById('rfp_term_' + target).value = "";
+                    document.getElementById('rfp_term_' + target).dispatchEvent(new Event("keyup"));
                     document.getElementById('rfp_term_definition_' + target).value = "";
+                    document.getElementById('rfp_term_definition_' + target).dispatchEvent(new Event("keyup"));
                     if (prev_coll > 1) {
                         document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                     }
@@ -11785,14 +12817,40 @@ const removeErrorFieldsRfp1 = () => {
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
+    $(".govuk-select").removeClass("govuk-select--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error1');
 
 }
 let rfp_term_text = document.querySelectorAll('.rfpterm');
 let rfp_term_definition = document.querySelectorAll('.rfp_term_definition');
 let messagesendcountEle = document.querySelectorAll('.messagesendcount');
+let subjecterror = document.querySelectorAll('#create_subject_input');
+let classification_input = document.querySelectorAll('#create_message');
+let supplier_error = document.querySelectorAll('#create_supplier_message');
 let removeErr = document.querySelectorAll('.removeErr');
+let removeErrCheckbox = document.querySelectorAll('.removeErrCheckbox');
 removeErr.forEach(ele => {
+    ele.addEventListener('keydown', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+removeErrCheckbox.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+classification_input.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+supplier_error.forEach(ele => {
+    ele.addEventListener('change', (event) => {
+        removeErrorFieldsRfp1();
+    });
+});
+subjecterror.forEach(ele => {
     ele.addEventListener('keydown', (event) => {
         removeErrorFieldsRfp1();
     });
@@ -11815,12 +12873,14 @@ messagesendcountEle.forEach(ele => {
 const emptyFieldCheckdos = (type) => {
     let fieldCheck = "",
         errorStore = [];
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
     removeErrorFieldsRfp1();
     const pageHeading = document.getElementById('page-heading').innerHTML;
     
-    if(pageHeading.trim() == 'Terms and acronyms (Optional)'){
-        fieldMsg = 'You must enter term or acronym'
-        descMsg = 'You must enter definition for the term or acronym';
+    if(pageHeading.trim() == 'Terms and acronyms (Optional)' || pageHeading.trim() == 'Terms and acronyms (optional)'){
+        fieldMsg = 'Enter a term or acronym'
+        descMsg = 'Enter a definition for the term or acronym';
     }else{
         fieldMsg = 'You must add information in all fields.';
         descMsg = 'You must add information in all fields.';
@@ -11840,7 +12900,8 @@ const emptyFieldCheckdos = (type) => {
                             fieldCheck = [term_field.id, fieldMsg];
                             ccsZaddErrorMessage(term_field, fieldMsg);
                             errorStore.push(fieldCheck);
-                        } else if (definition_field.value.trim() === '') {
+                        } 
+                        if (definition_field.value.trim() === '') {
                             fieldCheck = [definition_field.id, descMsg];
                             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
                             ccsZaddErrorMessage(definition_field, descMsg);
@@ -12102,7 +13163,7 @@ $('.percentage_limit').keyup(function(e) {
       }
 
 
-var maxless = 500;
+var maxless = 10000;
 
 $('.rfpterm').keyup(function(e) {
     var tlength = $(this).val().length;
@@ -12260,6 +13321,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // For DOS6 message create multi supplier
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].addEventListener('click',function(){
+//   document.getElementsByClassName("btn-msgmultisupplier")[0].disabled = true;              
+//   document.forms['ccs_message_create_form'].submit();
+// })
 });
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
@@ -12447,50 +13514,43 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         console.log("event.keyCode",event.keyCode);
 
-         if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-           event.preventDefault(); });
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
-           rfpResourceStartMonth.on('keydown', (event) => {
-            if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-              event.preventDefault(); });
+      rfpResourceStartMonth.on('keydown', (event) => {
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
-              rfpResourceStartYear.on('keydown', (event) => {
-               if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-                 event.preventDefault(); });
+      rfpResourceStartYear.on('keydown', (event) => {
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
       rfpResourceStartDay.on('keyup', () => {
-         if(DateCheckResourceStart())
-         {
-            if(MonthCheckResourceStart())
-            YearCheckResourceStart();
-         }
+         DateCheckResourceStart();
       });
 
       rfpResourceStartMonth.on('keyup', () => {
-         if(MonthCheckResourceStart())
-         {
-            if( DateCheckResourceStart())
-            YearCheckResourceStart();
-         }
+         MonthCheckResourceStart();
+
       });
 
       rfpResourceStartYear.on('keyup', () => {
-         if(YearCheckResourceStart())
-         {
-            if(MonthCheckResourceStart())
-            DateCheckResourceStart();
-         }   
+         YearCheckResourceStart();
+
       });
 
       var currentEventId = '';
       let rfpDurationField = $('.rfp_duration');
-      
+
       rfpDurationField.on('keydown', (event) => {
-        
-         if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
-           event.preventDefault(); });
+
+         if (event.key === '.' || event.keyCode === 69 || event.keyCode === 189 || event.keyCode === 109)
+            event.preventDefault();
+      });
 
       rfpDurationField.on('blur', (event) => {
 
@@ -12498,52 +13558,44 @@ document.addEventListener('DOMContentLoaded', () => {
          let currentIdValue = $(`#${currentId}`);
          currentEventId = currentId;
          if (currentId.includes('day')) {
-            DateCheck(currentIdValue,currentId);
+            DateCheck(currentIdValue);
          }
 
          else if (currentId.includes('month')) {
-            MonthCheck(currentIdValue,currentId);
+            MonthCheck(currentIdValue);
          }
 
          else if (currentId.includes('year')) {
-            YearCheck(currentIdValue,currentId)
+            YearCheck(currentIdValue)
          }
 
       });
+
+      
 
       const DateCheckResourceStart = () => {
          let value = rfpResourceStartDay;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 1;
-         if(value != undefined && value.val() != '')
-         {
-         if (matchValue || endmonthCheck || startmonthCheck) {
-
-            rfpResourceStartDay.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid date')
-            return false ;
-         } else {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endmonthCheck || startmonthCheck) {
+
+                  rfpResourceStartDay.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-date').html('Enter a valid date')
+               } else {
+                  rfpResourceStartDay.removeClass('govuk-form-group--error');
+                  $('.durations').removeClass('govuk-form-group--error');
+                  $('#event-name-error-date').html('');
+               }
+
             }
          }
-         else{
-            removeErrorFieldsdates();
-
-            return true;
-          }
-         }
-         
-      }
       }
 
       const MonthCheckResourceStart = () => {
@@ -12551,126 +13603,58 @@ document.addEventListener('DOMContentLoaded', () => {
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 12;
          let startmonthCheck = Number(value.val()) <= 0;
-         if(value != undefined && value.val() != '')
-         {
-         if (matchValue || endmonthCheck || startmonthCheck) {
-            rfpResourceStartMonth.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
-            return false ;
-         } else {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
+            $('#event-name-error-month').html('');
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endmonthCheck || startmonthCheck) {
+                  rfpResourceStartMonth.addClass('govuk-form-group--error');
+                  $('.durations').addClass('govuk-form-group--error');
+                  $('#event-name-error-month').html('Enter a valid month');
+               } else {
+                  rfpResourceStartMonth.removeClass('govuk-form-group--error');
+                  $('.durations').removeClass('govuk-form-group--error');
+                  $('#event-name-error-month').html('');
+               }
             }
          }
-         else{
-            removeErrorFieldsdates();
-            return true;
-         }
-         }
       }
-      }
+      
       const YearCheckResourceStart = () => {
-        // let fieldCheck = "", errorStore = [];
          let value = rfpResourceStartYear;
          let matchValue = !value.val().match(/^\d{4}$/);
          let endyearCheck = Number(value.val()) > 2121;
          let currentYear = new Date().getFullYear();
          let startyearCheck = Number(value.val()) < currentYear;
-         if(document.getElementById('agreementID').value !== 'RM1043.8') {
-
-         if(value != undefined && value.val() != '')
-         {
-         // if (matchValue || endyearCheck || startyearCheck) { XBN00121
-         
-
-         if (matchValue || endyearCheck) {
-            rfpResourceStartYear.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid year');
-            // fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
-            // if (fieldCheck !== true){ errorStore.push(fieldCheck)
-            // }else{
-            //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
-            // }
-            //  console.log('errorStore',errorStore)
-            //  if(errorStore.length>0){
-            //    ccsZPresentErrorSummary(errorStore);
-            //    return false;
-            //   }
-
-            return false ;
-         } else {
+         if (document.getElementById('agreementID').value !== 'RM1043.8') {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
+            if (value != undefined && value.val() != '') {
+               if (matchValue || endyearCheck) {
+                  rfpResourceStartYear.addClass('govuk-form-group--error');
+               } else {
+                  rfpResourceStartYear.removeClass('govuk-form-group--error');
+               }
             }
-          
          }
-        }
       }
-      else{
-         removeErrorFieldsdates();
-         return true;
-      }
-      }
-     // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-      const DateCheck = (rfpDay,currentId) => {
+
+      // const durationYear = document.getElementsByClassName('rfp_duration_year_25');
+      const DateCheck = (rfpDay) => {
          let value = rfpDay;
-         let currentEID = currentId;
          let matchValue = !value.val().match(/^\d\d?$/);
          let endmonthCheck = Number(value.val()) > 31;
          let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
-            }
-            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-               removeErrorFieldsdates();
-               }   
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_days_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-               yrValidation = true;
-            }
-            }
-            if(currentEID=='rfp_duration_days_Question13'){
-               yrValidation2 = validateExtPeriod();
-            }
          }
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-           let fieldCheck = "",
-            errorStore = [];
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
+
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            let fieldCheck = "",
+               errorStore = [];
             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
@@ -12682,8 +13666,8 @@ document.addEventListener('DOMContentLoaded', () => {
                //        return false;
                //    }
 
-              
-              
+
+
             }
             else {
                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
@@ -12691,333 +13675,163 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             let fieldCheck = "",
-             errorStore = [];
-             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
-                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-                //     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days", "Enter a valid day", /^\d{1,}$/);
-                //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-                //    if(errorStore.length>0){
-                //        ccsZPresentErrorSummary(errorStore);
-                //        return false;
-                //    }
- 
-               
-               
-             }
-             else {
-                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-                $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-                $(`.p_durations_${currentEventId}`).html('');
-             }
-          }
-        else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
+               errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days", "Enter a valid day", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+
+
+
+            }
+            else {
+               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
+         else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_days_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                  }
-               }else if(currentEID=='rfp_duration_days_Question13'){
-                  if(yrValidation2==1){
-                        $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                     }else if(yrValidation2==2){
-                        $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                     }else{
-                     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-                     }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid day');
-               }
+            $(`.p_durations_${currentEventId}`).html('Enter a valid day');
          } else {
             $(`#${currentEventId}`).removeClass('govuk-form-group--error');
             $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
-            $(`.p_durations_${currentEventId}`).html('');
-         }
-   }
-   
-      const MonthCheck = (rfpMonth,currentId) => {
-         const value = rfpMonth;
-         let currentEID = currentId;
-         let matchValue = !value.val().match(/^\d\d?$/);
-         let endmonthCheck = Number(value.val()) > 12;
-         let startmonthCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-            removeErrorFieldsdates();
-            }
-            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-               removeErrorFieldsdates();
-               }
-         if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
-
-            if(currentEID=='rfp_duration_months_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(DaysProjectRun>0 && YearProjectRun>0){
-               did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-              //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-               let currentdIdValue = $(`#${did}`);
-              //  let currentyIdValue = $(`#${yid}`);
-               DateCheck(currentdIdValue,did);
-              //  YearCheck(currentyIdValue,yid);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun>4){
-                  yrValidation = true;
-            }
-         }
-         if(currentEID=='rfp_duration_months_Question13'){
-            const YearProjectRun2 = Number(durationYear[1].value);
-             const MonthProjectRun2 = Number(durationMonth[1].value);
-             const DaysProjectRun2 = Number(durationDay[1].value);
- 
-             if(DaysProjectRun2>0 && YearProjectRun2>0){
-                did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               //  yid = document.getElementsByClassName('rfp_duration_year_25')[1].id;
-                let currentdIdValue = $(`#${did}`);
-               //  let currentyIdValue = $(`#${yid}`);
-                DateCheck(currentdIdValue,did);
-               //  YearCheck(currentyIdValue,yid);
-             }
-            //  if(YearProjectRun2==4){
-            //     if(MonthProjectRun2>0 || DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2==3){
-            //     if(MonthProjectRun2==12 && DaysProjectRun2>0){
-            //        yrValidation2 = true;
-            //     }
-            //  }else if(YearProjectRun2>4){
-            //        yrValidation2 = true;
-            //  }
-            yrValidation2 = validateExtPeriod();
-            }
-         }
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-            endmonthCheck = Number(value.val()) > 11;
-            let fieldCheck = "",
-            errorStore = [];
-            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               // if((matchValue || startmonthCheck)){
-               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-
-               // }
-               // if(endmonthCheck){
-                  
-               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
-               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-               // }
-            }
-            else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.p_durations_${currentEventId}`).html('');
-            }
-         }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
-            endmonthCheck = Number(value.val()) > 11;
-            let fieldCheck = "",
-            errorStore = [];
-            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
-               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               // if((matchValue || startmonthCheck)){
-               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-
-               // }
-               // if(endmonthCheck){
-                  
-               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
-               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
-               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
-               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
-               //    if(errorStore.length>0){
-               //        ccsZPresentErrorSummary(errorStore);
-               //        return false;
-               //    }
-               // }
-            }
-            else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.p_durations_${currentEventId}`).html('');
-            }
-         }
-         else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
-            $(`#${currentEventId}`).addClass('govuk-form-group--error');
-            $(`.${currentEventId}`).addClass('govuk-form-group--error');
-            if(currentEID=='rfp_duration_months_Question12'){
-               if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else if(currentEID=='rfp_duration_months_Question13'){
-               if(yrValidation2==1){
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }else if(yrValidation2==2){
-                  $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-                  }
-            }else{
-               $(`.p_durations_${currentEventId}`).html('Enter a valid month');
-               }
-         }
-         else {
-            $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-            $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-            document.getElementById(currentEID).classList.remove('govuk-form-group--error');
             $(`.p_durations_${currentEventId}`).html('');
          }
       }
-   const YearCheck = (rfpYear,currentId) => {
 
-         let value = rfpYear;
-         let currentEID = currentId;
+      const MonthCheck = (rfpMonth) => {
+         const value = rfpMonth;
          let matchValue = !value.val().match(/^\d\d?$/);
-         let endyearCheck = Number(value.val()) > 4;
-         let startyearCheck = Number(value.val()) < 0;
-         let yrValidation = false;
-         let yrValidation2 = false;
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
-         removeErrorFieldsdates();
-         }
-         if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         let endmonthCheck = Number(value.val()) > 12;
+         let startmonthCheck = Number(value.val()) < 0;
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
-            }
-         if(document.getElementById('agreementID').value === 'RM6187'){
-            if(value.val() != ''){
-            const durationYear = document.getElementsByClassName('rfp_duration_year_25');
-            const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
-            const durationDay = document.getElementsByClassName('rfp_duration_day_25');
+         }
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
 
-            if(currentEID=='rfp_duration-years_Question12'){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-
-            if(DaysProjectRun>0 || MonthProjectRun>0){
-            mid = document.getElementsByClassName('rfp_duration_month_25')[0].id;
-            did = document.getElementsByClassName('rfp_duration_day_25')[0].id;
-            let currentmIdValue = $(`#${mid}`);
-            let currentdIdValue = $(`#${did}`);
-            
-            DateCheck(currentmIdValue,mid);
-            MonthCheck(currentdIdValue,did);
-            }
-
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
-                  yrValidation = true;
-               }
-            }
-            }
-            if(currentEID=='rfp_duration-years_Question13'){
-               const YearProjectRun2 = Number(durationYear[1].value);
-               const MonthProjectRun2 = Number(durationMonth[1].value);
-               const DaysProjectRun2 = Number(durationDay[1].value);
-   
-               if(DaysProjectRun2>0 || MonthProjectRun2>0){
-               mid = document.getElementsByClassName('rfp_duration_month_25')[1].id;
-               did = document.getElementsByClassName('rfp_duration_day_25')[1].id;
-               let currentmIdValue = $(`#${mid}`);
-               let currentdIdValue = $(`#${did}`);
-              
-               DateCheck(currentmIdValue,mid);
-               MonthCheck(currentdIdValue,did);
-               }
-               // if(YearProjectRun2==4){
-               //    if(MonthProjectRun2>0 || DaysProjectRun2>0){
-               //       yrValidation2 = true;
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            endmonthCheck = Number(value.val()) > 11;
+            let fieldCheck = "",
+               errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               // if((matchValue || startmonthCheck)){
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
                //    }
-               // }else if(YearProjectRun2==3){
-               //    if(MonthProjectRun2==12 && DaysProjectRun2>0){
-               //       yrValidation2 = true;
+
+               // }
+               // if(endmonthCheck){
+
+               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
+               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
                //    }
                // }
-               yrValidation2 = validateExtPeriod();
-               }
-         }
-           if ((matchValue || endyearCheck || startyearCheck || yrValidation || yrValidation2) && value.val() != '') {
-                $(`#${currentEventId}`).addClass('govuk-form-group--error');
-               $(`.${currentEventId}`).addClass('govuk-form-group--error');
-               
-               if(currentEID=='rfp_duration-years_Question12'){
-                  if(yrValidation){
-                  $(`.p_durations_${currentEventId}`).html('Project Duration should not be greater than 4 years');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else if(currentEID=='rfp_duration-years_Question13'){
-                  if(yrValidation2==1){
-                     $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-                  }else if(yrValidation2==2){
-                     $(`.p_durations_${currentEventId}`).html('Contract extension should be less than project run date');
-                  }else{
-                  $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
-                  }
-               }else{
-                  $(`.p_durations_${currentEventId}`).html('This should not exceed 50% of the length of the original project');
-               }
             }
             else {
-               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
-               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
-               document.getElementById(currentEID).classList.remove('govuk-form-group--error');
+              // $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+              // $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            endmonthCheck = Number(value.val()) > 11;
+            let fieldCheck = "",
+               errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               // if((matchValue || startmonthCheck)){
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+
+               // }
+               // if(endmonthCheck){
+
+               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
+               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+               // }
+            }
+            else {
+               //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
+         else if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+            //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).addClass('govuk-form-group--error');
+            $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+         }
+         else {
+            //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+            //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
+            $(`.p_durations_${currentEventId}`).html('');
+         }
+      }
+      const YearCheck = (rfpYear) => {
+
+         let value = rfpYear;
+         let matchValue = !value.val().match(/^\d\d?$/);
+         // let endyearCheck = Number(value.val()) > 4;
+         let startyearCheck = Number(value.val()) < 0;
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            removeErrorFieldsdates();
+         }
+         if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+         }
+         if (document.getElementById('agreementID').value === 'RM6187') {
+
+            if ((matchValue || startyearCheck) && value.val() != '') {
+               //$(`#${currentEventId}`).addClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).addClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('Enter a year');
+            }
+            else {
+              //$(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               //$(`.${currentEventId}`).removeClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('');
             }
 
          }
-         else if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+         else if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             endyearCheck = Number(value.val()) > 2;
             let fieldCheck = "",
-            errorStore = [];
+               errorStore = [];
             if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
             }
             else {
@@ -13026,10 +13840,10 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+         else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             endyearCheck = Number(value.val()) > 2;
             let fieldCheck = "",
-            errorStore = [];
+               errorStore = [];
             if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
             }
             else {
@@ -13038,8 +13852,8 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         else{
-            if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
+         else {
+            if ((matchValue || startyearCheck) && value.val() != '') {
                $(`#${currentEventId}`).addClass('govuk-form-group--error');
                $(`.${currentEventId}`).addClass('govuk-form-group--error');
                $(`.p_durations_${currentEventId}`).html('Enter a year between 1 to 4');
@@ -13050,290 +13864,544 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
-         
+
       }
+
    }
-}
 });
 
 function daysInYear(year) {
    return ((year % 4 === 0 && year % 100 > 0) || year % 400 == 0) ? 366 : 365;
 }
 
+// For DOS6 message create single supplier
+//    document.getElementsByClassName("btn-msgsupplier")[0].addEventListener('click',function(){
+//    document.getElementsByClassName("btn-msgsupplier")[0].disabled = true;              
+//    document.forms['ccs_message_create_form'].submit();
+// })
+
+// For MCF3 message create
+$('.btn-sendmsg').on('click', (e) => {
+   e.preventDefault();
+   document.getElementsByClassName("btn-sendmsg")[0].disabled = true;
+   document.forms['ccs_message_create_form'].submit();
+});
+
+
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
+   removeErrorFieldsdates();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
-   if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
-       if(checkResourceStartDate())
-      {
+   let preVious=false;
+
+   let fieldCheck = "", errorStore = [];
+
+   let Day = $('.rfp_resource_start_day').val();
+   let Month = $('.rfp_resource_start_month').val();
+   let Year = $('.rfp_resource_start_year').val();
+   let DaySelector = $('.rfp_resource_start_day');
+   let MonthSelector = $('.rfp_resource_start_month');
+   let YearSelector = $('.rfp_resource_start_year');
+
+   let YearValuesNew='';
+   let matchValueNew='';
+
+   if(YearSelector.val() !='' && YearSelector.val() !=undefined){
+       YearValuesNew = YearSelector.val();
+       matchValueNew = !YearSelector.val().match(/^\d{4}$/);
+   }
+
+   const FormDateNew = new Date(Year, Month-1, Day);
+   const getTimeOfFormDateNew = FormDateNew.getTime();
+
+   const todayDateNew = new Date();
+
+   if(document.getElementById('agreementID').value == 'RM6187'){
+
+   if(Day == "" && Month == "" && Year == ""){
+      preVious=true;
+
+      DaySelector.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      // $('#event-name-error-date').html('Project start date should not be empty'); 
+      let error_msg_new = 'Enter a project start date'
+      //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", error_msg_new, /^\d{1,}$/);
+      }
+      ccsZPresentErrorSummary(errorStore);
+
+  }else if(Day == "" && Month != "" && Year != ""){
+   preVious=true;
+   let error_msg_new = 'Enter a project start day';
+   DaySelector.addClass('govuk-form-group--error');
+   $('#event-name-error-date').html('Enter a project start day'); 
+   $('.durations').addClass('govuk-form-group--error');
+   fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+   errorStore.push(fieldCheck)
+
+   ccsZPresentErrorSummary(errorStore);
+   }else if(Day != "" && Month == "" && Year != ""){
+      preVious=true;
+
+      let error_msg_new = 'Enter a project start month';
+      MonthSelector.addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a project start year'); 
+      $('.durations').addClass('govuk-form-group--error');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+      errorStore.push(fieldCheck)
+      ccsZPresentErrorSummary(errorStore);
+ }else if(Day != "" && Month != "" && Year == ""){
+   preVious=true;
+   let error_msg_new = 'Enter a project start year';
+   YearSelector.addClass('govuk-form-group--error');
+   $('#event-name-error-date').html('Enter a project start year'); 
+   $('.durations').addClass('govuk-form-group--error');
+   fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+   errorStore.push(fieldCheck)
+   ccsZPresentErrorSummary(errorStore);
+   //START FROMMM
+  }else if(Day != "" && Month == "" && Year == ""){
+   preVious=true;
+   let error_msg_new = 'Enter a project start month and year';
+   MonthSelector.addClass('govuk-form-group--error');
+   $('#event-name-error-date').html('Enter a project start month and year'); 
+   $('.durations').addClass('govuk-form-group--error');
+   fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+   errorStore.push(fieldCheck)
+   ccsZPresentErrorSummary(errorStore);    
+}else if(Day == "" && Month != "" && Year == ""){
+   preVious=true;
+   let error_msg_new = 'Enter a project start day and year';
+   DaySelector.addClass('govuk-form-group--error');
+   $('#event-name-error-date').html('Enter a project start day and year'); 
+   $('.durations').addClass('govuk-form-group--error');
+   fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+   errorStore.push(fieldCheck)
+   ccsZPresentErrorSummary(errorStore); 
+}else if(Day == "" && Month == "" && Year != ""){
+   preVious=true;
+   let error_msg_new = 'Enter a project start day and month';
+   DaySelector.addClass('govuk-form-group--error');
+   $('#event-name-error-date').html('Enter a project start day and month'); 
+   $('.durations').addClass('govuk-form-group--error');
+   fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+   errorStore.push(fieldCheck)
+   ccsZPresentErrorSummary(errorStore);
+
+}else if (YearValuesNew<1 || matchValueNew) {
+   preVious=true;
+
+   let error_msg_new = 'Enter a year using the YYYY format';
+   preVious=true;
+
+   DaySelector.addClass('govuk-form-group--error');
+   MonthSelector.addClass('govuk-form-group--error');
+   YearSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+            }
+            if (errorStore.length > 0) {
+               ccsZPresentErrorSummary(errorStore);
+               return false;
+            }  
+
+}else if (getTimeOfFormDateNew < todayDateNew.getTime()) {
+   preVious=true;
+
+   DaySelector.addClass('govuk-form-group--error');
+   MonthSelector.addClass('govuk-form-group--error');
+   YearSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a project start date in the future", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a project start date in the future", /^\d{1,}$/);
+            }
+            if (errorStore.length > 0) {
+               ccsZPresentErrorSummary(errorStore);
+               return false;
+            }
+
+
+}
+
+   }else{
+
+      preVious==false;
+   }
+
+
+   if(preVious==false){
+   if (document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+      let fieldCheck = "", errorStore = [];
+      ccsZPresentErrorSummary();
+      removeErrorFieldsdates();
+      if (checkResourceStartDate()) {
          let isValid = isProjectStartDateValid();
          if (isValid) {
             // isValid = isProjectExtensionValid(); //XBN00121
 
-         
-         let yrValidation = false;
+
+            let yrValidation = false;
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
             const durationDay = document.getElementsByClassName('rfp_duration_day_25');
 
-            if(durationYear[0].value!='' || durationMonth[0].value!='' || durationDay[0].value!=''){
-            const YearProjectRun = Number(durationYear[0].value);
-            const MonthProjectRun = Number(durationMonth[0].value);
-            const DaysProjectRun = Number(durationDay[0].value);
-            
-            if(MonthProjectRun<0 || MonthProjectRun>12){
-               yrValidation = true;
-            }
-            if(DaysProjectRun<0 || DaysProjectRun>31){
-               yrValidation = true;
-            }
-            if(YearProjectRun==4){
-               if(MonthProjectRun>0 || DaysProjectRun>0){
+            if (durationYear[0].value != '' || durationMonth[0].value != '' || durationDay[0].value != '') {
+               const YearProjectRun = Number(durationYear[0].value);
+               const MonthProjectRun = Number(durationMonth[0].value);
+               const DaysProjectRun = Number(durationDay[0].value);
+
+               if (MonthProjectRun < 0 || MonthProjectRun > 12) {
                   yrValidation = true;
                }
-            }else if(YearProjectRun==3){
-               if(MonthProjectRun==12 && DaysProjectRun>0){
+               if (DaysProjectRun < 0 || DaysProjectRun > 31) {
                   yrValidation = true;
                }
-            }else if(YearProjectRun>4  || YearProjectRun<0){
-               yrValidation = true;
+
+               if (yrValidation) {
+                  fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the valid project date", /^\d{1,}$/);
+                  if (fieldCheck !== true) errorStore.push(fieldCheck);
+                  if (errorStore.length > 0) {
+                     ccsZPresentErrorSummary(errorStore);
+                     return;
+                  }
+               }
             }
-            if(yrValidation){
-               return;
+
+            if (durationYear[1].value != '' || durationMonth[1].value != '' || durationDay[1].value != '') {
+               yrValidation2 = validateExtPeriod();
+               if (yrValidation2) {
+                  fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+                  if (fieldCheck !== true) errorStore.push(fieldCheck);
+                  if (errorStore.length > 0) {
+                     ccsZPresentErrorSummary(errorStore);
+                     return;
+                  }
+               }
             }
+
          }
 
-         if(durationYear[1].value!='' || durationMonth[1].value!='' || durationDay[1].value!=''){
-            yrValidation2 = validateExtPeriod();
-            if(yrValidation2){
-               return;
-            }
-         }
-            
-         }
-
-         if(isValid)
-         document.forms['rfp_date'].submit();
+         if (isValid)
+            document.forms['rfp_date'].submit();
       }
    } else {
-      if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+      if (document.getElementById('agreementID') !== null) {
+         if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             isValid = isProjectExtensionValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 17' && document.getElementById('lID').value === '1') {
+
+         } else if (document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 17' && document.getElementById('lID').value === '1') {
             let isValid;
             removeErrorFieldsdates();
 
-            if(checkResourceStartDate())
-            {
+            if (checkResourceStartDate()) {
 
-            isValid = isProjectStartDateValid();
+               isValid = isProjectStartDateValid();
             } //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+
+         } else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
             isValid = isProjectExtensionValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 9' && document.getElementById('lID').value === '4') {
-            let isValid;
-            if(checkResourceStartDate())
-            {
 
-            isValid = isProjectStartDateValid();
+         } else if (document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 9' && document.getElementById('lID').value === '4') {
+            let isValid;
+            if (checkResourceStartDate()) {
+               isValid = isProjectStartDateValid();
             } //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
-            
-         } 
+
+         }
          else {
             isValid = isProjectStartDateValid(); //XBN00121
-            if(isValid)
+            if (isValid)
                document.forms['rfp_date'].submit();
          }
       }
    }
+}
 });
 
 function isValidDate(year, month, day) {
-   month = month-1;
-     var d = new Date(year, month, day);
-     if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
-         return true;
-     }
+   month = month - 1;
+   var d = new Date(year, month, day);
+   if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
+      return true;
+   }
    return false;
- }
-function checkResourceStartDate()
-{
+}
+function checkResourceStartDate() {
    let flag = true;
    let fieldCheck = "", errorStore = [];
-   
-      let rfpResourceStartDay = $('.rfp_resource_start_day');
-      let rfpResourceStartMonth = $('.rfp_resource_start_month');
-      let rfpResourceStartYear = $('.rfp_resource_start_year');
-      if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
-      {
-         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
 
-         flag =false;
+   let rfpResourceStartDay = $('.rfp_resource_start_day');
+   let rfpResourceStartMonth = $('.rfp_resource_start_month');
+   let rfpResourceStartYear = $('.rfp_resource_start_year');
+
+   if (document.getElementById('agreementID').value === 'RM6187') {
+      // removeErrorFieldsdates();
+   }
+
+   if (rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '') {
+      if (document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+
+         flag = false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
+         rfpResourceStartMonth.addClass('govuk-form-group--error');
+         rfpResourceStartYear.addClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Project start date should not be empty'); 
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
+         // $('#event-name-error-date').html('Project start date should not be empty'); 
+         let error_msg_new = 'Enter a latest start date'
+         //fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day11", "Project start date should not be empty", /^\d{1,}$/);
+         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg_new, /^\d{1,}$/);
+         if (fieldCheck !== true) {
+            errorStore.push(fieldCheck)
+         } else {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", error_msg_new, /^\d{1,}$/);
          }
       }
-      }
-       else if(rfpResourceStartDay.val() =='')
-      {
-         var error_msg = 'Enter a valid date'
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
-            removeErrorFieldsdates();
+   }
+   else if (rfpResourceStartDay.val() == '') {
+
+      let error_msg = 'Enter a valid date'
+      if (document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
+         removeErrorFieldsdates();
+         if (rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '') {
+
+            if (rfpResourceStartYear.val().length < 4) {
+               error_msg = 'Enter a day and month with valid Year(YYYY Format)'
+            } else {
+               error_msg = 'Enter a day and month'
+            }
+
+            rfpResourceStartMonth.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() == '' && rfpResourceStartMonth.val() != '') {
+            error_msg = 'Enter a day and year'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if(rfpResourceStartDay.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartMonth.val() != ''){
+            error_msg = 'Enter a day with valid Year(YYYY Format)'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartDay.val() == '') {
+
             error_msg = 'Enter a day'
+
+            var urlParamsDefault = new URLSearchParams(window.location.search);
+            if (document.getElementById('lID') !== null) {
+               lotId = document.getElementById('lID').value;
+               // if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               //    error_msg = 'Enter a Day with valid Year(YYYY Format)'
+               // }
+            }
+
+            rfpResourceStartMonth.removeClass('govuk-form-group--error');
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
+
          }
-         flag = false;
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-        // rfpResourceStartYear.removeClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid date');
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }
-         // else{
-         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
-         // }
-        
-      }
-      else if(rfpResourceStartDay.val() < 1)
-      {
-         flag = false;
-         rfpResourceStartDay.addClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
-         }
-        
+
       }
 
-      else if(rfpResourceStartMonth.val() =='')
-      {
-          error_msg = 'Enter a valid month'
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
-            removeErrorFieldsdates();
+      flag = false;
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid date');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_day_Question11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+
+      // else{
+      //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+      // }
+
+   }
+   else if (rfpResourceStartDay.val() < 1) {
+      flag = false;
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid date');
+      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a valid date", /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Enter a valid date", /^\d{1,}$/);
+      }
+
+   }
+
+   else if (rfpResourceStartMonth.val() == '') {
+      error_msg = 'Enter a valid month'
+      if (document.getElementById('agreementID').value === 'RM1043.8' || document.getElementById('agreementID').value === 'RM1557.13') {
+         removeErrorFieldsdates();
+         if (rfpResourceStartDay.val() != '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '') {
+            error_msg = 'Enter a month and year'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+
+         }
+         else if(rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4 && rfpResourceStartDay.val() != ''){
+            error_msg = 'Enter a month with valid Year(YYYY Format)'
+            rfpResourceStartYear.addClass('govuk-form-group--error');
+
+         }
+         else if (rfpResourceStartMonth.val() == '') {
             error_msg = 'Enter a month'
+            var urlParamsDefault = new URLSearchParams(window.location.search);
+            if (document.getElementById('lID') !== null) {
+               lotId = document.getElementById('lID').value;
+               // if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               //    error_msg = 'Enter a Month with valid Year(YYYY Format)'
+               // }
+            }
+            rfpResourceStartYear.removeClass('govuk-form-group--error');
          }
-
-         flag =false;
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11","rfp_resource_start_date",error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }
-         // else{
-         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
-         // }
-      
       }
-      else if(rfpResourceStartMonth.val() < 1)
-      {
-         flag =false;
-         rfpResourceStartMonth.addClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
+
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid month');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_month_Question 11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+      // else{
+      //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
+      // }
+
+   }
+   else if (rfpResourceStartMonth.val() < 1) {
+      flag = false;
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a valid month');
+      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      } else {
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", error_msg, /^\d{1,}$/);
-         }        
       }
-      else if(rfpResourceStartYear.val() =='')
-      {
-         error_msg = 'Enter a valid year'
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
-            removeErrorFieldsdates();
-            error_msg = 'Enter a year'
-         }
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }
-         // else{
-         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
-         // }  
-      }
-      else if(rfpResourceStartYear.val() <= 1)
-      {
-         flag =false;
-         rfpResourceStartYear.addClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", error_msg, /^\d{1,}$/);
-         }  
-      }
-      else 
-      {
-         flag =true;
-         rfpResourceStartYear.removeClass('govuk-form-group--error');
-         rfpResourceStartMonth.removeClass('govuk-form-group--error');
-         rfpResourceStartDay.removeClass('govuk-form-group--error');
-         $('.durations').removeClass('govuk-form-group--error');
-         $('#event-name-error-date').html('')
-
-         if(!isValidDate(rfpResourceStartYear.val(),rfpResourceStartMonth.val(),rfpResourceStartDay.val()))
-         {
-            flag =false;
-            $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid date'); 
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
-            }else{
-                 fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+   }
+   else if (rfpResourceStartYear.val() == '') {
+      error_msg = 'Enter a year'
+      removeErrorFieldsdates();
+      if (document.getElementById('agreementID').value === 'RM1043.8') {
+         error_msg = 'Enter a year'
+         var urlParamsDefault = new URLSearchParams(window.location.search);
+         if (document.getElementById('lID') !== null) {
+            lotId = document.getElementById('lID').value;
+            if (lotId == '1' && urlParamsDefault.get('group_id') == 'Group 17') {
+               error_msg = 'Enter a year using the YYYY format'
             }
          }
-         else 
-         {
-            flag =true;
-            $('.durations').removeClass('govuk-form-group--error');
-            $('#event-name-error-date').html(''); 
+      }
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", error_msg, /^\d{1,}$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+      // else{
+      //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
+      // }  
+   }
+   else if (rfpResourceStartYear.val() != '' && rfpResourceStartYear.val().length < 4) {
+      // if(document.getElementById('agreementID').value === 'RM1043.8') {
+      removeErrorFieldsdates();
+      // }
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11", "rfp_resource_start_date", "Enter a year using the YYYY format", /^\d{4,}$/);
+
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+   }
+   else if(Number(rfpResourceStartYear.val()) <= 1)
+      {
+      error_msg = "Enter a year using the YYYY format"
+      flag = false;
+      rfpResourceStartYear.addClass('govuk-form-group--error');
+      rfpResourceStartDay.addClass('govuk-form-group--error');
+      rfpResourceStartMonth.addClass('govuk-form-group--error');
+      $('.durations').addClass('govuk-form-group--error');
+      $('#event-name-error-date').html('Enter a year');
+      fieldCheck = ccsZvalidateDateWithRegex("rfp_resource_start_date_year_Question 11","rfp_resource_start_date", "Enter a year using the YYYY format", /^\d$/);
+      if (fieldCheck !== true) {
+         errorStore.push(fieldCheck)
+      }
+      
+   }
+   else {
+      flag = true;
+      rfpResourceStartYear.removeClass('govuk-form-group--error');
+      rfpResourceStartMonth.removeClass('govuk-form-group--error');
+      rfpResourceStartDay.removeClass('govuk-form-group--error');
+      $('.durations').removeClass('govuk-form-group--error');
+      $('#event-name-error-date').html('')
+
+      if (!isValidDate(rfpResourceStartYear.val(), rfpResourceStartMonth.val(), rfpResourceStartDay.val())) {
+         flag = false;
+         $('.durations').addClass('govuk-form-group--error');
+         $('#event-name-error-date').html('Enter a valid date');
+         if (fieldCheck !== true) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/, false);
+            errorStore.push(fieldCheck)
+         } else {
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+            errorStore.push(fieldCheck)
          }
       }
+      else {
+         flag = true;
+         $('.durations').removeClass('govuk-form-group--error');
+         $('#event-name-error-date').html('');
+      }
+   }
 
-      if(errorStore.length>0){
-         ccsZPresentErrorSummary(errorStore);
-         return false;
-        }
+   if (errorStore.length > 0) {
+      ccsZPresentErrorSummary(errorStore);
+      return false;
+   }
 
-      return flag;
+   return flag;
 }
 
 function isProjectExtensionValid() {
@@ -13348,204 +14416,211 @@ function isProjectExtensionValid() {
    const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
    const durationDay = document.getElementsByClassName('rfp_duration_day_25');
    const durationDayError = document.getElementsByClassName('p_durations_pday_25');
- 
+
 
    const YearProjectRun = durationYear[0].value;
    const MonthProjectRun = durationMonth[0].value;
    const DaysProjectRun = durationDay[0].value;
    var projectRunInDays = 0;
    let fieldCheck = "",
-       errorStore = [];
-       
-       if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
-      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
-         if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+      errorStore = [];
+
+   if (document.getElementById("rfp_duration-years_Question12") != undefined && document.getElementById("rfp_duration-years_Question12") != null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+            if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            }
+         }
+      }
+      else {
+
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);  
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+   } else {
+
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+
+   }
+   if (document.getElementById("rfp_duration_months_Question12") != undefined && document.getElementById("rfp_duration_months_Question12") != null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+      let year = document.getElementById("rfp_duration-years_Question12").value.trim();
+      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
+
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (Number(year) < 2 && Number(month) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
          }
       }
-   }
-   else{
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
-  }else{
-
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (Number(year) < 2 && Number(month) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
 
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         }
+      }
+      else {
+         if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-   }
+         }
+         if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
 
-  }
-  if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
-     let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
-     let month = document.getElementById("rfp_duration_months_Question12").value.trim();
-     console.log('month',month)
-     if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      if(Number(year) < 2 && Number(month) > 0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
       }
-     }
-     else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-      if(Number(year) < 2 && Number(month) > 0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-        console.log('errorStore',errorStore)
-      }
-     }
-     else{
-      if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+   } else {
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+      }
+
+   }
+   if (document.getElementById("rfp_duration_days_Question12") != undefined && document.getElementById("rfp_duration_days_Question12") != null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+      let year = document.getElementById("rfp_duration-years_Question12").value.trim();
+      let day = document.getElementById("rfp_duration_days_Question12").value.trim();
+
+
+      if ((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+         if (Number(year) < 2 && Number(day) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+         }
+      }
+      else if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+         if (Number(year) < 2 && Number(day) > 0) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+         }
+      }
+      else {
+         if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
+         if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
          }
 
-     }
-  }else{
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-   fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
-   }
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
       }
-   
-  }
-  if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
-   let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
-   let day = document.getElementById("rfp_duration_days_Question12").value.trim(); 
+   } else {
+      if (!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')) {
 
-
-   if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-    if(Number(year) < 2 && Number(day)>0){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-    }
-   }
-   else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-      if(Number(year) < 2 && Number(day)>0){
-        fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-  
-      }
-     }
-   else{
-      if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
          fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
-         }
-
-   }
-  }else{
-   if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
-
-   fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
-   }
-   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
       }
-  }
-   
-  let durationYears='2';
-  let durationMessage='Expected contract length must be 2 years or less';
-  if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
-   durationYears='3';
-   durationMessage='Expected contract length must be 3 years or less';
-  }
-   
+      if (!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+      }
+   }
+
+   let durationYears = '2';
+   let durationMessage = 'Expected contract length must be 2 years or less';
+   if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
+      durationYears = '3';
+      durationMessage = 'Expected contract length must be 36 months or less';
+   }
+
    if (YearProjectRun != null && YearProjectRun != "") {
-      if(Number(YearProjectRun) < 0 )
-      {
-         isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-         $(`.${durationDayError[0].classList[2]}`).html('Enter a Valid Year');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a Valid Year",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-       }
-      else if(Number(YearProjectRun) > durationYears )
-      {
-         isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-        
-
-      }
-      else if (Number(YearProjectRun) >= durationYears && (Number(MonthProjectRun)> 0 || Number(DaysProjectRun) > 0 ))
-      {
+      if (Number(YearProjectRun) < 0) {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
-        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage,/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck); 
-        // return false;
+         $(`.${durationDayError[0].classList[2]}`).html('Enter a year');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      
+      else if (Number(YearProjectRun) > durationYears) {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage, /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+
+      }
+      else if (Number(YearProjectRun) >= durationYears && (Number(MonthProjectRun) > 0 || Number(DaysProjectRun) > 0)) {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", durationMessage, /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+         // return false;
+      }
+
       projectRunInDays = (365 * Number(YearProjectRun))
    }
    if (MonthProjectRun != null && MonthProjectRun != "") {
-      if(Number(MonthProjectRun) < 0)
-      {
+      if (Number(MonthProjectRun) < 0) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid month');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid month",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid month", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      else if(Number(MonthProjectRun) > 11 )
-      {
+      else if (Number(MonthProjectRun) > 11) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Project extension duration month value should not be more than 11');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration month value should not be more than 11",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration month value should not be more than 11", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
       projectRunInDays = projectRunInDays + (30 * Number(MonthProjectRun))
    }
 
    if (DaysProjectRun != null && DaysProjectRun != "") {
-      if(Number(DaysProjectRun) < 0)
-      {
+      if (Number(DaysProjectRun) < 0) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid day');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
-      else if(Number(DaysProjectRun) > 31)
-      {
+      else if (Number(DaysProjectRun) > 31) {
          isValid = false;
-         $(`.${pDurationName}`).addClass('govuk-form-group--error');   
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
          $(`.${durationDayError[0].classList[2]}`).html('Enter a valid day');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);    
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Enter a valid day", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
       projectRunInDays = projectRunInDays + Number(DaysProjectRun)
    }
-
-  
+   if ((YearProjectRun != null && YearProjectRun != "" && Number(YearProjectRun) == 0) || (MonthProjectRun != null && MonthProjectRun != "" && Number(MonthProjectRun) == 0) || (DaysProjectRun != null && DaysProjectRun != "" && Number(DaysProjectRun) == 0)) {
+      if (Number(projectRunInDays) == 0) {
+         isValid = false;
+         $(`.${pDurationName}`).addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter a valid Expected contract length period", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+   }
    const YearExtensionPeriod = durationYear[1].value;
    const MonthExtensionPeriod = durationMonth[1].value;
    const DaysExtensionPeriod = durationDay[1].value;
@@ -13565,86 +14640,97 @@ function isProjectExtensionValid() {
    if (projectRunInDays != null && projectRunInDays > 0 && extensionRunInDays != null && extensionRunInDays > 0) {
       let tempProjectRunInDays = Number(projectRunInDays);
       let tempExtensionRunInDays = Number(extensionRunInDays);
-      if (tempProjectRunInDays > tempExtensionRunInDays) {
+      if (tempProjectRunInDays >= tempExtensionRunInDays) {
 
-         if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+         if ((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')) {
 
-            if(tempExtensionRunInDays > 365 ){
-               isValid = false;       
-               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+            if (tempExtensionRunInDays > 365) {
+               isValid = false;
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
                //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Expected contract length must be 12 months or less",/^\d{1,}$/);
-              if (fieldCheck !== true) errorStore.push(fieldCheck);
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
 
-            }else{
+            }
+            else {
 
                let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
-            if (dayDiffPercentage > 50) {
-               isValid = false;       
-               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
-               //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-            if (fieldCheck !== true) errorStore.push(fieldCheck);
-            }
-            else {
+               // if (dayDiffPercentage > 50) {
+               //    isValid = false;       
+               //    $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               //    //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
+               // if (fieldCheck !== true) errorStore.push(fieldCheck);
+               // }
+               // else {
                isValid = true;
-               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
-              
+               if (durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+
+               //   }
+
             }
-               
-            }
-            
-           }else{
+
+         } else {
 
             let dayDiffPercentage = ((tempExtensionRunInDays / tempProjectRunInDays) * 100);
+
             if (dayDiffPercentage > 50) {
-               isValid = false;       
-               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
+               isValid = false;
+               $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
                //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less",/^\d{1,}$/);
-            if (fieldCheck !== true) errorStore.push(fieldCheck);
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
             else {
                isValid = true;
-               if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
-              
+               if (durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+
             }
 
-        }
+         }
 
       }
       else {
-         isValid = false;
-         $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
-        // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
-         if (fieldCheck !== true) errorStore.push(fieldCheck);
+         if (tempProjectRunInDays == tempExtensionRunInDays && document.getElementById('agreementID').value === 'RM1557.13') {
+            isValid = true;
+         }
+         else {
+            isValid = false;
+            $(`.${pExtDurationName}`).addClass('govuk-form-group--error');
+            // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
+            if (document.getElementById('agreementID').value === 'RM1557.13' && tempExtensionRunInDays > 365) {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 12 months or less", /^\d{1,}$/);
+            }
+            else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Extension period must be 50% of the contract period or less", /^\d{1,}$/);
+            }
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
       }
    }
    else {
       isValid = true;
    }
 
-   if(errorStore.length>0){
+   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
       return false;
-     }
+   }
    return isValid;
 }
 
-function isProjectStartDateValid()
-{
+function isProjectStartDateValid() {
    let fieldCheck = "", errorStore = [];
    //removeErrorFieldsdates();
    const Day = $('.rfp_resource_start_day');
    const Month = $('.rfp_resource_start_month');
    const Year = $('.rfp_resource_start_year');
-   
+
    if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
-            Day.removeClass('govuk-form-group--error');
-            Month.removeClass('govuk-form-group--error');
-            Year.removeClass('govuk-form-group--error');
-            $('.durations').removeClass('govuk-form-group--error');
+      Day.removeClass('govuk-form-group--error');
+      Month.removeClass('govuk-form-group--error');
+      Year.removeClass('govuk-form-group--error');
+      $('.durations').removeClass('govuk-form-group--error');
 
       let rfpagreementData;
       // if ($('.agreement_no').attr('id')) {
@@ -13656,46 +14742,48 @@ function isProjectStartDateValid()
       if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
          const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
          const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-         const expiryMonth=expiryMonthTot-1;
+         const expiryMonth = expiryMonthTot - 1;
          const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
          const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
          const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
-         const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-         
-        
+         const FormDate = new Date(Year.val(), (Month.val() - 1), Day.val());
+
+
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
-          // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+         if (getTimeOfFormDate > getMSOfExpiryDate && document.getElementById('agreementID').value != 'RM1557.13'  && document.getElementById('agreementID').value != 'RM6187') {
+            // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         }
-         if(errorStore.length>0){
-            ccsZPresentErrorSummary(errorStore);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "It is recommended that your project does not start after lot expiry date", /^\d{1,}$/);
+            }
+            if (errorStore.length > 0) {
+               ccsZPresentErrorSummary(errorStore);
+               return false;
+            }
             return false;
-           }
-                        return false;
-         }else{
+         } else {
             $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
             ccsZPresentErrorSummary();
          }
-         if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
+         if(document.getElementById('agreementID').value != 'RM6187'){
 
-           // $('#event-name-error-date').html('Start date must be a valid future date');
-           removeErrorFieldsdates();
-           var message = 'Start date must be a valid future date'
-            if(document.getElementById('agreementID').value === 'RM1043.8'){
+         if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
+            // $('#event-name-error-date').html('Enter a date in the future');
+            removeErrorFieldsdates();
+            var message = 'Enter a date in the future'
+            if (document.getElementById('agreementID').value === 'RM1043.8') {
                message = ' Enter a date in the future'
             }
             Day.addClass('govuk-form-group--error');
@@ -13703,37 +14791,48 @@ function isProjectStartDateValid()
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
             fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
-            }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
+            } else {
+               fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", message, /^\d{1,}$/);
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
                return false;
-              }
-   
+            }
+
             return false;
-         }else{
+         } else {
             $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
             $('.rfp_resource_start_day').removeClass('govuk-input--error');
             $('.rfp_resource_start_month').removeClass('govuk-input--error');
             $('.rfp_resource_start_year').removeClass('govuk-input--error');
+
+            $('#rfp_resource_start_date-error').removeClass('govuk-error-message');
+            $('#rfp_resource_start_date-error').html('');
             ccsZPresentErrorSummary();
          }
-                 
+      }
       }
 
-      const startDate = new Date(Number(Year.val()), Number(Month.val() - 1), Number(Day.val()));
-      
+      const startDate = new Date(Number(Year.val()), Number(Month.val()), Number(Day.val()));
+
       if (!isValidDate(Number(Year.val()), Number(Month.val()), Number(Day.val()))) {
          $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Enter a valid project start date');
+         $('.resource_start_date').html('Enter a project start date');
          return false;
-      } 
-      else if (startDate>new Date(2025,07,23)) {
+      }
+      else if (startDate > new Date(2025, 05, 28) && document.getElementById('agreementID').value == 'RM1557.13') {
          $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 28 May 2025")
+         $('.resource_start_date').html('Project cannot start after: 28 May 2025');
+         return false;
+      }
+      else if (startDate > new Date(2025, 08, 23) && document.getElementById('agreementID').value != 'RM6187') {
+         $('.durations').addClass('govuk-form-group--error');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Project cannot start after: 23 August 2025")
          $('.resource_start_date').html('Project cannot start after: 23 August 2025');
-          return false;
+         return false;
       }
       else {
          $('.durations').removeClass('govuk-form-group--error');
@@ -13741,33 +14840,35 @@ function isProjectStartDateValid()
          return true;
       }
    }
-   else  {
-      if(document.getElementById('agreementID') !== null) {
-         if(document.getElementById('agreementID').value === 'RM1043.8') {
+   else {
+      if (document.getElementById('agreementID') !== null) {
+         if (document.getElementById('agreementID').value === 'RM1043.8') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a project start date'); 
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a project start date", /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            $('#event-name-error-date').html('Enter a project start date');
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter the latest start date", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
             }
          }
-         if(document.getElementById('agreementID').value === 'RM1557.13') {
+         if (document.getElementById('agreementID').value === 'RM1557.13') {
             let errorStore = [];
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Project start date should not be empty'); 
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
-            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            // $('#event-name-error-date').html('Project start date should not be empty'); 
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Enter a latest start date", /^\d{1,}$/);
+            if (fieldCheck !== true) {
+               errorStore.push(fieldCheck)
             }
-            if(errorStore.length>0){
+            if (errorStore.length > 0) {
                ccsZPresentErrorSummary(errorStore);
             }
          }
@@ -13777,7 +14878,7 @@ function isProjectStartDateValid()
 }
 
 function isValidDate(year, month, day) {
-  
+
    month = month - 1;
    var d = new Date(year, month, day);
    if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
@@ -13786,115 +14887,125 @@ function isValidDate(year, month, day) {
    return false;
 }
 
-$(".textlimit").keyup(function(e) {
+$(".textlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
    if (maxLen >= 1) {
-       return false; 
-   }
-
-});
-
-
-$(".textlimit").keypress(function(e) {
-   var maxLen = $(this).val().length;
-   let value = $(this).val();
-  
-   var keyCode = e.which;
-   if (maxLen >= 1) {
-      return false;
-   }
-
-});
-
-$(".daylimit").keyup(function(e) {
-   var maxLen = $(this).val().length;
-   let value = $(this).val();
-   var keyCode = e.which;
-   
-   if (maxLen >= 2 && (Number(value)>0 || Number(value) < 31)) {
-       return false; 
-   }
-
-});
-
-
-$(".daylimit").keypress(function(e) {
-   var maxLen = $(this).val().length;
-   let value = $(this).val();
-  
-   var keyCode = e.which;
-   if (maxLen >= 2 && (Number(value)>0 || Number(value) <31)) {
+      removeErrorFieldsdates();
       return false;
    }
 
 });
 
 
-$(".daymonthlimit").keyup(function(e) {
+$(".textlimit").keypress(function (e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+
+   var keyCode = e.which;
+   if (maxLen >= 1) {
+      removeErrorFieldsdates();
+      return false;
+   }
+
+});
+
+$(".daylimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
+   if (maxLen >= 2 && (Number(value) > 0 || Number(value) < 31)) {
+      removeErrorFieldsdates();
+      return false;
+   }
+
+});
+
+
+$(".daylimit").keypress(function (e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+
+   var keyCode = e.which;
+   if (maxLen >= 2 && (Number(value) > 0 || Number(value) < 31)) {
+      removeErrorFieldsdates();
+      return false;
+   }
+
+});
+
+
+$(".daymonthlimit").keyup(function (e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+
    if (maxLen >= 2) {
-       return false; 
+      removeErrorFieldsdates();
+      return false;
    }
 
 });
 
 
-$(".daymonthlimit").keypress(function(e) {
+$(".daymonthlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
-  
+
    var keyCode = e.which;
    if (maxLen >= 2) {
+      removeErrorFieldsdates();
       return false;
    }
 
 });
 
-$(".startdateyearlimit").keyup(function(e) {
+$(".startdateyearlimit").keyup(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+
    if (maxLen >= 4) {
-       return false; 
-   }
-
-});
-
-
-$(".startdateyearlimit").keypress(function(e) {
-   var maxLen = $(this).val().length;
-   let value = $(this).val();
-   var keyCode = e.which;
-   if (maxLen >= 4) {
+      removeErrorFieldsdates();
       return false;
    }
 
 });
 
-$(".yearlimit").keyup(function(e) {
+
+$(".startdateyearlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
-   
+   if (maxLen >= 4) {
+      removeErrorFieldsdates();
+      return false;
+   }
+
+});
+
+$(".yearlimit").keyup(function (e) {
+   var maxLen = $(this).val().length;
+   let value = $(this).val();
+   var keyCode = e.which;
+
    if (maxLen >= 1) {
-       return false; 
+      removeErrorFieldsdates();
+      return false;
    }
 
 });
 
 
-$(".yearlimit").keypress(function(e) {
+$(".yearlimit").keypress(function (e) {
    var maxLen = $(this).val().length;
    let value = $(this).val();
    var keyCode = e.which;
    if (maxLen >= 1) {
+      removeErrorFieldsdates();
       return false;
    }
 
@@ -13906,8 +15017,8 @@ const removeErrorFieldsdates = () => {
    $('.govuk-error-summary').remove();
    $('.govuk-input').removeClass('govuk-input--error');
    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
- };
- 
+};
+
 
 function validateExtPeriod() {
    let isValid = 0;
@@ -13923,7 +15034,7 @@ function validateExtPeriod() {
    const MonthProjectRun2 = Number(durationMonth[1].value);
    const DaysProjectRun2 = Number(durationDay[1].value);
 
-let projectRunInDays = 0;
+   let projectRunInDays = 0;
    if (YearProjectRun > 0) {
       projectRunInDays = (365 * YearProjectRun)
    }
@@ -13935,7 +15046,7 @@ let projectRunInDays = 0;
       projectRunInDays = projectRunInDays + DaysProjectRun;
    }
 
-let extensionRunInDays = 0;
+   let extensionRunInDays = 0;
    if (YearProjectRun2 > 0) {
       extensionRunInDays = (365 * YearProjectRun2)
    }
@@ -13949,12 +15060,49 @@ let extensionRunInDays = 0;
 
 
    if (projectRunInDays > extensionRunInDays) {
-            let dayDiffPercentage = ((extensionRunInDays / projectRunInDays) * 100);
-            if (dayDiffPercentage > 50) {
-               isValid = 1; 
-            }
-   }else{
+      let dayDiffPercentage = ((extensionRunInDays / projectRunInDays) * 100);
+      if (dayDiffPercentage > 50) {
+         isValid = 1;
+      }
+   } else {
       isValid = 2;
+   }
+   return isValid;
+}
+
+function validateStartDate() {
+   let isValid = '';
+   const Day = $('.rfp_resource_start_day');
+   const Month = $('.rfp_resource_start_month');
+   const Year = $('.rfp_resource_start_year');
+
+   if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "") {
+
+      let rfpagreementData;
+      if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+         rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
+      }
+      if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
+         const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+         const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+         const expiryMonth = expiryMonthTot - 1;
+         const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+
+         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+         const FormDate = new Date(Year.val(), (Month.val() - 1), Day.val());
+
+         const getTimeOfFormDate = FormDate.getTime();
+         const todayDate = new Date();
+         if (getTimeOfFormDate > getMSOfExpiryDate) {
+            isValid = 'It is recommended that your project does not start after lot expiry date';
+         }
+
+         if ((FormDate.setHours(0, 0, 0, 0) != todayDate.setHours(0, 0, 0, 0)) && getTimeOfFormDate < todayDate.getTime()) {
+            isValid = 'Enter a date in the future';
+         }
+      }
+
    }
    return isValid;
 }
@@ -14009,6 +15157,39 @@ $('#rfp_work_completed').on('submit', (e)=>{
 } )
 
 
+
+$('input[type="radio"]').on('click change', function(e) {
+    if (e.currentTarget.value === 'Yes') {
+       $('#conditional-rfp_radio_security_confirmation').fadeIn();
+    } else {
+        $('#conditional-rfp_radio_security_confirmation').hide();
+    }
+});
+const removeErrorFieldsRfpIR35 = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  
+  }
+
+$('#rfp_IR35_form').on('submit', (event) => {
+    event.preventDefault();
+    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
+    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
+    //errorStore = emptyFieldCheckRfpKPI();
+  
+    if (radioButtonOne || radioButtonTwo) {
+      document.forms["rfp_IR35_form"].submit();
+    }
+    else {
+        removeErrorFieldsRfpIR35();
+        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
+      ccsZPresentErrorSummary([errorStore]);
+    }
+  
+  });
 document.addEventListener('DOMContentLoaded', () => {
 
   const formPercentage = $('#rfp_percentage_form');
@@ -14040,6 +15221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // }
       
       $("#totalPercentage").text(percentage);
+      $("#totalPercentageDown").text(percentage);
     };
     
     // for (let k = 0; k < allTextBox.length; k++){
@@ -14064,6 +15246,11 @@ const checkPercentagesCond = () => {
     errorStore = [];
     const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
+  
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   console.log(Number($("#totalPercentage").text()));
@@ -14079,6 +15266,7 @@ const checkPercentagesCond = () => {
       totalValue += Number(allTextBox[k].value);
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
         if (subTitle!= 'Social value'){ 
 
@@ -14086,17 +15274,28 @@ const checkPercentagesCond = () => {
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Essential skills and experience")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for essential skills and experience", false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for essential skills and experience", false);
           }
           else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions")){
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for technical questions", false);
-          }else{
-               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for technical questions", false);
+          }
+          else if(agrement_id == 'RM1043.8'){
+            if(lotId == 1){
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
+            else{
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+            }
+          }
+          else{
+               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " % and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
         }
-        else {
+        else if(agrement_id == 'RM1043.8' && subTitle.includes("Social value")){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
+        }else {
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -14106,13 +15305,18 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          if(agrement_id == 'RM1043.8') 
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+          else
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
-          
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          if(agrement_id == 'RM1043.8') 
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+          else
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false); 
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -14122,13 +15326,13 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
           console.log(range)
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
 
@@ -14164,6 +15368,10 @@ const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
   const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
+    let lotId;
+    if(document.getElementById('lID') !== null) {
+      lotId = document.getElementById('lID').value;
+  }
   let errorStore =[];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
@@ -14183,20 +15391,25 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
-    ccsZPresentErrorSummary(errorStore)
+     errorStore.push(["#", "The weightings must add up to 100% in total"]);
+     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && (agrement_id == 'RM6187' || agrement_id == 'RM1557.13')) {
     errorStore.push(["#", "Your total percentage must be 100%"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting for quality') && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
 
-    errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    if(agrement_id == 'RM1043.8') {
+      //errorStore.push(["Question 3", "The weightings must add up to 100% in total"]);
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }else{
+      errorStore.push(["#", "The weightings must add up to 100% in total"]);
+    }
     
     //var fieldCheck = ccsZvalidateWithRegex('Question 3-hint', "Your total percentage must be 100%", /\w+/);
     //errorStore.push(fieldCheck);
@@ -14222,6 +15435,7 @@ const removeErrorFieldsRfpPercentage = () => {
 };
 
 $('.questionweightagelimit').on('keypress', function (evt) {
+  removeErrorFieldsRfpPercentage();
   let value = $(this).val();
   evt = (evt) ? evt : window.event;
       var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -14369,10 +15583,60 @@ document.addEventListener('DOMContentLoaded', () => {
         let deleteButtonCount = [];
         let elements = document.querySelectorAll('.weightage');
         let textboxelements = document.querySelectorAll('.order_1');
+        let textboxelementsorder2 = document.querySelectorAll('.order_2');
+        let urlParamsData = new URLSearchParams(window.location.search);
+        var urlParamsDefault = new URLSearchParams(window.location.search);
+        var agreement_id_Default =  urlParamsDefault.get('agreement_id')
+        var lotid_Default;
+        var group_id =  urlParamsDefault.get('group_id')
+        var startWithVal=false
+        if(document.getElementById('lID') !== null) {
+            lotid_Default = document.getElementById('lID').value;
+        }
+    
+            var total_countva=10;
+            var withValue=11;
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {
+                var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+            }   
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
+            var total_countva=20;
+                var withValue=21;
+                with_value_count = 20
+        }    
+        else if(agreement_id_Default=='RM1043.8'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 4'){
+            var total_countva=20;
+            var withValue=21;
+            with_value_count = 20
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
+            var total_countva=5;
+            var withValue=6;
+        }else{
+            if($('.question_count').hasClass("question_count")) {      
+                   
+                var total_countva=50;
+               var withValue=51;
+           }else{
+               var total_countva=10;
+               var withValue=11;
+               with_value_count = 10;
+           }
+        } 
+
+
+
         let totalPercentage = () => {
             let errorStore = [];
             let weightageSum = 0;
-            let urlParamsData = new URLSearchParams(window.location.search);
+            
             //removeErrorFieldsRfpScoreQuestion();
             elements.forEach(el => {
                 weightageSum += isNaN(el.value) ? 0 : Number(el.value);
@@ -14380,20 +15644,37 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (weightageSum > 100) {
                 errorStore = emptyQuestionFieldCheckRfp();
-                if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7')  && urlParamsData.get('section') == 5) {
+                if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7' ||  urlParamsData.get('group_id') == 'Group 8')  && urlParamsData.get('section') == 5) {
                     let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                    var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
+                    var percentageCheck;
+                    if(errorStore.length == 0){
+                    percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
                     errorStore.push(percentageCheck)
+                    }
+                }
+                else if(urlParamsData.get('agreement_id') == 'RM1557.13' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 4' || urlParamsData.get('group_id') == 'Group 6') && urlParamsData.get('section') == 5){
+                    errorStore.push(["There is a problem", "The weighting must add up to 100% in total"]);
                 }
                 else{
-                errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
+                    errorStore.push(["There is a problem", "The total weighting exceeded more than 100%"]);
                 }
                 ccsZPresentErrorSummary(errorStore);
             }
-            $('#totalPercentage').html(weightageSum);
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
+            }else{
+                $('#totalPercentage').html(weightageSum);
+                $('#totalPercentageDown').html(weightageSum);
+            }
         };
         
         textboxelements.forEach(ele => {
+            ele.addEventListener('keydown', (event) => {
+                removeErrorFieldsRfpScoreQuestion();
+            });
+        });
+        textboxelementsorder2.forEach(ele => {
             ele.addEventListener('keydown', (event) => {
                 removeErrorFieldsRfpScoreQuestion();
             });
@@ -14407,11 +15688,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const totalAnswerd = () => {
-            $('#questionsCount').html(
-                $('.order_1').filter(function() {
-                    return this.value !== '';
-                }).length,
-            );
+            let qCount = $('.order_1').filter(function() {
+                return this.value !== '';
+            }).length;
+            if(urlParamsData.get('agreement_id') == 'RM6187'){
+                $('#questionsCount').html(qCount);
+            }else{
+                $('#questionsCount').html(qCount);
+            }
         };
         
 
@@ -14419,109 +15703,330 @@ document.addEventListener('DOMContentLoaded', () => {
         totalAnswerd();
         totalPercentage();
         deleteButtons.forEach((db) => {
+
             db.classList.add('ccs-dynaform-hidden')
+            
             db.addEventListener('click', (e) => {
-                if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
-                }
+               
                 e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
-                if(Number(target) == 20){
-                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                let urlParamsDefault = new URLSearchParams(window.location.search);
+                let lotid_Default;
+                if(document.getElementById('lID') !== null) {
+                    lotid_Default = document.getElementById('lID').value;
                 }
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
-                //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("div");
+         
+        
+           
+          
+               let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+              
+               let next_coll = Number(target);
+               let nextLevel_coll = Number(target);
+               if(target != 20) {
+                   let ml = 1;
+                   
+                   
+                   let eptArr = [];
+                   while (Sibling) {
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+                    let siblingClassList = Sibling.classList;
+                       if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                         let current_col = nextLevel_coll;  
+                         nextLevel_coll = (nextLevel_coll + 1);
 
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+                         eptArr.push(nextLevel_coll)
+                           if(ml == 1) {
+                               let first;
+                               let last;
+                               let percentage;
 
-                }
+                               var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                               if(fc_question_precenate_fir){
+                                first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                               }
+                               var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                               if(fc_question_precenate_sec){
+                                var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                               }
+                               var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                               if(fc_question_precenate_third){
+                                 percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                                document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                               }
+                               //ID BASED
+                               var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                               if(fc_question_precenate_El){
+                                 last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                                 document.getElementById('fc_question_precenate_'+current_col).value=last;
+                               }
+                              
+                           
+                            
+                            
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
 
+                              
+                           } else {
+                               next_coll = next_coll + 1;
+                           
+                            // var first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                            // var last = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                            // var percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                           
+                               
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value=last;
+                            //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            let first;
+                            let last;
+                            let percentage;
 
-                //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+                            var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                            if(fc_question_precenate_fir){
+                             first = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[0].value=first;
+                            }
+                            var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                            if(fc_question_precenate_sec){
+                             var lastIdValue = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[1].value=lastIdValue;
+                            }
+                            var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                            if(fc_question_precenate_third){
+                              percentage  = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value;
+                             document.getElementsByClassName('class_question_remove_'+current_col)[2].value=percentage;
+                            }
+                            //ID BASED
+                            var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                            if(fc_question_precenate_El){
+                              last = document.getElementById("fc_question_precenate_"+nextLevel_coll).value;
+                              document.getElementById('fc_question_precenate_'+current_col).value=last;
+                            }
+                            
+                           }
+       
+                           
+                           Sibling = Sibling.nextElementSibling;
+                       } else {
+                           Sibling = false;
+                       }
+                   ml++;}
+                   if(eptArr.length > 0) {
+                       let removeLogic = eptArr.at(-1);
+                      
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+removeLogic)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+removeLogic)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+removeLogic)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+removeLogic);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+removeLogic).value="";
+                        // fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+                       }
 
-                }
-
-                $('.class_question_remove_' + target).val("");
-
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
-
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
-
-                // document.getElementById('fc_question_'+target+"_1").value = "";
-                // document.getElementById('fc_question_'+target+"_2").value = "";
-                // document.getElementById('fc_question_'+target+"_3").value = "";
-                // document.getElementById('fc_question_'+target).value = "";
-                if (prev_input > 1) {
-
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+removeLogic)[2].value="";
+                    
+                    document.querySelector('#fc_question_' + removeLogic).classList.add("ccs-dynaform-hidden");
                 } else {
+                       target_fieldset.classList.add("ccs-dynaform-hidden");
+                       
+                       var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+                       }
+                      //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
+                      //   fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+                       }
 
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                    //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+                    
+                       if (prev_coll > 1) {
+                        document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                       }
+                       $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                   }
+               } else {
+               
+                   target_fieldset.classList.add("ccs-dynaform-hidden");
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[0].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[1].value="";
+                //    document.getElementsByClassName('class_question_remove_'+current_col)[2].value="";
+
+                var fc_question_precenate_fir = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0];
+                       if(fc_question_precenate_fir){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[0].value="";
+                        fc_question_precenate_fir.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_sec = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1];
+                       if(fc_question_precenate_sec){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[1].value="";
+                        fc_question_precenate_sec.dispatchEvent(new Event("keyup"));
+                       }
+                       var fc_question_precenate_third = document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2];
+                       if(fc_question_precenate_third){
+                        document.getElementsByClassName('class_question_remove_'+nextLevel_coll)[2].value="";
+                        fc_question_precenate_third.dispatchEvent(new Event("keyup"));
+                       }
+                       //ID BASED
+                       var fc_question_precenate_El = document.getElementById("fc_question_precenate_"+nextLevel_coll);
+                       if(fc_question_precenate_El){
+                         document.getElementById('fc_question_precenate_'+nextLevel_coll).value="";
+                       // fc_question_precenate_El.dispatchEvent(new Event("keyup"));
+                       }
+             
+                   if (prev_coll > 1) {
+                    document.querySelector('#fc_question_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                   }
+                   $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+               with_value_count--;
+               totalAnswerd();
+               totalPercentage();
+              
+               if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
                 }
-                //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-                if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
-                    with_value_count = 21
+                else{
+                $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+            }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){
+                    $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
                 }
-                with_value_count--;
-            });
+                else{
+                    $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {    
+                if(startWithVal){    
+                   $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                if(startWithVal){  
+                    $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                }
+                else{
+                    $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+                }
+            }
+            else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                $('.btncheck').text('').text('Add another special term or condition ') 
+            }
+            
+               if (with_value_count != 21) {
+                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+               }
+               //startWithVal = false;
+           });
+            
+            
+            // db.addEventListener('click', (e) => {
+            //     if($('.add-another-btn').hasClass("ccs-dynaform-hidden")){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     e.preventDefault();
+            //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+            //         prev_input = Number(target) - 1,
+            //         target_fieldset = db.closest("div");
+            //     if(Number(target) == 20){
+            //         $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+            //     }
+            //     target_fieldset.classList.add("ccs-dynaform-hidden");
+            //     // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
+            //     //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+
+            //         var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+
+            //     }
+
+
+            //     //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
+            //     if (document.getElementById("totalPercentage") != undefined) {
+            //         document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+
+            //     }
+
+            //     $('.class_question_remove_' + target).val("");
+
+            //     if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_1").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_2").value = "";
+            //     }
+            //     if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+            //         document.getElementById('fc_question_' + target + "_3").value = "";
+            //     }
+
+            //     if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+            //         document.getElementById('fc_question_precenate_' + target).value = "";
+            //     }
+
+            //     // document.getElementById('fc_question_'+target+"_1").value = "";
+            //     // document.getElementById('fc_question_'+target+"_2").value = "";
+            //     // document.getElementById('fc_question_'+target+"_3").value = "";
+            //     // document.getElementById('fc_question_'+target).value = "";
+            //     if (prev_input > 1) {
+
+            //         document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+            //     } else {
+
+            //     }
+            //     //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+            //     if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
+            //         with_value_count = 21
+            //     }
+            //     with_value_count--;
+            // });
         });
 
       
-    var urlParamsDefault = new URLSearchParams(window.location.search);
-    var agreement_id_Default =  urlParamsDefault.get('agreement_id')
-    var lotid_Default;
-    var group_id =  urlParamsDefault.get('group_id')
-
-    if(document.getElementById('lID') !== null) {
-        lotid_Default = document.getElementById('lID').value;
-    }
-
-        var total_countva=10;
-        var withValue=11;
-    if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 7' || urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 46 )) {
-            var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-        }   
-    else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 9'  && urlParamsDefault.get('section') == 5) { 
-        var total_countva=20;
-            var withValue=21;
-            with_value_count = 20
-    }    
-    else if(agreement_id_Default=='RM1043.8'){
-        var total_countva=20;
-        var withValue=21;
-    }
-    else if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && urlParamsDefault.get('id') == 'Criterion 2' && urlParamsDefault.get('group_id') == 'Group 6'){
-        var total_countva=5;
-        var withValue=6;
-    }else{
-        if($('.question_count').hasClass("question_count")) {      
-               
-            var total_countva=50;
-           var withValue=51;
-       }else{
-           var total_countva=10;
-           var withValue=11;
-           with_value_count = 10;
-       }
-    }
+   
    
     let deleteButtonClicked = false
         
@@ -14531,8 +16036,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
+           
             if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+              
                 this_box.classList.remove('ccs-dynaform-hidden');
+
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' || urlParamsDefault.get('agreement_id') == 'RM1557.13'){ 
+
+                    if(document.getElementById("del_fc_question_" + box_num)){
+                       document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                    }
+                }
+                if(urlParamsDefault.get('agreement_id') != 'RM1043.8'){
+                    
+                  //  document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                }
+
+                
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14544,6 +16064,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButtonCount.push(box_num);
             } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
+                
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8'){
+                  
+                    document.getElementById("del_dos_question_" + box_num).classList.remove("ccs-dynaform-hidden");  
+                }else{
+                  
+                    document.getElementById("del_fc_question_" + box_num).classList.remove("ccs-dynaform-hidden");
+                }
+                
                 if (box_num === total_countva) {
 
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
@@ -14563,7 +16092,7 @@ document.addEventListener('DOMContentLoaded', () => {
            
             }
 
-            // $("#del_fc_question_"+box_num).removeClass("ccs-dynaform-hidden");
+            $("#del_fc_question_"+box_num).removeClass("ccs-dynaform-hidden");
 
 
 
@@ -14577,8 +16106,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if($('#del_dos_question_'+ with_value_count)){
             $('#del_dos_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
-
+        var divHide = $('div.ccs-dynaform-hidden').length;
+        if(divHide == 30 && with_value_count == 20 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+            with_value_count++;
+        }
+        if(divHide == 0 && with_value_count == 50 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+            with_value_count++;
+        }
+       
+        if(with_value_count==20){
+            startWithVal =true;
+        }
+       
+        if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {   
+            
+           
+            $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+            $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)') 
+        }
+        else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+            $('.btncheck').text('').text('Add another special term or condition ') 
+        }
+       
         $('.add-another-btn').on('click', function() {
+            totalPercentage();
             errorStore = [];
             let textboxCount =  0;
             if($('.order_1').length > 0){
@@ -14586,49 +16145,74 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-             
-             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
-             }
-            if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                  
+           let rootEl = document.getElementById('fc_question_' + textboxCount);
+           
+            if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19 && with_value_count == 20){
+                
+                if (((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value.length != 0 && rootEl.querySelector('.weightage').value != '0' && errorStore.length == 0)){
+              
+               $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
             }
+
             if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
 
-
-
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
-                $('.add-another-btn').addClass("ccs-dynaform-hidden");
-            }
-
-            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+                
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
-        if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
+            let percentageval = $('#fc_question_precenate_'+textboxCount).val();
+
+            if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10 && errorStore.length !=0){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+          
+        if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {
 
          if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-            $('.govuk-error-summary').remove();
-        $('.govuk-form-group--error').remove();
-        removeErrorFieldsRfpScoreQuestion();
-        
-            errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+        //     $('.govuk-error-summary').remove();
+        // $('.govuk-form-group--error').remove();
+        // removeErrorFieldsRfpScoreQuestion();
+        errorStore = emptyQuestionFieldCheckRfp();
+        let count =1;
+        if(textboxCount >0){
+          count = textboxCount;
+        }
+         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
+        errorStore.push(percentageCheck)
+        if(percentageCheck){
+            $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+        }
+            // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
         }
        else if (textboxCount == (withValue-1)) {
 
 
             if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && with_value_count == 10){
+               
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
-            if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 9' || urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
+            if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 9' || urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {
                 if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                    $('.govuk-error-summary').remove();
-                    $('.govuk-form-group--error').remove();
-                    removeErrorFieldsRfpScoreQuestion();
-                    errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                    // $('.govuk-error-summary').remove();
+                    // $('.govuk-form-group--error').remove();
+                    // removeErrorFieldsRfpScoreQuestion();
+                    errorStore = emptyQuestionFieldCheckRfp();
+                    let count =1;
+                    if(textboxCount >0){
+                      count = textboxCount;
+                    }
+                    var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
+                    errorStore.push(percentageCheck)
+                    if(percentageCheck){
+                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                        }
+                    // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                 } else if (textboxCount == (withValue-1)) {
 
                     $('.govuk-error-summary').remove();
@@ -14649,6 +16233,22 @@ document.addEventListener('DOMContentLoaded', () => {
  
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7' ) {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(lotid_Default == 1 && urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                        }
+                        else if(lotid_Default == 3 && urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this social value question';
                         }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
@@ -14689,6 +16289,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(urlParams.get('group_id') == 'Group 5') {
                             msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                         }
+                       else if(urlParams.get('group_id') == 'Group 6') {
+
+                            msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 7') {
+
+                            msgWeightageContent = 'Enter a weighting for this technical question';
+                        }
+                        else if(lotid_Default == 1 && urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                        }
+                        else if(lotid_Default == 3 && urlParams.get('group_id') == 'Group 8') {
+
+                            msgWeightageContent = 'Enter a weighting for this social value question';
+                        }
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, msgWeightageContent, /\w+/);
                         errorStore.push(fieldCheck)
                     } else{
@@ -14714,10 +16330,22 @@ document.addEventListener('DOMContentLoaded', () => {
                
                 if(textboxCount <= 20){
                     if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
-                            $('.govuk-error-summary').remove();
-                            $('.govuk-form-group--error').remove();
-                            removeErrorFieldsRfpScoreQuestion();
-                            errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                            // $('.govuk-error-summary').remove();
+                            // $('.govuk-form-group--error').remove();
+                            // removeErrorFieldsRfpScoreQuestion();
+                            errorStore = emptyQuestionFieldCheckRfp();
+                            let count =1;
+                            if(textboxCount >0){
+                              count = textboxCount;
+                    }
+                           var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + count, 'The total weighting is 100% so you can not add more questions', /\wd+/);
+                            errorStore.push(percentageCheck)
+
+                            if(percentageCheck){
+                                $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                            }
+
+                            // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
                     } else if (textboxCount == (withValue-1)) {
                         $('.govuk-error-summary').remove();
                         $('.govuk-form-group--error').remove();
@@ -14737,7 +16365,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let percentageval = $('#fc_question_precenate_'+textboxCount).val();
                         if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
                             if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
+                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
                                 errorStore.push(fieldCheck)
                             } else{
                                 errorStore = emptyQuestionFieldCheckRfp(); 
@@ -14754,7 +16382,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 15'){
+            } else if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && (urlParamsDefault.get('group_id') == 'Group 15' || urlParamsDefault.get('group_id') == 'Group 19') || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                removeErrorFieldsRfpScoreQuestion();
                 for (var i = 1; i < withValue; i++) {
                     const divElem = document.querySelector('#fc_question_' + i);
                     const inputElements = divElem.querySelectorAll("textarea");
@@ -14764,66 +16393,274 @@ document.addEventListener('DOMContentLoaded', () => {
                             const element = inputElements[index];
                             ccsZremoveErrorMessage(element)
                             if (element.value == '' && index >= 0 && (error_classes == false)) {
-                                    let error = ccsZvalidateWithRegex(element.id, "You must add information in all fields.", /^.+$/);
+                                let errorMsg = '';
+                                if(urlParamsDefault.get('group_id') == 'Group 19' || (lotid_Default == 3 && urlParamsDefault.get('group_id') == 'Group 17')){
+                                    errorMsg = "Enter your special terms and conditions";
+                                }
+                                else if(urlParamsDefault.get('group_id') == 'Group 15'){
+                                    errorMsg = "Enter accessibility requirements";
+                                }
+                                else {
+                                    errorMsg = "You must add information in all fields";
+                                }
+                                    let error = ccsZvalidateWithRegex(element.id, errorMsg, /^.+$/);
                                     errorStore.push(error);
                             }
-                            if (textboxCount == 19) {
+
+                            if (textboxCount == 19 && with_value_count == 20) {
+
                                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                             }
                         }
                     }
                 }
             } else {
-                if (Number($('#totalPercentage').text()) >= 100) {
-                $('.govuk-error-summary').remove();
 
-                $('.govuk-form-group--error').remove();
-                removeErrorFieldsRfpScoreQuestion();
+                if(textboxCount <= total_countva){
+                    if ((textboxCount < (withValue-1)) && Number($('#totalPercentage').text()) >= 100) {
+                            if((urlParams.get('agreement_id') == 'RM1557.13') && ((urlParams.get('group_id') == 'Group 4') || (urlParams.get('group_id') == 'Group 6' )))
+                            {
+                                errorStore = emptyQuestionFieldCheckRfp();
+                                errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
+                            }
+                            else if((urlParams.get('agreement_id') == 'RM6187') && (urlParams.get('group_id') == 'Group 4' ))
+                            {
+                                errorStore = emptyQuestionFieldCheckRfp();
+                                errorStore.push(["There is a problem", "The total weighting is 100% so you cannot add more questions without changing your weightings"]);
+                            }
+                            else{
+                                errorStore = emptyQuestionFieldCheckRfp();
+                                errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                            }
+                    } else if (textboxCount == (withValue-1)) {
+                        $('.govuk-error-summary').remove();
+                        $('.govuk-form-group--error').remove();
+                        removeErrorFieldsRfpScoreQuestion();
+                        if (Number($('#totalPercentage').text()) < 100) {
+                        var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%", Number($('#totalPercentage').text()),/\w+/);
+                        errorStore.push(percentageCheck)
+        
+                        }
+                        errorStore.push(["There is a problem", "Cannot add another question already "+ textboxCount +" questions created"]);
+                        var object = $('.add-another-btn').closest('.ccs-page-section');
+                        if (object.length) {
+                            $('.add-another-btn').closest('.ccs-page-section').css("border-bottom", "0px");
+                        }
+                    }  else {
 
-                errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                        let textareaVal = $('#fc_question_'+textboxCount+ '_1').val();
+                        let percentageval = $('#fc_question_precenate_'+textboxCount).val();
+                        const pageHeading = document.getElementById('page-heading').innerHTML;
+                        if(textareaVal != undefined ||textareaVal != null || textareaVal != ''){
+                            if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined || percentageval == 0) && (!pageHeading.includes("Enter your project requirements"))){
+                                if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                    if(urlParams.get('group_id') == 'Group 4'){
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this technical question",'','',false);
+                                     }else{
+                                        var fieldCheck = ccsZvalidateWeihtageValue('fc_question_precenate_'+ textboxCount, "Enter a weighting for this social value question",'','',false);
+                                     }
+                                    errorStore.push(fieldCheck)
+                                }else{
+                                var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "Enter a weighting for this social value question", /\w+/);
+                                errorStore.push(fieldCheck)
+                                }
+                            } else{
+                                errorStore = emptyQuestionFieldCheckRfp(); 
+                            }
+                        }
+                        else{
+
+                            let textareaData = $('#fc_question_'+with_value_count+ '_1').val();
+                            let percentageData = $('#fc_question_precenate_'+with_value_count).val();
+
+                            if(textareaData.trim() != '' || textareaData != null || textareaData != undefined){
+                            errorStore = emptyQuestionFieldCheckRfp(); 
+
+                            }
+                        }
+                    }
                 }
-                else {
-                    errorStore = emptyQuestionFieldCheckRfp(); 
-                }
+
+
+               
+                // if (Number($('#totalPercentage').text()) >= 100) {
+                // $('.govuk-error-summary').remove();
+
+                // $('.govuk-form-group--error').remove();
+                // removeErrorFieldsRfpScoreQuestion();
+
+                // errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+                // }
+                // else {
+                //     errorStore = emptyQuestionFieldCheckRfp(); 
+                // }
             }
-
-            const pageHeading = document.getElementById('page-heading').innerHTML;
+            
             if (errorStore.length == 0) {
                 prev_input = with_value_count - 1;
                 deleteButtonClicked = true
                 if(agreement_id_Default == "RM1043.8" && with_value_count > 20){
                     with_value_count = 20
                 }
-                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
-
-                //Added this condation section 5 (step 43/44/45)
-
-                if (with_value_count > 2) {
-                    if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
-                    }else {
-                        document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
-                    }
-                }
-                if (document.getElementById("questionsCount") != undefined) {
-                    document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
-                }
-                document
-                    .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
-                    .classList.remove('ccs-dynaform-hidden');
-                //Add question set more than 5
-                // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
-                //   if (with_value_count === 5) {
-                //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
-                //     ccsZPresentErrorSummary(errorStore);
-                //     return;
-                //   }
-                // }
                 
-                with_value_count++;
-                if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44))) {
+                // if(divHide == 31 && with_value_count == 19 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4')){
+                //   with_value_count = with_value_count;
+                // }
+                // if(divHide == 1 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 3' && (urlParams.get('group_id') == 'Group 18')){
+                //   with_value_count = total_countva;
+                // }
+                if(divHide == 46 && with_value_count == 49 && urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
+                    with_value_count = 5;
+                }
+                
+                if(document.getElementById('lID') !== null) { LOTID_VAR = document.getElementById('lID').value; }
+                 
+                if( agreement_id_Default == "RM1043.8") {
+                    let termvalue = document.getElementById('fc_question_' + with_value_count).value;
+                    let termdefvalue = '';
+                    if(document.getElementById('fc_question_precenate_' + with_value_count) != null && document.getElementById('fc_question_precenate_' + with_value_count) != undefined ){
+                        termdefvalue = document.getElementById('fc_question_precenate_' + with_value_count).value;
+                    }
+                    if(termvalue != '' && termdefvalue != ''){
+                        if(with_value_count == 20){
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                          // document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+                        }
+                        else{
+                        with_value_count++;
+                        document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+               
+                       
+                        if (document.getElementById("questionsCount") != undefined) {
+                            document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                        }
+                        document
+                            .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                            .classList.remove('ccs-dynaform-hidden');
+                        if (with_value_count === 20 ) {
+                            $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                        }
+                        }
+                      } 
+                      else{
+                           if(startWithVal && urlParamsDefault.get('id') == 'Criterion 3' && ((lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 19'))||(lotid_Default == 3 && (urlParamsDefault.get('group_id') == 'Group 17' || urlParamsDefault.get('group_id') == 'Group 15')))){
+                            with_value_count++;
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+                              
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            if (with_value_count === 20 ) {
+                                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                             }     
+            
+                        }
+                        else{
+
+                        
+                            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+                            //Added this condation section 5 (step 43/44/45)
+
+                            if (with_value_count > 2) {
+                                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                                // }else {
+                                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                                // }
+                            }
+                            if (document.getElementById("questionsCount") != undefined) {
+                                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+                            }
+                            document
+                                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                                .classList.remove('ccs-dynaform-hidden');
+                            //Add question set more than 5
+                            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+                            //   if (with_value_count === 5) {
+                            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+                            //     ccsZPresentErrorSummary(errorStore);
+                            //     return;
+                            //   }
+                            // }
+                            
+                            with_value_count++;
+                }
+                
+                 }
+                if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 ) {    
+                     if(startWithVal){
+                        $('.btncheck').text('').text('Add another skill or experience ('+((withValue-1)-with_value_count)+' remaining)') 
+                     }
+                     else{   
+                        $('.btncheck').text('').text('Add another skill or experience ('+(withValue-with_value_count)+' remaining)') 
+                     }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                     $('.btncheck').text('').text('Add another technical question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another technical question ('+(withValue-with_value_count)+' remaining)') 
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (lotid_Default == 1 || lotid_Default == 3) &&  (urlParamsDefault.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')  
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 9') && urlParamsDefault.get('section') == 5 ) {       
+                    if(startWithVal){
+                        $('.btncheck').text('').text('Add another question ('+((withValue-1)-with_value_count)+' remaining)') 
+                    }
+                    else{
+                        $('.btncheck').text('').text('Add another question ('+(withValue-with_value_count)+' remaining)')   
+                    }
+                 }
+                 else if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && lotid_Default == 1  &&  (urlParamsDefault.get('group_id') == 'Group 19')) {       
+                     $('.btncheck').text('').text('Add another special term or condition ') 
+                 }
+      
+                }else{
+            document.getElementById('fc_question_'+ with_value_count).classList.remove('ccs-dynaform-hidden');
+
+            //Added this condation section 5 (step 43/44/45)
+
+            if (with_value_count > 2) {
+                // if($('#del_dos_question_'+ with_value_count) || $('#del_fc_question_'+ with_value_count)){
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.add('ccs-dynaform-hidden');
+                // }else {
+                //     document.querySelector('label[for=fc_question_' + prev_input + '] a.del').classList.remove('ccs-dynaform-hidden');
+                // }
+            }
+            if (document.getElementById("questionsCount") != undefined) {
+                document.getElementById("questionsCount").textContent = with_value_count + ' technical questions entered so far';
+            }
+            document
+                .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+                .classList.remove('ccs-dynaform-hidden');
+            //Add question set more than 5
+            // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+            //   if (with_value_count === 5) {
+            //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+            //     ccsZPresentErrorSummary(errorStore);
+            //     return;
+            //   }
+            // }
+            
+            with_value_count++;
+        }
+                
+                if(!(urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && lotid_Default == 1 && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5)) {
                  if (with_value_count == withValue) {
-                    // $('.add-another-btn').addClass('ccs-dynaform-hidden');
+                    $('.add-another-btn').addClass('ccs-dynaform-hidden');
                     errorStore.push(["There is a problem", "Cannot add another question already "+ with_value_count +" questions created"]);
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
@@ -14832,7 +16669,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 }
                 totalAnswerd();
-                $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
+               // $('#del_dos_question_' + prev_input).addClass("ccs-dynaform-hidden");
                 
             } else ccsZPresentErrorSummary(errorStore);
         });
@@ -14841,48 +16678,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        deleteButtons.forEach((db) => {
-            //db.classList.remove('ccs-dynaform-hidden')
-            db.addEventListener('click', (e) => {
-                totalAnswerd();
-                e.preventDefault();
-                let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-                    prev_input = Number(target) - 1,
-                    target_fieldset = db.closest("div");
+        // deleteButtons.forEach((db) => {
+        //     //db.classList.remove('ccs-dynaform-hidden')
+        //     db.addEventListener('click', (e) => {
+        //         totalAnswerd();
+        //         e.preventDefault();
+        //         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        //             prev_input = Number(target) - 1,
+        //             target_fieldset = db.closest("div");
 
-                target_fieldset.classList.add("ccs-dynaform-hidden");
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-                }
-                if (document.getElementById("totalPercentage") != undefined) {
-                    document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-                }
-                // document.getElementById('fc_question_' + target + "_1").value = "";
-                // document.getElementById('fc_question_' + target + "_2").value = "";
-                // document.getElementById('fc_question_' + target + "_3").value = "";
+        //         target_fieldset.classList.add("ccs-dynaform-hidden");
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             var precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        //         }
+        //         if (document.getElementById("totalPercentage") != undefined) {
+        //             document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+        //         }
+        //         // document.getElementById('fc_question_' + target + "_1").value = "";
+        //         // document.getElementById('fc_question_' + target + "_2").value = "";
+        //         // document.getElementById('fc_question_' + target + "_3").value = "";
 
-                $('.class_question_remove_' + target).val("");
+        //         $('.class_question_remove_' + target).val("");
 
-                if (document.getElementById('fc_question_' + target + "_1") != undefined) {
-                    document.getElementById('fc_question_' + target + "_1").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_2") != undefined) {
-                    document.getElementById('fc_question_' + target + "_2").value = "";
-                }
-                if (document.getElementById('fc_question_' + target + "_3") != undefined) {
-                    document.getElementById('fc_question_' + target + "_3").value = "";
-                }
+        //         if (document.getElementById('fc_question_' + target + "_1") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_1").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_2") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_2").value = "";
+        //         }
+        //         if (document.getElementById('fc_question_' + target + "_3") != undefined) {
+        //             document.getElementById('fc_question_' + target + "_3").value = "";
+        //         }
 
-                if (document.getElementById('fc_question_precenate_' + target) != undefined) {
-                    document.getElementById('fc_question_precenate_' + target).value = "";
-                }
+        //         if (document.getElementById('fc_question_precenate_' + target) != undefined) {
+        //             document.getElementById('fc_question_precenate_' + target).value = "";
+        //         }
 
-                if (prev_input > 1) {
-                    document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-                }
+        //         if (prev_input > 1) {
+        //             document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //         }
 
-            })
-        });
+        //     })
+        // });
 
         $('.dos_question_count').on('change keyup paste', (event) => {
             totalAnswerd();
@@ -14904,14 +16741,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if(showinputarray.length > 0){
                 let prevvaalue = lastElement -1;
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
-                $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
+              //  $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
-                $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
+                //$('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') == 'RM1557.13' && showinputarray.length == 4 && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 6')){
                     $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
                 if(urlParamsDefault.get('agreement_id') == 'RM6187' && (urlParamsDefault.get('group_id') == 'Group 4' || urlParamsDefault.get('group_id') == 'Group 6') && urlParamsDefault.get('id') == 'Criterion 2' && showinputarray.length == 9){
@@ -14921,9 +16761,111 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
-    // $('.weightagelimit , .dos_question_count').on('keyup', function (evt) {
-    //     emptyQuestionFieldCheckRfp();
-    // });
+    const checkFieldsRfpgl4 = () => {
+        const start = 1;
+        const end = 20;
+        const pageHeading = document.getElementById('page-heading').innerHTML;
+        for (var a = start; a <= end; a++) {
+            let input = $(`#fc_question_1_${a}`)
+            let textbox = $(`#fc_question_precenate_${a}`);
+    
+            if (!pageHeading.includes("(Optional)")) {
+                const field1 = countWords1(input.val()) < 50;
+                const field2 = countWords1(textbox.val()) < 150;
+                if (input.val() !== "" || field1) {
+    
+                    $(`#fc_question_1_${a}-error`).remove();
+                    $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                    $(`.acronym_${a} input`).removeClass('govuk-input--error')
+    
+                }
+    
+    
+                if (textbox.val() !== "" || field2) {
+    
+                    $(`#fc_question_precenate_${a}-error`).remove();
+                    $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                    $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+                    $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+                }
+            }
+    
+        }
+    }
+
+    const removeErrorFieldsgl4 = () => {
+        $('.govuk-error-message').remove();
+        $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+        $('.govuk-error-summary').remove();
+        $(".govuk-input").removeClass("govuk-input--error");
+        $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    }
+
+    const emptyFieldCheckgl4 = (type) => {
+        let fieldCheck = "",
+            errorStore = [];
+        removeErrorFieldsgl4();
+        const pageHeading = document.getElementById('page-heading').innerHTML;
+       
+        fieldMsg = 'You must add information in all fields.';
+        descMsg = 'You must add information in all fields.';
+        
+        for (var x = 1; x < 21; x++) {
+            let term_field = document.getElementById('fc_question_1_' + x);
+            let definition_field = document.getElementById("fc_question_precenate_" + x);
+    
+            if (term_field != null && term_field.value !== undefined && definition_field !== null && definition_field !== undefined) {
+                
+                if(type == 'addmore'){
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    //if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        if (!term_field.classList.contains('ccs-dynaform-hidden')) {
+                        checkFieldsRfpgl4();
+                             if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }else{
+                   if(pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase() && pageHeading.trim().toLowerCase()  != 'write your technical questions') {
+                    if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                        const field1 = countWords1(term_field.value) > 50;
+                        const field2 = countWords1(definition_field.value) > 150;
+                        if (!term_field.classList.contains('ccs-dynaform-hidden')) {
+                            checkFieldsRfpgl4();
+                                if (term_field.value.trim() === '') {
+                                    fieldCheck = [term_field.id, fieldMsg];
+                                    ccsZaddErrorMessage(term_field, 'You must enter valid question');
+                                    errorStore.push(fieldCheck);
+                                } else if (definition_field.value.trim() === '') {
+                                    if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 6'){
+                                        fieldMsg = 'Enter a weighting for this social value question';
+                                        descMsg = 'Enter a weighting for this social value question';
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'Enter a weighting for this social value question');
+                                    }else{
+                                        fieldCheck = [definition_field.id, descMsg];
+                                        ccsZaddErrorMessage(definition_field, 'You must enter percentage');
+                                    }
+                                    errorStore.push(fieldCheck);
+                                                            
+                                } 
+                        }
+                    }
+                   }
+                }
+            }
+    
+        }
+        return errorStore;
+    }
 
     const emptyQuestionFieldCheckRfp = () => {
         removeErrorFieldsRfpScoreQuestion();
@@ -14959,26 +16901,49 @@ document.addEventListener('DOMContentLoaded', () => {
                             var labelText = labelElement.innerHTML;
                             var msg = '';
                             var desmsg = '';
+                         
                             if(labelText.trim() == 'Name of the requirement'){
-                                msg = 'You must enter your name of the requirement';
+                                
+                                msg = 'Enter the name of the requirement';
+                            }else if(labelText.trim() == 'Describe the requirement'){
+                               
+                                msg = 'Enter the description of the requirement';
                             }else{
+                               
                                 msg = 'You must enter your name of the group';
                             }
                             if(labelText.trim() == 'Describe the requirement'){
-                                desmsg = 'You must enter your description of the requirement';
+                          
+                                desmsg = 'Enter the description of the requirement';
                             }else{
-                                desmsg = 'You must enter your name of the requirement';
+                               
+                                desmsg = 'Enter the name of the requirement';
                             }
+                         
                             if (index === 0) {
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                   
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, msg])
                                 }
                             } else if(index === 1){
+                              
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
+                                    if(i != 50){
+                                        $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                                    }
+                                    // $('.add-another-btn').removeClass("ccs-dynaform-hidden");
                                     errorStore.push([element.id, desmsg])
                                 }
                             }else {
+                                
                                 if (element.value == '' || element.value === undefined || element.value === null) {
+                                    ccsZvalidateWithRegex(element.id, msg,/\w+/)
                                     errorStore.push([element.id, "You must enter your description of the requirement"])
                                 }
                             }
@@ -14990,24 +16955,53 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
 
 
-                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && (rootEl.querySelector('.weightage').value == '' || rootEl.querySelector('.weightage').value == '0'))) && !(pageHeading.includes("Assisted digital and accessibility requirements (optional)") || (pageHeading.includes("Assisted digital and accessibility requirements (Optional)")))) {
                             let msgContent = 'You must enter valid question';
                             let msgWeightageContent = 'You must enter percentage';
+                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6')){
+                                if(urlParams.get('group_id') == 'Group 4'){
+                                    msgContent = 'Enter a technical question';
+                                }else{
+                                    msgContent = 'Enter a social value question';
+                                }
+                            }
 
-
+                          
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
-
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' )) ) {
+                                msgContent = 'Enter a nice-to-have skill or experience';
+                                msgWeightageContent = 'Enter a weighting for this nice-to-have skill or experience';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter a technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 8' )) ) {
+                                msgContent = 'Enter a social value question';
+                                msgWeightageContent = 'Enter a weighting for this social value question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgContent = 'Enter a cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
+                            
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 msgContent;
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/);
 
                             let percentageCheck;
-                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4' && rootEl.querySelector('.weightage').value == '0'){
-                                 percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/);
+                            if(urlParams.get('agreement_id') == 'RM1557.13' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 4' || urlParams.get('group_id') == 'Group 6') && rootEl.querySelector('.weightage').value == ''){
+                                if(urlParams.get('group_id') == 'Group 4'){
+                                    percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'Enter a weighting for this technical question', /\wd+/);
+                                 }else{
+                                    percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, 'Enter a weighting for this social value question', /\wd+/);
+                                 }
+                                
                             }else{
                                  percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
                             }
@@ -15017,11 +17011,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
 
 
-
+                               
                             if(percentageCheck){
-                                console.log('************1');
-                                console.log(percentageCheck);
+                                if(urlParams.get('agreement_id') == 'RM1043.8' && rootEl.querySelector('.weightage').value == '0'){
+                                    errorStore.push(ccsZvalidateWithRegex('fc_question_precenate_' + i, 'You must enter valid percentage', /\wd+/));
+                                }else{
                                 errorStore.push(percentageCheck);
+                            }
                             }
                         }
 
@@ -15076,7 +17072,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if(document.getElementById('lID') !== null) {
             LOTID_VAR = document.getElementById('lID').value;
         }
-        
+       let errorStoreforOptional = '';
+       if(urlParams.get('agreement_id') == 'RM1557.13' || urlParams.get('agreement_id') == 'RM6187'){
+       errorStoreforOptional = emptyFieldCheckgl4('submit');
+       }
+     
+        if (errorStoreforOptional.length == 0) {
+
         var weightLoop = document.getElementsByClassName("weightage");
         if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 7'|| urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 7'|| urlParams.get('group_id') == 'Group 8')) ) {
             Array.prototype.forEach.call(weightLoop, function(el) {
@@ -15110,7 +17112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-
+        
         if(weightArr == 0) {
             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8')) ) {
               
@@ -15132,13 +17134,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     l++
                 });*/
-
-                if((urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5){
+                
+                if((urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8') && urlParamsDefault.get('section') == 5){
                     var textareaVal = $('#fc_question_'+1+ '_1').val();
                     var percentageval = $('#fc_question_precenate_'+1).val();
                     if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
-                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, "You must enter percentage", /\w+/);
+                           let msgContent = 'You must enter percentage';
+                           if(urlParams.get('group_id') == 'Group 6' ){
+                            msgContent = 'Enter a weighting for this nice-to-have skill or experience';
+                           }
+                           else if(urlParams.get('group_id') == 'Group 9' || (LOTID_VAR == 3 && urlParams.get('group_id') == 'Group 8') ){
+                            msgContent = 'Enter a weighting for this social value question';
+                           }
+                           
+                            var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, msgContent, /\w+/);
                             errorStore.push(fieldCheck)
                        }
                     }
@@ -15177,12 +17187,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         ($('#fc_question_'+i+ '_1').val() == '' && (error_classes == false && additional_classes == true ))
 
                         ) && !pageHeading.includes('Write your social value questions (Optional)')){
-                            let msgContent = 'You must enter your question';
+                            let msgContent = 'Enter a technical question';
 
                             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                 msgContent = 'Enter an essential skill or experience';
                                 msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                             }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgContent = 'Enter a technical question';
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                            }
+                            else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8'))) {
+                                msgContent = 'Enter a cultural fit question';
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                            }
+                            
 
                             var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msgContent, /\w+/);
 
@@ -15192,11 +17211,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         ($('#fc_question_precenate_'+i).val() == '' && ( error_classes == false && additional_classes == true ))
 
                         ) && !pageHeading.includes('Write your social value questions (Optional)')) {
-                             let msgWeightageContent = 'You must enter a weighting for this question';
+                             let msgWeightageContent = 'Enter a weighting for this technical question';
  
                              if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 5')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 5' )) ) {
                                  msgWeightageContent = 'Enter a weighting for this essential skill or experience';
                              }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 7')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 7' )) ) {
+                                msgWeightageContent = 'Enter a weighting for this technical question';
+                             }
+                             else if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 8')) ) {
+                                msgWeightageContent = 'Enter a weighting for this cultural fit question';
+                             }
+                            
                         var percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msgWeightageContent, /\w+/);
 
                         errorStore.push(percentageCheck)
@@ -15205,7 +17231,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        if(urlParams.get('agreement_id') == 'RM1557.13'){
                       
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
-                            errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                            errorStore.push(["There is a problem", "The weighting must add up to 100% in total"]);
 
                         }
                         else if($('#fc_question_precenate_'+i).val() != '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)') && Number($('#totalPercentage').text()) < 1){
@@ -15221,14 +17247,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                    
                     }
-
-                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
-
+                    
+                    if((urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5') && urlParamsDefault.get('section') == 5){
+                     
+                    
+                        if(urlParams.get('agreement_id') == 'RM1043.8'){
+                            if($('#fc_question_precenate_' + 1).val() == '' && $('#fc_question_precenate_' + 1).val() < 100){
+                                // var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+        
+                                // errorStore.push(percentageCheck)
+                                errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
+                                }
+                        }
+                        else{
                         if($('#fc_question_precenate_' + 1).val() == ''){
                         var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
 
                         errorStore.push(percentageCheck)
                         }
+                    }
         
                     }
                     // else{
@@ -15240,7 +17277,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     // }
 
+                    if(urlParams.get('agreement_id') == 'RM6187' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 4'){
+                        if (Number($('#totalPercentage').text()) < 100) {
+                            errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
+                            }
+                    }
+
                 }
+
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
                 if (errorStore.length === 0) {
                     const classList = document.getElementsByClassName("govuk-hint-error-message");
@@ -15254,31 +17298,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
            
-    
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
                 if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
 
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-                if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() != ''){
+                let weighttage_1 = $('#fc_question_precenate_' + 1).val();
+                if(textboxCount == 0 && weighttage_1 != '' && Number(weighttage_1) != 0 ){
+                    textboxCount = 1
+                }
+                
+                if($('#fc_question_precenate_' + textboxCount).val() != '' && Number($('#fc_question_precenate_' + textboxCount).val()) != 0 ){
 
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
                 errorStore.push(percentageCheck)
                 }
+                else if($('#fc_question_'+textboxCount+ '_1').val() != '' && $('#fc_question_precenate_' + textboxCount).val() == '' && Number($('#totalPercentage').text()) > 0 ){
+                    let textcount = textboxCount-1;
+                    var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textcount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
+                    errorStore.push(percentageCheck)
+                }
                 } else{
-                     errorStore.push(["There is a problem", "The total weighting is less than 100% "]);
+                     errorStore.push(["There is a problem", "The weighting must add up to 100% in total "]);
                 }
             }
              //Remain Agreement
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                 errorStore = emptyQuestionFieldCheckRfp(); 
-                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 9'  && urlParams.get('section') == 5) {
+                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 8' || urlParams.get('group_id') == 'Group 6' )  && urlParams.get('section') == 5) {
+                // if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 9'  && urlParams.get('section') == 5) {
                     let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
                     var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is more than 100% ",Number($('#totalPercentage').text()), /\w+/);
                     errorStore.push(percentageCheck)
-                    
-    
+             
                 }
                 else{
                      errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
@@ -15286,14 +17339,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             }
             if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && weightTotal == 1 && (LOTID_VAR == 1 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 9')) || (LOTID_VAR == 3 && (urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8')) ) {
-            if((urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 6' ) && urlParamsDefault.get('section') == 5 && Number($('#totalPercentage').text()) == 100){
+            if((urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 6' || urlParams.get('group_id') == 'Group 8' ) && urlParamsDefault.get('section') == 5 && Number($('#totalPercentage').text()) == 100){
                 let textareaVal = $('#fc_question_'+1+ '_1').val();
                 let percentageval = $('#fc_question_precenate_'+1).val();
                
                 if(percentageval.trim() != '' || percentageval != null || percentageval != undefined){
                     if(percentageval.length != 0 && (textareaVal == '' || textareaVal == null || textareaVal == undefined)){
+                       let msgContent = 'You must enter valid question';
+                        if(urlParams.get('group_id') == 'Group 6'){
+                        msgContent = 'Enter a nice-to-have skill or experience';
+                        }
+                        else if(urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 8'){
+                            msgContent = 'Enter a social value question';
+                            }
 
-                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', "You must enter valid question", /\w+/);
+                        var fieldCheck =  ccsZvalidateWithRegex('fc_question_'+1+ '_1', msgContent, /\w+/);
                         errorStore.push(fieldCheck)
                    }
                 }
@@ -15312,6 +17372,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else { ccsZPresentErrorSummary(errorStore); }
         }
+
+         } else ccsZPresentErrorSummary(errorStoreforOptional);
     });
 
     
@@ -15350,6 +17412,12 @@ evt = (evt) ? evt : window.event;
      }
 });
 
+$('.weightage').on('input', function() {
+    $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+  });
+
+
+  
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -15686,7 +17754,54 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
 
         const openpop = document.querySelector('.backdrop-tier') 
-        openpop.classList.add('showpopup');
+        if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
+          if(document.getElementById('rfp_score_criteria_name_1') && document.getElementById('rfp_score_criteria_desc_1') && document.getElementById('rfp_score_criteria_point_1')){
+            let question1 = document.getElementById('rfp_score_criteria_name_1').value;
+            let question2 = document.getElementById('rfp_score_criteria_point_1').value;
+            let question3 = document.getElementById('rfp_score_criteria_desc_1').value;
+            if(question1 != '' || question2 != '' || question3 != '' ){
+              openpop.classList.add('showpopup');
+            }else{
+              for (let score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
+                document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
+                document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
+                document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
+                let elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
+                elements[0].classList.add("ccs-dynaform-hidden");
+              }
+      
+              if (rowsAndHead != undefined && rowsAndHead != null) {
+                document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
+                with_value_count = rowsAndHead.rows.length + 1;
+                rowsAndHead.rows.unshift({ text: "Ignore" })
+      
+                if(document.getElementById('agreement_id') && (document.getElementById('agreement_id').value == 'RM1043.8' || document.getElementById('agreement_id').value == 'RM1557.13' || document.getElementById('agreement_id').value == 'RM6187')){ 
+                  rowsAndHead.rows.reverse();
+                  var rowlength = rowsAndHead.rows.length;
+                    for (let i = 0; i < rowsAndHead.rows.length; i++) {
+                    if (i !== Number(rowlength)-1) {
+                     const ii = i + 1;
+                     let elements = document.getElementsByClassName("score_criteria_" + ii);
+                      elements[0].classList.remove("ccs-dynaform-hidden");
+                      document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+                      document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+                      document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+                      document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                      document.getElementById("rfp_score_criteria_name_" + ii).focus();
+                    }
+                    if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                      document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+                    } else {
+                      document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }else{
+          openpop.classList.add('showpopup');
+        }
         
         $(".dialog-close-tier").on('click', function(){
           openpop.classList.remove('showpopup');
@@ -15729,7 +17844,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
               }
             }
-          }else{
+          }else if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1557.13'){ 
+            rowsAndHead.rows.reverse();
+            var rowLength,rowLengthValue;
+            if(rowsAndHead.rows.length == 6){
+              rowLength = 4
+              rowLengthValue = 5
+            }else{
+              rowLength = 3
+              rowLengthValue = 4
+            }
+              for (let i = 0; i < rowsAndHead.rows.length; i++) {
+              if (i !== rowLengthValue) {
+               const ii = i + 1;
+               var elements = document.getElementsByClassName("score_criteria_" + ii);
+                elements[0].classList.remove("ccs-dynaform-hidden");
+                document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+                document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                document.getElementById("rfp_score_criteria_name_" + ii).focus();
+              }
+              
+              if(i>rowLength){
+                var eleI = i + 1;
+                var elements = document.getElementsByClassName("score_criteria_" + eleI);
+                elements[0].classList.add("ccs-dynaform-hidden");
+              }
+              if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              } else {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+              }
+            }
+          }
+          else{
             for (let i = 0; i < rowsAndHead.rows.length; i++) {
               if (i !== 0) {
                 //const ii = i + 1;
@@ -15861,6 +18010,9 @@ document.addEventListener('DOMContentLoaded', () => {
             this_fieldset.classList.add('ccs-dynaform-hidden');
           }
         }
+        let resetcount = resetTierData.length +1;
+        document.getElementById('rfp_score_criteria_name_' + resetcount).dispatchEvent(new Event("keyup"));
+        document.getElementById('rfp_score_criteria_desc_' + resetcount).dispatchEvent(new Event("keyup"));
 
         for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
           if (score_criteria_fieldset == 1) {
@@ -16017,7 +18169,7 @@ $(".maxValueValidate").keyup(function(e) {
   let maxLen = $(this).val();
   if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
     let inputVal = $(this).val();
-    $(this).val(inputVal.slice(0,2));
+    $(this).val(inputVal.slice(0,3));
   }
 });
 
@@ -16066,6 +18218,7 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
+    let descerrorFlag = false;
     let agreement_id = document.getElementById('agreement_id');
         
   removeErrorFieldsRfpScore();
@@ -16076,7 +18229,7 @@ const emptyFieldCheckRfpScore = () => {
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
-      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
 
         let focusField; 
         if (name_field.value.trim() === '') {
@@ -16087,30 +18240,88 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [focusField.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(point_field, 'Enter a valid number.');
-        ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
-        errorStore.push(fieldCheck);
+        if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+          
+          if(name_field.value.trim() === ''){   
+          fieldCheck = [name_field.id, 'Enter a name for this level'];
+          errorStore.push(fieldCheck);
+          }
+          if(point_field.value.trim() === '') {
+            fieldCheck = [point_field.id, 'Enter a score for this level'];
+            errorStore.push(fieldCheck);
+          }
+          if(desc_field.value.trim() === ''){  
+            fieldCheck = [desc_field.id, 'Enter a description for this level'];
+            errorStore.push(fieldCheck); 
+          }
+          ccsZaddErrorMessage(name_field, 'Enter a name for this level');
+          ccsZaddErrorMessage(point_field, 'Enter a score for this level');
+          ccsZaddErrorMessage(desc_field, 'Enter a description for this level');
+         
+        }else{
+          fieldCheck = [focusField.id, 'You must add information in all fields.'];
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+          ccsZaddErrorMessage(point_field, 'Enter valid score');
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+          errorStore.push(fieldCheck);
+        }
+
+
+        
       } 
       else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
-        fieldCheck = [point_field.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
-        ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
-        ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
-        errorStore.push(fieldCheck);
+        
+        if(name_field.value.trim() === ''){   
+          fieldCheck = [name_field.id, 'Enter a name for this level'];
+          errorStore.push(fieldCheck);
+          }
+          if(point_field.value.trim() === '') {
+            fieldCheck = [point_field.id, 'Enter a score for this level'];
+            errorStore.push(fieldCheck);
+          }
+          if(desc_field.value.trim() === ''){  
+            fieldCheck = [desc_field.id, 'Enter a description for this level'];
+            errorStore.push(fieldCheck); 
+          }
+          ccsZaddErrorMessage(name_field, 'Enter a name for this level');
+          ccsZaddErrorMessage(point_field, 'Enter a score for this level');
+          ccsZaddErrorMessage(desc_field, 'Enter a description for this level');
+
+        // fieldCheck = [point_field.id, 'You must add information in all fields.'];
+        // ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
+        // ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
+        // ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
+        // errorStore.push(fieldCheck);
       }
-      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
+      else if(agreement_id.value.trim() == 'RM1557.13' && (name_field.value.trim() === '' || point_field.value.trim() === '' || desc_field.value.trim() === '')) {
+        if(name_field.value.trim() === ''){
+          fieldCheck = [name_field.id, 'Enter a name for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(name_field, 'Enter a name for this level');
+        }
+        if(point_field.value.trim() === ''){
+          fieldCheck = [point_field.id, 'Enter a score for this level'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(point_field, 'Enter a score for this level');
+        }
+        if(desc_field.value.trim() === ''){
+          fieldCheck = [desc_field.id, 'Enter a description for this level'];
+          ccsZaddErrorMessage(desc_field, 'Enter a description for this level');
+          errorStore.push(fieldCheck);
+        }
+
+      }
+      else if (agreement_id.value.trim() == 'RM1043.8' && Number(point_field.value.trim()) > 100){
         let errorObj = {
           field: point_field,
           isError: false,
         };
-        fieldCheck = [point_field.id, 'Enter valid score.'];
-        ccsZaddErrorMessage(point_field, 'Enter valid score.');
+        fieldCheck = [point_field.id, 'Enter valid score'];
+        ccsZaddErrorMessage(point_field, 'Enter valid score');
         errorObj.isError = true;
         errorObj.field = point_field;
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'Enter valid score.'];
+          fieldCheck = [errorObj.field.id, 'Enter valid score'];
           errorStore.push(fieldCheck);
         }
       }else {
@@ -16118,75 +18329,100 @@ const emptyFieldCheckRfpScore = () => {
           field: name_field,
           isError: false
         };
-        if (name_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
-          ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
+        if (name_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
+          ccsZaddErrorMessage(name_field, 'Enter a name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
-          ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
+        if (point_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
+          ccsZaddErrorMessage(point_field, 'Enter a score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (point_field.value.trim() < 0 && agreement_id.value.trim() == 'RM6187') {
+        if (point_field.value.trim() < 0 && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
           ccsZaddErrorMessage(point_field, 'Enter a valid score');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
-          ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
+        if (desc_field.value.trim() === '' && (agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13')) {
+          ccsZaddErrorMessage(desc_field, 'Enter a description for this level');
           errorObj.isError = true;
           errorObj.field = desc_field;
         }
 
-        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
-          ccsZaddErrorMessage(name_field,'you must add name for this level.');
+        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13' ) {
+          ccsZaddErrorMessage(name_field,'Enter a name for this level');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
-          ccsZaddErrorMessage(point_field, 'Enter a valid number');
+        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
+          ccsZaddErrorMessage(point_field, 'Enter a score for this level');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
         
-        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
-            ccsZaddErrorMessage(point_field,'Enter valid score.');
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
+            ccsZaddErrorMessage(point_field,'Enter valid score');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
         
-        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
-          ccsZaddErrorMessage(desc_field,'you must add description for this level');
-          errorObj.isError = true;
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13') {
+          ccsZaddErrorMessage(desc_field,'Enter a description for this level');
+          
           errorObj.field = desc_field;
+          if(agreement_id.value.trim() == 'RM1043.8'){
+          descerrorFlag = true;
+          }
+          else{
+            errorObj.isError = true;
+          }
+          
         }
-        if(agreement_id.value.trim() == 'RM6187'){
+        if(agreement_id.value.trim() == 'RM6187' || agreement_id.value.trim() == 'RM1557.13'){
           if (errorObj.isError) {
-            fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
+            if (name_field.value.trim() === '') {
+            fieldCheck = [errorObj.field.id, 'Enter a name for this level'];
             errorStore.push(fieldCheck);
+            }
+            if(point_field.value.trim() === '') {
+              fieldCheck = [errorObj.field.id, 'Enter a score for this level'];
+              errorStore.push(fieldCheck);
+            }
+           if (desc_field.value.trim() === ''){
+              fieldCheck = [errorObj.field.id, 'Enter a description for this level'];
+              errorStore.push(fieldCheck);
+            }
+            
+           
           }
         }
-       if(agreement_id.value.trim() != 'RM6187'){
+       if(agreement_id.value.trim() != 'RM6187' && agreement_id.value.trim() != 'RM1557.13'){
         let errMsg = '';
         if (name_field.value.trim() === '') {
           errorObj.field = name_field;
-          errMsg = 'you must add name for this level.';
+          errMsg = 'Enter a name for this level';
         }else if(point_field.value.trim() === '') {
           errorObj.field = point_field;
-          errMsg = 'you must add score for this level';
-        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+          errMsg = 'You must add score for this level';
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 3 || point_field.value.trim() < 0 || point_field.value.trim() > 100 )){
           errorObj.field = point_field;
-          errMsg = 'Enter valid score.';
-        }else if (desc_field.value.trim() === '') {
+          errMsg = 'Enter valid score';
+        }else if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM1043.8') {
           errorObj.field = desc_field;
-          errMsg = 'you must add description for this level';
+          errMsg = 'Enter a description for this level';
         }
-
+       
+        
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, errMsg == ''?'You must add information in all fields.':errMsg];
           errorStore.push(fieldCheck);
         }
+        if(agreement_id.value.trim() == 'RM1043.8' && descerrorFlag == true){
+            fieldCheck = [desc_field.id, 'Enter a description for this level'];
+            errorStore.push(fieldCheck);
+          }
+
        }
         
       }
@@ -16204,7 +18440,11 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
+    if(document.getElementById('agreement_id') != null && document.getElementById('agreement_id').value == 'RM1043.8'){
+      errorStore.push(["ccs_rfp_score_criteria_add", 'Number of scoring levels must be 2 or more'])
+    }else{
+      errorStore.push(["There is a problem", 'Number of scoring levels must be 2 or more'])
+    }
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
@@ -16266,10 +18506,10 @@ const emptyFieldCheckRfpScore2 = () => {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
         if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-        fieldCheck = [name_field.id, 'Enter a user type.'];
-        ccsZaddErrorMessage(name_field, 'Enter a user type.');
-        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
-        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        fieldCheck = [name_field.id, 'Enter a user type'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users');
         errorStore.push(fieldCheck);
         errorStore.push(fieldCheck1);
         }
@@ -16287,8 +18527,8 @@ const emptyFieldCheckRfpScore2 = () => {
         };
         if (name_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-            fieldCheck = [name_field.id, 'Enter a user type.'];
-            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+            fieldCheck = [name_field.id, 'Enter a user type'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type');
            errorStore.push(fieldCheck);
           }
           else{
@@ -16299,8 +18539,8 @@ const emptyFieldCheckRfpScore2 = () => {
                   }
         if (desc_field.value.trim() === '') {
           if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-             fieldCheck = [desc_field.id, 'Enter details about your users.'];
-             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+             fieldCheck = [desc_field.id, 'Enter details about your users'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users');
             errorStore.push(fieldCheck);
            }
            else{
@@ -16328,6 +18568,7 @@ const ccsZvalidateScoringCriteria2 = event => {
   var group_id = urlParams.get("group_id");
   var criterion = urlParams.get("id"); 
   var lID=document.getElementById('lID').value;
+  const pageHeading = document.getElementById('page-heading').innerHTML;
 
   if(agreement_id=='RM1557.13' && group_id=='Group 6' && criterion=='Criterion 3' && lID=='4'){
     errorStore = [];
@@ -16335,7 +18576,7 @@ const ccsZvalidateScoringCriteria2 = event => {
     errorStore = emptyFieldCheckRfpScore2();
   }
 
-  if (errorStore.length === 0) {
+  if (errorStore.length === 0 && !pageHeading.includes("The people who will use your product or service (Optional)")) {
     document.forms['service_user_type_form'].submit();
   }
   else {
@@ -16354,6 +18595,10 @@ const  deletePost = (url) => {
       window.location.href = window.location.origin+url;
   }
 }
+
+$("input[name='score_criteria_points']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
 let rfp_security_confirmation = null;
 
 document.addEventListener('DOMContentLoaded', () => {  
@@ -16404,9 +18649,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             var headerText = document.getElementById('page-heading').innerHTML;
-            var msg = 'You must choose one option from list before proceeding';
+            var msg = 'Select a security clearance level';
             if(headerText.includes('Set your budget')){
-              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”'
             } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
               msg = 'Select whether you need a contracted out service or a supply of resource'
             }
@@ -16455,12 +18700,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (this.value == 'other') {
       $('.otherTextArea').removeClass('ccs-dynaform-hidden');
       $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
     }
   });
   $('input[type="checkbox"]:not(:checked)').each(function () {
     if (this.value == 'other') {
       $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').addClass('ccs-dynaform-hidden');
+      $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
       $('.otherTextArea').html('');
     }
   });
@@ -16469,12 +18716,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.value == 'other') {
         $('.otherTextArea').removeClass('ccs-dynaform-hidden');
         $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').removeClass('ccs-dynaform-hidden');
+    
       }
     });
     $('input[type="checkbox"]:not(:checked)').each(function () {
       if (this.value == 'other') {
         $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').addClass('ccs-dynaform-hidden');
+        $('.otherTextAreaPara').addClass('ccs-dynaform-hidden');
         $('.otherTextArea').html('');
       }
     });
@@ -16506,7 +18756,7 @@ let ccs_vetting = document.querySelectorAll('.ccs_vetting');
 let rfp_term_definition_new = document.querySelectorAll('.rfp_term_definition_new');
 rfp_vetting.forEach(ele => {
   ele.addEventListener('keydown', (event) => {
-    removeErrorFieldsRfpSelect();
+    // removeErrorFieldsRfpSelect();
   });
 });
 rfp_term_percentage.forEach(ele => {
@@ -16522,6 +18772,12 @@ rfp_term_definition_new.forEach(ele => {
 ccs_vetting.forEach(ele => {
   ele.addEventListener('click', (event) => {
     removeErrorFieldsRfpSelect();
+  });
+});
+let removeErrRfi = document.querySelectorAll('.removeErr');
+removeErrRfi.forEach(ele => {
+  ele.addEventListener('keydown', (event) => {
+    ccsZremoveErrorMessage();
   });
 });
 // $("#rfp_security_confirmation").keypress(function(e) {
@@ -16578,7 +18834,7 @@ $('#rfp_singleselect').on('submit', event => {
 
   if (headerText.includes('existing supplier') && ischecked) {
     var ccs_vetting_type = document.getElementById('ccs_vetting_type').checked;
-
+    
     var rfp_security_confirmation = document.getElementById('rfp_security_confirmation');
     if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
@@ -16595,9 +18851,12 @@ $('#rfp_singleselect').on('submit', event => {
     ) {
       ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
       ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
-    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
-      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
-    } else {
+    } 
+    // else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0 && document.getElementById('agreementID').value != 'RM1557.13') {
+    //   ccsZaddErrorMessage(rfp_security_confirmation, 'You have the option to enter the name of an existing supplier.');
+    //   ccsZPresentErrorSummary([['rfp_security_confirmation', 'You have the option to enter the name of an existing supplier.']]);
+    // } 
+    else {
       document.forms['rfp_singleselect'].submit();
     }
   } else {
@@ -16606,20 +18865,39 @@ $('#rfp_singleselect').on('submit', event => {
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select a project phase']]);
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a project phase']]);
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
-        ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
-      }else{
-        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+        let urlParamsData = new URLSearchParams(window.location.search);
+        if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('group_id') == 'Group 21'){
+          ccsZPresentErrorSummary([['ccs_vetting_type', 'Select whether you need a contracted out service or a supply of resource']]);
+        }else{
+          ccsZPresentErrorSummary([['There is a problem', 'Select whether you need a contracted out service or a supply of resource']]);
+        }
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether this is a new or replacement product or service, or 'Not sure'`]]);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZPresentErrorSummary([['ccs_vetting_type', `Select whether there is an existing supplier`]]);
+      }
+      else{
+        ccsZPresentErrorSummary([['ccs_vetting_type', 'Select a pricing model']]);
       }
     }
     if (ccs_vetting_type) {
       if(headerText.trim().toLowerCase() == 'Which phase the project is in'.toLowerCase()){
-        ccsZaddErrorMessage(ccs_vetting_type, 'Select one project phase');
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a project phase');
       }else if(headerText.trim().toLowerCase() == 'Confirm if you require a contracted out service or supply of resource'.toLowerCase()){
         ccsZaddErrorMessage(ccs_vetting_type, 'Select whether you need a contracted out service or a supply of resource');
-      }else{
-        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      }else if(headerText.trim().toLowerCase() == 'Choose if this is a new or replacement product or service'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether this is a new or replacement product or service, or 'Not sure'`);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there is an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
+      }else if(headerText.trim().toLowerCase() == 'Tell us if there an existing supplier'.toLowerCase()){
+        ccsZaddErrorMessage(ccs_vetting_type, `Select whether there is an existing supplier`);
+      }
+      else{
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
       }
 
     }
@@ -16627,13 +18905,20 @@ $('#rfp_singleselect').on('submit', event => {
 }
 });
 
+$('#rfp_security_confirmation').on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9,\s]/gi, ''));
+});
 const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("service_levels_kpi_form") !== null) {
 
-    let with_value_count = 10,
+    if(document.getElementById("kpiKeyLevel").textContent == 0) {
+      document.getElementById("kpiKeyLevel").textContent = '0';
+    }
+    
+    let with_value_count = 11,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
@@ -16641,31 +18926,122 @@ document.addEventListener('DOMContentLoaded', () => {
     // delete buttons
     deleteButtons.forEach((db) => {
       db.classList.add('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
 
+      db.addEventListener('click', (e) => {
+            
+         e.preventDefault();
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
 
-        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        
-        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+        let Sibling = target_fieldset.nextElementSibling; //document.getElementById(e.target.id).nextElementSibling;
+        if(target != 20) {
+            let ml = 1;
+            
+            let next_coll = Number(target);
+            let nextLevel_coll = Number(target);
+            let eptArr = [];
+            while (Sibling) {
+                
+                let siblingClassList = Sibling.classList;
+                if (Object.keys(siblingClassList).find(key => siblingClassList[key] === 'closeCCS') !== undefined && Object.keys(siblingClassList).find(key => siblingClassList[key] === 'ccs-dynaform-hidden') === undefined) {
+                  let current_col = nextLevel_coll;  
+                  nextLevel_coll = (nextLevel_coll + 1);
+                  eptArr.push(nextLevel_coll)
+                    if(ml == 1) {
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + current_col).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + current_col).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + current_col).value = percentage.value;
+                        // target_fieldset.querySelector("[name='term']").value = first.value;
+                        // target_fieldset.querySelector("[name='value']").value = last.value;
+                        // target_fieldset.querySelector("[name='percentage']").value = percentage.percentage;
+                    } else {
+                        next_coll = next_coll + 1;
+                        var first = Sibling.querySelector("[name='term']");
+                        var last  = Sibling.querySelector("[name='value']");
+                        var percentage  = Sibling.querySelector("[name='percentage']");
+                        
+                        document.getElementById('rfp_term_service_levels_KPI_' + next_coll).value = first.value;
+                        document.getElementById('rfp_term_definition_service_levels_KPI_' + next_coll).value = last.value;
+                        document.getElementById('rfp_term_percentage_KPI_' + next_coll).value = percentage.value;
+                    }
 
-        document.getElementById("kpiKeyLevel").textContent = prev_coll;
-        if (prev_coll > 1) {
-          document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                    Sibling = Sibling.nextElementSibling;
+                } else {
+                    Sibling = false;
+                }
+            ml++;}
+            if(eptArr.length > 0) {
+                let removeLogic = eptArr.at(-1);
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).dispatchEvent(new Event("keyup"));
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + removeLogic).dispatchEvent(new Event("keyup"));
+                document.getElementById('rfp_term_percentage_KPI_' + removeLogic).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
+            } else {
+                target_fieldset.classList.add("ccs-dynaform-hidden");
+                document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+                document.getElementById('rfp_term_definition_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
+                document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+                if (prev_coll > 1) {
+                    document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+                }
+                document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+            }
+        } else {
+            target_fieldset.classList.add("ccs-dynaform-hidden");
+            document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + target).dispatchEvent(new Event("keyup"));
+            document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+            if (prev_coll > 1) {
+                document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+            }
+            document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         }
-
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
-      });
+        if (with_value_count != 11) {
+         
+          document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+        }
     });
+
+      // db.addEventListener('click', (e) => {
+      //   e.preventDefault();
+
+      //   let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+      //     prev_coll = Number(target) - 1,
+      //     target_fieldset = db.closest("fieldset");
+
+
+      //   document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+      //   document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+      //   target_fieldset.classList.add("ccs-dynaform-hidden");
+        
+      //   document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+
+      //   document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //   if (prev_coll > 1) {
+      //     document.getElementById("kpiKeyLevel").textContent = prev_coll;
+      //     document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+      //   }
+
+      //   document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+      //   with_value_count--;
+      // });
+    });
+    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -16673,11 +19049,10 @@ document.addEventListener('DOMContentLoaded', () => {
         term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + kpi_fieldset),
         term_box2 = document.getElementById("rfp_term_percentage_KPI_" + kpi_fieldset);
       //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
-
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
-        document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
+        //document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
         deleteButtonCount.push(kpi_fieldset);
         if (kpi_fieldset === 10) {
           
@@ -16697,7 +19072,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
       }
     }
-    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+    
 
     
     document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {
@@ -16717,6 +19092,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (totalPercentage < 0) {
         errorStore.push(["rfp_term_percentage_KPI_", "You must enter a positive value"]);
       }
+      var divHide = $('fieldset.ccs-dynaform-hidden').length;
+      console.log("divHide",divHide);
+      console.log("with_value_count",with_value_count);
+      if(divHide == 1 && with_value_count == 9){
+        with_value_count = 10;
+      }
       // if (totalPercentage === 100) {
       //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
       // } else if (totalPercentage > 100) {
@@ -16732,11 +19113,18 @@ document.addEventListener('DOMContentLoaded', () => {
           //document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
           //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
         }
+
+        if(with_value_count != 1)
         document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        document.getElementById("kpiKeyLevel").textContent = with_value_count-1;
+        $("#rfp_term_service_levels_KPI_10").keypress(function(e) {
+          document.getElementById("kpiKeyLevel").textContent = 10
+       });
+        
         with_value_count++;
 
 
-        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        
         if (with_value_count === 11) {
          
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -16829,68 +19217,89 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if (term_field.value.trim() == '' && definition_field.value.trim() == '' && target_field.value.trim() == '') {
          
         }else{
-          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
+
+          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '0' || target_field.value.trim() == '')) {
             let isErrorSingle = false;
+            let errField;
             if (term_field.value.trim() == ''){
+                errField = term_field;
                isErrorSingle = true;
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
           }
           if (definition_field.value.trim() == ''){
+            errField = definition_field;
              isErrorSingle = true;
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
           }
-          if (target_field.value.trim() == ''){
-             isErrorSingle = true;
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+          if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
+            errorStore.push(fieldCheck);
           }
+
+          if (target_field.value.trim() == '0'){
+            ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
+            isError = true;
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
+            errorStore.push(fieldCheck);
+          }
+
           if (isErrorSingle) {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            fieldCheck = [errField.id, 'You must add information in all fields'];
             errorStore.push(fieldCheck);
           }
         }
         }
        
-      
         if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
-            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-            ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
-            ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
-            ccsZaddErrorMessage(target_field, 'You must enter your success target.');
-            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+            fieldCheck = [definition_field.id, 'You must add information in all fields'];
+            ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
+            ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
+            ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
+            fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+            fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
             errorStore.push(fieldCheck);
-            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+            fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
             errorStore.push(fieldCheck);
           }
           else {
             let isError = false;
             if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');
+              ccsZaddErrorMessage(term_field, 'Enter the name of the requirement');
               isError = true;
-              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'You must enter the name of requirement.'];
+              fieldCheck = ['rfp_term_service_levels_KPI_' + x, 'Enter the name of the requirement'];
               errorStore.push(fieldCheck);
             }
             if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must enter the description of the criteria.');
+              ccsZaddErrorMessage(definition_field, 'Enter the description of the criteria');
               isError = true;
-              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'You must enter the description of the criteria.'];
+              fieldCheck = ["rfp_term_definition_service_levels_KPI_" + x, 'Enter the description of the criteria'];
               errorStore.push(fieldCheck);
             }
 
             if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must enter your success target.');
+              ccsZaddErrorMessage(target_field, 'Enter a success target between 1 and 100');
               isError = true;
-              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'You must enter your success target.'];
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Enter a success target between 1 and 100'];
               errorStore.push(fieldCheck);
             }
+
+            if (target_field.value.trim() == '0'){
+              ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
+              isError = true;
+              fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
+              errorStore.push(fieldCheck);
+            }
+            
             if (field1) {
-              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed.');
+              ccsZaddErrorMessage(term_field, 'No more than 500 words are allowed');
               isError = true;
             }
             if (field2) {
-              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed.');
+              ccsZaddErrorMessage(definition_field, 'No more than 10000 words are allowed');
               isError = true;
             }
             if (isError) {
@@ -16940,6 +19349,7 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   let errorStore = [];
   var percentageElement = document.getElementsByName("percentage");
   for (let index = 0; index < percentageElement.length; index++) {
+   
     totalPercentage += Number(percentageElement[index].value);
     
     if (Number(percentageElement[index].value) > 100) {
@@ -16981,10 +19391,31 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   }
 });
 
+
+
+for (var x = 1; x < 11; x++) {
+  termbox = document.getElementById("rfp_term_service_levels_KPI_" + x);
+  if (termbox != undefined && termbox != null && termbox.value !== "") {
+    document.getElementById("kpiKeyLevel").textContent = x;
+  }
+}
+
+$("input[name='percentage']").on('input', function() {
+  $(this).val($(this).val().replace(/[^a-z0-9]/gi, ''));
+});
+
+
+
 const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("service_user_type_form") !== null) {
+
+        var urlParam = new URLSearchParams(window.location.search);
+        var agreement_Id = urlParam.get("agreement_id");
+        if(agreement_Id == "RM1557.13"){
+            document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+        }
 
         let with_value_count = 10,
             prev_input = 0,
@@ -17031,25 +19462,32 @@ document.addEventListener('DOMContentLoaded', () => {
             var group_id = urlParams.get("group_id");
             var criterion = urlParams.get("id");
             let last_value = with_value_count - 1;
+        for (var x = 1; x < 11; x++) {
             let groupName='',groupDetails='';
-            const group_name = document.querySelector('#rfp_term_service_group_' + last_value).value;
-            const group_details =  document.querySelector('#rfp_term_more_details_' + last_value).value;
-            const hidden = document.querySelector(".acronym_service_" + last_value).classList.contains("ccs-dynaform-hidden")
-        if( (group_name == '' || group_details == '') ){
+            const group_name = document.querySelector('#rfp_term_service_group_' + x).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + x).value;
+            const hidden = document.querySelector(".acronym_service_" + x).classList.contains("ccs-dynaform-hidden")
+        if( (group_name == '' || group_details == '') && !hidden ){
             if(group_name == '') {
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type.", /\w+/);
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + x , "Enter a user type", /\w+/);
+                }
+                else if(agreement_id == "RM1557.13" && group_id == "Group 6" && criterion == 'Criterion 3'){
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + x , "Enter a user type", /\w+/);
                 }
                 else{
-                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
+                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + x , "You must enter information here", /\w+/);
                 }
             }
             if(group_details == ''){
                 if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
-                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users.", /\w+/);
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + x , "Enter details about your users", /\w+/);
+                }
+                else if(agreement_id == "RM1557.13" && group_id == "Group 6" && criterion == 'Criterion 3'){
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + x , "Enter details about your users", /\w+/);
                 }
                 else{
-                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + x , "You must enter information here", /\w+/);
                 }
             }  
            
@@ -17064,28 +19502,57 @@ document.addEventListener('DOMContentLoaded', () => {
             ccsZPresentErrorSummary(errorStore);
             }
             
-
-        }else if(errorStore.length ==0) {
+        }
+        }
+       
+        if(errorStore.length ==0) {
             removeErrorFieldsRfpScoreQuestion()
-            document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+            const group_name = document.querySelector('#rfp_term_service_group_' + with_value_count).value;
+            const group_details =  document.querySelector('#rfp_term_more_details_' + with_value_count).value;
+            if(group_name != '' && group_details != ''){
+                if(with_value_count == 10){
+                    document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                }
+                else{
+                    with_value_count++;
+                    document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                    if (with_value_count === 10 ) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+
+            }
+            else{
+                document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    if (errorStore.length == 0 && with_value_count === 10) {
+                        document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }else{
+                    if (with_value_count === 10) {
+                      document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
+                    }
+                }
+                if(errorStore.length == 0){
+                    if($("#deleteButton_service_useer_type_" + last_value)){
+                        $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
+                    }
+                    with_value_count++;
+                }
+            }
+            
+            
 
         }
+
             // if (with_value_count > 2) {
             //     prev_input = with_value_count - 1;
             //     document.querySelector(".acronym_service_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
             // }
 
            
-            // console.log('with_value_count',with_value_count)
-            if (with_value_count === 10) {
-                document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-            }
-            if(errorStore.length == 0){
-                if($("#deleteButton_service_useer_type_" + last_value)){
-                    $("#deleteButton_service_useer_type_" + last_value).removeClass("ccs-dynaform-hidden");
-                }
-                with_value_count++;
-            }
+
+            
         });
 
         // delete buttons
@@ -17158,7 +19625,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         let removeLogic = eptArr.at(-1);
                         console.log(`removeLogic: ${removeLogic}`);
                         document.getElementById('rfp_term_service_group_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_service_group_' + removeLogic).dispatchEvent(new Event("keyup"));
                         document.getElementById('rfp_term_more_details_' + removeLogic).value = "";
+                        document.getElementById('rfp_term_more_details_' + removeLogic).dispatchEvent(new Event("keyup"));
+
                         document.getElementById('rfp_term_service_group_' + removeLogic).closest("fieldset").classList.add("ccs-dynaform-hidden")
                     } else {
                         // target_fieldset.classList.add("ccs-dynaform-hidden");
@@ -17170,7 +19640,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                          target_fieldset.classList.add("ccs-dynaform-hidden");
                          document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_service_group_' + target).dispatchEvent(new Event("keyup"));
                          document.getElementById('rfp_term_more_details_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                             document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                         }
@@ -17186,7 +19658,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
                          target_fieldset.classList.add("ccs-dynaform-hidden");
                          document.getElementById('rfp_term_service_group_' + target).value = "";
+                         document.getElementById('rfp_term_service_group_' + target).dispatchEvent(new Event("keyup"));
                          document.getElementById('rfp_term_more_details_' + target).value = "";
+                         document.getElementById('rfp_term_more_details_' + target).dispatchEvent(new Event("keyup"));
                         if (prev_coll > 1) {
                             document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
                         }
@@ -17222,7 +19696,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(index == 0){
                     $("#deleteButton_service_useer_type_" + val).removeClass("ccs-dynaform-hidden");
                 }else {
-                    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
+                //    $("#deleteButton_service_useer_type_" + val).addClass("ccs-dynaform-hidden");
                 }
             })
         }
@@ -17337,9 +19811,108 @@ const emptyFieldCheckRfp = () => {
     }
     return errorStore;
 }
+
+const removeErrorFieldsRfpgc = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+
+}
+
+const checkFieldsRfpgc = () => {
+    const start = 1;
+    const end = 20;
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    for (var a = start; a <= end; a++) {
+        let input = $(`#rfp_term_service_group_${a}`)
+        let textbox = $(`#rfp_term_more_details_${a}`);
+
+        if (!pageHeading.includes("(Optional)")) {
+            
+            const field1 = countWords1(input.val()) < 50;
+            const field2 = countWords1(textbox.val()) < 150;
+            
+            if (input.val() !== "" || field1) {
+                $(`#rfp_term_service_group_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} input`).removeClass('govuk-input--error')
+            }
+
+            if (textbox.val() !== "" || field2) {
+                $(`#rfp_term_more_details_${a}-error`).remove();
+                $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+                $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+            }
+        }
+
+    }
+}
+
+const emptyFieldCheckgcloud = (type) => {
+    let fieldCheck = "",
+        errorStore = [];
+    removeErrorFieldsRfpgc();
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    
+    fieldMsg = 'You must add information in all fields.';
+    descMsg = 'You must add information in all fields.';
+
+    for (var x = 1; x < 21; x++) {
+        let term_field = document.getElementById('rfp_term_service_group_' + x);
+        let definition_field = document.getElementById("rfp_term_more_details_" + x);
+
+        if (term_field != null && term_field.value !== undefined && definition_field != null && definition_field !== undefined) {
+            
+            if(type == 'addmore'){
+                const field1 = countWords1(term_field.value) > 50;
+                const field2 = countWords1(definition_field.value) > 150;
+                if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                    checkFieldsRfpgc();
+                         if (term_field.value.trim() === '') {
+                            fieldCheck = [term_field.id, fieldMsg];
+                            ccsZaddErrorMessage(term_field, fieldMsg);
+                            errorStore.push(fieldCheck);
+                        } else if (definition_field.value.trim() === '') {
+                            fieldCheck = [definition_field.id, descMsg];
+                            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                            ccsZaddErrorMessage(definition_field, descMsg);
+                            errorStore.push(fieldCheck);                        
+                        } 
+                }
+            }else{
+                if (!(term_field.value == '' && definition_field.value == '' || term_field.value != '' && definition_field.value != '') ) {
+                    const field1 = countWords1(term_field.value) > 50;
+                    const field2 = countWords1(definition_field.value) > 150;
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (term_field.value.trim() === '') {
+                                fieldCheck = [term_field.id, fieldMsg];
+                                ccsZaddErrorMessage(term_field, fieldMsg);
+                                errorStore.push(fieldCheck);
+                            } else if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, descMsg];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, descMsg);
+                                errorStore.push(fieldCheck);                        
+                            } 
+                    }
+                }
+            }
+        }
+
+    }
+    return errorStore;
+}
+
 const ccsZvalidateRfpAcronyms = (event) => {
 
     // event.preventDefault();
+
+    errorStoreforOptional = emptyFieldCheckgcloud('submit');
+    if (errorStoreforOptional.length == 0) {
 
     //errorStore = emptyFieldCheckRfp();
 
@@ -17351,6 +19924,7 @@ const ccsZvalidateRfpAcronyms = (event) => {
     //   ccsZPresentErrorSummary(errorStore);
 
     // }
+} else ccsZPresentErrorSummary(errorStoreforOptional);
 };
 const ccsScrollToJourney = (event) => {
     let element = document.querySelector('.govuk-breadcrumbs');
@@ -17368,7 +19942,13 @@ const ccsZvalidateAward = (event) => {
     const preAwardSupplierConfm = document.getElementById('pre_award_supplier_confirmation')
 
     if (preAwardSupplierConfm != undefined && !preAwardSupplierConfm.checked) {
-        const fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement tick box must be selected to continue with the awarding of the selected supplier.");
+        let fieldCheck;
+         let agreementId =  document.getElementById('agreementId')
+         if(agreementId != null && agreementId.value && agreementId.value == 'RM1043.8'){
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Confirm that you have received the signed contract");
+        }else{
+          fieldCheck = ccsZisOptionChecked("pre_award_supplier_confirmation", "Acknowledgement check box must be selected to continue with the awarding of the selected supplier.");
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
         ccsZPresentErrorSummary(errorStore);
     }
@@ -17481,7 +20061,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
         }
         else {
-            errorStore = ['There is a problem', 'Please select an option']
+            errorStore = ['There is a problem', 'Select if you want a standstill period']
             ccsZPresentErrorSummary([errorStore]);
         }
         return false;
@@ -17569,14 +20149,14 @@ $("#enter_evaluation").submit(function(){
   let fieldId = document.getElementById("enter_evaluation_score")
   ccsZremoveErrorMessage(fieldId);
   if(scoreValue == true){
-    error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", null);
+    error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", null);
     if (error !== true) errorStore.push(error);
     // ccsZaddErrorMessage(document.getElementById("enter_evaluation_score"), "Please enter score between 0 to 100");
     // errorStore.push(error);
 
   }
   if($("#enter_evaluation_score").val() == ''){
-     error = ccsZvalidateWithRegex("enter_evaluation_score", "Please enter score between 0 to 100", /^.+$/);
+     error = ccsZvalidateWithRegex("enter_evaluation_score", "Enter a score between 0 and 100", /^.+$/);
     errorStore.push(error);
   }
   if($("#enter_evaluation_feedback").val() == ''){
@@ -17585,6 +20165,8 @@ $("#enter_evaluation").submit(function(){
     console.log("errorStore",errorStore);
   }
   if (errorStore.length === 0) {
+    var bodytg = document.body;
+    bodytg.classList.add("pageblur");
     document.forms["enter_evaluation"].submit();
   }else { ccsZPresentErrorSummary(errorStore);
   return false;
@@ -17808,7 +20390,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region, or the “No specific location...");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "Select at least one location");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
@@ -17823,35 +20405,50 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if(cl.value === "No specific location, for example they can work remotely") {
         noLocationtagideoi = cl.id;
-        console.log('va from rfi onload>>>>',noLocationtagideoi);
+       
+      }
+      if(cl.value === "Overseas") {
+        overSeesid = cl.id;
+        // console.log('va from rfi onload>>>>',noLocationtagid);
       }
       
     })
+
+    let allCheckboxOverSees = document.getElementById(overSeesid);
     let allCheckbox = document.getElementById(noLocationtagideoi),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+        if (cb.value != allCheckbox.value && cb.value != allCheckboxOverSees.value) {
+         
+          //cb.disabled = true;
+        }
+        
 
       });
     }
 
     document.getElementById(noLocationtagideoi).addEventListener('change', () => {
+      let alloverSeesid = document.getElementById(overSeesid);
       let allCb = document.getElementById(noLocationtagideoi),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
         // console.log('va from eoi>>>>');
       locationCheckboxes.forEach((cb) => {
 
-        if (allCb.checked && cb.value != allCb.value) {
-          cb.checked = false;
-          cb.disabled = true;
+        if (allCb.checked && cb.value != allCb.value && cb.value != alloverSeesid.value) {
+          // cb.checked = false;
+          // cb.disabled = true;
         }
 
         if (!allCb.checked && cb.value != allCb.value) {
-          cb.disabled = false;
+          //cb.disabled = false;
         }
+
+        if (!allCb.checked && cb.value != alloverSeesid.value) {
+          // cb.disabled = false;
+         }
 
       });
 
@@ -17865,7 +20462,7 @@ const ccsZvalidateEoiProjectName = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Your project must have a name.", /^.+$/);
+  fieldCheck = ccsZvalidateWithRegex("eoi_projLongName", "Enter the name of your project", /^.+$/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_eoi_project_name_form"].submit();
@@ -17898,8 +20495,8 @@ const ccsZvalidateEoiProject = (event) => {
 
   // fieldCheck = ccsZvalidateTextArea( "rfi_why_this_work", "Describe why this work is required" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "You must enter information here");
+  
+  fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "Enter your project background");
   
   if (fieldCheck !== true) {
     
@@ -17924,22 +20521,42 @@ const ccsZvalidateEoiProject = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('eoi_publish_confirmation') !== null) {
-    const checker = document.getElementById('eoi_publish_confirmation');
-    checker.addEventListener('change', event => {
-      if (event.target.checked) {
-        document.getElementById('eoi_btn_publish_now').classList.remove('govuk-button--disabled');
-        document.getElementById('eoi_btn_publish_now').removeAttribute('disabled');
-        document.getElementById('eoi_btn_publish_now').removeAttribute('aria-disabled');
-      } else {
-        document.getElementById('eoi_btn_publish_now').classList.add('govuk-button--disabled');
-        document.getElementById('eoi_btn_publish_now').setAttribute('disabled', true);
-        document.getElementById('eoi_btn_publish_now').setAttribute('aria-disabled', true);
-      }
-    });
+  if (document.getElementById('eoi_publish_confirmation') !== null) { 
+    publishConfirmation('eoi_publish_confirmation', 'eoi_btn_publish_now')
+  }
+  
+  if (document.getElementById('rfp_publish_confirmation') !== null) { 
+    publishConfirmation('rfp_publish_confirmation', 'rfp_btn_publish_now')
+  }
+  
+  if (document.getElementById('rfi_publish_confirmation') !== null) { 
+    publishConfirmation('rfi_publish_confirmation', 'rfi_btn_publish_now')
   }
 });
 
+function publishConfirmation (publishConfirmationId, publishBtn){
+  publishBtnDisable(publishBtn);
+  const checker = document.getElementById(publishConfirmationId);
+  checker.addEventListener('change', event => {
+    if (event.target.checked) {
+      publishBtnEnable(publishBtn);
+    } else {
+      publishBtnDisable(publishBtn);
+    }
+  });
+}
+
+function publishBtnDisable(btnId){
+  document.getElementById(btnId).classList.add('govuk-button--disabled');
+  document.getElementById(btnId).setAttribute('disabled', true);
+  document.getElementById(btnId).setAttribute('aria-disabled', true);
+}
+
+function publishBtnEnable(btnId){
+  document.getElementById(btnId).classList.remove('govuk-button--disabled');
+  document.getElementById(btnId).removeAttribute('disabled');
+  document.getElementById(btnId).removeAttribute('aria-disabled');
+}
 const ccsZvalidateEoiSecurity1 = (event) => {
   event.preventDefault();
 
@@ -18047,37 +20664,73 @@ document.addEventListener('DOMContentLoaded', () => {
         noLocationtagid = cl.id;
         // console.log('va from rfi onload>>>>',noLocationtagid);
       }
+      if(cl.value === "Overseas") {
+        overSeesid = cl.id;
+        // console.log('va from rfi onload>>>>',noLocationtagid);
+      }
       
+
     })
-    let allCheckbox = document.getElementById(noLocationtagid),
+   
+    let allCheckboxOverSees = document.getElementById(overSeesid);
+
+    let allCheckbox = document.getElementById("required_locations-14"),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
-    if (allCheckbox.checked) {
+    if (allCheckbox && allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+        //if (cb.value != notApplicableTag) //cb.disabled = true;
 
       });
     }
 
-    document.getElementById(noLocationtagid).addEventListener('change', () => {
-      let allCb = document.getElementById(noLocationtagid),
-        locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
-      // console.log('va from rfi>>>>');
-      locationCheckboxes.forEach((cb) => {
-
-        if (allCb.checked && cb.value != allCb.value) {
-          cb.checked = false;
-          cb.disabled = true;
-        }
-
-        if (!allCb.checked && cb.value != allCb.value) {
-          cb.disabled = false;
-        }
-
+    if(document.getElementById("required_locations-14")){
+      document.getElementById("required_locations-14").addEventListener('change', () => {
+        let allCb = document.getElementById("required_locations-14"),
+          locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
+  
+        locationCheckboxes.forEach((cb) => {
+  
+          if (allCb.checked && cb.value != notApplicableTag) {
+            // cb.checked = false;
+            //cb.disabled = true;
+          }
+  
+          if (!allCb.checked && cb.value != notApplicableTag) {
+            // cb.disabled = false;
+          }
+  
+        });
+  
       });
+      }
 
-    });
+    // document.getElementById(noLocationtagid).addEventListener('change', () => {
+    //   let alloverSeesid = document.getElementById(overSeesid);
+
+    //   let allCb = document.getElementById(noLocationtagid),
+    //     locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
+    //   // console.log('va from rfi>>>>');
+    //   locationCheckboxes.forEach((cb) => {
+
+    //     if (allCb.checked && cb.value != allCb.value && cb.value != alloverSeesid.value) {
+    
+    //     //    cb.checked = false;
+    //     //  cb.disabled = true;
+    //     }
+
+    //     if (!allCb.checked && cb.value != allCb.value) {
+    //       //cb.disabled = false;
+    //     }
+
+    //     if (!allCb.checked && cb.value != alloverSeesid.value) {
+    //       //cb.disabled = false;
+    //     }
+
+    //   });
+
+    // });
   }
 });
 
@@ -18089,7 +20742,7 @@ const ccsZvalidateRfiProjectName = (event) => {
 
       var rfi_projLongName=$('#rfi_projLongName').val();
       if(rfi_projLongName==''){
-        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project.", /^.+$/);
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project", /^.+$/);
         errorStore.push(fieldCheck);
       }
 
@@ -18111,13 +20764,21 @@ const ccsZCountRfiProjectName = (event) => {
   //   let count=250-element.value.length;
   //   labelElement.innerText=count + " remaining of 250";
 };
+var urlParamsDefault = new URLSearchParams(window.location.search);
 const ccsZvalidateRfiProject = (event) => {
   event.preventDefault();
-
+  
   let fieldCheck = "",
     errorStore = [];
+    if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
+    }else if(urlParamsDefault.get('agreement_id') == 'RM6187'){
 
-  fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "Enter your project background");
+    }else{
+      fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
+    }
+  
   if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_about_proj"].submit();
@@ -18135,7 +20796,11 @@ const ccsZCountRfiProject = (event) => {
     let labelElement=document.getElementById("rfi_label_prob_statement");
     let maxlength = element.getAttribute("maxlength");
     let count=maxlength-element.value.length;
-    labelElement.innerText=count + " remaining of "+maxlength;
+    // if(urlParamsDefault.get('agreement_id') == 'RM1557.13'){
+      labelElement.innerText="You have "+count+" characters remaining";
+    // }else{
+    //   labelElement.innerText=count + " remaining of "+maxlength;
+    // }
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -18214,8 +20879,21 @@ const ccsZvalidateRfiWho = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  // fieldCheck = ccsZvalidateWithRegex( "rfi_contracting_auth", "Specify the contracting authority", /^.+$/ );
+  // if (fieldCheck !== true) errorStore.push(fieldCheck);
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfi_contracting_auth = document.getElementById('rfi_contracting_auth');
+  var errorMsg = '';
+  if($('#rfi_contracting_auth').val() != '' && (pageHeading.includes("(optional)"))){
+    // if(rfi_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfi_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateWithRegex('rfi_contracting_auth', 'Please enter only character','^[a-zA-Z,]+$/');
+    //   if (fieldCheck !== true) errorStore.push(['rfi_contracting_auth', 'Please enter only character']);
+    // }
+    
+  }
 
   if (errorStore.length === 0) document.forms["ccs_rfi_who_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
@@ -18231,7 +20909,8 @@ const ccsZCountRfiWho = (event) => {
     
     let labelElement=document.getElementById("rfi_label_contracting_auth");
     let count=500-element.value.length;
-    labelElement.innerText=count + " remaining of 500";
+    // labelElement.innerText=count + " remaining of 500";
+    labelElement.innerText="You have " +count + " characters remaining";
     //labelElement.classList.remove('ccs-dynaform-hidden')
   // }
   // else
@@ -18265,7 +20944,6 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
   const classLength = classList.length;
   const pageHeading = document.getElementById('page-heading').innerHTML;
   errorStore = [];
-  console.log("First",$('#rfp_contracting_auth').val());
 
   if ($('#rfp_contracting_auth').val() != undefined && $('#rfp_contracting_auth').val().length == 0 && (!pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     if(pageHeading.trim().toLowerCase() == 'Summary of work'.toLowerCase()){
@@ -18275,12 +20953,24 @@ const ccsZvalidateTextRfpChangeStrategy = event => {
     }
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
+  const textPatternNew = /^[a-zA-Z,]+$/;
+  var rfp_contracting_auth = document.getElementById('rfp_contracting_auth');
+  var errorMsg = 'Supplier must be minimum 3';
+  if($('#rfp_contracting_auth').val() != null && $('#rfp_contracting_auth').val() != '' && (pageHeading.includes("(Optional)"))){
+    // if(rfp_contracting_auth.value.length > 0 &&
+    //   textPatternNew.test(rfp_contracting_auth.value) !== true){
+    //   errorMsg = 'Please enter only character';
+    //   fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', 'Please enter only character');
+    //   if (fieldCheck !== true) errorStore.push(['rfp_contracting_auth', 'Please enter only character']);
+    // }
+    
+  }
 
     
 
   if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore);
-      ccsZaddErrorMessage('#ccs_rfp_who_form', 'Supplier must be minimum 3');
+      ccsZaddErrorMessage(rfp_contracting_auth, errorMsg);
   } else {
     errorStore = [];
     document.forms['ccs_rfp_who_form'].submit();
@@ -18309,13 +20999,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let allCheckbox = document.getElementById(noLocationtagid),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
-    if (allCheckbox.checked) {
-      locationCheckboxes.forEach((cb) => {
+    // if (allCheckbox.checked) {
+    //   locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != allCheckbox.value) cb.disabled = true;
+    //     if (cb.value != allCheckbox.value) cb.disabled = true;
 
-      });
-    }
+    //   });
+    // }
   }
 
 
@@ -18466,7 +21156,7 @@ const ccsZvalidateRfpLocation = (event) => {
       const pageHeading = document.getElementById('page-heading').innerHTML;
       
 
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
        
         
          //const lotid = document.getElementById('LotID').value;
@@ -18479,15 +21169,15 @@ const ccsZvalidateRfpLocation = (event) => {
 console.log("group_id",group_id);
 
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
-          errMsg = "Select the locations where staff will work";
+          errMsg = "Select at least one location";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
-          errMsg = "Select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
           errMsg = "Select the needed security levels or “No security clearance needed”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
-          errMsg = "Select at least one way you will assess suppliers, or “None”";
+          errMsg = "Select at least one additional assessment method, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
-          errMsg = "You must select at least one region where the research will be taking place, or  “International (outside the UK)”";
+          errMsg = "Select at least one location";
         }
         else {
           errMsg=" Please select the checkbox.";
@@ -18622,7 +21312,7 @@ const ccsZvalidateRfPStrategy = event => {
   var urlParams = new URLSearchParams(window.location.search);
   var agreement_id = urlParams.get("agreement_id");
   var group_id = urlParams.get("group_id");
-
+  var criterion = urlParams.get('id'); 
 
   if ($('#ccs_vetting_type') !== undefined) {
     var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
@@ -18639,7 +21329,7 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -18672,9 +21362,18 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
-      if (!pageHeading.includes("(Optional)")) {
+      if (!(pageHeading.includes("(Optional)") || pageHeading.includes("(optional)"))) {
         if ($('#rfp_prob_statement_n').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+ 
+          if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 10"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the number of rounds');
+          }
+          else  if(agreement_id == "RM1043.8" && criterion == "Criterion 3" && group_id == "Group 12"){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'Enter the research location');
+          }
+          else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -18711,16 +21410,37 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+  if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
+      if (!pageHeading.includes("(Optional)")) {
+        if ($('#rfp_prob_statement_d').val().length === 0) {
+          if(pageHeading.trim().toLowerCase() == 'Add background to your project'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'Add background information about your procurement');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
+          }
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+      }
+      if ($('#rfp_prob_statement_d').val().length > 500) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+  }
+ 
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && (!(pageHeading.includes("(optional)")  || pageHeading.includes("(Optional)"))) && agreement_id !== "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of research rounds")) {
+      if(agreement_id == "RM1043.8"){
+         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details about the number of research rounds');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of research round');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Number of participants per round")) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per rounds');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter the number of participants per round');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Research dates")) {
@@ -18729,41 +21449,43 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Description of your participants")) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      if(agreement_id == "RM1043.8"){
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter a description of your participants');
+      }
+      else{
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter description of your participants');
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }else {
+    }
+    else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Add background to your project")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Add the social value, economic and environmental benefits of your procurement');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }else if ($('#rfp_prob_statement_s').val().length === 0 && pageHeading.includes("Management information and reporting")) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter your reporting requirements');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter details of your working arrangements');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting') && agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'Enter management information and reporting requirements');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting')&& agreement_id === "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-  }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter your information and requirements');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  
-
-  if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
-      if (!pageHeading.includes("(Optional)")) {
-        if ($('#rfp_prob_statement_d').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
-          if (fieldCheck !== true) errorStore.push(fieldCheck);
-        }
-      }
-      if ($('#rfp_prob_statement_d').val().length > 500) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
@@ -18812,6 +21534,10 @@ const ccsZvalidateRfPStrategy = event => {
       if ($('#rfp_prob_statement_e').val().length === 0) {
         if(pageHeading.trim().toLowerCase() == 'Why the work is being done'.toLowerCase()){
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the reason for doing the work ');
+        }else if(pageHeading.trim().toLowerCase() == 'Address where the work will be done'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter the address where the work will be done');
+        }else if(pageHeading.trim().toLowerCase() == 'The business need'.toLowerCase()){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Add details about your business need')
         }else{
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
         }
@@ -18820,7 +21546,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
 
     if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")  && agreement_id === "RM6187") {
-      if (!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('The business need')){
+      if (!pageHeading.includes('Management information and reporting') && !pageHeading.includes('The business need')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
           fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must add background information about your procurement');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -18828,13 +21554,13 @@ const ccsZvalidateRfPStrategy = event => {
       }
       else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Enter management information and reporting requirements');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
-      else if(!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('Add background to your procurement')){
+      else if(!pageHeading.includes('Management information and reporting') && !pageHeading.includes('Add background to your procurement')){
         if ($('#rfp_prob_statement_e').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter the business need');
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'Add details about your business need');
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
@@ -18906,7 +21632,7 @@ $(document).ready(function () {
     const mq = window.matchMedia('(min-width: 40.0625em)');
     mq.addListener(WidthChange);
     WidthChange(mq);
-    
+
   }
 
 
@@ -18934,7 +21660,7 @@ const ccsZvalidateRfiLocation = event => {
 
   fieldCheck = ccsZisOptionChecked(
     'required_locations',
-    'You must select at least one region, or the “No specific location...',
+    'Select at least one location',
   );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -18944,33 +21670,36 @@ const ccsZvalidateRfiLocation = event => {
 
 // forms validation
 
-$(".focusdata").click(function(){
-  
-  var $container = $("html,body");
-var $scrollTo = $('.focus-data');
+$(".focusdata").click(function () {
 
-$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0},300);
-  
+  var $container = $("html,body");
+  var $scrollTo = $('.focus-data');
+
+  $container.animate({ scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0 }, 300);
+
 });
 
+// $(".loaderClick").click(function(){
+//   $('.loader-container').addClass('loader-block');
+// });
 
-$("#getId").click(function(){
+$("#getId").click(function () {
   var myclass = $(this).hasClass("uncheck");
 
-   
-    if(myclass){
-      $("input[type='checkbox']").prop("checked", true);
-      $(this).removeClass("uncheck");
-      $(this).addClass("check");
-      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
-    }else{
-      $('.otherTextArea').addClass('ccs-dynaform-hidden');
-      $("input[type='checkbox']").prop("checked", false);
-      $(this).addClass("uncheck");
-      $(this).removeClass("check");      
-    } 
 
-  
+  if (myclass) {
+    $("input[type='checkbox']").prop("checked", true);
+    $(this).removeClass("uncheck");
+    $(this).addClass("check");
+    $('.otherTextArea').removeClass('ccs-dynaform-hidden');
+  } else {
+    $('.otherTextArea').addClass('ccs-dynaform-hidden');
+    $("input[type='checkbox']").prop("checked", false);
+    $(this).addClass("uncheck");
+    $(this).removeClass("check");
+  }
+
+
 });
 
 // $("#DOSgetId").click(function(){
@@ -19036,17 +21765,17 @@ if (document.getElementById('ccs_rfi_project_name_form') !== null)
 if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
 
-  if (document.getElementById('enter_evaluation_score') !== null)
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
+if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
 
-  
-  if (document.getElementById('enter_evaluation_score') !== null)
+
+if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
@@ -19061,7 +21790,11 @@ if (document.getElementById('ccs_eoi_type_form') !== null)
 if (document.getElementById('ccs_rfi_type_form') !== null)
   document.getElementById('ccs_rfi_type_form').addEventListener('submit', ccsZvalidateRfiType);
 
-//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+  if (document.getElementById('choose_build_rfi') !== null)
+  document.getElementById('choose_build_rfi').addEventListener('submit', ccsZvalidateRfiMcfType);
+
+
+if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
@@ -19086,7 +21819,7 @@ if (document.getElementById('da_where_work_done') !== null)
 if (document.getElementById('ccs_rfp_scoring_criteria') !== null)
   document.getElementById('ccs_rfp_scoring_criteria').addEventListener('submit', ccsZvalidateScoringCriteria);
 
-  if (document.getElementById('service_user_type_form') !== null)
+if (document.getElementById('service_user_type_form') !== null)
   document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateScoringCriteria2);
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
@@ -19109,20 +21842,19 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
-  if (document.getElementById('ccs_rfi_closeyouproject') !== null)
+if (document.getElementById('ccs_rfi_closeyouproject') !== null)
   document.getElementById('ccs_rfi_closeyouproject').addEventListener('submit', loseyouprojectShowPopup);
 
-  if (document.getElementById('evaluate_suppliers') !== null)
-  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+// if (document.getElementById('evaluate_suppliers') !== null)
+  // document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
-   if (document.getElementById('supplierMsgCancel') !== null)
-   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
-
+if (document.getElementById('supplierMsgCancel') !== null)
+  document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
-  if (document.getElementById('ca_justification') !== null)
+if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
@@ -19138,7 +21870,7 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
-  
+
 if (document.getElementById('ccs_eoi_questions_form') !== null)
   document.getElementById('ccs_eoi_questions_form').addEventListener('submit', ccsZvalidateEoIQuestions);
 
@@ -19149,13 +21881,13 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   // document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
 
 
-// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
+  // if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  //   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
 
-if (document.getElementById('ccs_rfp_about_proj') !== null)
-  document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
+  if (document.getElementById('ccs_rfp_about_proj') !== null)
+    document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
-  if (document.getElementById('ccs_rfp_who_form') !== null)
+if (document.getElementById('ccs_rfp_who_form') !== null)
   document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
@@ -19167,7 +21899,7 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 // if (document.getElementById('ccs_eoi_about_proj') !== null)
 //   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
 
-  if (document.getElementById('ccs_eoi_about_proj') !== null)
+if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 
@@ -19195,8 +21927,8 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
-  // if (document.getElementById('ccs_rfp_acronyms_form') !== null)
-  // document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
+// if (document.getElementById('ccs_rfp_acronyms_form') !== null)
+// document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
 
 
 if (document.getElementById('rfp_location') !== null)
@@ -19214,30 +21946,72 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
-  if (document.getElementById('fca_select_services_form') !== null)
+if (document.getElementById('fca_select_services_form') !== null)
   document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 
-  //Award
+//Award
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
-document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+  document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
 if (document.getElementById('ccs_standstill_period_form') !== null)
-document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
+  document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 if (document.getElementById('ccs_da_project_name_form') !== null)
   document.getElementById('ccs_da_project_name_form').addEventListener('submit', ccsZvalidateDaProjectName);
 
-  if (document.getElementById('da_projLongName') !== null)
+if (document.getElementById('da_projLongName') !== null)
   document.getElementById('da_projLongName').addEventListener('input', ccsZCountDaProjectName);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
-  //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
+//document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
+
+let noOfCharac = 200;
+let contents = document.querySelectorAll(".content_review_length");
+// if (document.getElementsByClassName('rfp_percentage_form') !== null){
+contents.forEach((content, index) => {
+  //If text length is less that noOfCharac... then hide the read more button
+  if (content.textContent.length < noOfCharac) {
+    //content.nextElementSibling.style.display = "none";
+  }
+  else {
+    //let that = this;
+    let displayText = content.textContent.slice(0, noOfCharac);
+    let moreText = content.textContent.slice(noOfCharac);
+    content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+    // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+  }
+
+});
+//   }
+
+function readMoreWithLength() {
+  document.querySelectorAll(".content_review_length").forEach(function (event) {
+    event.addEventListener('click', function (e) {
+      let targetId = e.target.id;
+      //$('#moreValue'+targetId).show();
+      let btn = document.querySelector('#content-' + targetId);
+      let HtmlBtn = $('#' + targetId).html();
+      if (HtmlBtn == 'Read more') {
+        $('#moreValue' + targetId).removeClass("hide");
+        $('#' + targetId).html("Read less");
+        $('#moreValue' + targetId).show();
+        $('#dots-' + targetId).hide();
+      } else {
+        $('#moreValue' + targetId).addClass("hide");
+        $('#' + targetId).html("Read more");
+        $('#moreValue' + targetId).hide();
+        $('#dots-' + targetId).show();
+      }
+    });
+  });
+}
+readMoreWithLength();
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
@@ -19249,10 +22023,10 @@ setInputFilter(
   document.getElementById('eoi_resource_start_date-month'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
 );
-setInputFilter(
-  document.getElementById('eoi_resource_start_date-year'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
-);
+// setInputFilter(
+//   document.getElementById('eoi_resource_start_date-year'),
+//   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
+// );
 setInputFilter(
   document.getElementById('eoi_duration-days'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
@@ -19559,101 +22333,108 @@ setInputFilter(
 //g13Check Script
 
 function parseQueryG13(query) {
-  object = {};  
-  if (query.indexOf('?') != -1){
-    query = query.split('?');		
+  object = {};
+  if (query.indexOf('?') != -1) {
+    query = query.split('?');
     query = query[1];
   }
   parseQuery = query.split("&");
   for (var i = 0; i < parseQuery.length; i++) {
-      pair = parseQuery[i].split('=');
-      key = decodeURIComponent(pair[0]);
-      if (key.length == 0) continue;
-      value = decodeURIComponent(pair[1].replace("+"," "));
-      if (object[key] == undefined) object[key] = value;
-      else if (object[key] instanceof Array) object[key].push(value);
-      else object[key] = [object[key],value];
+    pair = parseQuery[i].split('=');
+    key = decodeURIComponent(pair[0]);
+    if (key.length == 0) continue;
+    value = decodeURIComponent(pair[1].replace("+", " "));
+    if (key == 'q') {
+      let decodeValue = decodeURIComponent(pair[1].replace("+", " "));
+      value = encodeURIComponent(decodeValue);
+    }
+    if (object[key] == undefined) object[key] = value;
+    else if (object[key] instanceof Array) object[key].push(value);
+    else object[key] = [object[key], value];
   }
   return object;
 };
 
 const tune = (obj) => {
   let emptyArr = [];
-  for (const key in obj) { 
-    if(typeof(obj[key]) == 'object') { 
-      let newArr = obj[key]; 
-      for(let i = 0; i < newArr.length; i++) { 
-        emptyArr.push({'key': key, 'value': newArr[i]}); } } else { emptyArr.push({'key': key, 'value': obj[key]}); } }
+  for (const key in obj) {
+    if (typeof (obj[key]) == 'object') {
+      let newArr = obj[key];
+      for (let i = 0; i < newArr.length; i++) {
+        emptyArr.push({ 'key': key, 'value': newArr[i] });
+      }
+    } else { emptyArr.push({ 'key': key, 'value': obj[key] }); }
+  }
   return emptyArr;
 }
 
 function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
-  
-    let outQueryUrl = "";
-    let overName = overUrl.name;
 
-    let overValue = overUrl.value;
-    let overType = overUrl.type;
-   
-    if(queryObj.length > 0) {
-      if(overType == 'unchecked') {
-        let compareVal = overValue;
-        let compareName = overName;
-        let finalObj = [];
-        queryObj.find((el) => {
+  let outQueryUrl = "";
+  let overName = overUrl.name;
 
-       if(el.value != compareVal || el.key != compareName) { 
-          finalObj.push(el); 
-        } 
+  let overValue = overUrl.value;
+  let overType = overUrl.type;
+
+  if (queryObj.length > 0) {
+    if (overType == 'unchecked') {
+      let compareVal = overValue;
+      let compareName = overName;
+      let finalObj = [];
+      queryObj.find((el) => {
+
+        if (el.value != compareVal || el.key != compareName) {
+          finalObj.push(el);
+        }
       });
-        queryObj = finalObj;
-      }
-  
-      queryObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  outQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              outQueryUrl += `&${key}=${value}`;
-          }
-          if(i == queryObj.length - 1) {
-            if(overType == 'checked' || overType == 'categoryClicked') {
-              if(key != '') {
-                outQueryUrl += `&${overName}=${overValue}`;
-              } else {
-                outQueryUrl += `?${overName}=${overValue}`;
-              }
-            }
-          }
-      });
-    } else {
-      if(overValue != '') {
-        outQueryUrl += `?${overName}=${overValue}`;
-      }
+      queryObj = finalObj;
     }
-    
-    
-    return outQueryUrl;
+
+    queryObj.forEach((el, i) => {
+      let key = el.key;
+      let value = el.value;
+      if (i == 0) {
+        if (key != '') {
+          outQueryUrl += `?${key}=${value}`;
+        }
+      } else {
+        outQueryUrl += `&${key}=${value}`;
+      }
+      if (i == queryObj.length - 1) {
+        if (overType == 'checked' || overType == 'categoryClicked') {
+          if (key != '') {
+            outQueryUrl += `&${overName}=${overValue}`;
+          } else {
+            outQueryUrl += `?${overName}=${overValue}`;
+          }
+        }
+      }
+    });
+  } else {
+    if (overValue != '') {
+      outQueryUrl += `?${overName}=${overValue}`;
+    }
+  }
+
+
+  return outQueryUrl;
 }
-document.querySelectorAll(".clickCategory").forEach(function(event) {
-  event.addEventListener('click', function() {
+document.querySelectorAll(".clickCategory").forEach(function (event) {
+  event.addEventListener('click', function () {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
-    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
 
-if(document.querySelectorAll('.serviceCategory')) {
-  document.querySelectorAll(".serviceCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.serviceCategory')) {
+  document.querySelectorAll(".serviceCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'serviceCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -19662,20 +22443,21 @@ if(document.querySelectorAll('.serviceCategory')) {
 
       let finalObj = [];
       urlObj.find((el) => {
-      if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+        if (el.key !== 'serviceCategories') { finalObj.push(el); }
+      });
       urlObj = finalObj;
-      urlObj.push({"key":"serviceCategories","value":filterValue});
+      urlObj.push({ "key": "serviceCategories", "value": filterValue });
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
-if(document.querySelectorAll('.parentCategory')) {
-  document.querySelectorAll(".parentCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+if (document.querySelectorAll('.parentCategory')) {
+  document.querySelectorAll(".parentCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'parentCategoryClicked';
       let filterName = this.getAttribute('data-name');
       let filterValue = this.getAttribute('data-value');
@@ -19683,304 +22465,304 @@ if(document.querySelectorAll('.parentCategory')) {
       urlObj = tune(urlObj);
 
       let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-      if(condtionParentCat === undefined) {
+      if (condtionParentCat === undefined) {
         let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-        urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-        urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+        urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       } else {
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
       }
 
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
 }
 
 function titleCase(str) {
-  return str.toLowerCase().split(' ').map(function(word) {
+  return str.toLowerCase().split(' ').map(function (word) {
     return word.replace(word[0], word[0].toUpperCase());
   }).join(' ');
 }
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
-  var urlparts= url.split('?');   
-  if (urlparts.length>=2) {
+  var urlparts = url.split('?');
+  if (urlparts.length >= 2) {
 
-      var prefix= encodeURIComponent(parameter)+'=';
-      var pars= urlparts[1].split(/[&;]/g);
+    var prefix = encodeURIComponent(parameter) + '=';
+    var pars = urlparts[1].split(/[&;]/g);
 
-      //reverse iteration as may be destructive
-      for (var i= pars.length; i-- > 0;) {    
-          //idiom for string.startsWith
-          if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
-              pars.splice(i, 1);
-          }
+    //reverse iteration as may be destructive
+    for (var i = pars.length; i-- > 0;) {
+      //idiom for string.startsWith
+      if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+        pars.splice(i, 1);
       }
+    }
 
-      url= urlparts[0]+'?'+pars.join('&');
-      return url;
+    url = urlparts[0] + '?' + pars.join('&');
+    return url;
   } else {
-      return url;
+    return url;
   }
 }
 
-document.querySelectorAll(".g13Check").forEach(function(event) {
-    event.addEventListener('change', function(event) {
-      let eventFilterType;
-      let filterName = this.getAttribute('name');//$(this).attr("name");
-      let filterValue = this.getAttribute('value');//$(this).attr("value");
-      if(this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
-      let urlParams=removeURLParameter(document.location.search, 'page');
-      let urlObj = parseQueryG13(urlParams);
-      urlObj = tune(urlObj);
-      let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+document.querySelectorAll(".g13Check").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    let eventFilterType;
+    let filterName = this.getAttribute('name');//$(this).attr("name");
+    let filterValue = this.getAttribute('value');//$(this).attr("value");
+    if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+    let urlParams = removeURLParameter(document.location.search, 'page');
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+    //url change
+    const baseSearchUrl = '/g-cloud/search';
+    window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
 
-      //url change
-      const baseSearchUrl = '/g-cloud/search';
-      window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
-      
-      
-      // document.getElementById('searchResultsContainer').innerHTML = '';
-      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-      document.getElementById('paginationContainer').innerHTML = '';
-      let slist = document.querySelector('.govuk-grid-sresult-right');
-      slist.classList.add('loadingres')
-      $('#criteriasavebtn').prop('disabled',true);
-      const baseAPIUrl = '/g-cloud/search-api';
-      $.ajax({
-          url: `${baseAPIUrl}${finalTriggerUrl}`,
-          type: "GET",
-          contentType: "application/json",
-      }).done(function (result) {
-       
-        $('#criteriasavebtn').prop('disabled',false);
-        $('#criteriasavebtn').removeClass('govuk-button--disabled');
-        $("#clearfilter").attr("href", result.clearFilterURL);
-        if(result.data.meta.total > 0) {
-          slist.classList.remove('loadingres')
-          getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-                
 
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
-            mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
-            mainLothtml += '<strong>All Categories</strong>'
-            mainLothtml += '<ul class="govuk-list">'
-            result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
-            })
-            mainLothtml +='</ul>'
-          } 
+    // document.getElementById('searchResultsContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('paginationContainer').innerHTML = '';
+    let slist = document.querySelector('.govuk-grid-sresult-right');
+    slist.classList.add('loadingres')
+    $('#criteriasavebtn').prop('disabled', true);
+    const baseAPIUrl = '/g-cloud/search-api';
+    $.ajax({
+      url: `${baseAPIUrl}${finalTriggerUrl}`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
 
-            if(result.njkDatas.haveLot){
-            mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
+      $('#criteriasavebtn').prop('disabled', false);
+      $('#criteriasavebtn').removeClass('govuk-button--disabled');
+      $("#clearfilter").attr("href", result.clearFilterURL);
+      if (result.data.meta.total > 0) {
+        slist.classList.remove('loadingres')
+        getCriterianDetails(result.data.meta.total);
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+
+        var mainLothtml = '';
+        if (result.njkDatas.haveLot) {
+          mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+        } else {
+          mainLothtml += '<strong>All Categories</strong>'
+          mainLothtml += '<ul class="govuk-list">'
+          result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+            mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          })
+          mainLothtml += '</ul>'
+        }
+
+        if (result.njkDatas.haveLot) {
+          mainLothtml += '<ul class="govuk-list">'
+          if (result.njkDatas.haveserviceCategory) {
+            mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+          } else {
+            mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+          }
+          if (result.njkDatas.lotInfos.currentparentCategory) {
+            mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+          }
+
+          mainLothtml += '<li>';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          result.njkDatas.lotInfos.subservices.forEach(subservice => {
+            if (subservice.childrenssts) {
+              if (result.njkDatas.lotInfos.currentparentCategory) {
+                mainLothtml += '<li>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                    mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                  } else {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  }
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
+              } else {
+                mainLothtml += '<li>';
+                mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  var childVal = child.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
               }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
-
-            mainLothtml += '<li>';
-            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-            result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
-                } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
-                }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
               mainLothtml += '</li>';
-              mainLothtml += '</ul>';
-          }
-          document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+            } else {
 
-          });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
-          document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
-
-          var paginationHtml = ''
-          paginationHtml += '<div class="govuk-grid-row">';
-          paginationHtml += '<div class="govuk-grid-column-full">';
-          paginationHtml += '<div class="govuk-grid-column-one-half">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-              paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-              paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
-              paginationHtml += '</svg>';
-              paginationHtml += 'Previous Page</a>';
-              paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+              } else {
+                if (subservice.name !== 'supportMultiCloud') {
+                  var subserviceValue = subservice.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                }
+              }
             }
+          });
+          mainLothtml += '</ul>';
+          mainLothtml += '</ul>';
+          mainLothtml += '</li>';
+          mainLothtml += '</ul>';
+        }
+        document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+
+        var searchresultshtml = '';
+        searchresultshtml += '<div class="govuk-grid-row">';
+        searchresultshtml += '<div class="govuk-grid-column-full">';
+        searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+        result.data.documents.forEach(element => {
+          searchresultshtml += '<li class="app-search-result">'
+            + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+            + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+            + '</h2>'
+            + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+            + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+            + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+            + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+            + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+            + '</ul>'
+            + '</li>';
+
+        });
+        searchresultshtml += '<div>';
+        searchresultshtml += '<div>';
+        searchresultshtml += '<ul>';
+        document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+        var paginationHtml = ''
+        paginationHtml += '<div class="govuk-grid-row">';
+        paginationHtml += '<div class="govuk-grid-column-full">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.PrvePageUrl != '') {
+          if (result.njkDatas.CurrentPageNumber != 1) {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Previous Page</a>';
+            paginationHtml += '</p>';
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
           }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-  
-          paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
-          paginationHtml += '<div>';
-          paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+
+        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.NextPageUrl != '') {
           paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
           paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
           paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
           paginationHtml += '</svg>';
           paginationHtml += 'Next Page</a>';
           paginationHtml += '</p>';
-          }
-          //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
-          }
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          paginationHtml += '</div>';
-          document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
-          slist.classList.remove('loadingres')
-          getCriterianDetails(0);
-          document.getElementById('searchResultsContainer').innerHTML = '';
-          
-         
-
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
-          var Noresulthtml = '';
-          Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-          Noresulthtml += '</li>removing filters</li><br>';
-          Noresulthtml += '</li>choosing a different category</li><br>';
-          Noresulthtml += '</li>double-checking your spelling</li><br>';
-          Noresulthtml += '</li>using fewer keywords</li><br>';
-          Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
-          Noresulthtml += '</ul>';
-          Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
         }
+        //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+        if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        } else {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      } else {
+        $('#criteriasavebtn').prop('disabled', true);
+        slist.classList.remove('loadingres')
+        getCriterianDetails(0);
+        document.getElementById('searchResultsContainer').innerHTML = '';
 
-        loadQuerySelector();
-        
-      }).fail((res) => {
-          // let div_email = document.getElementById('eoi-lead-email');
-          // div_email.innerText = '';
-      })
 
-     // window.location.href = `${baseUrl}${finalTriggerUrl}`;
-    });
+
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+        var Noresulthtml = '';
+        Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+        Noresulthtml += '</li>removing filters</li><br>';
+        Noresulthtml += '</li>choosing a different category</li><br>';
+        Noresulthtml += '</li>double-checking your spelling</li><br>';
+        Noresulthtml += '</li>using fewer keywords</li><br>';
+        Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+        Noresulthtml += '</ul>';
+        Noresulthtml += '</ul>';
+        document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
+      }
+
+      loadQuerySelector();
+
+    }).fail((res) => {
+      // let div_email = document.getElementById('eoi-lead-email');
+      // div_email.innerText = '';
+    })
+
+    // window.location.href = `${baseUrl}${finalTriggerUrl}`;
+  });
 });
 
 window.addEventListener('DOMContentLoaded', (event) => {
-  
-  if(document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
-  
+
+  if (document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
+
   let criteriasavebtn = document.getElementById('criteriasavebtn');
-  if(criteriasavebtn){
-    criteriasavebtn.addEventListener('click',function (e) {
-      if(document.getElementById('searchQuery')){
+  if (criteriasavebtn) {
+    criteriasavebtn.addEventListener('click', function (e) {
+      if (document.getElementById('searchQuery')) {
         document.getElementById('searchQuery').value = window.location.search;
       }
     })
   }
 
   document.querySelectorAll(".paginationUrlClass").forEach(el => {
-    el.addEventListener('click',function (e) {
+    el.addEventListener('click', function (e) {
       let searchQueryUrl = "";
-      let searchValue  = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
+      let searchValue = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
-        window.location.href = `${baseUrl}${searchQueryUrl}`;
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
+      window.location.href = `${baseUrl}${searchQueryUrl}`;
     });
   });
 
@@ -19990,12 +22772,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     $('.govuk-error-summary').remove();
     $(".govuk-input").removeClass("govuk-input--error");
     $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
+
   }
 
   var Searchinput = document.getElementsByClassName("g13_search")[0];
-  if(Searchinput){
-    Searchinput.addEventListener("keypress", function(event) {
+  if (Searchinput) {
+    Searchinput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         document.getElementsByClassName("g13_search_click")[0].click();
@@ -20003,157 +22785,157 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  
-  if(document.querySelector(".g13_search_click")){
 
-    document.querySelector(".g13_search_click").addEventListener('click', function() {
+  if (document.querySelector(".g13_search_click")) {
+
+    document.querySelector(".g13_search_click").addEventListener('click', function () {
       removeErrorFieldsEoiTerms();
       let searchQueryUrl = "";
       document.getElementById('searchQuery').value = window.location.search;
-      let searchValue  = document.getElementsByClassName("g13_search");
+      let searchValue = document.getElementsByClassName("g13_search");
       let definition_field = document.getElementById("with-hint");
-      if(searchValue[0].value.length > 250){
+      if (searchValue[0].value.length > 250) {
         ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
         return false;
       }
-      let urlParams=removeURLParameter(document.location.search, 'page');
+      let urlParams = removeURLParameter(document.location.search, 'page');
       let urlObj = parseQueryG13(urlParams);
       urlObj = tune(urlObj);
       let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
-      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
-      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
-        let baseUrl = window.location.href.split('?')[0];
-        urlObj.forEach((el, i) => {
-          let key = el.key;
-          let value = el.value;
-          if(i == 0) {
-              if(key != '') {
-                  searchQueryUrl += `?${key}=${value}`;
-              }
-          } else {
-              searchQueryUrl += `&${key}=${value}`;
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue[0].value.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue[0].value) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
           }
-        });
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
 
-        //url change
-        const baseSearchUrl = '/g-cloud/search';
-        window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${searchQueryUrl}`);
-  
-        document.getElementById('searchResultsContainer').innerHTML = '';
-        document.getElementById('mainLotandcategoryContainer').innerHTML = '';
-        document.getElementById('paginationContainer').innerHTML = '';
-        const baseAPIUrl = '/g-cloud/search-api';
-        let slist = document.querySelector('#searchResultsContainer');
-        slist.classList.add('loadingres')
-        $('#criteriasavebtn').prop('disabled',true);
-         $.ajax({
-             url: `${baseAPIUrl}${searchQueryUrl}`,
-             type: "GET",
-             contentType: "application/json",
-         }).done(function (result) {
-          $('#criteriasavebtn').prop('disabled',false);
-          $('#criteriasavebtn').removeClass('govuk-button--disabled');
-          $("#clearfilter").attr("href", result.clearFilterURL);
-          if(result.data.meta.total > 0) {
-            slist.classList.remove('loadingres')
-            getCriterianDetails(result.data.meta.total);
-            document.getElementById('rightSidefooterCotainer').innerHTML = '';
-            
-            var mainLothtml = '';
-            if(result.njkDatas.haveLot) {
+      //url change
+      const baseSearchUrl = '/g-cloud/search';
+      window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
+
+      document.getElementById('searchResultsContainer').innerHTML = '';
+      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('paginationContainer').innerHTML = '';
+      const baseAPIUrl = '/g-cloud/search-api';
+      let slist = document.querySelector('#searchResultsContainer');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled', true);
+      $.ajax({
+        url: `${baseAPIUrl}${searchQueryUrl}`,
+        type: "GET",
+        contentType: "application/json",
+      }).done(function (result) {
+        $('#criteriasavebtn').prop('disabled', false);
+        $('#criteriasavebtn').removeClass('govuk-button--disabled');
+        $("#clearfilter").attr("href", result.clearFilterURL);
+        if (result.data.meta.total > 0) {
+          slist.classList.remove('loadingres')
+          getCriterianDetails(result.data.meta.total);
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+          var mainLothtml = '';
+          if (result.njkDatas.haveLot) {
             mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
-            }else {
+          } else {
             mainLothtml += '<strong>All Categories</strong>'
             mainLothtml += '<ul class="govuk-list">'
             result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
-              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
+              mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
             })
-            mainLothtml +='</ul>'
-          } 
+            mainLothtml += '</ul>'
+          }
 
-            if(result.njkDatas.haveLot){
+          if (result.njkDatas.haveLot) {
             mainLothtml += '<ul class="govuk-list">'
-              if(result.njkDatas.haveserviceCategory){ 
-                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
-              }else{
-                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
-              }
-              if(result.njkDatas.lotInfos.currentparentCategory){
-              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
-              }
+            if (result.njkDatas.haveserviceCategory) {
+              mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+            } else {
+              mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+            }
+            if (result.njkDatas.lotInfos.currentparentCategory) {
+              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+            }
 
             mainLothtml += '<li>';
             mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
             result.njkDatas.lotInfos.subservices.forEach(subservice => {
-              if(subservice.childrenssts) {
-                        if(result.njkDatas.lotInfos.currentparentCategory) {
-                          mainLothtml += '<li>';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
-                                  } else {
-                                    var childVal = child.value.split(' ').join('+');
-                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                  }
-                                }); 
-                                mainLothtml += '</ul>';
-                            mainLothtml += '</ul>';
-                        } else {
-                          mainLothtml += '<li>';
-                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
-                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
-                              subservice.childrens.forEach(child => {
-                                var childVal = child.value.split(' ').join('+');
-                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
-                                }); 
-                          mainLothtml += '</ul>';
-                          mainLothtml += '</ul>';
-                        }
-                        mainLothtml += '</li>';
+              if (subservice.childrenssts) {
+                if (result.njkDatas.lotInfos.currentparentCategory) {
+                  mainLothtml += '<li>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                      mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                    } else {
+                      var childVal = child.value.split(' ').join('+');
+                      mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                    }
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 } else {
-
-                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
-                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
-                      } else {
-                        if(subservice.name !== 'supportMultiCloud' ) {
-                          var subserviceValue = subservice.value.split(' ').join('+');
-                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
-                        }
-                      }
+                  mainLothtml += '<li>';
+                  mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                  mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                  subservice.childrens.forEach(child => {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  });
+                  mainLothtml += '</ul>';
+                  mainLothtml += '</ul>';
                 }
-              }); 
-              mainLothtml += '</ul>';
-              mainLothtml += '</ul>';
-              mainLothtml += '</li>';
-              mainLothtml += '</ul>';
+                mainLothtml += '</li>';
+              } else {
+
+                if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                  mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+                } else {
+                  if (subservice.name !== 'supportMultiCloud') {
+                    var subserviceValue = subservice.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                  }
+                }
+              }
+            });
+            mainLothtml += '</ul>';
+            mainLothtml += '</ul>';
+            mainLothtml += '</li>';
+            mainLothtml += '</ul>';
           }
           document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
-          
-            var searchresultshtml = '';
-            searchresultshtml +=  '<div class="govuk-grid-row">';
-            searchresultshtml +=  '<div class="govuk-grid-column-full">';
-            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
-            result.data.documents.forEach(element => {
-            searchresultshtml +=  '<li class="app-search-result">'
-                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
-                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
-                                    +'</h2>'
-                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
-                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
-                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
-                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
-                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
-                                    +'</ul>'
-                                    +'</li>';
+
+          var searchresultshtml = '';
+          searchresultshtml += '<div class="govuk-grid-row">';
+          searchresultshtml += '<div class="govuk-grid-column-full">';
+          searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+          result.data.documents.forEach(element => {
+            searchresultshtml += '<li class="app-search-result">'
+              + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+              + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+              + '</h2>'
+              + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+              + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+              + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+              + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+              + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+              + '</ul>'
+              + '</li>';
 
           });
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<div>';
-          searchresultshtml +=  '<ul>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<div>';
+          searchresultshtml += '<ul>';
           document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
 
           var paginationHtml = ''
@@ -20162,50 +22944,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
           paginationHtml += '<div class="govuk-grid-column-one-half">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-            if(result.njkDatas.PrvePageUrl != ''){
-              if(result.njkDatas.CurrentPageNumber != 1){
+          if (result.njkDatas.PrvePageUrl != '') {
+            if (result.njkDatas.CurrentPageNumber != 1) {
               paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+              paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
               paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
               paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
               paginationHtml += '</svg>';
               paginationHtml += 'Previous Page</a>';
               paginationHtml += '</p>';
-              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
             }
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
-  
+
           paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
           paginationHtml += '<div>';
           paginationHtml += '&nbsp;';
-          if(result.njkDatas.NextPageUrl != ''){
-          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
-          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
-          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
-          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
-          paginationHtml += '</svg>';
-          paginationHtml += 'Next Page</a>';
-          paginationHtml += '</p>';
-        }
-          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
-          }else{
-            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          if (result.njkDatas.NextPageUrl != '') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Next Page</a>';
+            paginationHtml += '</p>';
+          }
+          if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+          } else {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
           }
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           paginationHtml += '</div>';
           document.getElementById('paginationContainer').innerHTML = paginationHtml;
-        }else{
-          $('#criteriasavebtn').prop('disabled',true);
+        } else {
+          $('#criteriasavebtn').prop('disabled', true);
           document.getElementById('searchResultsContainer').innerHTML = '';
           getCriterianDetails(0);
           slist.classList.remove('loadingres')
-          
-          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
+
+          document.getElementById('rightSidefooterCotainer').innerHTML = '';
           var Noresulthtml = '';
           Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
           Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
@@ -20217,166 +22999,168 @@ window.addEventListener('DOMContentLoaded', (event) => {
           Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
           Noresulthtml += '</ul>';
           Noresulthtml += '</ul>';
-          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
+          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
         }
         loadQuerySelector();
-         }).fail((res) => {
-         })
+      }).fail((res) => {
+      })
     });
   }
 });
 
 
-function loadQuerySelector(){
-  document.querySelectorAll(".clickCategory").forEach(function(event) {
-    event.addEventListener('click', function() {
+function loadQuerySelector() {
+  document.querySelectorAll(".clickCategory").forEach(function (event) {
+    event.addEventListener('click', function () {
       let eventFilterType = 'categoryClicked';
       let filterName = this.getAttribute("data-name");
       let filterValue = this.getAttribute("data-value");
       let urlObj = parseQueryG13(document.location.search);
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
-      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       window.location.href = `${baseUrl}${finalTriggerUrl}`;
     });
   });
-  
-  if(document.querySelectorAll('.serviceCategory')) {
-    document.querySelectorAll(".serviceCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.serviceCategory')) {
+    document.querySelectorAll(".serviceCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'serviceCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let finalObj = [];
         urlObj.find((el) => {
-        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          if (el.key !== 'serviceCategories') { finalObj.push(el); }
+        });
         urlObj = finalObj;
-        urlObj.push({"key":"serviceCategories","value":filterValue});
-  
+        urlObj.push({ "key": "serviceCategories", "value": filterValue });
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
-  
-  if(document.querySelectorAll('.parentCategory')) {
-    document.querySelectorAll(".parentCategory").forEach(function(event) {
-      event.addEventListener('click', function() {
+
+  if (document.querySelectorAll('.parentCategory')) {
+    document.querySelectorAll(".parentCategory").forEach(function (event) {
+      event.addEventListener('click', function () {
         let eventFilterType = 'parentCategoryClicked';
         let filterName = this.getAttribute('data-name');
         let filterValue = this.getAttribute('data-value');
         let urlObj = parseQueryG13(document.location.search);
         urlObj = tune(urlObj);
-  
+
         let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
-        if(condtionParentCat === undefined) {
+        if (condtionParentCat === undefined) {
           let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
-          urlObj.push({"key":"parentCategory","value":serviceCategory.value});
-          urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "parentCategory", "value": serviceCategory.value });
+          urlObj.splice(urlObj.findIndex(({ key }) => key == "serviceCategories"), 1);
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         } else {
           let finalObj = [];
           urlObj.find((el) => {
-          if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+            if (el.key !== 'serviceCategories') { finalObj.push(el); }
+          });
           urlObj = finalObj;
-          urlObj.push({"key":"serviceCategories","value":filterValue});
+          urlObj.push({ "key": "serviceCategories", "value": filterValue });
         }
-  
+
         let baseUrl = window.location.href.split('?')[0];
-        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
         window.location.href = `${baseUrl}${finalTriggerUrl}`;
       });
     });
   }
 }
 
-document.addEventListener('readystatechange', event => { 
+document.addEventListener('readystatechange', event => {
   if (event.target.readyState === "complete") {
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      queryParamObj.forEach((el, i) => {
-        console.log(el);
-        //Search
-        if(el.key === 'q') { $('.g13_search').val(el.value); }
-        $('.g13Check').each(function(){
-          if($(this).attr('name') == el.key && $(this).val() == el.value){
-            $(this).attr("checked", "checked");
-          }
-        });
-      });
-// total results
-      var totalResult=$('#totalResult').attr('data-value');
+    let queryParamObj = parseQueryG13(document.location.search);
+    queryParamObj = tune(queryParamObj);
 
-      getCriterianDetails(totalResult);
-     
+    queryParamObj.forEach((el, i) => {
+      console.log(el);
+      //Search
+      if (el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
+      $('.g13Check').each(function () {
+        if ($(this).attr('name') == el.key && $(this).val() == el.value) {
+          $(this).attr("checked", "checked");
+        }
+      });
+    });
+    // total results
+    var totalResult = $('#totalResult').attr('data-value');
+
+    getCriterianDetails(totalResult);
+
   }
 });
 
-function getCriterianDetails(totalresult=0){
-  
+function getCriterianDetails(totalresult = 0) {
+
 
   let rows_selected = [];
-        $(".g13Check:checked").each(function(){
-          var $this = $(this);
-          rows_selected.push({
-            title:$this.attr('data-title'),
-            name: $this.attr('data-name'),
-            });
-       });
+  $(".g13Check:checked").each(function () {
+    var $this = $(this);
+    rows_selected.push({
+      title: $this.attr('data-title'),
+      name: $this.attr('data-name'),
+    });
+  });
 
-       const groupBy = (array, key) => {
-        return array.reduce((result, currentValue) => {
-          (result[currentValue[key]] = result[currentValue[key]] || []).push(
-            currentValue
-          );
-          return result;
-        }, {}); 
-      };
-      const criteria = groupBy(rows_selected, 'title');
-      let criteriaDetails='<b class="govuk-!-font-size-48">'+totalresult+'</b> results found';
+  const groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue
+      );
+      return result;
+    }, {});
+  };
+  const criteria = groupBy(rows_selected, 'title');
+  let criteriaDetails = '<b class="govuk-!-font-size-48">' + totalresult + '</b> results found';
 
-      let queryParamObj = parseQueryG13(document.location.search);
-      queryParamObj = tune(queryParamObj);
-     
-      
-       let search = queryParamObj.filter(el => el.key === 'q');
-       if(search.length > 0){
-        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
-       }
-     
-       let lot = queryParamObj.filter(el => el.key === 'lot');
-       if(lot.length > 0){
-        criteriaDetails +=' in <b>'+ capitalize(lot[0].value.replace("-", " ")) +'</b>';
-       }else{
-        criteriaDetails +=' in <b>All Categories</b>';
-       }
+  let queryParamObj = parseQueryG13(document.location.search);
+  queryParamObj = tune(queryParamObj);
 
-       let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
-       if(serviceCategories.length > 0){
-        criteriaDetails +=' in the category <b>'+ capitalize(serviceCategories[0].value.replace("+", " ")) +'</b>';
-       }
-       
 
-      Object.keys(criteria).forEach(key => {
-        if(key !==undefined){
-          criteriaDetails +=', where <b>'+ capitalize(key) +'</b> is ';
-          let values=[];
-          for (let index = 0; index < criteria[key].length; index++) {
-            values.push('<b>'+capitalize(criteria[key][index].name)+'</b>');
-          }
-          criteriaDetails +=values.join(" and ");
+  let search = queryParamObj.filter(el => el.key === 'q');
+  if (search.length > 0) {
+    criteriaDetails += ' containing <b>' + decodeURIComponent(search[0].value) + '</b>';
+  }
 
-        }
-      });
-      $('#criteriandetails').html(criteriaDetails);
-      $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48','govuk-!-font-size-24'));
-      
-      
+  let lot = queryParamObj.filter(el => el.key === 'lot');
+  if (lot.length > 0) {
+    criteriaDetails += ' in <b>' + capitalize(lot[0].value.replace("-", " ")) + '</b>';
+  } else {
+    criteriaDetails += ' in <b>All Categories</b>';
+  }
+
+  let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
+  if (serviceCategories.length > 0) {
+    criteriaDetails += ' in the category <b>' + capitalize(serviceCategories[0].value.replace("+", " ")) + '</b>';
+  }
+
+
+  Object.keys(criteria).forEach(key => {
+    if (key !== undefined) {
+      criteriaDetails += ', where <b>' + capitalize(key) + '</b> is ';
+      let values = [];
+      for (let index = 0; index < criteria[key].length; index++) {
+        values.push('<b>' + capitalize(criteria[key][index].name) + '</b>');
+      }
+      criteriaDetails += values.join(" and ");
+
+    }
+  });
+  $('#criteriandetails').html(criteriaDetails);
+  $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48', 'govuk-!-font-size-24'));
+
+
 }
 
 const capitalize = (s) => {
@@ -20385,44 +23169,358 @@ const capitalize = (s) => {
 }
 
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-event.addEventListener('change', function(event) {
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
-  })
-
-  var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-    return this.value;
     }).get().join(', ');
     $('#invite_suppliers').val(evaluateSupplier);
+  })
+
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
 })
 
-document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
-  event.addEventListener('change', function(event) {
-      var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
-        return this.value;
-        }).get().join(', ');
-        $('#invite_suppliers').val(evaluateSupplier);
-    })
-  
-    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+    var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
       return this.value;
-      }).get().join(', ');
-      $('#invite_suppliers').val(evaluateSupplier);
+    }).get().join(', ');
+    $('#invite_suppliers').val(evaluateSupplier);
   })
-  
 
-  document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function(event) {
-    event.addEventListener('click', function(event) {
-      document.getElementById("invite_short_list_suppliers").submit();
-      })
+  var evaluateSupplier = $('.dos_evaluate_supplier:checked').map(function () {
+    return this.value;
+  }).get().join(', ');
+  $('#invite_suppliers').val(evaluateSupplier);
+})
+
+    // document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
     
-     
+
+document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    document.getElementById("invite_short_list_suppliers").submit();
+  })
+})
+
+
+// document.querySelectorAll(".individualScoreBtn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //loaderClick
+    document.querySelectorAll(".loaderClick").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+    //startEvalDos6Btn
+    // document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+    //   event.addEventListener('click', function(event) {
+    //     document.querySelector(".loderMakeRes").innerHTML = "Please Wait..";
+    //     var bodytg = document.body;
+    //     bodytg.classList.add("pageblur");
+    //   });
+    // });
+
+    //startEvalDos6Btn
+    document.querySelectorAll(".startEvalDos6Btn").forEach(function(event) {
+      event.addEventListener('click', function(event) {
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr">Retrieving supplier responses</p><p class="govuk-body loader-desc">Please allow some time for this operation to complete. Once finished, you will be able to download supplier responses. We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>';
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      });
+    });
+
+document.querySelectorAll(".download").forEach(function (event) {
+  event.addEventListener('click', function (event) {
+    var $this = $(this);
+    var url = $this.attr('data-url');
+    $.ajax({
+      url: url,
+      type: "GET",
+      contentType: "application/json",
+      xhrFields: {
+        responseType: 'blob' // to avoid binary data being mangled on charset conversion
+      },
+      beforeSend: function () {
+        document.querySelector(".loderMakeRes").innerHTML = "<p class='govuk-body loader-desc-hdr'>Downloading supplier responses</p><p class='govuk-body loader-desc'>Please allow some time for this operation to complete. Once finished, your downloaded responses can be found in the 'Downloads' section of your browser.  We suggest taking a break in the meantime and checking back in a few minutes. Please keep the tab open while this process is taking place.</p>";
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+      },
+      success: function (blob, status, xhr) {
+        // check for a filename
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        var filename = "";
+        var disposition = xhr.getResponseHeader('Content-Disposition');
+        if (disposition && disposition.indexOf('attachment') !== -1) {
+          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+          var matches = filenameRegex.exec(disposition);
+          if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+        }
+        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+          window.navigator.msSaveBlob(blob, filename);
+        } else {
+          var URL = window.URL || window.webkitURL;
+          var downloadUrl = URL.createObjectURL(blob);
+          if (filename) {
+            // use HTML5 a[download] attribute to specify filename
+            var a = document.createElement("a");
+            // safari doesn't support this yet
+            if (typeof a.download === 'undefined') {
+              window.location.href = downloadUrl;
+            } else {
+              a.href = downloadUrl;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+            }
+          } else {
+            window.location.href = downloadUrl;
+          }
+          
+          setTimeout(function () { URL.revokeObjectURL(downloadUrl); window.location.reload(); }, 1000); // cleanup
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var bodytg = document.body;
+        bodytg.classList.remove("pageblur");
+        // console.log(jqXHR.status)
+      }
+
+
+    });
+  })
+});
+
+/**
+ * Find the supplier with the highest score, and if a low score supplier is chosen, show the popup and obtain buyer confirmation.
+ */
+if (document.querySelectorAll('.suppliersAwardConfirm')) {
+  let scores = [];
+  document.querySelectorAll(".suppliersAwardConfirm").forEach(function (event) {
+    scores.push(event.getAttribute('data-value'))
+    let maxScore = Math.max.apply(Math, scores);
+    event.addEventListener('click', function () {
+      let redirectUrl = this.getAttribute('data-url');
+      let supplierId = this.getAttribute('data-name');
+      let supplier = document.querySelector(`[data-type="supplierName_${supplierId}"]`);
+      let score = this.getAttribute('data-value');
+      if (score < maxScore) {
+        showSuppliersAwardPopup(supplier.textContent, redirectUrl)
+      } else {
+        window.location.href = redirectUrl;
+      }
     })
+  })
+}
+DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      urldel = e.target.getAttribute('data-link');
+      const openpopGC = document.querySelector('.backdrop-supplierConfirmAllPopup')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-supplierConfirmAllPopup").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-supplierConfirmAllPopup');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+        document.location.href="/evaluate-confirm"
+      });
+    });
+  });
+
+  let countOfpublishBtn = 0;
+  // $('.oneTimeClick').click(function(e) {
+  //   $(this).attr("disabled", true);
+  //   if(countOfpublishBtn == 0) {
+  //     $(this).parents('form').submit();
+  //   }
+  //   countOfpublishBtn++;
+  // });
+  if(document.forms.length > 0) {
+    const publishDateMismatchFormEvent = document.forms[0].id;
+    if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form' || publishDateMismatchFormEvent == 'ccs_rfp_publish_form' || publishDateMismatchFormEvent == 'ccs_rfi_publish_form') {
+
+      let checkBoxConfirmation;
+      if(publishDateMismatchFormEvent == 'ccs_rfp_publish_form') {
+        checkBoxConfirmation = 'rfp_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_rfi_publish_form'){
+        checkBoxConfirmation = 'rfi_publish_confirmation';
+      }else if(publishDateMismatchFormEvent == 'ccs_eoi_publish_form'){
+        checkBoxConfirmation = 'eoi_publish_confirmation';
+      }
 
 
 
+      document.querySelectorAll("#"+publishDateMismatchFormEvent).forEach(function (event) {
+        event.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (!document.getElementById(checkBoxConfirmation).checked) {
+            $('#checkbox_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#checkbox_error_summary_list").html('<li><a href="#'+checkBoxConfirmation+'">You must check this box to confirm that you have read and confirm the statements above</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            return false;
+          } 
 
+          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
 
+         $.ajax({
+            url: `/rfp/publish_date_mismatch`,
+            type: "GET",
+            contentType: "application/json",
+          }).done(function (result) {
+            var bodytg = document.body;
+            bodytg.classList.remove("pageblur");
+            if(result.warning) {
+              document.getElementById('redirect-button-publishTimelineMismatch').innerHTML = 'Reset timeline';
+              const openpopGC = document.querySelector('.backdrop-publishTimelineMismatch')
+              openpopGC.classList.add('showpopup');
+              $(".dialog-close-publishTimelineMismatch").on('click', function(){
+                timelineRevertCancel();
+                openpopGC.classList.remove('showpopup');
+              });
+              $(".close-dialog-close").on('click', function(){
+                openpopGC.classList.remove('showpopup');
+              });
+              deconf = document.getElementById('redirect-button-publishTimelineMismatch');
+              deconf.addEventListener('click', ev => {
+                document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+                var bodytg = document.body;
+                bodytg.classList.add("pageblur");
+                openpopGC.classList.remove('showpopup');
+                if(result.eventType == 'FC') {
+                  window.location.href = window.location.origin+'/rfp/response-date';
+                }
+                if(result.eventType == 'RFI') {
+                  window.location.href = window.location.origin+'/rfi/response-date';
+                }
+                if(result.eventType == 'EOI') {
+                  window.location.href = window.location.origin+'/eoi/response-date';
+                }
+                if(result.eventType == 'DA') {
+                  window.location.href = window.location.origin+'/da/response-date';
+                }
+
+                //  window.location.href = window.location.origin+'/rfi/rfi-tasklist';
+              });
+              return false;
+            } else {
+              $('.oneTimeClick').attr("disabled", true);
+              if(countOfpublishBtn == 0) {
+                document.getElementById(publishDateMismatchFormEvent).submit();
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }).fail((res) => {
+            console.log(res);
+          })
+        })
+      });
+
+    }
+  }
+
+  function timelineRevertCancel() {
+    $.ajax({
+      url: `/rfp/publish_date_mismatch/cancel`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (res) {
+    });
+  }
+
+  if (document.getElementsByClassName('backdrop-Qanda').length > 0) {
+    $(".dialog-close-Qanda").remove();
+    $(".dialog-close-Qanda").remove();
+    var elGo = document.querySelector(".backdrop-Qanda").querySelector(".nodeDialogTitle");
+    let divFirst = document.createElement('div');
+    divFirst.className = "govuk-form-group";
+    elGo.after(divFirst)
+
+    let QAInput = document.createElement('input');
+    QAInput.type  = 'email';
+    QAInput.name  = 'qa_email';
+    QAInput.id  = 'qa_email';
+    QAInput.placeholder  = 'Email';
+    QAInput.className = "govuk-input govuk-input--width-20";
+    document.querySelector(".govuk-form-group").append(QAInput);
+
+    const openpopGC = document.querySelector('.backdrop-Qanda')
+    openpopGC.classList.add('showpopup');
+
+    $(".dialog-close-Qanda").on('click', function(){
+      return false;
+      // openpopGC.classList.remove('showpopup');
+    });
+    $(".close-dialog-close").on('click', function(){
+      // openpopGC.classList.remove('showpopup');
+      return false;
+    });
+    deconf = document.getElementById('redirect-button-Qanda');
+    deconf.addEventListener('click', ev => {
+      var validRegex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+      let inputVal = $("#qa_email").val();
+      console.log(inputVal.match(validRegex));
+      if(inputVal == '') {
+        QAInputErrorRemove();
+        QAInputError('Enter the email');
+      } else if (!validateEmail(inputVal)) {
+        QAInputErrorRemove();
+        QAInputError('Enter the valid email');
+      } else {
+        QAInputErrorRemove();
+        //Form submission
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // console.log(`/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`);
+        window.location.href = `/qa/event-suppliers?id=${urlParams.get('id')}&prId=${urlParams.get('prId')}&email=${inputVal}`;
+      }
+
+    });
+    function QAInputErrorRemove() {
+        $('.govuk-form-group').removeClass("govuk-form-group--error");
+        $("#qa_email").prev('span').remove();
+        $("#qa_email").removeClass("govuk-input--error");
+    }
+    function QAInputError(msg) {
+        $('.govuk-form-group').addClass("govuk-form-group--error");
+        $("#qa_email").val('');
+        $("#qa_email").focus();
+        $("#qa_email").before(`<span class="govuk-error-message">${msg}</span>`);
+        $("#qa_email").addClass("govuk-input--error");
+    }
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
+  }

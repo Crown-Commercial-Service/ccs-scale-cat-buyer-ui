@@ -6,11 +6,12 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as replyData from '../../../resources/content/event-management/messaging-reply.json'
 import * as dos6ReplyData from '../../../resources/content/event-management/messaging-reply dos6.json'
 import { MessageDetails } from '../model/messgeDetails'
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export class ValidationErrors {
    
-    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
-    static readonly SUBJECT_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined'
+    static readonly MESSAGE_REQUIRED: string = 'Message cannot be sent unless a Subject Line has been defined'
+    static readonly SUBJECT_REQUIRED: string = 'Enter a message'
 }
 
 /**
@@ -32,6 +33,8 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
     try {
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(draftMessage, logConstant.messageReceived, req);
 
         const messageReply: MessageReply = draftMessage.data
         messageThreadingList= [];
@@ -39,8 +42,8 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
             
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
-
-        if(agreementId == 'RM1043.8'){
+        
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13' ){
             res.locals.agreement_header = req.session.agreement_header
             switch (req.session.eventManagement_eventType) {
                 case 'EOI':
@@ -61,7 +64,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
         }
 
         let data;
-        if(agreementId == 'RM1043.8') { //DOS6
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6ReplyData;
           } else { 
             data = replyData;
@@ -69,6 +72,8 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
 
         const appendData = {replyto,msgThreadList:messageThreadingList, data, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.locals.agreement_header = req.session.agreement_header
+         //CAS-INFO-LOG 
+         LoggTracer.infoLogger(null, logConstant.MessagingReplyLogger, req);
         res.render('MessagingReply', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -95,6 +100,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
         const _body = req.body
         let validationError = false
         const errorText = [];
+        let errorMsg = '';
 
         if (!_body.reply_subject_input) {         
             validationError = true;
@@ -110,14 +116,17 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
                 text: ValidationErrors.SUBJECT_REQUIRED,
                 href: '#reply_message_input'
             });
+            errorMsg = ValidationErrors.SUBJECT_REQUIRED;
         }
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+        //CAS-INFO-LOG 
+        LoggTracer.infoLogger(draftMessage, logConstant.messageReceived, req);
 
         const messageReply: MessageReply = draftMessage.data
         if (validationError) {
 
-            if(agreementId == 'RM1043.8') {
+            if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') {
                 res.locals.agreement_header = req.session.agreement_header
                 switch (req.session.eventManagement_eventType) {
                     case 'EOI':
@@ -138,18 +147,18 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
             }
 
             let data;
-            if(agreementId == 'RM1043.8') { //DOS6
+            if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13' ) { //DOS6
                 data = dos6ReplyData;
               } else { 
                 data = replyData;
               }
-            const appendData = { data, message: messageReply, validationError: validationError,errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+            const appendData = { replyto, data, message: messageReply, validationError: validationError,errorText: errorText,errorMsg, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
             res.render('MessagingReply', appendData)
         }
         else {
 
             let _requestBody;
-            if(replyto && replyto == 'all' && agreementId == 'RM1043.8'){
+            if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
                   _requestBody = {
                     "OCDS": {
                         "title": _body.reply_subject_input,
@@ -180,16 +189,24 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
              }
 
             req.session['SupplierNameforMessagereply'] = draftMessage.data.OCDS.author.name;
-            const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
-            const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
-            if (response.status == 200) {
-                if(replyto && replyto == 'all' && agreementId == 'RM1043.8'){
-                    res.redirect('/message/inbox?createdreply=true&msgfor=all')
-                }else{
-                    res.redirect('/message/inbox?createdreply=true')
-                }
-            } else {
-                res.redirect('/message/inbox?createdreply=false')
+            const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`;
+            // const response = await 
+            TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            
+            // if (response.status == 200) {
+            //     if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
+            //         res.redirect('/message/inbox?createdreply=true&msgfor=all')
+            //     }else{
+            //         res.redirect('/message/inbox?createdreply=true')
+            //     }
+            // } else {
+            //     res.redirect('/message/inbox?createdreply=false')
+            // }
+
+            if(replyto && replyto == 'all' && agreementId == 'RM1043.8' || replyto && replyto == 'all' && agreementId == 'RM1557.13'){
+                res.redirect('/message/inbox?createdreply=true&msgfor=all')
+            }else{
+                res.redirect('/message/inbox?createdreply=true')
             }
     }
 }

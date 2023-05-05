@@ -7,9 +7,15 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 ///eoi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+  
+  //CAS-INFO-LOG 
+  LoggTracer.infoLogger(null, logConstant.eoiSetYourTimeLinePageLog, req);
+
   RESPONSEDATEHELPER(req, res);
 };
 
@@ -51,6 +57,10 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(fetchQuestionsData, logConstant.rfiGetTimeLineQuestions, req);
+
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
       .map(aQuestion => aQuestion.OCDS.id);
@@ -79,6 +89,10 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+    
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.eoiyourTimeLineUpdate, req);
+
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/23`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
@@ -108,6 +122,7 @@ function isValidQuestion(
   minute: number,
   timeinHoursBased: number,
   timeline: any,
+  bankholidaydata:any
 ) {
   let isValid = true,
     error,
@@ -139,7 +154,20 @@ function isValidQuestion(
     error = 'Enter a valid year';
   }
 
+  let bankHolidayEnglandWales;
+  if(bankholidaydata){
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+      bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+      bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  }
+  const questionInputDate = new Date(year, month, day);
  
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
+
   const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
 
   const dayOfWeek = new Date(questionNewDate).getDay();
@@ -152,7 +180,7 @@ function isValidQuestion(
   }
   switch (questionId) {
     case 'Question 1':
-      errorSelector = 'clarification_date';
+      errorSelector = 'eoi_clarification_date_expanded_1';
       break;
     case 'Question 2':
       
@@ -164,7 +192,7 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'clarification_period_end';
+      errorSelector = 'eoi_clarification_date_expanded_2';
       break;
     case 'Question 3':
       if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
@@ -175,7 +203,7 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'deadline_period_for_clarification_period';
+      errorSelector = 'eoi_clarification_date_expanded_3';
       break;
     case 'Question 4':
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
@@ -186,19 +214,33 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'supplier_period_for_clarification_period';
+      errorSelector = 'eoi_clarification_date_expanded_4';
       break;
     case 'Question 5':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'supplier_dealine_for_clarification_period';
+      errorSelector = 'eoi_clarification_date_expanded_5';
       break;
     default:
       isValid = true;
   }
   return { isValid, error, errorSelector };
+}
+
+function checkBankHoliday(questionInputDate,bankHolidayEnglandWales) {
+  let isBankHoliday = false; 
+ if(bankHolidayEnglandWales.length>0){
+  let currentyearHolidays =  bankHolidayEnglandWales.filter(holiday=>new Date(holiday.date).getFullYear() == questionInputDate.getFullYear())
+  currentyearHolidays.forEach(data=>{
+
+      if(questionInputDate.setHours(0, 0, 0, 0) === new Date(data.date).setHours(0, 0, 0, 0)){
+          isBankHoliday = true;
+      }
+  })
+ }
+return isBankHoliday;
 }
 
 // @POST "/eoi/add/response-date"
@@ -227,6 +269,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   clarification_date_month = clarification_date_month - 1;
 
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
     timeinHoursBased = Number(clarification_date_hour);
@@ -253,6 +298,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_minute,
     timeinHoursBased,
     timeline,
+    bankholidaydata
   );
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
@@ -344,6 +390,10 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       const id = Criterian_ID;
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+     
+      //CAS-INFO-LOG 
+     LoggTracer.infoLogger(null, logConstant.eoiyourTimeLineUpdate, req);
+
       res.redirect('/eoi/response-date');
     } catch (error) {
       delete error?.config?.['headers'];
@@ -377,31 +427,36 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         case 'Question 1':
           selector =
             ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_date';
+          
+          selectorID = 'eoi_clarification_date_expanded_1';
           break;
 
         case 'Question 2':
           selector =
             'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_period_end';
+         
+          selectorID = 'eoi_clarification_date_expanded_2';
           break;
 
         case 'Question 3':
           selector =
             'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'deadline_period_for_clarification_period';
+          
+          selectorID = 'eoi_clarification_date_expanded_3';
           break;
 
         case 'Question 4':
           selector =
             'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_period_for_clarification_period';
+          
+          selectorID = 'eoi_clarification_date_expanded_4';
           break;
 
         case 'Question 5':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_dealine_for_clarification_period';
+          
+          selectorID = 'eoi_clarification_date_expanded_5';
           break;
 
         default:

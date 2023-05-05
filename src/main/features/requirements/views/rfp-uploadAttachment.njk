@@ -19,7 +19,7 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with",
+                titleText: "There is a problem",
                 errorList: errorlist
             }) }}
         {% endif %}
@@ -43,13 +43,17 @@
                                 <p class="govuk-body govuk-!-margin-bottom-6">Upload your pricing schedule at the bottom of the screen.</p>
                                 <p class="govuk-body govuk-!-margin-bottom-6">Include what pricing model you expect suppliers to provide.</p>
                                 <p class="govuk-body govuk-!-margin-bottom-6">You can upload any other supporting documents in the pages that follow.</p>
+                            {% elseif agreementId_session == 'RM6187' %}
+                                <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle1}}</p>
+                                <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle2}}</p>
+                                <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle3}}</p>
                             {% else %}
                                 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle1}}</p>
                                 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle2}}</p>
                                 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle3}}</p>
                             {% endif %}
-
-                            {% if agreementId_session!='RM1043.8' and stage2_value != 'Stage 2' and agreementId_session!='RM1557.13' %}
+                            
+                            {% if agreementId_session!='RM1043.8' and stage2_value != 'Stage 2' and agreementId_session!='RM1557.13' and agreementId_session !== 'RM6187' %}
                                 <div>
                                     <div class="govuk-div-inline">
                                     <img src="{{ assetPath | default('/assets') }}/images/excelicon.jpg" alt="excelicon"></img>
@@ -57,7 +61,7 @@
 
                                     <div>
                                         <br/>
-                                        <a class="govuk-!-font-size-36 govuk-!-margin-bottom-5" href="{{ assetPath | default('/assets') }}/images/Attachment 4 - Pricing Schedule template v1.0.xlsx">
+                                        <a class="govuk-!-font-size-36 govuk-!-margin-bottom-5" href="{{ assetPath | default('/assets') }}/files/Attachment 4 - Pricing Schedule template v1.0.xlsx">
                                             {% if agreementId_session == 'RM6187' %}
                                                 Download pricing schedule template
                                             {% else %}
@@ -79,7 +83,7 @@
                         </div>
                         <div>
                         <br/>
-                        {# <a href="{{ assetPath | default('/assets') }}/images/Attachment 4 - Pricing Schedule template v1.0.xlsx" download>
+                        {# <a href="{{ assetPath | default('/assets') }}/files/Attachment 4 - Pricing Schedule template v1.0.xlsx" download>
                         {% if agreementId_session == 'RM6187' %}
                             Download pricing schedule template
                         {% else %}
@@ -95,7 +99,7 @@
                         
                         </div> 
                     </div> 
-                    <br/>
+                    
                     <div id="upload_doc_form">
                         <div class="govuk-grid-row">
                             <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -195,7 +199,7 @@
         <div class="govuk-grid-column-full govuk-!-margin-bottom-5 govuk-!-margin-top-5">
          
  {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1043.8' or (agreementId_session == 'RM1557.13') %}
-                {% if stage2_value != 'Stage 2' and (agreementId_session != 'RM1557.13')%}
+                {% if stage2_value != 'Stage 2' and (agreementId_session != 'RM1557.13') and agreementId_session !== 'RM6187' %}
                             {{ CCSCheckboxes({
                                 idPrefix: "rfp_confirm_upload",
                                 name: "rfp_confirm_upload",
@@ -233,12 +237,16 @@
                                 type: "submit"
                                 })
                             }}
-                            <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                             {% if agreementId_session=='RM1043.8' and stage2_value == 'Stage 2' %}
+                              <a href="/rfp/upload" class="govuk-link govuk-link--no-visited-state">Return to Upload your pricing schedule and other documents</a>
+                              {%else%}
+                               <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                              {%endif%}
                     </div>
                 </form>
             </div>
             <div class="govuk-grid-column-one-third">
-              {{ CCSReleatedContent(releatedContent) }}
+              {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
             </div>
         </div>
           

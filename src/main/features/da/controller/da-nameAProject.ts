@@ -7,6 +7,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -27,8 +28,9 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
   const agreementId_session = req.session.agreement_id;
   const agreementName = req.session.agreementName;
   const lotid = lotId;
-    
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const projectId = req.session.projectId;
+  
+  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -38,7 +40,8 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
     error: isEmptyProjectError,
     releatedContent: releatedContent,
   };
-  
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
   res.render('daw-nameAProject', viewData);
 };
 
@@ -64,7 +67,9 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
 
       try{
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
-        //const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
+        const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
         if (response.status == HttpStatusCode.OK) req.session.project_name = name;
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
         res.redirect('/da/procurement-lead');

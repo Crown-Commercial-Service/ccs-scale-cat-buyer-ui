@@ -1,14 +1,11 @@
 import * as express from 'express'
-//import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
-// import { Procurement } from '../../procurement/model/project';
-// import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/enterEvaluation.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
-//import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-//simport { idText } from 'typescript'
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 /**
  * 
  * @Rediect 
@@ -34,7 +31,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: project_name, projectId,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
    
   try{
     //Supplier of interest
@@ -49,23 +46,24 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
       stage2_value = 'Stage 2';
     }
     
-    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(supplierdata, logConstant.getSupplierScore, req);
+
     for(var m=0;m<supplierdata.data.length;m++)
     {
-      // if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
-      // { Old Logic
       if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].score != null )
       {
-        feedBack= ''; //supplierdata.data[m].comment Old Logic
+        feedBack= '';
         marks = supplierdata.data[m].score;
       }
     }
     
-    //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
-    
-    res.render('enterEvaluation',appendData);     
+    //CAS-INFO-LOG 
+    LoggTracer.infoLogger(null, logConstant.evaluateFinalScorePageLogg, req);
+
+    res.render('enterEvaluation', {stage2_value, releatedContent, data: eventManagementData, error: isEmptyProjectError, feedBack, marks, eventId, suppliername, supplierid, suppliers: localData , agreementId_session, lotid});     
     
   } catch (err) {
     LoggTracer.errorLogger(
@@ -100,30 +98,74 @@ try{
                 }
               ];
               
-              await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
+              req.session.individualScore = body[0];
+              
+              //let responseScore = 
+              TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-            
-              req.session.isEmptyProjectError = false;
-              res.redirect('/evaluate-suppliers'); 
+              
+              //CAS-INFO-LOG 
+              // LoggTracer.infoLogger(responseScore, logConstant.evaluateScoreUpdated, req);
+
+              res.redirect('/score-individual'); 
+
             } else {
               req.session.isEmptyProjectError = true;
               res.redirect('/enter-evaluation?'+"supplierid="+supplierid+"&suppliername="+suppliername);
             }
    
 }catch (error) {
-  
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Event Management - Tenders Service Api cannot be connected',
-    true,
-  );
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management page',
+      true,
+    );
+  }
 }
 
+export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  
+  if(req.session.individualScore !== undefined) {
+
+    async function scoreApis() {
+      const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+      const scoreCompare: any = await TenderApi.Instance(SESSION_ID).get(scoreCompareUrl).then(x => new Promise(resolve => setTimeout(() => resolve(x), 6000)))
+      return scoreCompare.data;
+    }
+    
+    var scoreIndividualGetState: boolean = true;
+    do {
+      let sessionScore = req.session.individualScore;
+      let resScore: any = [];
+      resScore = await scoreApis();
+      
+      if(resScore.length > 0) {
+        let scoreFliter = resScore.filter((el: any) => {
+          return el.organisationId === sessionScore.organisationId && el.score == sessionScore.score;
+        });
+        if(scoreFliter.length > 0) {
+          scoreIndividualGetState = false;
+        }
+      }
+    } while(scoreIndividualGetState);
+    
+    if(!scoreIndividualGetState) {
+      req.session.isEmptyProjectError = false;
+      res.redirect('/evaluate-suppliers'); 
+    }
+    
+  } else {
+    req.session.isEmptyProjectError = false;
+    res.redirect('/evaluate-suppliers'); 
+  }
 }
 //publisheddoc?download=1
 

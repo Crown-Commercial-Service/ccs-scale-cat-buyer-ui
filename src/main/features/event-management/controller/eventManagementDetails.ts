@@ -4,6 +4,7 @@ import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { MessageDetails } from '../model/messgeDetails'
+import { MessageReply } from '../model/messageReply'
 import * as inboxData from '../../../resources/content/event-management/event-management-message-details.json'
 import * as dos6InboxData from '../../../resources/content/event-management/event-management-message-detailsdos6.json'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
@@ -15,6 +16,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
  * @param req 
  * @param res 
  */
+let messageThreadingList: MessageDetails[];
 export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { id,attachmentId } = req.query
@@ -46,21 +48,63 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             res.send(fileData);
         }
         else{
+            console.log('*************** START **************');
+              console.log(`URL: https://dev-ccs-scale-cat-service.london.cloudapps.digital//tenders/projects/${projectId}/events/${eventId}/messages/`+id)
+              console.log(`METHOD: GET`);
+              
             const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
-            const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+            const draftMessage: any = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+
+               //CAS-INFO-LOG
+               LoggTracer.infoLogger(draftMessage, 'PRE09121210', req);
+               console.log(draftMessage.config.metadata.startTime);
+               console.log(draftMessage.config.metadata.endTime);
+               console.log(draftMessage.duration);
+               console.log('*****************************');
+               console.log(JSON.stringify(draftMessage.config));
+               console.log(JSON.stringify(draftMessage.config.metadata));
+             //  console.log(JSON.stringify(draftMessage));
+               console.log('*************** END **************');
 
             const message: MessageDetails = draftMessage.data
-            const agreementId = req.session.agreement_id;  
+            const agreementId = req.session.agreement_id; 
+            const messageReply: MessageReply = draftMessage.data
+            messageThreadingList= [];
+            if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null && messageReply.nonOCDS.parentId != 'null') {
+            
+                await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
+              } 
             let data;
-        if(agreementId == 'RM1043.8') { //DOS6
+        if(agreementId == 'RM1043.8' || agreementId == 'RM1557.13') { //DOS6
             data = dos6InboxData;
           } else { 
             data = inboxData;
-          }        
-            const appendData = {type, data, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId }
-            res.render('eventManagementDetails', appendData)
+          }
+          let attachmentSize = '0 KB';
+          if(message.nonOCDS?.attachments.length > 0){
+            let convertMB = Object.values(message.nonOCDS?.attachments[0]); 
+            let digit = 2;
+            if(convertMB[2] > 1024){
+                attachmentSize = byteConverter(convertMB[2], digit, "MB" );
+            }
+            else{
+                attachmentSize = convertMB[2] + " KB";
+            }
+          }
+        
+         const appendData = {type, data, msgThreadList:messageThreadingList, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id, agreementId ,attachmentSize:attachmentSize}
+          
+         res.render('eventManagementDetails', appendData)
         }
     } catch (err) {
+        
+        if(err.response?.status !== undefined) {
+            console.log("*********** error.response.status - ",err.response.status);
+          }
+          console.log(err.config.metadata.startTime);
+          console.log(err.config.metadata.endTime);
+          console.log(err.duration);
+
         LoggTracer.errorLogger(
             res,
             err,
@@ -133,4 +177,32 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = (req: express.Request, res:
             true,
         );
     }
+}
+//'Private Method
+async function getChildMethod(parentMessageId: string,projectId :string,eventId:string,SESSION_ID:string) {
+    const baseMessageChildURL = `/tenders/projects/${projectId}/events/${eventId}/messages/` + parentMessageId
+    const childMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageChildURL);
+    if (messageThreadingList ==undefined || messageThreadingList ==null) {
+        messageThreadingList= [];
+    }
+    messageThreadingList.push(childMessage.data);
+    if (childMessage != undefined && childMessage != null && childMessage.data.nonOCDS != null && childMessage.data.nonOCDS.parentId != 'null') {
+        await getChildMethod(childMessage.data.nonOCDS.parentId,projectId,eventId,SESSION_ID);
+    }
+    return messageThreadingList;
+}
+
+function byteConverter(bytes:any , decimals:any , only:any ) {
+    const K_UNIT = 1024;
+    const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+
+    if(bytes== 0) return "0 Byte";
+  
+    if(only==="MB") return (bytes / (K_UNIT*K_UNIT)).toFixed(decimals) + " MB" ;
+    if(only==="KB") return (bytes / (K_UNIT*K_UNIT)).toFixed(decimals) + " KB" ;
+  
+    let i = Math.floor(Math.log(bytes) / Math.log(K_UNIT));
+    let resp = parseFloat((bytes / Math.pow(K_UNIT, i)).toFixed(decimals)) + " " + SIZES[i];
+  
+    return resp;
 }

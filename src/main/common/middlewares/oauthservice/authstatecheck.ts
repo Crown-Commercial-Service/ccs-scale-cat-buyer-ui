@@ -23,11 +23,12 @@ export const AUTH: express.Handler = async (
 ) => {
   const { SESSION_ID, state } = req.cookies;
   let requestURL = req.url;	
-  if (requestURL.indexOf('event/qa-supplier') ==1) {	
+
+  if (requestURL.indexOf('event/qa') == 1) {	
     req.session["supplier_qa_url"] = requestURL;	
   }	
   /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')	
-  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa-supplier') == 1) {	
+  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa') == 1) {
     req.session["supplier_qa_url"] = requestURL;	
     res.redirect('/oauth/login');	
   }	
@@ -115,7 +116,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
   const today = new Date();
   const endDate = new Date(expiryTimestamp * 1000);
   const minutes = parseInt((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
-  if (minutes <= 2) {
+  if (minutes <= 14) {
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
     //@ Create the authentication credetial to to allow the re-direct
     let auth_credentails: any = {

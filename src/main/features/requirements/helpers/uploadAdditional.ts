@@ -9,6 +9,7 @@ import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additio
 import * as GCloudcmsData from '../../../resources/content/requirements/gcloud-upload-additional.json';
 import * as dosData from '../../../resources/content/requirements/dos-rfp-upload-attachment.json';
 import * as dosStage2Data from '../../../resources/content/requirements/dos-upload-assessment.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ADDITIONALUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -80,7 +81,10 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
-        
+       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+      
       let fileNameadditional = [];
       let fileNameStorageTermsnCond=[];
       let fileNameStoragePricing=[];
@@ -94,7 +98,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         //   fileNameStorageTermsnCond.push(file.fileName);
         // }
         if(stage2_value == "Stage 2"){
-          if (file.description === "mandatorysecond") {
+          if (file.description === "mandatorythird") {
             fileNameadditional.push(file);
           }
         }else{
@@ -107,7 +111,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
 
 
       });
-      const FILEDATA_NEW = FETCH_FILEDATA.filter(anItem => anItem.description == "mandatorysecond");
+      const FILEDATA_NEW = FETCH_FILEDATA.filter(anItem => anItem.description == "mandatorythird");
       const TOTALSUM = fileNameadditional.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
@@ -137,6 +141,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         Rfp_confirm_upload: false,
         IsFileError: false,
         agreementId_session: req.session.agreement_id,
+        stage2_value
       };
       
       if (assessDocument != undefined) {
@@ -146,7 +151,11 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
          }
          
          if (assessDocument.IsDocumentError && !assessDocument.IsFile) {
-           errorList.push({ text: "You must upload assessment documents.", href: "#rfp_offline_document" });
+            if(agreementId_session == 'RM1043.8' && stage2_value == "Stage 2"){
+              errorList.push({ text: "Upload assessment documents", href: "#rfp_offline_document" });
+            }else{
+              errorList.push({ text: "You must upload assessment documents.", href: "#rfp_offline_document" });
+            }
            fileError=true;
          }
        }
@@ -156,10 +165,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         if (errorList==null) {
           errorList=[];
         }
-        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
-          fileError=true;
-        }
+        
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
           errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
           fileError=true;
@@ -167,18 +173,23 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        if(req.session?.agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2") {
+          errorList.push({ text: "Select a file to upload", href: "#" })
+        }else{
+          errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
+        }
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {
         fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
         delete req.session["fileDuplicateError"];
       }
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
       if(stage2_value == "Stage 2"){
+        
         if (FILEDATA_NEW != undefined && FILEDATA_NEW != null && FILEDATA_NEW.length > 0) {
           req.session['isAssessUploaded'] = true;
         }
@@ -210,7 +221,9 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute === 'dos') selectedRoute = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
       let lotid = lotId;
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+      const projectId = req.session['projectId'];
+
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
       if(req.session.selectedRoute == 'dos'){
         if(stage2_value !== undefined && stage2_value === "Stage 2"){
           let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
@@ -219,6 +232,10 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
           }
         }
       }
+      console.log("Additional");
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.uploadAdditionalPageLog, req);
+
       res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
     } catch (error) {
       console.log(error);

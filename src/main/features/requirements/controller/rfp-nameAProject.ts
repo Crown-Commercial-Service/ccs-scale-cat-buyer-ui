@@ -7,6 +7,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -25,6 +26,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
   const lotId = req.session.lotId;
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
+  const projectId = req.session.projectId;
   const agreementLotName = req.session.agreementLotName;
   const releatedContent = req.session.releatedContent;
   const agreementId_session = req.session.agreement_id;
@@ -39,6 +41,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
     data: forceChangeDataJson,
     procId: procurement.procurementID,
     projectLongName: project_name,
+    projectId,
     lotId,
     agreementLotName,
     error: isEmptyProjectError,
@@ -46,7 +49,9 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
     notValidText: notValidText,
     releatedContent: releatedContent,
   };
-  res.render('nameAProject-rfp', viewData);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
+    res.render('nameAProject-rfp', viewData);
 };
 
 /**
@@ -72,13 +77,21 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
         req.session['notValidText'] = 'Project length should be below 190 characters.';
         res.redirect('/rfp/name-your-project');
       }else{
+      
+      let new_name =  name.replace(/[\r\n]/gm, '');
+      
       const _body = {
-        name: name,
+        name: new_name,
       };
+      
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
-    //  const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
-      if (response.status == HttpStatusCode.OK) req.session.project_name = name;
+      if (response.status == HttpStatusCode.OK) req.session.project_name = new_name;
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
+
+      const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
+     
       res.redirect('/rfp/procurement-lead');
       }
     } else {

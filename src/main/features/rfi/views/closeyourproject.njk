@@ -24,7 +24,14 @@
 
 {% block content %} 
 
-<div class="backdrop-nextsteps" id="nextstepspopup">
+{{ CCSDialog({
+  title:'Confirm you want to close this event and the whole project.',
+  description:'You will not be able to reopen it.',
+  redirect:'javascript:void(0)',
+  type:'nextstepspopup'
+}) }}
+
+{# <div class="backdrop-nextsteps" id="nextstepspopup">
   <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
     <div class="pop_logo govuk-grid-column-full">
       <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
@@ -44,7 +51,7 @@
       </div>
     </h1></div>
   </div>
-</div>
+</div> #}
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
  <div class="govuk-grid-row">

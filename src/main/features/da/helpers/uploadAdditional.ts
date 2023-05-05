@@ -6,6 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import * as Mcf3cmsData from '../../../resources/content/da/upload-additional.json';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const ADDITIONALUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -34,6 +35,8 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
       const file = FetchDocuments;
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
@@ -75,6 +78,8 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
     try {
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
       const FETCH_FILEDATA = FetchDocuments.data;
 
       let fileNameadditional = [];
@@ -124,18 +129,15 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
         if (errorList==null) {
           errorList=[];
         }
-        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
-          fileError=true;
-        }
+       
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          errorList.push({ text: "Pricing schedule must be uploaded", href: "#da_offline_document" });
           fileError=true;
         }
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#da_offline_document" })
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileDuplicateError) {
@@ -157,10 +159,13 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'PA') selectedRoute.toUpperCase() = 'CA';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'DA') selectedRoute.toUpperCase() = 'DA';
+      const projectId = req.session['projectId'];
+
       
-      
-      res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
+      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotId };
       // res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
       res.render(`daw-uploadAdditional`, windowAppendData);
     } catch (error) {
      

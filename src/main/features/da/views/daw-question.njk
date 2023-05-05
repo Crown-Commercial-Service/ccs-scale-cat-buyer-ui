@@ -24,7 +24,7 @@ text: "Write and publish your requirements",
 href: "/da/task-list"
 },
 {
-text: "Your Assessment bases and evaluation weightings",
+text: "Your assessment criteria",
 href: "/da/your-assesstment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
 },
 {
@@ -110,10 +110,10 @@ text: bcTitleText
 
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,lotId)}} 
                  {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
                 {%else%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,lotId)}} 
                 {%endif%}
                 {%- endmacro %}
                 {%if (form_name === 'ccs_rfp_scoring_criteria')%}
@@ -192,7 +192,7 @@ text: bcTitleText
                 'fiftieth'
                 ] %}
                 {% for i in range(1, 51) -%}
-                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                <div id="fc_question_{{i}}" class="closeCCS ccs-page-section {{'additional' if i>1 }}">
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}
                         {{shortTitle}} requirement <a href="{{i}}" id="del_fc_question_{{i}}"

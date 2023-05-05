@@ -1,5 +1,6 @@
 import * as express from 'express'
-
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  * 
@@ -17,6 +18,9 @@ export const Receiver = (req: express.Request, res: express.Response) => {
   //url.split("?")[1].split('projectId')[1].split('&')[0]
   if (supplier_qa_url != undefined) {
     res.redirect(supplier_qa_url);
-  } else
+  } else {
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.loginSuccess, req);
     res.redirect('/dashboard');
+  }
 }

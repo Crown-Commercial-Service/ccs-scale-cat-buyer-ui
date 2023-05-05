@@ -21,16 +21,18 @@ export class AgreementDetailsFetchMiddleware {
             const agreementLotName = req.session.agreementLotName;
             const lotid = req.session?.lotId;
             const BaseURL = `agreements/${agreementId_session}`;
-            const retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
+            const retrieveAgreementPromise = AgreementAPI.Instance(null).get(BaseURL);
             retrieveAgreementPromise.then((data) => {
                 const containedData = data?.data;
                 logger.info("Feached agreement details from Agreement service API")
                 logger.info(data)
                 const project_name = req.session.project_name;
+                const projectId = req.session.projectId;
+
                 req.session.agreementName = containedData['name'];
                 res.locals.selectedAgreement = containedData
                 const agreementName = req.session?.agreementName;
-                res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
+                res.locals.agreement_header = { project_name,projectId, agreementName, agreementId_session, agreementLotName, lotid }
                 next();
             }).catch(
                 (error) => {

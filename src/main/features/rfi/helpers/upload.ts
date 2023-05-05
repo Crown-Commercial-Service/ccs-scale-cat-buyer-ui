@@ -9,6 +9,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import util from 'util';
 import stream from 'stream';
 import fileSystem from 'fs';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const FILEUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -23,7 +24,8 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
-  const {fileDuplicateError}=req.session;
+  const {fileDuplicateError,RfiUploadError,RfiUploadClick}=req.session;
+   
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -66,17 +68,24 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
+      
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.rfigetUploadDocument, req);
+
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
       const agreementId_session = req.session.agreement_id;
       let forceChangeDataJson;
-      if(agreementId_session == 'RM6187') { //MCF3
+      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') { //MCF3 or gcloud
         forceChangeDataJson = Mcf3cmsData;
       } else { 
         forceChangeDataJson = cmsData;
       }
-
+      if(RfiUploadError && RfiUploadClick){
+         errorList.push({ text: "Please attach the file before upload ", href: "#rfi_offline_document" })
+         req.session.RfiUploadClick = false; // error cleared during refresh
+      }
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -84,7 +93,10 @@ export const FILEUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        agreementId_session:req.session.agreement_id
+        agreementId_session:req.session.agreement_id,
+        RfiUploadError,
+        errorlist: errorList,
+        errorCount: errorList.length
       };
 
       if (fileDuplicateError) {
@@ -96,6 +108,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
+    
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentPageLog, req);
 
       res.render(type === 'rfi' ? 'uploadDocument' : 'uploadDocumentEoi', windowAppendData);
     } catch (error) {

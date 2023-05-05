@@ -9,6 +9,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
  *
@@ -32,6 +33,9 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(fetch_dynamic_api, logConstant.criteriaDetailFetch, req);
+
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       let criterianStorage: any = [];
@@ -104,10 +108,10 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       };
       // let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
-      let flag35 = await ShouldEventStatusBeUpdated(eventId, 34, req);
-      if(flag35){
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
-      }
+      // let flag35 = await ShouldEventStatusBeUpdated(eventId, 34, req);
+      // if(flag35){
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+      // }
       /*let flag37 = await ShouldEventStatusBeUpdated(eventId, 37, req);
       
       
@@ -119,7 +123,8 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
 
-      
+       //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
       res.render('daw-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

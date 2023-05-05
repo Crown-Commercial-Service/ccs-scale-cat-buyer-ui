@@ -19,7 +19,7 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with",
+                titleText: "There is a problem",
                 errorList: errorlist
             }) }}
         {% endif %}
@@ -47,7 +47,7 @@
                                 </div>
                                 <div>
                                 <br/>
-                                <a class="govuk-!-font-size-36 govuk-!-margin-bottom-5" href="{{ assetPath | default('/assets') }}/images/Attachment 4 - Pricing Schedule template v1.0.xlsx">
+                                <a class="govuk-!-font-size-36 govuk-!-margin-bottom-5" href="{{ assetPath | default('/assets') }}/files/Attachment 4 - Pricing Schedule template v1.0.xlsx">
                                     {% if agreementId_session == 'RM1043.8' %}
                                         Download pricing schedule template
                                     {% else %}
@@ -68,7 +68,7 @@
                         </div>
                         <div>
                         <br/>
-                        {# <a href="{{ assetPath | default('/assets') }}/images/Attachment 4 - Pricing Schedule template v1.0.xlsx" download>
+                        {# <a href="{{ assetPath | default('/assets') }}/files/Attachment 4 - Pricing Schedule template v1.0.xlsx" download>
                         {% if agreementId_session == 'RM1043.8' %}
                             Download pricing schedule template
                         {% else %}

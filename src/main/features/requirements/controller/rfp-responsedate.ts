@@ -10,6 +10,8 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { Console } from 'console';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
@@ -17,9 +19,9 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const agreement_id = req.session.agreement_id;
   if(agreement_id == 'RM1043.8'){
     if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-      let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
       }
     }else{
       let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
@@ -105,7 +107,9 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
 
     if (agreement_id=='RM6187') {
@@ -115,14 +119,14 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       }
     }
     else if (agreement_id=='RM1557.13') {
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
       if (response.status == HttpStatusCode.OK) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
       }
     }  
     else if (agreement_id=='RM1043.8') {
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
-        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
         if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
@@ -197,7 +201,7 @@ function isValidQuestion(
     error = 'Enter a valid month';
   }
   const currentYear = new Date().getFullYear();
-  if (year > 2121 || year < currentYear) {
+  if (year > 2121) {
     isValid = false;
     error = 'Enter a valid year';
   }
@@ -243,6 +247,7 @@ const questionInputDate = new Date(year, month, day);
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
+  
 
   switch (questionId) {
     case 'Question 1':
@@ -271,14 +276,17 @@ const questionInputDate = new Date(year, month, day);
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
-    case 'Question 4':
+    case 'Question 4': 
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
         
           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
-      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
+      
+      
+    //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+          isValid = false;
           error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
@@ -317,12 +325,12 @@ const questionInputDate = new Date(year, month, day);
       errorSelector = 'evaluation_process_start_date';
       break;
     case 'Question 8':
-
+      
       if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
         isValid = false;
         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
-
+      
       if(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
         
       }else{
@@ -345,7 +353,7 @@ const questionInputDate = new Date(year, month, day);
       }
       errorSelector = 'standstill_period_starts_date';
       break;
-    case 'Question 10':
+    case 'Question 10': 
       if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -384,6 +392,7 @@ const questionInputDate = new Date(year, month, day);
 
       case 'Question 13':
       if (questionNewDate < new Date(timeline.contractsigneddate)) {
+       
         isValid = false;
          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -426,9 +435,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     selected_question_index,
   } = req.body;
   const { timeline,agreement_id } = req.session;
+  
   const stage2_value = req.session.stage2_value;
   let basebankURL = `/bank-holidays.json`;
-  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
@@ -438,13 +448,23 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
   {
     let errorText='';
-    if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
+    if(((clarification_date_day ==0 || isNaN(clarification_date_day)) || (clarification_date_month ==0 || isNaN(clarification_date_month)) || (clarification_date_year ==0 || isNaN(clarification_date_year))) && (clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == ''))
     {
-      errorText='Date invalid or empty. Please enter the valid date';
+     
+      errorText='Enter a date and time';
+     
     }
-    if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    else if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
     {
-      errorText='Time invalid or empty. Please enter the valid time';
+      
+      errorText='Enter a complete date';
+     
+    }
+    else if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    {
+      
+      errorText='Enter a complete time';
+      
     }
 
     const errorItem = {     
@@ -491,8 +511,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     bankholidaydata
     
   );
+	
+  let dateNewNow = new Date(req.session.timeline.publish);	
 
-  if (date.getTime() >= nowDate.getTime() && isValid) {
+  if (date.getTime() >= dateNewNow.getTime() && isValid) {
     //date = moment(date).format('DD MMMM YYYY, hh:mm a');
     date = moment(date).format('DD MMMM YYYY, HH:mm');
     
@@ -675,6 +697,7 @@ if (agreement_id=='RM1043.8') {//DOS
 
 else if(selected_question_id=='Question 12')
 { 
+  
 req.session.rfppublishdate=timeline.publish;
 req.session.clarificationend=timeline.clarificationPeriodEnd;
 req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
@@ -687,6 +710,9 @@ req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.startdate=timeline.supplierstartdate;
+req.session.signeddate=timeline.contractsigneddate;
+
+
 req.session.UIDate=date;
 }
 
@@ -706,6 +732,8 @@ req.session.signaturedate=timeline.expectedSignatureDate;
 req.session.signeddate=timeline.contractsigneddate;
 req.session.UIDate=date;
 }
+
+
 
 const filtervalues=moment(
   date,

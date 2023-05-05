@@ -11,7 +11,7 @@
   }
 ] %}
 {% block breadCrumb %}
-{% if agreementId == 'RM1043.8' %}
+{% if agreementId == 'RM1043.8' or agreementId == 'RM1557.13' %}
 {{ CCSBreadcrumbs({
         items:[
     {
@@ -82,8 +82,9 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row messaging-navigation">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
+        <div class="messaging-navigation">
         <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
             <ul class="nav-list messaging-nav-list--primary">
@@ -103,12 +104,13 @@
                         </li>
                     </ul>
         </nav>
+        </div>
       </div>
     </div>
     
     
-      {%if replyto == 'all' and agreementId == 'RM1043.8'%}
-        <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply?replyto=all" method="POST">
+      {%if (replyto == 'all' and agreementId == 'RM1043.8')  or (replyto == 'all' and agreementId == 'RM1557.13')%}
+        <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/Reply?replyto=all" method="POST">
       {%else%}
         <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply" method="POST">
       {%endif%}
@@ -117,7 +119,56 @@
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
+         {%if agreementId == 'RM1043.8' or agreementId == 'RM1557.13'%} 
           {%if msgThreadList.length >0%}
+          <div class="govuk-!-margin-bottom-9">
+            <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+                <details class="govuk-details" data-module="govuk-details">
+                  {%for msgItem in msgThreadList%}
+                    <summary class="govuk-details__summary govuk-details__summary_msgthread">
+                      <span class="govuk-details__summary-text">
+                        {{msgItem.OCDS.title}}
+                      </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                    <span class="govuk-details__summary-text">
+                        Date:<strong> {{msgItem.OCDS.date | dateddmmyyyy}}</strong>
+                      </span>
+                    </div>
+                    <div class="govuk-details__text govuk-!-margin-bottom-7">
+                      <span class="govuk-details__summary-text">
+                      Message: {{msgItem.OCDS.description}}
+                      </span>
+                    </div>
+                {% endfor %}
+                </details>
+              
+
+          </div>
+          {%else%}
+          <div class="govuk-!-margin-bottom-9">
+          <label class="govuk-label govuk-label govuk-label--m">Message thread</label>
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                {{message.OCDS.title}}
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+            <span class="govuk-details__summary-text">
+                Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong>
+              </span>
+            </div>
+            <div class="govuk-details__text govuk-!-margin-bottom-7">
+              <span class="govuk-details__summary-text">
+              Message: {{message.OCDS.description}}
+              </span>
+            </div>
+        </details>
+      </div>
+          {%endif%}
+        {%else%}
+        {%if msgThreadList.length >0%}
           {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
@@ -130,7 +181,7 @@
                 Date: {{msgItem.OCDS.date | dateddmmyyyy}}
               </span>
             </div>
-            <div class="govuk-details__text">
+            <div class="govuk-details__text govuk-!-margin-bottom-7">
               <span class="govuk-details__summary-text">
                Message: {{msgItem.OCDS.description}}
               </span>
@@ -138,8 +189,8 @@
         </details>
          {% endfor %}
         {%endif%}
-        
-         {%if replyto == 'all' and agreementId == 'RM1043.8'%} 
+         {%endif%}
+         {%if (replyto == 'all' and agreementId == 'RM1043.8')  or (replyto == 'all' and agreementId == 'RM1557.13')%} 
             {# <label class="govuk-label govuk-label govuk-label--m">{{data.line2}}</label>
             <label class="govuk-label govuk-label">{{message.OCDS.title}}</label></br></br></br> #}
             <label class="govuk-label govuk-label govuk-label--m">{{data.line3}}</label>
@@ -148,11 +199,11 @@
           <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
         {%endif%}
          
-<p class="govuk-body govuk-label govuk-label--m">{{data.MessageClassification}} : {{message.nonOCDS.classification}}</p></br>
+<p class="govuk-body">{{data.MessageClassification}} : <strong>{{message.nonOCDS.classification}}</strong></p></br>
               {{ CCSInput({           
                 id: "reply_subject_input",
                 name: "reply_subject_input",
-                value: "RE: "+message.OCDS.title,
+                value: "Re: "+message.OCDS.title,
                 label: {
                   text: data.Subject,
                   classes: "govuk-label"
@@ -160,7 +211,22 @@
                 })
               }}
            
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+            
+              {% if agreementId == 'RM1557.13' %}
+                    {% set ttiletext = data.GCMessage %}
+                {% else %}
+                  {% set ttiletext = data.Message %}
+                {% endif %}
+              {% if validationError %}
+              <div class="govuk-form-group govuk-form-group--error">
+              
+                <label class="govuk-label govuk-label" for="reply_subject_input">
+                {{ttiletext}}
+              </label>
+                  <span id="reply_subject_input-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> 
+                {{errorMsg}}
+              </span>
                
                {{ CCSCharacterCount({           
                 id: "reply_message_input",
@@ -169,7 +235,7 @@
                maxlength: 5000,
                 classes: "govuk-textarea govuk-js-character-count messagesendcount",
                 label: {
-                  text: data.Message,
+                  text: "",
                   classes: "govuk-label"
                 }
                 })
@@ -177,10 +243,28 @@
 
              
               </div>
+              {% else %}
+              <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+                {{ CCSCharacterCount({           
+                id: "reply_message_input",
+                name: "reply_message_input",
+               rows:"5",
+               maxlength: 5000,
+                classes: "govuk-textarea govuk-js-character-count messagesendcount",
+                label: {
+                  text: ttiletext,
+                  classes: "govuk-label"
+                }
+                })
+              }}
+
+                </div>
+
+              {% endif %}
 
             <div class="govuk-button-group">
         
-                  {%if replyto == 'all' and agreementId == 'RM1043.8'%} 
+                  {%if (replyto == 'all' and agreementId == 'RM1043.8')  or (replyto == 'all' and agreementId == 'RM1557.13')%} 
                       {{ CCSButton({ text: data.btnTextall, action:"submit" }) }}
                   {%else%}
                       {{ CCSButton({ text: data.btnText, action:"submit" }) }} 
@@ -193,7 +277,7 @@
         </div>
       </div>
     </form>
-    {% if agreementId != 'RM1043.8' %}
+    {% if agreementId != 'RM1043.8' and agreementId != 'RM1557.13' %}
     <p class="govuk-body">
       <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
     </p>

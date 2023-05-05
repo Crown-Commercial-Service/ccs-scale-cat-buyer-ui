@@ -26,11 +26,11 @@
     "href2": "/message/inbox",
     "text3": "Sent",
     "href3": "/message/sent", 
-    "text4": "Write message to supplier", 
+    "text4": "Write message to a supplier", 
     "href4": "/message/create/supplier?type=received"
   },
   "title": "Message",
-  "title2": "Inbox",
+  "title2": "Your inbox",
   "subtitle": "When responding to your message, you can select from three options:",
   "subtitleLine1":"'Reply' will send your message only to the supplier who messaged you",
   "subtitleLine2":"'Send to all' will send your message to all the suppliers",
@@ -44,7 +44,7 @@
     "href": "/event/qa-add"
   },
   "backJump2": {
-    "title": "Return to inbox",
+    "title": "Return to Your inbox",
     "href": "/message/inbox"
   },
   "backJump3": {

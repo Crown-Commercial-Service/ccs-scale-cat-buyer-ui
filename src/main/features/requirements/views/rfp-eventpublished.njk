@@ -39,13 +39,35 @@
         {%if(selectedeventtype=='DA')%}
         {{data.board.headerDA}}
         {%else%}
-          {{data.board.headerRFP}}
+          {%if(agreement_id == 'RM1043.8' and (lotId == 1 or lotId == 3) ) %}
+          {{data.board.headerRFPResponse}}
+          {%else%}
+              {% if (agreement_id == 'RM1557.13')  %}
+                  <strong>{{data.board.headerRFP}}</strong>
+              {% else %}
+                  {{data.board.headerRFP}}
+              {% endif %}
+          {%endif%}
+
           {%endif%}
         </h2>
         <br><br><br>
-        <div class="govuk-panel__body">
-          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
-        </div>
+            {% if (agreement_id == 'RM1557.13')  %}
+                <div class="govuk-panel__body">
+                    <strong class="govuk-!-font-size-24">{{data.board.ref}} {{ rfi_ref_no }} </strong> <p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+                </div>
+            {% else %}
+                <div class="govuk-panel__body">
+                    {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong>
+                    <p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} 
+                        {% if stage2_value != 'Stage 2' and agreement_id != 'RM1043.8' %}
+                          <br> {{data.board.phoneno}} or 
+                          <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}
+                          </a>
+                        {%endif%}
+                    </p>
+                </div>
+            {% endif %}
       </div>
     <br>
 

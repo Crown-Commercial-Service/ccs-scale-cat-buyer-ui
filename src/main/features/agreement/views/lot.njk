@@ -4,7 +4,21 @@
 {% set title = 'Lot details | Contract Award Service' %}
 {% block content %}
   <div class="ccs-width-container ">
-
+    {% if (agreement_id == 'RM1557.13') and (lot == 'Lot 4') %}
+    <div class="govuk-breadcrumbs">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="/">Home</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}">{{agreement.name}}</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item" aria-current="page">
+          {{agreement_lot.name}}
+        </li>
+      </ol>
+    </div>
+    {% else %}
     <div class="govuk-breadcrumbs">
       <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
@@ -18,94 +32,128 @@
         </li>
       </ol>
     </div>
+    {% endif %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           {% if agreement_id == 'RM1557.13' %}
-          <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
-            {{lot}}
-          </h1>
+            <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
+              {% if lot !== 'Lot 4' %}
+                {{lot}} {{agreement_lot.name}}
+              {% else %}
+                {{lot}}: {{agreement.agreementDescription}}
+              {% endif %}
+            </h1>
           {% else %}
-          <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
-            {{lot}}: {{agreement_lot.name}}
-          </h1>
-          {% endif %}	
+            <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
+              {{lot}}: {{agreement_lot.name}}
+            </h1>
+          {% endif %}
         </div>
       </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <div class="project-overview govuk-!-padding-bottom-3">
-            <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
+              {% if (agreement_id == 'RM1557.13') and (lot == 'Lot 4') %}
+                <p class="govuk-body">Agreement name: <strong>{{agreement.name}} {{lot}}</strong>
+                </p>
+                <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}L4</strong>
             </p>
-            <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
+              {% else %}
+                <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
+                </p>
+                <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
             </p>
+              {% endif %}
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
             {% if (agreement_id == 'RM1557.13') %}
               {% set ExpiryBefore = 'Lot' %}
             {% else %}
               {% set ExpiryBefore = '' %}
             {% endif %}
-            <p class="govuk-body">{{ExpiryBefore}} Expiry date: <strong>{{agreementDate}}</strong>
+            <p class="govuk-body">{{ExpiryBefore}}{{lot}} expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
 
-          <div class="govuk-inset-text">
+          {# <div class="govuk-inset-text">
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
               <br>
               <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
-          </div>
+          </div> #}
 
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
-              {{ data.g_cloud_description if agreement_id == 'RM1557.13' else data.line3 }}</h1>
               {% if (agreement_id == 'RM1557.13') %}
-                {% if (lot == 'Lot 1') %}
-                  <p class="govuk-body">{{data.g_cloud_desc1_lot1}}</p>
-                {% elif (lot == 'Lot 2') %}
-                  <p class="govuk-body">{{data.g_cloud_desc1_lot2}}</p>
-                {% elif (lot == 'Lot 4') %}
-                  <p class="govuk-body">{{data.g_cloud_desc1_lot4}}</p>
-                  <p class="govuk-body">{{data.g_cloud_desc2_lot4}} <a href="/fca/supplier/list">lot supplier list ({{agreement.suppliersCount}} suppliers)</a></p>
-                {% else %}
-                  <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
-                {% endif %}
-                <br><br>
-                <p class="govuk-body">{{data.g_cloud_desc2}}</p>
-                <p class="govuk-body">{{data.g_cloud_desc3}}</p>
-                <br><br>
-                {% if(isAuth === true)%}
-                  <div class="govuk-button-group">
-                      {{ CCSButton({
+                {{data.g_cloud_description}}
+              {% elif (agreement_id == 'RM6187') %}
+                {{data.g_cloud_description}}
+              {% else %}
+                {{data.line3}}
+              {% endif %}
+
+              {# {{ data.g_cloud_description if agreement_id == 'RM1557.13' else data.line3 }}</h1> #}
+            {% if (agreement_id == 'RM1557.13') %}
+              <p class="govuk-body"></p>
+              {% if (lot == 'Lot 1') %}
+                <p class="govuk-body">{{data.g_cloud_desc1_lot1}}</p>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+              {% elif(lot == 'Lot 2') %}
+                <p class="govuk-body">{{data.g_cloud_desc1_lot2}}</p>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+              {% elif(lot == 'Lot 4') %}
+                <p class="govuk-body">{{data.g_cloud_desc1_lot4}}</p>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-2">
+                <p class="govuk-body">{{data.g_cloud_desc2_lot4}}
+                  <a href="/fca/supplier/list" class="govuk-linkgovuk-link--no-visited-state">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
+                </p>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-bottom-2">
+              {% else %}
+                <p class="govuk-body">{{data.g_cloud_desc1_lot3}}</p>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+              {% endif %}
+              
+              <div class="govuk-!-margin-top-2 govuk-!-margin-bottom-9">
+              <p class="govuk-body">{{data.g_cloud_desc2}}</p>
+              <p class="govuk-body">{{data.g_cloud_desc3}}</p>
+              </div>
+              {% if(isAuth === true)%}
+                <div class="govuk-button-group">
+                  {{ CCSButton({
                         text: "Start Now",
                         type: "a",
                         classes: "govuk-button",
                         href: "/dashboard"
                       }) }}
-                    </div>
-                {% else %}
-                  <div class="govuk-button-group govuk-!-padding-bottom-3">
-                      {{ CCSButton({
+                </div>
+              {% else %}
+                <div class="govuk-button-group govuk-!-padding-bottom-3">
+                  {{ CCSButton({
                         text: "Sign in or create an account",
                         type: "a",
                         classes: "govuk-button",
-                        href: "/oauth/login"
+                        href: LOGIN_DIRECTOR_URL
                       }) }}
+                      {# href: "/oauth/login" #}
                     </div>
-                {% endif %}
-
-
-              {% else %}
-                {% if (agreement_id == 'RM1043.8') %}
-                  {% else %}
-                <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
-                {% endif %}
               {% endif %}
 
+            {% else %}
+            
+              {% if (agreement_id == 'RM1043.8') %}
+              {% elif (agreement_id == 'RM6187') %}
+                <p class="govuk-body"></p>
+                {{data.mcf3_detail_description[lotFind].data | safe}}
+              {% else %}
+                <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
+              {% endif %}
+
+            {% endif %}
+
+
             {% if (agreement_id != 'RM6263') and (lot != 'lot 2') %}
-              {% if (agreement_id == 'RM1557.13') %}
-              
+              {% if (agreement_id == 'RM1557.13' or agreement_id == 'RM6187') %}
               {% else %}
                 <ul class="govuk-list govuk-list--bullet">
                   {% for sector in agreement_lot.sectors %}
@@ -114,362 +162,579 @@
                 </ul>
                 {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") %}
                   <p class="govuk-body">{{data.line5dl1}}</p>
-                  {% elseif (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
-                <p class="govuk-body">{{data.line5dl2}}</p>
+                {% elseif (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+                  <p class="govuk-body">{{data.line5dl2}}</p>
                 {% elseif (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
-                <p class="govuk-body">{{data.line5dl3}}</p>
-                 {% else %}
-                <p class="govuk-body">{{data.line5}}</p>
-                <p class="govuk-body">{{data.line6}}</p>
+                  <p class="govuk-body">{{data.line5dl3}}</p>
+                {% else %}
+                  <p class="govuk-body">{{data.line5}}</p>
+                  <p class="govuk-body">{{data.line6}}</p>
                 {% endif %}
+
               {% endif %}
             {% endif %}
+
           </div>
+
           {% if (agreement_id == 'RM1557.13') %}
-              
           {% else %}
-          <div class="ccs-page-section">
-            <p class="govuk-!-padding-bottom-3">
-              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") or (agreement_id == 'RM1043.8' and lot == "Lot 2") or (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
-                {{data.line7dl1}}
-                 {% else %}
-                 {{data.line7}}
-                {% endif %}              
-              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
-            </p>
-          </div>
+            <div class="ccs-page-section">
+              <p class="govuk-!-padding-bottom-3">
+                {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") 
+                  or(agreement_id == 'RM1043.8' and lot == "Lot 2")or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
+                  {{data.line7dl1}}
+                 <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="/fca/supplier/list?agreement={{agreement_id}}&lot={{lot | replace("Lot ", "")}}"
+                    onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                {% elif agreement_id == 'RM6187' %}
+                  {{data.line71}}
+                  <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                  {# <p class='govuk-body'>To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.</p>
+                  <p class='govuk-body'>The Public Procurement Gateway helps you to access the different procurement services available to the public sector.</p> #}
+                {% else %}
+                  {{data.line7}}
+                   <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
+                {% endif %}
+                {# <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return true;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a> #}
+              </p>
+            </div>
           {% endif %}
 
           {% if (agreement_id == 'RM1557.13') %}
 
           {% else %}
+
             {% if (agreement_id == 'RM1043.8') and lot == "Lot 2" %}
-{% set btnprob = true %}
-{% set btntype = "#" %}
-{%else%}
-{% set btntype = "/dashboard" %}
-{% set btnprob = false %}
-{% endif %}
-            <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
-            
-            <p class="govuk-body">{{data.line8}}</p>
-            <p class="govuk-body">{{data.line9}}</p>
-            
-            {% if(isAuth === true)%}
-              <div class="govuk-button-group">
-                {{ CCSButton({
-               text: "Start Now",
-               type: "a",
-               classes: "govuk-button",
-               href: btntype,
-               disabled: btnprob
-              }) }}
-              </div>
-            </div>
-
+              {% set btnprob = true %}
+              {% set btntype = "#" %}
             {%else%}
+              {% set btntype = "/dashboard" %}
+              {% set btnprob = false %}
+            {% endif %}
 
-              <div class="govuk-button-group govuk-!-padding-bottom-3">
-                {{ CCSButton({
-                text: "Sign in or create an account",
-                type: "a",
-                classes: "govuk-button",
-                href: "/oauth/login"
-                }) }}
+            {% if (agreement_id == 'RM1043.8') and lot != "Lot 2" %}
+              <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
+
+                <p class="govuk-body">{{data.line8}}</p>
+                <p class="govuk-body">{{data.line9}}</p>
+
+                {% if(isAuth === true)%}
+                  <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "Start Now",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: btntype,
+                    disabled: btnprob
+                    }) }}
+                  </div>
+                {%else%}
+                <div class="govuk-button-group govuk-!-padding-bottom-3">
+                  {{ CCSButton({
+                  text: "Sign in or create an account",
+                  type: "a",
+                  classes: "govuk-button",
+                  href: LOGIN_DIRECTOR_URL
+                  }) }}
+                {# href: "/oauth/login" #}
               </div>
-            </div>
-            {%endif%}
+              {%endif%}
+
+             </div>
+            {% endif %}
+
+            {% if (agreement_id == 'RM6187') %}
+              <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
+                <p class="govuk-body">{{data.line8}} {{isAuth}}</p>
+                <p class="govuk-body">{{data.line9}}</p>
+                {% if(isAuth === true)%}
+                  <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "Start Now",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: btntype,
+                    disabled: btnprob
+                    }) }}
+                  </div>
+                {%else%}
+                  <div class="govuk-button-group govuk-!-padding-bottom-3">
+                    {{ CCSButton({
+                    text: "Sign in or create an account",
+                    type: "a",
+                    classes: "govuk-button",
+                    href: LOGIN_DIRECTOR_URL
+                    }) }}
+                  </div>
+              {%endif%}
+
+             </div>
+            {% endif %}
 
           {% endif %}
-
-          
 
           <div class="ccs-page-section" id="buyonline">
             <h1 class="govuk-heading-l">{{data.line10}}
             </h1>
             {% if (agreement_id == 'RM1557.13') %}
-              <p class="govuk-body">
-                <strong>Decide the approach and stages to your procurement. These may include:</strong>
-                <ul>
-                  <li><strong>Request for Information (RfI):</strong> Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them</li>
-                  <li><strong>Further competition:</strong> You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted</li>
-                </ul>
-              </p>
-            {% else %}
-            {% if (agreement_id != 'RM1043.8') %}
-              <p class="govuk-body">
-                <strong>{{data.line11}}</strong>
-              </p>
-
-              <ul class="govuk-list govuk-list--bullet">
-                <li>
-                  <strong>{{data.line12}}</strong>
-                  {{data.line13}}</li>
-                <li>
-                  <strong>{{data.line14}}</strong>
-                  {{data.line15}}</li>
-                <li>
-                  <strong>{{data.line16}}</strong>
-                  {{data.line17}}</li>
-              </ul>
-              {% if lot == "Lot 2" %}
-                <p class="govuk-body">or</p>
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>
-                    <strong>{{data.line53}}</strong>
-                    {{data.line54}}</li>
-                </ul>
-              {% endif %}
+              {% if (lot == 'Lot 4') %}
+                <p class="govuk-body">
+                  <strong>Decide the approach and stages to your procurement. These may include:</strong>
+                  <ul>
+                    <li>
+                      <p><strong>Request for Information (RfI):</strong> Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them</p></li>
+                    <li>
+                      <p><strong>Further competition:</strong> You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted</p></li>
+                  </ul>
+                </p>
               {% else %}
-              
+                <p class="govuk-body">
+                  Before you start you should <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.106626880.2111983670.1659520755-1443536416.1659520755#requirements">write a list of requirements</a> and <a target="_blank" href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service?_ga=2.106626880.2111983670.1659520755-1443536416.1659520755">check if you need approval</a> to spend money on a service.
+                </p>
+              {% endif %}
+            {% else %}
+              {% if (agreement_id != 'RM1043.8') %}
+                <p class="govuk-body">
+                  <strong>{{ data.line111 if agreement_id == 'RM6187' else data.line11 }}</strong>
+                </p>
+
+                {% if (agreement_id != 'RM1043.8') %}
+                  {{data.mcf3_before_start | safe}}
+                {% else %}
+                  <ul class="govuk-list govuk-list--bullet">
+                    <li>
+                      <strong>{{data.line12}}</strong>
+                      {{data.line13}}</li>
+                    <li>
+                      <strong>{{data.line14}}</strong>
+                      {{data.line15}}</li>
+                    <li>
+                      <strong>{{data.line16}}</strong>
+                      {{data.line17}}</li>
+                  </ul>
+                  {% if lot == "Lot 2" %}
+                    <p class="govuk-body">or</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>
+                        <strong>{{data.line53}}</strong>
+                        {{data.line54}}</li>
+                    </ul>
+                  {% endif %}
+                {% endif %}
+                
+
+              {% else %}
+               {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+                 <div class="govuk-inset-text">
+                                <p class="govuk-body">
+                                    Please note that this journey is not available on CAS.
+                                </p>
+                 </div>
+                {% endif %}
+                
               <p class="govuk-body">
                 <strong>Refer to the requirements template</strong>
               </p>
-              <p>The <a href="#" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
-                {% if (lot == 'Lot 1') %}
-              <p><strong>Get budget approval</strong></p>
-
-              <p>You must get budget approval before you start the buying process.<br>
-              If you’re buying for central government, you have to go through the <a href="#" target="_blank">digital and IT spend control</a> process before you publish your requirements on the Digital Marketplace.<br>
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/files/outcomes requirements template v1.1.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% endif %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/files/studios requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for user research studios.</p>
+              {% endif %}
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
+              <p>The <a href="{{ assetPath | default('/assets') }}/files/participants requirements template v1.0.ods" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              {% endif %}
+                {% if (lot == 'Lot 1' or (agreement_id == 'RM1043.8' and (lot == "Lot 2" or lot == "Lot 3"))) %}
+                  <p>
+                    <strong>Get budget approval</strong>
+                  </p>
+              <p>You must get budget approval before you start the buying process.<br><br>
+              If you’re buying for central government, you have to go through the <a href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service" target="_blank">digital and IT spend control</a> process before you publish your requirements.<br><br>
               If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
 
-              </p>
+                </p>
               {% endif %}
-            {% endif %}
-            {% endif %}
-            
-            <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-8">{{data.line18}}</h3>
-            {% if (agreement_id == 'RM1557.13') %}
-            <h3>
-              <ol class="govuk-list govuk-list--number-custome">
-                <li data-label="1" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">See available suppliers</h3>
-                  <p class="govuk-body">Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement.</p>
-                </li>
-                <li data-label="2" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">Do pre-tender market engagement</h3>
-                  <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-tender market engagement in the following way:</p>
-                  <strong>Request for Information (RfI)</strong>
-                  <p class="govuk-body">Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.</p>
-                </li>
-                <li data-label="3" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">Write and publish your requirements</h3>
-                  <p class="govuk-body">Write and publish your bid pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.</p>
-                  <p class="govuk-body">You’ll need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.</p>
-                  <p class="govuk-body">For the lot you selected, you can run your procurement in the following way:</p>
-                  <strong>Further competition</strong>
-                  <p class="govuk-body">You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.</p>
-                  <p class="govuk-body">This is also known as one-stage further competition.</p>
-                </li>
-                <li data-label="4" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">Do evaluation</h3>
-                  <p class="govuk-body">You must evaluate suppliers to find the one that best meets your requirements.</p>
-                  <p class="govuk-body">You should use the methods and criteria you published with your requirements to assess and score suppliers.</p>
-                  <p class="govuk-body">You can then award a contract to the successful supplier.</p>
-                </li>
-                <li data-label="5" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">Award your contract</h3>
-                  <p class="govuk-body">When you have completed your evaluation and found a successful supplier, you can award your contract.</p>
-                  <p class="govuk-body">You’ll need to give feedback to any unsuccessful suppliers.</p>
-                </li>
-                <li data-label="6" class="govuk-list--number-custome-list">
-                  <h3 class="proc-task-list__section">Publish your contract</h3>
-                  <p class="govuk-body">There is a legal requirement to publish certain contracts. You may need to publish the contract on:</p>
+              {% if (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+                  <p class="govuk-body">
+                    <strong>Write your requirements</strong>
+                  </p>
+                  <p>Your requirements should include:</p>
                   <ul class="govuk-list govuk-list--bullet">
-                  <li><a href="https://www.gov.uk/contracts-finder" target='_blank'>Contracts Finder</a></li>
-                  <li><a href="http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx" target='_blank'>Public Contracts Scotland</a></li>
-                  <li><a href="http://www.sell2wales.gov.uk/" target='_blank'>Sell2Wales</a></li>
-                  <li><a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a></li>
-                </ul>
-                </li>
-              </ol>
-            </h3>
+                    <li>when you expect the research to start and end</li>
+                    <li>how often you want to do research</li>
+                    <li>when the sessions will take place, for example weekdays, evenings or weekends</li>
+                    <li>the importance you place on each criteria, for example 30% on price and 70% on location and facilities</li>
+                  </ul>
+                  <p>You should also think about including:</p>
+                  <ul class="govuk-list govuk-list--bullet">
+                    <li>expected contract length</li>
+                    <li>budget range</li>
+                    <li>which of your criteria are must-have and which are nice-to-have</li>
+                    <li>how long suppliers will have to respond to your requirements</li>
+                    <li>how and when you’ll run an optional question and answer session (so you can talk to suppliers and quickly answer any questions they have about the requirements)</li>
+                  </ul>
+                  {# <p class="govuk-body">
+                    <strong>Get budget approval</strong>
+                  </p>
+                  <p>You must get budget approval before you start the buying process.</p>
+                  <p>If you’re buying for central government, you have to go through the digital and IT spend control process before you publish your requirements.</p>
+                  <p>If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p> #}
+                  <p class="govuk-body">
+                    <strong>Set evaluation criteria</strong>
+                  </p>
+                  <p>Tell suppliers:</p>
+                  <ul class="govuk-list govuk-list--bullet">
+                    <li>how you’re going to evaluate them</li>
+                    <li>the weightings you’ll use for evaluation</li>
+                  </ul>
+                  <p>You must evaluate on price and technical competence, for example, whether they have the facilities you need.</p>
+                {% endif %}
+            {% endif %}
+          {% endif %}
+
+          <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-8">{{data.line18}}</h3>
+          {% if (agreement_id == 'RM1557.13') %}
+            {% if (lot == 'Lot 4') %}
+              <h3>
+                <ol class="govuk-list govuk-list--number-custome">
+                  <li data-label="1" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">See available suppliers</h3>
+                    <p class="govuk-body">Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement.</p>
+                  </li>
+                  <li data-label="2" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Do pre-market engagement (optional)</h3>
+                    <p class="govuk-body">You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or to refine your needs. For the lot you selected, you can do pre-market engagement in the following way:</p>
+                    <strong>Request for Information (RfI)</strong>
+                    <p class="govuk-body">Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.</p>
+                  </li>
+                  <li data-label="3" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Write and publish your requirements</h3>
+                    <p class="govuk-body">Write and publish your bid pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.</p>
+                    <p class="govuk-body">You’ll need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.</p>
+                    <p class="govuk-body">For the lot you selected, you can run your procurement in the following way:</p>
+                    <strong>Further competition</strong>
+                    <p class="govuk-body">You’ll need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.</p>
+                  </li>
+                  <li data-label="4" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Do evaluation</h3>
+                    <p class="govuk-body">You must evaluate suppliers to find the one that best meets your requirements.</p>
+                    <p class="govuk-body">You should use the methods and criteria you published with your requirements to assess and score suppliers.</p>
+                    <p class="govuk-body">You can then award a contract to the successful supplier.</p>
+                  </li>
+                  <li data-label="5" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Award your contract</h3>
+                    <p class="govuk-body">When you have completed your evaluation and found a successful supplier, you can award your contract.</p>
+                    <p class="govuk-body">You’ll need to give feedback to any unsuccessful suppliers.</p>
+                  </li>
+                  <li data-label="6" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Publish your contract</h3>
+                    <p class="govuk-body">There is a legal requirement to publish certain contracts. You may need to publish the contract on:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>
+                        <a href="https://www.gov.uk/contracts-finder" target='_blank'>Contracts Finder</a>
+                      </li>
+                      <li>
+                        <a href="http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx" target='_blank'>Public Contracts Scotland</a>
+                      </li>
+                      <li>
+                        <a href="http://www.sell2wales.gov.uk/" target='_blank'>Sell2Wales</a>
+                      </li>
+                      <li>
+                        <a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ol>
+              </h3>
             {% else %}
-            {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") or (agreement_id == 'RM1043.8' and lot == "Lot 3") %}
-                <h3>
-                  <ol class="govuk-list govuk-list--number-custome">
-                    <li data-label="1" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+              <h3>
+                <ol class="govuk-list govuk-list--number-custome">
+                  <li data-label="1" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Name your project</h3>
+                    <p class="govuk-body">You can name your project in this section. </p>
+                  </li>
+                  <li data-label="2" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Save a search</h3>
+                    <p class="govuk-body">Save your search so you can export your results later. You must <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.73660369.2111983670.1659520755-1443536416.1659520755#fairness">buy fairly</a> and assess all the services that you find. Do not combine the results of more than one search.</p>
+                  </li>
+                  <li data-label="3" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Start assessing services</h3>
+                    <p class="govuk-body">Follow the <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.148626036.2111983670.1659520755-1443536416.1659520755#review-and-compare-services">guidance for assessing services.</a> Choose the one that best meets your budget and requirements.</p>
+                    <p class="govuk-body">Do not hold a competition to decide the winner. You can <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#what-to-do-if-you-have-a-question-for-the-suppliers">contact suppliers to ask clarification questions</a>, but you must not negotiate with them.</p>
+                  </li>
+                  <li data-label="4" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Award a contract</h3>
+                    <p class="govuk-body">Follow the guidance for <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/RM1557.13">awarding a contract.</a> Check if you need to <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contracts-finder">publish the details on Contracts Finder.</a> Whether or not you award a contract, tell us the outcome. This information helps us improve.</p>
+                  </li>
+                  <li data-label="5" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section">Submit a Customer Benefits Record</h3>
+                    <p class="govuk-body">You must <a target="_blank" href="https://crowncommercial.qualtrics.com/jfe/form/SV_9YO5ox0tT0ofQ0u">submit a Customer Benefits Record.</a> The Crown Commercial Service will contact you if they find any issues with the supplier.</p>
+                  </li>
+                </ol>
+              </h3>
+            {% endif %}
+          {% elif (agreement_id == 'RM6187') %}
+            {{data.mcf3_before_after_content | safe}}
+          {% else %}
+            {% if (agreement_id == 'RM1043.8' and lot == "Lot 1") 
+              or(agreement_id == 'RM1043.8' and lot == "Lot 3") %}
+              <h3>
+                <ol class="govuk-list govuk-list--number-custome">
+                  <li data-label="1" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
 
                         See available suppliers
                       </h3>
-                      <p class="govuk-body">You can view a list of suppliers who are currently live on the agreement for the lot you have selected.
+                    <p class="govuk-body">You can view a list of suppliers who are currently live on the agreement for the lot you have selected.
                       </p>
-                    </li>
+                  </li>
 
-                    <li data-label="2" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
-
-                        Do pre-market engagement
+                  <li data-label="2" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">Do pre-market engagement
                       </h3>
 
-                      <p class="govuk-body">
-                        You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-tender market engagement (PTME). Most buyers who need a digital outcome do this.<br>
-<br>Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a> to request the current list of supplier contact details.
+                    <p class="govuk-body">
+                        You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-market engagement (PTME). Most buyers who need a digital outcome do this.<br>
+                      <br>Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a> to request the current list of supplier contact details.
                       </p>
-                      </li>
-                      <li data-label="3" class="govuk-list--number-custome-list">
-                      <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
+                  </li>
+                  <li data-label="3" class="govuk-list--number-custome-list">
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
                         Write and publish your requirements
                       </h3>
-                      <p class="govuk-body">Write and publish your requirements for suppliers, who can then decide whether or not to apply and to provide relevant evidence.<br><br>
+                    <p class="govuk-body">Write and publish your requirements for suppliers, who can then decide whether or not to apply and to provide relevant evidence.<br><br>
 You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.</p>
+                  </li>
+
+                  <li data-label="4" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                        Do evaluation
+                      </h3>
+                    <p class="govuk-body">You must evaluate suppliers, using the methods and criteria you published with your requirements, to find the one that best meets your needs.<br><br>
+
+                        The agreement uses a two-stage further competition process.<br>
+                      <ol>
+                        <li>
+                        Stage 1: shortlisting. You will need to assess and score suppliers against their responses to your essential and nice-to-have questions to create a shortlist. You must give feedback to all suppliers who were not shortlisted.
+                        </li>
+                        <li>
+                        Stage 2: further assessment. You will invite all shortlisted suppliers to further assessment. You will assess and score each supplier’s full proposal to identify your preferred supplier.</p>
+                      </li>
+                    </ol>
+
+                  </li>
+                  <li data-label="5" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                      {{data.line39}}
+                    </h3>
+                    <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">Suppliers need to know if and why they weren’t successful so they can plan for other work and improve any future applications they make.</p>
+                    <p class="govuk-body">You must:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>tell unsuccessful suppliers that you won’t be awarding them a contract</li>
+                      <li>give feedback explaining why a supplier was unsuccessful, including the advantages of the successful bid compared to the unsuccessful bid</li>
+                      <li>give positive feedback where appropriate</li>
+                      <li>give the scores of the winning supplier</li>
+                      <li>not share details of other unsuccessful suppliers’ scores</li>
+                      <li>give only the final agreed scores, not individual evaluator scores</li>
+                    </ul>
+                    <p class="govuk-body govuk-!-margin-bottom-0">You do not have to award a contract if you cannot find a suitable supplier.</p>
+                    <p class="govuk-body">You should tell all remaining suppliers that:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                      <li>you have not found one that meets your needs</li>
+                      <li>you are not going to award a contract</li>
+                    </ul>
+                  </li>
+                </ol>
+                <br>
+              </h3>
+            {% elseif (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
+              <h3>
+                <ol class="govuk-list govuk-list--number-custome">
+                  <li data-label="1" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                        Create a shortlist
+                      </h3>
+                   {% if(isAuth === true)%}
+                    <p class="govuk-body">To create a shortlist, download the <a href = "https://assets.applytosupply.digitalmarketplace.service.gov.uk/digital-outcomes-6/communications/catalogues/user-research-studios.csv">list of user research studios</a> and filter it based on location and your requirements. If no other studios meet your needs, you can have a shortlist of one. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
+                    </p>
+                    {% else %}
+                    <p class="govuk-body">To create a shortlist, download the list of user research studios (Link will be available when you are logged-in) and filter it based on location and your requirements. If no other studios meet your needs, you can have a shortlist of one. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
+                    {% endif %}
+                  </li>
+
+                  <li data-label="2" class="govuk-list--number-custome-list">
+                    <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+
+                        Contact your shortlist
+                      </h3>
+
+                    <p class="govuk-body">
+Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a> to request a list of shortlisted supplier contact details. Send your requirements and evaluation criteria to shortlisted suppliers. Answer supplier questions.  Suppliers will tell you if they can meet your requirements.
+                      </li>
+
+                    <li data-label="3" class="govuk-list--number-custome-list">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                        Answer supplier questions
+                      </h3>
+                      <p class="govuk-body">You must:</p>
+                      <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-0 govuk-!-padding-left-9">
+                        <li>share all questions and answers with all shortlisted suppliers</li>
+                        <li>remove any reference to the supplier’s name or any confidential information about the supplier</li>
+                        <li>give an individual response to each question, even when questions are similar</li>
+                        <li>answer all questions at least one working day before the closing date for applications to give suppliers time to decide if the work is right for them</li>
+                        <li>get commercial or legal advice if you do not think you’ll be able to answer, or have not answered, all the questions at least one working day before the closing date for applications</li>
+                        <li>keep a record of all questions and answers for your audit trail, for example save emails</li>
+                      </ul>
+                      <p class="govuk-body">Suppliers will tell you if they can meet your requirements.</p>
                     </li>
 
                     <li data-label="4" class="govuk-list--number-custome-list">
                       <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
                         Do evaluation
                       </h3>
-                      <p class="govuk-body">You must evaluate suppliers, using the methods and criteria you published with your requirements, to find the one that best meets your needs.<br><br>
-
-                        The agreement uses a two-stage further competition process.<br>
-                        <ol>
-                          <li>
-                        Stage 1: shortlisting. You will need to assess and score suppliers against their responses to your essential and nice-to-have questions to create a shortlist. You must give feedback to all suppliers who were not shortlisted.
-                        </li>
-                        <li>
-                        Stage 2: further assessment. You will invite all shortlisted suppliers to further assessment. You will assess and score each supplier’s full proposal to identify your preferred supplier.</p>
-                        </li></ol>
-                      
+                      <p>You must not review any responses before the closing date.</p>
+                      <p class="govuk-body govuk-!-margin-bottom-0">Evaluate supplier responses on:</p>
+                      <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-0 govuk-!-padding-left-9">
+                        <li>how they meet your essential and nice-to-have requirements</li>
+                        <li>how they meet your social value criteria (if applicable)</li>
+                        <li>location, facilities and accessibility</li>
+                        <li>price</li>
+                      </ul>
+                      <p class="govuk-body govuk-!-margin-bottom-0">You can exclude suppliers that:</p>
+                      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-padding-left-9">
+                        <li>do not have a studio available when you need it</li>
+                        <li>do not meet all your essential requirements</li>
+                        <li>cost more than your budget</li>
+                      </ul>
                     </li>
-                    <li data-label="5" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                    <li data-label="5" class="govuk-list--number-custome-list govuk-!-margin-bottom-3">
+                      <h3 class="proc-task-list__section">
                         {{data.line39}}
                       </h3>
                       <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
-                      <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
+                      <p class="govuk-body">Suppliers need to know if and why they weren’t successful so they can plan for other work and improve any future applications they make.<br>You must:</p>
+                      <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-0 govuk-!-padding-left-9">
+                        <li>tell unsuccessful suppliers that you won’t be awarding them a contract</li>
+                        <li>give feedback explaining why a supplier was unsuccessful, including the advantages of the successful bid compared to the unsuccessful bid</li>
+                        <li>give positive feedback where appropriate</li>
+                        <li>give the scores of the winning supplier</li>
+                        <li>not share details of other unsuccessful suppliers’ scores</li>
+                        <li>give only the final agreed scores, not individual evaluator scores</li>
+                      </ul>
+                      <p class="govuk-body govuk-!-margin-bottom-0">You do not have to award a contract if you cannot find a suitable supplier. </p>
+                      <p class="govuk-body">You should tell all remaining suppliers that:</p>
+                      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-padding-left-9">
+                        <li>you have not found one that meets your needs</li>
+                        <li>you are not going to award a contract</li>
+                      </ul>
+                    </li>
+                    <li data-label="6" class="govuk-list--number-custome-list">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                        Publish your contract
+                      </h3>
+                      <p>There is a legal requirement to publish certain contracts. You may need to publish the contract on:</p>
+                      <ul class="govuk-list govuk-list--bullet">
+
+                        <li>
+                          <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder</a>
+                        </li>
+                        {# Link Updated #}
+                        <li>
+                          <a href='http://www.publiccontractsscotland.gov.uk/search/search_mainpage.aspx' target='_blank'>Public Contracts Scotland</a>
+                        </li>
+                        <li>
+                          <a href='http://www.sell2wales.gov.uk/' target='_blank'>Sell2Wales</a>
+                        </li>
+                        <li>
+                          <a href='https://e-sourcingni.bravosolution.co.uk/web/login.shtml' target='_blank'>eSourcing NI</a> and <a href='https://etendersni.gov.uk/epps/home.do' target='_blank'>eTendersNI</a>
+                        </li>
+                      </ul>
                     </li>
                   </ol>
                   <br>
                 </h3>
-                {% elseif (agreement_id == 'RM1043.8' and lot == "Lot 2") %}
-                                <h3>
-                  <ol class="govuk-list govuk-list--number-custome">
-                    <li data-label="1" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+              {% else %}
+                <h3>
+                  <ol class="govuk-list govuk-list--number">
+                    <li>
+                      <h3 class="proc-task-list__section">
 
-                        Create a shortlist
+                        {{data.line19}}
                       </h3>
-                      <p class="govuk-body">Download the <a href = "https://assets.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists-5/communications/catalogues/user-research-studios.csv">list of user research studios. </a>Filter the list of studios on location and your requirements to create a shortlist. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
+                      <p class="govuk-body">{{data.line20}}
                       </p>
                     </li>
 
-                    <li data-label="2" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
+                    <li>
+                      <h3 class="proc-task-list__section">
 
-                        Contact your shortlist
+                        {{data.line23}}
                       </h3>
 
                       <p class="govuk-body">
-Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>to request a list of shortlisted supplier contact details. Send your requirements and evaluation criteria to shortlisted suppliers. Answer supplier questions.  Suppliers will tell you if they can meet your requirements.
-                      </li>
-
-                    <li data-label="3" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
-                        Do evaluation
-                      </h3>
-                      <p class="govuk-body govuk-!-margin-bottom-0">Evaluate supplier responses on:</p>
-                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-padding-left-9">
-  <li>availability</li>
-  <li>location, facilities and accessibility</li>
-  <li>price</li>
-</ul>
-<p class="govuk-body">Award a contract to the supplier that best meets your needs.</p>
+                        {{data.line24}}
+                      </p>
+                      <!-- description for EoI -->
+                      {% if (agreement_id == 'RM6187') %}
+                        <h2 class="govuk-heading-s">
+                          {{data.line55}}
+                        </h2>
+                        <p class="govuk-body">{{data.line56}}</p>
+                      {% endif %}
+                      <!-- description for RFI -->
+                      <h2 class="govuk-heading-s">
+                        {{data.line25}}
+                      </h2>
+                      <p class="govuk-body">{{data.line26}}</p>
                     </li>
-                    <li data-label="4" class="govuk-list--number-custome-list govuk-!-margin-bottom-3">
+
+                    <li>
+                      <h3 class="proc-task-list__section">
+                        {{data.line27}}
+                      </h3>
+                      <p class="govuk-body">{{data.line28}}</p>
+
+                      <p class="govuk-body">
+                        {{data.line29}}</p>
+
+                      <p class="govuk-body">{{data.line30}}</p>
+
+                      <h2 class="govuk-heading-s">{{data.line31}}</h2>
+                      <p class="govuk-body">{{data.line32}}</p>
+
+                      <h2 class="govuk-heading-s">{{data.line33}}</h2>
+                      <p class="govuk-body">{{data.line34}}</p>
+                      <p class="govuk-body">{{data.line35}}</p>
+                      {% if (agreement_id == 'RM6263') and (lot == 'Lot 2') %}
+                        <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                        <p class="govuk-body">{{data.line37}}</p>
+                      {% elif agreement_id != 'RM6263' %}
+                        <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                        <p class="govuk-body">{{data.line37}}</p>
+                      {% endif %}
+                      <p>{{data.line38}}</p>
+                    </li>
+                    <li>
                       <h3 class="proc-task-list__section">
                         {{data.line39}}
                       </h3>
                       <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
                       <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
                     </li>
+                    <li>
+                      <h3 class="proc-task-list__section">
+                        {{data.line40}}
+                      </h3>
+                      <p class="govuk-body">{{data.line41}}
+                        <a href="https://www.gov.uk/contracts-finder">
+                          {{data.line42}}</a>. {{data.line43}}
+                      </p>
+                    </li>
                   </ol>
                   <br>
                 </h3>
-            {% else %}
-              <h3>
-                <ol class="govuk-list govuk-list--number">
-                  <li>
-                    <h3 class="proc-task-list__section">
-
-                      {{data.line19}}
-                    </h3>
-                    <p class="govuk-body">{{data.line20}}
-                    </p>
-                  </li>
-
-                  <li>
-                    <h3 class="proc-task-list__section">
-
-                      {{data.line23}}
-                    </h3>
-
-                    <p class="govuk-body">
-                      {{data.line24}}
-                    </p>
-                    <!-- description for EoI -->
-                    {% if (agreement_id == 'RM6187') %}
-                      <h2 class="govuk-heading-s">
-                        {{data.line55}}
-                      </h2>
-                      <p class="govuk-body">{{data.line56}}</p>
-                    {% endif %}
-                    <!-- description for RFI -->
-                    <h2 class="govuk-heading-s">
-                      {{data.line25}}
-                    </h2>
-                    <p class="govuk-body">{{data.line26}}</p>
-                  </li>
-
-                  <li>
-                    <h3 class="proc-task-list__section">
-                      {{data.line27}}
-                    </h3>
-                    <p class="govuk-body">{{data.line28}}</p>
-
-                    <p class="govuk-body">
-                      {{data.line29}}</p>
-
-                    <p class="govuk-body">{{data.line30}}</p>
-
-                    <h2 class="govuk-heading-s">{{data.line31}}</h2>
-                    <p class="govuk-body">{{data.line32}}</p>
-
-                    <h2 class="govuk-heading-s">{{data.line33}}</h2>
-                    <p class="govuk-body">{{data.line34}}</p>
-                    <p class="govuk-body">{{data.line35}}</p>
-                    {% if (agreement_id == 'RM6263') and (lot == 'Lot 2') %}
-                      <h2 class="govuk-heading-s">{{data.line36}}</h2>
-                      <p class="govuk-body">{{data.line37}}</p>
-                    {% elif agreement_id != 'RM6263' %}
-                      <h2 class="govuk-heading-s">{{data.line36}}</h2>
-                      <p class="govuk-body">{{data.line37}}</p>
-                    {% endif %}
-                    <p>{{data.line38}}</p>
-                  </li>
-                  <li>
-                    <h3 class="proc-task-list__section">
-                      {{data.line39}}
-                    </h3>
-                    <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
-                    <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
-                  </li>
-                  <li>
-                    <h3 class="proc-task-list__section">
-                      {{data.line40}}
-                    </h3>
-                    <p class="govuk-body">{{data.line41}}
-                      <a href="https://www.gov.uk/contracts-finder">
-                        {{data.line42}}</a>. {{data.line43}}
-                    </p>
-                  </li>
-                </ol>
-                <br>
-              </h3>
+              {% endif %}
             {% endif %}
-            {% endif %}
-
-            
 
           </div>
           <a class="govuk-link govuk-link--no-visited-state" href="#description">{{data.line44}}</a>

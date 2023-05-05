@@ -8,6 +8,8 @@ import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const DA_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -33,6 +35,8 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
   const keyDateselector = 'Key Dates';
   try {
     const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.keyDates, req);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
     let criterianStorage = [];
@@ -52,6 +56,8 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
     const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+     //CAS-INFO-LOG
+     LoggTracer.infoLogger(fetchQuestions, logConstant.keyDates, req);
     const fetchQuestionsData = fetchQuestions.data;
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
@@ -80,7 +86,9 @@ export const DA_POST_RESPONSE_DATE = async (req: express.Request, res: express.R
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      let responses = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+       //CAS-INFO-LOG
+        LoggTracer.infoLogger(responses, logConstant.saveKeyDates, req);
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
@@ -115,6 +123,7 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
   agreement_id:any,
+  bankholidaydata:any
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
   //let todaydate=new Date();
@@ -143,6 +152,21 @@ function isValidQuestion(
     error = 'Enter a valid year';
   }
   const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
+
+  let bankHolidayEnglandWales;
+  if(bankholidaydata){
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+      bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+      bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  }
+  const questionInputDate = new Date(year, month, day);
+ 
+  let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);
+  if(bankHolidayResult){
+    isValid = false;
+    error = 'You cannot set a date in bank holiday';
+  }
+
   const dayOfWeek = new Date(questionNewDate).getDay();
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
@@ -268,7 +292,7 @@ function isValidQuestion(
    else{
     switch (questionId) {
       case 'Question 1':
-        errorSelector = 'clarification_date';
+        errorSelector = 'rfp_clarification_date_expanded_1';
         break;
       case 'Question 2':
         if (questionNewDate < new Date(timeline.publish)) {
@@ -279,7 +303,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'clarification_period_end';
+        errorSelector = 'rfp_clarification_date_expanded_2';
         break;
       case 'Question 3':
         if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
@@ -290,7 +314,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'deadline_period_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_3';
         break;
       case 'Question 4':
         if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
@@ -301,7 +325,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'supplier_period_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_4';
         break;
       case 'Question 5':
         if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
@@ -312,7 +336,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'supplier_dealine_for_clarification_period';
+        errorSelector = 'rfp_clarification_date_expanded_5';
         break;
            
       
@@ -325,7 +349,7 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'standstill_period_starts_date';
+        errorSelector = 'rfp_clarification_date_expanded_9';
         break;
       case 'Question 10':
         if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
@@ -336,14 +360,14 @@ function isValidQuestion(
           isValid = false;
           error = 'You can not set a date and time that is greater than the next milestone in the timeline';
         }
-        errorSelector = 'proposed_award_date';
+        errorSelector = 'rfp_clarification_date_expanded_10';
         break;
       case 'Question 11':
         if (questionNewDate < new Date(timeline.proposedAwardDate)) {
           isValid = false;
           error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
-        errorSelector = 'expected_signature_date';
+        errorSelector = 'rfp_clarification_date_expanded_11';
         break;
       default:
         isValid = true;
@@ -352,6 +376,21 @@ function isValidQuestion(
   
   return { isValid, error, errorSelector };
 }
+
+function checkBankHoliday(questionInputDate,bankHolidayEnglandWales) {
+  let isBankHoliday = false; 
+ if(bankHolidayEnglandWales.length>0){
+  let currentyearHolidays =  bankHolidayEnglandWales.filter(holiday=>new Date(holiday.date).getFullYear() == questionInputDate.getFullYear())
+  currentyearHolidays.forEach(data=>{
+
+      if(questionInputDate.setHours(0, 0, 0, 0) === new Date(data.date).setHours(0, 0, 0, 0)){
+          isBankHoliday = true;
+      }
+  })
+ }
+return isBankHoliday;
+}
+
 // @POST "/da/add/response-date"
 export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
@@ -370,6 +409,9 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
   
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+
   if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
   {
     const errorItem = {     
@@ -406,6 +448,7 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
     timeinHoursBased,
     timeline,
     agreement_id,
+    bankholidaydata
   );
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, HH:mm');
@@ -620,57 +663,58 @@ const filtervalues=moment(
         case 'Question 1':
           selector =
             ' Publish your DA - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_date';
+          selectorID = 'rfp_clarification_date_expanded_1';
+          
           break;
         case 'Question 2':
           selector =
             'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'clarification_period_end';
+          selectorID = 'rfp_clarification_date_expanded_2';
           break;
         case 'Question 3':
           selector =
             'Deadline for publishing responses to DA clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'deadline_period_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_3';
           break;
         case 'Question 4':
           selector =
             'Deadline for suppliers to submit their DA response - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_period_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_4';
           break;
         case 'Question 5':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'supplier_dealine_for_clarification_period';
+          selectorID = 'rfp_clarification_date_expanded_5';
           break;
         case 'Question 6':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'deadline_for_submission_of_stage_one';
+          selectorID = 'rfp_clarification_date_expanded_6';
           break;
         case 'Question 7':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'evaluation_process_start_date';
+          selectorID = 'rfp_clarification_date_expanded_7';
           break;
         case 'Question 8':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'bidder_presentations_date';
+          selectorID = 'rfp_clarification_date_expanded_8';
           break;
         case 'Question 9':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'standstill_period_starts_date';
+          selectorID = 'rfp_clarification_date_expanded_9';
           break;
         case 'Question 10':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'proposed_award_date';
+          selectorID = 'rfp_clarification_date_expanded_10';
           break;
         case 'Question 11':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'expected_signature_date';
+          selectorID = 'rfp_clarification_date_expanded_11';
           break;
         default:
           selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';

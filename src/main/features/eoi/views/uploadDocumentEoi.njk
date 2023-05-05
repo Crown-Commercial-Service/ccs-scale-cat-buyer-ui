@@ -1,159 +1,140 @@
-
 {% extends "template.njk" %}
 {% from "macros/csrf.njk" import csrfProtection %}
-
 {% from "components/support/macro.njk" import howToGetSupport %}
-
 {% set title = 'Complete and upload a document | Contract Award Service' %}
-{% set url -%}
-/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{% set url -%} /projects/create-or-choose?lotId={{ lotId }}&agreementLotName={{ agreementLotName }}
 {%- endset %}
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
   items: data.breadCrumbs
 }) }}
-
 {% endblock %}
-
-{% block content %} 
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
-  {% if (fileError)%}
-  {% if agreementId_session == 'RM6187' %}
-  {# {{ CCSErrorSummary({
-    titleText: data.errortext | safe,
-    errorList: errorlist
-  }) }} #}
-  {{ CCSErrorSummary({
-    titleText: "There is a problem with these files",
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (UploadError) %}
+      {{ CCSErrorSummary({
+    titleText: "There is a problem",
     errorList: errorlist
   }) }}
-  {% else %}
-  {{ CCSErrorSummary({
-    titleText: "There is a problem with these files",
+    {% endif %}
+    {% if (fileError) %}
+      {% if agreementId_session == 'RM6187' %}
+        {# {{ CCSErrorSummary({
+            titleText: data.errortext | safe,
+            errorList: errorlist
+          }) }} #}
+        {{ CCSErrorSummary({
+    titleText: "There is a problem",
     errorList: errorlist
   }) }}
-  {% endif %}
-  {% endif %}
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">
-        {{data.title}}
-      </h1>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-
-          {% include "includes/project_header.njk" %} 
-        </div>
-        <p class="govuk-body govuk-!-margin-bottom-9">{{data.subtitle}}</p>
-        <div id="upload_doc_form">
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full" id="documents_upload">
-              <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="eoi_offline_document">Upload a file</label>
-              <span id="eoi_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
-              <p class="govuk-body-s"> {{data.filedesc}}</p>
-              {% if (files.length > 0)%}
-              <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-                <ul class="app-task-list">
-                  {% for file in files %}
-
-                  <li class="app-task-list__item">
-
-                    <div class="govuk-grid-row">
-                      <div class="govuk-grid-column-one-third text-overflow ">
-                        <span class="app-task-list__task-name">
-                          <a href="/eoi/upload-doc?file_id={{file.id}}">
-                            <strong>{{file.fileName}}</strong>
-                          </a>    
-                        </span>
-                      </div>
-                      <div class="govuk-grid-column-one-third">
-                        <p>{{file.fileSize | KbtoMb}} MB</p>
-                      </div>
-                      <div class="govuk-grid-column-one-third">
-                        <p>  <a class="app-task-list__tag" href="/eoi/files/remove?file_id={{file.id}}" aria-describedby="eoi-questions">remove</a></p>
-                      </div>
-                    </div>
-                    {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
-                    {% set criterion_id  = items.id | replace(" ", "_" ) %}
-
-                  </li>
-
-                  {% endfor %}
-
-                </ul>
-              </div>
-              {%endif%}
-              {% if(storage < 1000000000)  %}
-              <form action="/eoi/upload-doc" method="post" encType="multipart/form-data">    
-                {{ csrfProtection(csrf) }}
-                {{ CCSFileUpload({
-                  id: "eoi_offline_document",
-                  name: "eoi_offline_document",
-                  value: data['eoi_offline_document'],
-                  multiple: true,
-                  label: {
-                    text: "",
-                    classes: "govuk-label--m"
-                  }
-                }) }}
-
-              <div class="govuk-grid-column-full">
-                {{ CCSButton({
-                  text: "upload",
-                  type: "submit",
-                  classes: "govuk-button--secondary doc_upload_button"
-                })
-              }}
-            </div>
-            {{ CCSInput({
-              id: "eoi_file_started",
-              name: "eoi_file_started",
-              type: "hidden",
-              value: true
-            })
-          }}
-     
-    </form>        
-    {%endif%}  
-
-    <form action="/eoi/upload-doc/proceed" method="post">      
-      {{ csrfProtection(csrf) }}
-      <div class="govuk-button-group">
-        {{ CCSButton({
-          text: "Save and continue",
-          type: "submit"
-        })
-      }}
-      {% if agreementId_session == "RM6187" %}
-        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
       {% else %}
-        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+        {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: errorlist
+  }) }}
       {% endif %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{ data.title }}
+        </h1>
+      </div>
     </div>
-  </form>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-<div class="govuk-grid-column-one-third">
-  {{ CCSReleatedContent(releatedContent) }}
-</div>
-</div>
-
-
-
-
-
-
-
-</main>
-{% endblock %}
-
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {% include "includes/project_header.njk" %}
+            <p class="govuk-body govuk-!-margin-bottom-9">{{ data.subtitle }}</p>
+            <div id="upload_doc_form">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full" id="documents_upload">
+                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="eoi_offline_document">{{ data.inputtitle }}</label>
+                <span id="eoi_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
+                <p class="govuk-body-s">
+                  {{ data.filedesc }}<br>{{ data.filedesc2 }}</p>
+                  {% if (files.length > 0) %}
+                    <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                      <ul class="app-task-list">
+                        {% for file in files %}
+                          <li class="app-task-list__item">
+                            <div class="govuk-grid-row">
+                              <div class="govuk-grid-column-one-third text-overflow ">
+                                  <a href="/eoi/upload-doc?file_id={{ file.id }}">
+                                    <strong>{{ file.fileName }}</strong>
+                                  </a>
+                              </div>
+                              <div class="govuk-grid-column-one-third">
+                                <p>{{ file.fileSize | KbtoMb }} MB</p>
+                              </div>
+                              <div class="govuk-grid-column-one-third">
+                                <p>
+                                  <a class="app-task-list__tag" href="/eoi/files/remove?file_id={{ file.id }}" aria-describedby="eoi-questions">remove</a>
+                                </p>
+                              </div>
+                            </div>
+                            {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
+                            {% set criterion_id  = items.id | replace(" ", "_" ) %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                  {% if(storage < 1000000000) %}
+                      <form action="/eoi/upload-doc" method="post" encType="multipart/form-data">
+                        {{ csrfProtection(csrf) }}
+                        {{ CCSFileUpload({
+                            id: "eoi_offline_document",
+                            name: "eoi_offline_document",
+                            value: data['eoi_offline_document'],
+                            multiple: true,
+                                      label: {
+                                        text: "",
+                                        classes: "govuk-label--m"
+                                      }
+                                    }) }}
+                                          
+                                            {{ CCSButton({
+                                      text: "upload",
+                                      type: "submit",
+                                      classes: "govuk-button--secondary doc_upload_button"
+                                    }) }}
+                                        
+                                          {{ CCSInput({
+                                  id: "eoi_file_started",
+                                  name: "eoi_file_started",
+                                  type: "hidden",
+                                  value: true
+                                }) }}
+                          </form>
+                          {% endif %}
+                          <form action="/eoi/upload-doc/proceed" method="post">
+                                      {{ csrfProtection(csrf) }}
+                                <div class="govuk-button-group">
+                                        {{ CCSButton({
+                                            text: "Save and continue",
+                                          type: "submit"
+                                        }) }}
+                                        {% if agreementId_session == "RM6187" %}
+                                          <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
+                                        {% else %}
+                                          <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                                        {% endif %}
+                                  </div>
+                          </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          
+        </div>
+        <div class="govuk-grid-column-one-third">
+          {{ CCSReleatedContent(releatedContent) }}
+        </div>
+      </div>
+    </div>
+    </main>
+  {% endblock %}

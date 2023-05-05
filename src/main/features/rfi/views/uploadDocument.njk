@@ -16,7 +16,12 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
+   {% if (RfiUploadError and errorlist.length != 0)%}
+   {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: errorlist
+  }) }}
+    {% endif %}
     {% if (fileError)%}
       {% if agreementId_session == 'RM6187' %}
             {# {{ CCSErrorSummary({
@@ -24,12 +29,12 @@
                   errorList: errorlist
             }) }} #}
             {{ CCSErrorSummary({
-                  titleText: "There is a problem with these files",
+                  titleText: "There is a problem",
                   errorList: errorlist
             }) }}
         {% else %}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with these files",
+                titleText: "There is a problem",
                 errorList: errorlist
             }) }}
       {% endif %}
@@ -134,7 +139,7 @@
                             type: "submit"
                           })
                       }}
-              {% if agreementId_session == 'RM6187' %}
+              {% if agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13' %}
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
               {% else %}
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do Pre-market engagement</a>

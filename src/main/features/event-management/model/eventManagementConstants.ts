@@ -11,7 +11,9 @@ export enum EVENT_MANAGEMENT_PATHS {
     
 
     EVENT_MANAGEMENT_MESSAGING_SENT = '/message/sent',
+    EVENT_MANAGEMENT_QA_view = '/view/event/qa',
     EVENT_MANAGEMENT_QA = '/event/qa',
+    EVENT_MANAGEMENT_QA_SUPPLIERS = '/qa/event-suppliers',
     EVENT_MANAGEMENT_QA_Add_GET = '/event/qa-add',
     EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = '/event/qa-add-2nd-step',
     EVENT_MANAGEMENT_QA_Add_POST = '/event/qa-add',
@@ -52,5 +54,10 @@ export enum EVENT_MANAGEMENT_PATHS {
     INVITE_SELECTED_SUPPLIERS = "/event/selected-suppliers",
     INVITE_SUPPLIERS = "/event/invite-suppliers",
     SAVE_INVITE_SELECTED_SUPPLIERS = "/event/save-invite-selected-suppliers",
-    SHORTLIST_EVALUATION = "/shortlist_evaluation"
+    SHORTLIST_EVALUATION = "/shortlist_evaluation",
+
+    SCORE_INDIVIDUAL_GET='/score-individual',
+    CONFIRM_SCORE_GET='/confirm-score',
+    START_EVALUATION='/start-evaluation',
+    START_EVALUATION_REDIRECT='/start-evaluation-redirect'
 }

@@ -22,7 +22,7 @@
                 {
                     "Task": 2,
                     "link": "/eoi/procurement-lead",
-                    "title": "Change who will lead the procurement",
+                    "title": "Change who will lead your project",
                     "required": "optional",
                     "status": "optional"
                 },

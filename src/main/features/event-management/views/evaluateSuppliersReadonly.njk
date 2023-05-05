@@ -65,13 +65,14 @@
 
         <form id="enter_evaluation" name="enter_evaluation" class="form enter_evaluation" action="/enter-evaluation?supplierid={{supplierid}}&suppliername={{suppliername}}" method="POST">
         {{ csrfProtection(csrf) }}
-          <div class="ccs-page-section">
+         
         
 
-              <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{supplierDetails.supplierName}}</h2></p>
+              <p class="govuk-body"><h2><strong>Supplier name :</strong>{{supplierDetails.supplierName}}</h2></p>
+                    {% if (agreementId_session == "RM6187") or (agreementId_session == "RM1557.13") %}
                         {{ CCSInput({
                               label: {
-                                text: "Score ",
+                                text: "Final score ",
                                 classes: "govuk-label--m",
                                 id: "enter_evaluation_Score",
                                 name: "enter_evaluation"
@@ -97,6 +98,45 @@
 
                           })
                         }}
+                    {% else %}
+
+                      {% set textLbl = "Final Score " %}
+                      {% set textbtnLbl = "%" %}
+                      
+                      {% if (agreementId_session == "RM1043.8") and stage2_value == 'Stage 1' %}
+                        {% set textLbl = "Score" %}
+                        {% set textbtnLbl = "" %}
+                      {% endif %}
+
+                        {{ CCSInput({
+                              label: {
+                                text: textLbl,
+                                classes: "govuk-label--m",
+                                id: "enter_evaluation_Score",
+                                name: "enter_evaluation"
+                              },
+                              attributes: {
+                                readonly:true
+                              },
+                              value:supplierDetails.score,
+                              suffix: {
+                                text: textbtnLbl
+                              },
+                              id: "enter_evaluation_score_readOnly",
+                              name: "enter_evaluation_score",
+                              classes: "govuk-input--width-4 dimensions",
+                              maxlength: "6",
+                              type:"number",
+                              min:"0.00",
+                                max:"100.00",
+                                step:"0.01",
+                                hint: {
+                                  text: ""
+                                }
+
+                          })
+                        }}
+                    {% endif %}
           
 
   <br/>
@@ -126,13 +166,12 @@
                           <a href="{{redirectUrl}}" class="govuk-link govuk-link--no-visited-state">Return to Your Project</a>
                       </div>       
 
-          </div>
 
         </form>
       </div>    
 
       <div class="govuk-grid-column-one-third">
-        {{ CCSReleatedContent(releatedContent) }}
+     {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }} 
       </div>
     </div>
   </main>

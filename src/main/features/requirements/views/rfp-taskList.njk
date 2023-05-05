@@ -41,7 +41,12 @@
                <ol class="app-task-list">
     {% for item in data.events %}
          <li>
-            <h2 class="govuk-heading-xl">
+          {# {% if (agreementId_session == 'RM1043.8') %}
+            {%  if(item.eventno==6) %}
+              <p class="tasklisttag"><b>Evaluation between 4 & 5 will be done offline</b></p>
+            {% endif %}
+          {% endif %} #}
+           <h2 class="govuk-heading-xl">
             <span>{{item.eventno}}. </span>{{item.eventTitle}}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
@@ -119,7 +124,7 @@
     </ol>
       </div>
       <div class="govuk-grid-column-one-third">
-        {{ CCSReleatedContent(releatedContent) }}
+        {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
       </div>
       </div>
 

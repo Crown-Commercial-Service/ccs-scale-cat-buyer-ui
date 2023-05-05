@@ -11,11 +11,14 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import momentnew from 'moment';
+import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -94,6 +97,16 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     
     const ReviewData = FetchReviewData.data;
+
+    const publishClickeventValue = req.session['publishclickevents'];
+    let publishClickEventStatus = false;
+    if(publishClickeventValue.length > 0){
+   if(publishClickeventValue.includes(proc_id)){
+    publishClickEventStatus = true;
+   }
+  }
+  
+
     //   //Buyer Questions
     //   const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     //   const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -189,9 +202,25 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
 
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${proc_id}/events/${event_id}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-    const FETCH_FILEDATA = FetchDocuments?.data;
     
-    const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStoragePrice = [];
+    let fileNameStorageMandatory = [];
+    let fileNameStorageAdditional = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "mandatoryfirst") {
+        fileNameStoragePrice.push(file.fileName);
+      }
+      if (file.description === "mandatorysecond") {
+        fileNameStorageMandatory.push(file.fileName);
+      }
+
+      if (file.description === "optional") {
+        fileNameStorageAdditional.push(file.fileName);
+      }
+      
+    });
+    
 
     // const IR35Dataset = {
     //   id: 'Criterion 3',
@@ -743,6 +772,14 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     //   forceChangeDataJson = cmsData;
     // }
     const customStatus = ReviewData.OCDS.status;
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+      useGrouping: false
+  });
+  
     let appendData = {
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -751,8 +788,11 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       project_name: project_name,
       procurementLead,
       procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
-      document: FileNameStorage[FileNameStorage.length - 1],
-      documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
+      //document: FileNameStorage[FileNameStorage.length - 1],
+      //documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
+      document: fileNameStoragePrice,
+      documents: fileNameStorageMandatory,
+      additionalDocuments:fileNameStorageAdditional,
       // ir35: IR35selected,
       agreement_id,
       proc_id,
@@ -814,15 +854,16 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       serviceLevel: serviceLevel != undefined && serviceLevel != null ? serviceLevel : null,
       incentive1: incentive1 != undefined && incentive1 != null ? incentive1 : null,
       incentive2: incentive2 != undefined && incentive2 != null ? incentive2 : null,
-      bc1: bc1 != undefined && bc1 != null ? bc1 : null,
-      bc2: bc2 != undefined && bc2 != null ? bc2 : null,
+      bc1: bc1 != undefined && bc1 != null ? pounds.format(bc1).replace(/^(\D+)/, '$1 ') : null,
+      bc2: bc2 != undefined && bc2 != null ? pounds.format(bc2).replace(/^(\D+)/, '$1 ') : null,
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       selectedeventtype,
       agreementId_session,
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
-      customStatus
+      customStatus,
+      publishClickEventStatus:publishClickEventStatus
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 
@@ -830,7 +871,8 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    const projectId = req.session.projectId;
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -875,6 +917,9 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
         
    
       }
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
       res.render('daw-review', appendData);
    
   } catch (error) {
@@ -902,10 +947,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   
   req.session.fca_selected_services = [];
   //res.redirect('/da/da-eventpublished');
-   
-  
-
-  if(req.session.selectedSuppliersDA != undefined) {
+   if(req.session.selectedSuppliersDA != undefined) {
     let supplierList = []; 
     supplierList = await GetLotSuppliers(req);
 
@@ -938,15 +980,30 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
   const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
- 
-  CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+  let publishactiveprojects  = [];
+  publishactiveprojects.push(projectId);
+  req.session['publishclickevents'] = publishactiveprojects;
+ // CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
 
+ /** Daylight saving fix start */
+ let isDayLight = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').isDST();
+ if(isDayLight) {
+   CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().format('YYYY-MM-DD HH:mm');
+   CurrentTimeStamp = moment(new Date(CurrentTimeStamp)).format('YYYY-MM-DDTHH:mm:ss+01:00'); //+01:00
+   CurrentTimeStamp = momentz(new Date(CurrentTimeStamp)).tz('Europe/London').utc().toISOString()
+ } else {
+   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
+ }
+ /** Daylight saving fix end */
+
+  
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
 
   const BaseURL2 = `/tenders/projects/${projectId}/events/${eventId}`;
     const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
+    
     const ReviewData2 = FetchReviewData2.data;
     const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
     var review_publish = 0;
@@ -960,25 +1017,48 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
 
   if (review_publish == 1) {
     try {
-      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      
-     // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
-      
-      //if (response.status == Number(HttpStatusCode.OK)) {
-        if(agreementId_session == 'RM6263') { // DSP
+
+      if(agreementId_session == 'RM6263') { // DSP
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
         }else{
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
         }
+
+        if(agreementId_session == 'RM6263') { // DSP
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+          }
+
+      if(agreementId_session == 'RM1557.13'){
+        let response = TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+        setTimeout(function(){
+          res.redirect('/da/da-eventpublished');
+          }, 5000);
+      }
+      else{
+
+      let response = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(response, logConstant.ReviewSave, req);
+      
+     // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
+      
+      //if (response.status == Number(HttpStatusCode.OK)) {
+        // if(agreementId_session == 'RM6263') { // DSP
+        // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
+        // }else{
+        //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+        // }
        
      // }
-      if(agreementId_session == 'RM6263') { // DSP
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
-      }
+      // if(agreementId_session == 'RM6263') { // DSP
+      // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
+      // }
 
       
       res.redirect('/da/da-eventpublished');
+    }
     } catch (error) {
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
       TokenDecoder.decoder(SESSION_ID), "DA Review - Dyanamic framework throws error - Tender Api is causing problem", false)
       DA_REVIEW_RENDER_TEST(req, res, true, true);
@@ -1120,12 +1200,13 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
 

@@ -29,7 +29,7 @@
             "href2": "/fca/supplier/list",
             "sections": [
                 "<b>Create a shortlist of suppliers</b>",
-                "Create and download a shortlist of suppliers, which will be applied to all pre-tender market engagement and call-off events in this project. Because suppliers in Lots 2 and 3 provide all services, they cannot be filtered.",
+                "Create and download a shortlist of suppliers, which will be applied to all pre-market engagement and call-off events in this project. Because suppliers in Lots 2 and 3 provide all services, they cannot be filtered.",
                 "You can access supplier rate cards through the filtering tool."
             ],
 
@@ -41,15 +41,15 @@
         },
         {
             "eventno": 2,
-            "eventTitle": "Do pre-tender market engagement",
-            "buttonText": "Start pre-tender market",
+            "eventTitle": "Do pre-market engagement",
+            "buttonText": "Start pre-market engagement",
             "note": "",
             "buttonDisable": true,
 
             "href": "/projects/events/choose-route",
             "sections": [
                 "You can refine your needs by asking questions before formally publishing your requirements. You cannot run an Expression of Interest, Request for Information, Further Competition or Direct Award at the same time, in the same project.",
-                "You can do pre-tender market engagement in one of the following ways:"
+                "You can do pre-market engagement in one of the following ways:"
             ],
             "subsections": [
                 [

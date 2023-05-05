@@ -53,12 +53,12 @@
                     <div class="govuk-grid-column-full">
                         <p class="govuk-body">{{data.line5}}</p>
 
-                        {% if agreementId_session == 'RM6187' %}
+                        {# {% if agreementId_session == 'RM6187' %}
                         <div class="govuk-button-group">
                             <a class="govuk-link govuk-!-margin-right-9" href="#1212" id="getId">Select all that apply.</a>
                             <a class="govuk-link" id="getUnselectId" href="#212">Select / unselect all</a>
                         </div>
-                        {% endif %}
+                        {% endif %} #}
 
                         <p>
                             {# <a href="#">{{data.line6_1}}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">{{data.line6_2}}</a> #}
@@ -142,13 +142,16 @@
                                 }}
                             {% endif %}
 
-                    <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
+                    <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="10000">
                     <div class="govuk-form-group">
-                        <textarea class="govuk-textarea govuk-js-character-count otherTextArea rfpterm" id="label-as-page-heading" name="other_text" rows="5" aria-describedby="label-as-page-heading-info" placeholder="Enter the service">{{other_text}}</textarea>
+                        {% if agreementId_session == 'RM6187' %}
+                            <p class="otherTextAreaPara">{{data.line10}}</p>
+                        {% endif %}
+                        <textarea class="govuk-textarea govuk-js-character-count otherTextArea rfpterm" id="label-as-page-heading" name="other_text" rows="10" aria-describedby="label-as-page-heading-info" placeholder="Enter the service">{{other_text}}</textarea>
                     </div>
 
                     <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message otherTextAreaMsg">
-                        You can enter up to 500 characters
+                        You can enter up to 10000 characters
                     </div>
 
                 </div>

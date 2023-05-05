@@ -15,7 +15,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
 
     const { SESSION_ID } = req.cookies; //jwt
     const { projectId } = req.session;
-    const {eventId} =req.session;
+    const {eventId,lotId} =req.session;
     const { download } = req.query;
     const { agreement_id } = req.session;
     const { stage2_value } = req.session;
@@ -41,10 +41,12 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
       rfi_ref_no : req.session.eventId,
       selectedeventtype:req.session.selectedeventtype,
       stage2_value,
-      agreement_id
+      agreement_id,
+      lotId
    }
 
 try {
+  
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
     if(download!=undefined)
     {

@@ -3,13 +3,20 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import * as chooseACategoryData from '../../../resources/content/gcloud/chooseACategory.json';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 export const GET_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { agreement_id } = req.session;
 
     try {
       const BaseUrlAgreement=`/agreements/${agreement_id}/lots`;
-      let { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+      let retrieveAgreements = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(retrieveAgreements, logConstant.lotDetailsFromAggrement, req);
+      let retrieveAgreement = retrieveAgreements.data;
+      
       retrieveAgreement = retrieveAgreement.sort((a:any, b:any) => (a.number < b.number ? -1 : 1));
       
 
@@ -25,6 +32,9 @@ export const GET_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.R
         agreementLotName:req.session.agreementLotName,
         error:isJaggaerError
       };
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.chooseACategoryLog, req);
+
       res.render('chooseACategory', appendData);
         
     } catch (error) {

@@ -13,6 +13,8 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import { GetLotSuppliersScore } from '../../shared/supplierServiceScore';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
+
 
 /**
  *
@@ -41,7 +43,13 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
 if(agreement_id ==='RM1557.13'){
 
   const baseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/criteria/Criterion 4/groups/Group 1/questions`;
-    const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+  
+
+  const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api, logConstant.fetchServices, req);
+
   let fetch_dynamic_api_data = fetch_dynamic_api?.data;
   const services=fetch_dynamic_api_data[0].nonOCDS.options;
   if(services.length > 0){
@@ -53,17 +61,29 @@ if(agreement_id ==='RM1557.13'){
 
 }else{
   try {
-    const { data: getEventsData } = await TenderApi.Instance(SESSION_ID).get(
+    let getEventsData = await TenderApi.Instance(SESSION_ID).get(
       `tenders/projects/${req.session.projectId}/events`,
     );
+      
+        //CAS-INFO-LOG
+        LoggTracer.infoLogger(getEventsData, logConstant.fetchEvents, req);
+
+        getEventsData=getEventsData.data;
+
     const overWritePaJoury = getEventsData.find(
       item => item.eventType == 'PA' && (item.dashboardStatus == 'CLOSED' || item.dashboardStatus == 'COMPLETE'),
     );
     if (overWritePaJoury) {
       let PAAssessmentID = overWritePaJoury.assessmentId;
-      const { data: supplierScoreList } = await TenderApi.Instance(SESSION_ID).get(
+      let supplierScoreList = await TenderApi.Instance(SESSION_ID).get(
         `/assessments/${PAAssessmentID}?scores=true`,
       );
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(supplierScoreList, logConstant.fetchSupplierScoreList, req);
+      
+      supplierScoreList=supplierScoreList.data;
+
       let dataSet = supplierScoreList.dimensionRequirements;
       if (dataSet.length > 0) {
         let dataRequirements = dataSet[0].requirements;
@@ -87,16 +107,29 @@ if(agreement_id ==='RM1557.13'){
   //   other_text = '';
   // }
 
-  const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
+  // const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string, req: any) => {
+  //   const assessmentBaseUrl = `/assessments/${assessmentId}`;
+  //   const assessmentApi = await TenderApi.Instance(sessionId).get(assessmentBaseUrl);
+  //   //CAS-INFO-LOG
+  //    LoggTracer.infoLogger(assessmentApi, logConstant.fetchAssesmentDetails, req);
+  //   return assessmentApi.data;
+  // };
+  const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string, req: any) => {
     const assessmentBaseUrl = `/assessments/${assessmentId}`;
     const assessmentApi = await TenderApi.Instance(sessionId).get(assessmentBaseUrl);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(assessmentApi, logConstant.fetchAssesmentDetails, req);
     return assessmentApi.data;
   };
 
   const assessmentId = req.session.currentEvent.assessmentId;
-  const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
+  const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId,req);
   const assessmentURL = `assessments/${assessmentId}`;
   const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
+
+   //CAS-INFO-LOG
+   LoggTracer.infoLogger(assessmentData, logConstant.fetchAssesmentDetails, req);
+
   const externalID = assessmentData.data['external-tool-id'];
 
 
@@ -113,6 +146,8 @@ if(agreement_id ==='RM1557.13'){
 
   const ScaleURL = `/assessments/tools/${externalID}/dimensions`;
   const ScaleData = await TenderApi.Instance(SESSION_ID).get(ScaleURL);
+   //CAS-INFO-LOG
+   LoggTracer.infoLogger(ScaleData, logConstant.fetchAssesmentDetails, req);
   let CAPACITY_DATASET = ScaleData.data;
   CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Offering');
 
@@ -155,6 +190,10 @@ if(agreement_id ==='RM1557.13'){
     isDisable,
     agreementId_session
   };
+
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.selectedService, req);
+
   res.render('rfp-selectedService', viewData);
 };
 
@@ -292,7 +331,11 @@ if(agreement_id ==='RM1557.13'){
       };
 
     const baseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/criteria/Criterion 4/groups/Group 1/questions/Question 1`;
-    await TenderApi.Instance(SESSION_ID).put(baseURL, answerValueBody);
+    let responses = await TenderApi.Instance(SESSION_ID).put(baseURL, answerValueBody);
+    
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(responses, logConstant.saveAssesmentDetails, req);
+
 
   let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
     if (flag) {
@@ -322,6 +365,10 @@ if(agreement_id ==='RM1557.13'){
       const assessmentId = req.session.currentEvent.assessmentId;
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+       
+       //CAS-INFO-LOG
+       LoggTracer.infoLogger(ALL_ASSESSTMENTS, logConstant.fetchAssesmentDetails, req);
+
       const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
       var Service_capbility_weightage = 100;
@@ -331,7 +378,7 @@ if(agreement_id ==='RM1557.13'){
       }
 
       const externalID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
-      const dimension = await GET_DIMENSIONS_BY_ID(SESSION_ID, externalID);
+      const dimension = await GET_DIMENSIONS_BY_ID(SESSION_ID, externalID,req);
       const scalabilityData = dimension.filter(data => data.name === 'Service Offering')[0];
 
       const bodyData = rfp_selected_services.selected_services;
@@ -367,10 +414,13 @@ if(agreement_id ==='RM1557.13'){
         };
 
         try {
-          await TenderApi.Instance(SESSION_ID).put(
+          let responses = await TenderApi.Instance(SESSION_ID).put(
             `/assessments/${assessmentId}/dimensions/${scalabilityData['dimension-id']}`,
             body,
           );
+
+          //CAS-INFO-LOG
+          LoggTracer.infoLogger(responses, logConstant.saveAssesmentDetails, req);
 
           //Suppliers Save Post
           let supplierList: any[] = [];
@@ -406,7 +456,10 @@ if(agreement_id ==='RM1557.13'){
               overwriteSuppliers: true,
             };
             const Supplier_BASEURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`;
-            await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, supplierBody);
+            let response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, supplierBody);
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(response, logConstant.savesupplier, req);
+
           }
 
           /*supplierList = await GetLotSuppliers(req);
@@ -447,14 +500,22 @@ if(agreement_id ==='RM1557.13'){
 
 }
 
-const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
+const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any , req: any) => {
   const baseUrl = `assessments/tools/${toolId}/dimensions`;
   const dimensionsApi = await TenderApi.Instance(sessionId).get(baseUrl);
+   
+  //CAS-INFO-LOG
+   LoggTracer.infoLogger(dimensionsApi, logConstant.fetchAssesmentDetails, req);
+
   return dimensionsApi.data;
 };
 
-const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
+const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string , req: any) => {
   const assessmentBaseUrl = `/assessments/${assessmentId}`;
   const assessmentApi = await TenderApi.Instance(sessionId).get(assessmentBaseUrl);
+   
+  //CAS-INFO-LOG
+   LoggTracer.infoLogger(assessmentApi, logConstant.fetchAssesmentDetails, req);
+
   return assessmentApi.data;
 };

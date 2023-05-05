@@ -59,6 +59,15 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
         }).flat();
         
         let loop = CAPACITY_CONCAT_OPTIONS;
+        loop.sort(function (a, b) {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
         let eptObj = [];
         for(let j = 0; j < loop.length; j++) { eptObj.push({'requirement-id': loop[j]['requirement-id'], name: loop[j].name}); }
         
@@ -75,7 +84,7 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
       cmsData = fcaCreateSupplierShortlistContent;
     }
         const lotid=lotId;
-        res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+        res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
         const releatedContent = req.session.releatedContent;
         const windowAppendData = { eventType:req.session.currentEvent.eventType,data: cmsData, lotId, agreementLotName,error: isEmptySelectedServicesError, releatedContent, agreementId_session, services:eptObj, checkCheckbox };
         res.render('select_services', windowAppendData);

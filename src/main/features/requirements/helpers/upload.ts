@@ -10,6 +10,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const FILEUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -77,12 +78,15 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
       
+      //CAS-INFO-LOG 
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
       let fileNameStorageTermsNcond = [];
 
       fileNameStorageTermsNcond=[];
       FETCH_FILEDATA?.map(file => {
         if(stage2_value == "Stage 2"){
-          if (file.description === "optional") {
+          if (file.description === "mandatorysecond") {
             fileNameStorageTermsNcond.push(file);
           }
         }else{
@@ -126,6 +130,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         releatedContent: releatedContent,
         storage: TOTALSUM,
         agreement_id:agreement_id,
+        stage2_value
       };
      
       if (termsNcond != undefined) {
@@ -133,9 +138,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
          if (errorList==null) {
            errorList=[];
          }
-         
+        
          if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
-           errorList.push({ text: "You must upload terms and conditions.", href: "#rfp_offline_document" });
+           errorList.push({ text: "Upload your core terms, call-off order form and schedules", href: "#rfp_offline_document" });
            fileError=true;
          }
        }
@@ -148,12 +153,16 @@ export const FILEUPLOADHELPER: express.Handler = async (
 
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "Please choose file before proceeding", href: "#upload_doc_form" })
         delete req.session["fileObjectIsEmpty"]
       }
       if (fileDuplicateError) {
         fileError=true;
+        if(req.session?.agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2") {
+          errorList.push({ text: "The selected file has already been uploaded", href: "#" })
+        }else{
         errorList.push({ text: "The chosen file already exist ", href: "#" })
+        }
         delete req.session["fileDuplicateError"];
       }
       if (fileError && errorList !== null) {
@@ -186,9 +195,11 @@ export const FILEUPLOADHELPER: express.Handler = async (
         }
       }
       
+      console.log("upload");
+       
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.uploadTermsAndConditionsPageLog, req);
 
-
-      
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

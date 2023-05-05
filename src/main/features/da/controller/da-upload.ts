@@ -11,6 +11,7 @@ import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/da/offline-doc.json';
 
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { logConstant } from '../../../common/logtracer/logConstant';
 let tempArray = [];
 
 // requirements Upload document
@@ -75,6 +76,8 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             try {
               // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
             const FETCH_FILEDATA = FetchDocuments.data;
 
             let duplicateFile = false;
@@ -93,11 +96,13 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
               });
               FILEUPLOADHELPER(req, res, true, FileFilterArray);
             }else{
-              await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+              let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
                 headers: {
                   ...formHeaders,
                 },
               });
+                //CAS-INFO-LOG
+              LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
               req.session['isTcUploaded'] = true
             }
             } catch (error) {
@@ -142,6 +147,10 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
           try {
             // ------file duplicate check start
             const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+
             const FETCH_FILEDATA = FetchDocuments.data;
 
             let duplicateFile = false;
@@ -160,11 +169,15 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
               });
               FILEUPLOADHELPER(req, res, true, FileFilterArray);
             }else{
-            await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+            let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
               headers: {
                 ...formHeaders,
               },
             });
+            //CAS-INFO-LOG
+            LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
+
+
             res.redirect(`/da/upload-doc`);
             //res.redirect(`/${selRoute}/upload-doc`);
           }
@@ -221,7 +234,9 @@ export const DA_GET_REMOVE_FILES = (express.Handler = async (req: express.Reques
   const { file_id } = req.query
   const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
   try {
-    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    let response = await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(response, logConstant.UploadDocumentDeleted, req);
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`)
   } catch (error) {
     LoggTracer.errorLogger(
@@ -251,6 +266,8 @@ export const DA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Req
     const step = selectedRoute.toUpperCase() === 'DA' ? 32 : 71;
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
     const FETCH_FILEDATA = FetchDocuments?.data;
     let fileNameStorageTermsnCond = [];
     let fileNameStoragePricing = [];
@@ -315,6 +332,8 @@ export const DA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Req
     }
     windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true' });
     req.session["termsNcond"] = { "IsDocumentError": true, "IsFile": req.session['isTcUploaded'] ? true : false };
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
     res.redirect(`/da/upload-doc`);
   //  res.render('daw-uploadDocument.njk', windowAppendData)
   }
