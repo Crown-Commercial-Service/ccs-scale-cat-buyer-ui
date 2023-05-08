@@ -657,7 +657,7 @@
               </div>
             {% else %}
             {% if (agreement_id == 'RM1043.8') %}
-            {% if ((group_id == "Group 5" and lotId == '3')) %}
+              {% if ((group_id == "Group 5" and lotId == '3')) %}
                 <label class="govuk-label govuk-label--m">Name of the Contracting Authority</label>
                  <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
                   {{organizationName}}
@@ -674,7 +674,7 @@
                         id: "rfp_who_form",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rpf_500",
+                        classes: "rpf_500 removeErr",
                         rows:"2",
                       style:"height: 40px;"
                       })
@@ -692,7 +692,7 @@
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rpf_5000"
+                        classes: "rpf_5000 removeErr"
                       })
                   }}
                    {% endif %}
@@ -747,7 +747,7 @@
                         maxlength:8,
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "govuk-input govuk-date-input__input govuk-input--width-3 min_supplier rfp_term_maxsupplycount",
+                        classes: "govuk-input govuk-date-input__input govuk-input--width-3 min_supplier rfp_term_maxsupplycount removeErr",
                         type:"number",
                         inputmode:"numeric"
                       })
@@ -2494,12 +2494,12 @@
                                 and sec_vetting_opt.value !== "None" %}
                               <div class="govuk-checkboxes__item">
                                 {% if i == '0' %}
-                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting govuk-checkboxes__input removeErrCheckbox" id="required_locations" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations">
                                       {{ sec_vetting_opt.value }}
                                   </label>
                                   {%else%}
-                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting govuk-checkboxes__input removeErrCheckbox" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i + 1}}">
                                       {{ sec_vetting_opt.value }}
                                   </label>
@@ -2515,7 +2515,7 @@
                               {%else%}
                               <div class="govuk-checkboxes__divider">OR</div>
                               <div class="govuk-checkboxes__item">
-                                  <input class="dos6_vetting_change govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting_change govuk-checkboxes__input removeErrCheckbox" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i +1 }}">
                                       {{ sec_vetting_opt.value }}
                                   </label>
