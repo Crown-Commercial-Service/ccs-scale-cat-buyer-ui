@@ -56,8 +56,11 @@ $(document).ready(function () {
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
-                let size = 300000000;
-                
+               // let size = 300000000;
+                let size = 314572800;
+
+               
+                console.log('file.size',file.size)
                 if(file.size >= size){
                 ErrorCheckArray.push({
                     type: "size"
