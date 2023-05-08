@@ -153,7 +153,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   }
   else{
   try {
-    console.log("baseURL",BaseURL);
+    
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
@@ -162,7 +162,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
-    console.log("organizationName",organizationName);
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
 
