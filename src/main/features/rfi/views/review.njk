@@ -321,10 +321,20 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
                 
+
                   {% if agreementId_session == "RM1557.13" or agreementId_session == "RM6187" %}
-                      {% if i.question == 'Name of the Contracting Authority' %}
+                      
+                       {% if agreementId_session == "RM1557.13" and i.question == 'Name of the Contracting Authority' %}
                           <p class="govuk-body">
                               Name of the organisation doing the procurement
+                          </p>
+                      {% endif %}
+
+
+
+                      {% if agreementId_session == "RM6187" and i.question == 'Name of the Contracting Authority' %}
+                          <p class="govuk-body">
+                              Name of the Contracting Authority
                           </p>
                       {% endif %}
 
