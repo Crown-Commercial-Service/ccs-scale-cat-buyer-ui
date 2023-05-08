@@ -153,7 +153,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   }
   else{
   try {
-    
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
@@ -164,9 +163,10 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const organizationName = name;
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
-
+   
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
+    
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
       const data = buyer.requirementGroups
         .sort((a: any, b: any) => (a.nonOCDS.order < b.nonOCDS.order ? -1 : 1))
@@ -178,9 +178,12 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         });
       return { requirement: data };
     }).flat();
-
     //JSONData;
     let Eoi_answered_questions = BuyerAnsweredAnswers.map(eoi => eoi.requirement).flat();
+
+     Eoi_answered_questions.map((mapingData)=> 
+    mapingData?.OCDS?.requirements?.sort((a: any, b: any)=>a.nonOCDS.order < b.nonOCDS.order ? -1 : 1,)
+    )
 
     const ExtractedEOI_Answers = Eoi_answered_questions.map(question => {
       return {
@@ -193,6 +196,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         }),
       };
     });
+
     const FilteredSetWithTrue = ExtractedEOI_Answers.map(questions => {
       return {
         title: questions.title,
