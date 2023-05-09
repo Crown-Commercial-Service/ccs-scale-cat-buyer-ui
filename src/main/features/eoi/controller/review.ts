@@ -7,6 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import moment from 'moment-business-days';
 import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
@@ -155,11 +156,17 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     
+    const organizationID = req.session.user.payload.ciiOrgId;
+    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    const name = getOrganizationDetails.data.identifier.legalName;
+    const organizationName = name;
     //CAS-INFO-LOG 
     LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
-
+   
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
+    
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
       const data = buyer.requirementGroups
         .sort((a: any, b: any) => (a.nonOCDS.order < b.nonOCDS.order ? -1 : 1))
@@ -171,9 +178,12 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         });
       return { requirement: data };
     }).flat();
-
     //JSONData;
     let Eoi_answered_questions = BuyerAnsweredAnswers.map(eoi => eoi.requirement).flat();
+
+     Eoi_answered_questions.map((mapingData)=> 
+    mapingData?.OCDS?.requirements?.sort((a: any, b: any)=>a.nonOCDS.order < b.nonOCDS.order ? -1 : 1,)
+    )
 
     const ExtractedEOI_Answers = Eoi_answered_questions.map(question => {
       return {
@@ -186,6 +196,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         }),
       };
     });
+
     const FilteredSetWithTrue = ExtractedEOI_Answers.map(questions => {
       return {
         title: questions.title,
@@ -233,7 +244,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
         }),
       };
     });
-   
+
     const EOI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
     const project_name = req.session.project_name;
@@ -269,10 +280,9 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const agreement_id = req.session['agreement_id'];
     const proc_id = req.session['projectId'];
     const event_id = req.session['eventId'];
-
     const eoi_data= EOI_DATA_WITHOUT_KEYDATES;
+   
 
-      //Fix for SCAT-4146 - arranging the questions order
       let expected_eoi_keydates=EOI_DATA_TIMELINE_DATES;
     
       expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1)).shift()
@@ -329,6 +339,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
 
 
     const customStatus = ReviewData.OCDS.status;
+
     let appendData = {
       eoi_data,
       eoi_keydates:expected_eoi_keydates[0],
@@ -346,7 +357,8 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       supplierLength:supplierLength,
       agreementId_session,
-      publishClickEventStatus:publishClickEventStatus
+      publishClickEventStatus:publishClickEventStatus,
+      organizationName
     };
     
     
