@@ -154,7 +154,7 @@
                     {% if (agreement_id == 'RM1043.8' and requirement.OCDS.title == 'Enter the name for this level')  %}
                         {% set closebtnhtml = '' %}
                       {% else %}
-                        {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>" %}
+                        {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>" %}
                     {% endif %}
 
                     {{ CCSCharacterCount({
@@ -2071,7 +2071,7 @@
                           {% endif %}
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2323,7 +2323,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
