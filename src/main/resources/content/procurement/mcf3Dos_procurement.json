@@ -13,10 +13,11 @@
         }
     ],
     "title": "Procurement overview",
-    "line1": "Follow the steps below to create your procurement. Each stage can be saved and resumed at any time.",
+    "line1": "Follow the steps below to create your procurement. Each stage can be saved and resumed at any time. You cannot run multiple stages at the same time.",
     "line2": "You can download and save what you enter to your own system.",
     "line4": "Check the terms and conditions for this lot in the ",
     "line5": "lot detail page.",
+    "line6": "You cannot run multiple stages at the same time.",
     "events": [{
             "eventno": 1,
             "eventTitle": "See available suppliers",
@@ -47,7 +48,7 @@
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
             "sections": [
-                "You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-market engagement (PTME). Most buyers who need a digital outcome do this.",
+                "You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-tender market engagement (PTME). Most buyers who need a digital outcome do this.",
 
                 "Contact <a href='mailto:cloud_digital@crowncommercial.gov.uk'>cloud_digital@crowncommercial.gov.uk</a> to request the current list of supplier contact details."
             ],
