@@ -241,7 +241,7 @@
                                 html: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.<br>For example 'pass' or 'fail',or 'excellent','good','poor'"
                             },
                             label: {
-                                html: "Enter the name for this level <a href='"+i+"' id='deleteButton_"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                                html: "Enter the name for this level <a href='"+i+"' id='deleteButton_"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>",
                                 text: 'Enter the name for this level',
                                 classes: 'govuk-label govuk-label--m'
                             }
@@ -1837,7 +1837,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: PreTermAcronym+AftNoWord+termAcronym  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> X </a>",
+                                html: PreTermAcronym+AftNoWord+termAcronym  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
