@@ -415,8 +415,12 @@
          {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
           {% set rows = 1 %}
           {% endif %}
+        {% if (agreement_id == 'RM1557.13' and (requirement.nonOCDS.order == 1 and requirement.OCDS.id == "Question 1" and group_id == "Group 4")) %}
+                      {% set countLength = 5000 %}
+                      {% set classnameForCount = "rpf_5000" %}
+                    {% endif %}
 
-       {% if (agreement_id == 'RM1557.13' and (requirement.OCDS.title == "Enter your question" or requirement.OCDS.title == "Your social value question")) %}
+       {% if (agreement_id == 'RM1557.13' and requirement.OCDS.title == "Your social value question") %}    
                       {% set countLength = 5000 %}
                       {% set classnameForCount = "rpf_5000" %}
                     {% endif %}
