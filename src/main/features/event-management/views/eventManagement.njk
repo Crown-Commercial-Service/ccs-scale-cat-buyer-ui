@@ -237,7 +237,12 @@
                               <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                             </p>
                           {% else %}
-                            <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+                            <p class="govuk-body">
+                               {% if (agreementId_session == 'RM1043.8') and (status.toLowerCase() == 'closed') %}
+                                  Read or download a copy of your published project. You cannot make any changes.
+                               {% else %}
+                                  {{ data.subsection4_title2_2_descriiption }}
+                              {% endif %}
                               <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                             </p>
                           {% endif %}
@@ -368,6 +373,12 @@
                               <a href="/message/inbox">open your inbox</a>.</p>
                           {% endif %} #}
                         {% endif %}
+                        {% if (agreementId_session == 'RM1043.8') and (status.toLowerCase() == 'closed') %}
+                          <h2 class="govuk-heading-m">
+                              <span class="proc-task-list__section-number">3.</span>
+                              Suppliers who responded to your published project</h2>
+                            <p class="govuk-body">Find out how many suppliers responded to your project in the section below.</p> 
+                        {% endif %}
                         <p class="govuk-body">The deadline for response from suppliers is
                           <strong>{{ filtervalues }}</strong>
                         </p>
@@ -383,7 +394,13 @@
                         {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') %}
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task2_mcf }}</p>
                         {% else %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task2 }}</p>
+                          <p class="govuk-grid-column-one-half">
+                            {% if (agreementId_session == 'RM1043.8') and (status.toLowerCase() == 'closed') %}
+                              Number of suppliers who intend to respond
+                            {% else %}
+                                {{ data.subsection4_title3_task2 }}
+                            {% endif %}
+                            </p>
                         {% endif %}
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.responded | safe }}</p>
                         <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task3 }}</p>
@@ -397,7 +414,16 @@
                         {% elseif (agreementId_session == 'RM6187') %}
                           <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4_others }}</p>
                         {% else %}
-                          <p class="govuk-grid-column-one-half">{{ data.subsection4_title3_task4 }}</p>
+                          <p class="govuk-grid-column-one-half">
+
+                            {% if (agreementId_session == 'RM1043.8') and (status.toLowerCase() == 'closed') %}
+                              Remaining suppliers with no response
+                            {% else %}
+                                {{ data.subsection4_title3_task4 }}
+                            {% endif %}
+
+                            
+                            </p>
                         {% endif %}
                         <p class="govuk-grid-column-one-half">{{ supplierSummary.noResponse | safe }}</p>
                       {% endif %}
@@ -1068,11 +1094,15 @@
 
           </div>
 
-              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and (status.toUpperCase() != 'CLOSED') %}
+              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
                   <div>
                         <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
                   </div>
               {% endif %}
+
+               {% if (agreementId_session == 'RM1043.8') and (status.toLowerCase() == 'closed') %}
+                <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a>
+                {% endif %}
 
           {# Loader container #}
           <div class="loader-container">
