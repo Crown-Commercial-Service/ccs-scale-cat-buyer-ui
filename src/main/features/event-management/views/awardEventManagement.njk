@@ -158,7 +158,14 @@
 
             {% if((agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
 
-                <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+            {% if(agreementId_session == "RM1557.13" and status.toLowerCase() === 'complete') %}
+              <p class="govuk-body">Read or download a copy of your published project. You cannot make any changes.
+           {% else %}
+              <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
+           {% endif %}
+
+                
+
             {% else %}
                 <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
             {% endif %}
@@ -221,7 +228,12 @@
             {% if (status.toLowerCase() == "awarded" or status.toLowerCase() == "pre-award") %}
             <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_others}}</p>
             {% else %}
-            <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4_gcloud}}</p>
+            <p class="govuk-body govuk-grid-column-one-half">
+              {% if(agreementId_session == "RM1557.13" or status.toLowerCase() == "complete")  %}
+                Remaining suppliers with no response
+              {% else %}
+              {{data.subsection4_title3_eval_task4_gcloud}}</p>
+              {% endif %}
             {% endif %}
             <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% else %}
