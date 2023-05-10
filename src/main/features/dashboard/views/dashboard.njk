@@ -8,6 +8,21 @@
         items: data.breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {# Banner notic Start #}
+    {% if issetDashBanner != '' %}
+      <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title"></h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <b>
+            {{issetDashBanner}}
+          </b>
+        </div>
+      </div>
+    {% endif %}
+    {# Banner notic End #}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
