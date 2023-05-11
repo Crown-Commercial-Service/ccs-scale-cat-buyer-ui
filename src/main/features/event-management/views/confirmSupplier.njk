@@ -146,7 +146,13 @@
                   <th scope="col" class="govuk-table__header">Supplier name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">
+                    Score
+                    {% if agreement_header['agreementId_session']=='RM1043.8' and stage2_value == 'Stage 2' %}
+                    {% else %}
+                    (%)
+                    {% endif %}
+                     </th>
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}

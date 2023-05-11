@@ -128,21 +128,26 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
       if(supData!=undefined) {
-        var completion = "No"
+        var completion = "No";
+        let score = "0";
         if(ScoresAndFeedbackURLdata.data[i].score === undefined) {
           completion = "No"
+          score = "pending"
         } else if(ScoresAndFeedbackURLdata.data[i].score > 0) {
           completion = "Yes"
+          score = ScoresAndFeedbackURLdata.data[i].score;
         } else {
           completion = "No"
+          score = ScoresAndFeedbackURLdata.data[i].score;
         }
-          
+        
        let dataPrepared = {
         "id": supData[i].supplier.id,
         "name": supData[i].supplier.name,
         "responseState": supData[i].responseState,
         "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
+         "score":score
       }
     
      if (supplierdata.data.responders[i].responseState == 'Submitted') {
@@ -155,17 +160,25 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
 
     const supplierSummary = supplierdata.data;
     var count =0;
+    var checkcount =0;
     let ConfirmFlag = false;
+    let CountConfirmFlag = false;
     //count of completionstatus="yes" == count of responders
     for (let k = 0; k < supplierName.length; k++) {
        if(supplierName[k].completionStatus == "Yes" && supplierName[k].responseState == "Submitted" )
        {
          count++;
+       }else{
+        checkcount++;
        }
      }
-     if(count == submittedCount)
+    if(count == submittedCount)
      {
       ConfirmFlag = true;
+     }
+     if(count >= 1)
+     {
+      CountConfirmFlag = true; 
      }
     const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
@@ -176,8 +189,10 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     if(stage2_data.length > 0){
       stage2_value = 'Stage 2';
     }
+    
+    
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
+          const appendData = { releatedContent,agreement_header,agreementId_session,lotid,ConfirmFlag,CountConfirmFlag,checkcount,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
         
         //CAS-INFO-LOG 
         LoggTracer.infoLogger(null, logConstant.evaluateSuppliers, req);

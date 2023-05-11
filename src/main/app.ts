@@ -6,7 +6,6 @@ import { Helmet } from './modules/helmet';
 import * as path from 'path';
 import favicon from 'serve-favicon';
 import { Nunjucks } from './modules/nunjucks';
-const { setupDev } = require('./setup/development');
 import i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -138,19 +137,12 @@ app.enable('trust proxy')
 /**
  * @Routable path getting content from default.json
  */
-let featureRoutes: Array<Object> = config.get('featureDir')
+const featureRoutes: Array<Object> = config.get('featureDir')
 featureRoutes?.forEach((aRoute: any) => {
   glob.sync(__dirname + aRoute?.['path'])
     .map((filename: string) => require(filename))
     .forEach((route: any) => route.default(app));
 });
-
-/**
- * @developementEnvironment
- *  Setting up development environment
- *  
- */
-setupDev(app, developmentMode);
 
 /**
  * @ExceptionHandler
