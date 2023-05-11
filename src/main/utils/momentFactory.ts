@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-export class MomentFactory {
+class MomentFactory {
   static currentDateTime (): moment.Moment {
     return moment()
   }
@@ -20,3 +20,5 @@ export class MomentFactory {
     return moment(value)
   }
 }
+
+export { MomentFactory }
