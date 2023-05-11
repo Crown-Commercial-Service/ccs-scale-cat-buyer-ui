@@ -171,7 +171,12 @@
                               <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                             </p>
                           {% else %}
-                            <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+                            <p class="govuk-body">
+                              {% if agreementId_session == "RM1557.13" and  status.toUpperCase() == 'CLOSED'%}
+                              Read or download a copy of your published project. You cannot make any changes.
+                               {% else %}
+                              {{ data.subsection4_title2_2_descriiption }}
+                              {% endif %}
                               <a class="govuk-link app-task-list__tag" href="{{ data.subsection4_title2_2_task[1].line_1_link }}">{{ data.subsection4_title2_2_task[1].line_1_text }}</a>
                             </p>
                           {% endif %}
@@ -356,7 +361,13 @@
                            <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">3.</span>
                             {{ data.subsection4_title3 }}</h2>
-                           <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>                           
+                           <p class="govuk-body">
+                            {% if status.toLowerCase() === 'closed' %}
+                              Find out how many suppliers responded to your project in the section below.
+                             {% else %}
+                                {{ data.subsection4_title3_descriiption }}
+                            {% endif %}
+                            </p>                           
                           {% endif %}
                         {% elseif agreementId_session == 'RM6187'%}
                           <h2 class="govuk-heading-m">
@@ -1094,7 +1105,7 @@
 
           </div>
 
-              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') %}
+              {% if (agreementId_session == "RM1557.13") and (status.toUpperCase() != 'TO-BE-EVALUATED') and (status.toUpperCase() != 'EVALUATING') and eventType == 'FC' %}
                   <div>
                         <a class="govuk-link govuk-body" href="/dashboard">Return to your dashboard</a> 
                   </div>
