@@ -660,6 +660,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
 };
 
 export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
+  let issetDashBanner;
+  issetDashBanner = process.env.DASHBOARD_BANNER;
+  if(issetDashBanner == undefined || issetDashBanner == '') {
+    issetDashBanner = '';
+  }
+
   req.session.unpublishedeventmanagement = 'false';
   const searchText = req.session.searchText;
   // Active and Historical events is getting feached from API via 'src/main/common/middlewares/event-management/activeevents.ts'
@@ -720,7 +726,8 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     searchText,
     events: activeListDash,
     historicalEvents: pastListDash,
-    withOutPaEventsData:withOutPaEventsData
+    withOutPaEventsData:withOutPaEventsData,
+    issetDashBanner
   };
   /** CAS-87 */
   res.render('dashboard', appendData);
