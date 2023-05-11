@@ -54,9 +54,9 @@
       <div class="govuk-grid-column-full">
 
       <p>Manage your project, including responding to supplier clarification questions or messages. You can also view supplier answers to your published project.</p>
-        {# {%if status.toLowerCase() == "pre-award" %}
+        {%if agreementId_session == "RM1557.13" and status.toLowerCase() == "pre-award" %}
           <p>You can close this project using the link under the project name below.</p></br></br>
-        {% endif %} #}
+        {% endif %}
         <div>
           <h2 class="govuk-heading-m">
           {{agreement_header['projectId']+" & "+projectName}}
@@ -158,7 +158,7 @@
 
             {% if((agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
 
-            {% if(agreementId_session == "RM1557.13" and status.toLowerCase() === 'complete') %}
+            {% if(agreementId_session == "RM1557.13" and (status.toLowerCase() === 'complete' or status.toLowerCase() === 'awarded' or status.toLowerCase() === 'pre-award')) %}
               <p class="govuk-body">Read or download a copy of your published project. You cannot make any changes.
            {% else %}
               <p class="govuk-body">{{ data.subsection4_title2_1_descriiption_gcloud }}
