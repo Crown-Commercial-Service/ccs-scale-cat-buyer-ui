@@ -1,6 +1,6 @@
 import { TenderApi } from '../common/util/fetch/procurementService/TenderApiInstance';
 
-export async function ccsStatusOverride(dataJson: any, SESSION_ID: any, agreement_id: string, projectId: string, event_id: string ) {
+export async function ccsStatusOverride(dataJson: any, SESSION_ID: any, agreement_id: string, event_id: string ) {
     interface stepDataType {
         step: number,
         state: string
