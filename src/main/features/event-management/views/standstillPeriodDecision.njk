@@ -26,7 +26,7 @@
    {% elseif agreement_id == 'RM6187' %}
    {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.<br><br>' | safe %}
   {%else%}
-    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
+    {% set s_name = supplierName + '<br><br>Confirm you wish to award to this supplier.' | safe %}
   {%endif%}
   {{ CCSDialog({
     title:'Confirm you wish to award to this supplier',

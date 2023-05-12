@@ -154,7 +154,7 @@
                     {% if (agreement_id == 'RM1043.8' and requirement.OCDS.title == 'Enter the name for this level')  %}
                         {% set closebtnhtml = '' %}
                       {% else %}
-                        {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>" %}
+                        {% set closebtnhtml = "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>" %}
                     {% endif %}
 
                     {{ CCSCharacterCount({
@@ -241,7 +241,7 @@
                                 html: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.<br>For example 'pass' or 'fail',or 'excellent','good','poor'"
                             },
                             label: {
-                                html: "Enter the name for this level <a href='"+i+"' id='deleteButton_"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                                html: "Enter the name for this level <a href='"+i+"' id='deleteButton_"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>",
                                 text: 'Enter the name for this level',
                                 classes: 'govuk-label govuk-label--m'
                             }
@@ -415,8 +415,12 @@
          {% if(agreement_id == 'RM6187' and requirement.OCDS.title=="Name of the requirement") %}
           {% set rows = 1 %}
           {% endif %}
+        {% if (agreement_id == 'RM1557.13' and (requirement.nonOCDS.order == 1 and requirement.OCDS.id == "Question 1" and group_id == "Group 4")) %}
+                      {% set countLength = 5000 %}
+                      {% set classnameForCount = "rpf_5000" %}
+                    {% endif %}
 
-       {% if (agreement_id == 'RM1557.13' and (requirement.OCDS.title == "Enter your question" or requirement.OCDS.title == "Your social value question")) %}
+       {% if (agreement_id == 'RM1557.13' and requirement.OCDS.title == "Your social value question") %}    
                       {% set countLength = 5000 %}
                       {% set classnameForCount = "rpf_5000" %}
                     {% endif %}
@@ -657,7 +661,7 @@
               </div>
             {% else %}
             {% if (agreement_id == 'RM1043.8') %}
-            {% if ((group_id == "Group 5" and lotId == '3')) %}
+              {% if ((group_id == "Group 5" and lotId == '3')) %}
                 <label class="govuk-label govuk-label--m">Name of the Contracting Authority</label>
                  <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
                   {{organizationName}}
@@ -674,7 +678,7 @@
                         id: "rfp_who_form",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rpf_500",
+                        classes: "rpf_500 removeErr",
                         rows:"2",
                       style:"height: 40px;"
                       })
@@ -692,7 +696,7 @@
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "rpf_5000"
+                        classes: "rpf_5000 removeErr"
                       })
                   }}
                    {% endif %}
@@ -747,7 +751,7 @@
                         maxlength:8,
                         name:requirement.OCDS.title | replace(" ", "_"),
                         value: requirement.nonOCDS.options[0].value,
-                        classes: "govuk-input govuk-date-input__input govuk-input--width-3 min_supplier rfp_term_maxsupplycount",
+                        classes: "govuk-input govuk-date-input__input govuk-input--width-3 min_supplier rfp_term_maxsupplycount removeErr",
                         type:"number",
                         inputmode:"numeric"
                       })
@@ -1837,7 +1841,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: PreTermAcronym+AftNoWord+termAcronym  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> X </a>",
+                                html: PreTermAcronym+AftNoWord+termAcronym  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2071,7 +2075,7 @@
                           {% endif %}
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2323,7 +2327,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" service level or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform  remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -2494,12 +2498,12 @@
                                 and sec_vetting_opt.value !== "None" %}
                               <div class="govuk-checkboxes__item">
                                 {% if i == '0' %}
-                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting govuk-checkboxes__input removeErrCheckbox" id="required_locations" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations">
                                       {{ sec_vetting_opt.value }}
                                   </label>
                                   {%else%}
-                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting govuk-checkboxes__input removeErrCheckbox" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i + 1}}">
                                       {{ sec_vetting_opt.value }}
                                   </label>
@@ -2515,7 +2519,7 @@
                               {%else%}
                               <div class="govuk-checkboxes__divider">OR</div>
                               <div class="govuk-checkboxes__item">
-                                  <input class="dos6_vetting_change govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <input class="dos6_vetting_change govuk-checkboxes__input removeErrCheckbox" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
                                   <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i +1 }}">
                                       {{ sec_vetting_opt.value }}
                                   </label>

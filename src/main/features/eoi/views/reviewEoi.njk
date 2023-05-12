@@ -230,15 +230,37 @@
           
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-               
+                {% if (item.title == "Who the buying organization is") or(item.title == "Who the buying organization is (Optional)") or (item.title == "Who the organisation using the products or services is") %}
+                 <p class="govuk-body-s content_review_length">Who the organisation using the products or services is (Optional)</p>
+
+
+                 {%for i in item.answer%}
+                      {% if (i.question == "Name of the Contracting Authority") %}
+                    <p class="govuk-body-s content_review_length">{{i.question}}</p>
+                    {%endif%}
+                      {% if (i.question == "The organisation using the products or services") %}
+                    <p class="govuk-body-s content_review_length">{{i.question}}</p>
+                    {%endif%}
+                 {%endfor%}
+                  </dt>
+                 
+
+                {% else %}
+
                  {% if item.mandatory==false %}
                 {{ item.title }} (optional)
                  {% else %}
                  {{ item.title }}
                 {% endif %}
+
+                  </dt>
+                 {% endif %}
                  
                 
-              </dt>
+              
+
+
+
               {% if data['eoi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
                   data['eoi_offline_document']
@@ -253,7 +275,7 @@
                              {% if i.question != 'Indicative maximum' and i.question != 'Indicative minimum' %}
                                   <p class="govuk-body-s content_review_length">{{ answer.value }}</p>
                               {% else %}
-                                  <p class="govuk-body-s">{{ answer.value | replace(": undefined", ": 0.00") | replace(": ", ": £")}}
+                                  <p class="govuk-body-s">{{ answer.value | replace(": undefined", ": 0.00") | replace(": ", ": £")}} 
                                   <p>
                               {% endif %}
                           {% if i.question != undefined %}
@@ -263,7 +285,13 @@
                           {% endif %}  
                           {% endfor %}
                         {% else %}
-                       
+                          {% if (i.question == 'Name of the Contracting Authority') %}
+                          {# <p class="govuk-body-s">{{organizationName}} <p> #}
+                            <p class="govuk-body">&nbsp;<p>
+                              <p class="govuk-body">&nbsp;<p>
+                            <p class="govuk-body">{{organizationName}}<p>
+                          {% endif %}
+
                           {% if (i.question !== 'Name of the Contracting Authority' and i.question !== 'Enter a definition for the term acronym explaining what it means') and i.question !== 'Indicative minimum' %}
                           <p class="govuk-body-s">You have not answered this question <p>
                           {% endif %}

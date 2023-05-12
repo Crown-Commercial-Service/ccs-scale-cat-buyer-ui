@@ -37,7 +37,6 @@ $(document).ready(function () {
             const FileList = this.files;
             const totalFiles = FileList.length;
             let totalFileSum = 0;
-
             for(var a =0; a < totalFiles; a ++){
                 let file = FileList[a];
                 totalFileSum = totalFileSum + file.size;
@@ -56,8 +55,9 @@ $(document).ready(function () {
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
-                let size = 300000000;
-                
+                //let size = 300000000;
+                let size = 307200000
+               
                 if(file.size >= size){
                 ErrorCheckArray.push({
                     type: "size"
@@ -116,7 +116,6 @@ $(document).ready(function () {
                 $(`#rfi_offline_document-error`).hide();
             }
             else if(ErrorForMimeType){
-                console.log('inside mime type')
                 $(`#${type}_offline_document`).addClass("govuk-input--error")
                 $(`#upload_doc_form`).addClass("govuk-form-group--error");
                 $(`#${type}_offline_document`).val() === "";
@@ -138,7 +137,6 @@ $(document).ready(function () {
                 $(`#rfp_offline_document-error`).hide();
                 $(`#rfi_offline_document-error`).hide();
             }
-
 
             if (Number(totalFileSum) > 1000000000){
                 $(`#${type}_offline_document`).addClass("govuk-input--error")

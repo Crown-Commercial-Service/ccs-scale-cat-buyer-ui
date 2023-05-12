@@ -170,12 +170,13 @@
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
               {% endif %}
           {% elif(stage2_value == 'Stage 2') %}
-
+              <p class="govuk-body">
               {% if status.toUpperCase() == 'PUBLISHED' and agreement_header['lotid']=='3' %}
-              You can read or download a copy of your published project. You cannot make any changes.
+                You can read or download a copy of your published project. You cannot make any changes.
               {% else %}
                   Read or download a copy of your published project. You cannot make any changes.
               {% endif %}
+             
               {# {% if(status.toUpperCase() == 'PUBLISHED') %}
                 <p class="govuk-body">{{data.subsection4_title2_1_descriiption_dos_YouCan }}
               {% elif(status.toUpperCase() == 'TO-BE-EVALUATED') %}
