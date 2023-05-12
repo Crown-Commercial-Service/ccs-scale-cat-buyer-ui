@@ -72,6 +72,11 @@
               <p class="border-header"> </p>
           
            {% block valuewitNoMultiSelect %}
+           {% set ordersArr = [] %}
+           {% for req in framework%}
+             {% set ordersArr = (ordersArr.push(req.nonOCDS.order), ordersArr) %}
+           {%endfor %}
+           <span id="clarification_date_arr" attr="{{ordersArr}}"></span>
            {% for requirement in framework%}
               {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
                
@@ -107,15 +112,15 @@
     
                     {%if (requirement.OCDS.id !== "Question 1")%}
     
-                        <a href="#rfi_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
+                        <a href="#rfi_clarification_date_expanded_{{requirement.nonOCDS.order}}" id="change_clarification_date_{{requirement.nonOCDS.order}}"
                             class="govuk-link govuk-link--no-visited-state change govuk-!-font-size-19" hidden>change</a>
                     </div>
     
-                    <div id="rfi_clarification_date_expanded_{{loop.index}}" class="rfi_clarification_date_expanded rfi_hideFirst">
+                    <div id="rfi_clarification_date_expanded_{{requirement.nonOCDS.order}}" class="rfi_clarification_date_expanded rfi_hideFirst">
                         <div class="govuk-!-margin-bottom-6">
                             <label class="govuk-label govuk-body"><strong id="lbl-clarification_copy">{{
                                     clarification_date_string }}</strong></label>
-                            <a href="#rfi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
+                            <a href="#rfi_clarification_date_{{requirement.nonOCDS.order}}"  id="cancel_change_clarification_date_{{requirement.nonOCDS.order}}"
                                 class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19" hidden>I do not want to change this date and time</a>
                         </div>
                         <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfp_response_date_form_{{loop.index}}">

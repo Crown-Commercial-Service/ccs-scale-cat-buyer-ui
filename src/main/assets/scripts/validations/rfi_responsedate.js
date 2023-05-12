@@ -1,8 +1,6 @@
-const totalElementSelectors = Array.from(Array(5 + 1).keys()).slice(1);
-
-
+let arr = $("#clarification_date_arr").attr("attr");
+const totalElementSelectors = arr.split(',');
 for (const selector of totalElementSelectors) {
-
     let elementID = "#rfi_clarification_date_expanded_" + selector;
     let elementSelector = $(elementID);
     if (elementSelector.length === 0)
@@ -41,6 +39,9 @@ errorSelector.on('click', () => {
     let errorText = $("#click-error").text();
     errorSelectorId = ClickedID;
     let elementSelectorClicked = $(ClickedID);
+    const words = ClickedID.split('_');
+    let changeElementClicked = $(`#change_clarification_date_${words[words.length - 1]}`)
+    changeElementClicked.hide();
     elementSelectorClicked.fadeIn();
     ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
 });
