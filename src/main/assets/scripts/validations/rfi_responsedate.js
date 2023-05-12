@@ -1,6 +1,8 @@
 let arr = $("#clarification_date_arr").attr("attr");
 const totalElementSelectors = arr.split(',');
+
 for (const selector of totalElementSelectors) {
+   
     let elementID = "#rfi_clarification_date_expanded_" + selector;
     let elementSelector = $(elementID);
     if (elementSelector.length === 0)
@@ -17,10 +19,13 @@ for (const selector of totalElementSelectors) {
     elementSelector.fadeIn();
     elementSelectorCancel.fadeIn();
     elementSelector.on('click', () => {
+        removeErrorFieldsEoiTerms();
+       
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementSelector.selector);
         let ClickedID = "#rfi_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
+        elementSelectorClicked.find('input[type=text]').val('');
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
         if($('.rfi_hideFirst:visible').length){
@@ -35,6 +40,7 @@ for (const selector of totalElementSelectors) {
 var errorSelectorId = '';
 let errorSelector = $("#click-error");
 errorSelector.on('click', () => {
+    
     let ClickedID = $("#click-error").attr("href");
     let errorText = $("#click-error").text();
     errorSelectorId = ClickedID;

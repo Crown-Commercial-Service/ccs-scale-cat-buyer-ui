@@ -86,7 +86,7 @@
                                         
                                         {% if(requirement.nonOCDS.options[0].selected)%}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="lbl-clarification" class="clarification_{{loop.index}} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value  }}</strong>
+                                                <strong id="lbl-clarification" class="clarification_{{requirement.nonOCDS.order}} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value  }}</strong>
                                             </label>
                                         {%endif %}
 
@@ -133,7 +133,7 @@
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
-                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{ loop.index }}">
+                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{requirement.nonOCDS.order}}">
                                                     {{ csrfProtection(csrf) }}
                                                         <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
@@ -145,7 +145,7 @@
                                         Date
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
+                                        id="clarification_date-day_{{requirement.nonOCDS.order}}" name="clarification_date_day" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-day'] }}" >
                                                                     </div>
@@ -157,7 +157,7 @@
                                         Month
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
+                                        id="clarification_date-month_{{requirement.nonOCDS.order}}" name="clarification_date_month" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-month'] }}" >
                                                                     </div>
@@ -169,7 +169,7 @@
                                         Year
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                        id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
+                                        id="clarification_date-year_{{requirement.nonOCDS.order}}" name="clarification_date_year" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-year'] }}" >
                                                                     </div>
@@ -186,7 +186,7 @@
                                         Hour
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
+                                        id="clarification_date-hour_{{requirement.nonOCDS.order}}" name="clarification_date_hour" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-hour'] }}" >
                                                                     </div>
@@ -198,7 +198,7 @@
                                         Minutes
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
+                                        id="clarification_date-minute_{{requirement.nonOCDS.order}}" name="clarification_date_minute" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}">
                                                                     </div>
