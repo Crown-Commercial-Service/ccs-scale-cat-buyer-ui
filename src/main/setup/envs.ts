@@ -10,8 +10,8 @@ const localEnvariables = (app: express.Express): void => {
          {
           "credentials": {
            "host": "127.0.0.1",
-           "password": "redispw",
-           "port": 49153,
+           "password": "",
+           "port": 6379,
            "uri": ""
           }
          }
