@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     
     let arr = $("#clarification_date_arr").attr("attr");
-    const selectors = arr.split(',');
+    let selectors=[];
+if(arr!=undefined){
+     selectors = arr.split(',');
+}
     
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);

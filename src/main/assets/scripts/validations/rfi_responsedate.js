@@ -1,5 +1,8 @@
 let arr = $("#clarification_date_arr").attr("attr");
-const totalElementSelectors = arr.split(',');
+let totalElementSelectors=[];
+if(arr!=undefined){
+     totalElementSelectors = arr.split(',');
+}
 
 for (const selector of totalElementSelectors) {
    
