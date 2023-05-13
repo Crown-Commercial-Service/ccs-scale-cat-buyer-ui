@@ -252,7 +252,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     } else { 
       forceChangeDataJson = cmsData;
     }
-    
+     
       let appendData = {
         data: forceChangeDataJson,
         prompt: prompt,
