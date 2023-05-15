@@ -360,7 +360,12 @@
                           {% else %}
                            <h2 class="govuk-heading-m">
                             <span class="proc-task-list__section-number">3.</span>
-                            {{ data.subsection4_title3 }}</h2>
+                            {% if status.toLowerCase() === 'closed' %}
+                            Suppliers who responded to your published project
+                             {% else %}
+                                {{ data.subsection4_title3 }}</h2>
+                            {% endif %}
+                            
                            <p class="govuk-body">
                             {% if status.toLowerCase() === 'closed' %}
                               Find out how many suppliers responded to your project in the section below.
