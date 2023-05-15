@@ -16,8 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         lotId = document.getElementById("lotId").value;
     }
 
-    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-
+    // let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    
+    let arr = $("#clarification_date_arr").attr("attr");
+    let selectors=[];
+if(arr!=undefined){
+     selectors = arr.split(',');
+}
+    
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
@@ -26,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let minutes = $(`#clarification_date-minute_${element}`);
         
         let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
-
+        
         // day.on('blur', () => {
         //     let value = day;
         //     if (value != undefined && value.val() != '') {
@@ -131,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
             let parentID = getParentId(element);
+            
             ccsZremoveErrorMessage(document.getElementById(parentID));
             ccsZremoveErrorMessageRFIDate();
             if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
@@ -203,26 +210,34 @@ document.addEventListener('DOMContentLoaded', () => {
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
+                    
+                    let indexKey = selectors.indexOf(element);
+                    let previosElement = indexKey-1;
+                    let nextElement = indexKey+1;
+                    let previosElementValue=selectors[previosElement];
+                    let nextElementValue=selectors[nextElement];
 
 
-                    let currentDate = new Date(document.getElementsByClassName(`dynamicid_${element - 1}`)[0].innerText);
+                    let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
-        
+
                     let nextDate = new Date();
                     let isNextDate = false;
-                    if(selectors.length + 1 > element && document.getElementsByClassName(`dynamicid_${element+ 1}`).length > 0){
-                        // parent = document.getElementById('showDateDiv5');
+                    
+                  //  if(selectors.length + 1 > element && document.getElementsByClassName(`clarification_${nextElementValue}`).length > 0){
+                    if(document.getElementsByClassName(`clarification_${nextElementValue}`).length > 0){
+                       
+                  // parent = document.getElementById('showDateDiv5');
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("element",element)
                         // parent = document.getElementById(`showDateDiv${element+ 1}`);
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("children",children);
-
-                        nextDate = new Date(document.getElementsByClassName(`dynamicid_${element+ 1}`)[0].innerText);
                         
+                        nextDate = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
                         isNextDate = true;
                     }
-
+                    
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
@@ -283,6 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         }
+       
     }
 
 });

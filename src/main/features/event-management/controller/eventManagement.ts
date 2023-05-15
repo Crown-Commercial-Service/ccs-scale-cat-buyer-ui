@@ -348,7 +348,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-
+     
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
       if (fetchData?.data != undefined) {
