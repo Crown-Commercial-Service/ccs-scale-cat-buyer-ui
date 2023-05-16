@@ -1,8 +1,8 @@
-dist: bionic
+dist: focal
 os: linux
 language: node_js
 node_js:
-  — 16.13.1
+  — 18.16.0
 
 before_install:
   - npm i -g npm@8.19.4
