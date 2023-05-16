@@ -506,7 +506,7 @@
   {%endif%}
 
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
-      {% if (agreement_id == "RM6187") %}
+      {% if (agreement_id == "RM6187" or agreement_id == "RM1557.13") %}
         {{ CCSInput({
             label: {
               text: requirement.OCDS.title | striptags(true) | escape | nl2br,

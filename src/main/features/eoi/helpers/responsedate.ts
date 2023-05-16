@@ -96,14 +96,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let deadline_period_for_clarification;
     let supplier_period_for_clarification;
 
-    
     if (req.session.UIDate == null) {
       const eoi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
       const clarification_period_end_date = new Date();
       const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
         }-${clarification_period_end_date.getFullYear()}`;
 
-      const eoi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
+      let eoi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
         predefinedDays.clarification_days,
       )._d;
 
@@ -116,7 +115,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         
       const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${DeadlinePeriodDate.getMonth() + 1
         }-${DeadlinePeriodDate.getFullYear()}`;
-        const deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+        let deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.clarification_period_end,
       )._d;
       deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
@@ -125,7 +124,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const SupplierPeriodDate = deadline_period_for_clarification_period;
       const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${SupplierPeriodDate.getMonth() + 1
         }-${SupplierPeriodDate.getFullYear()}`;
-      const supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+      let supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_period,
       )._d;
       supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
@@ -134,7 +133,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
       const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1
         }-${SupplierPeriodDeadLine.getFullYear()}`;
-        const supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(predefinedDays.supplier_deadline_extra,)._d;
+        let supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(predefinedDays.supplier_deadline_extra,)._d;
         // if(agreement_id=='RM6263'){
         //   const supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
         //     predefinedDays.supplier_deadline,
@@ -166,6 +165,24 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           }
         }
         }
+
+        if(!req.session.isTimelineRevert) {
+          let eoi_clarification_period_endGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+          eoi_clarification_period_end = eoi_clarification_period_endGet!=undefined?new Date(eoi_clarification_period_endGet):eoi_clarification_period_end;
+
+          let deadline_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 3").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+          deadline_period_for_clarification_period = deadline_period_for_clarification_periodGet!=undefined?new Date(deadline_period_for_clarification_periodGet):deadline_period_for_clarification_period;
+         
+          let supplier_period_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 4").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+          supplier_period_for_clarification_period = supplier_period_for_clarification_periodGet!=undefined?new Date(supplier_period_for_clarification_periodGet):supplier_period_for_clarification_period;
+         
+          let supplier_dealine_for_clarification_periodGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 5").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
+          supplier_dealine_for_clarification_period = supplier_dealine_for_clarification_periodGet!=undefined?new Date(supplier_dealine_for_clarification_periodGet):supplier_dealine_for_clarification_period;
+          
+        
+        }
+
+
       let appendData = {
         data: cmsData,
         prompt: prompt,
