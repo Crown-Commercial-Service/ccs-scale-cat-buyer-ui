@@ -37,7 +37,6 @@ export enum REQUIREMENT_PATHS {
 
   //CONTINUED SESSION
   RFP_POST_RETAIN_SESSION = '/rfp/retain-session',
-  RFP_GET_CHECK_SESSION = '/rfp/check-session',
 
 
   //CONFIRMATION REVIEW
