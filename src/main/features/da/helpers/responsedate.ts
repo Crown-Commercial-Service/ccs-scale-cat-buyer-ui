@@ -11,7 +11,6 @@ import * as Mcf3cmsData from '../../../resources/content/da/da-response-date.jso
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
-import { error } from 'console';
 
 const momentCssHolidays = async () => {
   let basebankURL = `/bank-holidays.json`;
