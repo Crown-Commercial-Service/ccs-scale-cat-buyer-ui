@@ -180,7 +180,7 @@ function isValidQuestion(
   }
   switch (questionId) {
     case 'Question 1':
-      errorSelector = 'eoi_clarification_date_expanded_1';
+      errorSelector = 'rfi_clarification_date_expanded_1';
       break;
     case 'Question 2':
       
@@ -192,7 +192,7 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'eoi_clarification_date_expanded_2';
+      errorSelector = 'rfi_clarification_date_expanded_2';
       break;
     case 'Question 3':
       if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
@@ -203,7 +203,7 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'eoi_clarification_date_expanded_3';
+      errorSelector = 'rfi_clarification_date_expanded_3';
       break;
     case 'Question 4':
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
@@ -214,14 +214,14 @@ function isValidQuestion(
         isValid = false;
         error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
-      errorSelector = 'eoi_clarification_date_expanded_4';
+      errorSelector = 'rfi_clarification_date_expanded_4';
       break;
     case 'Question 5':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'eoi_clarification_date_expanded_5';
+      errorSelector = 'rfi_clarification_date_expanded_5';
       break;
     default:
       isValid = true;
@@ -428,35 +428,35 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
           selector =
             ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
           
-          selectorID = 'eoi_clarification_date_expanded_1';
+          selectorID = 'rfi_clarification_date_expanded_1';
           break;
 
         case 'Question 2':
           selector =
             'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
          
-          selectorID = 'eoi_clarification_date_expanded_2';
+          selectorID = 'rfi_clarification_date_expanded_2';
           break;
 
         case 'Question 3':
           selector =
             'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
           
-          selectorID = 'eoi_clarification_date_expanded_3';
+          selectorID = 'rfi_clarification_date_expanded_3';
           break;
 
         case 'Question 4':
           selector =
             'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
           
-          selectorID = 'eoi_clarification_date_expanded_4';
+          selectorID = 'rfi_clarification_date_expanded_4';
           break;
 
         case 'Question 5':
           selector =
             'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
           
-          selectorID = 'eoi_clarification_date_expanded_5';
+          selectorID = 'rfi_clarification_date_expanded_5';
           break;
 
         default:

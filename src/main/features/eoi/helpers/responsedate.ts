@@ -10,7 +10,26 @@ import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+
+const momentCssHolidays = async () => {
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+  let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  let holiDaysArr = []
+  for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
+    var AsDate = new Date(bankHolidayEnglandWales[h].date);
+    holiDaysArr.push(moment(AsDate).format('DD-MM-YYYY'));
+  }
+  
+  moment.updateLocale('en', {
+    holidays: holiDaysArr,
+    holidayFormat: 'DD-MM-YYYY'
+  });
+}
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -23,7 +42,7 @@ const predefinedDays = {
 };
 
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
-  
+  await momentCssHolidays();
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const agreement_id =  req.session.agreement_id;

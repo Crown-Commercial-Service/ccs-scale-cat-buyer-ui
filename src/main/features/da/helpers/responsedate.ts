@@ -8,10 +8,30 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import * as Mcf3cmsData from '../../../resources/content/da/da-response-date.json';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
 
+const momentCssHolidays = async () => {
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+  let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  let holiDaysArr = []
+  for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
+    var AsDate = new Date(bankHolidayEnglandWales[h].date);
+    holiDaysArr.push(moment(AsDate).format('DD-MM-YYYY'));
+  }
+  
+  moment.updateLocale('en', {
+    holidays: holiDaysArr,
+    holidayFormat: 'DD-MM-YYYY'
+  });
+}
+
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
+  await momentCssHolidays();
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
@@ -252,7 +272,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     } else { 
       forceChangeDataJson = cmsData;
     }
-    
+     
       let appendData = {
         data: forceChangeDataJson,
         prompt: prompt,
