@@ -269,7 +269,7 @@ function isValidQuestion(
       case 'Question 10':
         if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
           isValid = false;
-          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+          error = '111You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
         if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
           isValid = false;
@@ -280,7 +280,7 @@ function isValidQuestion(
       case 'Question 11':
         if (questionNewDate < new Date(timeline.proposedAwardDate)) {
           isValid = false;
-          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+          error = '222You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
         errorSelector = 'rfi_clarification_date_expanded_11';
         break;
@@ -290,6 +290,7 @@ function isValidQuestion(
 
    }
    else{
+
     switch (questionId) {
       case 'Question 1':
         errorSelector = 'rfi_clarification_date_expanded_1';
@@ -354,7 +355,7 @@ function isValidQuestion(
       case 'Question 10':
         if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
           isValid = false;
-          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+          error = '555You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
         if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
           isValid = false;
@@ -365,7 +366,7 @@ function isValidQuestion(
       case 'Question 11':
         if (questionNewDate < new Date(timeline.proposedAwardDate)) {
           isValid = false;
-          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+          error = '666You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
         errorSelector = 'rfi_clarification_date_expanded_11';
         break;
