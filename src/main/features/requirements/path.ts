@@ -114,14 +114,8 @@ export default function (app: Application): void {
 
   app.get(
     REQUIREMENT_PATHS.RFP_POST_RETAIN_SESSION,
-    AgreementDetailsFetchMiddleware.FetchAgreements,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_RETAIN_SESSION,
-  );
-
-  app.get(
-    REQUIREMENT_PATHS.RFP_GET_CHECK_SESSION,
-    AgreementDetailsFetchMiddleware.FetchAgreements,
-    REQUIREMENT_CONTROLLER.RFP_GET_CHECK_SESSION,
   );
 
   app.get(
