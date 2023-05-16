@@ -12,7 +12,6 @@ import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
 import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
-import { json } from 'stream/consumers';
 
 const momentCssHolidays = async () => {
   let basebankURL = `/bank-holidays.json`;
