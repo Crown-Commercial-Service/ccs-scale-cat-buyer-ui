@@ -2,8 +2,8 @@ var inactiviyTime = 0;
 var inactiviyTime1 = 0;
 let logoutlocationURL = window.location.origin + '/oauth/logout'
 var inactivateAfter = 2;
-var inactivateOpenPopUp = 870;
-var inactivateClosePopUp = 900;
+var inactivateOpenPopUp = 810;//13.30
+var inactivateClosePopUp = 840;//14
 
 
 $(document).ready(function () {
@@ -20,13 +20,13 @@ $(document).ready(function () {
 });
 
 function timerIncrement() {
-  $.ajax({
-    url: `/rfp/check-session`,
-    type: "GET",
-    contentType: "application/json",
-    async: false,
-  }).done(function (result) {
-    if(result.status == true){
+    inactiviyTime = inactiviyTime + 1;
+    let redirectUrl = window.location.href;
+    inactiviyTime1 = inactiviyTime*30;
+   
+    if (inactiviyTime1 >= inactivateOpenPopUp) { 
+        // 15 minutes
+        
       const openpopGC = document.querySelector('.backdrop-sessionTimeoutPopup')
       openpopGC.classList.add('showpopup')
       $(".dialog-close-sessionTimeoutPopup").on('click', function(){
@@ -50,19 +50,15 @@ function timerIncrement() {
           
           console.log(res);
         })
-                // document.location.href=window.location.href;
+        // openpopGC.classList.remove('showpopup');
+        // var bodytg = document.body;
+        // bodytg.classList.add("pageblur");
+        // document.location.href=window.location.href;
       });
-      setTimeout(function(){
+
+      if(inactiviyTime1 >= inactivateClosePopUp){
         openpopGC.classList.remove('showpopup');
         window.location.href= logoutlocationURL
-        }, 30000);
+      }
     }
-   // window.location.href = redirectUrl;
-   
-  }).fail((res) => {
-    
-    console.log(res);
-  })
-   
-    
 }
