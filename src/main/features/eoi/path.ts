@@ -193,8 +193,16 @@ export default function (app: Application): void {
   //@POST "/eoi/response-date"
   app.post(EOI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE);
 
+  // //@POST /eoi/add/response-date
+  // app.post(EOI_PATHS.POST_ADD_RESPONSE_DATA, AUTH, associatedViews.POST_ADD_RESPONSE_DATE);
+  
   //@POST /eoi/add/response-date
-  app.post(EOI_PATHS.POST_ADD_RESPONSE_DATA, AUTH, associatedViews.POST_ADD_RESPONSE_DATE);
+  app.post(
+    EOI_PATHS.POST_ADD_RESPONSE_DATA,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.POST_ADD_RESPONSE_DATE,
+  );
+
   //@POST "eoi/upload-doc"
   app.post(EOI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC);
 
