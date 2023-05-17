@@ -112,9 +112,11 @@
     </li>
     {% endif %}
     {%if serviceDetails.freeVersionTrialOption %}
+    {%if serviceDetails.freeVersionLink %}
     <li>
         <a href="{{serviceDetails.freeVersionLink}}" class="govuk-link" rel="external noopener noreferrer" target="_blank">Free trial available</a>
     </li>
+     {% endif %}
    {% endif %}
   </ul>
   <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Service documents</h2>
@@ -2511,6 +2513,7 @@
                     </dd>
                 </div>
               {%if serviceDetails.freeVersionTrialOption %}
+              {%if serviceDetails.freeVersionDescription %}
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                       Description of free trial
@@ -2519,7 +2522,8 @@
                       {{serviceDetails.freeVersionDescription}}
                     </dd>
                 </div>
-
+                {% endif %}
+                 {%if serviceDetails.freeVersionLink %}
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
                       Link to free trial
@@ -2528,6 +2532,7 @@
                       {{serviceDetails.freeVersionLink}}
                     </dd>
                 </div>
+                {% endif %}
               {% endif %}
               {% endif %}
                 </dl>
