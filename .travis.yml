@@ -7,6 +7,10 @@ node_js:
 before_install:
   - npm i -g npm@8.19.4
 
+before_script:
+  - echo "Check that the code will transpile"
+  - npm run type-check
+
 script:
   - echo "Run full npm test when tests have been fixed"
   - npm run test:unit
