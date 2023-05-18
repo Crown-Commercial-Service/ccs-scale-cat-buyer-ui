@@ -348,7 +348,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
      
       fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      //fetchData=[];
+      
       //CAS-INFO-LOG 
       LoggTracer.infoLogger(fetchData, logConstant.getQuestionAndAnsDetails, req);
       if (fetchData?.data != undefined) {
@@ -1071,7 +1071,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
               res.render('awardEventManagement', appendData);
             }
             else {
-              console.log("Event212")
+             
               const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
               const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
               const stage2_dynamic_api_data = stage2_dynamic_api.data;
@@ -1080,16 +1080,11 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
               //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
         
               const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
-            //  console.log("DAAA",JSON.stringify(stage2_data))
-            //   console.log("stage2BaseUrl",stage2BaseUrl);
-            //  console.log("stage2_data.length",stage2_data.length);
 
               let stage2_value = 'Stage 1';
               if(stage2_data.length > 0){
                 stage2_value = 'Stage 2';
               }
-             // stage2_value = 'Stage 2';
-              console.log("Event212666",stage2_value);
 
               if(agreementId_session==='RM1043.8'){    
                 appendData.stage2_value = stage2_value;
