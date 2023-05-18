@@ -39,7 +39,7 @@ $(document).ready(function () {
             let totalFileSum = 0;
             for(var a =0; a < totalFiles; a ++){
                 let file = FileList[a];
-                totalFileSum = totalFileSum + file.size;
+                 totalFileSum = totalFileSum + file.size;
             }
         
             
@@ -55,8 +55,7 @@ $(document).ready(function () {
 
                 const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
-                //let size = 300000000;
-                let size = 307200000
+                let size = 300000100;
                
                 if(file.size >= size){
                 ErrorCheckArray.push({
