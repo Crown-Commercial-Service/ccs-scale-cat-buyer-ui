@@ -192,4 +192,4 @@ Terraform state for each space (environment) is persisted to a dedicated AWS acc
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
