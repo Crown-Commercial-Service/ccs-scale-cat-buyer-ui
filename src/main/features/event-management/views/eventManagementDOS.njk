@@ -301,7 +301,7 @@
 
                     <div class="govuk-grid-row ccs-page-section">
                       <div class="govuk-grid-column-full">
-                        {% if status.toUpperCase() == 'EVALUATED' %}
+                        {% if status.toUpperCase() == 'EVALUATED' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                           {% if(stage2_value == 'Stage 2')  %}
                                          <h2 class="govuk-heading-m">
 
@@ -316,19 +316,24 @@
                           {% endif %}
                           
                         {% else %}
+                                                  {% if status.toLowerCase() == 'published' and status.toLowerCase() != 'close' %}
+
                           <h2 class="govuk-heading-m">
 
                             <span class="proc-task-list__section-number">4.</span>
                             {{data.subsection4_title4}}</h2>
+                         
+                         {% endif %}
+
                         {% endif %}
-                        {% if status.toLowerCase() == 'published' %}
+                        {% if status.toLowerCase() == 'published' and status.toLowerCase() != 'close' %}
                           <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
                         {% endif %}
 
-                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+                        {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                           
                           {% if agreementId_session == 'RM1043.8' %}
-                            {% if status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 2' %}
+                            {% if (status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 2') or (stage2_value == 'Stage 2' and status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                                 <p class="govuk-body govuk-!-margin-bottom-0">{{ data.subsection4_dos_eval_descr_stg2 }}</p> 
                                 <p class="govuk-body">{{ data.subsection4_dos_eval_descr_stg2_text2 }}</p>  
                             {% elif status.toUpperCase() ==='TO-BE-EVALUATED' %}
@@ -338,7 +343,7 @@
                                 <a class="govuk-link app-task-list__tag startEvalDos6Btn" href="/start-evaluation">{{data.DosViewsupplierResponses}}</a>
                               </p>
                               {# SCAT-8465-END #}     
-                            {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' %}
+                            {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                             <p class="govuk-body">{{data.subsection4_dos_eval_descr_stg1_dos}}</p>
                             {% else %}
                                  {% if status.toUpperCase() ==='EVALUATING'%}
@@ -362,22 +367,26 @@
                                 <thead class="govuk-table__head">
                                   <tr class="govuk-table__row">
                                     <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1_dos}}</th>
-                                    {% if status.toUpperCase() ==='TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATING' %}
+                                    {% if status.toUpperCase() ==='TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATING' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
                                       <th scope="col" class="govuk-table__header">Supplier answer</th>
                                     {% endif %}
-                                    {% if status.toUpperCase() === 'EVALUATED' %}
+                                    {% if status.toUpperCase() === 'EVALUATED' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                                        {% if(stage2_value == 'Stage 2')  %}
                                        <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
                                        {% endif %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2_dos}}</th>
+                                      
+                                      {% if(status.toLowerCase() != 'closed')  %}
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
+                                      {% endif %}
+
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
                                       <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
-                                      {% if(stage2_value != 'Stage 2')  %}
+                                      {% if(stage2_value != 'Stage 2' and status.toLowerCase() != 'closed')  %}
                                         <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_9}}</th>
                                       {% endif %}
-                                      {% if(stage2_value == 'Stage 2')  %}
+                                      {% if(stage2_value == 'Stage 2' and status.toLowerCase() != 'closed')  %}
                                         <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_6}}</th>
                                       {% endif %}
                                     {% else %}
@@ -406,16 +415,16 @@
                                           </td>
                                           <td class="govuk-text-align govuk-!-text-align-left">
                                             {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
-                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
+                                              <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download </a>
                                             {%else%}
-                                            <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download</a>
+                                            <a class="govuk-link download" data-url="/eventmanagement?supplierid={{supplier.supplierId}}" href="#">Download </a>
                                             {%endif%}
 
                                           </td>
 
                                           {%endif%}
 
-                                          {% if status.toUpperCase() === 'EVALUATED' %}
+                                          {% if status.toUpperCase() === 'EVALUATED' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
                                           {% if(stage2_value == 'Stage 2')  %}
                                             <td class="govuk-text-align govuk-!-text-align-left">
                                               {{ supplier.responseDate }}
@@ -424,10 +433,12 @@
                                             <td class="govuk-text-align govuk-!-text-align-left">
                                               <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
                                             </td>
+                                                                                      {% if status.toLowerCase() != 'closed' %}
+
                                             <td class="govuk-text-align govuk-!-text-align-left">
                                               <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
                                             </td>
-
+                                           {%endif%}
                                             <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                                               <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}
                                               </p>
@@ -479,7 +490,7 @@
                                                 {% endif %}
 
                                               {% endif %}
-                                              {% if status.toUpperCase() === 'EVALUATED' and stage2_value == 'Stage 2' %}
+                                              {% if status.toUpperCase() === 'EVALUATED' and stage2_value == 'Stage 2' or (status.toLowerCase() != 'closed' and supplierSummary.responded!=0) %}
                                                <a href="/eventmanagement?download=1" class="govuk-link download">{{data.backJump.title}}</a>
                                               {% endif %}
                                             </td>
@@ -500,7 +511,7 @@
                                   </div>
                                   {% endif %}
 
-                                {% elif status.toLowerCase() != 'published' %}
+                                {% elif status.toLowerCase() != 'published' and status.toLowerCase() != 'closed' %}
 
                                   <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier answers or all answers.</p>
                                   {#<h3 class="govuk-heading-m">
@@ -600,7 +611,7 @@
                                       <a class="govuk-link" href="/dashboard">Return to Your dashboard</a>
                                     </form>
                                   {% endif %}
-                                  {% if status.toUpperCase() != 'EVALUATED' %}
+                                  {% if status.toUpperCase() != 'EVALUATED' and status.toUpperCase() != 'CLOSED' %}
                                   <h2 class="govuk-heading-m">
                                     <span class="proc-task-list__section-number">5.</span>
                                     Evaluate suppliers</h2>

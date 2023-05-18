@@ -171,7 +171,7 @@ export const GET_SERVICES = async (req: express.Request, res: express.Response) 
           serviceDetails.educationPricing=serviceData.services.educationPricing;
           serviceDetails.freeVersionTrialOption=serviceData.services.freeVersionTrialOption;
           serviceDetails.freeVersionDescription=serviceData.services.freeVersionDescription;
-          serviceDetails.freeVersionLink=serviceData.services.freeVersionLink;
+          serviceDetails.freeVersionLink=(serviceData.services.freeVersionLink !==null && serviceData.services.freeVersionLink !==undefined)?await addhttp(serviceData.services.freeVersionLink):null;
 
           serviceDetails.pricingDocumentURL=serviceData.services.pricingDocumentURL;
           serviceDetails.sfiaRateDocumentURL=serviceData.services.sfiaRateDocumentURL;
@@ -280,5 +280,12 @@ async function priceContent(name: any){
   }else{
     return `a ${name}`;
   }
+}
+
+async function addhttp(url: any){
+  if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+        url = "http://" + url;
+    }
+    return url;
 }
 

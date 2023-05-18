@@ -15,6 +15,9 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   if(issetDashBanner == undefined || issetDashBanner == '') {
     issetDashBanner = '';
   }
+  if(issetDashBanner == 'NULL') {
+    issetDashBanner = '';
+  }
 
   //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
@@ -663,6 +666,9 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   let issetDashBanner;
   issetDashBanner = process.env.DASHBOARD_BANNER;
   if(issetDashBanner == undefined || issetDashBanner == '') {
+    issetDashBanner = '';
+  }
+  if(issetDashBanner == 'NULL') {
     issetDashBanner = '';
   }
 
