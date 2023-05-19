@@ -79,7 +79,7 @@
         "redis": "^3.1.2",
         "require-directory": "^2.1.1",
         "rewire": "^6.0.0",
-        "rollbar": "^2.24.0",
+        "rollbar": "^2.26.1",
         "serve-favicon": "^2.5.0",
         "ts-node": "^10.9.1",
         "tsconfig-paths": "^3.11.0"
