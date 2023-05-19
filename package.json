@@ -8,9 +8,10 @@
         "npm": ">= 8.19.4"
     },
     "scripts": {
-        "start": "ts-node -r tsconfig-paths/register src/main/server.ts",
+        "start": "ts-node --transpile-only -r tsconfig-paths/register src/main/server.ts",
         "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/main/server.ts",
         "start:win": "SET NODE_ENV=development && npm run start:dev",
+        "type-check": "tsc --noEmit",
         "lint": "eslint --ext .ts src/**",
         "lint:fix": "eslint --ext .ts --fix src/**",
         "lint:frontend": "eslint --ext .js src/main/assets/scripts/**",
