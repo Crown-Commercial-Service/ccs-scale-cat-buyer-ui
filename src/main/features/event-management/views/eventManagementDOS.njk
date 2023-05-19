@@ -302,7 +302,7 @@
                     <div class="govuk-grid-row ccs-page-section">
                       <div class="govuk-grid-column-full">
                         {% if status.toUpperCase() == 'EVALUATED' or (status.toLowerCase() == 'closed' and supplierSummary.responded!=0) %}
-                          {% if(stage2_value == 'Stage 2')  %}
+                            {% if(stage2_value == 'Stage 2')  %}
                                          <h2 class="govuk-heading-m">
 
                             <span class="proc-task-list__section-number">4.</span>
@@ -316,7 +316,7 @@
                           {% endif %}
                           
                         {% else %}
-                                                  {% if status.toLowerCase() == 'published' and status.toLowerCase() != 'close' %}
+                                                  {% if (status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' or status.toLowerCase() == 'published') and status.toLowerCase() != 'close' %}
 
                           <h2 class="govuk-heading-m">
 
@@ -490,8 +490,8 @@
                                                 {% endif %}
 
                                               {% endif %}
-                                              {% if status.toUpperCase() === 'EVALUATED' and stage2_value == 'Stage 2' or (status.toLowerCase() != 'closed' and supplierSummary.responded!=0) %}
-                                               <a href="/eventmanagement?download=1" class="govuk-link download">{{data.backJump.title}}</a>
+                                              {% if (status.toUpperCase() === 'EVALUATED' and status.toLowerCase() != 'closed' and supplierSummary.responded!=0) and stage2_value == 'Stage 2' %}
+                                              <a href="/eventmanagement?download=1" class="govuk-link download">{{data.backJump.title}}</a>
                                               {% endif %}
                                             </td>
                                             {% if status.toUpperCase() === 'EVALUATED' %}
