@@ -88,7 +88,7 @@
     "devDependencies": {
         "@babel/core": "^7.21.8",
         "@babel/preset-env": "^7.21.5",
-        "@types/chai-as-promised": "^7.1.1",
+        "@types/chai-as-promised": "^7.1.5",
         "@types/express-session": "^1.17.0",
         "@types/jsdom": "^16.2.14",
         "@types/mocha": "^9.0.0",
