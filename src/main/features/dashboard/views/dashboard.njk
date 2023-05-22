@@ -7,6 +7,14 @@
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+           {{ 
+  CCSDialog({
+    title: "Confirm you want to close this project",
+    description:"This project has not been published. Upon closure, it will appear in your past projects list, but you will no longer have access to it.",
+    redirect:'#',
+    type:'projectCloseAllPopup'
+  }) 
+}}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {# Banner notic Start #}
     {% if issetDashBanner != '' %}
@@ -153,8 +161,9 @@
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}12</th>
                 <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
+               
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -199,6 +208,17 @@
                     {% endif %}
 
                   </td>
+                   <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
+                    <p class="govuk-body govuk-!-margin-bottom-0" >
+                       <a href="#backdrop-projectCloseAllPopup" class="govuk-link" data-module="govuk-button" id="evaluate_suppliers">
+           Close project
+          </a>
+                      {# <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">Close project                      
+                      </a> #}
+                  
+                    </p>
+
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -211,7 +231,7 @@
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}13</th>
                 <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
               </tr>
             </thead>
