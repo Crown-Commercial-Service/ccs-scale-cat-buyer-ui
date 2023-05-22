@@ -12,7 +12,7 @@ const developmentMode = env === 'development';
 import { NotFoundError } from './errors/errors'
 import fs from 'fs'
 export const app = express();
-import glob from 'glob'
+import { glob } from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
@@ -137,9 +137,9 @@ app.enable('trust proxy')
 /**
  * @Routable path getting content from default.json
  */
-const featureRoutes: Array<Object> = config.get('featureDir')
-featureRoutes?.forEach((aRoute: any) => {
-  glob.sync(__dirname + aRoute?.['path'])
+const featureRoutes: Array<{path: string}> = config.get('featureDir')
+featureRoutes?.forEach((aRoute: {path: string}) => {
+  glob.sync(__dirname + aRoute?.path)
     .map((filename: string) => require(filename))
     .forEach((route: any) => route.default(app));
 });

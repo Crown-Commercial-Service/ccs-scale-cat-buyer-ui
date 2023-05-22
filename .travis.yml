@@ -1,11 +1,15 @@
-dist: bionic
+dist: focal
 os: linux
 language: node_js
 node_js:
-  — 16.13.1
+  — 18.16.0
 
 before_install:
   - npm i -g npm@8.19.4
+
+before_script:
+  - echo "Check that the code will transpile"
+  - npm run type-check
 
 script:
   - echo "Run full npm test when tests have been fixed"
