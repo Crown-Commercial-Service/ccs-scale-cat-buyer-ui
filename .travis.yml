@@ -8,7 +8,8 @@ before_install:
   - npm i -g npm@8.19.4
 
 script:
-  - echo "Run npm test when tests have been fixed"
+  - echo "Run full npm test when tests have been fixed"
+  - npm run test:unit
 
 after_success:
   - echo "Determine deployment environment"
