@@ -53,6 +53,7 @@ const MCF3_Days = {
   supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
   supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
 };
 
 const DOS_Days = {
@@ -92,6 +93,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
   let selectedeventtype=req.session.selectedeventtype;
+
+  const eventTypeURL = `tenders/projects/${projectId}/events`;
+  let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+  getEventType = getEventType.data.filter(x => x.id == event_id)[0]?.eventType;
+  
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -228,9 +234,15 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           predefinedDays.supplier_deadline,
         )._d;
       } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
+        if(getEventType == 'FC') {
           bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
-          predefinedDays.supplier_persentation,
-        )._d;
+            predefinedDays.stanstill_period_condtional,
+          )._d;
+        } else {
+          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.supplier_persentation,
+          )._d;
+        }
       } else {
          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_period_extra,
