@@ -11,6 +11,7 @@ import moment from 'moment-business-days';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 import { Console } from 'console';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import config from 'config';
 
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -887,3 +888,123 @@ const filtervalues=moment(
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
 }};
+
+// StandstilSupplierPresentation - Start
+const MCF3_Days = { 
+  defaultEndingHour: Number(config.get('predefinedDays.mcf3_fc_defaultEndingHour')),
+  defaultEndingMinutes: Number(config.get('predefinedDays.mcf3_fc_defaultEndingMinutes')),
+  clarification_days: Number(config.get('predefinedDays.mcf3_fc_clarification_days')),
+  clarification_period_end: Number(config.get('predefinedDays.mcf3_fc_clarification_period_end')),
+  supplier_period: Number(config.get('predefinedDays.mcf3_fc_supplier_period')),
+  supplier_deadline: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline')), 
+  supplier_period_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_period_extra')),
+  supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
+  supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
+  supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
+};
+export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: express.Response) => {
+  let resData;
+  let tl_aggrementID = req.body.tl_aggrementID;
+  let tl_eventType = req.body.tl_eventType;
+  let tl_questionID = req.body.tl_questionID;
+  let tl_val = req.body.tl_val;
+  
+  if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
+    let manipulation = req.body.manipulation;
+
+    //Q6
+    let pre_Q6 = manipulation.Q6.value;
+    let Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+    
+    let Q7, Q7_after, Q7_check;
+    if(manipulation.Q7.selected) {
+      const Q6_Parsed = `${Q6.getDate()}-${
+        Q6.getMonth() + 1
+      }-${Q6.getFullYear()}`;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(manipulation.Q7.config)._d;
+
+      Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+      Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+      Q7 = Q6_B_add;
+      Q7_check = Q7;
+    } else {
+      Q7 = Q6;
+      Q7_check = undefined;
+    }
+
+    let Q8, Q8_after, Q8_check;
+    if(manipulation.Q8.selected) {
+      const Q7_Parsed = `${Q7.getDate()}-${
+        Q7.getMonth() + 1
+      }-${Q7.getFullYear()}`;
+      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(manipulation.Q8.config)._d;
+
+      Q7_B_add.setHours(MCF3_Days.defaultEndingHour);
+      Q7_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+      Q8 = Q7_B_add;
+      Q8_check = Q8;
+    } else {
+      Q8 = Q7;
+      Q8_check = undefined;
+    }
+
+    //Q9
+    let Q9, Q9_after;
+    const Q9_Parsed = `${Q8.getDate()}-${
+      Q8.getMonth() + 1
+    }-${Q8.getFullYear()}`;
+    const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
+    Q9_B_add.setHours(MCF3_Days.defaultEndingHour);
+    Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+    Q9 = Q9_B_add;
+
+    //Q10
+    let Q10, Q10_after;
+    const Q10_Parsed = `${Q9.getDate()}-${
+      Q9.getMonth() + 1
+    }-${Q9.getFullYear()}`;
+    const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
+    Q10_B_add.setHours(MCF3_Days.defaultEndingHour);
+    Q10_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+    Q10 = Q10_B_add;
+
+    //Q11
+    let Q11, Q11_after;
+    const Q11_Parsed = `${Q10.getDate()}-${
+      Q10.getMonth() + 1
+    }-${Q10.getFullYear()}`;
+    const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
+    Q11_B_add.setHours(MCF3_Days.defaultEndingHour);
+    Q11_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+    Q11 = Q11_B_add;
+
+    //JSON Response Start
+    if(Q7_check != undefined) {
+      Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    } else {
+      Q7_after = 'Invalid date';
+    }
+
+    if(Q8_check != undefined) {
+      Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    } else {
+      Q8_after = 'Invalid date';
+    }
+    Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    //JSON Response End
+
+    // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
+    resData = {
+      "Q7":`Question 7*${Q7_after}`,
+      "Q8":`Question 8*${Q8_after}`,
+      "Q9":`Question 9*${Q9_after}`,
+      "Q10":`Question 9*${Q10_after}`,
+      "Q11":`Question 9*${Q11_after}`,
+    }
+  }
+  res.json(resData);
+}
+// StandstilSupplierPresentation - End
