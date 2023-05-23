@@ -29,6 +29,7 @@ export enum EOI_PATHS {
   GET_EOI_PROJECT_BUDGET = '/eoi/project-budget',
 
   GET_CONFIRMATION_REVIEW='/eoi/confirmation-review',
+  GET_EOI_CLOSE_EVENT = '/eoi/close-event',
   /**
    * @POSTROUTES
    */
@@ -53,5 +54,6 @@ export enum EOI_PATHS {
   POST_EOI_PROJECT_SCOPE = '/eoi/project-scope',
   POST_EOI_CHOOSE_TYPE = '/eoi/choose-type',
   POST_EOI_SPECIAL_TERMS = '/eoi/special-terms',
-  POST_EOI_EXISTING_SUPPLIER = '/eoi/existing-supplier',
+  POST_EOI_EXISTING_SUPPLIER = '/eoi/existing-supplier'
+  
 }

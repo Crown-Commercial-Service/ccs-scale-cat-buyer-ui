@@ -1,4 +1,4 @@
-import { GET_TASKLIST } from './tasklist';
+import { GET_TASKLIST,GET_EOI_CLOSE_EVENT } from './tasklist';
 import { GET_TYPE, POST_TYPE } from './type';
 import { GET_ONLINE_TASKLIST } from './onlinetasklist';
 import { GET_QUESTIONS, POST_QUESTION } from './questions';
@@ -56,6 +56,7 @@ export const associatedViews = {
 
   GET_CONFIRMATION_REVIEW,
   GET_DELETE_COLLABORATOR_TO_JAGGER,
+  GET_EOI_CLOSE_EVENT,
   /**
    * @POST_VIEW
    */
@@ -77,6 +78,7 @@ export const associatedViews = {
   POST_EOI_PROJECT_SCOPE,
   POST_EOI_CHOOSE_TYPE,
   POST_EOI_SPECIAL_TERMS,
-  POST_EOI_EXISTING_SUPPLIER,
+  POST_EOI_EXISTING_SUPPLIER
+  
   
 };

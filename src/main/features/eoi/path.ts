@@ -155,6 +155,16 @@ export default function (app: Application): void {
     associatedViews.GET_EOI_PROJECT_BUDGET,
   );
 
+  //@GET '/eoi/project-budget'
+  app.get(
+    EOI_PATHS.GET_EOI_CLOSE_EVENT,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_CLOSE_EVENT,
+  );
+
+
+  
+
   /**
    *
    * @POST : POST Routes of EOI

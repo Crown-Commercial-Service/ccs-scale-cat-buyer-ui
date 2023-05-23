@@ -1906,3 +1906,29 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       );
     };
   }
+
+  CloseEOI = document.querySelectorAll('.closeEOI-popup');
+  CloseEOI.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      // deletePost(e.target.getAttribute('data-link'));
+      urldel = e.target.getAttribute('data-link');
+      console.log('*******************');
+      console.log(window.location.origin+urldel);
+      //Gcloude
+      const openpopEOI = document.querySelector('.backdrop-close_EOI')
+      openpopEOI.classList.add('showpopup');
+      $(".dialog-close-close_EOI").on('click', function(){
+        openpopEOI.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopEOI.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-close_EOI');
+      deconf.addEventListener('click', ev => {
+        openpopEOI.classList.remove('showpopup');
+       
+        window.location.href = window.location.origin+urldel;
+      });
+    });
+  });
