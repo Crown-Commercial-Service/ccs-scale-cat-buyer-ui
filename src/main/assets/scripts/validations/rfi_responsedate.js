@@ -1,5 +1,6 @@
 let arr = $("#clarification_date_arr").attr("attr");
 let totalElementSelectors=[];
+ 
 if(arr!=undefined){
      totalElementSelectors = arr.split(',');
 }
@@ -13,24 +14,15 @@ for (const selector of totalElementSelectors) {
     elementSelector.fadeOut();
 }
 
-
-
 for (const selector of totalElementSelectors) {
-    // headBodyContent_4 #resdateradio4
-
-    
     let elementRadioID = ".resdateradioclass" + selector;
     let elementRadioIDSelector = $(elementRadioID);
     if(selector==7 || selector==8){
-        $('#headBodyContent_'+selector).hide();
+       // $('#headBodyContent_'+selector).hide();
     }else{
-        $('#headContent_'+selector).hide();
+       // $('#headContent_'+selector).hide();
         
     }
-   
-    console.log("elementRadioIDSelector",elementRadioIDSelector);
-    console.log("selector",selector);
-
     let elementID = "#change_clarification_date_" + selector;
     let elementCancelID = "#cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
@@ -40,7 +32,6 @@ for (const selector of totalElementSelectors) {
     elementSelectorCancel.fadeIn();
     elementSelector.on('click', () => {
         removeErrorFieldsEoiTerms();
-        console.log("test1")
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementSelector.selector);
         let ClickedID = "#rfi_clarification_date_expanded_" + selector;
@@ -56,32 +47,32 @@ for (const selector of totalElementSelectors) {
         elementSelector.hide();
         saveButtonHideDateRfi();
     })
-
+    
     //Radio Yes or no Select
     elementRadioIDSelector.on('click', () => {
         let getClassName = 'resdateradio'+selector;
-
-        let checkedBox = $('input[name='+getClassName+']:checked').val();
-
+         let checkedBox = $('input[name='+getClassName+']:checked').val();
+        let erroReove = '#errorMsg'+selector+'-error';
         if(checkedBox=='yes'){
-            console.log("yess")
-           $('#headBodyContent_'+selector).show();
+            $('.showDivDynamic'+selector).removeClass('govuk-form-group--error')
+            $(erroReove).html(" ")
+            $('#headBodyContent_'+selector).show();
            $('#headContent_'+selector).removeClass('hidehr');
         }
         if(checkedBox=='no'){
-            console.log("NOOoo")
-           $('#headBodyContent_'+selector).hide();
+            $('.showDivDynamic'+selector).removeClass('govuk-form-group--error')
+            $(erroReove).html("")
+             $('#headBodyContent_'+selector).hide();
            $('#headContent_'+selector).addClass('hidehr');
         }
-         console.log("checkedBox",checkedBox);
-
         })
-
+     
 }
+
+
 var errorSelectorId = '';
 let errorSelector = $("#click-error");
 errorSelector.on('click', () => {
-    console.log("test2")
     let ClickedID = $("#click-error").attr("href");
     let errorText = $("#click-error").text();
     errorSelectorId = ClickedID;
@@ -97,7 +88,6 @@ for (const selector of totalElementSelectors) {
     let elementID = "#cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     elementSelector.on('click', () => {
-        console.log("test3")
         let ClickedID = "#rfi_clarification_date_expanded_" + selector;
 
         let elementSelectorClicked = $(ClickedID);
@@ -120,6 +110,49 @@ for (const selector of totalElementSelectors) {
         }
         saveButtonUnHideDateRfi();
     });
+}
+
+//FormValidation
+let submitValidation = "#hideMeWhileDateChange";
+let submitValidationSelector = $(submitValidation);
+submitValidationSelector.on('click', () => {
+     removeErrorFieldsEoiTerms();
+    errorStore = getRadioValidation();
+    if (errorStore.length === 0) {
+        document.getElementById(`timelineresponsedate`).submit()
+        }
+      else {
+        ccsZPresentErrorSummary(errorStore);
+    
+      }
+    return false;
+})
+
+function getRadioValidation(){
+    errorStore=[];
+for (const selector of totalElementSelectors) {
+    let checkRadioSelectedClassName = 'resdateradio'+selector;
+    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+
+    if(checkRadioSelected==undefined)
+    {
+    if(selector==7){
+        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select whether you want supplier presentations"); 
+        fieldCheck = ['errorMsg'+selector, 'Select whether you want supplier presentations'];
+        errorStore.push(fieldCheck);
+        }
+    if(selector==8){
+        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select whether you want a standstill"); 
+        fieldCheck = ['errorMsg'+selector, 'Select whether you want a standstill'];
+        errorStore.push(fieldCheck);
+     }
+    
+    }
+
+//Looend
+}
+ return errorStore;
+
 }
 
 const saveButtonHideDateRfi = () => {
