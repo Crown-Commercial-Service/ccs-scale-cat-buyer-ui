@@ -30,7 +30,28 @@
       </div>
     {% endif %}
     {# Banner notic End #}
-
+     {% set ttiletext = 'Message sent ' %}
+       {% set CreatedReplyCustomhtml %}
+                <h3 class="govuk-notification-banner__heading">
+                    {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %}
+                        Your message was sent  to all suppliers
+                    {% else %}
+                        Your message was sent to the supplier
+                    {% endif %}
+                </h3>
+                 {% endset %}
+    <h1>close project status {{closeprojectStatus}}</h1>
+     {% if closeprojectStatus == true %}
+     
+      <div class="govuk-grid-column-one-half">
+                        {{ govukNotificationBanner({	
+                        html: CreatedReplyCustomhtml,	
+                        type: "success",	
+                        titleText: ttiletext	
+                        }) }}
+                    </div>
+     {% endif %}
+    
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -210,7 +231,7 @@
                   </td>
                    <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
                     <p class="govuk-body govuk-!-margin-bottom-0" >
-                       <a href="#backdrop-projectCloseAllPopup" class="govuk-link" data-module="govuk-button" id="evaluate_suppliers">
+                       <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
            Close project
           </a>
                       {# <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">Close project                      

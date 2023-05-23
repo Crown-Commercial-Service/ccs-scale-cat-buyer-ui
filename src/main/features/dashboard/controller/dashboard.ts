@@ -92,9 +92,11 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
     events: activeListDash,
     historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData,
-    issetDashBanner
+    issetDashBanner,
+    closeprojectStatus:req.session.closeProject
   };
   /** CAS-87 */
+  console.log('appendData',JSON.stringify(appendData))
   res.render('dashboard', appendData);
 };
 
