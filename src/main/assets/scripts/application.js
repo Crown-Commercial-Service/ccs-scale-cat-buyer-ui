@@ -24,6 +24,9 @@ $(document).ready(function () {
    console.log('projectId',projectId)
    $(document).find("#projectid_popup").val(projectId)
    $(document).find("#eventid_popup").val(eventId)
+   $(".dialog-close-projectCloseAllPopup").on('click', function(){
+    openpopGC.classList.remove('showpopup');
+  });
   });
 
   const openpopGC = document.querySelector('.backdrop-projectCloseAllPopup')
@@ -48,10 +51,8 @@ $(document).ready(function () {
           async: false,
         }).done(function (result) {
           console.log('result',result)
-          $(".dialog-close-projectCloseAllPopup").on('click', function(){
-            openpopGC.classList.remove('showpopup');
-          });
-          window.location.href = window.location.origin + '/dashboard';
+         
+          // window.location.href = window.location.origin + '/dashboard';
          
         }).fail((res) => {
           

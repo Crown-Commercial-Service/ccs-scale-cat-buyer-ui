@@ -30,18 +30,13 @@
       </div>
     {% endif %}
     {# Banner notic End #}
-     {% set ttiletext = 'Message sent ' %}
+     {% set ttiletext = 'Project closed ' %}
        {% set CreatedReplyCustomhtml %}
                 <h3 class="govuk-notification-banner__heading">
-                    {% if msgfor == 'all' and (agreementId == 'RM1043.8' or agreementId == 'RM1557.13') %}
-                        Your message was sent  to all suppliers
-                    {% else %}
-                        Your message was sent to the supplier
-                    {% endif %}
+                   Your project was closed.
                 </h3>
-                 {% endset %}
-    <h1>close project status {{closeprojectStatus}}</h1>
-     {% if closeprojectStatus == true %}
+       {% endset %}
+       {% if closeprojectStatus == true %}
      
       <div class="govuk-grid-column-one-half">
                         {{ govukNotificationBanner({	

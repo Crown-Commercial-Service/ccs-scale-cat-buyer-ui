@@ -32,8 +32,9 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
        req.session.closeProject=true;
       }
        console.log('response',response.data)
-       res.json({ closeStatus: true});
-     // res.redirect('/dashboard');
+       console.log('req.session.closeProject',req.session.closeProject)
+     // res.json({ closeStatus: true});
+      res.redirect('/dashboard');
     }
     catch (err) {
         console.log('err',err)
