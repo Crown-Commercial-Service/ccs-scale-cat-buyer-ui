@@ -3,7 +3,7 @@ import { TokenDecoder } from './../../tokendecoder/tokendecoder';
 import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../logtracer/tracer';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('PreMarketEngagementMiddleware');
 import * as journyData from './../../../features/procurement/model/tasklist.json';
 import { logConstant } from '../../../common/logtracer/logConstant';

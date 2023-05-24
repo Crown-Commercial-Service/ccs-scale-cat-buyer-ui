@@ -7,7 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import {REQUIRMENT_DA_PATHS} from '../../../features/da/model/daConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
 /**

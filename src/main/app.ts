@@ -1,5 +1,5 @@
-const { Express, Logger } = require('@hmcts/nodejs-logging');
-import config = require('config');
+import { Express, Logger } from '@hmcts/nodejs-logging';
+import config from 'config';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { initHelmet } from './modules/helmet';

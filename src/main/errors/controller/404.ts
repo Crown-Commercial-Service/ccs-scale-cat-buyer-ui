@@ -1,5 +1,5 @@
 import * as express from 'express'
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('Not found page (404)');
 /**
  * 
