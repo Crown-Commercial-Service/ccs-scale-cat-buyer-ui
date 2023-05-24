@@ -176,9 +176,9 @@ $('.timeLineEventTrigger').on('change', function(e) {
     var tl_aggrementID = $(this).attr("data-aggrement");
     var tl_eventType = $(this).attr("data-eventtype");
     var tl_questionID = $(this).attr("data-question");
+    let q7Selected, q8Selected, compareAccess;
     if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
-        let q7Selected;
-        let q8Selected;
+        compareAccess = [{"question":"Q7","label":"clarification_7","input_hidden":"evaluation_process_start_date"},{"question":"Q8","label":"clarification_8","input_hidden":"bidder_presentations_date"},{"question":"Q9","label":"clarification_9","input_hidden":"standstill_period_starts_date"},{"question":"Q10","label":"clarification_10","input_hidden":"proposed_award_date"},{"question":"Q11","label":"clarification_11","input_hidden":"expected_signature_date"}];
         if(tl_questionID == 7) {
             if( $('.resdateradioclass7').is(':checked') ){
                 if($(this).val() == 'yes') {
@@ -214,33 +214,42 @@ $('.timeLineEventTrigger').on('change', function(e) {
                 }
             }
         }
-
-        let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
-        let tl_Q6 = tl_Q6_split.split('*')[1];
-        
-        let postTLData = {
-            tl_aggrementID,
-            tl_eventType,
-            tl_questionID,
-            tl_val,
-            manipulation: {
-                'Q6': {value: tl_Q6, selected: null},
-                'Q7': {value: null, selected: q7Selected, config: 5},
-                'Q8': {value: null, selected: q8Selected, config: 10}
-            }
-        };
-          
-        $.ajax({
-            url: `/timeline_standstill_supplier`,
-            type: "POST",
-            dataType: 'json',
-            contentType: "application/json",
-            data: JSON.stringify(postTLData)
-        }).done(function (res) {
-            console.log(res);
-        }).fail((err) => {
-        })
-
     }
+
+    let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
+    let tl_Q6 = tl_Q6_split.split('*')[1];
+        
+    let postTLData = {
+        tl_aggrementID,
+        tl_eventType,
+        tl_questionID,
+        tl_val,
+        manipulation: {
+            'Q6': {value: tl_Q6, selected: null},
+            'Q7': {value: null, selected: q7Selected, config: 5},
+            'Q8': {value: null, selected: q8Selected, config: 10}
+        }
+    };
+          
+    $.ajax({
+        url: `/timeline_standstill_supplier`,
+        type: "POST",
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify(postTLData)
+    }).done(function (res) {
+        let items = res;
+        items.sort((a, b) => a.value - b.value);
+        items.forEach((value, key) => {
+            let dataAccess = compareAccess.find((el) => el.question == value.question);
+            let labelAppend = value.value.split('*')[1];
+            if(labelAppend != 'Invalid date') {
+                $("."+ dataAccess.label).html(labelAppend);
+            }
+            $("input[name='"+dataAccess.input_hidden+"']").val(value.value);
+
+        });
+    }).fail((err) => {
+    })
 });
 // StandstilSupplierPresentation - End
