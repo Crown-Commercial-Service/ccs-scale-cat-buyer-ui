@@ -380,9 +380,7 @@ export class PreMarketEngagementMiddleware {
             next();
           }
         } catch (err) {
-           console.log('err',err)
-
-           LoggTracer.errorLogger(
+            LoggTracer.errorLogger(
             res,
             err,
             `${req.headers.host}${req.originalUrl}`,
