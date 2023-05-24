@@ -53,6 +53,7 @@ const MCF3_Days = {
   supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
   supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
 };
 
 const DOS_Days = {
@@ -92,6 +93,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
   let selectedeventtype=req.session.selectedeventtype;
+
+  // StandstilSupplierPresentation - Start
+  const eventTypeURL = `tenders/projects/${projectId}/events`;
+  let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+  getEventType = getEventType.data.filter(x => x.id == event_id)[0]?.eventType;
+  // StandstilSupplierPresentation - End
+
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -117,6 +125,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
     
+    // StandstilSupplierPresentation - Start
+    let isEdit = fetchQuestionsData?.some(item => item?.OCDS?.id == "Question 1" && item?.nonOCDS?.options.length != 0);
+    // StandstilSupplierPresentation - End
+
     let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 1").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
     publishDate = publishDate!=undefined?publishDate:new Date();
 
@@ -228,9 +240,17 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           predefinedDays.supplier_deadline,
         )._d;
       } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
+        // StandstilSupplierPresentation - Start (Temp)
+        if(getEventType == 'FC') {
           bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
-          predefinedDays.supplier_persentation,
-        )._d;
+            predefinedDays.stanstill_period_condtional,
+          )._d;
+        } else {
+          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.supplier_persentation,
+          )._d;
+        }
+        // StandstilSupplierPresentation - End (Temp)
       } else {
          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_period_extra,
@@ -240,7 +260,19 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       bidder_presentations_date.setHours(predefinedDays.defaultEndingHour);
       bidder_presentations_date.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////9
-      const StandstillPeriodStarts = bidder_presentations_date;
+
+      // StandstilSupplierPresentation - Start
+      let nineQ;
+      if(!isEdit) {
+        //  First time logic
+        nineQ = deadline_for_submission_of_stage_one;
+      } else {
+        //  Edit Logic
+        nineQ = bidder_presentations_date;
+      }
+      const StandstillPeriodStarts = nineQ;
+      // StandstilSupplierPresentation - End
+
       const StandstillPeriodStartsDate = `${StandstillPeriodStarts.getDate()}-${
         StandstillPeriodStarts.getMonth() + 1
       }-${StandstillPeriodStarts.getFullYear()}`;
@@ -340,7 +372,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
         });
-
+        
         for(var i=0;i<fetchQuestionsData.length;i++){
           if(fetchQuestionsData[i].nonOCDS.options.length>0){
          
@@ -599,7 +631,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         supplier_start_date: supplier_start_date != undefined && supplier_start_date != null ? moment(supplier_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm') : null,
         releatedContent: req.session.releatedContent,
         selectedeventtype,
-        agreementId_session
+        agreementId_session,
+        getEventType
       };
       
       if (errorTriggered) {
@@ -772,8 +805,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         supplier_period_for_clarification_period,
         supplier_dealine_for_clarification_period,
         deadline_for_submission_of_stage_one,
-        evaluation_process_start_date,
-        bidder_presentations_date,
+        evaluation_process_start_date,  //Q7-MCF3
+        bidder_presentations_date,  //Q8-MCF3
         standstill_period_starts_date,
         proposed_award_date,
         expected_signature_date,

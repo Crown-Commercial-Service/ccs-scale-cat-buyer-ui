@@ -169,3 +169,78 @@ const saveButtonUnHideDateRfi = () => {
 // document.querySelectorAll("input[name='resdateradio']").forEach((input) => {
 //     input.addEventListener('change', myfunction);
 // });
+
+// StandstilSupplierPresentation - Start
+$('.timeLineEventTrigger').on('change', function(e) {
+    var tl_val = $(this).val();
+    var tl_aggrementID = $(this).attr("data-aggrement");
+    var tl_eventType = $(this).attr("data-eventtype");
+    var tl_questionID = $(this).attr("data-question");
+    if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
+        let q7Selected;
+        let q8Selected;
+        if(tl_questionID == 7) {
+            if( $('.resdateradioclass7').is(':checked') ){
+                if($(this).val() == 'yes') {
+                    q7Selected = true;
+                } else {
+                    q7Selected = false;
+                }
+            }
+            if( !$('.resdateradioclass8').is(':checked') ){
+                q8Selected = false;
+            } else {
+                if($(".resdateradioclass8:checked").val() == 'yes') {
+                    q8Selected = true;
+                } else {
+                    q8Selected = false;
+                }
+            }
+        } else if(tl_questionID == 8) {
+            if( $('.resdateradioclass8').is(':checked') ){
+                if($(this).val() == 'yes') {
+                    q8Selected = true;
+                } else {
+                    q8Selected = false;
+                }
+            }
+            if( !$('.resdateradioclass7').is(':checked') ){
+                q7Selected = false;
+            } else {
+                if($(".resdateradioclass7:checked").val() == 'yes') {
+                    q7Selected = true;
+                } else {
+                    q7Selected = false;
+                }
+            }
+        }
+
+        let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
+        let tl_Q6 = tl_Q6_split.split('*')[1];
+        
+        let postTLData = {
+            tl_aggrementID,
+            tl_eventType,
+            tl_questionID,
+            tl_val,
+            manipulation: {
+                'Q6': {value: tl_Q6, selected: null},
+                'Q7': {value: null, selected: q7Selected, config: 5},
+                'Q8': {value: null, selected: q8Selected, config: 10}
+            }
+        };
+          
+        $.ajax({
+            url: `/timeline_standstill_supplier`,
+            type: "POST",
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify(postTLData)
+        }).done(function (res) {
+            console.log(res);
+        }).fail((err) => {
+        })
+
+    }
+});
+// StandstilSupplierPresentation - End
