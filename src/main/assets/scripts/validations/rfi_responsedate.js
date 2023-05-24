@@ -18,9 +18,9 @@ for (const selector of totalElementSelectors) {
     let elementRadioID = ".resdateradioclass" + selector;
     let elementRadioIDSelector = $(elementRadioID);
     if(selector==7 || selector==8){
-       // $('#headBodyContent_'+selector).hide();
+        $('#headBodyContent_'+selector).hide();
     }else{
-       // $('#headContent_'+selector).hide();
+        $('#headContent_'+selector).hide();
         
     }
     let elementID = "#change_clarification_date_" + selector;
