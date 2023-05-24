@@ -28,7 +28,7 @@ export class PreMarketEngagementMiddleware {
     stage2_value = 'Stage 2';
   }
   req.session.stage2_value = stage2_value;
-    if(agreement_id == 'RM1043.8' && req.session.stage2_value =='Stage 2') { 
+    if(agreement_id == 'RM1043.8') { 
       let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
       let nameJourneytempstatus = journeySteps.filter((el: any) => {
         if(el.step == 86) return true;
