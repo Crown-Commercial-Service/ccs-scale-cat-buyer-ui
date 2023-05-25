@@ -108,21 +108,21 @@ export const GET_EOI_CLOSE_EVENT = async (req: express.Request, res: express.Res
   const { eventId, projectId } = req.session;
    
   try {
-    const _requestBody = {};
-    const baseURL=`/tenders/projects/${​​​​projectId}​​​​​/events/${eventId}​​​​​/termination`;
-    console.log('***********************baseurl');
-    console.log(baseURL);
-    let response = await TenderApi.Instance(SESSION_ID).put(baseURL,_requestBody);
+  
+    const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+    const _body = {
+            "terminationType": "cancelled"       
+      };
+      const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+
+
      //CAS-INFO-LOG 
      LoggTracer.infoLogger(response, logConstant.eoiTaskListPageLog, req);
     res.redirect('/projects/create-or-choose');
-
-       
+      
 
     
   } catch (error) {
-    console.log('*************************************error');
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

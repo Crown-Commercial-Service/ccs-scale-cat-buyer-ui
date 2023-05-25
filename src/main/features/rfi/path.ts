@@ -135,7 +135,12 @@ export default function (app: Application): void {
   );
 
 
-
+//@GET '/eoi/project-budget'
+app.get(
+  RFI_PATHS.GET_RFI_CLOSE_EVENT,
+  [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+  associatedViews.GET_RFI_CLOSE_EVENT,
+);
   
   
   //@GET /rfi/choose-how-to/build-your-rfi

@@ -104,3 +104,35 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     );
   }
 };
+
+export const GET_RFI_CLOSE_EVENT = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const { eventId, projectId } = req.session;
+   
+  try {
+  
+    const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+    const _body = {
+            "terminationType": "cancelled"       
+      };
+      const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+
+
+     //CAS-INFO-LOG 
+     LoggTracer.infoLogger(response, logConstant.eoiTaskListPageLog, req);
+    res.redirect('/projects/create-or-choose');
+      
+
+    
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - Put failed - EOI close event API',
+      true,
+    );
+  }
+};

@@ -9435,11 +9435,12 @@ p,
 .backdrop-checksupplierConfirmAllPopup.showpopup,
 .backdrop-confirmLowScoreSupplierPopup.showpopup,
 .backdrop-Qanda.showpopup,
-.backdrop-close_EOI.showpopup
+.backdrop-close_EOI.showpopup,
+.backdrop-close_RFI.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup,.backdrop-sessionTimeoutPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda,.backdrop-close_EOI {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup,.backdrop-sessionTimeoutPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda,.backdrop-close_EOI,.backdrop-close_RFI {
   position: fixed;
   top: 0px;
   left: 0px;

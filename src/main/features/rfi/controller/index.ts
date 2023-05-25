@@ -1,4 +1,4 @@
-import { GET_TASKLIST } from './tasklist'
+import { GET_TASKLIST,GET_RFI_CLOSE_EVENT } from './tasklist'
 import { GET_TYPE, POST_TYPE } from './type'
 import { GET_ONLINE_TASKLIST } from './onlinetasklist'
 import { GET_QUESTIONS, POST_QUESTION } from './questions'
@@ -40,6 +40,7 @@ export const associatedViews = {
     CHOOSE_YOUR_ROUTE_MARKET,
     BUILD_RFI,
     CONFIRMATION_REVIEW,
+    GET_RFI_CLOSE_EVENT,
  
 
 

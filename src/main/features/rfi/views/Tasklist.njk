@@ -52,6 +52,13 @@
       }) }}
 {% endif %}      
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  {{ CCSDialog({
+  title:'Confirm you want to close this event',
+  description:"This unpublished RfI will close, be listed in past projects, and become inaccessible. You'll return to the 'Procurement overview' screen.",
+  redirect:'javascript:void(0)',
+  type:'close_RFI'
+}) }}
+
   <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl">
@@ -81,6 +88,7 @@
       </ul>
   {% endif %}
     <br>
+     <p class="app-task-list__item"><a class="govuk-link closeRFI-popup" data-link="/rfi/close-event" href="javascript:void(0)">Close RfI</a></p>
     <ol class="app-task-list">
     {% for item in data.events %}
          <li>

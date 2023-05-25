@@ -1913,9 +1913,6 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       e.preventDefault();
       // deletePost(e.target.getAttribute('data-link'));
       urldel = e.target.getAttribute('data-link');
-      console.log('*******************');
-      console.log(window.location.origin+urldel);
-      //Gcloude
       const openpopEOI = document.querySelector('.backdrop-close_EOI')
       openpopEOI.classList.add('showpopup');
       $(".dialog-close-close_EOI").on('click', function(){
@@ -1927,6 +1924,29 @@ DelGCButtons = document.querySelectorAll('.confir-all-supplier-popup');
       deconf = document.getElementById('redirect-button-close_EOI');
       deconf.addEventListener('click', ev => {
         openpopEOI.classList.remove('showpopup');
+       
+        window.location.href = window.location.origin+urldel;
+      });
+    });
+  });
+
+  CloseRFI = document.querySelectorAll('.closeRFI-popup');
+  CloseRFI.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      // deletePost(e.target.getAttribute('data-link'));
+      urldel = e.target.getAttribute('data-link');
+      const openpopRFI = document.querySelector('.backdrop-close_RFI')
+      openpopRFI.classList.add('showpopup');
+      $(".dialog-close-close_RFI").on('click', function(){
+        openpopRFI.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopRFI.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-close_RFI');
+      deconf.addEventListener('click', ev => {
+        openpopRFI.classList.remove('showpopup');
        
         window.location.href = window.location.origin+urldel;
       });
