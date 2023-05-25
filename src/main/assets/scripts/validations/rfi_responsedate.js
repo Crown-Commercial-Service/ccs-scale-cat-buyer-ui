@@ -17,12 +17,12 @@ for (const selector of totalElementSelectors) {
 for (const selector of totalElementSelectors) {
     let elementRadioID = ".resdateradioclass" + selector;
     let elementRadioIDSelector = $(elementRadioID);
-    if(selector==7 || selector==8){
-        $('#headBodyContent_'+selector).hide();
-    }else{
-        $('#headContent_'+selector).hide();
+    // if(selector==7 || selector==8){
+    //     $('#headBodyContent_'+selector).hide();
+    // }else{
+    //     $('#headContent_'+selector).hide();
         
-    }
+    // }
     let elementID = "#change_clarification_date_" + selector;
     let elementCancelID = "#cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
@@ -57,13 +57,16 @@ for (const selector of totalElementSelectors) {
             $('.showDivDynamic'+selector).removeClass('govuk-form-group--error')
             $(erroReove).html(" ")
             $('#headBodyContent_'+selector).show();
+            $('#headBodyContent_'+selector).removeClass('hide');
            $('#headContent_'+selector).removeClass('hidehr');
+           
         }
         if(checkedBox=='no'){
             $('.showDivDynamic'+selector).removeClass('govuk-form-group--error')
             $(erroReove).html("")
              $('#headBodyContent_'+selector).hide();
            $('#headContent_'+selector).addClass('hidehr');
+           $('#headBodyContent_'+selector).addClass('hide');
         }
         })
      

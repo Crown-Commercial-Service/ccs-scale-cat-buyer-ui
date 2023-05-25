@@ -121,7 +121,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-    
+    console.log("apiData_baseURL",apiData_baseURL);
+
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
     
@@ -602,8 +603,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             dataManipulation.time_line = {"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline","conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
         }
     });
-    // StandstilSupplierPresentation - End (override)
-    
+      // StandstilSupplierPresentation - End (override)
+      console.log("fetchQuestionsData",JSON.stringify(fetchQuestionsData));
+
       let appendData = {
         data: forceChangeDataJson,
         lotId:lotid,
