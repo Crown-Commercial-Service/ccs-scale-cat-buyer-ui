@@ -1,6 +1,7 @@
-import * as path from 'path';
-import * as express from 'express';
-import * as nunjucks from 'nunjucks';
+import path from 'path';
+import nunjucks from 'nunjucks';
+import i18next, { TOptionsBase, InitOptions } from 'i18next';
+import { Application, NextFunction, Request, Response } from 'express';
 import {
   dateFilter,
   dateInputFilter,
@@ -13,72 +14,58 @@ import {
 } from './filters/dateFilter';
 import { stringFilter } from './filters/stringFilter';
 import { jsonFilter, jsontoStringFilter } from './filters/jsonFilter';
-import { InitOptions } from 'i18next';
 import { MemoryFormatter } from './filters/memoryformatter';
 
-export class Nunjucks {
-  constructor(public developmentMode: boolean, public i18next: any) {
-    this.developmentMode = developmentMode;
-    this.i18next = i18next;
-  }
+const initNunjucks = (app: Application, isDev: boolean): void => {
+  const nunjucksViews: string[] = [
+    path.join(__dirname, '..', '..', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'rfi', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'dashboard', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'agreement', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'procurement', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'requirements', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'cookies', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'event-management', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'fca', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'da', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'g-cloud', 'views'),
+  ];
 
-  enableFor(app: express.Application): void {
-    app.set('view engine', 'njk');
+  app.set('view engine', 'njk');
 
-    const NunjucksPathFolders = {
-      mainViewDirectory: path.join(__dirname, '..', '..', 'views'),
-      RFIViewDirectory: path.join(__dirname, '..', '..', 'features', 'rfi', 'views'),
-      DASHBOARDViewDirectory: path.join(__dirname, '..', '..', 'features', 'dashboard', 'views'),
-      AGREEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'agreement', 'views'),
-      PROCUREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'procurement', 'views'),
-      REQUIREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'requirements', 'views'),
-      COOKIESViewDirectory: path.join(__dirname, '..', '..', 'features', 'cookies', 'views'),
-      EOIViewDirectory: path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
-      EVENTMANAGEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'event-management', 'views'),
-      FCAViewDirectory: path.join(__dirname, '..', '..', 'features', 'fca', 'views'),
-      DAViewDirectory: path.join(__dirname, '..', '..', 'features', 'da', 'views'),
-      GCloudViewDirectory: path.join(__dirname, '..', '..', 'features', 'g-cloud', 'views'),
-    };
+  const nunjucksEnv = nunjucks.configure(
+    nunjucksViews,
+    {
+      autoescape: true,
+      watch: isDev,
+      express: app
+    }
+  );
 
-    const NunjucksEnvironment = nunjucks.configure(
-      [
-        NunjucksPathFolders.mainViewDirectory,
-        NunjucksPathFolders.RFIViewDirectory,
-        NunjucksPathFolders.DASHBOARDViewDirectory,
-        NunjucksPathFolders.AGREEMENTViewDirectory,
-        NunjucksPathFolders.PROCUREMENTViewDirectory,
-        NunjucksPathFolders.REQUIREMENTViewDirectory,
-        NunjucksPathFolders.COOKIESViewDirectory,
-        NunjucksPathFolders.EOIViewDirectory,
-        NunjucksPathFolders.EVENTMANAGEMENTViewDirectory,
-        NunjucksPathFolders.FCAViewDirectory,
-        NunjucksPathFolders.DAViewDirectory,
-        NunjucksPathFolders.GCloudViewDirectory,
-      ],
-      {
-        autoescape: true,
-        watch: this.developmentMode,
-        express: app,
-      },
-    );
+  // Set nunjucks globals
+  nunjucksEnv.addGlobal('t', (key: string, options?: TOptionsBase & InitOptions): string => i18next.t(key, options));
 
-    //List of the Nunjucks Environment filters
-    NunjucksEnvironment.addGlobal('t', (key: string, options?: InitOptions): string => this.i18next.t(key, options));
-    NunjucksEnvironment.addFilter('date', dateFilter);
-    NunjucksEnvironment.addFilter('inputDate', dateInputFilter);
-    NunjucksEnvironment.addFilter('dateWithDayAtFront', dateWithDayAtFrontFilter);
-    NunjucksEnvironment.addFilter('monthIncrement', monthIncrementFilter);
-    NunjucksEnvironment.addFilter('addDays', addDaysFilter);
-    NunjucksEnvironment.addFilter('json', jsonFilter);
-    NunjucksEnvironment.addFilter('stringJson', jsontoStringFilter);
-    NunjucksEnvironment.addFilter('string', stringFilter);
-    NunjucksEnvironment.addFilter('KbtoMb', MemoryFormatter);
-    NunjucksEnvironment.addFilter('dateddmmyyyy',dateFilterDDMMYYYY);
-    NunjucksEnvironment.addFilter('timedateddmmyyyy',dateFilterHHMMDDMMYYYY);
-    NunjucksEnvironment.addFilter('datedd_mm_yyyy',dateFilterDD_MM_YYYY);
-    app.use((req, res, next) => {
-      res.locals.pagePath = req.path;
-      next();
-    });
-  }
-}
+  // Set nunjucks filters
+  nunjucksEnv.addFilter('date', dateFilter);
+  nunjucksEnv.addFilter('inputDate', dateInputFilter);
+  nunjucksEnv.addFilter('dateWithDayAtFront', dateWithDayAtFrontFilter);
+  nunjucksEnv.addFilter('monthIncrement', monthIncrementFilter);
+  nunjucksEnv.addFilter('addDays', addDaysFilter);
+  nunjucksEnv.addFilter('json', jsonFilter);
+  nunjucksEnv.addFilter('stringJson', jsontoStringFilter);
+  nunjucksEnv.addFilter('string', stringFilter);
+  nunjucksEnv.addFilter('KbtoMb', MemoryFormatter);
+  nunjucksEnv.addFilter('dateddmmyyyy', dateFilterDDMMYYYY);
+  nunjucksEnv.addFilter('timedateddmmyyyy', dateFilterHHMMDDMMYYYY);
+  nunjucksEnv.addFilter('datedd_mm_yyyy', dateFilterDD_MM_YYYY);
+
+  // Middleware to expose the request path to the response locals
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.pagePath = req.path;
+
+    next();
+  });
+};
+
+export { initNunjucks };

@@ -6,7 +6,7 @@ import { RFI_PATHS } from 'main/features/rfi/model/rficonstant';
 import { EOI_PATHS } from 'main/features/eoi/model/eoiconstant';
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('choseRoute');
 
 /**

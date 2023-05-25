@@ -3,7 +3,7 @@ import { TokenDecoder } from './../../tokendecoder/tokendecoder';
 import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../logtracer/tracer';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('PreMarketEngagementMiddleware');
 import * as journyData from './../../../features/procurement/model/tasklist.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
@@ -18,6 +18,38 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 export class PreMarketEngagementMiddleware {
   static PutPremarket = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const { eventId, projectId, procurements, agreement_id } = req.session;
+  const { SESSION_ID } = req.cookies;
+  const stage2BaseUrl = `/tenders/projects/${projectId}/events`
+  const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    const stage2_dynamic_api_data = stage2_dynamic_api.data;
+  const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+  let stage2_value = 'Stage 1';
+  if(stage2_data.length > 0){
+    stage2_value = 'Stage 2';
+  }
+  req.session.stage2_value = stage2_value;
+    if(agreement_id == 'RM1043.8') { 
+      let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      let nameJourneytempstatus = journeySteps.filter((el: any) => {
+        if(el.step == 86) return true;
+        return false;
+      });
+      try{
+      if(nameJourneytempstatus.length == 0){
+       
+       journeySteps.push( { step: 86, state: 'Not started'});
+       let JourneyVal = journeySteps;
+        const _body = {
+          'journey-id': eventId,
+          states: JourneyVal,
+          };
+         let result = await TenderApi.Instance(SESSION_ID).put(`journeys`, _body);
+       }
+    }catch(err){
+      console.log('Error in 86 journey',err)
+    }
+    }
+   
     if (req.session['isRFIComplete']) {
       const { SESSION_ID, state } = req.cookies;
       let BaseURL = `/tenders/projects/${req.session.projectId}/events`;
@@ -348,9 +380,7 @@ export class PreMarketEngagementMiddleware {
             next();
           }
         } catch (err) {
-
-
-           LoggTracer.errorLogger(
+            LoggTracer.errorLogger(
             res,
             err,
             `${req.headers.host}${req.originalUrl}`,
