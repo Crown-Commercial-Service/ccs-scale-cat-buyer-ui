@@ -13,6 +13,24 @@ import { Console } from 'console';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
 
+const momentCssHolidays = async () => {
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+  let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  let holiDaysArr = []
+  for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
+    var AsDate = new Date(bankHolidayEnglandWales[h].date);
+    holiDaysArr.push(moment(AsDate).format('DD-MM-YYYY'));
+  }
+  
+  moment.updateLocale('en', {
+    holidays: holiDaysArr,
+    holidayFormat: 'DD-MM-YYYY'
+  });
+}
+
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
@@ -904,6 +922,8 @@ const MCF3_Days = {
   stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
 };
 export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: express.Response) => {
+  await momentCssHolidays();
+  
   let resData;
   let tl_aggrementID = req.body.tl_aggrementID;
   let tl_eventType = req.body.tl_eventType;
