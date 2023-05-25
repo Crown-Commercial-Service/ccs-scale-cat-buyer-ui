@@ -179,40 +179,50 @@ $('.timeLineEventTrigger').on('change', function(e) {
     var tl_aggrementID = $(this).attr("data-aggrement");
     var tl_eventType = $(this).attr("data-eventtype");
     var tl_questionID = $(this).attr("data-question");
-    let q7Selected, q8Selected, compareAccess;
+    let q7Selected, q8Selected, compareAccess, q7Session, q8Session;
     if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
         compareAccess = [{"question":"Q7","label":"clarification_7","input_hidden":"evaluation_process_start_date"},{"question":"Q8","label":"clarification_8","input_hidden":"bidder_presentations_date"},{"question":"Q9","label":"clarification_9","input_hidden":"standstill_period_starts_date"},{"question":"Q10","label":"clarification_10","input_hidden":"proposed_award_date"},{"question":"Q11","label":"clarification_11","input_hidden":"expected_signature_date"}];
         if(tl_questionID == 7) {
             if( $('.resdateradioclass7').is(':checked') ){
                 if($(this).val() == 'yes') {
                     q7Selected = true;
+                    q7Session = true;
                 } else {
                     q7Selected = false;
+                    q7Session = false;
                 }
             }
             if( !$('.resdateradioclass8').is(':checked') ){
+                q8Session = false;
                 q8Selected = false;
             } else {
                 if($(".resdateradioclass8:checked").val() == 'yes') {
+                    q8Session = true;
                     q8Selected = true;
                 } else {
+                    q8Session = false;
                     q8Selected = false;
                 }
             }
         } else if(tl_questionID == 8) {
             if( $('.resdateradioclass8').is(':checked') ){
                 if($(this).val() == 'yes') {
+                    q8Session = true;
                     q8Selected = true;
                 } else {
+                    q8Session = false;
                     q8Selected = false;
                 }
             }
             if( !$('.resdateradioclass7').is(':checked') ){
+                q7Session = false;
                 q7Selected = false;
             } else {
                 if($(".resdateradioclass7:checked").val() == 'yes') {
+                    q7Session = true;
                     q7Selected = true;
                 } else {
+                    q7Session = false;
                     q7Selected = false;
                 }
             }
@@ -228,9 +238,9 @@ $('.timeLineEventTrigger').on('change', function(e) {
         tl_questionID,
         tl_val,
         manipulation: {
-            'Q6': {value: tl_Q6, selected: null},
-            'Q7': {value: null, selected: q7Selected, config: 5},
-            'Q8': {value: null, selected: q8Selected, config: 10}
+            'Q6': {value: tl_Q6, selected: null, session: null, config: null},
+            'Q7': {value: null, selected: q7Selected, session: q7Session, config: 5},
+            'Q8': {value: null, selected: q8Selected, session: q8Session, config: 10}
         }
     };
           
