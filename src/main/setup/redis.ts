@@ -5,7 +5,7 @@ import connectRedis from 'connect-redis'
 import config from 'config'
 import { operations } from '../utils/operations/operations'
 
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('redis');
 
 

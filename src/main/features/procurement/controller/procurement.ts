@@ -14,7 +14,7 @@ import { ccsStatusOverride } from '../../../utils/ccsStatusOverride';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 import * as journyData from '../model/tasklist.json';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('procurement');
 
 /**
