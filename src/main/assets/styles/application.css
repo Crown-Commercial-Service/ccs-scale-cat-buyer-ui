@@ -4018,7 +4018,10 @@ p + .govuk-heading-s,
 span#create_supplier_message-error{
 display: none;
 }
-
+.govuk-custom-cell{
+  vertical-align: top;
+  padding: 10px 0;
+}
 span#create_message_input-error,span#reply_message_input-error{
 display: none;
 }

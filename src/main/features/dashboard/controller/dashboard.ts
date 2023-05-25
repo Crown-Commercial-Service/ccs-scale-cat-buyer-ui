@@ -18,8 +18,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   if(issetDashBanner == 'NULL') {
     issetDashBanner = '';
   }
-
-  //CAS-INFO-LOG
+   //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
   
   req.session.unpublishedeventmanagement = 'false';
@@ -96,7 +95,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
     closeprojectStatus:req.session.closeProject
   };
   /** CAS-87 */
-  console.log('appendData',JSON.stringify(appendData))
+  req.session.closeProject = false;
   res.render('dashboard', appendData);
 };
 

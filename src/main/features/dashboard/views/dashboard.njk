@@ -158,12 +158,19 @@
                       {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy}}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-!-text-align-right">
+                  <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
                     {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
                       To Be Reviewed
                     {% else %}
                       {{ event.activeEvent.status }}
                     {% endif %}
+                  </td>
+                  <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
+                      <p class="govuk-body govuk-!-margin-bottom-0" >
+                         <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
+                           Close project
+                         </a>
+                      </p>
                   </td>
                 </tr>
               {% endfor %}
@@ -216,7 +223,7 @@
                       {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-!-text-align-right">
+                  <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
                     {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
                       To Be Reviewed
                     {% else %}
@@ -224,14 +231,12 @@
                     {% endif %}
 
                   </td>
-                   <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
+                   <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
                     <p class="govuk-body govuk-!-margin-bottom-0" >
                        <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
            Close project
           </a>
-                      {# <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">Close project                      
-                      </a> #}
-                  
+             
                     </p>
 
                   </td>

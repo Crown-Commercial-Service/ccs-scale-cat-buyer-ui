@@ -18,9 +18,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
     req.session;
     const { SESSION_ID, state } = req.cookies;
     const { procid, eventId } = req.query
-    console.log('procid*****',procid)
-    console.log('eventId*****',eventId)
-    req.session.closeProject=false;
+    req.session.closeProject = false;
     try {
        // const baseURL = `tenders/projects/${procid}/close`;
         const baseURL = `tenders/projects/${procid}/events/${eventId}/termination`;
@@ -31,22 +29,20 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
       if(response.data == 'OK'){
        req.session.closeProject=true;
       }
-       console.log('response',response.data)
-       console.log('req.session.closeProject',req.session.closeProject)
-     // res.json({ closeStatus: true});
-      res.redirect('/dashboard');
+        res.json({ closeStatus: true});
+     // res.redirect('/dashboard');
     }
     catch (err) {
         console.log('err',err)
-        // LoggTracer.errorLogger(
-        //   res,
-        //   err,
-        //   `${req.headers.host}${req.originalUrl}`,
-        //   null,
-        //   TokenDecoder.decoder(SESSION_ID),
-        //   'Event management page',
-        //   true,
-        // );
+        LoggTracer.errorLogger(
+          res,
+          err,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          'Event management page',
+          true,
+        );
       }
 
 }

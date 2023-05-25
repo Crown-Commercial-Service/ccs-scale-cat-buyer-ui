@@ -18,41 +18,37 @@ $(document).ready(function () {
   }
 
   $(".close_project").on('click', function(){
-    console.log('inside click')
    var projectId = $(this).attr("projectid");
    var eventId = $(this).attr("eventid");
-   console.log('projectId',projectId)
    $(document).find("#projectid_popup").val(projectId)
    $(document).find("#eventid_popup").val(eventId)
-   $(".dialog-close-projectCloseAllPopup").on('click', function(){
-    openpopGC.classList.remove('showpopup');
-  });
+  
   });
 
   const openpopGC = document.querySelector('.backdrop-projectCloseAllPopup')
     //  openpopGC.classList.add('showpopup')
       $(".dialog-close-projectCloseAllPopup").on('click', function(){
-         openpopGC.classList.remove('showpopup');
-      });
+            openpopGC.classList.remove('showpopup');
+         });
       $(".close-dialog-close").on('click', function(){
         openpopGC.classList.remove('showpopup');
       });
       deconf = document.getElementById('redirect-button-projectCloseAllPopup');
-      deconf.addEventListener('click', ev => {
+      if(deconf != null){
+        deconf.addEventListener('click', ev => {
         let projectval =   $(document).find("#projectid_popup").val();
         let eventIdVal =   $(document).find("#eventid_popup").val();
-        console.log('projectval',projectval)
-        console.log('eventIdVal',eventIdVal)
-
         $.ajax({
           url: `/closeProject?procid=${projectval}&eventId=${eventIdVal}`,
           type: "GET",
           contentType: "application/json",
           async: false,
         }).done(function (result) {
-          console.log('result',result)
-         
-          // window.location.href = window.location.origin + '/dashboard';
+          window.location.href = window.location.origin +`/dashboard?closestatus=${result.closeStatus}`;
+          $(".dialog-close-projectCloseAllPopup").on('click', function(){
+            openpopGC.classList.remove('showpopup');
+         });
+       
          
         }).fail((res) => {
           
@@ -63,6 +59,7 @@ $(document).ready(function () {
         // bodytg.classList.add("pageblur");
         // document.location.href=window.location.href;
       });
+    }
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
