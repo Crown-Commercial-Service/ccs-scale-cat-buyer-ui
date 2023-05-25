@@ -6,9 +6,10 @@ import { app } from '../../../../../main/app';
 import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
-const environentVar = require('dotenv').config();
-const { parsed: envs } = environentVar;
+import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
+
+const { parsed: envs } = dotenv.config();
 
 describe('Lead procurement', () => {
   let parentApp;
@@ -56,17 +57,17 @@ describe('Lead procurement', () => {
         .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
     }
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .post(`/security/tokens/validation`)
+      .post('/security/tokens/validation')
       .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get(`/user-profiles`)
+      .get('/user-profiles')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263`)
+      .get('/agreements/RM6263')
       .query(true)
       .reply(200, { data: [{ name: 'sisarProject' }] });
 
@@ -83,7 +84,7 @@ describe('Lead procurement', () => {
       },
     ];
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots`)
+      .get('/agreements/RM6263/lots')
       .query(true)
       .reply(200, dummyLots);
   });
@@ -159,7 +160,7 @@ describe('Lead procurement', () => {
     nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/27`).reply(200, true);
 
     await request(parentApp)
-      .post(`/rfp/procurement-lead`)
+      .post('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfp_procurement_lead_input: dummyUsers[1].userName })
       .expect(res => {
@@ -236,7 +237,7 @@ describe('Lead procurement', () => {
     nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/28`).reply(200, true);
 
     await request(parentApp)
-      .post(`/rfp/procurement-lead`)
+      .post('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfp_procurement_lead_input: dummyUsers[1].userName })
       .expect(res => {

@@ -4,7 +4,7 @@ import * as express from 'express';
 import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
 import Rollbar from 'rollbar';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('logit helper');
 const rollbar_access_token = process.env.ROLLBAR_ACCESS_TOKEN
 

@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express'
 import * as lotData from '../../../resources/content/lot-agreement/lot.json'
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 import config from 'config';
 const logger = Logger.getLogger('lot page');
 
