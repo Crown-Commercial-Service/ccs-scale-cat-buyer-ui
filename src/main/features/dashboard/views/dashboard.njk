@@ -15,6 +15,12 @@
     type:'projectCloseAllPopup'
   }) 
 }}
+<div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {# Banner notic Start #}
     {% if issetDashBanner != '' %}
@@ -36,15 +42,31 @@
                    Your project was closed.
                 </h3>
        {% endset %}
-       {% if closeprojectStatus == true %}
+
+       {% set errHtml %}
+            <h3 class="govuk-notification-banner__heading">
+                Your project was not closed, Please try again.
+            </h3>
+
+{% endset %}
+       {% if closeprojectStatus == "true" %}
      
-      <div class="govuk-grid-column-one-half">
+              <div class="govuk-grid-column-one-half">
                         {{ govukNotificationBanner({	
                         html: CreatedReplyCustomhtml,	
                         type: "success",	
                         titleText: ttiletext	
                         }) }}
                     </div>
+      {% elseif closeprojectStatus == "false" %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
+                html: errHtml,
+                type: "Important",
+                titleText: data.notification2.title
+                }) }}
+                </div>              
+                    
      {% endif %}
     
     <div class="govuk-grid-row">
@@ -184,7 +206,7 @@
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}12</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
                 <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
                
               </tr>
@@ -252,7 +274,7 @@
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-1">{{data.subsection2_table_th_1}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-2">{{data.subsection2_table_th_2}}</th>
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
-                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}13</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
                 <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
               </tr>
             </thead>

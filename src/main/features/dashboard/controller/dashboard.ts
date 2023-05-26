@@ -22,6 +22,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
   
   req.session.unpublishedeventmanagement = 'false';
+  const { closeStatus } = req.query;
   const searchText = req.session.searchText;
   // Active and Historical events is getting feached from API via 'src/main/common/middlewares/event-management/activeevents.ts'
   // const activeEvent = req.session.openProjectActiveEvents;
@@ -92,7 +93,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
     historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData,
     issetDashBanner,
-    closeprojectStatus:req.session.closeProject
+    closeprojectStatus:closeStatus
   };
   /** CAS-87 */
   req.session.closeProject = false;
@@ -650,7 +651,6 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
-    console.log('error',err)
     LoggTracer.errorLogger(
       res,
       err,
@@ -734,8 +734,7 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     events: activeListDash,
     historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData,
-    issetDashBanner,
-    closeprojectStatus:req.session.closeProject
+    issetDashBanner
   };
   /** CAS-87 */
   req.session.closeProject = false;

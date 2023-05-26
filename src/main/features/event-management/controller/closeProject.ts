@@ -26,12 +26,19 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
         };
        const response =  await TenderApi.Instance(SESSION_ID).put(baseURL, body);  
        if(response.data == 'OK'){
-       req.session.closeProject=true;
-      }
+        req.session.closeProject=true;
         res.json({ closeStatus: true});
       }
+      else{
+        res.json({ closeStatus: false});
+      }
+
+     
+        
+      }
     catch (err) {
-        LoggTracer.errorLogger(
+        console.log('error in close project',err)
+         LoggTracer.errorLogger(
           res,
           err,
           `${req.headers.host}${req.originalUrl}`,

@@ -47,15 +47,20 @@ $(document).ready(function () {
           contentType: "application/json",
           async: false,
         }).done(function (result) {
-          window.location.href = window.location.origin +`/dashboard`;
+          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+          openpopGC.classList.remove('showpopup');
+          window.location.href = window.location.origin +`/dashboard?closeStatus=${result.closeStatus}`;
           $(".dialog-close-projectCloseAllPopup").on('click', function(){
             openpopGC.classList.remove('showpopup');
          });
        
          
         }).fail((res) => {
-          
           console.log(res);
+          window.location.href = window.location.origin +`/dashboard?closeStatus=false`;
+
         })
        
       });
