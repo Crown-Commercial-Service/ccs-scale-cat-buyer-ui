@@ -109,12 +109,12 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   else if(group1 || group2){
     req.session['isOnlyOneSelected'] = true;
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPECONSTENT);
   }
  else
   {
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPECONSTENT);
   }
 
  } catch (error) {

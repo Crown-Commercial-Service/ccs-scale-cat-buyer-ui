@@ -8,6 +8,7 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import {REQUIRMENT_DA_PATHS} from '../../../features/da/model/daConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { Logger } from '@hmcts/nodejs-logging';
+
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
 /**
@@ -162,9 +163,11 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
           req.session.selectedRoute = 'DA';
+          //da/type
           console.log("**************************************************************")
           console.log("redirect_address_new",redirect_address_new);
           console.log("**************************************************************")
+          // da/type
           res.redirect(redirect_address_new);
           break;
 
