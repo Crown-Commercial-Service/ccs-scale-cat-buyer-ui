@@ -15,6 +15,10 @@ const logger = Logger.getLogger('DA TYP');
  * @param res 
  */
 export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response) => {
+ console.log("*************************************************************************");
+ console.log("secondarymethod");
+ console.log("*************************************************************************");
+
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
