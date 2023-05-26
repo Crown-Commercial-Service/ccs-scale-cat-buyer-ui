@@ -206,7 +206,7 @@ export enum REQUIREMENT_PATHS {
   DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
 
   // da type
-  DA_TYPE = '/da/type',
+  DA_TYPE = '/da/typeConstent',
   DA_POST_TYPE = '/da/type',
   DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
   DA_REQUIREMENT_TASK_LIST = '/da/task-list',
