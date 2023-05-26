@@ -84,7 +84,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   pastListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
-  
+ 
   const appendData = {
     data: dashboarData,
     searchText,
@@ -650,7 +650,7 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
-    
+    console.log('error',err)
     LoggTracer.errorLogger(
       res,
       err,
@@ -734,8 +734,10 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     events: activeListDash,
     historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData,
-    issetDashBanner
+    issetDashBanner,
+    closeprojectStatus:req.session.closeProject
   };
   /** CAS-87 */
+  req.session.closeProject = false;
   res.render('dashboard', appendData);
 };

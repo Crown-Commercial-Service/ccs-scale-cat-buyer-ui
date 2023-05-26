@@ -38,13 +38,16 @@ $(document).ready(function () {
         deconf.addEventListener('click', ev => {
         let projectval =   $(document).find("#projectid_popup").val();
         let eventIdVal =   $(document).find("#eventid_popup").val();
+        $(".dialog-close-projectCloseAllPopup").on('click', function(){
+          openpopGC.classList.remove('showpopup');
+       });
         $.ajax({
           url: `/closeProject?procid=${projectval}&eventId=${eventIdVal}`,
           type: "GET",
           contentType: "application/json",
           async: false,
         }).done(function (result) {
-          window.location.href = window.location.origin +`/dashboard?closestatus=${result.closeStatus}`;
+          window.location.href = window.location.origin +`/dashboard`;
           $(".dialog-close-projectCloseAllPopup").on('click', function(){
             openpopGC.classList.remove('showpopup');
          });
@@ -54,10 +57,7 @@ $(document).ready(function () {
           
           console.log(res);
         })
-        // openpopGC.classList.remove('showpopup');
-        // var bodytg = document.body;
-        // bodytg.classList.add("pageblur");
-        // document.location.href=window.location.href;
+       
       });
     }
   // media query change

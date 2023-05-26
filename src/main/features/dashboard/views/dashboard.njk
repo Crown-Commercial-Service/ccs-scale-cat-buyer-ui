@@ -295,7 +295,11 @@
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                         {% if event.activeEvent.tenderPeriod.startDate%}
+                             <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                         {% else %}
+                         {{ event.activeEvent.id }}
+                         {% endif %}
                         <input type="hidden" value="{{event.projectId}}">
                         <input type="hidden" value="{{event.activeEvent.id}}">
                         <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
@@ -348,7 +352,11 @@
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                       <p class="govuk-body govuk-!-margin-bottom-0">
+                        {% if event.activeEvent.tenderPeriod.startDate %}
                         <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                            {% else %}
+                            {{ event.activeEvent.id }}
+                         {% endif %}
                         <input type="hidden" value="{{event.projectId}}">
                         <input type="hidden" value="{{event.activeEvent.id}}">
                         <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->

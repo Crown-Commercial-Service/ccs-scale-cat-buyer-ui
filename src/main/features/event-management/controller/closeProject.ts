@@ -20,20 +20,17 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
     const { procid, eventId } = req.query
     req.session.closeProject = false;
     try {
-       // const baseURL = `tenders/projects/${procid}/close`;
-        const baseURL = `tenders/projects/${procid}/events/${eventId}/termination`;
+        const baseURL = `tenders/projects/${procid}/close`;
         const body = {
           "terminationType": "cancelled"       
         };
        const response =  await TenderApi.Instance(SESSION_ID).put(baseURL, body);  
-      if(response.data == 'OK'){
+       if(response.data == 'OK'){
        req.session.closeProject=true;
       }
         res.json({ closeStatus: true});
-     // res.redirect('/dashboard');
-    }
+      }
     catch (err) {
-        console.log('err',err)
         LoggTracer.errorLogger(
           res,
           err,
