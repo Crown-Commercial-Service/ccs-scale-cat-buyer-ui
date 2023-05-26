@@ -703,7 +703,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.DA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_TYPE);
 
   app.get(
-    REQUIREMENT_PATHS.DA_TYPECONSTENT,
+    REQUIREMENT_PATHS.DA_TYPE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_REQUIREMENT_TYPE,
   );

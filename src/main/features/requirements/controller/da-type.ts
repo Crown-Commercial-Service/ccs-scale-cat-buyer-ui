@@ -17,8 +17,6 @@ const logger = Logger.getLogger('DA TYP');
 export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response) => {
  console.log("*************************************************************************");
  console.log("secondarymethod");
- console.log("*************************************************************************");
-
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -109,12 +107,12 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   else if(group1 || group2){
     req.session['isOnlyOneSelected'] = true;
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPECONSTENT);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
   }
  else
   {
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPECONSTENT);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
   }
 
  } catch (error) {
