@@ -92,7 +92,6 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
           } else {
             if (fetch_dynamic_data[j].nonOCDS.options.length > 0) {
               ExcludingKeyDates[index].questionStatus = 'Done';
-            } else {
             }
           }
         }

@@ -10,15 +10,6 @@ import { gCloudServiceQueryReplace } from '../util/filter/serviceQueryReplace';
 import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourSearch.json';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-// @ts-ignore
-// const gCloudServiceQueryFliter = (reqUrl: any, baseUrl: any, overUrl: any) => {
-//   var url_parts = url.parse(reqUrl, true);
-//   let queryObj: any = url_parts.query;
-//   for (const key in queryObj) {
-//
-//   }
-// }
-
 export const GET_SEARCH = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lot, serviceCategories, parentCategory, q } = req.query;
@@ -40,11 +31,13 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
 
     let serviceCategoriesQuery = '';
     let parentCategoryQuery = '';
+    let filterURL: string;
+
     if (lot != undefined) {
       const lotQuery = `?lot=${lot}`;
       serviceCategoriesQuery = serviceCategories != undefined ? `&serviceCategories=${serviceCategories}` : '';
       parentCategoryQuery = parentCategory != undefined ? `&parentCategory=${parentCategory}` : '';
-      var filterURL = `g-cloud-filters${lotQuery}${serviceCategoriesQuery}${parentCategoryQuery}`;
+      filterURL = `g-cloud-filters${lotQuery}${serviceCategoriesQuery}${parentCategoryQuery}`;
     } else {
       filterURL = 'g-cloud-filters';
     }
@@ -76,8 +69,10 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
         const currentObj = filterDatas.categories.filters[i];
         if (currentObj != undefined) {
           if (serviceCategories != undefined) {
+            let parentCategoryValue: any;
+
             if (parentCategory != undefined) {
-              var parentCategoryValue: any = parentCategory;
+              parentCategoryValue = parentCategory;
             } else {
               parentCategoryValue = serviceCategories;
             }
@@ -125,8 +120,9 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
     req.session.searchUrl = searchUrl.replace('?', '');
     req.session.searchResultsUrl = searchResultsUrl.replace('?', '');
     const JointURL = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`;
+    let servicesList;
     try {
-      var { data: servicesList } = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
+      servicesList = (await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL)).data;
     } catch (error) {
       servicesList = {};
     }
@@ -135,10 +131,12 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       Number(servicesList?.meta?.total) / Number(servicesList?.meta?.results_per_page)
     );
 
+    let NextPageUrl, PrvePageUrl;
+
     if (servicesList?.links?.next)
-      var NextPageUrl = servicesList?.links?.next.substring(servicesList?.links?.next.indexOf('?') + 1);
+      NextPageUrl = servicesList?.links?.next.substring(servicesList?.links?.next.indexOf('?') + 1);
     if (servicesList?.links?.prev)
-      var PrvePageUrl = servicesList?.links?.prev.substring(servicesList?.links?.prev.indexOf('?') + 1);
+      PrvePageUrl = servicesList?.links?.prev.substring(servicesList?.links?.prev.indexOf('?') + 1);
 
     NextPageUrl = await gCloudServiceQueryReplace(NextPageUrl, 'filter_');
     PrvePageUrl = await gCloudServiceQueryReplace(PrvePageUrl, 'filter_');
@@ -207,12 +205,13 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
 
     let serviceCategoriesQuery = '';
     let parentCategoryQuery = '';
+    let filterURL: string;
 
     if (lot != undefined) {
       const lotQuery = `?lot=${lot}`;
       serviceCategoriesQuery = serviceCategories != undefined ? `&serviceCategories=${serviceCategories}` : '';
       parentCategoryQuery = parentCategory != undefined ? `&parentCategory=${parentCategory}` : '';
-      var filterURL = `g-cloud-filters${lotQuery}${serviceCategoriesQuery}${parentCategoryQuery}`;
+      filterURL = `g-cloud-filters${lotQuery}${serviceCategoriesQuery}${parentCategoryQuery}`;
     } else {
       filterURL = 'g-cloud-filters';
     }
@@ -244,8 +243,9 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
         const currentObj = filterDatas.categories.filters[i];
         if (currentObj != undefined) {
           if (serviceCategories != undefined) {
+            let parentCategoryValue: any;
             if (parentCategory != undefined) {
-              var parentCategoryValue: any = parentCategory;
+              parentCategoryValue = parentCategory;
             } else {
               parentCategoryValue = serviceCategories;
             }
@@ -293,9 +293,10 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
     req.session.searchResultsUrl = searchResultsUrl.replace('?', '');
     const JointURL = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`;
     console.log(JointURL);
+    let servicesList;
 
     try {
-      var { data: servicesList } = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
+      servicesList = (await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL)).data;
     } catch (error) {
       servicesList = {};
     }
@@ -304,10 +305,12 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
       Number(servicesList?.meta?.total) / Number(servicesList?.meta?.results_per_page)
     );
 
+    let NextPageUrl, PrvePageUrl;
+
     if (servicesList?.links?.next)
-      var NextPageUrl = servicesList?.links?.next.substring(servicesList?.links?.next.indexOf('?') + 1);
+      NextPageUrl = servicesList?.links?.next.substring(servicesList?.links?.next.indexOf('?') + 1);
     if (servicesList?.links?.prev)
-      var PrvePageUrl = servicesList?.links?.prev.substring(servicesList?.links?.prev.indexOf('?') + 1);
+      PrvePageUrl = servicesList?.links?.prev.substring(servicesList?.links?.prev.indexOf('?') + 1);
     NextPageUrl = await gCloudServiceQueryReplace(NextPageUrl, 'filter_');
     PrvePageUrl = await gCloudServiceQueryReplace(PrvePageUrl, 'filter_');
     const njkDatas = {

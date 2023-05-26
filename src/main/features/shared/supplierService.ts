@@ -8,5 +8,7 @@ export const GetLotSuppliers = async (req: express.Request) => {
   try {
     const { data: suppliers } = await AgreementAPI.Instance(null).get(lotSuppliersEndpoint);
     return suppliers;
-  } catch (err) {}
+  } catch (err) {
+    // Do nothing if there is an error
+  }
 };

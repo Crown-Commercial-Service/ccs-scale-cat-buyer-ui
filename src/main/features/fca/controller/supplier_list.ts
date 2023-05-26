@@ -41,11 +41,11 @@ export const SUPPLIER_LIST = async (req: express.Request, res: express.Response)
     let agreementLotNames = req.session.agreementLotName;
     if (releatedContentcheck == '') {
       if (req.session.agreement_id == 'RM1043.8') {
-        if ((lotid = '1')) {
+        if (lotid === '1') {
           agreementLotNames = 'Digital outcomes';
-        } else if ((lotid = '2')) {
+        } else if (lotid === '2') {
           agreementLotNames = 'User research studios';
-        } else if ((lotid = '3')) {
+        } else if (lotid === '3') {
           agreementLotNames = 'User research participants';
         } else {
           agreementLotNames = req.session.agreementLotName;

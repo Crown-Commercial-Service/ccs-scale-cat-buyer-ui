@@ -88,7 +88,9 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
         }
         isDisable = checkCheckbox.length > 0 ? true : false;
       }
-    } catch (e) {}
+    } catch (e) {
+      // Do nothing if there is an error
+    }
 
     // const { selectedRoute } = req.session;
     // let selectedServiceCheck = req.session.fca_selected_services;
@@ -377,7 +379,7 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
         const requirementsArray = [];
         for (let i = 0; i <= objCount; i++) {
           if (bodyData[i] != 'other') {
-            var currentRequirement = bodyData[i];
+            const currentRequirement = bodyData[i];
 
             if (currentRequirement != undefined) {
               const sclabtityOthers = scalabilityData.options.find(
@@ -433,7 +435,7 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
             supplierList = await GetLotSuppliers(req);
             const supplierDataToSave = [];
             if (UnqfinalArrayOutput.length > 0) {
-              for (var i = 0; i < UnqfinalArrayOutput.length; i++) {
+              for (let i = 0; i < UnqfinalArrayOutput.length; i++) {
                 const supplierInfo = supplierList.filter((s: any) => s.organization.id == UnqfinalArrayOutput[i])?.[0];
                 if (supplierInfo != undefined) {
                   supplierDataToSave.push({ name: supplierInfo.organization.name, id: UnqfinalArrayOutput[i] });
@@ -460,7 +462,9 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
           return false;
         });
         let supplierPostIds = supplierList.map((value: any) => value.organization.id);*/
-          } catch (err) {}
+          } catch (err) {
+            // Do nothing if there is an error
+          }
         } catch (error) {
           LoggTracer.errorLogger(
             res,

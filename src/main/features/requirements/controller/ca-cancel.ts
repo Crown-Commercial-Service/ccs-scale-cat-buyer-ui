@@ -55,7 +55,7 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
 
       const finalCSVData = [];
       let dataPrepared: any;
-      for (var i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
+      for (let i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
         const data = RankedSuppliers.filter((s) => s.supplier.id == SUPPLIER_DATA.suppliers[i].id);
 
         if (data.length > 0) {
@@ -75,7 +75,7 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       }
       finalCSVData.sort((a, b) => (a['Rank No.'] < b['Rank No.'] ? -1 : a['Rank No.'] > b['Rank No.'] ? 1 : 0));
       const dimensionsTable = [];
-      for (var i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 5; i++) {
         const dim = dimensionRequirements.filter((item) => item['dimension-id'] == i)[0];
         if (dim != undefined) {
           dataPrepared = {

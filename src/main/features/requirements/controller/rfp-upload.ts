@@ -34,7 +34,8 @@ export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: e
  */
 
 export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  let { selectedRoute, stage2_value } = req.session;
+  const { stage2_value } = req.session;
+  let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   if (selectedRoute === 'dos') selectedRoute = 'RFP';
   const selRoute = selectedRoute.toLowerCase();

@@ -48,7 +48,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     const SUPPLIER_DATA = SUPPLIERS?.data; //saved suppliers
     if (SUPPLIER_DATA != undefined) {
       const allSuppliers = await GetLotSuppliers(req);
-      for (var i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
+      for (let i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
         const supplierInfo = allSuppliers.filter((s) => s.organization.id == SUPPLIER_DATA.suppliers[i].id)?.[0];
         if (supplierInfo != undefined) {
           supplierList.push(supplierInfo);

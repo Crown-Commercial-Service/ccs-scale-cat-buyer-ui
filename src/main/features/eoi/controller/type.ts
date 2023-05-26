@@ -78,8 +78,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
     const { ccs_eoi_type } = filtered_body_content_removed_eoi_key;
 
     switch (ccs_eoi_type) {
-    case 'all_online':
-      // eslint-disable-next-line no-case-declarations
+    case 'all_online': {
       const redirect_address = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${eventId}`;
 
       //CAS-INFO-LOG
@@ -87,13 +86,12 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
 
       res.redirect(redirect_address);
       break;
-
-    case 'all_offline':
-      // eslint-disable-next-line no-case-declarations
+    }
+    case 'all_offline': {
       const newAddress = EOI_PATHS.GET_OFFLINE;
       res.redirect(newAddress);
       break;
-
+    }
     default:
       res.redirect('/404');
     }

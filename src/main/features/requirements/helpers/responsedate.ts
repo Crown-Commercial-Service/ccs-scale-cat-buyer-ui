@@ -343,7 +343,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           if (i == 0) {
@@ -818,7 +818,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -941,7 +941,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1063,7 +1063,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1185,7 +1185,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1305,7 +1305,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1426,7 +1426,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1545,7 +1545,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1664,7 +1664,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1783,7 +1783,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -1904,7 +1904,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -2021,7 +2021,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 
@@ -2137,7 +2137,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
 

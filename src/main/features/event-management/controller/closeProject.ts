@@ -53,5 +53,7 @@ export async function terminateEventClose(req: express.Request, res: express.Res
       terminationType: 'cancelled',
     };
     await TenderApi.Instance(SESSION_ID).put(baseURL, body);
-  } catch (error) {}
+  } catch (error) {
+    // Do nothing if there is an error
+  }
 }

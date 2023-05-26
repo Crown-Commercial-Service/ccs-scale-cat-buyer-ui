@@ -144,7 +144,7 @@ function isValidQuestion(
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
     break;
-  case 'Question 2':
+  case 'Question 2': {
     const publishDate = new Date(timeline.publish);
     const newDate = new Date(questionNewDate);
 
@@ -158,6 +158,7 @@ function isValidQuestion(
     }
     errorSelector = 'rfi_clarification_date_expanded_2';
     break;
+  }
   case 'Question 3':
     if (questionNewDate <= timeline.clarificationPeriodEnd) {
       isValid = false;
@@ -210,14 +211,16 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+  const {
+    clarification_date_hourFormat,
+    selected_question_id,
+  } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute,
-    clarification_date_hourFormat,
-    selected_question_id,
+    clarification_date_minute
   } = req.body;
   const questionId = Number(selected_question_id?.split('Question ').join(''));
   const { timeline } = req.session;

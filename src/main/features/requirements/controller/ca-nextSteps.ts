@@ -75,7 +75,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
     if (ca_next_steps) {
       switch (ca_next_steps) {
-      case 'yes':
+      case 'yes': {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
         const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
         const endDate = new Date();
@@ -162,7 +162,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           supplierList = await GetLotSuppliers(req);
 
           const supplierDataToSave = [];
-          for (var i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
+          for (let i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
             const supplierInfo = supplierList.filter((s) => s.organization.id == SUPPLIER_DATA.suppliers[i].id)?.[0];
             if (supplierInfo != undefined) {
               supplierDataToSave.push({ name: supplierInfo.organization.name, id: SUPPLIER_DATA.suppliers[i].id });
@@ -182,14 +182,14 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
         }
 
         break;
-
+      }
       case 'edit':
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
         req.session['CA_nextsteps_edit'] = true;
         res.redirect(REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
         break;
 
-      case 'no':
+      case 'no': {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
         const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
         const _body = {
@@ -211,7 +211,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
         }
 
         break;
-
+      }
       default:
         res.redirect('/404');
       }

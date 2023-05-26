@@ -29,7 +29,8 @@ export const RFP_GET_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: expres
 };
 
 export const RFP_POST_UPLOAD_ADDITIONAL_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  let { selectedRoute, stage2_value } = req.session;
+  const { stage2_value } = req.session;
+  let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   if (selectedRoute === 'dos') selectedRoute = 'RFP';
 
@@ -272,7 +273,8 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId } = req.session;
   const agreementId_session = req.session.agreement_id;
-  let { selectedRoute, stage2_value } = req.session;
+  const { stage2_value } = req.session;
+  let { selectedRoute } = req.session;
 
   try {
     if (req.session['isAssessUploaded']) {
@@ -324,5 +326,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED: express.Handler = async (
         res.redirect('/rfp/task-list');
       }
     }
-  } catch (err) {}
+  } catch (err) {
+    // Do nothing if there is an error
+  }
 };

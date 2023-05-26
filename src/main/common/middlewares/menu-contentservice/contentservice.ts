@@ -33,7 +33,7 @@ export class ContentFetchMiddleware {
         const newInstance = contentAPI.Instance(null);
         newInstance.defaults.timeout = Number(config.get('settings.fetch-timelimit'));
         const fetchMenuItems = await newInstance.get(BaseURL);
-        const { ID, name }: menuFetchItems = fetchMenuItems?.data;
+        const { ID, name }: menuFetchItems = fetchMenuItems?.data ?? {};
         const reformedObject = {
           ID: ID,
           name: name,

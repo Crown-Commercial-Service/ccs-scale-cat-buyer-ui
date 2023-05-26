@@ -239,7 +239,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -507,7 +507,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -621,7 +621,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -734,7 +734,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -847,7 +847,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -960,7 +960,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -1073,7 +1073,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -1186,7 +1186,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -1299,7 +1299,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -1412,7 +1412,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);
@@ -1526,7 +1526,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for (var i = 0; i < fetchQuestionsData.length; i++) {
+      for (let i = 0; i < fetchQuestionsData.length; i++) {
         if (fetchQuestionsData[i].nonOCDS.options.length > 0) {
           const value = fetchQuestionsData[i].nonOCDS.options[0].value;
           day = value.substr(0, 10);

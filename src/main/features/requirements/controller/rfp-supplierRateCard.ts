@@ -13,11 +13,11 @@ export const RFP_SUPPLIER_RATECARD = async (req: express.Request, res: express.R
   // const { eventId, projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   try {
-    var assessmentURL = `assessments/${assessmentId}`;
+    let assessmentURL = `assessments/${assessmentId}`;
     const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
     const toolId = assessmentData.data['external-tool-id'];
     // var supplier_Id = (supplierId as string).split('-');
-    var assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=` + supplierId;
+    assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=` + supplierId;
     // var assessmentURL = `/assessments/tools/6/dimensions/6/data?suppliers=211345898`;
     const assessmentsData = await (await TenderApi.supplierInstance(SESSION_ID).get(assessmentURL))?.data;
     // let baseURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers/${supplierId}`;

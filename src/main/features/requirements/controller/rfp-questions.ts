@@ -25,7 +25,8 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  let { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  const { agreement_id, proc_id, event_id, section } = req.query;
+  let { id, group_id } = req.query;
   const lotId = req.session?.lotId;
 
   try {
@@ -114,7 +115,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      } else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+      } else if (aSelector.nonOCDS.questionType === 'Table' || aSelector.nonOCDS.questionType === 'Integer') {
         return 'ccs_rfp_scoring_criteria';
       } else {
         return '';
@@ -547,7 +548,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
 
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    let { rfp_build_started, question_id } = req.body;
+    const { rfp_build_started } = req.body;
+    let { question_id } = req.body;
 
     if (question_id === undefined) {
       question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
@@ -744,7 +746,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                     }
                   }
                 }
-              } catch (err) {}
+              } catch (err) {
+                // Do nothing if there is an error
+              }
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(0, 3);
               const dayval = slideObj[0].length == 2 ? slideObj[0] : '0' + slideObj[0];
@@ -939,8 +943,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
 
                 const datas = [];
                 if (monetaryData != null && monetaryData.length > 0) {
-                  if (Array.isArray(monetaryData)) {
-                  } else {
+                  if (!Array.isArray(monetaryData)) {
                     datas.push(monetaryData);
                     monetaryData = [];
                     monetaryData = datas;

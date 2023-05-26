@@ -31,6 +31,32 @@ process.on('unhandledRejection', (reason, promise) => {
   console.log('----- Reason -----');
   console.log(reason);
 });
+
+const checkWeekendDate = (date: Date): Date => {
+  const dayOfWeek = new Date(date).getDay();
+  newDate = new Date(date);
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    newDate.setDate(newDate.getDate() + 1);
+    newDate.setHours(23);
+    newDate.setMinutes(59);
+    checkWeekendDate(newDate);
+  }
+  return newDate;
+};
+
+const checkBankHolidayDate = (date: Date, listOfHolidayDate: any): Date => {
+  tempDate = new Date(date);
+  const newDate = moment(date).format('YYYY-MM-DD');
+  const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+  if (filterDate != undefined && filterDate != null) {
+    tempDate.setDate(tempDate.getDate() + 1);
+    tempDate.setHours(23);
+    tempDate.setMinutes(59);
+    checkBankHolidayDate(tempDate, listOfHolidayDate);
+  }
+  return tempDate;
+};
+
 /**
  *
  * @Rediect
@@ -650,7 +676,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
-        case 'TBD':
+        case 'TBD': {
           const { eventId, projectId, procurements } = req.session;
           const currentProcNum = procurements.findIndex(
             (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
@@ -658,6 +684,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           req.session.procurements[currentProcNum].started = false;
           redirectUrl = '/projects/create-or-choose';
           break;
+        }
         default:
           redirectUrl = '/event/management';
           break;
@@ -744,31 +771,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break;
         }
       }
-    }
-
-    function checkWeekendDate(date: Date) {
-      const dayOfWeek = new Date(date).getDay();
-      newDate = new Date(date);
-      if (dayOfWeek === 6 || dayOfWeek === 0) {
-        newDate.setDate(newDate.getDate() + 1);
-        newDate.setHours(23);
-        newDate.setMinutes(59);
-        checkWeekendDate(newDate);
-      }
-      return newDate;
-    }
-
-    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
-      tempDate = new Date(date);
-      const newDate = moment(date).format('YYYY-MM-DD');
-      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-      if (filterDate != undefined && filterDate != null) {
-        tempDate.setDate(tempDate.getDate() + 1);
-        tempDate.setHours(23);
-        tempDate.setMinutes(59);
-        checkBankHolidayDate(tempDate, listOfHolidayDate);
-      }
-      return tempDate;
     }
   } catch (err) {
     console.log('catcherr2', err);
@@ -1229,7 +1231,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
-        case 'TBD':
+        case 'TBD': {
           const { eventId, projectId, procurements } = req.session;
           const currentProcNum = procurements.findIndex(
             (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
@@ -1237,6 +1239,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           req.session.procurements[currentProcNum].started = false;
           redirectUrl = '/projects/create-or-choose';
           break;
+        }
         default:
           redirectUrl = '/event/management';
           break;
@@ -1343,31 +1346,6 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
       }
     }
-
-    function checkWeekendDate(date: Date) {
-      const dayOfWeek = new Date(date).getDay();
-      newDate = new Date(date);
-      if (dayOfWeek === 6 || dayOfWeek === 0) {
-        newDate.setDate(newDate.getDate() + 1);
-        newDate.setHours(23);
-        newDate.setMinutes(59);
-        checkWeekendDate(newDate);
-      }
-      return newDate;
-    }
-
-    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
-      tempDate = new Date(date);
-      const newDate = moment(date).format('YYYY-MM-DD');
-      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-      if (filterDate != undefined && filterDate != null) {
-        tempDate.setDate(tempDate.getDate() + 1);
-        tempDate.setHours(23);
-        tempDate.setMinutes(59);
-        checkBankHolidayDate(tempDate, listOfHolidayDate);
-      }
-      return tempDate;
-    }
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -1383,7 +1361,8 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
 
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  let { projectId, eventId, agreement_header, releatedContent } = req.session;
+  const { agreement_header, releatedContent } = req.session;
+  let { projectId, eventId } = req.session;
   //let { projectId, eventId, agreement_header } = req.session;
   const { supplierid, reviewsupplierid, Type } = req.query;
   const events = req.session.openProjectActiveEvents;
@@ -1401,7 +1380,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
     );
     if (stage2_data.length > 0) stage2_value = 'Stage 2';
-  } catch (e) {}
+  } catch (e) {
+    // Do nothing if there is an error
+  }
 
   let title: string,
     lotid: string,
@@ -1962,7 +1943,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     const supplierList = await GetLotSuppliers(req);
     const supplierData = [];
     if (uniqSuppliers.length > 0) {
-      for (var i = 0; i < uniqSuppliers.length; i++) {
+      for (let i = 0; i < uniqSuppliers.length; i++) {
         const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
         if (supplierInfo != undefined) {
           supplierData.push({ supplierName: supplierInfo.organization.name, id: uniqSuppliers[i] });
@@ -2011,7 +1992,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     const supplierList = await GetLotSuppliers(req);
     const supplierData = [];
     if (uniqSuppliers.length > 0) {
-      for (var i = 0; i < uniqSuppliers.length; i++) {
+      for (let i = 0; i < uniqSuppliers.length; i++) {
         const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
         if (supplierInfo != undefined) {
           supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
@@ -2033,8 +2014,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
 
     if (response.status == Number(HttpStatusCode.OK)) {
       req.session.selectedRoute = 'FC';
-      let currentProcIndex;
-      currentProcIndex = req.session.procurements.findIndex(
+      const currentProcIndex = req.session.procurements.findIndex(
         (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
       );
       req.session.procurements[currentProcIndex].started = false;
@@ -2076,23 +2056,23 @@ export const START_EVALUATION = async (req: express.Request, res: express.Respon
   }
 };
 
+const getEventStatusApis = async (sessionId: string, projectId: string): Promise<any> => {
+  const baseurl = `/tenders/projects/${projectId}/events`;
+  const rawData = await TenderApi.Instance(sessionId)
+    .get(baseurl)
+    .then((x) => new Promise((resolve) => setTimeout(() => resolve(x), 10000)));
+  return rawData.data;
+};
+
 export const START_EVALUATION_REDIRECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId, eventId } = req.session;
   try {
-    async function GetEventStatusApis() {
-      const baseurl = `/tenders/projects/${projectId}/events`;
-      const rawData = await TenderApi.Instance(SESSION_ID)
-        .get(baseurl)
-        .then((x) => new Promise((resolve) => setTimeout(() => resolve(x), 10000)));
-      return rawData.data;
-    }
-
     let doRaw = true;
 
     do {
       let eventStatusRaw: any = [];
-      eventStatusRaw = await GetEventStatusApis();
+      eventStatusRaw = await getEventStatusApis(SESSION_ID, projectId);
       const statusOut = eventStatusRaw.filter((el: any) => el.id == eventId)[0].dashboardStatus;
 
       if (statusOut.toLowerCase() === 'evaluating') {

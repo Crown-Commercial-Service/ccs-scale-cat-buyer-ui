@@ -70,7 +70,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     let Level7AndLevel2Contents = [...LEVEL7CONTENTS['options'], ...LEVEL2CONTENTS['options']];
     Level7AndLevel2Contents = { options: Level7AndLevel2Contents };
 
-    var { options } = Level7AndLevel2Contents;
+    let { options } = Level7AndLevel2Contents;
 
     /**
      * @Removing_duplications
@@ -103,8 +103,9 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     };
 
     //REFORMATING
-    var { options, name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
+    const { name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
     const dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
+    options = REFORMED_DESIGNATION_OBJECT.options;
 
     const REMAPPED_ITEM = options.map((anOption) => {
       const { name, groupRequirement, groups } = anOption;
@@ -216,11 +217,11 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     let total_ws = 0,
       total_wv = 0,
       total_res = 0;
-    for (var item of StorageForSortedItems) {
+    for (const item of StorageForSortedItems) {
       let inner_total_ws = 0,
         inner_total_wv = 0,
         inner_total_res = 0;
-      for (var cat of item.category) {
+      for (const cat of item.category) {
         requirementId = LEVEL2CONTENTS.options.filter((option) => option.name == cat.ParentName)?.[0]?.[
           'requirement-id'
         ];
@@ -241,7 +242,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
           cat['NumberVetting'] = noVetting;
           inner_total_wv = inner_total_wv + noVetting;
         }
-        for (var designation of cat.designations) {
+        for (const designation of cat.designations) {
           const res = dimensionResourceQuantities[0]?.requirements.filter(
             (req) => req['requirement-id'] == designation['requirement-id']
           )[0]?.['weighting'];

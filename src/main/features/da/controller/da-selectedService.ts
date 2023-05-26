@@ -247,7 +247,7 @@ export const DA_POST_SELECTED_SERVICE = async (req: express.Request, res: expres
       const requirementsArray = [];
       for (let i = 0; i <= countObj; i++) {
         if (bodyData[i] != 'other') {
-          var currentRequirement = bodyData[i];
+          const currentRequirement = bodyData[i];
           if (currentRequirement != undefined) {
             requirementsArray.push({
               name: scalabilityData.options.find((data) => data['requirement-id'] === Number(currentRequirement)).name,
@@ -298,7 +298,7 @@ export const DA_POST_SELECTED_SERVICE = async (req: express.Request, res: expres
           supplierList = await GetLotSuppliers(req);
           const supplierDataToSave = [];
           if (UnqfinalArrayOutput.length > 0) {
-            for (var i = 0; i < UnqfinalArrayOutput.length; i++) {
+            for (let i = 0; i < UnqfinalArrayOutput.length; i++) {
               const supplierInfo = supplierList.filter((s: any) => s.organization.id == UnqfinalArrayOutput[i])?.[0];
               if (supplierInfo != undefined) {
                 supplierDataToSave.push({ name: supplierInfo.organization.name, id: UnqfinalArrayOutput[i] });

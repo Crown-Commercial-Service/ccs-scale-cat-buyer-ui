@@ -83,7 +83,7 @@ export const CalVetting = async (req: express.Request) => {
   const dimensions = [...CAPACITY_DATASET];
 
   const LEVEL7CONTENTS = dimensions?.filter((dimension) => dimension['name'] === 'Resource Quantities')[0];
-  var { options } = LEVEL7CONTENTS;
+  let { options } = LEVEL7CONTENTS;
 
   /**
    * @Removing_duplications
@@ -108,8 +108,9 @@ export const CalVetting = async (req: express.Request) => {
   };
 
   //REFORMATING
-  var { options, name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
+  const { name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
   const dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
+  options = REFORMED_DESIGNATION_OBJECT.options;
 
   const REMAPPED_ITEM = options?.map((anOption) => {
     const { name, groupRequirement, groups } = anOption;

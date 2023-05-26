@@ -120,7 +120,8 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
   const { SESSION_ID } = req.cookies;
 
   try {
-    let { searchUrl, criteriaData } = req.session;
+    const { criteriaData } = req.session;
+    let { searchUrl } = req.session;
     const { search_name, savesearch, saveandcontinue, saveforlater } = req.body;
     const hostURL = `${req.protocol}://${req.headers.host}`;
     const lastUpdate =

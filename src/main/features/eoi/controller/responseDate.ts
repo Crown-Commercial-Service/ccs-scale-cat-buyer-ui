@@ -239,14 +239,16 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 // @POST "/eoi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   try {
+    const {
+      clarification_date_hourFormat,
+      selected_question_id,
+    } = req.body;
     let {
       clarification_date_day,
       clarification_date_month,
       clarification_date_year,
       clarification_date_hour,
       clarification_date_minute,
-      clarification_date_hourFormat,
-      selected_question_id,
     } = req.body;
 
     const { timeline } = req.session;

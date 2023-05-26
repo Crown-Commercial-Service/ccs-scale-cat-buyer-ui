@@ -3,7 +3,7 @@ import url from 'node:url';
 const tune = (obj: any) => {
   const emptyArr = [];
   for (const key in obj) {
-    if (typeof obj[key] == 'object') {
+    if (typeof obj[key] === 'object') {
       const newArr = obj[key];
       for (let i = 0; i < newArr.length; i++) {
         emptyArr.push({ key: key, value: newArr[i] });
@@ -32,8 +32,6 @@ export async function gCloudServiceQueryResults(reqUrl: any, baseUrl: any, type:
       }
     } else {
       outQueryUrl += `&${key}=${value}`;
-    }
-    if (i == queryObj.length - 1) {
     }
   });
 

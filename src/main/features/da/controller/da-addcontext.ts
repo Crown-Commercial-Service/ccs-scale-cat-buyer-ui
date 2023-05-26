@@ -171,7 +171,6 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
           } else {
             if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
               excludingIR35andSkills[index].questionStatus = 'Done';
-            } else {
             }
           }
         }
