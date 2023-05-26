@@ -28,14 +28,15 @@ export const DA_TYPE = (req: express.Request, res: express.Response) => {
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   //UN-COMMENT THIS CODE IF WANT TO SHOW STEP 3 1FC TO SLECT ONLINE AND OFFLINE BALWINDER 
 
-  
+  console.log("req.session.selectedRoute",req.session.selectedRoute);
   if (req.session.selectedRoute === 'DA') {
    
     const redirect_address = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
+    console.log("REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST",REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST);
     //req.session.fcSelectedRoute = choice;
     res.redirect(redirect_address);
   } else {
- 
+    console.log("daw-typeELSEE")
     //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.typePageLog, req);
     res.render('daw-type', appendData);
