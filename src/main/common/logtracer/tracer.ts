@@ -5,6 +5,7 @@ import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
 import Rollbar from 'rollbar';
 import { Logger } from '@hmcts/nodejs-logging';
+import querystring from 'querystring';
 const logger = Logger.getLogger('logit helper');
 const rollbar_access_token = process.env.ROLLBAR_ACCESS_TOKEN
 
@@ -51,7 +52,14 @@ export class LoggTracer {
  
   let body=null;
   if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
-    body = JSON.parse(errorLog?.exception?.config?.data)
+    try {
+        body = JSON.parse(errorLog?.exception?.config?.data);
+    } catch (error) {
+        let parsedObjectET = querystring.parse(errorLog?.exception?.config?.data);
+        let finalET = JSON.stringify(parsedObjectET);
+        body = JSON.parse(finalET);
+    }
+    // body = JSON.parse(errorLog?.exception?.config?.data)
   }
   // let req = express.request;
 
@@ -94,7 +102,14 @@ export class LoggTracer {
     //  };
     let body = null;
     if(errorLog?.exception?.config?.data!=undefined && errorLog?.exception?.config?.data!=null && errorLog?.exception?.config?.data!=''){
-      body = JSON.parse(errorLog?.exception?.config?.data)
+      try {
+          body = JSON.parse(errorLog?.exception?.config?.data);
+      } catch (error) {
+          let parsedObjectETR = querystring.parse(errorLog?.exception?.config?.data);
+          let finalETR = JSON.stringify(parsedObjectETR);
+          body = JSON.parse(finalETR);
+      }
+      // body = JSON.parse(errorLog?.exception?.config?.data)
     }
     
 
@@ -167,6 +182,7 @@ export class LoggTracer {
         captureUncaught: true,
         captureUnhandledRejections: true,
         environment: process.env.ROLLBAR_ENVIRONMENT,
+        ignoredMessages: ['error : true']
       })
       rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot, res.req)
     }
