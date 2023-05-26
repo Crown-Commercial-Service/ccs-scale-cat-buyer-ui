@@ -98,7 +98,7 @@ describe('Add collaborator', () => {
     await request(parentApp)
       .get('/rfp/add-collaborators')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('title');
@@ -121,7 +121,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail/js-enabled')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).to.have.property('userName');
         expect(res.body).to.have.property('firstName');
         expect(res.body).to.have.property('lastName');
@@ -145,7 +145,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail/js-enabled')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).to.have.property('userName');
         expect(res.body).to.have.property('firstName');
         expect(res.body).to.have.property('lastName');
@@ -169,7 +169,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/add-collaborators');
       });
@@ -189,7 +189,7 @@ describe('Add collaborator', () => {
       .post('/rfp/add-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborator: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/add-collaborators');
       });
@@ -200,7 +200,7 @@ describe('Add collaborator', () => {
     await request(parentApp)
       .post('/rfp/proceed-collaborators')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/task-list');
       });

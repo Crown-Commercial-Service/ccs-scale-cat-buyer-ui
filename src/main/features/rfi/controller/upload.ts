@@ -34,16 +34,16 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  req.session.RfiUploadError=false;
-  req.session.RfiUploadClick=true;
+  req.session.RfiUploadError = false;
+  req.session.RfiUploadClick = true;
 
   if (!req.files) {
     const JourneyStatusUpload = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
     const journeyStatus = JourneyStatusUpload?.data;
-    const journey = journeyStatus?.find(journey => journey.step === 11)?.state;
-    
+    const journey = journeyStatus?.find((journey) => journey.step === 11)?.state;
+
     const routeRedirect = journey === 'Optional' ? '/rfi/upload-doc' : '/rfi/upload-doc';
-    req.session.RfiUploadError=true;
+    req.session.RfiUploadError = true;
     res.redirect(routeRedirect);
   } else {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
@@ -73,35 +73,34 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
             const formHeaders = formData.getHeaders();
             try {
               // ------file duplicate check start
-           const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-           const FETCH_FILEDATA = FetchDocuments.data;
+              const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+              const FETCH_FILEDATA = FetchDocuments.data;
 
-           let duplicateFile = false;
-           for(const item of FETCH_FILEDATA){
-               if(item.fileName == file.name){
-                 duplicateFile = true;
-               }
-           }
-           // ------file duplicate check end
-           if(duplicateFile){
-             req.session['isTcUploaded'] = false
-             req.session["fileDuplicateError"]=true;
-             FileFilterArray.push({
-               href: '#documents_upload',
-               text: fileName,
-             });
-             FILEUPLOADHELPER(req, res, true, FileFilterArray);
-           }else{
-              await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-                headers: {
-                  ...formHeaders,
-                },
-              });
-              
-              //CAS-INFO-LOG 
-              LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+              let duplicateFile = false;
+              for (const item of FETCH_FILEDATA) {
+                if (item.fileName == file.name) {
+                  duplicateFile = true;
+                }
+              }
+              // ------file duplicate check end
+              if (duplicateFile) {
+                req.session['isTcUploaded'] = false;
+                req.session['fileDuplicateError'] = true;
+                FileFilterArray.push({
+                  href: '#documents_upload',
+                  text: fileName,
+                });
+                FILEUPLOADHELPER(req, res, true, FileFilterArray);
+              } else {
+                await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+                  headers: {
+                    ...formHeaders,
+                  },
+                });
 
-            }
+                //CAS-INFO-LOG
+                LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+              }
             } catch (error) {
               LoggTracer.errorLogger(
                 res,
@@ -110,7 +109,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
                 null,
                 TokenDecoder.decoder(SESSION_ID),
                 'RFI - Multiple File Upload Error',
-                false,
+                false
               );
             }
           } else {
@@ -143,35 +142,35 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           const formHeaders = formData.getHeaders();
           try {
             // ------file duplicate check start
-           const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-           const FETCH_FILEDATA = FetchDocuments.data;
+            const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+            const FETCH_FILEDATA = FetchDocuments.data;
 
-           let duplicateFile = false;
-           for(const item of FETCH_FILEDATA){
-               if(item.fileName == rfi_offline_document.name){
-                 duplicateFile = true;
-               }
-           }
-           // ------file duplicate check end
-           if(duplicateFile){
-             req.session['isTcUploaded'] = false
-             req.session["fileDuplicateError"]=true;
-             FileFilterArray.push({
-               href: '#documents_upload',
-               text: fileName,
-             });
-             FILEUPLOADHELPER(req, res, true, FileFilterArray);
-           }else{
-            await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-              headers: {
-                ...formHeaders,
-              },
-            });
-           
-            //CAS-INFO-LOG 
-             LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+            let duplicateFile = false;
+            for (const item of FETCH_FILEDATA) {
+              if (item.fileName == rfi_offline_document.name) {
+                duplicateFile = true;
+              }
+            }
+            // ------file duplicate check end
+            if (duplicateFile) {
+              req.session['isTcUploaded'] = false;
+              req.session['fileDuplicateError'] = true;
+              FileFilterArray.push({
+                href: '#documents_upload',
+                text: fileName,
+              });
+              FILEUPLOADHELPER(req, res, true, FileFilterArray);
+            } else {
+              await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+                headers: {
+                  ...formHeaders,
+                },
+              });
 
-            res.redirect('/rfi/upload-doc');
+              //CAS-INFO-LOG
+              LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentUpdated, req);
+
+              res.redirect('/rfi/upload-doc');
             }
           } catch (error) {
             delete error?.config?.['headers'];
@@ -187,7 +186,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
               Logmessage.error_location,
               Logmessage.sessionId,
               Logmessage.error_reason,
-              Logmessage.exception,
+              Logmessage.exception
             );
             LoggTracer.errorTracer(Log, res);
           }
@@ -205,18 +204,18 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
 };
 
 export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies //jwt
-  const { projectId } = req.session
-  const EventId = req.session['eventId']
-  const { file_id } = req.query
-  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const EventId = req.session['eventId'];
+  const { file_id } = req.query;
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`;
   try {
-     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
-    
-    //CAS-INFO-LOG 
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+
+    //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentDeleted, req);
 
-    res.redirect('/rfi/upload-doc')
+    res.redirect('/rfi/upload-doc');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -225,20 +224,19 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'RFI - Remove document failed',
-      true,
+      true
     );
   }
-
 });
 
 ///rfi/upload-doc/procceed
 export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId,agreement_id } = req.session;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
-  if(agreement_id != 'RM1557.13'){
+  const { eventId, agreement_id } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
+  if (agreement_id != 'RM1557.13') {
     res.redirect('/rfi/suppliers');
-  }else{
+  } else {
     res.redirect('/rfi/response-date');
-  }  
+  }
 });

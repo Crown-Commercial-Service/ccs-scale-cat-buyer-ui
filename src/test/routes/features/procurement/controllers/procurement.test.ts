@@ -27,17 +27,17 @@ describe('Procurement page', () => {
         .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
     }
     nock('https://tst.api.crowncommercial.gov.uk')
-      .post(`/security/tokens/validation`)
+      .post('/security/tokens/validation')
       .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles`)
+      .get('/user-profiles')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263`)
+      .get('/agreements/RM6263')
       .query(true)
       .reply(200, { data: [{ name: 'sisarProject' }] });
   });
@@ -45,12 +45,12 @@ describe('Procurement page', () => {
   describe('Should be able to show procurements', () => {
     it('should render `Procurements` page when everything is fine', async () => {
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-        .get(`/agreements/RM6263/lots/1/event-types`)
+        .get('/agreements/RM6263/lots/1/event-types')
         .query(true)
         .reply(200, [{ type: 'EOI' }]);
 
       nock('http://localhost:8080')
-        .post(`/tenders/projects/agreements`)
+        .post('/tenders/projects/agreements')
         .reply(200, {
           procurementID: 981,
           eventId: 'ocds-b5fd17-904',
@@ -66,12 +66,12 @@ describe('Procurement page', () => {
       await request(parentApp)
         .get('/agreement/lot')
         .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-        .expect(res => expect(res.status).to.equal(200));
+        .expect((res) => expect(res.status).to.equal(200));
     });
 
     it('should render error page when event types api not ready', async () => {
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-        .get(`/agreements/RM6263/lots/1/event-types`)
+        .get('/agreements/RM6263/lots/1/event-types')
         .query(true)
         .replyWithError(500, {
           description: 'An unknown error has occurred.',
@@ -80,7 +80,7 @@ describe('Procurement page', () => {
       await request(parentApp)
         .get('/agreement/lot')
         .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-        .expect(res => {
+        .expect((res) => {
           console.log(res.body);
 
           expect(res.status).to.equal(200);
@@ -89,17 +89,17 @@ describe('Procurement page', () => {
 
     it('should render error page when agreement api not ready', async () => {
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-        .get(`/agreements/RM6263/lots/1/event-types`)
+        .get('/agreements/RM6263/lots/1/event-types')
         .query(true)
         .reply(200, [{ type: 'EOI' }]);
 
-      nock('http://localhost:8080').post(`/tenders/projects/agreements`).replyWithError(500, {
+      nock('http://localhost:8080').post('/tenders/projects/agreements').replyWithError(500, {
         description: 'An unknown error has occurred.',
       });
       await request(parentApp)
         .get('/agreement/lot')
         .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-        .expect(res => expect(res.status).to.equal(200));
+        .expect((res) => expect(res.status).to.equal(200));
     });
 
     // it('should redirect to login page if no session', async () => {

@@ -35,7 +35,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     isSubContractorAccepted = req.session['DA'].isSubContractorAccepted;
 
-    daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
+    daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map((opt) => {
       if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
       else if (opt.value == 'no' && isSubContractorAccepted == false) opt.checked = true;
       return opt;
@@ -47,10 +47,10 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
-    let flag = await ShouldEventStatusBeUpdated(eventId, 65, req);
-  if (flag) {
-await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
-  }
+    const flag = await ShouldEventStatusBeUpdated(eventId, 65, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
+    }
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -61,7 +61,7 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In pro
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - DA next steps page',
-      true,
+      true
     );
   }
 };
@@ -80,7 +80,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
 
   try {
@@ -88,35 +88,36 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
       const da_acceptsubcontractors = da_subContractors.toLowerCase() == 'yes' ? true : false;
-      req.session['DA'].isSubContractorAccepted=da_acceptsubcontractors
+      req.session['DA'].isSubContractorAccepted = da_acceptsubcontractors;
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
-      for (var dimension of assessmentDetail.dimensionRequirements) {
+      for (const dimension of assessmentDetail.dimensionRequirements) {
         const body = {
           name: dimension.name,
           weighting: dimension.weighting,
           requirements: dimension.requirements,
-          includedCriteria: dimension.includedCriteria.map(criteria => {
-            if (!da_acceptsubcontractors && criteria['name'].toLowerCase() == 'sub contractor') {
-              return null;
-            } else
-              return {
-                'criterion-id': criteria['criterion-id'],
-              };
-          }).filter(criteria => criteria !== null),
+          includedCriteria: dimension.includedCriteria
+            .map((criteria) => {
+              if (!da_acceptsubcontractors && criteria['name'].toLowerCase() == 'sub contractor') {
+                return null;
+              } else
+                return {
+                  'criterion-id': criteria['criterion-id'],
+                };
+            })
+            .filter((criteria) => criteria !== null),
         };
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-          body,
+          body
         );
       }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Completed');
-      let flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
+      const flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
       if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
       }
-      if(req.session["DA_nextsteps_edit"])
-      {
+      if (req.session['DA_nextsteps_edit']) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
       }
@@ -133,7 +134,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Post failed - DA sub contractors',
-      true,
+      true
     );
   }
 };

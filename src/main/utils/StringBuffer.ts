@@ -1,6 +1,6 @@
 class StringBuffer {
-  static isBlank (value: string): boolean {
-    return !(value && value.length > 0)
+  static isBlank(value: string): boolean {
+    return !(value && value.length > 0);
   }
 
   /**
@@ -11,18 +11,18 @@ class StringBuffer {
    * @param {string} value
    * @returns {string}
    */
-  static trimToUndefined (value: string): string {
+  static trimToUndefined(value: string): string {
     if (value === undefined) {
-      return undefined
+      return undefined;
     }
 
-    const trimmedValue: string = value.trim()
+    const trimmedValue: string = value.trim();
     if (trimmedValue.length === 0) {
-      return undefined
+      return undefined;
     }
 
-    return trimmedValue
-  }  
+    return trimmedValue;
+  }
 }
 
-export { StringBuffer }
+export { StringBuffer };

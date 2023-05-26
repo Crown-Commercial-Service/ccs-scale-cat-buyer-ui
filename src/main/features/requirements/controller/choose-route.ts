@@ -5,10 +5,9 @@ import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
-import {REQUIRMENT_DA_PATHS} from '../../../features/da/model/daConstants';
+import { REQUIRMENT_DA_PATHS } from '../../../features/da/model/daConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { Logger } from '@hmcts/nodejs-logging';
-
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
 /**
@@ -33,19 +32,27 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   const { data: eventTypes } = await TenderApi.Instance(SESSION_ID).get(eventTypesURL);
   req.session.haveFC = eventTypes.some((event: any) => event.type === 'FC');
 
-    let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
-      forceChangeDataJson = Mcf3chooseRouteData;
-    } else { 
-      forceChangeDataJson = chooseRouteData;
-    }
+  let forceChangeDataJson;
+  if (agreementId_session == 'RM6187') {
+    //MCF3
+    forceChangeDataJson = Mcf3chooseRouteData;
+  } else {
+    forceChangeDataJson = chooseRouteData;
+  }
   const updatedOptions = await updateRadioButtonOptions(
     forceChangeDataJson,
     agreementId_session,
     lotid,
-    req.session?.types,
+    req.session?.types
   );
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = {
+    agreementName,
+    project_name,
+    projectId,
+    agreementId_session,
+    agreementLotName,
+    lotid,
+  };
   const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError, agreementId_session };
   res.render('choose-route', appendData);
 };
@@ -54,44 +61,44 @@ function updateRadioButtonOptions(
   chooseRouteOptions: any,
   agreementId: string,
   lotId: string,
-  types: string[],
+  types: string[]
 ): object {
   let updatedOptions = chooseRouteOptions;
-  const updateLotId = lotId.length > 1 ? lotId :  lotId;
+  const updateLotId = lotId.length > 1 ? lotId : lotId;
   switch (agreementId) {
-    case 'RM6263':
-      if (updateLotId == 'Lot 1') {
-        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if (types.find(element => element == 'FC')) {
-            if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
-              // updatedOptions.form.radioOptions.items[i].disabled = "true"
-            } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              updatedOptions.form.radioOptions.items[i].remove = 'true';
-            }
-          }
-        }
-      } else {
-        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if (types.find(element => element == 'FC')) {
-            updatedOptions.form.radioOptions.items[i].remove = 'false';
-          }
-          if (types.find(element => element == 'DAA')) {
-            if (
-              updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
-              updatedOptions.form.radioOptions.items[i].value === 'award'
-            ) {
-              // updatedOptions.form.radioOptions.items[i].disabled = "true"
-            }
+  case 'RM6263':
+    if (updateLotId == 'Lot 1') {
+      for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+        if (types.find((element) => element == 'FC')) {
+          if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
+            // updatedOptions.form.radioOptions.items[i].disabled = "true"
+          } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
+            updatedOptions.form.radioOptions.items[i].remove = 'true';
           }
         }
       }
-      break;
+    } else {
+      for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+        if (types.find((element) => element == 'FC')) {
+          updatedOptions.form.radioOptions.items[i].remove = 'false';
+        }
+        if (types.find((element) => element == 'DAA')) {
+          if (
+            updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
+              updatedOptions.form.radioOptions.items[i].value === 'award'
+          ) {
+            // updatedOptions.form.radioOptions.items[i].disabled = "true"
+          }
+        }
+      }
+    }
+    break;
 
-    case 'RM6187':
-      break;
+  case 'RM6187':
+    break;
 
-    default:
-      updatedOptions = chooseRouteOptions;
+  default:
+    updatedOptions = chooseRouteOptions;
   }
   return updatedOptions;
 }
@@ -111,74 +118,70 @@ function updateRadioButtonOptions(
 
 export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {eventId} = req.session;
+  const { eventId } = req.session;
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,
-      'choose_fc_route_to_market',
+      'choose_fc_route_to_market'
     );
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
-      console.log("**************************************************************")
+      console.log('**************************************************************');
 
-      console.log("fc_route_to_market",fc_route_to_market);
-      console.log("**************************************************************")
+      console.log('fc_route_to_market', fc_route_to_market);
+      console.log('**************************************************************');
 
       switch (fc_route_to_market) {
-        case '1-stage':
-          // eslint-disable-next-line no-case-declarations
-          const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
-          req.session.caSelectedRoute = fc_route_to_market;
-          logger.info('One stage further competition selected');
-          req.session.selectedRoute = 'FC';
-          res.redirect(redirect_address);
-          break;
+      case '1-stage': {
+        const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
+        req.session.caSelectedRoute = fc_route_to_market;
+        logger.info('One stage further competition selected');
+        req.session.selectedRoute = 'FC';
+        res.redirect(redirect_address);
+        break;
+      }
+      case '2-stage': {
+        const newAddress = REQUIREMENT_PATHS.GET_LEARN;
+        req.session.caSelectedRoute = fc_route_to_market;
+        logger.info('two stage further competition selected');
+        if (req.session.agreement_id == 'RM6263') {
+          //DSP
+          req.session.selectedRoute = 'FCA';
+        } else {
+          //MCF3
+          req.session.selectedRoute = 'PA';
+        }
+        res.redirect(newAddress);
+        break;
+      }
+      case '1-stage-award': {
+        const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
+        req.session.caSelectedRoute = fc_route_to_market;
+        logger.info('DA selected');
+        req.session.selectedRoute = 'DAA';
+        res.redirect(nextAddress);
+        break;
+      }
 
-        case '2-stage':
-          // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.GET_LEARN;
-          req.session.caSelectedRoute = fc_route_to_market;
-          logger.info('two stage further competition selected');
-          if(req.session.agreement_id == 'RM6263') {  //DSP
-            req.session.selectedRoute = 'FCA';
-          } else {  //MCF3
-            req.session.selectedRoute = 'PA'; 
-          }
-          res.redirect(newAddress);
-          break;
-
-        case '1-stage-award':
-          //eslint-disable-next-line no-case-declarations RFP_REQUIREMENT_TASK_LIST
-          const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
-          req.session.caSelectedRoute = fc_route_to_market;
-          logger.info('DA selected');
-          req.session.selectedRoute = 'DAA';
-          res.redirect(nextAddress);
-          break;
-
-        case 'award':
-          // eslint-disable-next-line no-case-declarations
-          const redirect_address_new = REQUIRMENT_DA_PATHS.DA_TYPE;
-          req.session.caSelectedRoute = fc_route_to_market;
-          logger.info('One stage further competition selected');
-          req.session.selectedRoute = 'DA';
-          //da/type
-          console.log("**************************************************************")
-          console.log("redirect_address_new",redirect_address_new);
-          console.log("**************************************************************")
-          // da/type
-          res.redirect(redirect_address_new);
-          break;
-
-
-        default:
-          res.redirect('/404');
+      case 'award': {
+        const redirect_address_new = REQUIRMENT_DA_PATHS.DA_TYPE;
+        req.session.caSelectedRoute = fc_route_to_market;
+        logger.info('One stage further competition selected');
+        req.session.selectedRoute = 'DA';
+        console.log('**************************************************************');
+        console.log('redirect_address_new', redirect_address_new);
+        console.log('**************************************************************');
+        res.redirect(redirect_address_new);
+        break;
+      }
+      default:
+        res.redirect('/404');
       }
     } else {
-      console.log("**************************************************************")
-      console.log("ELSECHOOSE_ROUTE",REQUIREMENT_PATHS.CHOOSE_ROUTE)
-      console.log("**************************************************************")
+      console.log('**************************************************************');
+      console.log('ELSECHOOSE_ROUTE', REQUIREMENT_PATHS.CHOOSE_ROUTE);
+      console.log('**************************************************************');
       req.session['isJaggaerError'] = true;
       res.redirect(REQUIREMENT_PATHS.CHOOSE_ROUTE);
     }
@@ -190,7 +193,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Requirement Choose route page',
-      true,
+      true
     );
   }
 };

@@ -13,10 +13,9 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  *
  *
  */
- export const BUILD_RFI = async (req: express.Request, res: express.Response) => {
-  
-  let appendData: any = {...fcabuildRfiContent};
-  
+export const BUILD_RFI = async (req: express.Request, res: express.Response) => {
+  let appendData: any = { ...fcabuildRfiContent };
+
   const releatedContent = req.session.releatedContent;
   const { buildYorrfierror } = req.session;
   const { SESSION_ID } = req.cookies;
@@ -28,45 +27,58 @@ import { logConstant } from '../../../common/logtracer/logConstant';
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const projectId = req.session.projectId;
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
-  let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-  let journeys=journeySteps.find((item: { step: number; }) => item.step == 81);
-    let checked=false;  
-  if(journeys.state =='Completed'){
-    checked=true;
+  res.locals.agreement_header = {
+    agreementName,
+    project_name,
+    projectId,
+    agreementId_session,
+    agreementLotName,
+    lotid,
+  };
+  const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+  const journeys = journeySteps.find((item: { step: number }) => item.step == 81);
+  let checked = false;
+  if (journeys.state == 'Completed') {
+    checked = true;
   }
-  appendData = { ...appendData, agreementName,error:buildYorrfierror, releatedContent, agreementId_session, agreementLotName, lotid,checked };
-  
+  appendData = {
+    ...appendData,
+    agreementName,
+    error: buildYorrfierror,
+    releatedContent,
+    agreementId_session,
+    agreementLotName,
+    lotid,
+    checked,
+  };
 
   //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourRfiPageLog, req);
 
-  res.render('chooseBuildrfi',appendData );
- }
+  res.render('chooseBuildrfi', appendData);
+};
 
-export const POST_BUILD_RFI  = async (req: express.Request, res: express.Response) => {
-    const { eventId } = req.session;
-    const { SESSION_ID } = req.cookies;
-    try {
-    if(req.body.goto_choose == undefined || req.body.goto_choose == ''){
+export const POST_BUILD_RFI = async (req: express.Request, res: express.Response) => {
+  const { eventId } = req.session;
+  const { SESSION_ID } = req.cookies;
+  try {
+    if (req.body.goto_choose == undefined || req.body.goto_choose == '') {
       req.session['buildYorrfierror'] = true;
       res.redirect('/rfi/choose-build-your-rfi');
-    }else{
-      
-        let flag = await ShouldEventStatusBeUpdated(eventId, 81, req);
-      
-        if (flag) {
-          // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'In progress');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Completed');
-        }
-      
+    } else {
+      const flag = await ShouldEventStatusBeUpdated(eventId, 81, req);
+
+      if (flag) {
+        // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Completed');
+      }
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.chooseHowBuildYourRfiUpdated, req);
 
-
       res.redirect('/rfi/online-task-list');
     }
-  }catch (error) {
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,
@@ -74,7 +86,7 @@ export const POST_BUILD_RFI  = async (req: express.Request, res: express.Respons
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - update the status failed - RFI Publish Page',
-      true,
+      true
     );
   }
-}
+};

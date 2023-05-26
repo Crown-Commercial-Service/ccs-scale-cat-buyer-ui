@@ -38,11 +38,11 @@ export const DA_GET_LEARN = async (req: express.Request, res: express.Response) 
       releatedContent,
       isPathOne,
     };
-    let flag = await ShouldEventStatusBeUpdated(eventId, 63, req);
-  if (flag) {
-await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'In progress');
-  }
-   
+    const flag = await ShouldEventStatusBeUpdated(eventId, 63, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'In progress');
+    }
+
     res.render('da-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -53,21 +53,21 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'In pro
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - DA learn page',
-      true,
+      true
     );
   }
 };
 
 export const DA_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(eventId, 64, req);
-      if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Not started');
-      }
-     res.redirect('/da/enter-your-weightings');
+    const flag = await ShouldEventStatusBeUpdated(eventId, 64, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Not started');
+    }
+    res.redirect('/da/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -76,7 +76,7 @@ export const DA_POST_LEARN = async (req: express.Request, res: express.Response)
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Post failed - DA learn page',
-      true,
+      true
     );
   }
 };
