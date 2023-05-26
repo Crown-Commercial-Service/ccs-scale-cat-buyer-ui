@@ -119,6 +119,8 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
+      console.log("fc_route_to_market",fc_route_to_market);
+
       switch (fc_route_to_market) {
         case '1-stage':
           // eslint-disable-next-line no-case-declarations
@@ -157,6 +159,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
           req.session.selectedRoute = 'DA';
+          console.log("redirect_address_new",redirect_address_new);
           res.redirect(redirect_address_new);
           break;
 
@@ -165,6 +168,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           res.redirect('/404');
       }
     } else {
+      console.log("ELSECHOOSE_ROUTE",REQUIREMENT_PATHS.CHOOSE_ROUTE)
       req.session['isJaggaerError'] = true;
       res.redirect(REQUIREMENT_PATHS.CHOOSE_ROUTE);
     }
