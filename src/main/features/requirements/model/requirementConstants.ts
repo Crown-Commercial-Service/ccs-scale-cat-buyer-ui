@@ -88,13 +88,13 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_REMOVE_ADDITIONAL_DOC_FILES = '/rfp/files/remove_additional_doc',
 
  //Add cllaborator DA
- DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
- DA_POST_ADD_COLLABORATOR_JSENABLED = '/da/get-collaborator-detail/js-enabled',
- DA_POST_ADD_COLLABORATOR = '/da/get-collaborator-detail',
- DA_POST_ADD_COLLABORATOR_TO_JAGGER = '/da/add-collaborator-detail',
- DA_POST_PROCEED_COLLABORATORS = '/da/proceed-collaborators',
- DA_POST_DELETE_COLLABORATOR_TO_JAGGER='/da/delete-collaborators',
-
+ DA_GET_ADD_COLLABORATOR_REQUIRE = '/da/add-collaborators-require',
+ DA_POST_ADD_COLLABORATOR_JSENABLED_REQUIRE = '/da/get-collaborator-detail/js-enabled-require',
+ DA_POST_ADD_COLLABORATOR_REQUIRE = '/da/get-collaborator-detail-require',
+ DA_POST_ADD_COLLABORATOR_TO_JAGGER_REQUIRE = '/da/add-collaborator-detail-require',
+ DA_POST_PROCEED_COLLABORATORS_REQUIRE = '/da/proceed-collaborators-require',
+ DA_POST_DELETE_COLLABORATOR_TO_JAGGER_REQUIRE='/da/delete-collaborators-require',
+ 
 
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
@@ -122,11 +122,11 @@ export enum REQUIREMENT_PATHS {
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
 
   //Proc lead DA
-  DA_GET_NAME_PROJECT='/da/name-your-project',
-  DA_POST_NAME_PROJECT='/da/name',
-  DA_GET_USER_PROCUREMENT='/da/users-procurement-lead',
-  DA_PUT_LEAD_PROCUREMENT='/da/procurement-lead',
-  DA_GET_LEAD_PROCUREMENT='/da/procurement-lead',
+  DA_GET_NAME_PROJECT_REQUIRE='/da/name-your-project-require',
+  DA_POST_NAME_PROJECT_REQUIRE='/da/name-require',
+  DA_GET_USER_PROCUREMENT_REQUIRE='/da/users-procurement-lead-require',
+  DA_PUT_LEAD_PROCUREMENT_REQUIRE='/da/procurement-lead-require',
+  DA_GET_LEAD_PROCUREMENT_REQUIRE='/da/procurement-lead-require',
 
   // Upload doc ca
   CA_GET_UPLOAD_DOC = '/ca/upload-doc',
@@ -206,10 +206,10 @@ export enum REQUIREMENT_PATHS {
   DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
   
   // da type
-  DA_TYPE = '/da/type',
-  DA_POST_TYPE = '/da/type',
-  DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
-  DA_REQUIREMENT_TASK_LIST = '/da/task-list',
+  DA_TYPE_REQUIRE = '/da/type-require',
+  DA_POST_TYPE_REQUIRE = '/da/-require',
+  DA_OFFLINE_JOURNEY_PAGE_REQUIRE = '/da/offline-require',
+  DA_REQUIREMENT_TASK_LIST_REQUIRE = '/da/task-list-require',
 
   //da vetting weighting
 
