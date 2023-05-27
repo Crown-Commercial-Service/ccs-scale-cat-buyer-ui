@@ -28,7 +28,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const projectId = req.session.projectId;
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
   let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
   let journeys=journeySteps.find((item: { step: number; }) => item.step == 81);
     let checked=false;  

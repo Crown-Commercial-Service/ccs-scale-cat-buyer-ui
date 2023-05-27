@@ -30,7 +30,7 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
   const lotid = lotId;
   const projectId = req.session.projectId;
   
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -57,6 +57,8 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
   const { procid } = req.query;
   const { projectId ,eventId} = req.session;
   const name = req.body['rfi_projLongName'];
+  console.log(req.body['rfi_projLongName']);
+  
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
   try {
@@ -69,11 +71,12 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
         //CAS-INFO-LOG
         LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
-        const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
+
         if (response.status == HttpStatusCode.OK) req.session.project_name = name;
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
+        const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
         res.redirect('/da/procurement-lead');
-      }catch(err){
+      }catch(err){        
         req.session['isEmptyProjectError'] = true;
         res.redirect('/da/name-your-project');
       }

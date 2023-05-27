@@ -39,7 +39,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
    
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name, projectId, agreementName, agreement_id, agreementLotName, lotid }
+    res.locals.agreement_header = { projectName: project_name, projectId, agreementName, agreementIdSession:agreement_id, agreementLotName, lotid }
     req.session.agreement_header = res.locals.agreement_header
     if (download == '1') {
    
@@ -365,7 +365,7 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
   const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
   const stage2_dynamic_api_data = stage2_dynamic_api.data;
   const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
-    res.locals.agreement_header = { project_name: project_name, projectId, agreementName, agreementId_session, agreementLotName, lotid }
+    res.locals.agreement_header = { projectName: project_name, projectId, agreementName, agreementIdSession:agreementId_session, agreementLotName, lotid }
     let cmsData;
     let stage_value;
     if(stage2_data.length > 0){
