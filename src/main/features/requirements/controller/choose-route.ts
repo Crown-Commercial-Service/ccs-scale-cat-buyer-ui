@@ -120,10 +120,6 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
-      console.log("**************************************************************")
-
-      console.log("fc_route_to_market",fc_route_to_market);
-      console.log("**************************************************************")
 
       switch (fc_route_to_market) {
         case '1-stage':
