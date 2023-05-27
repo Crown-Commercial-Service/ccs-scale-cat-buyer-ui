@@ -14,7 +14,7 @@
     }
   ],
   "title": "Procurement overview",
-  "line1": "Before you start you should <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.106626880.2111983670.1659520755-1443536416.1659520755#requirements'>write a list of requirements</a> and <a target='_blank' href='https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service?_ga=2.106626880.2111983670.1659520755-1443536416.1659520755'> check if you need approval </a> to spend money on a service.",
+  "line1": "Before you start, make sure to review the procurement guidance available in the <a target='_blank' href='https://www.crowncommercial.gov.uk/agreements/RM1557.13#documents'>'Documents' section of the G-Cloud 13 Agreements Page</a>. Refer to 'Step 1 - prepare' of the guidance document for advice on establishing your requirements, and consult 'Step 5 - award and buy' to check if you need approval to spend money on a service.",
   "line2": "",
   "line3": "",
   "line4": "",
@@ -48,7 +48,7 @@
       "href": "/g-cloud/choose-category",
       "href1": "/g-cloud/saved-searches",
       "sections": [
-        "Save your search so you can export your results later. You must <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.73660369.2111983670.1659520755-1443536416.1659520755#fairness'>  buy fairly  </a> and assess all the services that you find. Do not combine the results of more than one search."
+        "Save your search so you can export your results later. The guidance document covers generating a longlist and filtering down to a shortlist in Steps 2 and 3. Ensure you assess all shortlisted services."
       ],
       "subsections": [],
       "list": [],
@@ -64,8 +64,8 @@
       "buttonDisable": false,
       "href": "#",
       "sections": [
-        "Follow the <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.148626036.2111983670.1659520755-1443536416.1659520755#review-and-compare-services'>guidance for assessing services</a>. Choose the one that best meets your budget and requirements.",
-        "Do not hold a competition to decide the winner. You can <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#what-to-do-if-you-have-a-question-for-the-suppliers'>contact suppliers to ask clarification questions</a>, but you must not negotiate with them."
+        "Follow 'Step 4 - evaluation and selection' for assessing services, choosing the one that best meets your budget and requirements, and handling clarification questions.",
+        "Do not hold a competition to decide the winner. While you can contact suppliers to ask clarification questions, you must not negotiate with them."
       ],
       "subsections": [],
       "list": [],
@@ -80,7 +80,7 @@
       "buttonDisable": false,
       "href": "#",
       "sections": [
-        "Follow the guidance for <a target='_blank' href='https://www.crowncommercial.gov.uk/agreements/RM1557.13'>awarding a contract</a>. Check if you need to <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contracts-finder'>publish the details on Contracts Finder</a>. Whether or not you award a contract, tell us the outcome. This information helps us improve."
+        "Follow the guidance for awarding a contract laid out in 'Step 5 - award and buy', which also advises on whether you need to publish the details on Contracts Finder. Whether or not you award a contract, tell us the outcome. This information helps us improve."
       ],
       "subsections": [],
       "list": [],
@@ -102,10 +102,6 @@
     {
         "text": "G-Cloud 13 customer guidance",
         "href": "https://assets.crowncommercial.gov.uk/wp-content/uploads/RM1557.13-G-Cloud-13-customer-guidance-v1.0-1.odt"
-    },
-    {
-        "text": "G-Cloud buyer’s guide",
-        "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
     },
     {
         "text": "G-Cloud 13 agreement page",
