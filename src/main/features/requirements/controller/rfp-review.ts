@@ -536,7 +536,7 @@ let scoringData = [];
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const projectId = req.session.projectId;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -1293,7 +1293,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
 
     // let background1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
     // let background2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-
+ 
     let businessProbAns = [];
     let businessProbAnsdata = [];
     if(agreementId_session != 'RM1043.8'){
@@ -2090,7 +2090,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const projectId = req.session.projectId;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -2402,7 +2402,7 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
 
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
@@ -3271,7 +3271,7 @@ const IR35selected='';
     const agreementLotName = req.session.agreementLotName;
     const projectId = req.session.projectId;
 
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -3931,7 +3931,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     const lotid = req.session?.lotId;
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });

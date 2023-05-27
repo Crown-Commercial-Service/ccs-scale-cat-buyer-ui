@@ -872,7 +872,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     // const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const projectId = req.session.projectId;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
@@ -1200,7 +1200,7 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     const lotid = req.session?.lotId;
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
