@@ -250,7 +250,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const projectId = req.session.projectId;    
     const releatedContent = req.session.releatedContent;
 
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
     let ScrollTo=""
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}
