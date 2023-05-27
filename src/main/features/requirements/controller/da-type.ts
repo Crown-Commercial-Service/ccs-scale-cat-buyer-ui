@@ -68,7 +68,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
       switch (choice) {
         case 'both_online':
           // eslint-disable-next-line no-case-declarations
-          const redirect_address = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B1`;
+          const redirect_address = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST_REQUIRE}?path=B1`;
           req.session['choosenViewPath'] = 'B1';
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
@@ -77,7 +77,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
         case 'both_offline':
           // eslint-disable-next-line no-case-declarations
-          const bothOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B2`;
+          const bothOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST_REQUIRE}?path=B2`;
           req.session['choosenViewPath'] = 'B2';
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
@@ -86,7 +86,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
         case 'part_online':
           // eslint-disable-next-line no-case-declarations
-          const partOnlineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B3`;
+          const partOnlineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST_REQUIRE}?path=B3`;
           req.session['choosenViewPath'] = 'B3';
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
@@ -94,7 +94,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
           break;
         case 'part_offline':
           // eslint-disable-next-line no-case-declarations
-          const partOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B4`;
+          const partOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST_REQUIRE}?path=B4`;
           req.session['choosenViewPath'] = 'B4';
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
@@ -107,12 +107,12 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   else if(group1 || group2){
     req.session['isOnlyOneSelected'] = true;
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPE_REQUIRE);
   }
  else
   {
     req.session['isError'] = true;
-    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
+    res.redirect(REQUIREMENT_PATHS.DA_TYPE_REQUIRE);
   }
 
  } catch (error) {
