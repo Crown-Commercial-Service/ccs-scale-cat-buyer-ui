@@ -27,27 +27,14 @@ export const DA_TYPE = (req: express.Request, res: express.Response) => {
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   //UN-COMMENT THIS CODE IF WANT TO SHOW STEP 3 1FC TO SLECT ONLINE AND OFFLINE BALWINDER 
-  console.log("**************************************************************")
-
-  console.log("req.session.selectedRoute",req.session.selectedRoute);
-  console.log("**************************************************************")
 
   if (req.session.selectedRoute === 'DA') {
    
     const redirect_address = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
-    console.log("**************************************************************")
-
-    console.log("REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST",REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST);
-    console.log("**************************************************************")
 
     //req.session.fcSelectedRoute = choice;
     res.redirect(redirect_address);
   } else {
-    console.log("**************************************************************")
-
-    console.log("daw-typeELSEE")
-    console.log("**************************************************************")
-
     //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.typePageLog, req);
     res.render('daw-type', appendData);

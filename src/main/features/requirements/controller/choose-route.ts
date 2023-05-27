@@ -159,11 +159,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
           req.session.selectedRoute = 'DA';
-          //da/type
-          console.log("**************************************************************")
-          console.log("redirect_address_new",redirect_address_new);
-          console.log("**************************************************************")
-          // da/type
+          
           res.redirect(redirect_address_new);
           break;
 
@@ -172,9 +168,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           res.redirect('/404');
       }
     } else {
-      console.log("**************************************************************")
-      console.log("ELSECHOOSE_ROUTE",REQUIREMENT_PATHS.CHOOSE_ROUTE)
-      console.log("**************************************************************")
+  
       req.session['isJaggaerError'] = true;
       res.redirect(REQUIREMENT_PATHS.CHOOSE_ROUTE);
     }
