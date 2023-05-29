@@ -5,7 +5,7 @@
 {% if stage2_value == 'Stage 2' %} 
 {% set title = 'Your project' %}
 {% else %}
-    {% if(agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+    {% if(agreement_header['agreementIdSession'] == 'RM6187' or agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
         {% set title = 'Your project' %}
     {% else %}
         {% set title = 'Event management' %}
@@ -40,9 +40,9 @@
               <div class="project-overview">
         <p class="govuk-body">Selected agreement: <strong>
           {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
-            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+            {% if(agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
             {{ agreement_header['agreementName'] }} Lot 4
-            {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+            {% elseif(agreement_header['agreementIdSession']=='RM1043.8') %}
             {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
             {% else %}
             {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
@@ -53,13 +53,13 @@
 
 
   <p class="govuk-body">Agreement ID: <strong>
-        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}L4
+        {% if(agreement_header['agreementIdSession'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementIdSession']}}L4
         {% else %}
-          {{ agreement_header['agreementId_session'] }}
+          {{ agreement_header['agreementIdSession'] }}
         {% endif %}
   </strong></p>
-  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
+  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['projectName']}}</strong></p>
         </div>
       </div>  
 </div>
@@ -68,7 +68,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-         {{ agreement_header['projectId']+" & "+agreement_header['project_name'] }}
+         {{ agreement_header['projectId']+" & "+agreement_header['projectName'] }}
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
@@ -80,7 +80,7 @@
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-      {% if agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == 'RM1557.13'%} 
+      {% if agreement_header['agreementIdSession'] == 'RM6187' or agreement_header['agreementIdSession'] == 'RM1557.13'%} 
         <h1 class="govuk-heading-xl">
           <strong>Supplier to be awarded</strong>
         </h1>
@@ -105,7 +105,7 @@
         <br>
       {% endif %}  
 
-      {% if(agreement_header['agreementId_session']=='RM1043.8') %}
+      {% if(agreement_header['agreementIdSession']=='RM1043.8') %}
         <h1 class="govuk-heading-m"> {{eventManagementData.supplierDetails.supplierName}}</h1>
         <p> {{eventManagementData.supplierDetails.supplierId}}</p>
       {%else%}
@@ -148,7 +148,7 @@
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">
                     Score
-                    {% if agreement_header['agreementId_session']=='RM1043.8' and stage2_value == 'Stage 2' %}
+                    {% if agreement_header['agreementIdSession']=='RM1043.8' and stage2_value == 'Stage 2' %}
                     {% else %}
                     (%)
                     {% endif %}

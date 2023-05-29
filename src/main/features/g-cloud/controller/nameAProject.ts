@@ -32,7 +32,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
         const agreementName = req.session.agreementName;
         const projectId = req.session.projectId;
 
-        res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+        res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
       
         const viewData: any = {
           data: cmsData,

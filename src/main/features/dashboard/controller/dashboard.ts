@@ -18,11 +18,11 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   if(issetDashBanner == 'NULL') {
     issetDashBanner = '';
   }
-
-  //CAS-INFO-LOG
+   //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
   
   req.session.unpublishedeventmanagement = 'false';
+  const { closeStatus } = req.query;
   const searchText = req.session.searchText;
   // Active and Historical events is getting feached from API via 'src/main/common/middlewares/event-management/activeevents.ts'
   // const activeEvent = req.session.openProjectActiveEvents;
@@ -85,16 +85,18 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   pastListDash.sort(function(a: any, b: any){
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
-  
+ 
   const appendData = {
     data: dashboarData,
     searchText,
     events: activeListDash,
     historicalEvents: pastListDash,
     withOutPaEventsData:withOutPaEventsData,
-    issetDashBanner
+    issetDashBanner,
+    closeprojectStatus:closeStatus
   };
   /** CAS-87 */
+  req.session.closeProject = false;
   res.render('dashboard', appendData);
 };
 
@@ -649,7 +651,6 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       res.redirect('/dashboard');
     }
   } catch (err) {
-    
     LoggTracer.errorLogger(
       res,
       err,
@@ -736,5 +737,6 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     issetDashBanner
   };
   /** CAS-87 */
+  req.session.closeProject = false;
   res.render('dashboard', appendData);
 };

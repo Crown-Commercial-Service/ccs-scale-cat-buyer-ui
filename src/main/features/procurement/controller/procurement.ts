@@ -110,7 +110,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.eventId = procurement['eventId'];
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;
-    const agreementName = req.session.agreementName;
+    let agreementName = req.session.agreementName;
+    
     if(req.session['isRFIComplete'] || req.session.fromStepsToContinue!=null)
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/2`, 'Optional');
@@ -249,12 +250,15 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const project_name = req.session.project_name;    
     const projectId = req.session.projectId;    
     const releatedContent = req.session.releatedContent;
-
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    if(agreementId_session == 'RM1557.13' && agreementName == undefined && lotid == "All"){
+      agreementName = "G-Cloud 13";
+      req.session.agreementName = agreementName;
+    }
+    res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
     let ScrollTo=""
     if(showPreMarket==true){ScrollTo="Premarket"}
     if(showWritePublish==true){ScrollTo="WritePublish"}
-    
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.procurementPage, req);
 
@@ -266,6 +270,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
+    
     LoggTracer.errorLogger(
       res,
       error,

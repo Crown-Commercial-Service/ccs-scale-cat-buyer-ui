@@ -28,14 +28,13 @@ export const DA_TYPE = (req: express.Request, res: express.Response) => {
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   //UN-COMMENT THIS CODE IF WANT TO SHOW STEP 3 1FC TO SLECT ONLINE AND OFFLINE BALWINDER 
 
-  
   if (req.session.selectedRoute === 'DA') {
    
     const redirect_address = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
+
     //req.session.fcSelectedRoute = choice;
     res.redirect(redirect_address);
   } else {
- 
     //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.typePageLog, req);
     res.render('daw-type', appendData);
@@ -51,6 +50,10 @@ export const DA_TYPE = (req: express.Request, res: express.Response) => {
  */
 
 export const RFP_POST_TYPE = async (req: express.Request, res: express.Response) => {
+  console.log("**************************************************************")
+  console.log("NOTHINGGGGGGGGGGG")
+  console.log("**************************************************************")
+
   const { SESSION_ID } = req.cookies;
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_rfp_type');
