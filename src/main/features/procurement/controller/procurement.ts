@@ -270,7 +270,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
       
   } catch (error) {
-    console.log(error);
     
     LoggTracer.errorLogger(
       res,
