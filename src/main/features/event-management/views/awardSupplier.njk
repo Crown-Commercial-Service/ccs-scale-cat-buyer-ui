@@ -22,7 +22,7 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (viewError == true) %}
 
-    {% if(agreement_header['agreementId_session']=='RM1043.8') or (agreement_header['agreementId_session']=='RM6187') %}
+    {% if(agreement_header['agreementIdSession']=='RM1043.8') or (agreement_header['agreementIdSession']=='RM6187') %}
         {% set errText = "Confirm that you are ready to award your contract" %}
     {% else %}
         {% set errText = "You must check this box to confirm that you have read and confirm the statements above" %}
@@ -47,9 +47,9 @@
         </h1>
         <p class="govuk-body">Selected agreement: <strong>
           {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
-            {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+            {% if(agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
             {{ agreement_header['agreementName'] }} Lot 4
-            {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+            {% elseif(agreement_header['agreementIdSession']=='RM1043.8') %}
              {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
             {% else %}
             {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
@@ -58,13 +58,13 @@
     
   </strong></p>
   <p class="govuk-body">Agreement ID: <strong>
-        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}L4
+        {% if(agreement_header['agreementIdSession'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementIdSession']}}L4
         {% else %}
-          {{ agreement_header['agreementId_session'] }}
+          {{ agreement_header['agreementIdSession'] }}
         {% endif %}
   </strong></p>
-  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
+  <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['projectName']}}</strong></p>
         </div>
       </div>  
 </div>
@@ -73,7 +73,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{ agreement_header['projectId']+" & "+agreement_header['project_name'] }}
+          {{ agreement_header['projectId']+" & "+agreement_header['projectName'] }}
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
@@ -168,19 +168,19 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM1043.8' %}
+          {% if agreement_header['agreementIdSession'] == 'RM6187'  or agreement_header['agreementIdSession'] == 'RM1557.13' or agreement_header['agreementIdSession'] == 'RM1043.8' %}
               <strong>Contract award</strong>
           {% else %}
               <strong>Award supplier</strong>
           {% endif %}
         </h1>
-            {% if agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM1043.8' %}
+            {% if agreement_header['agreementIdSession'] == 'RM6187'  or agreement_header['agreementIdSession'] == 'RM1557.13' or agreement_header['agreementIdSession'] == 'RM1043.8' %}
               <p>When you award your contract, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this using your organisation’s email account.</p>
             {% else %}
               <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders.</p>
             {% endif %}  
         </br></br>
-        {% if agreement_header['agreementId_session'] == 'RM1043.8' or  agreement_header['agreementId_session'] == 'RM6187'  or agreement_header['agreementId_session'] == 'RM1557.13' %}
+        {% if agreement_header['agreementIdSession'] == 'RM1043.8' or  agreement_header['agreementIdSession'] == 'RM6187'  or agreement_header['agreementIdSession'] == 'RM1557.13' %}
         {{ CCSWarningText({
     text: "Please confirm that you are ready to award this contract.",
     iconFallbackText: "Warning"
@@ -197,7 +197,7 @@
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
                      {{ csrfProtection(csrf) }}  
-                     {% if agreement_header['agreementId_session'] == 'RM1043.8'  or agreement_header['agreementId_session'] == 'RM1557.13' or agreement_header['agreementId_session'] == 'RM6187' %}
+                     {% if agreement_header['agreementIdSession'] == 'RM1043.8'  or agreement_header['agreementIdSession'] == 'RM1557.13' or agreement_header['agreementIdSession'] == 'RM6187' %}
                      {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
       name: "award_supplier_confirmation",
