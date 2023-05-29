@@ -574,8 +574,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-    
-      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+      let agreementIdSession = agreementId_session;
+      let projectName = project_name;
+      res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -793,8 +794,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const agreementId_session = req.session.agreement_id;
       const agreementLotName = req.session.agreementLotName;
       const project_name = req.session.project_name;
-
-      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+      let agreementIdSession = agreementId_session;
+      let projectName = project_name;
+      res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
 
       let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -907,7 +909,9 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+let agreementIdSession = agreementId_session;
+let projectName = project_name;
+res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
 
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -1021,7 +1025,10 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+let agreementIdSession = agreementId_session;
+let projectName = project_name;
+
+res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1133,7 +1140,9 @@ const lotid = req.session?.lotId;
 const agreementId_session = req.session.agreement_id;
 const agreementLotName = req.session.agreementLotName;
 const project_name = req.session.project_name;
-res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+let agreementIdSession = agreementId_session;
+let projectName = project_name;
+res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
 let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1244,7 +1253,9 @@ res.render('rfp-responsedate.njk', appendData);
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1357,7 +1368,9 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1468,7 +1481,9 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1580,7 +1595,9 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1693,7 +1710,9 @@ let appendData = {
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    let agreementIdSession = agreementId_session;
+    let projectName = project_name;
+    res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
@@ -1811,7 +1830,9 @@ let appendData = {
     const agreementId_session = req.session.agreement_id;
     const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+    let agreementIdSession = agreementId_session;
+    let projectName = project_name;
+    res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
     
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
@@ -1931,7 +1952,9 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3
@@ -2047,7 +2070,9 @@ let appendData = {
      const agreementId_session = req.session.agreement_id;
      const agreementLotName = req.session.agreementLotName;
      const project_name = req.session.project_name;
-     res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+     let agreementIdSession = agreementId_session;
+     let projectName = project_name;
+     res.locals.agreement_header = { agreementName, projectName, projectId, agreementIdSession, agreementLotName, lotid };
      
      let forceChangeDataJson;
      if(agreementId_session == 'RM6187') { //MCF3

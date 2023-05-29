@@ -31,7 +31,8 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name, projectId,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
+
+    res.locals.agreement_header = { projectName: project_name, projectId,Evaluation, agreementName, agreementIdSession:agreementId_session, agreementLotName, lotid }
    
   try{
     //Supplier of interest

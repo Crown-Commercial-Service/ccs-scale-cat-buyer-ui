@@ -7,7 +7,8 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import {REQUIRMENT_DA_PATHS} from '../../../features/da/model/daConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
+
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
 /**
@@ -119,6 +120,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
+
       switch (fc_route_to_market) {
         case '1-stage':
           // eslint-disable-next-line no-case-declarations
@@ -157,6 +159,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
           req.session.selectedRoute = 'DA';
+          
           res.redirect(redirect_address_new);
           break;
 
@@ -165,6 +168,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           res.redirect('/404');
       }
     } else {
+  
       req.session['isJaggaerError'] = true;
       res.redirect(REQUIREMENT_PATHS.CHOOSE_ROUTE);
     }

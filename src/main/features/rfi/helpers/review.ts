@@ -282,8 +282,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         forceChangeDataJson = cmsData;
       }
       const customStatus = ReviewData.OCDS.status;
-      
+      const agreementName = req.session.agreementName;
       RFI_ANSWER_STORAGE = RFI_ANSWER_STORAGE.sort((a, b) => (a.id < b.id ? -1 : 1));
+      res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:req.session.agreement_id, agreementLotName, lotid };
       let appendData = {
         rfi_data: RFI_ANSWER_STORAGE,
         rfi_keydates: expected_rfi_keydates[0],

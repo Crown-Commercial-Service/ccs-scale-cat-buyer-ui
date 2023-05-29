@@ -4,7 +4,7 @@ import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('RFP TYP');
 
 /**
