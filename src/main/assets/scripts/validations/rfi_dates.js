@@ -210,8 +210,12 @@ if(arr!=undefined){
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
+                    console.log("selectors",selectors);
+                    console.log("element",element);
                     
                     let indexKey = selectors.indexOf(element);
+                    console.log("indexKey",indexKey);
+                    
                     let previosElement = indexKey-1;
                     let nextElement = indexKey+1;
                     let previosElementValue=selectors[previosElement];

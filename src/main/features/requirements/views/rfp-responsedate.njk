@@ -209,10 +209,12 @@
                                 {% set nochecked = '' %}
                                   {% if(requirement.nonOCDS.time_line.options[0].select==true ) %}
                                   {% set yeschecked = 'checked' %}
+                                   {% set bodyContHide = '' %}
                                   {% endif %}
                                   
                                   {% if(requirement.nonOCDS.time_line.options[1].select==true ) %}
                                   {% set nochecked = 'checked' %}
+                                   {% set bodyContHide = '' %}
                                   {% endif %}
 
                                 <div class="datehead hidehr" id="headContent_{{requirement.nonOCDS.order}}">
@@ -468,78 +470,91 @@
 id: "timeStamp",
 name: "rfp_clarification_date",
 type: "hidden",
+classes:"timedate1",
 value: "Question 1*"+rfp_clarification_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "rfp_clarification_period_end",
 type: "hidden",
+classes:"timedate2",
 value: "Question 2*"+rfp_clarification_period_end
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "deadline_period_for_clarification_period",
 type: "hidden",
+classes:"timedate3",
 value: "Question 3*"+deadline_period_for_clarification_period
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "supplier_period_for_clarification_period",
 type: "hidden",
+classes:"timedate4",
 value: "Question 4*"+supplier_period_for_clarification_period
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "supplier_dealine_for_clarification_period",
 type: "hidden",
+classes:"timedate5",
 value: "Question 5*"+supplier_dealine_for_clarification_period
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "deadline_for_submission_of_stage_one",
 type: "hidden",
+classes:"timedate6",
 value: "Question 6*"+deadline_for_submission_of_stage_one
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "evaluation_process_start_date",
 type: "hidden",
+classes:"timedate7",
 value: "Question 7*"+evaluation_process_start_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "bidder_presentations_date",
 type: "hidden",
+classes:"timedate8",
 value: "Question 8*"+bidder_presentations_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "standstill_period_starts_date",
 type: "hidden",
+classes:"timedate9",
 value: "Question 9*"+standstill_period_starts_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "proposed_award_date",
 type: "hidden",
+classes:"timedate10",
 value: "Question 10*"+proposed_award_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "expected_signature_date",
 type: "hidden",
+classes:"timedate11",
 value: "Question 11*"+expected_signature_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "contract_signed_date",
 type: "hidden",
+classes:"timedate12",
 value: "Question 12*"+contract_signed_date
 }) }}
                                                         {{ CCSInput({
 id: "timeStamp",
 name: "supplier_start_date",
 type: "hidden",
+classes:"timedate13",
 value: "Question 13*"+supplier_start_date
 }) }}
                                                         <button class="govuk-button" id="hideMeWhileDateChange" data-module="govuk-button">Save and continue</button>
