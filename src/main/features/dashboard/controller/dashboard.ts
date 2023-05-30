@@ -99,6 +99,7 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   };
   /** CAS-87 */
   req.session.closeProject = false;
+ // console.log('req.session.closeProject',req.session.closeProject)
   res.render('dashboard', appendData);
 };
 
