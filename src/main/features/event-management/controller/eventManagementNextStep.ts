@@ -56,26 +56,27 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
   try {
     if (event_management_next_step) {
       switch (event_management_next_step) {
-      case 'pre-market':
+      case 'pre-market': {
         const successPreMar = GetStatus(req);
         if (successPreMar) {
           redirect_address = '/projects/create-or-choose';
           res.redirect(redirect_address);
-          break;
         } else {
           res.redirect('/404');
         }
-
-      case 'write-publish':
+        break;
+      }
+      case 'write-publish': {
         const successWnP = GetStatus(req);
         if (successWnP) {
           redirect_address = '/projects/create-or-choose';
           res.redirect(redirect_address);
-          break;
         } else {
           res.redirect('/404');
         }
-      case 'move-from-cat':
+        break;
+      }
+      case 'move-from-cat': {
         const statusMfCat = GetStatus(req);
         if (statusMfCat) {
           if (req.session.eventManagement_eventType == 'RFI') {
@@ -84,20 +85,19 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
             redirect_address = '/eoi/review';
           }
           res.redirect(redirect_address);
-          break;
         } else {
           res.redirect('/404');
         }
+        break;
+      }
       case 'close':
         redirect_address = '#';
         res.redirect(redirect_address);
         break;
-
       case 'decide-later':
         redirect_address = '/dashboard';
         res.redirect(redirect_address);
         break;
-
       default:
         res.redirect('/404');
       }

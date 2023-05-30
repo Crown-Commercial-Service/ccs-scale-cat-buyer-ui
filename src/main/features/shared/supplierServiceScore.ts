@@ -7,5 +7,7 @@ export const GetLotSuppliersScore = async (req: express.Request, score: any) => 
   try {
     const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(`/assessments/${assessmentId}?scores=true`);
     return suppliers; //suppliers?.scores;
-  } catch (err) {}
+  } catch (err) {
+    // Do nothing if there is an error
+  }
 };

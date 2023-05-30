@@ -17,7 +17,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
   const redisPort = Number(redis_localenv_access?.redis?.[0]?.['credentials']?.['port']) || 6379;
   const redisPassword = redis_localenv_access?.redis?.[0]?.['credentials']?.['password'];
 
-  let redisProperties: Object = {
+  let redisProperties: object = {
     host: redisHost,
     port: redisPort,
     password: redisPassword,

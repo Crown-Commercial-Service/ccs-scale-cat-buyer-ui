@@ -3,7 +3,7 @@ export function jsonFilter(value: any) {
   return parsedJSONObject;
 }
 
-export function jsontoStringFilter(value: Object) {
+export function jsontoStringFilter(value: object) {
   const jsonObjectStringConvertor = JSON.stringify(value);
   return jsonObjectStringConvertor;
 }

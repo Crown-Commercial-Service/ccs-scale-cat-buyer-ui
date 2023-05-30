@@ -8,7 +8,6 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { REQUIRMENT_DA_PATHS } from '../../../features/da/model/daConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { Logger } from '@hmcts/nodejs-logging';
-
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
 /**
@@ -129,17 +128,15 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
       switch (fc_route_to_market) {
-      case '1-stage':
-        // eslint-disable-next-line no-case-declarations
+      case '1-stage': {
         const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
         req.session.caSelectedRoute = fc_route_to_market;
         logger.info('One stage further competition selected');
         req.session.selectedRoute = 'FC';
         res.redirect(redirect_address);
         break;
-
-      case '2-stage':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case '2-stage': {
         const newAddress = REQUIREMENT_PATHS.GET_LEARN;
         req.session.caSelectedRoute = fc_route_to_market;
         logger.info('two stage further competition selected');
@@ -152,26 +149,27 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
         }
         res.redirect(newAddress);
         break;
-
-      case '1-stage-award':
-        //eslint-disable-next-line no-case-declarations RFP_REQUIREMENT_TASK_LIST
+      }
+      case '1-stage-award': {
         const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
         req.session.caSelectedRoute = fc_route_to_market;
         logger.info('DA selected');
         req.session.selectedRoute = 'DAA';
         res.redirect(nextAddress);
         break;
+      }
 
-      case 'award':
-        // eslint-disable-next-line no-case-declarations
+      case 'award': {
         const redirect_address_new = REQUIRMENT_DA_PATHS.DA_TYPE;
         req.session.caSelectedRoute = fc_route_to_market;
         logger.info('One stage further competition selected');
         req.session.selectedRoute = 'DA';
-
+        console.log('**************************************************************');
+        console.log('redirect_address_new', redirect_address_new);
+        console.log('**************************************************************');
         res.redirect(redirect_address_new);
         break;
-
+      }
       default:
         res.redirect('/404');
       }

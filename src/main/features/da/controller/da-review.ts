@@ -764,14 +764,14 @@ const DA_REVIEW_RENDER_TEST = async (
     // sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 21/questions`;
     // sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = []; //sectionbaseURLfetch_dynamic_api?.data;
+    let bc1, bc2;
+
     if (agreement_id == 'RM6263') {
-      const bc1 = sectionbaseURLfetch_dynamic_api_data?.filter((o) => o.nonOCDS.order == 1)?.map((o) => o.nonOCDS)?.[0]
+      bc1 = sectionbaseURLfetch_dynamic_api_data?.filter((o) => o.nonOCDS.order == 1)?.map((o) => o.nonOCDS)?.[0]
         ?.options?.[0]?.value;
-      const bc2 = sectionbaseURLfetch_dynamic_api_data?.filter((o) => o.nonOCDS.order == 2)?.map((o) => o.nonOCDS)?.[0]
+      bc2 = sectionbaseURLfetch_dynamic_api_data?.filter((o) => o.nonOCDS.order == 2)?.map((o) => o.nonOCDS)?.[0]
         ?.options?.[0]?.value;
     } else {
-      var bc1;
-      var bc2;
       sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 21/questions`;
       sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
@@ -1153,9 +1153,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
     );
     req.session.selectedSuppliersDA = undefined;
   } else {
-    const flag = await ShouldEventStatusBeUpdated(req.session.eventId, 35, req);
-    if (flag) {
-    }
+    await ShouldEventStatusBeUpdated(req.session.eventId, 35, req);
   }
 
   req.session['checkboxerror'] = 0;

@@ -127,5 +127,7 @@ export const CAGetRequirementDetails = async (req: express.Request) => {
     }
 
     return finalData;
-  } catch (err) {}
+  } catch (err) {
+    // Do nothing if there is an error
+  }
 };

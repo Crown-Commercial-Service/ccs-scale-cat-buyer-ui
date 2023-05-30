@@ -76,36 +76,34 @@ export const RFP_POST_TYPE = async (req: express.Request, res: express.Response)
         choice = 'part_offline';
       }
       switch (choice) {
-      case 'both_online':
-        // eslint-disable-next-line no-case-declarations
+      case 'both_online': {
         const redirect_address = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
         req.session.fcSelectedRoute = choice;
         logger.info(choice + 'selected');
         res.redirect(redirect_address);
         break;
-
-      case 'both_offline':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'both_offline': {
         const bothOfflineAddress = REQUIRMENT_DA_PATHS.DA_OFFLINE_JOURNEY_PAGE;
         req.session.fcSelectedRoute = choice;
         logger.info(choice + 'selected');
         res.redirect(bothOfflineAddress);
         break;
-
-      case 'part_online':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'part_online': {
         const partOnlineAddress = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
         req.session.fcSelectedRoute = choice;
         logger.info(choice + 'selected');
         res.redirect(partOnlineAddress);
         break;
-      case 'part_offline':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'part_offline': {
         const partOfflineAddress = REQUIRMENT_DA_PATHS.DA_REQUIREMENT_TASK_LIST;
         req.session.fcSelectedRoute = choice;
         logger.info(choice + 'selected');
         res.redirect(partOfflineAddress);
         break;
+      }
       default:
         res.redirect('/404');
       }

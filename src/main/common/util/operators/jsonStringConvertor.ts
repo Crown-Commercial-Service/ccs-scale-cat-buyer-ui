@@ -1,5 +1,5 @@
 export default class jsonToStringConvertor {
-  static convertor = (jsonObject: Object) => {
+  static convertor = (jsonObject: object) => {
     return JSON.stringify(jsonObject);
   };
 }

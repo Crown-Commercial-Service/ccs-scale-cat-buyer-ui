@@ -14,7 +14,7 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
   // const { eventId, projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   try {
-    var assessmentURL = `assessments/${assessmentId}`;
+    let assessmentURL = `assessments/${assessmentId}`;
     const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
 
     //CAS-INFO-LOG
@@ -22,7 +22,7 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
 
     const toolId = assessmentData.data['external-tool-id'];
     // var supplier_Id = (supplierId as string).split('-');
-    var assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=` + supplierId;
+    assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=` + supplierId;
     // var assessmentURL = `/assessments/tools/6/dimensions/6/data?suppliers=211345898`;
     let assessmentsData = await TenderApi.supplierInstance(SESSION_ID).get(assessmentURL);
     //CAS-INFO-LOG

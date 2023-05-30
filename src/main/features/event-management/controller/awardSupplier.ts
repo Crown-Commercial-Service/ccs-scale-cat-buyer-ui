@@ -45,7 +45,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
       }
       if (supplierdata.data.responders[i].supplier.id == supplierId) {
         // let supplierData = supplierDataList.filter((x: any) => x.);
-        var supplierFiltedData;
+        let supplierFiltedData;
         for (const sdata of supplierDataList) {
           if (sdata.organization.id == id) {
             supplierFiltedData = sdata.organization;

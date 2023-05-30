@@ -160,7 +160,7 @@ export const POST_SELECT_SERVICES = async (req: express.Request, res: express.Re
     const objCount = Object.keys(bodyData).length;
     const requirementsArray = [];
     for (let i = 0; i <= objCount; i++) {
-      var currentRequirement = bodyData[i];
+      const currentRequirement = bodyData[i];
       if (currentRequirement != undefined) {
         requirementsArray.push({
           name: scalabilityData.options.find((data) => data['requirement-id'] === Number(currentRequirement)).name,

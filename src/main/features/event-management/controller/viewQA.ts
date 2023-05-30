@@ -83,11 +83,10 @@ export const EVENT_MANAGEMENT_QA_POPUP = async (req: express.Request, res: expre
   if (SESSION_ID != undefined) {
     res.redirect('/401');
   }
-  let appendData: any;
   const eventId = req.query.id;
   const projectId = req.query.prId;
   const isSupplierQA = true;
-  appendData = { projectId: projectId, eventId: eventId, isSupplierQA };
+  const appendData = { projectId: projectId, eventId: eventId, isSupplierQA };
   res.render('viewQAPopup', appendData);
 };
 export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Response) => {

@@ -3,7 +3,7 @@ import url from 'node:url';
 const tune = (obj: any) => {
   const emptyArr = [];
   for (const key in obj) {
-    if (typeof obj[key] == 'object') {
+    if (typeof obj[key] === 'object') {
       const newArr = obj[key];
       for (let i = 0; i < newArr.length; i++) {
         emptyArr.push({ key: key, value: newArr[i] });
@@ -26,9 +26,7 @@ export async function gCloudServiceQueryFliter(reqUrl: any, baseUrl: any, type: 
     if (key == 'q') {
       value = encodeURIComponent(value);
     }
-    if (key == 'page' || key == 'q') {
-      key = key;
-    } else {
+    if (!(key == 'page' || key == 'q')) {
       key = 'filter_' + key;
     }
     if (i == 0) {
@@ -37,8 +35,6 @@ export async function gCloudServiceQueryFliter(reqUrl: any, baseUrl: any, type: 
       }
     } else {
       outQueryUrl += `&${key}=${value}`;
-    }
-    if (i == queryObj.length - 1) {
     }
   });
   const params = new URLSearchParams(outQueryUrl);

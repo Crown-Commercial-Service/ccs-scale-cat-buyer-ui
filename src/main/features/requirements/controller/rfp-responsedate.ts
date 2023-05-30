@@ -315,8 +315,7 @@ function isValidQuestion(
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
 
-    if (agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2') {
-    } else {
+    if (!(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
       if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
@@ -405,15 +404,17 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+  const {
+    clarification_date_hourFormat,
+    selected_question_id,
+    selected_question_index,
+  } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute,
-    clarification_date_hourFormat,
-    selected_question_id,
-    selected_question_index,
+    clarification_date_minute
   } = req.body;
   const { timeline, agreement_id } = req.session;
 

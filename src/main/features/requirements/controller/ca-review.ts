@@ -60,7 +60,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
         organisation_user_endpoint_loop
       );
-      const { userList } = organisation_user_data_loop?.data;
+      const { userList } = organisation_user_data_loop?.data ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;
@@ -114,4 +114,6 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
  * @param res
  * @POSTController
  */
-export const CA_POST_review = async (req: express.Request, res: express.Response) => {};
+export const CA_POST_review = async (req: express.Request, res: express.Response) => {
+  // Do nothing with this request
+};

@@ -19,8 +19,7 @@ export const GET_EOI_SPECIAL_TERMS = async (req: express.Request, res: express.R
     emptyspecialtermError,
     emptyExpspecialtermError,
   } = req.session;
-  let textAreaerrors;
-  textAreaerrors = {
+  const textAreaerrors = {
     emptyspecialtermError,
     emptyExpspecialtermError,
     errorText,

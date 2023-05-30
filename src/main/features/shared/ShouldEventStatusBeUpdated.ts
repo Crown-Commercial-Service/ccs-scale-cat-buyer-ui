@@ -16,5 +16,7 @@ export const ShouldEventStatusBeUpdated = async (eventId: any, stepId: any, req:
       return true;
     }
     return false;
-  } catch (error) {}
+  } catch (error) {
+    // Do nothing if there is an error
+  }
 };

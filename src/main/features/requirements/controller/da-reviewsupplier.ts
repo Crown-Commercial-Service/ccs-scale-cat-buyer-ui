@@ -44,7 +44,7 @@ export const GET_DA_REVIEW_SUPPLIER = async (req: express.Request, res: express.
   let scalability_score = 'XX%';
   let location_score = 'XX%';
 
-  for (var i = 0; i < SUPPLIER_DATA.length; i++) {
+  for (let i = 0; i < SUPPLIER_DATA.length; i++) {
     const data = RankedSuppliers.filter((s) => s.supplier.id == SUPPLIER_DATA[i].id);
     if (data.length > 0) {
       supplier_company_name = data[0].name;
@@ -97,4 +97,6 @@ export const GET_DA_REVIEW_SUPPLIER = async (req: express.Request, res: express.
   }
 };
 
-export const POST_DA_REVIEW_SUPPLIER = async (req: express.Request, res: express.Response) => {};
+export const POST_DA_REVIEW_SUPPLIER = async (req: express.Request, res: express.Response) => {
+  // Do nothing with this request
+};

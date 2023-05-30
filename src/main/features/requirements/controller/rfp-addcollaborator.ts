@@ -44,7 +44,7 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
         organisation_user_endpoint_loop
       );
-      const { userList } = organisation_user_data_loop?.data;
+      const { userList } = organisation_user_data_loop?.data ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;

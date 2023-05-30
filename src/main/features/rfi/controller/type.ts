@@ -67,16 +67,16 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
     const { ccs_rfi_type } = filtered_body_content_removed_rfi_key;
     req.session.ccs_rfi_type = ccs_rfi_type;
     switch (ccs_rfi_type) {
-    case 'all_online':
+    case 'all_online': {
       const redirect_address = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
       res.redirect(redirect_address);
       break;
-
-    case 'all_offline':
+    }
+    case 'all_offline': {
       const newAddress = RFI_PATHS.GET_OFFLINE;
       res.redirect(newAddress);
       break;
-
+    }
     default:
       res.redirect('/404');
     }

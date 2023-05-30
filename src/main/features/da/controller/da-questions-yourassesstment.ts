@@ -101,7 +101,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      } else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+      } else if (aSelector.nonOCDS.questionType === 'Table' || aSelector.nonOCDS.questionType === 'Integer') {
         return 'ccs_rfp_scoring_criteria';
       } else {
         return '';
@@ -242,7 +242,10 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    let { rfp_build_started, question_id } = req.body;
+    
+    const { rfp_build_started } = req.body;
+    let { question_id } = req.body;
+
     if (question_id === undefined) {
       question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
     }

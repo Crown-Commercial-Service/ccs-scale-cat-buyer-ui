@@ -133,8 +133,7 @@ export class QuestionHelper {
                   isSingleSelect = true;
                 }
 
-                if (agreement_id == 'RM6187') {
-                } else {
+                if (agreement_id !== 'RM6187') {
                   if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
                     innerMandatoryNum += 1;
                   }

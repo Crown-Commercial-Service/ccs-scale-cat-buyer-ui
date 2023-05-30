@@ -105,7 +105,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       req.session.project_name = procurement['defaultName']['name'];
     } else {
       procurement = elementCached;
-      req.session.project_name = req.session.project_name;
     }
 
     logger.info('procurement.created', procurement);

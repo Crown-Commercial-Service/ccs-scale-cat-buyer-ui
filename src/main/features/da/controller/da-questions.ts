@@ -25,7 +25,8 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  */
 export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  let { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  const { agreement_id, proc_id, event_id, section } = req.query;
+  let { id, group_id } = req.query;
 
   try {
     //BALWINDER ADDED THIS CODE FOR SKIP DATA FOR GROUP 18
@@ -108,7 +109,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      } else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+      } else if (aSelector.nonOCDS.questionType === 'Table' || aSelector.nonOCDS.questionType === 'Integer') {
         return 'ccs_rfp_scoring_criteria';
       } else {
         return '';
@@ -341,7 +342,8 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
     const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
 
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    let { rfp_build_started, question_id } = req.body;
+    const { rfp_build_started } = req.body;
+    let { question_id } = req.body;
 
     if (question_id === undefined) {
       question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
@@ -686,8 +688,7 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
 
               const datas = [];
               if (monetaryData != null && monetaryData.length > 0) {
-                if (Array.isArray(monetaryData)) {
-                } else {
+                if (!Array.isArray(monetaryData)) {
                   datas.push(monetaryData);
                   monetaryData = [];
                   monetaryData = datas;

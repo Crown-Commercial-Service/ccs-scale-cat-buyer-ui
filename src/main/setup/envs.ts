@@ -1,7 +1,8 @@
 import * as express from 'express';
+import { config } from 'dotenv';
 
 const localEnvariables = (app: express.Express): void => {
-  const environentVar = require('dotenv').config();
+  const environentVar = config();
   const { parsed: envs } = environentVar;
 
   const LocalredisCluster: any = {

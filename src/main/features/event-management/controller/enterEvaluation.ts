@@ -144,25 +144,25 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
   }
 };
 
+const scoreApis = async (sessionId: string, projectId: string, eventId: string): Promise<any> => {
+  const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
+  const scoreCompare: any = await TenderApi.Instance(sessionId)
+    .get(scoreCompareUrl)
+    .then((x) => new Promise((resolve) => setTimeout(() => resolve(x), 6000)));
+  return scoreCompare.data;
+};
+
 export const SCORE_INDIVIDUAL_GET = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
 
   if (req.session.individualScore !== undefined) {
-    async function scoreApis() {
-      const scoreCompareUrl = `tenders/projects/${projectId}/events/${eventId}/scores`;
-      const scoreCompare: any = await TenderApi.Instance(SESSION_ID)
-        .get(scoreCompareUrl)
-        .then((x) => new Promise((resolve) => setTimeout(() => resolve(x), 6000)));
-      return scoreCompare.data;
-    }
-
     let scoreIndividualGetState = true;
     do {
       const sessionScore = req.session.individualScore;
       let resScore: any = [];
-      resScore = await scoreApis();
+      resScore = await scoreApis(SESSION_ID, projectId, eventId);
 
       if (resScore.length > 0) {
         const scoreFliter = resScore.filter((el: any) => {

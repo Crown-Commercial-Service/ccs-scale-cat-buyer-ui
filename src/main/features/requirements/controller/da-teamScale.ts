@@ -55,10 +55,9 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     let Scale_Dataset;
     if (ScaleData != null && ScaleData.data != null && ScaleData.data != undefined) Scale_Dataset = ScaleData.data;
     let option;
-    let TEAMSCALE_DATASET;
     const RadioData = [];
 
-    TEAMSCALE_DATASET = Scale_Dataset.filter((levels) => levels['name'] === 'Scalability');
+    const TEAMSCALE_DATASET = Scale_Dataset.filter((levels) => levels['name'] === 'Scalability');
     if (TEAMSCALE_DATASET != null && TEAMSCALE_DATASET.length > 0) option = TEAMSCALE_DATASET[0].options;
 
     for (let i = 0; i < option.length; i++) {

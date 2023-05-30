@@ -321,7 +321,7 @@ async function priceContent(name: any) {
 }
 
 async function addhttp(url: any) {
-  if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+  if (!/^(?:f|ht)tps?:\/\//.test(url)) {
     url = 'http://' + url;
   }
   return url;

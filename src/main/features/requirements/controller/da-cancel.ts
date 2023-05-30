@@ -60,7 +60,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       let dataPrepared: any;
       //sheet 1
       const downloadedRankedSuppliers = req.session.DARankedSuppliers;
-      for (var i = 0; i < downloadedRankedSuppliers.length; i++) {
+      for (let i = 0; i < downloadedRankedSuppliers.length; i++) {
         dataPrepared = {
           'Rank No.': downloadedRankedSuppliers[i]?.rank,
           'Supplier Name': downloadedRankedSuppliers[i]?.name,
@@ -80,7 +80,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       //sheet 2
       const dimensionsTable = [];
       const { dimensionRequirements } = assessments;
-      for (var i = 1; i <= 6; i++) {
+      for (let i = 1; i <= 6; i++) {
         const dim = dimensionRequirements.filter((item) => item['dimension-id'] == i)[0];
         if (dim != undefined) {
           dataPrepared = {

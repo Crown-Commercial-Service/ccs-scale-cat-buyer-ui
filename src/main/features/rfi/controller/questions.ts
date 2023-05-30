@@ -176,7 +176,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
       const Mcf3Qid = req.body.question_id;
       let question_id;
       const question_id_append = req.body.question_id;
-      if (typeof question_id_append == 'object') {
+      if (typeof question_id_append === 'object') {
         question_id = question_id_append[question_id_append.length - 1]; //question_id_append[0];
       } else {
         question_id = question_id_append;
@@ -457,7 +457,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   if (agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {
                     //MCF3 or gcloud
 
-                    if (typeof Mcf3Qid == 'object') {
+                    if (typeof Mcf3Qid === 'object') {
                       const sortedStorageMcf3 = [];
                       for (let h = 0; h < Mcf3Qid.length; h++) {
                         const comparisonObject = {

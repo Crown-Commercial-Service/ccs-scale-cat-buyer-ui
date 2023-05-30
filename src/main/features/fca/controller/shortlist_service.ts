@@ -32,7 +32,7 @@ export const POST_SHORTLIST_SERVICE = async (req: express.Request, res: express.
 
     if (PAShortlistedSuppliers != undefined && PAShortlistedSuppliers.length > 0) {
       const MatchedSupplierIDS: any = [];
-      for (i = 0; i < PAShortlistedSuppliers.length; i++) {
+      for (let i = 0; i < PAShortlistedSuppliers.length; i++) {
         if (supplierIDSData['supplierIDS'].includes(PAShortlistedSuppliers[i]))
           MatchedSupplierIDS.push(PAShortlistedSuppliers[i]);
       }
@@ -44,7 +44,7 @@ export const POST_SHORTLIST_SERVICE = async (req: express.Request, res: express.
 
         const supplierDataToSave = [];
         if (UnqfinalArrayOutput.length > 0) {
-          for (var i = 0; i < UnqfinalArrayOutput.length; i++) {
+          for (let i = 0; i < UnqfinalArrayOutput.length; i++) {
             const supplierInfo = supplierList.filter((s: any) => s.organization.id == UnqfinalArrayOutput[i])?.[0];
             if (supplierInfo != undefined) {
               supplierDataToSave.push({ name: supplierInfo.organization.name, id: UnqfinalArrayOutput[i] });
