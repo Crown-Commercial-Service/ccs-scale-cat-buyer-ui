@@ -5,7 +5,8 @@ const StepState = {
   InProgress: { key: 'In progress', value: 'In progress' },
   Completed: { key: 'Completed', value: 'Done' },
 };
-export const getValue = (stateKey: any) => {
+
+const getValue = (stateKey: any) => {
   let statusValue;
   switch (stateKey) {
     case 'Optional':
@@ -34,16 +35,16 @@ interface accumType {
   accum: number;
 }
 
-function checkSublevels(
+const checkSublevels = (
   obj: any,
   accumElem: accumType,
   nameSublevel: string[],
   stepsByType: any,
-  agreement_id: string,
+  agreementId: string,
   projectId: string,
-  event_id: string,
+  eventId: string,
   stage2_value?: any
-) {
+) => {
   if (nameSublevel.length) {
     obj[nameSublevel[0]].forEach((eventTask: any) => {
       const stepInfo = stepsByType[accumElem.accum];
@@ -60,10 +61,10 @@ function checkSublevels(
           : 'required';
         eventTask[keyMap] = getValue(stepInfo.state);
         if (stepInfo.step == 10) {
-          if (agreement_id == 'RM6263') {
+          if (agreementId == 'RM6263') {
             //DSP
             eventTask['link'] = `/rfi/online-task-list`;
-          } else if (agreement_id == 'RM1043.8') {
+          } else if (agreementId == 'RM1043.8') {
             //MCF3 or DOS or gcloud
             eventTask['link'] = `/rfi/choose-build-your-rfi`;
           } else {
@@ -73,7 +74,7 @@ function checkSublevels(
         } else if (stepInfo.step == 20) {
           eventTask[
             'link'
-          ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+          ] = `/eoi/online-task-list?agreement_id=${agreementId}&proc_id=${projectId}&event_id=${eventId}`;
         } 
         if (stepInfo.step == 86 && stage2_value != "Stage 2") {
           eventTask[
@@ -88,26 +89,26 @@ function checkSublevels(
         /*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
-          ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+          ] = `/ca/online-task-list?agreement_id=${agreementId}&proc_id=${projectId}&event_id=${eventId}`;
         } */
       }
       accumElem.accum = accumElem.accum + 1;
       if (eventTask[nameSublevel[1]]) {
-        checkSublevels(eventTask, accumElem, nameSublevel.slice(-1), stepsByType, agreement_id, projectId, event_id);
+        checkSublevels(eventTask, accumElem, nameSublevel.slice(-1), stepsByType, agreementId, projectId, eventId);
       }
     });
   }
 }
 
-export function statusStepsDataFilter(
+const statusStepsDataFilter = (
   data: any,
   steps: any,
   type: string,
-  agreement_id: string,
+  agreementId: string,
   projectId: string,
-  event_id: string,
+  eventId: string,
   stage2_value?: any
-) {
+) => {
   const { events } = data;
 
   const accum: accumType = { accum: 0 };
@@ -115,14 +116,13 @@ export function statusStepsDataFilter(
   switch (type) {
     case 'rfi':
       stepsByType = steps.slice(6, 14);
-      if (agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {
-        let result = steps.filter((obj: any) => {
+      if (agreementId == 'RM6187' || agreementId == 'RM1557.13') {
+        const result = steps.filter((obj: any) => {
           return obj.step === 81;
         });
 
        
         stepsByType.splice(3, 0, result[0]);
-        console.log(stepsByType);
        }
       break;
     case 'eoi':
@@ -130,15 +130,13 @@ export function statusStepsDataFilter(
       break;
     case 'rfp':
       stepsByType = steps.slice(26, 41); //result: step 27 to 41
-      if(agreement_id == 'RM1043.8'){
+      if(agreementId == 'RM1043.8'){
         if (stage2_value != undefined && stage2_value == "Stage 2") {
-          let result = steps.filter((obj: any) => { return obj.step === 86; });
+          const result = steps.filter((obj: any) => { return obj.step === 86; });
           stepsByType.splice(3, 0, result[0]);
-          console.log(stepsByType);
          }else{
-          let result = steps.filter((obj: any) => { return obj.step === 86; });
+          const result = steps.filter((obj: any) => { return obj.step === 86; });
           stepsByType.splice(14, 0, result[0]);
-          console.log(stepsByType);
          }
       }
       break;
@@ -156,6 +154,8 @@ export function statusStepsDataFilter(
       break;
   }
   events.forEach((event: any) => {
-    checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id,stage2_value);
+    checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreementId, projectId, eventId, stage2_value);
   });
 }
+
+export { getValue, statusStepsDataFilter }

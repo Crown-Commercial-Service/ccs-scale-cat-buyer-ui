@@ -100,6 +100,10 @@ data "aws_ssm_parameter" "gcloud_index" {
   name = "/cat/${var.environment}/gcloud_index"
 }
 
+data "aws_ssm_parameter" "dashboard_banner" {
+  name = "/cat/${var.environment}/dashboard-banner"
+}
+
 data "aws_ssm_parameter" "gcloud_search_api_url" {
   name = "/cat/${var.environment}/gcloud_search_api_url"
 }
@@ -152,6 +156,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     GCLOUD_SERVICES_API_URL : data.aws_ssm_parameter.gcloud_services_api_url.value
     GCLOUD_SUPPLIER_API_URL : data.aws_ssm_parameter.gcloud_supplier_api_url.value
     LOGIN_DIRECTOR_URL : data.aws_ssm_parameter.login_director_url.value
+    DASHBOARD_BANNER : data.aws_ssm_parameter.dashboard_banner.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"

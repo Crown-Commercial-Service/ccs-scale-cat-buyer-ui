@@ -132,7 +132,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     }
     if(agreementId_session == 'RM1557.13' && lotId=='All') { //G-cloud 13
-      await ccsStatusOverride(appendData, SESSION_ID, agreementId_session, req.session.projectId, req.session.eventId);
+      await ccsStatusOverride(appendData, SESSION_ID, agreementId_session, req.session.eventId);
     } else {
       const {data: getEventsData} = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${req.session.projectId}/events`);
       data.events.forEach(async event => {
