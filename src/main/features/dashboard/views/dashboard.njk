@@ -187,13 +187,17 @@
                       {{ event.activeEvent.status }}
                     {% endif %}
                   </td>
+                
                   <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
+                      {%if(event.activeEvent.status.toUpperCase() == 'IN-PROGRESS')%}
                       <p class="govuk-body govuk-!-margin-bottom-0" >
                          <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
                            Close project
                          </a>
                       </p>
+                      {% endif %}
                   </td>
+                  
                 </tr>
               {% endfor %}
             </tbody>
@@ -253,15 +257,18 @@
                     {% endif %}
 
                   </td>
+                  
                    <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
+                    {%if(event.activeEvent.status.toUpperCase() == 'IN-PROGRESS')%}
                     <p class="govuk-body govuk-!-margin-bottom-0" >
                        <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
            Close project
           </a>
              
                     </p>
-
+                  {% endif %}
                   </td>
+                  
                 </tr>
               {% endfor %}
             </tbody>
