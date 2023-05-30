@@ -34,14 +34,11 @@ const initNunjucks = (app: Application, isDev: boolean): void => {
 
   app.set('view engine', 'njk');
 
-  const nunjucksEnv = nunjucks.configure(
-    nunjucksViews,
-    {
-      autoescape: true,
-      watch: isDev,
-      express: app
-    }
-  );
+  const nunjucksEnv = nunjucks.configure(nunjucksViews, {
+    autoescape: true,
+    watch: isDev,
+    express: app,
+  });
 
   // Set nunjucks globals
   nunjucksEnv.addGlobal('t', (key: string, options?: TOptionsBase & InitOptions): string => i18next.t(key, options));

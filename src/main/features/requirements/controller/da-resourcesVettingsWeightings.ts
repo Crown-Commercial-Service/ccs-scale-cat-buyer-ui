@@ -7,8 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
-//pricing 
-
+//pricing
 
 /**
  *
@@ -50,15 +49,17 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    let dimensionSecurityClearance=[],dimensionResourceQuantity=[],dimensionPricing=[];
-    if(assessmentDetail.dimensionRequirements.length>0){
-      let dimensionRequirementsData=assessmentDetail.dimensionRequirements;
-      dimensionSecurityClearance=dimensionRequirementsData.filter(item=>item["dimension-id"]==2);
-      dimensionResourceQuantity=dimensionRequirementsData.filter(item=>item["dimension-id"]==1);
-      dimensionPricing=dimensionRequirementsData.filter(item=>item["dimension-id"]==6);
+    let dimensionSecurityClearance = [],
+      dimensionResourceQuantity = [],
+      dimensionPricing = [];
+    if (assessmentDetail.dimensionRequirements.length > 0) {
+      const dimensionRequirementsData = assessmentDetail.dimensionRequirements;
+      dimensionSecurityClearance = dimensionRequirementsData.filter((item) => item['dimension-id'] == 2);
+      dimensionResourceQuantity = dimensionRequirementsData.filter((item) => item['dimension-id'] == 1);
+      dimensionPricing = dimensionRequirementsData.filter((item) => item['dimension-id'] == 6);
     }
-    const LEVEL6CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Pricing')[0];
-    const LEVEL2CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
+    const LEVEL6CONTENTS = dimensions.filter((dimension) => dimension['name'] === 'Pricing')[0];
+    const LEVEL2CONTENTS = dimensions.filter((dimension) => dimension['name'] === 'Security Clearance')[0];
 
     let Level6AndLevel2Contents = [...LEVEL6CONTENTS['options'], ...LEVEL2CONTENTS['options']];
     Level6AndLevel2Contents = { options: Level6AndLevel2Contents };
@@ -68,27 +69,24 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     /**
      * @Removing_duplications
      */
-    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map(item => item.name))];
+    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map((item) => item.name))];
 
     /**
      * @CLEANING_REMOVED_ITEMS
      */
-    var UNIQUE_DESIG_STORAGE = [];
+    let UNIQUE_DESIG_STORAGE = [];
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-      const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-      if(FINDER.name.includes('SFIA level'))
-      {
+      const FINDER = options.filter((nestedItem) => nestedItem.name == Item)[0];
+      if (FINDER.name.includes('SFIA level')) {
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      } else {
+        const findername = FINDER.name;
+        const temp = findername.replace(/^\D+/g, '');
+        const tempname = FINDER.name.replace(/\d+/g, ', SFIA level ' + temp + '');
+        FINDER.name = tempname;
         UNIQUE_DESIG_STORAGE.push(FINDER);
       }
-      else{
-        let findername=FINDER.name;
-        const temp=findername.replace( /^\D+/g, '');
-       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
-       FINDER.name=tempname;
-        UNIQUE_DESIG_STORAGE.push(FINDER);
-      }
-     
     }
 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
@@ -100,13 +98,13 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     //REFORMATING
     var { options, name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
-    let dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
+    const dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
 
-    const REMAPPED_ITEM = options.map(anOption => {
+    const REMAPPED_ITEM = options.map((anOption) => {
       const { name, groupRequirement, groups } = anOption;
       const REQ_ID = anOption['requirement-id'];
       const SFIA_NAME = name;
-      return groups.map(nestedItems => {
+      return groups.map((nestedItems) => {
         return {
           ...nestedItems,
           SFIA_name: SFIA_NAME,
@@ -116,10 +114,10 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       });
     });
 
-    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map(anOption => {
-      const Parent = anOption.filter(level => level.level == 1);
-      const Child = anOption.filter(level => level.level == 2);
-      return Parent.map(nestedOptions => {
+    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map((anOption) => {
+      const Parent = anOption.filter((level) => level.level == 1);
+      const Child = anOption.filter((level) => level.level == 2);
+      return Parent.map((nestedOptions) => {
         return { ...nestedOptions, child: Child };
       })[0];
     });
@@ -132,12 +130,12 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     /**
      * @FIND_UNIQUE_NAME
      */
-    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS.map(item => item.name))];
+    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS.map((item) => item.name))];
 
     const DESIGNATION_MERGED_WITH_CHILD_STORAGE = [];
 
     for (const parent of UNIQUE_DESIGNATION_OF_PARENT) {
-      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter(designation => designation.name == parent);
+      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter((designation) => designation.name == parent);
       const refactoredObject = {
         Parent: parent,
         category: findElements,
@@ -145,21 +143,21 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       DESIGNATION_MERGED_WITH_CHILD_STORAGE.push(refactoredObject);
     }
 
-    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map(items => {
+    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map((items) => {
       return {
         Parent: items.Parent,
-        category: items.category.map(subItems => subItems.child).flat(),
+        category: items.category.map((subItems) => subItems.child).flat(),
       };
     });
 
-    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS.map(items => {
+    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS.map((items) => {
       const { category, Parent } = items;
 
       const UNIQUESTORAGE = [];
-      const UNIQUE_ROLES = [...new Set(category.map(subitem => subitem.name))];
+      const UNIQUE_ROLES = [...new Set(category.map((subitem) => subitem.name))];
 
       for (const role of UNIQUE_ROLES) {
-        const findBaseOnRoles = category.filter(i => i.name == role);
+        const findBaseOnRoles = category.filter((i) => i.name == role);
         const contructedObject = {
           ParentName: role,
           designations: findBaseOnRoles,
@@ -203,72 +201,82 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     for (const items of REMAPPTED_TABLE_ITEM_STORAGE) {
       const Text = items.text;
       const findElementInRemapptedParentRole = REMAPPED_ACCORDING_TO_PARENT_ROLE.filter(
-        cursor => cursor.Parent == Text,
+        (cursor) => cursor.Parent == Text
       )[0];
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
 
-    let requirementId,NumberStaff,NumberVetting;
-    let total_ws=0,total_wv=0,total_res=0;
-    for(var item of StorageForSortedItems){
-      
-      let inner_total_ws=0,inner_total_wv=0,inner_total_res=0;
-      for(var cat of item.category)
-      {
-        requirementId=LEVEL2CONTENTS.options.filter(option=>option.name==cat.ParentName)?.[0]?.["requirement-id"];
-        let noStaff=dimensionResourceQuantity[0].requirements.filter(req=>req["requirement-id"]==requirementId)[0]?.["weighting"];
-        let noVetting=dimensionSecurityClearance[0].requirements.filter(req=>req["requirement-id"]==requirementId)[0]?.["weighting"];
-        cat["ParentReqId"]=requirementId;
-        cat["NumberStaff"]="";//0
-        cat["NumberVetting"]="";//0
-        if(noStaff!=undefined){
-          cat["NumberStaff"]=noStaff;
-          inner_total_ws=inner_total_ws+noStaff;
+    let requirementId, NumberStaff, NumberVetting;
+    let total_ws = 0,
+      total_wv = 0,
+      total_res = 0;
+    for (var item of StorageForSortedItems) {
+      let inner_total_ws = 0,
+        inner_total_wv = 0,
+        inner_total_res = 0;
+      for (var cat of item.category) {
+        requirementId = LEVEL2CONTENTS.options.filter((option) => option.name == cat.ParentName)?.[0]?.[
+          'requirement-id'
+        ];
+        const noStaff = dimensionResourceQuantity[0].requirements.filter(
+          (req) => req['requirement-id'] == requirementId
+        )[0]?.['weighting'];
+        const noVetting = dimensionSecurityClearance[0].requirements.filter(
+          (req) => req['requirement-id'] == requirementId
+        )[0]?.['weighting'];
+        cat['ParentReqId'] = requirementId;
+        cat['NumberStaff'] = ''; //0
+        cat['NumberVetting'] = ''; //0
+        if (noStaff != undefined) {
+          cat['NumberStaff'] = noStaff;
+          inner_total_ws = inner_total_ws + noStaff;
         }
-        if(noVetting!=undefined){
-          cat["NumberVetting"]=noVetting;
-          inner_total_wv=inner_total_wv+noVetting;
+        if (noVetting != undefined) {
+          cat['NumberVetting'] = noVetting;
+          inner_total_wv = inner_total_wv + noVetting;
         }
-        for(var designation of cat.designations)
-      {
-        let res=dimensionPricing[0]?.requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
-        designation["NumberSFIA"]="";
-        if(res!=undefined){
-          designation["NumberSFIA"]=res.toString();
-          inner_total_res=inner_total_res+res;
+        for (var designation of cat.designations) {
+          const res = dimensionPricing[0]?.requirements.filter(
+            (req) => req['requirement-id'] == designation['requirement-id']
+          )[0]?.['weighting'];
+          designation['NumberSFIA'] = '';
+          if (res != undefined) {
+            designation['NumberSFIA'] = res.toString();
+            inner_total_res = inner_total_res + res;
+          }
         }
       }
-
-      }
-      total_res=total_res+inner_total_res;
-      total_wv=total_wv+inner_total_wv;
-      total_ws=total_ws+inner_total_ws;
-      let index=REMAPPTED_TABLE_ITEM_STORAGE.findIndex((obj:any)=>obj.text==item.Parent);
-      REMAPPTED_TABLE_ITEM_STORAGE[index].subtext=inner_total_res+' resources added,'+inner_total_ws+' % / '+inner_total_wv+'%'
+      total_res = total_res + inner_total_res;
+      total_wv = total_wv + inner_total_wv;
+      total_ws = total_ws + inner_total_ws;
+      const index = REMAPPTED_TABLE_ITEM_STORAGE.findIndex((obj: any) => obj.text == item.Parent);
+      REMAPPTED_TABLE_ITEM_STORAGE[index].subtext =
+        inner_total_res + ' resources added,' + inner_total_ws + ' % / ' + inner_total_wv + '%';
     }
 
-    req.session["StorageForSortedItems"]=StorageForSortedItems;
+    req.session['StorageForSortedItems'] = StorageForSortedItems;
 
-
-    REMAPPTED_TABLE_ITEM_STORAGE.sort((a:any, b:any) => (a.text < b.text ? -1 : 1));
-    StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
+    REMAPPTED_TABLE_ITEM_STORAGE.sort((a: any, b: any) => (a.text < b.text ? -1 : 1));
+    StorageForSortedItems.sort((a: any, b: any) => (a.Parent < b.Parent ? -1 : 1));
     const windowAppendData = {
       ...daResourcesVetting,
       lotid,
       agreementLotName,
       releatedContent,
       isError,
-      errorTextSumary:errorTextSumary,
+      errorTextSumary: errorTextSumary,
       designations: StorageForSortedItems,
       choosenViewPath,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
-      total_res,total_ws,total_wv
+      total_res,
+      total_ws,
+      total_wv,
     };
-    let flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
+    const flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
     if (flag) {
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'In progress');
     }
-   res.render('da-resourcesVettingWeightings', windowAppendData);
+    res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -278,24 +286,31 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA learn page',
-      true,
+      true
     );
   }
 };
 
 export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,StorageForSortedItems } = req.session;
+  const { projectId, StorageForSortedItems } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const errorTextSumary = [];
-  try{
+  try {
     const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
-  const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage,weigthage_group_name_sfia,weigthage_reqid  } =
-    req.body;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
+    const {
+      weight_staff,
+      weight_vetting,
+      weigthage_group_name,
+      SFIA_weightage,
+      requirement_Id_SFIA_weightage,
+      weigthage_group_name_sfia,
+      weigthage_reqid,
+    } = req.body;
 
-   /* let isError=false;
+    /* let isError=false;
 
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
@@ -403,10 +418,10 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       req.session.errorTextSumary = [];
       req.session.isError = false;
       req.session['isJaggaerError'] = false;*/
-    const Mapped_weight_staff = weight_staff.map(item => item !== '');
-    let IndexStorage = [];
+    const Mapped_weight_staff = weight_staff.map((item) => item !== '');
+    const IndexStorage = [];
 
-    for (var i = 0; i < Mapped_weight_staff.length; i++) {
+    for (let i = 0; i < Mapped_weight_staff.length; i++) {
       if (Mapped_weight_staff[i] == true) {
         IndexStorage.push(i);
       }
@@ -416,151 +431,135 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
 
     const { dimensionRequirements } = assessments;
-    let dimension2weighitng=10,dimension1weighitng=10,dimension6weighitng=10;
+    let dimension2weighitng = 10,
+      dimension1weighitng = 10,
+      dimension6weighitng = 10;
 
-    if(dimensionRequirements.length>0)
-
-    {
-      
-       dimension2weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].weighting;
-       dimension1weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 1)[0].weighting;
-       dimension6weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 6)[0].weighting;
-
+    if (dimensionRequirements.length > 0) {
+      dimension2weighitng = dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 2)[0].weighting;
+      dimension1weighitng = dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 1)[0].weighting;
+      dimension6weighitng = dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 6)[0].weighting;
     }
 
-   
     let subcontractorscheck;
 
-      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2).length>0)
+    if (dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 2).length > 0) {
+      subcontractorscheck = dimensionRequirements
+        ?.filter((dimension) => dimension['dimension-id'] === 2)[0]
+        .includedCriteria.find((x) => x['criterion-id'] == 1);
+    }
 
-      {
+    let includedSubContractor = [];
 
-        subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].includedCriteria.
+    if (subcontractorscheck != undefined) {
+      includedSubContractor = [{ 'criterion-id': '1' }];
+    }
 
-        find(x=>x["criterion-id"]==1))
-
-      }
-
-      let includedSubContractor=[];
-
-      if(subcontractorscheck!=undefined)
-
-      {
-
-        includedSubContractor=[{ 'criterion-id': '1' }]
-
-      }  
-
-    let IndexStorageStaff = IndexStorage.map(Index => {
+    const IndexStorageStaff = IndexStorage.map((Index) => {
       const StaffWeightage = weight_staff[Index];
       // const StaffVetting = weight_vetting[Index];
       const GroupName = weigthage_group_name[Index];
-      const reqId=weigthage_reqid[Index];
+      const reqId = weigthage_reqid[Index];
       return {
-        "name": GroupName,
-        "requirement-id": reqId,
-        "weighting": StaffWeightage,
-        "values":[]
+        name: GroupName,
+        'requirement-id': reqId,
+        weighting: StaffWeightage,
+        values: [],
       };
     });
 
     const dimension = req.session.dimensions;
-  let resourcesData = dimension.filter(data => data["dimension-id"] === 1)[0];
-  let body = {
-    name: resourcesData['name'],
-    weighting: dimension1weighitng,
-    requirements: IndexStorageStaff,
-    includedCriteria:includedSubContractor,
-    overwriteRequirements: true,
-  };
-  let response;
-  //save number of staff data
-  response=await TenderApi.Instance(SESSION_ID).put(
-      `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
-      body,
-    );
-  
-  if(response.status==HttpStatusCode.OK){
-  let IndexStorageVetting = IndexStorage.map(Index => {
-    const StaffVetting = weight_vetting[Index];
-    const GroupName = weigthage_group_name[Index];
-    const reqId=weigthage_reqid[Index];
-    return {
-      "name": GroupName,
-      "requirement-id": reqId,
-      "weighting": StaffVetting,
-      "values":[]
+    let resourcesData = dimension.filter((data) => data['dimension-id'] === 1)[0];
+    let body = {
+      name: resourcesData['name'],
+      weighting: dimension1weighitng,
+      requirements: IndexStorageStaff,
+      includedCriteria: includedSubContractor,
+      overwriteRequirements: true,
     };
-  });
+    let response;
+    //save number of staff data
+    response = await TenderApi.Instance(SESSION_ID).put(
+      `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
+      body
+    );
 
-  resourcesData = dimension.filter(data => data["dimension-id"] === 2)[0];
-  body = {
-    name: resourcesData['name'],
-    weighting: dimension2weighitng,
-    requirements: IndexStorageVetting,
-    includedCriteria:includedSubContractor
-  };
-
-  //save number of vetting data
-  response= await TenderApi.Instance(SESSION_ID).put(
-    `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
-    body,
-  );
-  }
-    if(response.status==HttpStatusCode.OK){
-    const AllValuedSFIA_weightage = SFIA_weightage.map(items => items != '');
-  const INDEX_FINDER_OBJ_REMAPPER = [];
-
-  for (let start = 0; start < AllValuedSFIA_weightage.length; start++) {
-    if (AllValuedSFIA_weightage[start]) {
-      INDEX_FINDER_OBJ_REMAPPER.push({
-        'name':weigthage_group_name_sfia[start],
-        'requirement-id': requirement_Id_SFIA_weightage[start],
-        weighting: SFIA_weightage[start],
-        values: [],
+    if (response.status == HttpStatusCode.OK) {
+      const IndexStorageVetting = IndexStorage.map((Index) => {
+        const StaffVetting = weight_vetting[Index];
+        const GroupName = weigthage_group_name[Index];
+        const reqId = weigthage_reqid[Index];
+        return {
+          name: GroupName,
+          'requirement-id': reqId,
+          weighting: StaffVetting,
+          values: [],
+        };
       });
-    }  
-  }
 
-  // const dimension = req.session.dimensions;
-  resourcesData = dimension.filter(data => data["dimension-id"] === 6)[0];
-  body = {
-    name: resourcesData['name'],
-    weighting: dimension6weighitng,
-    includedCriteria: [],
-    requirements: INDEX_FINDER_OBJ_REMAPPER,
-    overwriteRequirements: true,
-  };
-  
+      resourcesData = dimension.filter((data) => data['dimension-id'] === 2)[0];
+      body = {
+        name: resourcesData['name'],
+        weighting: dimension2weighitng,
+        requirements: IndexStorageVetting,
+        includedCriteria: includedSubContractor,
+      };
 
-  //save number of resources
-  response=await TenderApi.Instance(SESSION_ID).put(
-    `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
-    body,
-  );
-  
-  }
-  if(response.status==HttpStatusCode.OK){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(eventId, 67, req);
-      if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+      //save number of vetting data
+      response = await TenderApi.Instance(SESSION_ID).put(
+        `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
+        body
+      );
+    }
+    if (response.status == HttpStatusCode.OK) {
+      const AllValuedSFIA_weightage = SFIA_weightage.map((items) => items != '');
+      const INDEX_FINDER_OBJ_REMAPPER = [];
+
+      for (let start = 0; start < AllValuedSFIA_weightage.length; start++) {
+        if (AllValuedSFIA_weightage[start]) {
+          INDEX_FINDER_OBJ_REMAPPER.push({
+            name: weigthage_group_name_sfia[start],
+            'requirement-id': requirement_Id_SFIA_weightage[start],
+            weighting: SFIA_weightage[start],
+            values: [],
+          });
+        }
       }
-    if(req.session["DA_nextsteps_edit"])
-      {
+
+      // const dimension = req.session.dimensions;
+      resourcesData = dimension.filter((data) => data['dimension-id'] === 6)[0];
+      body = {
+        name: resourcesData['name'],
+        weighting: dimension6weighitng,
+        includedCriteria: [],
+        requirements: INDEX_FINDER_OBJ_REMAPPER,
+        overwriteRequirements: true,
+      };
+
+      //save number of resources
+      response = await TenderApi.Instance(SESSION_ID).put(
+        `/assessments/${assessmentId}/dimensions/${resourcesData['dimension-id']}`,
+        body
+      );
+    }
+    if (response.status == HttpStatusCode.OK) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
+      const flag = await ShouldEventStatusBeUpdated(eventId, 67, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+      }
+      if (req.session['DA_nextsteps_edit']) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
       }
       req.session.errorText = [];
-    req.session.isError = false;
-    req.session.errorTextSumary=[];
-    req.session['isJaggaerError'] = false;
-    res.redirect('/da/choose-security-requirements');
-  }
-  else{
-    res.redirect('/404');
-  }
-
+      req.session.isError = false;
+      req.session.errorTextSumary = [];
+      req.session['isJaggaerError'] = false;
+      res.redirect('/da/choose-security-requirements');
+    } else {
+      res.redirect('/404');
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -569,10 +568,9 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Cannot Add requirements for Capability assessment',
-      true,
+      true
     );
   }
-
 };
 
 const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {

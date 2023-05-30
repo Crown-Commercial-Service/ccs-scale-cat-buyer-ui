@@ -105,7 +105,7 @@ describe('Lead procurement', () => {
     await request(parentApp)
       .get('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200));
+      .expect((res) => expect(res.status).to.equal(200));
   });
 
   it('should set the user param as leader if the organization backend contains this value', async () => {
@@ -145,7 +145,7 @@ describe('Lead procurement', () => {
     await request(parentApp)
       .get(`/rfp/procurement-lead?rfp_procurement_lead=${dummyOrgUsers.userList[1].userName}`)
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('#rfp-lead-email');
         expect(textContent).to.equal(dummyOrgUsers.userList[1].userName);
@@ -163,7 +163,7 @@ describe('Lead procurement', () => {
       .post('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfp_procurement_lead_input: dummyUsers[1].userName })
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/add-collaborators');
       });
@@ -206,7 +206,7 @@ describe('Lead procurement', () => {
     await request(parentApp)
       .get(`/rfp/procurement-lead?rfp_procurement_lead=${dummyOrgUsers.userList[1].userName}`)
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('#rfp-lead-email');
         expect(textContent).to.equal(dummyOrgUsers.userList[1].userName);
@@ -215,7 +215,7 @@ describe('Lead procurement', () => {
   });
 
   it('should redirect to error page if something goes wrong with external services when get', async () => {
-    const expectationsError = res => {
+    const expectationsError = (res) => {
       expect(res.status).to.equal(200);
       const dom = new JSDOM(res.text);
       const { textContent } = dom.window.document.querySelector('h1.page-title');
@@ -228,7 +228,7 @@ describe('Lead procurement', () => {
     await request(parentApp)
       .get('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expectationsError(res);
       });
     nock(envs.TENDERS_SERVICE_API_URL)
@@ -240,7 +240,7 @@ describe('Lead procurement', () => {
       .post('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfp_procurement_lead_input: dummyUsers[1].userName })
-      .expect(res => {
+      .expect((res) => {
         expectationsError(res);
       });
   });

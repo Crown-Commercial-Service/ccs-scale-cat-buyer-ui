@@ -28,7 +28,7 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
   } else {
     const { agreement_id, proc_id, event_id } = req.query;
     const { SESSION_ID } = req.cookies;
-    const{eventId} = req.session;
+    const { eventId } = req.session;
 
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
@@ -45,7 +45,7 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
           const object = anItem;
-          object.step = getStepNumberWithGroupId(anItem.OCDS.id)
+          object.step = getStepNumberWithGroupId(anItem.OCDS.id);
           object['criterianId'] = aURI;
           return object;
         });
@@ -70,7 +70,7 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-        AField => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id !='Group 8' && AField.OCDS.id !='Group 7'
+        (AField) => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id != 'Group 8' && AField.OCDS.id != 'Group 7'
       );
 
       // Internal model journey
@@ -81,21 +81,25 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
         let fetch_dynamic_data = fetch_dynamic?.data;
         fetch_dynamic_data = fetch_dynamic_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_data.length; j++) {
-          if (fetch_dynamic_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_data[j].nonOCDS.questionType == 'MultiSelect') {
-            let item1 = fetch_dynamic_data[j].nonOCDS.answered;
-            if(item1){
+          if (
+            fetch_dynamic_data[j].nonOCDS.questionType == 'SingleSelect' ||
+            fetch_dynamic_data[j].nonOCDS.questionType == 'MultiSelect'
+          ) {
+            const item1 = fetch_dynamic_data[j].nonOCDS.answered;
+            if (item1) {
               ExcludingKeyDates[index].questionStatus = 'Done';
             }
           } else {
             if (fetch_dynamic_data[j].nonOCDS.options.length > 0) {
               ExcludingKeyDates[index].questionStatus = 'Done';
-            } else { }
+            } else {
+            }
           }
         }
       }
 
       const releatedContent = req.session.releatedContent;
-      
+
       const display_fetch_data = {
         data: ExcludingKeyDates,
         agreement_id: agreement_id,
@@ -123,8 +127,8 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
 
-       //CAS-INFO-LOG
-  LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
       res.render('daw-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
@@ -134,7 +138,7 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
         null,
         TokenDecoder.decoder(SESSION_ID),
         'DA Assessment - Tenders Service Api cannot be connected',
-        true,
+        true
       );
     }
   }
@@ -142,32 +146,31 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
 
 const getStepNumberWithGroupId = (groupId: string) => {
   switch (groupId) {
-    case "Group 1":
-      return 40;
-      break;
-    case "Group 2":
-      return 41;
-      break;
-    case "Group 3":
-      return 42;
-      break;
-    case "Group 4":
-      return 43;
-      break;
-    case "Group 5":
-      return 44;
-      break;
-    case "Group 6":
-      return 45;
-      break;
-    case "Group 7":
-      return 46;
-      break;
-    case "Group 8":
-      return 48;
-      break;
-    default:
-      break;
+  case 'Group 1':
+    return 40;
+    break;
+  case 'Group 2':
+    return 41;
+    break;
+  case 'Group 3':
+    return 42;
+    break;
+  case 'Group 4':
+    return 43;
+    break;
+  case 'Group 5':
+    return 44;
+    break;
+  case 'Group 6':
+    return 45;
+    break;
+  case 'Group 7':
+    return 46;
+    break;
+  case 'Group 8':
+    return 48;
+    break;
+  default:
+    break;
   }
-
-}
+};

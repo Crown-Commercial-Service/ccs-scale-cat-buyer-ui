@@ -5,37 +5,32 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-
 //@GET /rfi/event-close/terminate
-export const RFI_GET_CLOSE  = async (req: express.Request, res: express.Response) => {
+export const RFI_GET_CLOSE = async (req: express.Request, res: express.Response) => {
+  const { releatedContent, projectId } = req.session;
+  const { SESSION_ID } = req.cookies; //jwt
 
-     const {  releatedContent, projectId } =req.session;
-     const { SESSION_ID } = req.cookies; //jwt
-     
+  const appendData = {
+    data: cmsData,
+    projectName: req.session.project_name,
+    projectID: req.session.projectId,
+    releatedContent,
+  };
 
-    const appendData = {
-          data: cmsData,
-          projectName:req.session.project_name ,
-          projectID : req.session.projectId,
-          releatedContent,        
-    }
-    
-    try {
+  try {
     const baseURL = `tenders/projects/${projectId}/close`;
-    const _body = "cancelled"
-    
-    
+    const _body = 'cancelled';
 
-      const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
-      if (response.status == 200) {
-        //CAS-INFO-LOG 
-        LoggTracer.infoLogger(null, logConstant.projectCloseYourProjectPageLogg, req);
+    const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+    if (response.status == 200) {
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.projectCloseYourProjectPageLogg, req);
 
-        res.render('closerfi.njk', appendData)
-      } else {
-          res.redirect('/404')
-      }
-  }catch (error) {
+      res.render('closerfi.njk', appendData);
+    } else {
+      res.redirect('/404');
+    }
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,
@@ -46,6 +41,4 @@ export const RFI_GET_CLOSE  = async (req: express.Request, res: express.Response
       true
     );
   }
-
-}
-
+};

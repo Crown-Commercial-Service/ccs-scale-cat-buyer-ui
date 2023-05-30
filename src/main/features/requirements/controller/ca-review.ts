@@ -50,7 +50,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     organisation_user_data = organisation_user_data?.data;
     const { pageCount } = organisation_user_data;
@@ -58,7 +58,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       allUserStorge.push(...userList);
@@ -80,7 +80,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
 
@@ -103,7 +103,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };

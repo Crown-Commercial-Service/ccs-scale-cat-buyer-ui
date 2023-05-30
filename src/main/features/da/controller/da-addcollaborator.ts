@@ -23,11 +23,11 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
-  const {rfi_collaborators : userParam} = req.query;
+  const { rfi_collaborators: userParam } = req.query;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     //CAS-INFO-LOG
     LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDetailFetch, req);
@@ -38,7 +38,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       allUserStorge.push(...userList);
@@ -49,9 +49,9 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const procurementId = req.session.procurements?.[0].procurementID;
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
-     //CAS-INFO-LOG
-     LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
-     
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(collaboratorData, logConstant.userDetailFetch, req);
+
     collaboratorData = collaboratorData.data;
     const userData: any = collaboratorData;
     const leadUser = userData?.filter((leaduser: any) => leaduser?.nonOCDS.projectOwner === true)[0];
@@ -62,7 +62,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
 
@@ -71,10 +71,10 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
-    
-    if(userParam){
-      const {userName, firstName, lastName, tel } = await getUserData(userParam)
-      collaborator = { email : userName, fullName : `${firstName} ${lastName}`, tel}
+
+    if (userParam) {
+      const { userName, firstName, lastName, tel } = await getUserData(userParam);
+      collaborator = { email: userName, fullName: `${firstName} ${lastName}`, tel };
     }
 
     const windowAppendData = {
@@ -91,8 +91,8 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       releatedContent: releatedContent,
     };
 
-     //CAS-INFO-LOG
-  LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
     res.render('daw-add-collaborator', windowAppendData);
   } catch (error) {
     console.log(error);
@@ -103,7 +103,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Add Collaborator Page',
-      true,
+      true
     );
   }
 };
@@ -122,7 +122,7 @@ export const DA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
     res.redirect('/da/add-collaborators');
   } else {
     try {
-      const userdetailsData = await getUserData(rfi_collaborators)
+      const userdetailsData = await getUserData(rfi_collaborators);
       res.status(200).json(userdetailsData);
     } catch (error) {
       LoggTracer.errorLogger(
@@ -132,24 +132,24 @@ export const DA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
         null,
         TokenDecoder.decoder(SESSION_ID),
         'DA Add Collaborator Page - Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
 };
 
-const getUserData = async(user_profile: string) => {
+const getUserData = async (user_profile: string) => {
   const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
   const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
   const userData = organisation_user_data?.data;
-    
+
   const { userName, firstName, lastName, telephone } = userData;
   let userdetailsData = { userName, firstName, lastName };
 
   if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
   else userdetailsData = { ...userdetailsData, tel: telephone };
   return userdetailsData;
-}
+};
 
 export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -162,10 +162,10 @@ export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
       const user_profile = rfi_collaborators;
       const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-       //CAS-INFO-LOG
-       LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDetailFetch, req);
-      
-       const userData = organisation_user_data?.data;
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDetailFetch, req);
+
+      const userData = organisation_user_data?.data;
       req.session['searched_user'] = userData;
       res.redirect('/da/add-collaborators');
     } catch (error) {
@@ -176,7 +176,7 @@ export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
         null,
         TokenDecoder.decoder(SESSION_ID),
         'DA Add Collaborator Page - Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
@@ -187,61 +187,58 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
   const { rfi_collaborators } = req['body'];
   const fieldValidate = {
     fields: {
-      'rfi_collaborators': {
+      rfi_collaborators: {
         type: 'nonEmptyString',
         name: 'Add colleagues',
-        errors :{
-          required : 'Colleagues must be selected from the list'
-        }
-      }
-    }
-  }
-  const errors = validation.getPageErrors(req.body, fieldValidate)
+        errors: {
+          required: 'Colleagues must be selected from the list',
+        },
+      },
+    },
+  };
+  const errors = validation.getPageErrors(req.body, fieldValidate);
   if (errors.hasErrors) {
-      req.session['isJaggaerError'] = errors;
-      res.redirect('/da/add-collaborators');
-  }else{
-
-  try {
-    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
-    const userType = {
-      userType: 'TEAM_MEMBER',
-    };
-    const organisation_user_data = await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorSave, req);
-
-    req.session['searched_user'] = [];
-    res.redirect('/da/add-collaborators');
-  } catch (err) {
-    const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
-    );
-    LoggTracer.errorLogger(
-      res,
-      err,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'DA Add Collaborator Page - Tender agreement failed to be added',
-      !isJaggaerError,
-    );
-    const errorMessage = `You cannot add this user { ${rfi_collaborators} }. Please try with another user`;
-    const errors = genarateFormValidation('rfi_collaborators', errorMessage )
     req.session['isJaggaerError'] = errors;
     res.redirect('/da/add-collaborators');
-  }
-  
-  }
+  } else {
+    try {
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+      const organisation_user_data = await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorSave, req);
 
+      req.session['searched_user'] = [];
+      res.redirect('/da/add-collaborators');
+    } catch (err) {
+      const isJaggaerError = err.response.data.errors.some(
+        (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
+      );
+      LoggTracer.errorLogger(
+        res,
+        err,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'DA Add Collaborator Page - Tender agreement failed to be added',
+        !isJaggaerError
+      );
+      const errorMessage = `You cannot add this user { ${rfi_collaborators} }. Please try with another user`;
+      const errors = genarateFormValidation('rfi_collaborators', errorMessage);
+      req.session['isJaggaerError'] = errors;
+      res.redirect('/da/add-collaborators');
+    }
+  }
 };
 
 export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {id}=req.query;
+  const { id } = req.query;
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
-    
+
     const organisation_user_data = await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDelete, req);
@@ -249,7 +246,7 @@ export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
     res.redirect('/da/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -258,7 +255,7 @@ export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Add Collaborator Page - Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/da/add-collaborators');
@@ -270,12 +267,9 @@ export const DA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: e
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Completed');
-  if(req.session.unpublishedeventmanagement=="true")
-  {
+  if (req.session.unpublishedeventmanagement == 'true') {
     res.redirect('/da/rfp-unpublishedeventmanagement');
-  }
-  else{
-  res.redirect('/da/task-list');
-  
+  } else {
+    res.redirect('/da/task-list');
   }
 };

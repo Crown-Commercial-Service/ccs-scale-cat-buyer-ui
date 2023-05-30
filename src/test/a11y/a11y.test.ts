@@ -1,6 +1,4 @@
 /* Allow chai assertions which don't end in a function call, e.g. expect(thing).to.be.undefined */
-/* tslint:disable:no-unused-expression */
-/* tslint:disable:no-console */
 
 import supertest from 'supertest';
 import pa11y from 'pa11y';

@@ -9,7 +9,7 @@ import * as fcaShortlistSupplierNextstepScreenContent from '../../../resources/c
  *
  *
  */
- export const SHORTLIST_SUPPLIER_NEXTSTEP = async (req: express.Request, res: express.Response) => {
-  const appendData = { data: fcaShortlistSupplierNextstepScreenContent }
-    res.render('shortlist_supplier_nextstep',appendData );
- }
+export const SHORTLIST_SUPPLIER_NEXTSTEP = async (req: express.Request, res: express.Response) => {
+  const appendData = { data: fcaShortlistSupplierNextstepScreenContent };
+  res.render('shortlist_supplier_nextstep', appendData);
+};

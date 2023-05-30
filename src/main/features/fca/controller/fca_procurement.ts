@@ -10,7 +10,6 @@ import * as fcaProcurementOverviewScreenContent from '../../../resources/content
  *
  *
  */
- export const FCA_PROCUREMENT = async (req: express.Request, res: express.Response) => {
- 
-  res.render('fca_procurement', {data:fcaProcurementOverviewScreenContent});
-}
+export const FCA_PROCUREMENT = async (req: express.Request, res: express.Response) => {
+  res.render('fca_procurement', { data: fcaProcurementOverviewScreenContent });
+};

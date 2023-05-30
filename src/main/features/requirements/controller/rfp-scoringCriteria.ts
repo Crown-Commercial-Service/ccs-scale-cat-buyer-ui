@@ -37,8 +37,8 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
-  let agreementIdSession = agreementId_session;
-  let projectName = project_name;
+  const agreementIdSession = agreementId_session;
+  const projectName = project_name;
   res.locals.agreement_header = {
     agreementName,
     projectName,
@@ -61,23 +61,23 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     // };
 
     let group_id = 'Group 8';
-    if(agreementId_session == 'RM1043.8' && lotid == 3){
+    if (agreementId_session == 'RM1043.8' && lotid == 3) {
       group_id = 'Group 11';
     }
-    if(agreementId_session == 'RM1043.8' && lotid == 1){
+    if (agreementId_session == 'RM1043.8' && lotid == 1) {
       group_id = 'Group 13';
     }
-    
-    let criterion_Id = 'Criterion 2';
+
+    const criterion_Id = 'Criterion 2';
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
 
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsFetch, req);
-    
+
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    
+
     const headingBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -96,14 +96,15 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
+    const bcTitleText =
+      OCDS?.description === 'How you will score suppliers' ? OCDS?.description : 'How you will score suppliers';
     let titleText;
     titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
-    if(agreementId_session == 'RM1043.8'){
-      if(nonOCDS.mandatory === false){
-        titleText = "How you will score supplier responses (Optional)";
-      }else{
-        titleText = "How you will score supplier responses";
+    if (agreementId_session == 'RM1043.8') {
+      if (nonOCDS.mandatory === false) {
+        titleText = 'How you will score supplier responses (Optional)';
+      } else {
+        titleText = 'How you will score supplier responses';
       }
     }
     const promptData = nonOCDS?.prompt;
@@ -146,11 +147,9 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      }
-      else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+      } else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
         return 'ccs_rfp_scoring_criteria';
-      }
-      else {
+      } else {
         return '';
       }
     });
@@ -163,7 +162,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
 
-    fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
+    fetch_dynamic_api_data = fetch_dynamic_api_data.map((item) => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
         newItem.nonOCDS.dependant = false;
@@ -177,76 +176,71 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
     let TemporaryObjStorage = [];
     for (const ITEM of fetch_dynamic_api_data) {
-      if(agreementId_session=='RM6263'){
+      if (agreementId_session == 'RM6263') {
         if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
           const RelationsShip = ITEM.nonOCDS.dependency.relationships;
           for (const Relation of RelationsShip) {
             const { dependentOnId } = Relation;
-            const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+            const findElementInData = fetch_dynamic_api_data.filter((item) => item.OCDS.id === dependentOnId)[0];
             findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
             TemporaryObjStorage.push(findElementInData);
           }
-        TemporaryObjStorage.push(ITEM);
+          TemporaryObjStorage.push(ITEM);
+        } else {
+          TemporaryObjStorage.push(ITEM);
+        }
       } else {
         TemporaryObjStorage.push(ITEM);
       }
-      }else {
-        TemporaryObjStorage.push(ITEM);
-      }
-      
     }
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
       .map(JSON.parse)
-      .filter(item => !item.nonOCDS.dependant);
+      .filter((item) => !item.nonOCDS.dependant);
 
-    const formNameValue = form_name.find(fn => fn !== '');
-    if(agreementId_session == 'RM1043.8' && lotid == 3){
+    const formNameValue = form_name.find((fn) => fn !== '');
+    if (agreementId_session == 'RM1043.8' && lotid == 3) {
       if (group_id === 'Group 11' && criterion_Id === 'Criterion 2') {
-        TemporaryObjStorage.forEach(x => {
+        TemporaryObjStorage.forEach((x) => {
           //x.nonOCDS.childern=[];
           if (x.nonOCDS.questionType === 'Table') {
-            x.nonOCDS.options.forEach(element => {
-              
-              element.optiontableDefination = mapTableDefinationData(element,'RM1043.8');
-              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1043.8'));
+            x.nonOCDS.options.forEach((element) => {
+              element.optiontableDefination = mapTableDefinationData(element, 'RM1043.8');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element, 'RM1043.8'));
             });
           }
         });
         TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
       }
-    }
-    else if(agreementId_session == 'RM1043.8' && lotid == 1){
+    } else if (agreementId_session == 'RM1043.8' && lotid == 1) {
       if (group_id === 'Group 13' && criterion_Id === 'Criterion 2') {
-        TemporaryObjStorage.forEach(x => {
+        TemporaryObjStorage.forEach((x) => {
           //x.nonOCDS.childern=[];
           if (x.nonOCDS.questionType === 'Table') {
-            x.nonOCDS.options.forEach(element => {
-              element.optiontableDefination = mapTableDefinationData(element,'RM1043.8');
-              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1043.8'));
+            x.nonOCDS.options.forEach((element) => {
+              element.optiontableDefination = mapTableDefinationData(element, 'RM1043.8');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element, 'RM1043.8'));
             });
           }
         });
         TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
       }
-    }
-    else if(agreementId_session == 'RM1557.13'){
-        TemporaryObjStorage.forEach(x => {
-          //x.nonOCDS.childern=[];
-          if (x.nonOCDS.questionType === 'Table') {
-            x.nonOCDS.options.forEach(element => {
-              element.optiontableDefination = mapTableDefinationData(element,'RM1557.13');
-              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1557.13'));
-            });
-          }
-        });
-        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
-    }
-    else{
+    } else if (agreementId_session == 'RM1557.13') {
+      TemporaryObjStorage.forEach((x) => {
+        //x.nonOCDS.childern=[];
+        if (x.nonOCDS.questionType === 'Table') {
+          x.nonOCDS.options.forEach((element) => {
+            element.optiontableDefination = mapTableDefinationData(element, 'RM1557.13');
+            element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element, 'RM1557.13'));
+          });
+        }
+      });
+      TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+    } else {
       if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
-        TemporaryObjStorage.forEach(x => {
+        TemporaryObjStorage.forEach((x) => {
           //x.nonOCDS.childern=[];
           if (x.nonOCDS.questionType === 'Table') {
-            x.nonOCDS.options.forEach(element => {
+            x.nonOCDS.options.forEach((element) => {
               element.optiontableDefination = mapTableDefinationData(element);
               element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
             });
@@ -258,11 +252,14 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: (group_id === 'Group 11' || group_id === 'Group 13' || group_id === 'Group 8') && criterion_Id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
+      data:
+        (group_id === 'Group 11' || group_id === 'Group 13' || group_id === 'Group 8') && criterion_Id === 'Criterion 2'
+          ? TemporaryObjStorage
+          : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
-      lotId:lotId,
+      lotId: lotId,
       proc_id: projectId,
       event_id: eventId,
       group_id: group_id,
@@ -277,7 +274,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       errorText: errorText,
       releatedContent: releatedContent,
       section: '5',
-      step: '48'
+      step: '48',
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -288,9 +285,8 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
 
-
-    if(agreement_id !== 'RM1043.8'){
-      let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+    if (agreement_id !== 'RM1043.8') {
+      const flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
       }
@@ -301,7 +297,6 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     LoggTracer.infoLogger(null, data.rfpTitle, req);
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
-
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -310,13 +305,12 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - RFP scoring criteria page',
-      true,
+      true
     );
   }
 };
 
 export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: express.Response) => {
-  
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId } = req.session;
   // try {
@@ -341,14 +335,14 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    let defaultOptions = [];
-    fetch_dynamic_api_data = fetch_dynamic_api_data.filter(x => {
+    const defaultOptions = [];
+    fetch_dynamic_api_data = fetch_dynamic_api_data.filter((x) => {
       if (x.nonOCDS.questionType.toLowerCase() === 'table') {
-        x.nonOCDS.options.map(xx => {
+        x.nonOCDS.options.map((xx) => {
           if (xx.text?.toLowerCase() !== 'Create your own scoring criteria'.toLowerCase()) {
             defaultOptions.push(xx);
           }
-        })
+        });
       }
     });
 
@@ -356,13 +350,12 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
-    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+    const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
-    
 
     if (question_id === undefined) {
-      question_id = Object.keys(req.body).filter(x => x.includes('Question'));
+      question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
     }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
@@ -371,11 +364,11 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
-    let question_idsFilrtedList = [];
+    const question_idsFilrtedList = [];
 
-    question_ids.forEach(x => {
+    question_ids.forEach((x) => {
       if (question_idsFilrtedList.length > 0) {
-        let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
+        const existing = question_idsFilrtedList.filter((xx) => xx.trim() == x.trim());
         if (existing == undefined || existing == null || existing.length <= 0) {
           question_idsFilrtedList.push(x);
         }
@@ -383,25 +376,23 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
         question_idsFilrtedList.push(x);
       }
     });
-   
+
     question_ids = [];
-    question_ids.push(question_idsFilrtedList[0])
+    question_ids.push(question_idsFilrtedList[0]);
     if (operations.equals(started_progress_check, false)) {
       if (rfp_build_started === 'true' && nonOCDS !== null && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'question_id',
+          'question_id'
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+        const object_values = Object.values(filtered_object_with_empty_keys).map((an_answer) => {
           return { value: an_answer, selected: true };
         });
 
         if (req.body.rfp_read_me) {
-
-          
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
@@ -412,90 +403,92 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             agreement_id,
             id,
             res,
-            req,
+            req
           );
         } else {
-          
           let validationError = false;
           let answerValueBody = {};
           for (let i = 0; i < question_ids.length; i++) {
-           
-
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
             }
-            
+
             let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
             const TAStorage = [];
-            
+
             score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
             score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
             score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
-            //Balwinder           
+            //Balwinder
 
-            let rows = [];
-            let tableData = [];
+            const rows = [];
+            const tableData = [];
             for (let index = 0; index < score_criteria_level.length; index++) {
               rows.push({ id: index + 1, name: score_criteria_level[index] });
             }
 
             for (let index = 0; index < score_criteria_points.length; index++) {
-              let cols = [];
+              const cols = [];
               cols.push(score_criteria_points[index]);
               cols.push(score_criteria_desc[index]);
               tableData.push({
-                row: index + 1, cols: cols
+                row: index + 1,
+                cols: cols,
               });
             }
-            
+
             answerValueBody = {
               nonOCDS: {
                 answered: true,
                 options: [
                   {
-                    text: "Create your own scoring criteria",
+                    text: 'Create your own scoring criteria',
                     value: 3,
                     tableDefinition: {
                       titles: {
                         columns: [
                           {
-                            "id": 0,
-                            "name": "Marking Scheme"
+                            id: 0,
+                            name: 'Marking Scheme',
                           },
                           {
-                            "id": 1,
-                            "name": "Points"
+                            id: 1,
+                            name: 'Points',
                           },
                           {
-                            "id": 2,
-                            "name": "Description"
-                          }],
-                        rows: [
-                          ...rows
-                        ]
+                            id: 2,
+                            name: 'Description',
+                          },
+                        ],
+                        rows: [...rows],
                       },
-                      data: [
-                        ...tableData
-                      ]
+                      data: [...tableData],
                     },
-                    selected: true
-                  }
+                    selected: true,
+                  },
                 ],
               },
             };
-            
+
             if (!validationError) {
-              
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                answerValueBody?.nonOCDS?.options.push(...defaultOptions)
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                answerValueBody?.nonOCDS?.options.push(...defaultOptions);
+                if (
+                  answerValueBody != undefined &&
+                  answerValueBody != null &&
+                  answerValueBody?.nonOCDS != undefined &&
+                  answerValueBody?.nonOCDS?.options.length > 0 &&
+                  answerValueBody?.nonOCDS?.options[0].value != undefined
+                ) {
+                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                    answerBaseURL,
+                    answerValueBody
+                  );
                   //CAS-INFO-LOG
                   LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
                   break;
                 }
-
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }
@@ -505,36 +498,30 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-
-            
-                //SET-SCORING-CRITERIA STATUS UPDATE
-            if(agreement_id == 'RM1043.8'){
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed'); 
-              let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+            //SET-SCORING-CRITERIA STATUS UPDATE
+            if (agreement_id == 'RM1043.8') {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+              const flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
               }
-            }
-            else if(agreement_id == 'RM1557.13'){
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
-              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+            } else if (agreement_id == 'RM1557.13') {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
+              const flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+              if (flag) {
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+              }
+            } else {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
+              const flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
               }
             }
-            else{
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
-              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
-              if (flag) {
-                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
-            }
-            
-          }
-                       
-            
+
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Cannot start yet');
-            res.redirect("/rfp/task-list");
+            res.redirect('/rfp/task-list');
           } else {
             res.send();
             return;
@@ -547,7 +534,6 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       res.redirect('/error');
     }
   } catch (error) {
-    
     LoggTracer.errorLogger(
       res,
       error,
@@ -555,35 +541,31 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Post failed - RFP scoring criteria page',
-      true,
+      true
     );
   }
 };
 
-
-
 export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
-    
     const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId, eventId } = req.session;
     if (section != undefined && section === '5') {
-      
-      let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
+      const flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
       }
     }
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
-    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+    const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
-    
+
     if (question_id === undefined) {
-      question_id = Object.keys(req.body).filter(x => x.includes('Question'));
+      question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
     }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
@@ -592,11 +574,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
-    let question_idsFilrtedList = [];
+    const question_idsFilrtedList = [];
 
-    question_ids.forEach(x => {
+    question_ids.forEach((x) => {
       if (question_idsFilrtedList.length > 0) {
-        let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
+        const existing = question_idsFilrtedList.filter((xx) => xx.trim() == x.trim());
         if (existing == undefined || existing == null || existing.length <= 0) {
           question_idsFilrtedList.push(x);
         }
@@ -610,11 +592,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'question_id',
+          'question_id'
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+        const object_values = Object.values(filtered_object_with_empty_keys).map((an_answer) => {
           return { value: an_answer, selected: true };
         });
 
@@ -629,13 +611,13 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             agreement_id,
             id,
             res,
-            req,
+            req
           );
         } else {
           let validationError = false;
           let answerValueBody = {};
           for (let i = 0; i < question_ids.length; i++) {
-            const questionNonOCDS = nonOCDS.find(item => item.questionId?.trim() == question_ids[i]?.trim());
+            const questionNonOCDS = nonOCDS.find((item) => item.questionId?.trim() == question_ids[i]?.trim());
             if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
               if (questionNonOCDS.mandatory == true && object_values.length == 0) {
                 validationError = true;
@@ -647,8 +629,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   options: [...object_values],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Table') {
+            } else if (questionNonOCDS.questionType === 'Table') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
               }
@@ -660,18 +641,19 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
               //Balwinder
 
-              let rows = [];
-              let tableData = [];
+              const rows = [];
+              const tableData = [];
               for (let index = 0; index < score_criteria_level.length; index++) {
                 rows.push({ id: index + 1, name: score_criteria_level[index] });
               }
 
               for (let index = 0; index < score_criteria_points.length; index++) {
-                let cols = [];
+                const cols = [];
                 cols.push(score_criteria_points[index]);
                 cols.push(score_criteria_desc[index]);
                 tableData.push({
-                  row: index + 1, cols: cols
+                  row: index + 1,
+                  cols: cols,
                 });
               }
               answerValueBody = {
@@ -684,30 +666,26 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                         titles: {
                           columns: [
                             {
-                              "id": 0,
-                              "name": "Marking Scheme"
+                              id: 0,
+                              name: 'Marking Scheme',
                             },
                             {
-                              "id": 1,
-                              "name": "Points"
+                              id: 1,
+                              name: 'Points',
                             },
                             {
-                              "id": 2,
-                              "name": "Description"
-                            }],
-                          rows: [
-                            ...rows
-                          ]
+                              id: 2,
+                              name: 'Description',
+                            },
+                          ],
+                          rows: [...rows],
                         },
-                        data: [
-                          ...tableData
-                        ]
-                      }
-                    }
+                        data: [...tableData],
+                      },
+                    },
                   ],
                 },
               };
-
             } else if (questionNonOCDS.questionType === 'KeyValuePair') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
@@ -739,7 +717,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   };
                 }
               }
-
             } else if (questionNonOCDS.questionType === 'MultiSelect') {
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
@@ -766,9 +743,9 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 break;
               } else if (
                 selectedOptionToggle[0].find(
-                  x =>
+                  (x) =>
                     x.value === 'No specific location, for example they can work remotely' ||
-                    x.value === 'Not Applicable',
+                    x.value === 'Not Applicable'
                 ) &&
                 selectedOptionToggle[0].length > 1
               ) {
@@ -793,11 +770,16 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 },
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
-              let currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
-              let inputDate = req.body["rfp_duration-years_" + question_ids[i]] + '-' + req.body["rfp_duration_months_" + question_ids[i]] + '-' + req.body["rfp_duration_days_" + question_ids[i]];
-              let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
-              let isInputDateLess = moment(inputDate).isBefore(currentDate);
-              let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
+              const currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
+              const inputDate =
+                req.body['rfp_duration-years_' + question_ids[i]] +
+                '-' +
+                req.body['rfp_duration_months_' + question_ids[i]] +
+                '-' +
+                req.body['rfp_duration_days_' + question_ids[i]];
+              const agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
+              const isInputDateLess = moment(inputDate).isBefore(currentDate);
+              const isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
               req.session['IsInputDateLessError'] = false;
               req.session['IsExpiryDateLessError'] = false;
               if (isInputDateLess) {
@@ -814,20 +796,19 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   nonOCDS: {
                     answered: true,
                     options: [
-                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration-years_' + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration_months_' + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration_days_' + question_ids[i]], select: true },
                     ],
                   },
                 };
               }
-            }
-            else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
+            } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
               }
-              let splterm = req.body;
+              const splterm = req.body;
               let splTermvalue = req.body;
               const TAStorage = [];
               const questionDataList = splterm[question_ids[i]];
@@ -843,47 +824,49 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   options: [...TAStorage],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Percentage') {
+            } else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
               const { percentage } = req.body;
               if (dataList != undefined) {
-                var optins = dataList?.filter(val => val !== '')
-                  .map(val => {
+                const optins = dataList
+                  ?.filter((val) => val !== '')
+                  .map((val) => {
                     return { value: val, selected: true };
                   });
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: true,
-                    options: optins
-                  }
+                    options: optins,
+                  },
                 };
               } else if (percentage != undefined && percentage != null) {
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [{ value: percentage[i], selected: true }]
-                  }
+                    options: [{ value: percentage[i], selected: true }],
+                  },
                 };
               }
-
-            }
-            else if (questionNonOCDS.questionType != 'Integer' && questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+            } else if (
+              questionNonOCDS.questionType != 'Integer' &&
+              questionNonOCDS.questionType != 'Percentage' &&
+              question_ids.length == 4 &&
+              questionNonOCDS.multiAnswer === true
+            ) {
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
                   multiAnswer: questionNonOCDS.multiAnswer,
                   options: req.body[question_ids[i]]
-                    .filter(val => val !== '')
-                    .map(val => {
+                    .filter((val) => val !== '')
+                    .map((val) => {
                       return { value: val, selected: true };
                     }),
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'SingleSelect') {
+            } else if (questionNonOCDS.questionType === 'SingleSelect') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
@@ -892,11 +875,10 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 nonOCDS: {
                   answered: true,
                   multiAnswer: questionNonOCDS.multiAnswer,
-                  options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                  options: [{ value: req.body['ccs_vetting_type']?.trim(), selected: true }],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Monetary') {
+            } else if (questionNonOCDS.questionType === 'Monetary') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
@@ -923,7 +905,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 break;
               }
               let objValueArrayCheck = false;
-              object_values.map(obj => {
+              object_values.map((obj) => {
                 if (Array.isArray(obj.value)) objValueArrayCheck = true;
               });
               if (objValueArrayCheck) {
@@ -946,23 +928,30 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             }
             if (!validationError) {
               try {
-               
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                if (
+                  answerValueBody != undefined &&
+                  answerValueBody != null &&
+                  answerValueBody?.nonOCDS != undefined &&
+                  answerValueBody?.nonOCDS?.options.length > 0 &&
+                  answerValueBody?.nonOCDS?.options[0].value != undefined
+                ) {
+                  const qDataRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                    answerBaseURL,
+                    answerValueBody
+                  );
 
                   //CAS-INFO-LOG
                   LoggTracer.infoLogger(qDataRaw, logConstant.questionUpdated, req);
 
                   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
-                  let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
-                  
+                  const flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
+
                   if (flag) {
                     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Not started');
                   }
-                  res.redirect("/rfp/task-list");
+                  res.redirect('/rfp/task-list');
                 }
-
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }
@@ -982,7 +971,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               agreement_id,
               id,
               res,
-              req,
+              req
             );
           } else {
             res.send();
@@ -995,21 +984,20 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  }
-  catch (err) {
+  } catch (err) {
     LoggTracer.errorTracer(err, res);
   }
 };
 
 const KeyValuePairValidation = (object_values: any, req: express.Request) => {
   if (object_values.length == 2) {
-    let key = object_values[0];
-    let keyValue = object_values[1];
+    const key = object_values[0];
+    const keyValue = object_values[1];
     let keyErrorIndex = '',
       keyValueErrorIndex = '';
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
-      let eitherElementEmptys = [];
-      for (var i = 0; i < key.value.length; i++) {
+      const eitherElementEmptys = [];
+      for (let i = 0; i < key.value.length; i++) {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
           eitherElementEmptys.push({ index: i, isEmpty: true });
         } else {
@@ -1040,8 +1028,8 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
 };
 
 const findErrorText = (data: any, req: express.Request) => {
-  let errorText = [];
-  data.forEach(requirement => {
+  const errorText = [];
+  data.forEach((requirement) => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair')
       errorText.push({ text: 'You must add information in both fields.' });
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
@@ -1070,7 +1058,7 @@ const findErrorText = (data: any, req: express.Request) => {
       req.session['isLocationError'] == true &&
       req.session['isLocationMandatoryError'] == false
     ) {
-      if (requirement.nonOCDS.options.find(x => x.value === 'Not Applicable'))
+      if (requirement.nonOCDS.options.find((x) => x.value === 'Not Applicable'))
         errorText.push({
           text: 'You must select either one phase resource is required for, or select "Not Applicable"',
         });
@@ -1102,61 +1090,69 @@ const isDateOlder = (date1: any, date2: any) => {
   );
 };
 
-const mapTitle = groupId => {
+const mapTitle = (groupId) => {
   let title = '';
   switch (groupId) {
-    case 'Group 4':
-      title = 'technical';
-      break;
-    case 'Group 5':
-      title = 'cultural';
-      break;
-    case 'Group 6':
-      title = 'social value';
-      break;
-    default:
-      return '';
+  case 'Group 4':
+    title = 'technical';
+    break;
+  case 'Group 5':
+    title = 'cultural';
+    break;
+  case 'Group 6':
+    title = 'social value';
+    break;
+  default:
+    return '';
   }
   return title;
 };
 
-const mapTableDefinationData = (tableData, Agreementid ?: any) => {
-  
-  let object = null;
-  var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
+const mapTableDefinationData = (tableData, Agreementid?: any) => {
+  const object = null;
+  const columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
   //var rowDataList
-  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data,Agreementid) : null
+  const tableDefination =
+    tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined
+      ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data, Agreementid)
+      : null;
 
-  return { head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [], rows: tableDefination?.length > 0 ? tableDefination : [] };
-}
+  return {
+    head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [],
+    rows: tableDefination?.length > 0 ? tableDefination : [],
+  };
+};
 
 const getColumnsHeaderList = (columns) => {
-  const list = columns?.map(element => {
+  const list = columns?.map((element) => {
     return { text: element.name };
   });
-  return list
-}
-const getRowDataList = (rows, data1 , Agreementid ?: any) => {
-  let dataRowsList = [];
-  rows?.forEach(element => {
+  return list;
+};
+const getRowDataList = (rows, data1, Agreementid?: any) => {
+  const dataRowsList = [];
+  rows?.forEach((element) => {
     element.text = element.name;
-    var data = getDataList(element.id, data1);
-    let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+    const data = getDataList(element.id, data1);
+    const innerArrObj = [
+      { text: element.name, classes: 'govuk-!-width-one-quarter' },
+      { classes: 'govuk-!-width-one-quarter', text: data[0].cols[0] },
+      { classes: 'govuk-!-width-one-half', text: data[0].cols[1] },
+    ];
     dataRowsList.push(innerArrObj);
   });
 
-  if(Agreementid == 'RM1557.13'){
+  if (Agreementid == 'RM1557.13') {
     return dataRowsList;
-  }else{
+  } else {
     return dataRowsList.reverse();
   }
-
-}
+};
 const getDataList = (id, data) => {
-  const obj = data?.filter(element => {
+  const obj = data?.filter((element) => {
     if (element.row == id) {
       return element;
     }
   });
   return obj;
-}
+};

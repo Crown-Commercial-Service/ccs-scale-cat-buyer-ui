@@ -8,29 +8,29 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
 
 export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId, releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
+  const { eventId, releatedContent, isError, errorText, dimensions, currentEvent } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
-  var choosenViewPath = req.session.choosenViewPath;
-  var locationArray=dimensions.filter(dimension => dimension["dimension-id"] === 5)[0]['options'];
+  const choosenViewPath = req.session.choosenViewPath;
+  let locationArray = dimensions.filter((dimension) => dimension['dimension-id'] === 5)[0]['options'];
   const assessmentId = req.session.currentEvent.assessmentId;
   try {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const { dimensionRequirements } = assessments;
-    if(dimensionRequirements.length>0)
-    {   
-        if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.length>0){       
-          dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.forEach(y => {
-            let indexVal = locationArray.findIndex(x => x["requirement-id"] == y["requirement-id"]);
-            locationArray[indexVal].value = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.
-            find(s => s["requirement-id"] == locationArray[indexVal]["requirement-id"]).weighting;      
+    if (dimensionRequirements.length > 0) {
+      if (dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 5)[0].requirements.length > 0) {
+        dimensionRequirements
+          ?.filter((dimension) => dimension['dimension-id'] === 5)[0]
+          .requirements.forEach((y) => {
+            const indexVal = locationArray.findIndex((x) => x['requirement-id'] == y['requirement-id']);
+            locationArray[indexVal].value = dimensionRequirements
+              ?.filter((dimension) => dimension['dimension-id'] === 5)[0]
+              .requirements.find((s) => s['requirement-id'] == locationArray[indexVal]['requirement-id']).weighting;
           });
-        }
-    }
-    else
-    {
-      locationArray = dimensions.filter(dimension => dimension["dimension-id"] === 5)[0]['options'];
+      }
+    } else {
+      locationArray = dimensions.filter((dimension) => dimension['dimension-id'] === 5)[0]['options'];
     }
     const appendData = {
       ...dataWWD,
@@ -38,12 +38,12 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       isError,
       errorText,
       locationArray,
-      choosenViewPath,   
+      choosenViewPath,
     };
-    let flag = await ShouldEventStatusBeUpdated(eventId, 52, req);
-        if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'In progress');
-        }
+    const flag = await ShouldEventStatusBeUpdated(eventId, 52, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'In progress');
+    }
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -53,14 +53,14 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       null,
       TokenDecoder.decoder(SESSION_ID),
       'GET failed - CA where work done Page',
-      true,
+      true
     );
   }
 };
 
 function checkErrors(total) {
   let isError = false;
-  let errorText = [];
+  const errorText = [];
 
   if (total > 100) {
     isError = true;
@@ -90,23 +90,21 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   } else {
     try {
       let dimension5weighitng;
-    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
-    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    const { dimensionRequirements } = assessments;
-    if(dimensionRequirements.length>0)
-    {   
-        dimension5weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].weighting;
-    }
-    else
-    {
-      dimension5weighitng=10;
-    } 
-      const locationData = dimensions.filter(dimension => dimension["dimension-id"] === 5)[0];
-      var weightsFiltered = weights.filter(weight => weight.value != '');
-      var indexList = [];
-      var initialDataRequirements = [];
+      const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+      const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+      const { dimensionRequirements } = assessments;
+      if (dimensionRequirements.length > 0) {
+        dimension5weighitng = dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 5)[0]
+          .weighting;
+      } else {
+        dimension5weighitng = 10;
+      }
+      const locationData = dimensions.filter((dimension) => dimension['dimension-id'] === 5)[0];
+      const weightsFiltered = weights.filter((weight) => weight.value != '');
+      const indexList = [];
+      const initialDataRequirements = [];
       let requirementsloc = {};
-      let objweightsCount = Object.keys(weights).length;
+      const objweightsCount = Object.keys(weights).length;
       for (let i = 0; i < objweightsCount; i++) {
         if (weights[i] != '') {
           indexList.push({ i });
@@ -121,44 +119,40 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         initialDataRequirements.push(requirementsloc);
       }
       let subcontractorscheck;
-      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5).length>0)
-      {
-        subcontractorscheck=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].includedCriteria.
-        find(x=>x["criterion-id"]==1)
+      if (dimensionRequirements?.filter((dimension) => dimension['dimension-id'] === 5).length > 0) {
+        subcontractorscheck = dimensionRequirements
+          ?.filter((dimension) => dimension['dimension-id'] === 5)[0]
+          .includedCriteria.find((x) => x['criterion-id'] == 1);
       }
-      let includedSubContractor=[];
-      if(subcontractorscheck!=undefined)
-      {
-        includedSubContractor=[{ 'criterion-id': '1' }]
-      } 
+      let includedSubContractor = [];
+      if (subcontractorscheck != undefined) {
+        includedSubContractor = [{ 'criterion-id': '1' }];
+      }
       const body = {
         'dimension-id': locationData['dimension-id'],
-        name: "Location",
-        weighting: dimension5weighitng,     
+        name: 'Location',
+        weighting: dimension5weighitng,
         includedCriteria: includedSubContractor,
         requirements: initialDataRequirements,
         overwriteRequirements: true,
       };
 
-      const response=await TenderApi.Instance(SESSION_ID).put(
+      const response = await TenderApi.Instance(SESSION_ID).put(
         `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,
-        body,
+        body
       );
-      if(response.status == 200)
-      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'Completed');
-      let flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
+      if (response.status == 200) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'Completed');
+        const flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
         if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Not started');
         }
-        if(req.session["CA_nextsteps_edit"])
-        {
+        if (req.session['CA_nextsteps_edit']) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
         }
-      res.redirect('/ca/suppliers-to-forward');
-      }
-      else{
+        res.redirect('/ca/suppliers-to-forward');
+      } else {
         res.redirect('/404/');
       }
     } catch (error) {
@@ -169,7 +163,7 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         null,
         TokenDecoder.decoder(SESSION_ID),
         'POST failed - CA where work done Page',
-        true,
+        true
       );
     }
   }

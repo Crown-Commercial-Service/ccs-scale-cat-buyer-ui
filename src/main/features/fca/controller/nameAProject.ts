@@ -15,7 +15,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
  * @GETController
  */
 export const GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
-  const { isEmptyProjectError,eventId } = req.session;
+  const { isEmptyProjectError, eventId } = req.session;
   req.session['isEmptyProjectError'] = false;
   const procurements = req.session.procurements;
   const lotId = req.session.lotId;
@@ -25,9 +25,11 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const releatedContent = req.session.releatedContent;
   const agreementId_session = req.session.agreement_id;
   let forceChangeDataJson;
-  if(agreementId_session == 'RM6187') { //MCF3
+  if (agreementId_session == 'RM6187') {
+    //MCF3
     forceChangeDataJson = MCF3cmsData;
-  } else { //DSP
+  } else {
+    //DSP
     forceChangeDataJson = dataDSP;
   }
 
@@ -39,7 +41,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     agreementLotName,
     error: isEmptyProjectError,
     releatedContent: releatedContent,
-    agreementId_session:req.session.agreement_id
+    agreementId_session: req.session.agreement_id,
   };
   res.render('nameAProjectfca', viewData);
 };
@@ -49,12 +51,12 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
  * @param req
  * @param res
  * @POSTController
- */ 
+ */
 
 export const POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
@@ -80,7 +82,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

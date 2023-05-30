@@ -15,46 +15,38 @@ export default function (app: Application): void {
   // @GET '/eoi/eoi-task-list'
   app.get(
     EOI_PATHS.GET_TASKLIST,
-    [
-      AUTH,
-      AgreementDetailsFetchMiddleware.FetchAgreements,
-      PreMarketEngagementMiddleware.PutPremarket,
-    ],
-    associatedViews.GET_TASKLIST,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements, PreMarketEngagementMiddleware.PutPremarket],
+    associatedViews.GET_TASKLIST
   );
 
   //  @GET '/eoi/type'
-  app.get(
-    EOI_PATHS.GET_TYPE,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_TYPE,
-  );
+  app.get(EOI_PATHS.GET_TYPE, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_TYPE);
 
   //  @GET '/eoi/online-task-list'
   app.get(
     EOI_PATHS.GET_ONLINE_TASKLIST,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_ONLINE_TASKLIST,
+    associatedViews.GET_ONLINE_TASKLIST
   );
 
   //  @GET '/eoi/questions'
   app.get(
     EOI_PATHS.GET_QUESTIONS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_QUESTIONS,
+    associatedViews.GET_QUESTIONS
   );
   //@GET "/eoi/response-date"
   app.get(
     EOI_PATHS.GET_RESPONSE_DATE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_RESPONSE_DATE,
+    associatedViews.GET_RESPONSE_DATE
   );
 
   //  @GET '/eoi/upload-doc'
   app.get(
     EOI_PATHS.GET_UPLOAD_DOC,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_UPLOAD_DOC,
+    associatedViews.GET_UPLOAD_DOC
   );
 
   //@GET name your projects
@@ -62,21 +54,21 @@ export default function (app: Application): void {
   app.get(
     EOI_PATHS.GET_NAME_YOUR_PROJECT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_NAME_PROJECT,
+    associatedViews.GET_NAME_PROJECT
   );
 
   //@GET '/eoi/add-collaborators'
   app.get(
     EOI_PATHS.GET_ADD_COLLABORATOR,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_ADD_COLLABORATOR,
+    associatedViews.GET_ADD_COLLABORATOR
   );
 
   //@GET '/eoi/procurement-lead'
   app.get(
     EOI_PATHS.GET_LEAD_PROCUEMENT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_LEAD_PROCUREMENT,
+    associatedViews.GET_LEAD_PROCUREMENT
   );
 
   app.get(EOI_PATHS.GET_USER_PROCUREMENT, [AUTH], associatedViews.GET_USER_PROCUREMENT);
@@ -88,71 +80,69 @@ export default function (app: Application): void {
   app.get(
     EOI_PATHS.GET_EOI_SUPPLIERS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_SUPPLIERS,
+    associatedViews.GET_EOI_SUPPLIERS
   );
 
   //@GET '/eoi/review'
   app.get(
     EOI_PATHS.GET_EOI_REVIEW,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_REVIEW,
+    associatedViews.GET_EOI_REVIEW
   );
 
   //@GET '/eoi/project-objective'
   app.get(
     EOI_PATHS.GET_EOI_PROJECT_OBJECTIVE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_PROJECT_OBJECTIVE,
+    associatedViews.GET_EOI_PROJECT_OBJECTIVE
   );
 
   //@GET '/eoi/project-scope'
   app.get(
     EOI_PATHS.GET_EOI_PROJECT_SCOPE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_PROJECT_SCOPE,
+    associatedViews.GET_EOI_PROJECT_SCOPE
   );
 
   //@GET '/eoi/choose-type'
   app.get(
     EOI_PATHS.GET_EOI_CHOOSE_TYPE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_CHOOSE_TYPE,
+    associatedViews.GET_EOI_CHOOSE_TYPE
   );
 
   //@GET '/eoi/existing-supplier'
   app.get(
     EOI_PATHS.GET_EOI_EXISTING_SUPPLIER,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_EXISTING_SUPPLIER,
+    associatedViews.GET_EOI_EXISTING_SUPPLIER
   );
 
   app.get(
     EOI_PATHS.GET_CONFIRMATION_REVIEW,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_CONFIRMATION_REVIEW,
+    associatedViews.GET_CONFIRMATION_REVIEW
   );
-  
-  
+
   //@GET '/eoi/special-terms'
-    app.get(
-      EOI_PATHS.GET_EOI_SPECIAL_TERMS,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      associatedViews.GET_EOI_SPECIAL_TERMS,
-    );
+  app.get(
+    EOI_PATHS.GET_EOI_SPECIAL_TERMS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_SPECIAL_TERMS
+  );
 
   //@GET '/eoi/project-duration'
   app.get(
     EOI_PATHS.GET_EOI_PROJECT_DURATION,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_PROJECT_DURATION,
+    associatedViews.GET_EOI_PROJECT_DURATION
   );
-
 
   //@GET '/eoi/project-budget'
   app.get(
     EOI_PATHS.GET_EOI_PROJECT_BUDGET,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    associatedViews.GET_EOI_PROJECT_BUDGET,
+    associatedViews.GET_EOI_PROJECT_BUDGET
   );
 
   /**
@@ -219,9 +209,9 @@ export default function (app: Application): void {
   app.post(EOI_PATHS.POST_EOI_PROJECT_SCOPE, AUTH, associatedViews.POST_EOI_PROJECT_SCOPE);
 
   //@post '/eoi/choose-type'
-  app.post(EOI_PATHS.POST_EOI_CHOOSE_TYPE,AUTH,associatedViews.POST_EOI_CHOOSE_TYPE);
+  app.post(EOI_PATHS.POST_EOI_CHOOSE_TYPE, AUTH, associatedViews.POST_EOI_CHOOSE_TYPE);
 
   //@post '/eoi/special-terms'
-  app.post(EOI_PATHS.POST_EOI_SPECIAL_TERMS,AUTH,associatedViews.POST_EOI_SPECIAL_TERMS);
-  app.post(EOI_PATHS.POST_EOI_EXISTING_SUPPLIER,AUTH,associatedViews.POST_EOI_EXISTING_SUPPLIER);
+  app.post(EOI_PATHS.POST_EOI_SPECIAL_TERMS, AUTH, associatedViews.POST_EOI_SPECIAL_TERMS);
+  app.post(EOI_PATHS.POST_EOI_EXISTING_SUPPLIER, AUTH, associatedViews.POST_EOI_EXISTING_SUPPLIER);
 }

@@ -12,15 +12,15 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 export const DASHBOARD = (req: express.Request, res: express.Response) => {
   let issetDashBanner;
   issetDashBanner = process.env.DASHBOARD_BANNER;
-  if(issetDashBanner == undefined || issetDashBanner == '') {
+  if (issetDashBanner == undefined || issetDashBanner == '') {
     issetDashBanner = '';
   }
-  if(issetDashBanner == 'NULL') {
+  if (issetDashBanner == 'NULL') {
     issetDashBanner = '';
   }
-   //CAS-INFO-LOG
+  //CAS-INFO-LOG
   LoggTracer.infoLogger(null, logConstant.dashLandLog, req);
-  
+
   req.session.unpublishedeventmanagement = 'false';
   const { closeStatus } = req.query;
   const searchText = req.session.searchText;
@@ -41,59 +41,61 @@ export const DASHBOARD = (req: express.Request, res: express.Response) => {
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
   // }
-  
-  let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
-    return agroupitem?.activeEvent?.eventType != "PA";
+
+  const withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
+    return agroupitem?.activeEvent?.eventType != 'PA';
   });
   /** CAS-87 */
   let activeListDash = [];
   let pastListDash = [];
-  if(req.session.openProjectActiveEvents != undefined){
+  if (req.session.openProjectActiveEvents != undefined) {
     activeListDash = req.session.openProjectActiveEvents;
   }
-  if(req.session.historicalEvents != undefined){
+  if (req.session.historicalEvents != undefined) {
     pastListDash = req.session.historicalEvents;
   }
 
-  activeListDash.sort(function(a: any, b: any){
+  activeListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
 
-  pastListDash.sort(function(a: any, b: any){
+  pastListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
 
   /** Daylight savings */
-  if(activeListDash != undefined) {
+  if (activeListDash != undefined) {
     for (let j = 0; j < activeListDash.length; j++) {
-      if(Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
-        if(momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-          let end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
-          let day = end_dateActive.substr(0, 10);
-          let time = end_dateActive.substr(11, 5);
-          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+      if (Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
+        if (momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          const end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
+          const day = end_dateActive.substr(0, 10);
+          const time = end_dateActive.substr(11, 5);
+          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+            .add(1, 'hours')
+            .format('YYYY-MM-DDTHH:mm:ss+00:00');
         }
-        }
+      }
     }
   }
   /** Daylight savings */
 
-  activeListDash.sort(function(a: any, b: any){
+  activeListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
 
-  pastListDash.sort(function(a: any, b: any){
+  pastListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
- 
+
   const appendData = {
     data: dashboarData,
     searchText,
     events: activeListDash,
     historicalEvents: pastListDash,
-    withOutPaEventsData:withOutPaEventsData,
+    withOutPaEventsData: withOutPaEventsData,
     issetDashBanner,
-    closeprojectStatus:closeStatus
+    closeprojectStatus: closeStatus,
   };
   /** CAS-87 */
   req.session.closeProject = false;
@@ -117,41 +119,42 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       lotName: '',
       activeEvent: undefined,
     };
-    var searchNew = '' + search;
-    
+    const searchNew = '' + search;
+
     if (searchNew.trim() != '') {
-      
       const NameURL = `/tenders/projects?search-type=projectName&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
       const eventURL = `/tenders/projects?search-type=eventId&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
       const suppourtURL = `/tenders/projects?search-type=eventSupportId&search-term=*${searchNew.trim()}*&page=0&page-size=20`;
-      
+
       req.session.openProjectActiveEvents = [];
       req.session.historicalEvents = [];
-      let nameretrieveProjetActiveEventsPromise,eventretrieveProjetActiveEventsPromise,supportretrieveProjetActiveEventsPromise;
-      if(searchNew.trim().includes('£') || searchNew.trim().includes('#')){
-         nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(NameURL));
-         eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(eventURL));
-         supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(suppourtURL));
-      }else{
-         nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(NameURL);
-         eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(eventURL);
+      let nameretrieveProjetActiveEventsPromise,
+        eventretrieveProjetActiveEventsPromise,
+        supportretrieveProjetActiveEventsPromise;
+      if (searchNew.trim().includes('£') || searchNew.trim().includes('#')) {
+        nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(NameURL));
+        eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(eventURL));
+        supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(encodeURI(suppourtURL));
+      } else {
+        nameretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(NameURL);
+        eventretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(eventURL);
 
-         supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(suppourtURL);
+        supportretrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(suppourtURL);
       }
-      
-      await nameretrieveProjetActiveEventsPromise.then(async data => {  
-        const events: ActiveEvents[] = data.data; 
+
+      await nameretrieveProjetActiveEventsPromise.then(async (data) => {
+        const events: ActiveEvents[] = data.data;
         // const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
         //   a.projectId < b.projectId ? 1 : -1,
-        // );        
+        // );
         for (let i = 0; i < events.length; i++) {
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
 
-          let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
-          let getEventsData = getEvents.data;
+          const getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
+          const getEventsData = getEvents.data;
 
           for (let j = 0; j < getEventsData.length; j++) {
-            let singleEvent: ActiveEvents = {
+            const singleEvent: ActiveEvents = {
               projectId: events[i].projectId,
               projectName: events[i].projectName,
               agreementId: events[i].agreementId,
@@ -301,23 +304,23 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         }
         // res.redirect('/viewdashboard');
       });
-      await eventretrieveProjetActiveEventsPromise.then(async data => {
+      await eventretrieveProjetActiveEventsPromise.then(async (data) => {
         const eventsId: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
-          a.projectId < b.projectId ? 1 : -1,
+          a.projectId < b.projectId ? 1 : -1
         );
         for (let i = 0; i < eventsId.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
           const eventsURL = `tenders/projects/${eventsId[i].projectId}/events`;
 
-          let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
-          let getEventsData = getEvents.data;
+          const getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
+          const getEventsData = getEvents.data;
 
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
 
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
 
-            let singleEvent: ActiveEvents = {
+            const singleEvent: ActiveEvents = {
               projectId: eventsId[i].projectId,
               projectName: eventsId[i].projectName,
               agreementId: eventsId[i].agreementId,
@@ -470,23 +473,23 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         }
         // res.redirect('/viewdashboard');
       });
-      await supportretrieveProjetActiveEventsPromise.then(async data => {
+      await supportretrieveProjetActiveEventsPromise.then(async (data) => {
         const supportevents: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) =>
-          a.projectId < b.projectId ? 1 : -1,
+          a.projectId < b.projectId ? 1 : -1
         );
         for (let i = 0; i < supportevents.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
           const eventsURL = `tenders/projects/${supportevents[i].projectId}/events`;
 
-          let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
-          let getEventsData = getEvents.data;
+          const getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
+          const getEventsData = getEvents.data;
 
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
 
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
 
-            let singleEvent: ActiveEvents = {
+            const singleEvent: ActiveEvents = {
               projectId: supportevents[i].projectId,
               projectName: supportevents[i].projectName,
               agreementId: supportevents[i].agreementId,
@@ -639,8 +642,12 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
         }
       });
 
-      var filteredactive = [...new Set(activeEvents.map(({projectId}) => projectId))].map(e => activeEvents.find(({projectId}) => projectId == e));	
-      var filteredhistorical = [...new Set(historicalEvents.map(({projectId}) => projectId))].map(e => historicalEvents.find(({projectId}) => projectId == e));	
+      const filteredactive = [...new Set(activeEvents.map(({ projectId }) => projectId))].map((e) =>
+        activeEvents.find(({ projectId }) => projectId == e)
+      );
+      const filteredhistorical = [...new Set(historicalEvents.map(({ projectId }) => projectId))].map((e) =>
+        historicalEvents.find(({ projectId }) => projectId == e)
+      );
 
       req.session.openProjectActiveEvents = filteredactive;
       req.session.historicalEvents = filteredhistorical;
@@ -658,7 +665,7 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tenders API for getting the list of Active Events',
-      false,
+      false
     );
   }
 };
@@ -666,10 +673,10 @@ export const POST_DASHBOARD = async (req: express.Request, res: express.Response
 export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   let issetDashBanner;
   issetDashBanner = process.env.DASHBOARD_BANNER;
-  if(issetDashBanner == undefined || issetDashBanner == '') {
+  if (issetDashBanner == undefined || issetDashBanner == '') {
     issetDashBanner = '';
   }
-  if(issetDashBanner == 'NULL') {
+  if (issetDashBanner == 'NULL') {
     issetDashBanner = '';
   }
 
@@ -692,38 +699,40 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
   //     tmp.activeEvent.tenderPeriod.endDate = utcCutoff;
   //   }
   // }
-  let withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
-    return agroupitem?.activeEvent?.eventType != "PA";
+  const withOutPaEventsData = req.session.historicalEvents?.filter((agroupitem: any) => {
+    return agroupitem?.activeEvent?.eventType != 'PA';
   });
 
   /** CAS-87 */
   let activeListDash = [];
   let pastListDash = [];
-  if(req.session.openProjectActiveEvents != undefined){
-  activeListDash = req.session.openProjectActiveEvents;
+  if (req.session.openProjectActiveEvents != undefined) {
+    activeListDash = req.session.openProjectActiveEvents;
   }
-  if(req.session.historicalEvents != undefined){
-  pastListDash = req.session.historicalEvents;
+  if (req.session.historicalEvents != undefined) {
+    pastListDash = req.session.historicalEvents;
   }
 
-  activeListDash.sort(function(a: any, b: any){
+  activeListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
 
-  pastListDash.sort(function(a: any, b: any){
+  pastListDash.sort(function (a: any, b: any) {
     return +new Date(b.activeEvent.lastUpdated) - +new Date(a.activeEvent.lastUpdated);
   });
   /** Daylight savings */
-  if(activeListDash != undefined) {
+  if (activeListDash != undefined) {
     for (let j = 0; j < activeListDash.length; j++) {
-      if(Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
-        if(momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
-          let end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
-          let day = end_dateActive.substr(0, 10);
-          let time = end_dateActive.substr(11, 5);
-          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss+00:00');
+      if (Object.keys(activeListDash[j].activeEvent.tenderPeriod).length !== 0) {
+        if (momentz(new Date(activeListDash[j].activeEvent.tenderPeriod.endDate)).tz('Europe/London').isDST()) {
+          const end_dateActive = activeListDash[j].activeEvent.tenderPeriod.endDate;
+          const day = end_dateActive.substr(0, 10);
+          const time = end_dateActive.substr(11, 5);
+          activeListDash[j].activeEvent.tenderPeriod.endDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+            .add(1, 'hours')
+            .format('YYYY-MM-DDTHH:mm:ss+00:00');
         }
-        }
+      }
     }
   }
   /** Daylight savings */
@@ -733,8 +742,8 @@ export const VIEW_DASHBOARD = (req: express.Request, res: express.Response) => {
     searchText,
     events: activeListDash,
     historicalEvents: pastListDash,
-    withOutPaEventsData:withOutPaEventsData,
-    issetDashBanner
+    withOutPaEventsData: withOutPaEventsData,
+    issetDashBanner,
   };
   /** CAS-87 */
   req.session.closeProject = false;

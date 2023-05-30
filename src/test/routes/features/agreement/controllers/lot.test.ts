@@ -29,17 +29,17 @@ describe('Choose a lot agreement page', () => {
         .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
     }
     nock('https://tst.api.crowncommercial.gov.uk')
-      .post(`/security/tokens/validation`)
+      .post('/security/tokens/validation')
       .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles`)
+      .get('/user-profiles')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263`)
+      .get('/agreements/RM6263')
       .query(true)
       .reply(200, { data: [{ name: 'sisarProject' }] });
   });
@@ -58,18 +58,18 @@ describe('Choose a lot agreement page', () => {
       },
     ];
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots`)
+      .get('/agreements/RM6263/lots')
       .query(true)
       .reply(200, dummyLots);
     await request(parentApp)
       .get('/agreement/lot')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200));
+      .expect((res) => expect(res.status).to.equal(200));
   });
 
   it('should render error page when lot api is not ready', async () => {
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots`)
+      .get('/agreements/RM6263/lots')
       .query(true)
       .replyWithError(500, {
         description: 'An unknown error has occurred.',
@@ -77,7 +77,7 @@ describe('Choose a lot agreement page', () => {
     await request(parentApp)
       .get('/agreement/lot')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
       });
   });

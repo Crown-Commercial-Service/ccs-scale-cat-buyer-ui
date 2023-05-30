@@ -45,7 +45,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
+    const CAPACITY_BASEURL = 'assessments/tools/1/dimensions';
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
 
@@ -60,9 +60,9 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       'Security and Privacy (Non-DDAT)',
     ];
 
-    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map((acapacity) => {
       const { name, weightingRange, options } = acapacity;
-      const AddedPropsToOptions = options.map(anOpt => {
+      const AddedPropsToOptions = options.map((anOpt) => {
         return {
           ...anOpt,
           Weightagename: name,
@@ -72,7 +72,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       return AddedPropsToOptions;
     }).flat();
 
-    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map((capacity) => {
       const requirementId = capacity['requirement-id'];
       return {
         designation: capacity.name,
@@ -83,18 +83,19 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       };
     });
 
-    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
-      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
-      return {
-        'job-category': cursor,
-        data: ELEMENT_IN_UNIQUEFIELDNAME,
-      };
-    });
-    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
-
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map((designation) => designation.name))].map(
+      (cursor) => {
+        const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter((item) => item.name === cursor);
+        return {
+          'job-category': cursor,
+          data: ELEMENT_IN_UNIQUEFIELDNAME,
+        };
+      }
+    );
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter((item) => itemList.includes(item['job-category']));
 
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    let requirements = dimensionRequirements?.filter(x => x["dimension-id"] == 7)[0]?.requirements;
+    const requirements = dimensionRequirements?.filter((x) => x['dimension-id'] == 7)[0]?.requirements;
 
     const ITEMLIST = filteredMenuItem.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
@@ -102,41 +103,39 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       let totalAddedWeighting = 0;
 
       const { data } = designation;
-      data?.map(req => {
-        let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
-        if (weighting != null && weighting != undefined)
-          totalAddedWeighting = totalAddedWeighting + weighting;
-      })
-
+      data?.map((req) => {
+        const weighting = requirements?.filter((x) => x['requirement-id'] == req['requirement-id'])[0]?.weighting;
+        if (weighting != null && weighting != undefined) totalAddedWeighting = totalAddedWeighting + weighting;
+      });
 
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: totalAddedWeighting + `  resources added`,
+        subtext: totalAddedWeighting + '  resources added',
       };
     });
 
     const tableItems = [...ITEMLIST];
     const dimensions = [...CAPACITY_DATASET];
 
-    const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
+    const LEVEL7CONTENTS = dimensions.filter((dimension) => dimension['name'] === 'Resource Quantities')[0];
     var { options } = LEVEL7CONTENTS;
 
     /**
      * @Removing_duplications
      */
-    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map(item => item.name))];
+    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map((item) => item.name))];
 
     /**
      * @CLEANING_REMOVED_ITEMS
      */
-    var UNIQUE_DESIG_STORAGE = [];
+    let UNIQUE_DESIG_STORAGE = [];
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-      let FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-      let findername = FINDER.name;
+      const FINDER = options.filter((nestedItem) => nestedItem.name == Item)[0];
+      const findername = FINDER.name;
       const temp = findername.replace(/^\D+/g, '');
-      const tempname = FINDER.name.replace(/\d+/g, ", SFIA level " + temp + "");
+      const tempname = FINDER.name.replace(/\d+/g, ', SFIA level ' + temp + '');
       FINDER.name = tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
@@ -150,13 +149,13 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
     //REFORMATING
     var { options, name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
-    let dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
+    const dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
 
-    const REMAPPED_ITEM = options.map(anOption => {
+    const REMAPPED_ITEM = options.map((anOption) => {
       const { name, groupRequirement, groups } = anOption;
       const REQ_ID = anOption['requirement-id'];
       const SFIA_NAME = name;
-      return groups.map(nestedItems => {
+      return groups.map((nestedItems) => {
         return {
           ...nestedItems,
           SFIA_name: SFIA_NAME,
@@ -166,10 +165,10 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       });
     });
 
-    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map(anOption => {
-      const Parent = anOption.filter(level => level.level == 1);
-      const Child = anOption.filter(level => level.level == 2);
-      return Parent.map(nestedOptions => {
+    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map((anOption) => {
+      const Parent = anOption.filter((level) => level.level == 1);
+      const Child = anOption.filter((level) => level.level == 2);
+      return Parent.map((nestedOptions) => {
         return { ...nestedOptions, child: Child };
       })[0];
     });
@@ -182,35 +181,35 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     /**
      * @FIND_UNIQUE_NAME
      */
-    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS.map(item => item.name))];
+    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS.map((item) => item.name))];
 
     const DESIGNATION_MERGED_WITH_CHILD_STORAGE = [];
 
     for (const parent of UNIQUE_DESIGNATION_OF_PARENT) {
-      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter(designation => designation.name == parent);
-      let refactoredObject = {
+      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter((designation) => designation.name == parent);
+      const refactoredObject = {
         Parent: parent,
         category: findElements,
       };
       DESIGNATION_MERGED_WITH_CHILD_STORAGE.push(refactoredObject);
     }
 
-    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map(items => {
+    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map((items) => {
       return {
         Parent: items.Parent,
-        category: items.category.map(subItems => subItems.child).flat(),
+        category: items.category.map((subItems) => subItems.child).flat(),
       };
     });
 
-    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS.map(items => {
+    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS.map((items) => {
       const { category, Parent } = items;
 
       const UNIQUESTORAGE = [];
-      const UNIQUE_ROLES = [...new Set(category.map(subitem => subitem.name))];
+      const UNIQUE_ROLES = [...new Set(category.map((subitem) => subitem.name))];
 
       for (const role of UNIQUE_ROLES) {
-        let findBaseOnRoles = category.filter(i => i.name == role);
-        let contructedObject = {
+        const findBaseOnRoles = category.filter((i) => i.name == role);
+        const contructedObject = {
           ParentName: role,
           designations: findBaseOnRoles,
         };
@@ -243,12 +242,12 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
      * Sorting Designation According to the Table Items
      */
 
-    var StorageForSortedItems = [];
+    let StorageForSortedItems = [];
 
     for (const items of REMAPPTED_TABLE_ITEM_STORAGE) {
       const Text = items.text;
       const findElementInRemapptedParentRole = REMAPPED_ACCORDING_TO_PARENT_ROLE.filter(
-        cursor => cursor.Parent == Text,
+        (cursor) => cursor.Parent == Text
       )[0];
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
@@ -257,22 +256,22 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
     let totalResouceAdded = 0;
     if (dimensionRequirements != null && dimensionRequirements.length > 0) {
-      dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
+      dimensionRequirements = dimensionRequirements.filter((dimension) => dimension.name === 'Resource Quantities')[0]
         .requirements;
 
-      dimensionRequirements.map(x => {
-        totalResouceAdded = totalResouceAdded + x.weighting
-      })
+      dimensionRequirements.map((x) => {
+        totalResouceAdded = totalResouceAdded + x.weighting;
+      });
 
-      const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
+      const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map((items) => {
         const { category } = items;
 
-        const mappedCategory = category.map(subItems => {
-          let { designations } = subItems;
-          let formattedDesignationStorage = designations.map(nestedItems => {
+        const mappedCategory = category.map((subItems) => {
+          const { designations } = subItems;
+          const formattedDesignationStorage = designations.map((nestedItems) => {
             let value = '';
             const requirementID = nestedItems['requirement-id'];
-            const findInDimensions = dimensionRequirements.filter(i => i['requirement-id'] == requirementID);
+            const findInDimensions = dimensionRequirements.filter((i) => i['requirement-id'] == requirementID);
             if (findInDimensions.length > 0) {
               const weigtageOfRequirement = findInDimensions[0].weighting;
               value = weigtageOfRequirement;
@@ -287,8 +286,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
       StorageForSortedItems = AddedValuesTo_StorageForSortedItems;
     }
-    REMAPPTED_TABLE_ITEM_STORAGE.sort((a, b) => a.text.localeCompare(b.text))
-    StorageForSortedItems.sort((a, b) => a.Parent.localeCompare(b.Parent))
+    REMAPPTED_TABLE_ITEM_STORAGE.sort((a, b) => a.text.localeCompare(b.text));
+    StorageForSortedItems.sort((a, b) => a.Parent.localeCompare(b.Parent));
     const windowAppendData = {
       ...RFP_WEIGTING_JSON,
       lotid,
@@ -302,7 +301,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     };
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
-    let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+    const flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
     if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
     }
@@ -317,18 +316,18 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA learn page',
-      true,
+      true
     );
   }
 };
 
 export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, currentEvent,eventId } = req.session;
+  const { projectId, currentEvent, eventId } = req.session;
 
   const { SFIA_weightage, requirement_Id_SFIA_weightage } = req.body;
 
-  const AllValuedSFIA_weightage = SFIA_weightage.map(items => items != '');
+  const AllValuedSFIA_weightage = SFIA_weightage.map((items) => items != '');
   const INDEX_FINDER_OBJ_REMAPPER = [];
 
   for (let start = 0; start < AllValuedSFIA_weightage.length; start++) {
@@ -351,17 +350,17 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
   try {
     //const assessmentId = 1;
     const { assessmentId } = currentEvent;
-    const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
+    const CAPACITY_BASEURL = 'assessments/tools/1/dimensions';
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
-    var dimensions = [...CAPACITY_DATASET];
-    const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
+    const dimensions = [...CAPACITY_DATASET];
+    const LEVEL7CONTENTS = dimensions.filter((dimension) => dimension['name'] === 'Resource Quantities')[0];
     const DIMENSION_ID = LEVEL7CONTENTS['dimension-id'];
 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+    const flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
     if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
     }
@@ -375,7 +374,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA learn page',
-      true,
+      true
     );
   }
 };

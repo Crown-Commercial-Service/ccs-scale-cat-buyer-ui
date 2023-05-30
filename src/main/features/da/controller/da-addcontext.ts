@@ -18,16 +18,16 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  * @GETController
  */
 export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { projectId,eventId } = req.session;
-    
-//   let cmsData;
-//   if(req.session.agreement_id == 'RM6187') {
-//     //MCF3
-//     cmsData = fileDataMCF;
-//   } else if(req.session.agreement_id == 'RM6263') {
-//     //DSP
-//     cmsData = fileData;
-//   }
+  const { projectId, eventId } = req.session;
+
+  //   let cmsData;
+  //   if(req.session.agreement_id == 'RM6187') {
+  //     //MCF3
+  //     cmsData = fileDataMCF;
+  //   } else if(req.session.agreement_id == 'RM6263') {
+  //     //DSP
+  //     cmsData = fileData;
+  //   }
 
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
@@ -47,42 +47,46 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
 
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
-      
+
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
-        if (aURI.trim().toLowerCase() ==="Criterion 3".toLowerCase()) {
-        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-        
-        const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-        
-        const criterian_array = fetch_criterian_group_data?.data;
-        const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-          const object = anItem;
-          object['criterianId'] = aURI;
-          return object;
-        });
-        criterianStorage.push(rebased_object_with_requirements);
+        if (aURI.trim().toLowerCase() === 'Criterion 3'.toLowerCase()) {
+          const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+
+          const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+
+          const criterian_array = fetch_criterian_group_data?.data;
+          const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+            const object = anItem;
+            object['criterianId'] = aURI;
+            return object;
+          });
+          criterianStorage.push(rebased_object_with_requirements);
+        }
       }
-    }
       criterianStorage = criterianStorage[0];
       const sorted_ascendingly = [];
-      criterianStorage.map(obj => {
+      criterianStorage.map((obj) => {
         sorted_ascendingly[obj.OCDS.id.split(' ')[1]] = obj;
       });
-      
+
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
-      
+
       const excludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-        AField => AField.OCDS.id !== 'Group Key Dates',
+        (AField) => AField.OCDS.id !== 'Group Key Dates'
       );
-    
-      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
-      if (excludingIR35andSkills !=null && excludingIR35andSkills.length >0) {
-        excludingIR35andSkills.map(x => {
+
+      const excludingIR35andSkills = excludingKeyDates.filter(
+        (field) =>
+          field.OCDS.description !== 'IR35 acknowledgement' &&
+          field.OCDS.description !== 'Set essential and preferred skills'
+      );
+      if (excludingIR35andSkills != null && excludingIR35andSkills.length > 0) {
+        excludingIR35andSkills.map((x) => {
           if (!x.nonOCDS.mandatory) {
-            x.OCDS.description += " (optional)"
+            x.OCDS.description += ' (optional)';
           }
         });
       }
@@ -155,23 +159,22 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
-            let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
-            let item1 = questionOptions.find(i => i.selected === true);
-            if(item1){
+          if (
+            fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' ||
+            fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect'
+          ) {
+            const questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
+            const item1 = questionOptions.find((i) => i.selected === true);
+            if (item1) {
               excludingIR35andSkills[index].questionStatus = 'Done';
             }
-
           } else {
-            
             if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
-              
               excludingIR35andSkills[index].questionStatus = 'Done';
             } else {
             }
           }
         }
-
       }
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
@@ -184,12 +187,12 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
         agreementLotName,
         releatedContent: releatedContent,
       };
-      let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+      const flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
       }
-       //CAS-INFO-LOG
-   LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.addContectRequirementPage, req);
 
       res.render('daw-context', display_fetch_data);
     } catch (error) {
@@ -200,7 +203,7 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
         null,
         TokenDecoder.decoder(SESSION_ID),
         'DA Add Context - Tenders Service Api cannot be connected',
-        true,
+        true
       );
     }
   }
