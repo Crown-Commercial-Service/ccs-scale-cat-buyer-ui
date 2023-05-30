@@ -4,7 +4,7 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 import { sortObject } from '../../../common/util/operators/sortObject'
 import { LotDetail } from '../../../common/middlewares/models/lot-detail'
 import { AgreementDetail } from '../../../common/middlewares/models/agreement-detail'
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('choose-agreement')
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';

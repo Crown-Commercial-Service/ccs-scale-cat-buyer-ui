@@ -162,7 +162,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       const projectId = req.session['projectId'];
 
       
-      res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotId };
+      res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotId };
       // res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);

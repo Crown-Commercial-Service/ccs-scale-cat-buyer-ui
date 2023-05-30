@@ -1,6 +1,4 @@
-#!/usr/bin/env node
-
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 import { app } from './app';
 import config from 'config';
 
@@ -23,7 +21,7 @@ if (app.locals.ENV === 'development') {
   ELB.requestTimeout = 61 * 100000;
 
   ELB.on('connection', function(socket) {
-     console.log("A new connection was made by a client.");
-     socket.setTimeout(30 * 100000); 
+    console.log('A new connection was made by a client.');
+    socket.setTimeout(30 * 100000); 
   });
 }
