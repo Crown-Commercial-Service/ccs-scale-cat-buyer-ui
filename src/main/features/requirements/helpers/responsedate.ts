@@ -601,7 +601,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
         if(el.OCDS.id == 'Question 8') {
             let dataManipulation = el.nonOCDS;
-            dataManipulation.time_line = {"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline","conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
+            dataManipulation.time_line = {"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline","conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":true},{"value":"No","text":"","select":false}],"answered":false};
         }
     });
       // StandstilSupplierPresentation - End (override)

@@ -133,9 +133,12 @@ submitValidationSelector.on('click', () => {
 
 function getRadioValidation(){
     errorStore=[];
+
 for (const selector of totalElementSelectors) {
     let checkRadioSelectedClassName = 'resdateradio'+selector;
     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+
+
 
     if(checkRadioSelected==undefined)
     {
@@ -166,103 +169,184 @@ const saveButtonUnHideDateRfi = () => {
     document.getElementById("hideMeWhileDateChange").disabled = false;
 }
 
-// function myfunction(index) {
-//     console.log(index)
-// }
-// document.querySelectorAll("input[name='resdateradio']").forEach((input) => {
-//     input.addEventListener('change', myfunction);
+    getRadioValidation();
+
+    function getAjax(){
+      let manipulationArray = {};
+      let q7Selected, compareAccess;
+      compareAccess = [];
+
+        for (const selector of totalElementSelectors) {
+            var jsonVariable = {};
+            q7Selected=false;
+            if(selector==6){
+            let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
+            let tl_Q6 = tl_Q6_split.split('*')[1];
+
+            jsonVariable['Q'+selector] = {
+                    value: tl_Q6, 
+                    selected: null, 
+            }
+            
+            manipulationArray = Object.assign(manipulationArray, jsonVariable);
+
+        }
+
+            if(selector==7 || selector==8){
+              
+
+            let checkRadioSelectedClassName = 'resdateradio'+selector;
+            let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+                var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
+                 var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventtype");
+                 var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
+                
+                    if(checkRadioSelected == 'yes') {
+                        q7Selected = true;
+                    } else {
+                        q7Selected = false;
+                    }
+                   
+                    jsonVariable['Q'+selector] = {
+                        value: null, 
+                        selected: q7Selected, 
+                        config: selector
+                    };   
+
+                    manipulationArray = Object.assign(manipulationArray, jsonVariable);
+                }
+        //LOOP END
+                }
+                
+                let postTLData = {
+                    tl_aggrementID,
+                    tl_eventType,
+                    tl_questionID,
+                    tl_val,
+                    manipulation: manipulationArray
+                }
+
+                $.ajax({
+                            url: `/timeline_standstill_supplier`,
+                            type: "POST",
+                            dataType: 'json',
+                         
+                            contentType: "application/json",
+                            data: JSON.stringify(postTLData)
+                        }).done(function (res) {
+                            let items = res;
+                            items.sort((a, b) => a.value - b.value);
+                            items.forEach((value, key) => {
+                                 console.log("value",value.value);
+                               //  let dataAccess = compareAccess.find((el) => el.question == value.question);
+                               let labelAppends = value.value.split('*');
+                                let labelAppend = labelAppends[1].replace(":", "-");
+                                 let input_hidden = value.input_hidden;
+                                 let label = value.label;
+                                
+                                if(labelAppend != 'Invalid date') {
+                                    $("."+ label).html(labelAppend.replace("-", ":"));
+                                }
+                                // console.log("labelAppend",labelAppend);
+                                // console.log("input_hidden",input_hidden);
+                                // console.log("label",label);
+                                //  //$("input[name='"+dataAccess.input_hidden+"']").val(value.value);
+                                  $('.'+input_hidden).val(value.value);
+                                
+                            });
+                        }).fail((err) => {
+                        })
+         
+   
+
+    }
+    $('.timeLineEventTrigger').on('click', function(e) {
+    getAjax();
+    });
+
+// $('.timeLineEventTrigger').on('change', function(e) {
+//     var tl_val = $(this).val();
+//     var tl_aggrementID = $(this).attr("data-aggrement");
+//     var tl_eventType = $(this).attr("data-eventtype");
+//     var tl_questionID = $(this).attr("data-question");
+//     let q7Selected, q8Selected, compareAccess;
+//     if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
+//         compareAccess = [{"question":"Q7","label":"clarification_7","input_hidden":"evaluation_process_start_date"},{"question":"Q8","label":"clarification_8","input_hidden":"bidder_presentations_date"},{"question":"Q9","label":"clarification_9","input_hidden":"standstill_period_starts_date"},{"question":"Q10","label":"clarification_10","input_hidden":"proposed_award_date"},{"question":"Q11","label":"clarification_11","input_hidden":"expected_signature_date"}];
+//         if(tl_questionID == 7) {
+//             if( $('.resdateradioclass7').is(':checked') ){
+//                 if($(this).val() == 'yes') {
+//                     q7Selected = true;
+//                 } else {
+//                     q7Selected = false;
+//                 }
+//             }
+//             if( !$('.resdateradioclass8').is(':checked') ){
+//                 q8Selected = false;
+//             } else {
+//                 if($(".resdateradioclass8:checked").val() == 'yes') {
+//                     q8Selected = true;
+//                 } else {
+//                     q8Selected = false;
+//                 }
+//             }
+//         } else if(tl_questionID == 8) {
+//             if( $('.resdateradioclass8').is(':checked') ){
+//                 if($(this).val() == 'yes') {
+//                     q8Selected = true;
+//                 } else {
+//                     q8Selected = false;
+//                 }
+//             }
+//             if( !$('.resdateradioclass7').is(':checked') ){
+//                 q7Selected = false;
+//             } else {
+//                 if($(".resdateradioclass7:checked").val() == 'yes') {
+//                     q7Selected = true;
+//                 } else {
+//                     q7Selected = false;
+//                 }
+//             }
+//         }
+//     }
+
+//     let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
+//     let tl_Q6 = tl_Q6_split.split('*')[1];
+        
+//     let postTLData = {
+//         tl_aggrementID,
+//         tl_eventType,
+//         tl_questionID,
+//         tl_val,
+//         manipulation: {
+//             'Q6': {value: tl_Q6, selected: null},
+//             'Q7': {value: null, selected: q7Selected, config: 5},
+//             'Q8': {value: null, selected: q8Selected, config: 10}
+//         }
+//     };
+//          console.log("postTLData",postTLData); 
+//     $.ajax({
+//         url: `/timeline_standstill_supplier`,
+//         type: "POST",
+//         dataType: 'json',
+//         contentType: "application/json",
+//         data: JSON.stringify(postTLData)
+//     }).done(function (res) {
+//         let items = res;
+//         console.log("items",items);
+//         items.sort((a, b) => a.value - b.value);
+//         items.forEach((value, key) => {
+//             let dataAccess = compareAccess.find((el) => el.question == value.question);
+//             let labelAppend = value.value.split('*')[1];
+//             if(labelAppend != 'Invalid date') {
+//                 $("."+ dataAccess.label).html(labelAppend);
+//             }
+//             $("input[name='"+dataAccess.input_hidden+"']").val(value.value);
+
+//         });
+//     }).fail((err) => {
+//     })
 // });
 
-// StandstilSupplierPresentation - Start
-$('.timeLineEventTrigger').on('change', function(e) {
-    var tl_val = $(this).val();
-    var tl_aggrementID = $(this).attr("data-aggrement");
-    var tl_eventType = $(this).attr("data-eventtype");
-    var tl_questionID = $(this).attr("data-question");
-    let q7Selected, q8Selected, compareAccess, q7Session, q8Session;
-    if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
-        compareAccess = [{"question":"Q7","label":"clarification_7","input_hidden":"evaluation_process_start_date"},{"question":"Q8","label":"clarification_8","input_hidden":"bidder_presentations_date"},{"question":"Q9","label":"clarification_9","input_hidden":"standstill_period_starts_date"},{"question":"Q10","label":"clarification_10","input_hidden":"proposed_award_date"},{"question":"Q11","label":"clarification_11","input_hidden":"expected_signature_date"}];
-        if(tl_questionID == 7) {
-            if( $('.resdateradioclass7').is(':checked') ){
-                if($(this).val() == 'yes') {
-                    q7Selected = true;
-                    q7Session = true;
-                } else {
-                    q7Selected = false;
-                    q7Session = false;
-                }
-            }
-            if( !$('.resdateradioclass8').is(':checked') ){
-                q8Session = false;
-                q8Selected = false;
-            } else {
-                if($(".resdateradioclass8:checked").val() == 'yes') {
-                    q8Session = true;
-                    q8Selected = true;
-                } else {
-                    q8Session = false;
-                    q8Selected = false;
-                }
-            }
-        } else if(tl_questionID == 8) {
-            if( $('.resdateradioclass8').is(':checked') ){
-                if($(this).val() == 'yes') {
-                    q8Session = true;
-                    q8Selected = true;
-                } else {
-                    q8Session = false;
-                    q8Selected = false;
-                }
-            }
-            if( !$('.resdateradioclass7').is(':checked') ){
-                q7Session = false;
-                q7Selected = false;
-            } else {
-                if($(".resdateradioclass7:checked").val() == 'yes') {
-                    q7Session = true;
-                    q7Selected = true;
-                } else {
-                    q7Session = false;
-                    q7Selected = false;
-                }
-            }
-        }
-    }
 
-    let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
-    let tl_Q6 = tl_Q6_split.split('*')[1];
-        
-    let postTLData = {
-        tl_aggrementID,
-        tl_eventType,
-        tl_questionID,
-        tl_val,
-        manipulation: {
-            'Q6': {value: tl_Q6, selected: null, session: null, config: null},
-            'Q7': {value: null, selected: q7Selected, session: q7Session, config: 5},
-            'Q8': {value: null, selected: q8Selected, session: q8Session, config: 10}
-        }
-    };
-          
-    $.ajax({
-        url: `/timeline_standstill_supplier`,
-        type: "POST",
-        dataType: 'json',
-        contentType: "application/json",
-        data: JSON.stringify(postTLData)
-    }).done(function (res) {
-        let items = res;
-        items.sort((a, b) => a.value - b.value);
-        items.forEach((value, key) => {
-            let dataAccess = compareAccess.find((el) => el.question == value.question);
-            let labelAppend = value.value.split('*')[1];
-            if(labelAppend != 'Invalid date') {
-                $("."+ dataAccess.label).html(labelAppend);
-            }
-            $("input[name='"+dataAccess.input_hidden+"']").val(value.value);
 
-        });
-    }).fail((err) => {
-    })
-});
 // StandstilSupplierPresentation - End
