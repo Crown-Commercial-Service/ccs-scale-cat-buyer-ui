@@ -169,28 +169,38 @@ const saveButtonUnHideDateRfi = () => {
     document.getElementById("hideMeWhileDateChange").disabled = false;
 }
 
-    getRadioValidation();
+   // getRadioValidation();
 
     function getAjax(){
       let manipulationArray = {};
       let q7Selected, compareAccess;
       compareAccess = [];
-
+console.log("totalElementSelectors",totalElementSelectors)
         for (const selector of totalElementSelectors) {
             var jsonVariable = {};
             q7Selected=false;
-            if(selector==6){
-            let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
-            let tl_Q6 = tl_Q6_split.split('*')[1];
+          //  if(selector==6){
+          let previousQuestion;
+          if(selector!=1){
+          let indexKey = totalElementSelectors.indexOf(selector);
+          let indexKeyPrevious  = indexKey-1;
+          let previosElementValue=totalElementSelectors[indexKeyPrevious];
+          console.log("indexKey",indexKey);
+          console.log("clarification_",indexKeyPrevious);
+          console.log("previosElementValue",previosElementValue);
+          let previousQuestionSplit = $(".timedate"+previosElementValue).val();
+          console.log("previousQuestionSplit",previousQuestionSplit);
+           previousQuestion = previousQuestionSplit.split('*')[1];
+          console.log("previousQuestion",previousQuestion)
 
-            jsonVariable['Q'+selector] = {
-                    value: tl_Q6, 
-                    selected: null, 
-            }
-            
-            manipulationArray = Object.assign(manipulationArray, jsonVariable);
+          }else{
+             previousQuestion=null
+          }
+        //   let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
+        //     let tl_Q6 = tl_Q6_split.split('*')[1];
 
-        }
+       
+        //}
 
             if(selector==7 || selector==8){
               
@@ -214,6 +224,15 @@ const saveButtonUnHideDateRfi = () => {
                     };   
 
                     manipulationArray = Object.assign(manipulationArray, jsonVariable);
+                }else{
+
+                    jsonVariable['Q'+selector] = {
+                        value: previousQuestion, 
+                        selected: null, 
+                }
+                
+                manipulationArray = Object.assign(manipulationArray, jsonVariable);
+    
                 }
         //LOOP END
                 }
@@ -222,10 +241,10 @@ const saveButtonUnHideDateRfi = () => {
                     tl_aggrementID,
                     tl_eventType,
                     tl_questionID,
-                    tl_val,
+                    tl_val:'yes',
                     manipulation: manipulationArray
                 }
-
+                console.log("postTLData",postTLData);
                 $.ajax({
                             url: `/timeline_standstill_supplier`,
                             type: "POST",
