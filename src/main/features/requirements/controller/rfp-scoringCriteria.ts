@@ -37,11 +37,13 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  let agreementIdSession = agreementId_session;
+  let projectName = project_name;
   res.locals.agreement_header = {
     agreementName,
-    project_name,
+    projectName,
     projectId,
-    agreementId_session,
+    agreementIdSession,
     agreementLotName,
     lotid,
     error: isJaggaerError,

@@ -88,7 +88,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     }
   }
   
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype=req.session.selectedeventtype;
   const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype , agreementId_session };

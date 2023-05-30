@@ -932,7 +932,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   
   if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
     let manipulation = req.body.manipulation;
-
+    console.log(manipulation);
     //Q6
     let pre_Q6 = manipulation.Q6.value;
     let Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';

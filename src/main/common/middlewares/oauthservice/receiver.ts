@@ -9,7 +9,7 @@ import { ErrorView } from '../../shared/error/errorView';
 import { LoggTracer } from '../../logtracer/tracer';
 import * as jwtDecoder from 'jsonwebtoken';
 
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('receiver-middleware');
 
 /**

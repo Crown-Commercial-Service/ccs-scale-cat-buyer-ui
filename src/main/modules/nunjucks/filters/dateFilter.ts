@@ -3,7 +3,7 @@ import { DateFormater } from '../../../utils/dateFormatter'
 import { MomentFactory } from '../../../utils/momentFactory'
 import { calculateMonthIncrement } from '../../../utils/calculateMonthIncrement'
 
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('dateFilter');
 
 export function dateFilter (value: moment.Moment | string): string {

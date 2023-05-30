@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express'
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('da offline page');
 
 /**

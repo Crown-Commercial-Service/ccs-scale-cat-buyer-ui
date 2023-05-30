@@ -29,7 +29,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
   let { stage2_value } = req.session;
-  res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
   
     
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;

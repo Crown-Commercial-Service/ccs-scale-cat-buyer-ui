@@ -2,7 +2,7 @@
 /* tslint:disable:no-unused-expression */
 /* tslint:disable:no-console */
 
-import supertest = require('supertest');
+import supertest from 'supertest';
 import pa11y from 'pa11y';
 import { expect } from 'chai';
 import { app } from 'main/app';
