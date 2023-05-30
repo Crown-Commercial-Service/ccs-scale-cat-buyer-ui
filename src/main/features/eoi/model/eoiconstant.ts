@@ -23,12 +23,12 @@ export enum EOI_PATHS {
   GET_EOI_CHOOSE_TYPE = '/eoi/choose-type',
   GET_EOI_EXISTING_SUPPLIER = '/eoi/existing-supplier',
   GET_EOI_SPECIAL_TERMS = '/eoi/special-terms',
-  GET_BUILD_EOI='/eoi/choose-build-your-eoi',
-  
+  GET_BUILD_EOI = '/eoi/choose-build-your-eoi',
+
   GET_EOI_PROJECT_DURATION = '/eoi/project-duration',
   GET_EOI_PROJECT_BUDGET = '/eoi/project-budget',
 
-  GET_CONFIRMATION_REVIEW='/eoi/confirmation-review',
+  GET_CONFIRMATION_REVIEW = '/eoi/confirmation-review',
   /**
    * @POSTROUTES
    */

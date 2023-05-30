@@ -16,7 +16,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  * @GETController
  */
 export const GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
-  const { isEmptyProjectError,isErrorText } = req.session;
+  const { isEmptyProjectError, isErrorText } = req.session;
   req.session['isEmptyProjectError'] = false;
   req.session['isErrorText'] = false;
   const procurements = req.session.procurements;
@@ -27,12 +27,13 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const releatedContent = req.session.releatedContent;
 
   const agreementId_session = req.session.agreement_id;
-    let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
-      forceChangeDataJson = Mcf3cmsData;
-    } else { 
-      forceChangeDataJson = cmsData;
-    }
+  let forceChangeDataJson;
+  if (agreementId_session == 'RM6187') {
+    //MCF3
+    forceChangeDataJson = Mcf3cmsData;
+  } else {
+    forceChangeDataJson = cmsData;
+  }
   const viewData: any = {
     data: forceChangeDataJson,
     procId: procurement.procurementID,
@@ -40,13 +41,13 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     lotId,
     agreementLotName,
     error: isEmptyProjectError,
-    errorText:isErrorText,
+    errorText: isErrorText,
     releatedContent: releatedContent,
     agreementId_session: agreementId_session,
   };
 
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.NameAProjectLog, req);
 
   res.render('nameAProjectEoi', viewData);
 };
@@ -67,7 +68,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
   const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
   try {
     if (name) {
-      if(name.length <= 250){
+      if (name.length <= 250) {
         const _body = {
           name: name,
         };
@@ -75,18 +76,16 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
 
         //CAS-INFO-LOG
         LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
-        
+
         const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
         if (response.status == HttpStatusCode.OK) req.session.project_name = name;
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/16`, 'Completed');
         res.redirect('/eoi/procurement-lead');
-
-      }else{
+      } else {
         req.session['isEmptyProjectError'] = true;
         req.session['isErrorText'] = 'You must be 250 characters or fewer';
         res.redirect('/eoi/name-your-project');
       }
-      
     } else {
       req.session['isEmptyProjectError'] = true;
       req.session['isErrorText'] = 'Your project must have a name.';
@@ -100,7 +99,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'EOI - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

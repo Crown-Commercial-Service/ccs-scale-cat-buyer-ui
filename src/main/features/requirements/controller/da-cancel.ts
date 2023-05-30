@@ -21,11 +21,11 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
   const { SESSION_ID } = req.cookies; //jwt
   const releatedContent = req.session.releatedContent;
   const { download } = req.query;
-  const { currentEvent ,eventId , isError,errorText, choosenViewPath} = req.session;
+  const { currentEvent, eventId, isError, errorText, choosenViewPath } = req.session;
   const projectId = req.session.projectId;
   const { assessmentId } = currentEvent;
-  let lotid=req.session.lotId;
-  lotid=lotid.replace('Lot ','');
+  let lotid = req.session.lotId;
+  lotid = lotid.replace('Lot ', '');
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'In progress');
@@ -37,17 +37,18 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
     const Justification = [];
     RankedSuppliers = result;
     //supplierList = await GetLotSuppliers(req);
-    RankedSuppliers.filter(x => x.dimensionScores.map(y => y.score = parseFloat(y.score).toFixed(2)));
+    RankedSuppliers.filter((x) => x.dimensionScores.map((y) => (y.score = parseFloat(y.score).toFixed(2))));
     req.session.isError = false;
     req.session.errorText = '';
-    req.session.DARankedSuppliers=RankedSuppliers;
+    req.session.DARankedSuppliers = RankedSuppliers;
     const appendData = {
       data: cmsData,
       RankedSuppliers: RankedSuppliers,
-      choosenViewPath:choosenViewPath,
+      choosenViewPath: choosenViewPath,
       lotSuppliers: lotSuppliers,
       releatedContent: releatedContent,
-      isError, errorText
+      isError,
+      errorText,
     };
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
@@ -58,33 +59,33 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       const finalCSVData = [];
       let dataPrepared: any;
       //sheet 1
-      const downloadedRankedSuppliers= req.session.DARankedSuppliers;
+      const downloadedRankedSuppliers = req.session.DARankedSuppliers;
       for (var i = 0; i < downloadedRankedSuppliers.length; i++) {
         dataPrepared = {
           'Rank No.': downloadedRankedSuppliers[i]?.rank,
           'Supplier Name': downloadedRankedSuppliers[i]?.name,
           'Supplier Trading Name': downloadedRankedSuppliers[i]?.name,
           'Total Score': downloadedRankedSuppliers[i]?.total,
-          'Capacity Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 1)?.score,
-          'Security Clearance Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 2)?.score,
-          'Capability Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 3)?.score,
-          'Scalability Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 4)?.score,
-          'Location Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 5)?.score,
-          'Price Score': downloadedRankedSuppliers[i].dimensionScores.find(x => x['dimension-id'] == 6)?.score
+          'Capacity Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 1)?.score,
+          'Security Clearance Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 2)
+            ?.score,
+          'Capability Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 3)?.score,
+          'Scalability Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 4)?.score,
+          'Location Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 5)?.score,
+          'Price Score': downloadedRankedSuppliers[i].dimensionScores.find((x) => x['dimension-id'] == 6)?.score,
         };
         finalCSVData.push(dataPrepared);
       }
-       
+
       //sheet 2
       const dimensionsTable = [];
       const { dimensionRequirements } = assessments;
-      for (var i=1;i<=6;i++)
-      {   
-        const dim=dimensionRequirements.filter(item=>item['dimension-id']==i)[0];
-        if(dim!=undefined){
-          dataPrepared={
-            'Dimension':dim.name,
-            'Weighting':dim.weighting
+      for (var i = 1; i <= 6; i++) {
+        const dim = dimensionRequirements.filter((item) => item['dimension-id'] == i)[0];
+        if (dim != undefined) {
+          dataPrepared = {
+            Dimension: dim.name,
+            Weighting: dim.weighting,
           };
           dimensionsTable.push(dataPrepared);
         }
@@ -106,7 +107,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
         { header: 'Location Score', key: 'Location Score', width: 15 },
         { header: 'Price Score', key: 'Price Score', width: 15 },
       ];
-      finalCSVData.forEach(data => {
+      finalCSVData.forEach((data) => {
         worksheet.addRow(data);
       });
       worksheet.getRow(1).eachCell((cell) => {
@@ -120,7 +121,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
         { key: 'Dimension', width: 15 },
         { key: 'Weighting', width: 15 },
       ];
-      dimensionsTable.forEach(data => {
+      dimensionsTable.forEach((data) => {
         worksheet.addRow(data);
       });
       worksheet.getRow(3).eachCell((cell) => {
@@ -129,9 +130,15 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       worksheet = workbook.addWorksheet('Requirements'); // New Worksheet
       worksheet.getRow(1).values = ['Requirements & Weightings'];
       worksheet.getRow(2).values = [''];
-      worksheet.getRow(3).values = ['Dimesnion is the group of the requirements that comprises of an overall dimension weighting'];
-      worksheet.getRow(4).values = ['Requirement Group is the group of the requirements selected by the buyer in each dimension i.e. "Service Capability - Performance analysis and data"; "Role Family - Data"'];
-      worksheet.getRow(5).values = ['Requirement is the buyer selected input in each dimension i.e. "Service Capability - A/B and multivariate testing", "Role Family - Data Analyst SFIA Level"'];
+      worksheet.getRow(3).values = [
+        'Dimesnion is the group of the requirements that comprises of an overall dimension weighting',
+      ];
+      worksheet.getRow(4).values = [
+        'Requirement Group is the group of the requirements selected by the buyer in each dimension i.e. "Service Capability - Performance analysis and data"; "Role Family - Data"',
+      ];
+      worksheet.getRow(5).values = [
+        'Requirement is the buyer selected input in each dimension i.e. "Service Capability - A/B and multivariate testing", "Role Family - Data Analyst SFIA Level"',
+      ];
       worksheet.getRow(6).values = [''];
       worksheet.getRow(7).values = ['Dimension', 'Requirement Group', 'Requirement', 'Quantity', 'Relative Weighting'];
       worksheet.columns = [
@@ -141,7 +148,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
         { key: 'Quantity', width: 15 },
         { key: 'Relative Weighting', width: 15 },
       ];
-      requirementsTable.forEach(data => {
+      requirementsTable.forEach((data) => {
         worksheet.addRow(data);
       });
       worksheet.getRow(7).eachCell((cell) => {
@@ -150,9 +157,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       const data = await workbook.xlsx.writeFile('suppliers.xlsx').then(() => {
         res.sendFile('suppliers.xlsx', { root: '.' });
       });
-    
-    }
-    else{
+    } else {
       res.render('da-cancel', appendData);
     }
   } catch (error) {
@@ -163,18 +168,17 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Suppliers page error - RFP',
-      true,
+      true
     );
   }
 };
 
 export const DA_POST_CANCEL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const {  projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Completed');
     res.redirect('/dashboard');
-      
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -183,8 +187,7 @@ export const DA_POST_CANCEL = async (req: express.Request, res: express.Response
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Suppliers page error - RFP',
-      true,
+      true
     );
   }
 };
-

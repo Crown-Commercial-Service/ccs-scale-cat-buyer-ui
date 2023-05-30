@@ -20,11 +20,11 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     const { pageCount } = dataRaw;
-    let usersRaw = [];
+    const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       usersRaw.push(...userList);
@@ -73,32 +73,31 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
 
 export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const { fca_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    let addLead = await TenderApi.Instance(SESSION_ID).put(url, _body);
-    if(addLead){
+    const addLead = await TenderApi.Instance(SESSION_ID).put(url, _body);
+    if (addLead) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/76`, 'Completed');
       res.redirect('/fca/add-collaborators');
-    }else{
+    } else {
       req.session['isJaggaerError'] = true;
       res.redirect('/fca/procurement-lead');
     }
-
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -107,7 +106,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender Api - getting users from organization or from tenders failed',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = true;
     res.redirect('/fca/procurement-lead');
@@ -136,7 +135,7 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

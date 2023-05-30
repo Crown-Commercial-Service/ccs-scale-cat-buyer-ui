@@ -20,13 +20,13 @@ import {
 } from './addcollaborator';
 import { OFFLINE_JOURNEY_PAGE } from './offline';
 import { GET_EOI_REVIEW, POST_EOI_REVIEW } from './review';
-import {GET_EOI_PROJECT_OBJECTIVE , POST_EOI_PROJECT_OBJECTIVE} from './projectObjective';
-import {GET_EOI_PROJECT_SCOPE, POST_EOI_PROJECT_SCOPE} from './projectScope';
-import { GET_EOI_CHOOSE_TYPE,POST_EOI_CHOOSE_TYPE} from './chooseType';
-import { GET_EOI_EXISTING_SUPPLIER,POST_EOI_EXISTING_SUPPLIER } from './existingSupplier'
-import { GET_EOI_SPECIAL_TERMS,POST_EOI_SPECIAL_TERMS } from './specialTerms'
-import { GET_EOI_PROJECT_DURATION } from './projectDuration'
-import { GET_EOI_PROJECT_BUDGET } from './projectBudget'
+import { GET_EOI_PROJECT_OBJECTIVE, POST_EOI_PROJECT_OBJECTIVE } from './projectObjective';
+import { GET_EOI_PROJECT_SCOPE, POST_EOI_PROJECT_SCOPE } from './projectScope';
+import { GET_EOI_CHOOSE_TYPE, POST_EOI_CHOOSE_TYPE } from './chooseType';
+import { GET_EOI_EXISTING_SUPPLIER, POST_EOI_EXISTING_SUPPLIER } from './existingSupplier';
+import { GET_EOI_SPECIAL_TERMS, POST_EOI_SPECIAL_TERMS } from './specialTerms';
+import { GET_EOI_PROJECT_DURATION } from './projectDuration';
+import { GET_EOI_PROJECT_BUDGET } from './projectBudget';
 export const associatedViews = {
   /**
    * @GET_VIEW
@@ -78,5 +78,4 @@ export const associatedViews = {
   POST_EOI_CHOOSE_TYPE,
   POST_EOI_SPECIAL_TERMS,
   POST_EOI_EXISTING_SUPPLIER,
-  
 };

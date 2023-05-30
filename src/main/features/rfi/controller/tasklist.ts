@@ -33,11 +33,12 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     } else if (agreement_id == 'RM1043.8') {
       //DOS
       cmsData = ccsDOSData;
-    }else if(agreement_id == 'RM1557.13'){//gcloud
+    } else if (agreement_id == 'RM1557.13') {
+      //gcloud
       cmsData = gcloudRFIData;
     }
-    
-    req.session.RfiUploadError=false;
+
+    req.session.RfiUploadError = false;
     // const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // if(journeySteps[9].state=="Cannot start yet")
     // {
@@ -47,52 +48,50 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     // journeyrfi.forEach((element,index)=>{
     //   if(element.step==9) journeyrfi.splice(index,1);
     // });
-    let agreementId_session = agreement_id;
-    
-    
+    const agreementId_session = agreement_id;
+
     // if((agreementId_session == 'RM1557.13' && lotId == '4')) {
-      // name your project for dos
-      let flag = await ShouldEventStatusBeUpdated(eventId, 7, req);
-      
-      if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Not started'); }
-      let { data: journeyStepsName } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    
-      let nameJourneysts = journeyStepsName.filter((el: any) => {
-        if(el.step == 7 && el.state == 'Completed') return true;
+    // name your project for dos
+    const flag = await ShouldEventStatusBeUpdated(eventId, 7, req);
+
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Not started');
+    }
+    const { data: journeyStepsName } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+
+    const nameJourneysts = journeyStepsName.filter((el: any) => {
+      if (el.step == 7 && el.state == 'Completed') return true;
+      return false;
+    });
+
+    if (nameJourneysts.length > 0) {
+      const addcontsts = journeyStepsName.filter((el: any) => {
+        if (el.step == 81) return true;
         return false;
       });
-      
-      if(nameJourneysts.length > 0){
 
-        let addcontsts = journeyStepsName.filter((el: any) => { 
-          if(el.step == 81) return true;
-          return false;
-        });
-
-        if(addcontsts[0].state == 'Cannot start yet' || addcontsts[0].state == 'Not started'){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Not started'); 
-        }
-
-      }else{
-        // let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 81, req);        
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Cannot start yet'); 
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet'); 
+      if (addcontsts[0].state == 'Cannot start yet' || addcontsts[0].state == 'Not started') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Not started');
       }
+    } else {
+      // let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 81, req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/81`, 'Cannot start yet');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Cannot start yet');
+    }
     // }
 
-   
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
 
     const releatedContent = req.session.releatedContent;
     const windowAppendData = { data: cmsData, lotId, agreementLotName, releatedContent, agreementId_session };
-    
-     //CAS-INFO-LOG 
-     LoggTracer.infoLogger(null, logConstant.rfiTaskListPageLog, req);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.rfiTaskListPageLog, req);
 
     res.render('Tasklist', windowAppendData);
-  } catch (error) {  
-    console.log(error);  
+  } catch (error) {
+    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,
@@ -100,7 +99,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Put failed - RFI task list page',
-      true,
+      true
     );
   }
 };

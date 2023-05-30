@@ -9,7 +9,7 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
-  const { projectId, eventId,isJaggaerError,choosenViewPath } = req.session;
+  const { projectId, eventId, isJaggaerError, choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   const { da_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
@@ -20,11 +20,11 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     const { pageCount } = dataRaw;
-    let usersRaw = [];
+    const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       usersRaw.push(...userList);
@@ -63,7 +63,7 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       agreementLotName,
       error: false,
       releatedContent,
-      choosenViewPath:choosenViewPath
+      choosenViewPath: choosenViewPath,
     };
     res.render('da-procurementLead', windowAppendData);
   } catch (error) {
@@ -74,14 +74,14 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
 
 export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const { da_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
@@ -94,7 +94,7 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     res.redirect('/da/add-collaborators');
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -103,7 +103,7 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      !isJaggaerError,
+      !isJaggaerError
     );
 
     req.session['isJaggaerError'] = isJaggaerError;
@@ -133,7 +133,7 @@ export const DA_GET_USER_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

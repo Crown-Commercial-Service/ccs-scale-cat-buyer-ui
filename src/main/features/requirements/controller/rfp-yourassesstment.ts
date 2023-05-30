@@ -30,7 +30,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
   } else {
     const { agreement_id, proc_id, event_id } = req.query;
     const { SESSION_ID } = req.cookies;
-    const{eventId} = req.session;
+    const { eventId } = req.session;
 
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     let socialvalueAccess = false;
@@ -42,13 +42,14 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
 
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
-      if(agreement_id==='RM1557.13'){
+      if (agreement_id === 'RM1557.13') {
         const index = extracted_criterion_based.indexOf('Criterion 4');
-        if (index > -1) { // only splice array when item is found
+        if (index > -1) {
+          // only splice array when item is found
           extracted_criterion_based.splice(index, 1); // 2nd parameter means remove one item only
         }
-       }
-      
+      }
+
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
         const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
@@ -56,7 +57,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
           const object = anItem;
-          object.step = getStepNumberWithGroupId(anItem.OCDS.id)
+          object.step = getStepNumberWithGroupId(anItem.OCDS.id);
           object['criterianId'] = aURI;
           return object;
         });
@@ -77,32 +78,32 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
             object.OCDS['description'] = object.OCDS['description'] + ' (Optional)';
           return object;
         });
-       
+
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
-      
+
       let ExcludingKeyDates;
-      if(agreement_id == 'RM1043.8'){
+      if (agreement_id == 'RM1043.8') {
         ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-          AField => AField.OCDS.id !== 'Group Key Dates'
+          (AField) => AField.OCDS.id !== 'Group Key Dates'
         );
-      }else{
+      } else {
         ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-          AField => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id !='Group 8' && AField.OCDS.id !='Group 7'
+          (AField) => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id != 'Group 8' && AField.OCDS.id != 'Group 7'
         );
       }
 
       const releatedContent = req.session.releatedContent;
-        
+
       let cmsData;
-      if(agreement_id == 'RM6187') {
+      if (agreement_id == 'RM6187') {
         //MCF3
         cmsData = fileDataMCF;
-      } else if(agreement_id == 'RM6263') {
+      } else if (agreement_id == 'RM6263') {
         //DSP
         cmsData = fileData;
-      }else{
+      } else {
         cmsData = fileDataDOS;
       }
       for (let index = 0; index < ExcludingKeyDates.length; index++) {
@@ -112,39 +113,40 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
-          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
+          if (
+            fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' ||
+            fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect'
+          ) {
             // let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
             // let item1 = questionOptions.find(i => i.selected === true);
-            let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
-            if(item1){
+            const item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
+            if (item1) {
               ExcludingKeyDates[index].questionStatus = 'Done';
             }
-
           } else {
-            if(agreement_id == 'RM1043.8'){
-            if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'Percentage'){
-                if (ExcludingKeyDates[index].OCDS.id === 'Group 3' && ExcludingKeyDates[index].criterianId === 'Criterion 2'){
-                if (fetch_dynamic_api_data[j].nonOCDS.order == 3){
-                let optiondata =   fetch_dynamic_api_data[j].nonOCDS.options;
-                if(optiondata.length > 0){
-                  if(optiondata[0].value == 0){
-                  socialvalueAccess = true;
+            if (agreement_id == 'RM1043.8') {
+              if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'Percentage') {
+                if (
+                  ExcludingKeyDates[index].OCDS.id === 'Group 3' &&
+                  ExcludingKeyDates[index].criterianId === 'Criterion 2'
+                ) {
+                  if (fetch_dynamic_api_data[j].nonOCDS.order == 3) {
+                    const optiondata = fetch_dynamic_api_data[j].nonOCDS.options;
+                    if (optiondata.length > 0) {
+                      if (optiondata[0].value == 0) {
+                        socialvalueAccess = true;
+                      }
+                    }
                   }
-                 
                 }
-            
-                }
+              }
             }
-          }
-        }
             if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
-              
               ExcludingKeyDates[index].questionStatus = 'Done';
             } else {
             }
           }
         }
-
       }
 
       const display_fetch_data = {
@@ -156,9 +158,9 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         lotId,
         agreementLotName,
         releatedContent: releatedContent,
-        socialvalueAccess :socialvalueAccess
+        socialvalueAccess: socialvalueAccess,
       };
-      let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+      const flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
       if (flag) {
@@ -180,7 +182,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tenders Service Api cannot be connected',
-        true,
+        true
       );
     }
   }
@@ -188,32 +190,31 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
 
 const getStepNumberWithGroupId = (groupId: string) => {
   switch (groupId) {
-    case "Group 1":
-      return 40;
-      break;
-    case "Group 2":
-      return 41;
-      break;
-    case "Group 3":
-      return 42;
-      break;
-    case "Group 4":
-      return 43;
-      break;
-    case "Group 5":
-      return 44;
-      break;
-    case "Group 6":
-      return 45;
-      break;
-    case "Group 7":
-      return 46;
-      break;
-    case "Group 8":
-      return 48;
-      break;
-    default:
-      break;
+  case 'Group 1':
+    return 40;
+    break;
+  case 'Group 2':
+    return 41;
+    break;
+  case 'Group 3':
+    return 42;
+    break;
+  case 'Group 4':
+    return 43;
+    break;
+  case 'Group 5':
+    return 44;
+    break;
+  case 'Group 6':
+    return 45;
+    break;
+  case 'Group 7':
+    return 46;
+    break;
+  case 'Group 8':
+    return 48;
+    break;
+  default:
+    break;
   }
-
-}
+};

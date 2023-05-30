@@ -9,7 +9,6 @@ import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
 
-
 // RFI ADD_Collaborator
 /**
  *
@@ -20,12 +19,12 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
-  const { isJaggaerError,choosenViewPath } = req.session;
+  const { isJaggaerError, choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     organisation_user_data = organisation_user_data?.data;
     const { pageCount } = organisation_user_data;
@@ -33,7 +32,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       allUserStorge.push(...userList);
@@ -54,7 +53,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
 
@@ -75,7 +74,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       agreementLotName,
       error: isJaggaerError,
       releatedContent: releatedContent,
-      choosenViewPath:choosenViewPath
+      choosenViewPath: choosenViewPath,
     };
     res.render('ca-add-collaborator', windowAppendData);
   } catch (error) {
@@ -86,7 +85,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -120,7 +119,7 @@ export const CA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -148,7 +147,7 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
@@ -167,7 +166,7 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
     res.redirect('/ca/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -176,7 +175,7 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/ca/ca-add-collaborators');
@@ -185,16 +184,16 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 
 export const CA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {id}=req.query;
+  const { id } = req.query;
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
-    
+
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     req.session['searched_user'] = [];
     res.redirect('/ca/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -203,13 +202,12 @@ export const CA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/ca/add-collaborators');
   }
 };
-
 
 // /rfp/proceed-collaborators
 export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
@@ -218,9 +216,15 @@ export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: e
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/44`, 'Completed');
     res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
-} catch (error) {
-  LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-    TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
-  );
-}
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      true
+    );
+  }
 };

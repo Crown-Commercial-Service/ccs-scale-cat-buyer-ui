@@ -25,7 +25,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     organisation_user_data = organisation_user_data?.data;
     const { pageCount } = organisation_user_data;
@@ -33,7 +33,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       allUserStorge.push(...userList);
@@ -54,7 +54,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
     filteredListofOrganisationUser = RemoveDuplicatedList(filteredListofOrganisationUser, filteredUser);
@@ -65,9 +65,10 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     const agreementId_session = req.session.agreement_id;
 
     let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
+    if (agreementId_session == 'RM6187') {
+      //MCF3
       forceChangeDataJson = MCF3cmsData;
-    } else { 
+    } else {
       forceChangeDataJson = cmsData;
     }
 
@@ -83,7 +84,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       agreementLotName,
       error: isJaggaerError,
       releatedContent: releatedContent,
-      agreementId_session: req.session.agreement_id
+      agreementId_session: req.session.agreement_id,
     };
     res.render('add-collaborator-fca', windowAppendData);
   } catch (error) {
@@ -94,7 +95,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -128,7 +129,7 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -136,14 +137,11 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { fca_collaborators } = req['body'];
-  if(fca_collaborators === ""){
+  if (fca_collaborators === '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/fca/add-collaborators');
-  }
-  else{
-
-  try {
-    
+  } else {
+    try {
       const user_profile = fca_collaborators;
       // const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       // const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
@@ -152,45 +150,40 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       const userType = {
         userType: 'TEAM_MEMBER',
       };
-      try{
-
+      try {
         await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
         req.session['searched_user'] = [];
         res.redirect(FCA_PATHS.GET_ADD_COLLABORATOR);
-
-      }catch(err){
+      } catch (err) {
         req.session['isJaggaerError'] = true;
         res.redirect('/fca/add-collaborators');
       }
-     
-  } catch (error) {
-
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'FCA - Tender agreement failed to be added',
-      true,
-    );
+    } catch (error) {
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'FCA - Tender agreement failed to be added',
+        true
+      );
+    }
   }
-}
 };
 
 export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {id}=req.query;
+  const { id } = req.query;
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
-    
+
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     req.session['searched_user'] = [];
     res.redirect(FCA_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {
-
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -199,7 +192,7 @@ export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/fca/add-collaborators');
@@ -215,20 +208,17 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       userType: 'TEAM_MEMBER',
     };
 
-    try{
+    try {
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
       req.session['searched_user'] = [];
       res.redirect(FCA_PATHS.GET_ADD_COLLABORATOR);
-
-    }catch(err){
+    } catch (err) {
       req.session['isJaggaerError'] = true;
       res.redirect('/fca/add-collaborators');
     }
-
   } catch (err) {
-
-     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+    const isJaggaerError = err.response.data.errors.some(
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -237,10 +227,10 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
-    
+
     res.redirect('/fca/add-collaborators');
   }
 };

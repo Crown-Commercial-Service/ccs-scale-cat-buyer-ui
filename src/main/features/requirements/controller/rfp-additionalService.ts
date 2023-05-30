@@ -44,25 +44,22 @@ export const RFP_GET_ADDITIONAL_SERVICES = async (req: express.Request, res: exp
  */
 
 export const RFP_POST_ADDITIONAL_SELECT_SERVICES = async (req: express.Request, res: express.Response) => {
-    
-    const  rfp_selected_services = req.body;
-    
+  const rfp_selected_services = req.body;
 
-   const { eventId } = req.session;
-   const { SESSION_ID } = req.cookies;
-    
-     //req.session.rfp_selected_services = rfp_selected_services;
-     
-     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
-     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
-     res.redirect('/rfp/task-list');
+  const { eventId } = req.session;
+  const { SESSION_ID } = req.cookies;
 
+  //req.session.rfp_selected_services = rfp_selected_services;
 
-     // const assessmentId = 1;
-     // let Weightings=[];
-     // const toolId = req.session['CapAss'].toolId;
-     //  const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
-          /*for(let i=1;i<=5;i++)
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+  res.redirect('/rfp/task-list');
+
+  // const assessmentId = 1;
+  // let Weightings=[];
+  // const toolId = req.session['CapAss'].toolId;
+  //  const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+  /*for(let i=1;i<=5;i++)
           {
               let dim=dimensions.filter(x=>x["dimension-id"] === i)
               Weightings.push(...dim)
@@ -86,16 +83,13 @@ export const RFP_POST_ADDITIONAL_SELECT_SERVICES = async (req: express.Request, 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
       }
     }*/
-    
-    // if(rfp_selected_services.selected_services == undefined){
-    //   req.session['isEmptySelectedServicesError'] = true;
-    //   res.redirect('/rfp/selected_service');
-    // }else{
-    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
-    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
-    //   res.redirect('/rfp/task-list');
-    // }
-     
 
-
+  // if(rfp_selected_services.selected_services == undefined){
+  //   req.session['isEmptySelectedServicesError'] = true;
+  //   res.redirect('/rfp/selected_service');
+  // }else{
+  //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+  //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+  //   res.redirect('/rfp/task-list');
+  // }
 };

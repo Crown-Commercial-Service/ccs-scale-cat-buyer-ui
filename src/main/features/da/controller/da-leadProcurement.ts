@@ -7,7 +7,6 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
@@ -18,22 +17,22 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
 
   const url = `/tenders/projects/${projectId}/users`;
   try {
-    let usersTemp  = await TenderApi.Instance(SESSION_ID).get(url);
+    let usersTemp = await TenderApi.Instance(SESSION_ID).get(url);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(usersTemp, logConstant.userDetailFetch, req);
-    usersTemp=usersTemp.data;
+    usersTemp = usersTemp.data;
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    let  dataRaw  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    let dataRaw = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(dataRaw, logConstant.collaboratorDetailFetch, req);
 
-    dataRaw=dataRaw.data;
+    dataRaw = dataRaw.data;
     const { pageCount } = dataRaw;
-    let usersRaw = [];
+    const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       usersRaw.push(...userList);
@@ -75,8 +74,8 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       releatedContent,
       agreementId_session,
     };
-      //CAS-INFO-LOG
-   LoggTracer.infoLogger(null, logConstant.procurementPage, req);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.procurementPage, req);
     res.render('daw-procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -86,22 +85,21 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Lead Procurement - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
 
 export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
- 
   const { SESSION_ID } = req.cookies;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const { rfp_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
     const _body = {
       userType: 'PROJECT_OWNER',
     };
-    let response = await TenderApi.Instance(SESSION_ID).put(url, _body);
+    const response = await TenderApi.Instance(SESSION_ID).put(url, _body);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(response, logConstant.saveLeadProcurement, req);
 
@@ -110,7 +108,7 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     res.redirect('/da/add-collaborators');
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -119,7 +117,7 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Lead Procurement - Tender Api - getting users from organization or from tenders failed',
-      !isJaggaerError,
+      !isJaggaerError
     );
 
     req.session['isJaggaerError'] = isJaggaerError;
@@ -149,7 +147,7 @@ export const DA_GET_USER_PROCUREMENT = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Lead Procurement - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

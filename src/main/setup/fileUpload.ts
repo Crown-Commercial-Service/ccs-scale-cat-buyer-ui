@@ -1,13 +1,9 @@
 //@ts-nocheck
 import * as express from 'express';
-import fileUpload from 'express-fileupload'
-
+import fileUpload from 'express-fileupload';
 
 const fileUploadSetup = (app: express.Express): void => {
-
-    app.use(fileUpload());
-      
-  
+  app.use(fileUpload());
 };
 
 export { fileUploadSetup };

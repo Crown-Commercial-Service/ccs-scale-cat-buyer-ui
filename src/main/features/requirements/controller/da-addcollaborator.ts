@@ -20,12 +20,12 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
-  const { isJaggaerError,choosenViewPath } = req.session;
+  const { isJaggaerError, choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     organisation_user_data = organisation_user_data?.data;
     const { pageCount } = organisation_user_data;
@@ -33,7 +33,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
       const { userList } = organisation_user_data_loop?.data;
       allUserStorge.push(...userList);
@@ -54,7 +54,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
 
@@ -65,9 +65,10 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const releatedContent = req.session.releatedContent;
     const agreementId_session = req.session.agreement_id;
     let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
+    if (agreementId_session == 'RM6187') {
+      //MCF3
       forceChangeDataJson = Mcf3cmsData;
-    } else { 
+    } else {
       forceChangeDataJson = cmsData;
     }
     const windowAppendData = {
@@ -82,7 +83,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       agreementLotName,
       error: isJaggaerError,
       releatedContent: releatedContent,
-      choosenViewPath:choosenViewPath
+      choosenViewPath: choosenViewPath,
     };
     res.render('da-add-collaborator', windowAppendData);
   } catch (error) {
@@ -93,7 +94,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -127,7 +128,7 @@ export const DA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -155,7 +156,7 @@ export const DA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
@@ -174,7 +175,7 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
     res.redirect('/da/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -183,7 +184,7 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/da/add-collaborators');
@@ -192,16 +193,16 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 
 export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {id}=req.query;
+  const { id } = req.query;
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
-    
+
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     req.session['searched_user'] = [];
     res.redirect('/da/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -210,7 +211,7 @@ export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/da/add-collaborators');
@@ -221,12 +222,18 @@ export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
 export const DA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   try {
-  const { projectId,eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/62`, 'Completed');
-  res.redirect(`/da/task-list?path=${req.session['choosenViewPath']}`);
-} catch (error) {
-  LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-    TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
-  );
-}
+    const { projectId, eventId } = req.session;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/62`, 'Completed');
+    res.redirect(`/da/task-list?path=${req.session['choosenViewPath']}`);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      true
+    );
+  }
 };
