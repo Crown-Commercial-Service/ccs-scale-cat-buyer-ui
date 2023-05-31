@@ -68,6 +68,11 @@ Run the linting:
 $ npm run lint
 ```
 
+To automatically fix issues run:
+```bash
+$ npm run lint:fix
+```
+
 ### Unit tests
 
 **NOTE:** if you are using windows, you need to run `SET NODE_ENV=development` before running the tests.
