@@ -38,28 +38,27 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     agreementLotName,
     lotid,
     error: isJaggaerError,
-    choosenViewPath:choosenViewPath,
+    choosenViewPath: choosenViewPath,
   };
   try {
-
     let supplierList = [];
 
     //GET TOTAL SUPPLIERS LIST
-  supplierList = await GetLotSuppliers(req);
-  req.session.totalsuppliers=supplierList.length
+    supplierList = await GetLotSuppliers(req);
+    req.session.totalsuppliers = supplierList.length;
     const eventResponse = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${projectId}/events/${eventId}`);
     const windowAppendData = {
       data: CMSData,
       eventSupplierCount: eventResponse?.data.nonOCDS.assessmentSupplierTarget ?? 0,
-      SuppliersMax:supplierList.length-1,
+      SuppliersMax: supplierList.length - 1,
       choosenViewPath,
       releatedContent,
     };
-    let flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
-        if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'In progress');
-        }
-    res.render(`ca-suppliersToForward`, windowAppendData);
+    const flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'In progress');
+    }
+    res.render('ca-suppliersToForward', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -69,7 +68,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Get failed - CA Suppleirs to forward page',
-      true,
+      true
     );
   }
 };
@@ -79,7 +78,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
   const { projectId, eventId, currentEvent } = req.session;
   const { ca_supplier_count } = req.body;
   const { assessmentId } = currentEvent;
-  if (ca_supplier_count < 3 || ca_supplier_count > req.session.totalsuppliers-1) {
+  if (ca_supplier_count < 3 || ca_supplier_count > req.session.totalsuppliers - 1) {
     res.redirect(REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD);
     return;
   }
@@ -87,26 +86,23 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
   try {
     const body = {
       assessmentSupplierTarget: ca_supplier_count,
-      assessmentId:assessmentId
+      assessmentId: assessmentId,
     };
-   const response= await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
-   if(response.status==200)
-   {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(eventId, 54, req);
-        if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
-        }
-        if(req.session["CA_nextsteps_edit"])
-        {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
-        }
-    res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
-   } 
-   else{
-     res.redirect('/404/');
-   }
+    const response = await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
+    if (response.status == 200) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
+      const flag = await ShouldEventStatusBeUpdated(eventId, 54, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      }
+      if (req.session['CA_nextsteps_edit']) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+      }
+      res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
+    } else {
+      res.redirect('/404/');
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -115,7 +111,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Post failed - CA suppliers to forward  page',
-      true,
+      true
     );
   }
 };

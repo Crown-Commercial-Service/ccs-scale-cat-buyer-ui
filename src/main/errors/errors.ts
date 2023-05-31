@@ -1,46 +1,46 @@
-import {HttpStatusCode} from './httpStatusCodes'
+import { HttpStatusCode } from './httpStatusCodes';
 
 interface ViewError {
-  statusCode: number
-  associatedView?: string
+  statusCode: number;
+  associatedView?: string;
 }
 
 export class NotFoundError extends Error implements ViewError {
-  statusCode: number = HttpStatusCode.NOT_FOUND
-  associatedView: string = '/404'
+  statusCode: number = HttpStatusCode.NOT_FOUND;
+  associatedView = '/404';
 
-  constructor () {
-    super(`Page Not Found`)
+  constructor() {
+    super('Page Not Found');
   }
 }
 
 export class InternalServerError extends Error implements ViewError {
-    statusCode: number = HttpStatusCode.INTERNAL_SERVER
-    associatedView: string = '/500'
-  
-    constructor () {
-      super(`Internal Server error`)
-    }
+  statusCode: number = HttpStatusCode.INTERNAL_SERVER;
+  associatedView = '/500';
+
+  constructor() {
+    super('Internal Server error');
   }
+}
 
 export class ForbiddenError extends Error implements ViewError {
-  statusCode: number = HttpStatusCode.FORBIDDEN_ACCESS
-  associatedView: string = 'forbidden'
+  statusCode: number = HttpStatusCode.FORBIDDEN_ACCESS;
+  associatedView = 'forbidden';
 
-  constructor () {
-    super(`You are not allowed to access this resource`)
+  constructor() {
+    super('You are not allowed to access this resource');
   }
 }
 
 export class UnauthorizedError extends Error implements ViewError {
-  statusCode: number = HttpStatusCode.UNAUTHORIZED
-  associatedView: string = '/401'
+  statusCode: number = HttpStatusCode.UNAUTHORIZED;
+  associatedView = '/401';
 
-  constructor () {
-    super(`You are not allowed to access this resource`)
+  constructor() {
+    super('You are not allowed to access this resource');
   }
 }
 
 export class HTTPError extends Error {
-    status: number;
-  }
+  status: number;
+}

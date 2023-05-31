@@ -46,7 +46,7 @@ export const RFP_GET_CONFIRMATION_REVIEW = async (req: express.Request, res: exp
 export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
@@ -70,138 +70,131 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
 //CAS-32
 export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.Response) => {
   // const { SESSION_ID } = req.cookies; //jwt
-   const projectId = req.session.projectId;
-   const proc_id = req.session.projectId;
-   const event_id = req.session.eventId;
-   const { SESSION_ID } = req.cookies;
-   const stage2_value = req.session.stage2_value;
-   const agreementId_session = req.session.agreement_id;
+  const projectId = req.session.projectId;
+  const proc_id = req.session.projectId;
+  const event_id = req.session.eventId;
+  const { SESSION_ID } = req.cookies;
+  const stage2_value = req.session.stage2_value;
+  const agreementId_session = req.session.agreement_id;
 
+  const eventType = req.session.eventManagement_eventType;
 
-   const eventType = req.session.eventManagement_eventType;
+  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  baseURL = baseURL + '/criteria';
+  const keyDateselector = 'Key Dates';
+  const selectedeventtype = req.session.selectedeventtype;
+  try {
+    const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
 
-   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
-   baseURL = baseURL + '/criteria';
-   const keyDateselector = 'Key Dates';
-   let selectedeventtype=req.session.selectedeventtype;
-   try {
+    let criterianStorage = [];
+    for (const aURI of extracted_criterion_based) {
+      const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+      const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+      const criterian_array = fetch_criterian_group_data?.data;
+      const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+        const object = anItem;
+        object['criterianId'] = aURI;
+        return object;
+      });
 
-     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+      criterianStorage.push(rebased_object_with_requirements);
+    }
 
-     let criterianStorage = [];
-     for (const aURI of extracted_criterion_based) {
+    criterianStorage = criterianStorage.flat();
+    criterianStorage = criterianStorage.filter((AField) => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
+    const prompt = criterianStorage[0].nonOCDS.prompt;
+    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
 
-       const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-       const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-       const criterian_array = fetch_criterian_group_data?.data;
-       const rebased_object_with_requirements = criterian_array?.map(anItem => {
-         const object = anItem;
-         object['criterianId'] = aURI;
-         return object;
-       });
+    const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+    const fetchQuestionsData = fetchQuestions.data;
 
-       criterianStorage.push(rebased_object_with_requirements);
-     }
-
-     criterianStorage = criterianStorage.flat();
-     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
-     const Criterian_ID = criterianStorage[0].criterianId;
-     const prompt = criterianStorage[0].nonOCDS.prompt;
-     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-
-     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
-     let fetchQuestionsData = fetchQuestions.data;
-
-     let publishDate = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;	
-     let currentDate = moment(new Date(), 'DD/MM/YYYY').format("YYYY-MM-DD");
-     publishDate = moment(publishDate, 'YYYY-MM-DD').format("YYYY-MM-DD");
+    let publishDate = fetchQuestionsData
+      ?.filter((item) => item?.OCDS?.id == 'Question 2')
+      .map((item) => item?.nonOCDS?.options)?.[0]
+      ?.find((i) => i?.value)?.value;
+    const currentDate = moment(new Date(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+    publishDate = moment(publishDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
     let warning = false;
-//31-03-23  //02-04-23
-     if(publishDate < currentDate) {
-         warning = true;
+    //31-03-23  //02-04-23
+    if (publishDate < currentDate) {
+      warning = true;
 
-         req.session.isTimelineRevert = true;
-         if(eventType == 'FC' && req.session.agreement_id == 'RM1043.8') {
-           if(stage2_value !== undefined && stage2_value === "Stage 2"){
-             //Stage 2 --> DOS6
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Not started'); 
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Cannot start yet'); 
-           } else {
-             //Stage 1 --> DOS6
-             //Journey need to be revert 34, 35
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
-             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
-           }
-         }
-         else if(eventType == 'FC' && req.session.agreement_id == 'RM6187') {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Not started'); 
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Cannot start yet'); 
+      req.session.isTimelineRevert = true;
+      if (eventType == 'FC' && req.session.agreement_id == 'RM1043.8') {
+        if (stage2_value !== undefined && stage2_value === 'Stage 2') {
+          //Stage 2 --> DOS6
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Cannot start yet');
+        } else {
+          //Stage 1 --> DOS6
+          //Journey need to be revert 34, 35
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
         }
-        if(req.session.agreement_id == 'RM1557.13' && eventType == 'FC'){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Not started'); 
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Cannot start yet'); 
-         }
-         if(eventType == 'RFI' && (req.session.agreement_id == 'RM1557.13' || req.session.agreement_id == 'RM6187') ){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Not started'); 
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/14`, 'Cannot start yet'); 
-         }else if(eventType == 'DA' && req.session.agreement_id == 'RM6187') {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Not started');
+      } else if (eventType == 'FC' && req.session.agreement_id == 'RM6187') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Cannot start yet');
+      }
+      if (req.session.agreement_id == 'RM1557.13' && eventType == 'FC') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Cannot start yet');
+      }
+      if (eventType == 'RFI' && (req.session.agreement_id == 'RM1557.13' || req.session.agreement_id == 'RM6187')) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/14`, 'Cannot start yet');
+      } else if (eventType == 'DA' && req.session.agreement_id == 'RM6187') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Cannot start yet');
-         }else if(eventType == 'EOI' && req.session.agreement_id == 'RM6187') {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/23`, 'Not started'); 
-           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/24`, 'Cannot start yet');
-        }
+      } else if (eventType == 'EOI' && req.session.agreement_id == 'RM6187') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/23`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/24`, 'Cannot start yet');
+      }
+    } else {
+      const selected_question_id = 'Question 1';
+      const date = new Date();
+      const filtervalues = moment(date, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+      const answerformater = {
+        value: filtervalues,
+        selected: true,
+        text: selected_question_id,
+      };
+      const answerBody = {
+        nonOCDS: {
+          answered: true,
+          options: [answerformater],
+        },
+      };
+      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${selected_question_id}`;
 
-     } else {
-        var selected_question_id = "Question 1";
-        var date = new Date();
-        const filtervalues=moment(
-          date,
-          'DD MMMM YYYY, HH:mm:ss ',
-        ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
-        const answerformater = {
-          value: filtervalues,
-          selected: true,
-          text: selected_question_id,
-        };
-        const answerBody = {
-          nonOCDS: {
-            answered: true,
-            options: [answerformater],
-          },
-        };
-        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${selected_question_id}`;
-      
-        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
 
-
-         warning = false;
-       }
-     res.json({ warning: warning, eventType: eventType});
-
-   } catch (error) {
-      LoggTracer.errorLogger(
-       res,
-       error,
-       `${req.headers.host}${req.originalUrl}`,
-       null,
-       TokenDecoder.decoder(SESSION_ID),
-       'Tender Api - getting users from organization or from tenders failed',
-       true,
-     );
-   }
- };
+      warning = false;
+    }
+    res.json({ warning: warning, eventType: eventType });
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender Api - getting users from organization or from tenders failed',
+      true
+    );
+  }
+};
 //CAS-32
- export const PUBLISH_DATE_MISMATCH_CANCEL = async (req: express.Request, res: express.Response) => {
-   req.session.isTimelineRevert = false;
-   res.sendStatus(200);
- };
+export const PUBLISH_DATE_MISMATCH_CANCEL = async (req: express.Request, res: express.Response) => {
+  req.session.isTimelineRevert = false;
+  res.sendStatus(200);
+};

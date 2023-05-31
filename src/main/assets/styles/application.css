@@ -4018,7 +4018,10 @@ p + .govuk-heading-s,
 span#create_supplier_message-error{
 display: none;
 }
-
+.govuk-custom-cell{
+  vertical-align: top;
+  padding: 10px 0;
+}
 span#create_message_input-error,span#reply_message_input-error{
 display: none;
 }
@@ -4026,6 +4029,9 @@ display: none;
   display: none !important;
 }
 .backdrop-sessionTimeoutPopup{
+  display: none !important;
+}
+.backdrop-projectCloseAllPopup{
   display: none !important;
 }
 .backdrop-checksupplierConfirmAllPopup{
@@ -4037,6 +4043,9 @@ display: none;
 .backdrop-sessionTimeoutPopup:target{
   display: block !important;
 }
+.backdrop-projectCloseAllPopup:target{
+  display: block !important;
+}
 .backdrop-checksupplierConfirmAllPopup:target{
   display: block !important;
 }
@@ -4044,6 +4053,9 @@ display: none;
   display: block !important;
 }
 #backdrop-sessionTimeoutPopup .messagepop{
+  display: block !important;
+}
+#backdrop-projectCloseAllPopup .messagepop{
   display: block !important;
 }
 #backdrop-checksupplierConfirmAllPopup .messagepop{
@@ -9432,13 +9444,14 @@ p,
 .backdrop-publishTimelineMismatch.showpopup,
 .backdrop-supplierConfirmAllPopup.showpopup,
 .backdrop-sessionTimeoutPopup.showpopup,
+.backdrop-projectCloseAllPopup.showpopup,
 .backdrop-checksupplierConfirmAllPopup.showpopup,
 .backdrop-confirmLowScoreSupplierPopup.showpopup,
 .backdrop-Qanda.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup,.backdrop-sessionTimeoutPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup,.backdrop-sessionTimeoutPopup,.backdrop-projectCloseAllPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
   position: fixed;
   top: 0px;
   left: 0px;

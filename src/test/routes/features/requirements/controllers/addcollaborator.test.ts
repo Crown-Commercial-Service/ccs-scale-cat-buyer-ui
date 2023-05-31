@@ -6,9 +6,10 @@ import { app } from '../../../../../main/app';
 import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
-const environentVar = require('dotenv').config();
-const { parsed: envs } = environentVar;
+import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
+
+const { parsed: envs } = dotenv.config();
 
 describe('Add collaborator', () => {
   let parentApp;
@@ -47,17 +48,17 @@ describe('Add collaborator', () => {
         .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
     }
     nock('https://tst.api.crowncommercial.gov.uk')
-      .post(`/security/tokens/validation`)
+      .post('/security/tokens/validation')
       .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles`)
+      .get('/user-profiles')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263`)
+      .get('/agreements/RM6263')
       .query(true)
       .reply(200, { data: [{ name: 'sisarProject' }] });
 
@@ -74,7 +75,7 @@ describe('Add collaborator', () => {
       },
     ];
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots`)
+      .get('/agreements/RM6263/lots')
       .query(true)
       .reply(200, dummyLots);
   });
@@ -97,7 +98,7 @@ describe('Add collaborator', () => {
     await request(parentApp)
       .get('/rfp/add-collaborators')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('title');
@@ -120,7 +121,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail/js-enabled')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).to.have.property('userName');
         expect(res.body).to.have.property('firstName');
         expect(res.body).to.have.property('lastName');
@@ -144,7 +145,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail/js-enabled')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).to.have.property('userName');
         expect(res.body).to.have.property('firstName');
         expect(res.body).to.have.property('lastName');
@@ -168,7 +169,7 @@ describe('Add collaborator', () => {
       .post('/rfp/get-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborators: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/add-collaborators');
       });
@@ -188,7 +189,7 @@ describe('Add collaborator', () => {
       .post('/rfp/add-collaborator-detail')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .send({ rfi_collaborator: collaboratorDummy })
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/add-collaborators');
       });
@@ -199,7 +200,7 @@ describe('Add collaborator', () => {
     await request(parentApp)
       .post('/rfp/proceed-collaborators')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/task-list');
       });

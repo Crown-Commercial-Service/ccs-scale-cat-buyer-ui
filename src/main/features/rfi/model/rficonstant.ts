@@ -18,17 +18,17 @@ export enum RFI_PATHS {
   GET_RFI_REVIEW = '/rfi/review',
   GET_EVENT_PUBLISHED = '/rfi/event-sent',
   GET_OFFLINE = '/eoi/offline',
-  RFI_GET_NEXT_STEPS='/rfi/nextsteps',
-  RFI_GET_CLOSE='/rfi/closerfi',
-  POST_DELETE_COLLABORATOR_TO_JAGGER='/rfi/delete-collaborators',
-  RFI_CHOOSE_YOUR_ROUTE_MARKET='/rfi/choose_your_route_market',
+  RFI_GET_NEXT_STEPS = '/rfi/nextsteps',
+  RFI_GET_CLOSE = '/rfi/closerfi',
+  POST_DELETE_COLLABORATOR_TO_JAGGER = '/rfi/delete-collaborators',
+  RFI_CHOOSE_YOUR_ROUTE_MARKET = '/rfi/choose_your_route_market',
 
-  /** 
+  /**
    * mcf3
-  */
+   */
 
-  GET_CONFIRMATION_REVIEW='/rfi/confirmation-review',
-  GET_BUILD_RFI='/rfi/choose-build-your-rfi',
+  GET_CONFIRMATION_REVIEW = '/rfi/confirmation-review',
+  GET_BUILD_RFI = '/rfi/choose-build-your-rfi',
 
   /**
    * @POSTROUTES
@@ -49,5 +49,5 @@ export enum RFI_PATHS {
   POST_ADD_RESPONSE_DATA = '/rfi/add/response-date',
   POST_RFI_REVIEW = '/rfi/review',
   POST_UPLOAD_PROCEED = '/rfi/upload-doc/proceed',
-  RFI_POST_NEXT_STEPS='/rfi/nextsteps',
+  RFI_POST_NEXT_STEPS = '/rfi/nextsteps',
 }

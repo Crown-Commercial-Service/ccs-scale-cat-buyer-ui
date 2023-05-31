@@ -48,7 +48,7 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA learn page',
-      true,
+      true
     );
   }
 };
@@ -69,7 +69,7 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Post failed - learn page',
-      true,
+      true
     );
   }
 };

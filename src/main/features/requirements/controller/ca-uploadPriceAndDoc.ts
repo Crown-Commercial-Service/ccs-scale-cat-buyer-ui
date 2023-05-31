@@ -32,7 +32,7 @@ export const CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Req
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Suppliers page error - CapAss',
-      true,
+      true
     );
   }
 };
@@ -42,7 +42,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
   const { eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
-  const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
+  const scalabilityData = dimension.filter((data) => data.name === 'Scalability')[0];
 
   try {
     const body = {
@@ -52,7 +52,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
       includedCriteria: [{ 'criterion-id': '0' }],
       requirements: [
         {
-          name: scalabilityData.options.find(data => data['requirement-id'] === Number(req.body.team_option)).name,
+          name: scalabilityData.options.find((data) => data['requirement-id'] === Number(req.body.team_option)).name,
           'requirement-id': Number(req.body.team_option),
           weighting: 100,
           values: [{ 'criterion-id': '0', value: '1: Yes' }],
@@ -67,7 +67,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
 
     await TenderApi.Instance(SESSION_ID).put(
       `/assessments/${assessmentId}/dimensions/${scalabilityData['dimension-id']}`,
-      body,
+      body
     );
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Cannot start yet');
@@ -85,7 +85,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Post failed - CA team scale page',
-      true,
+      true
     );
   }
 };
