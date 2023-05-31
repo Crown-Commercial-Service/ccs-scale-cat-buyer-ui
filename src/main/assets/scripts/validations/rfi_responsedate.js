@@ -181,28 +181,35 @@ console.log("totalElementSelectors",totalElementSelectors)
             q7Selected=false;
           //  if(selector==6){
           let previousQuestion;
-          if(selector!=1){
-          let indexKey = totalElementSelectors.indexOf(selector);
-          let indexKeyPrevious  = indexKey-1;
-          let previosElementValue=totalElementSelectors[indexKeyPrevious];
-          console.log("indexKey",indexKey);
-          console.log("clarification_",indexKeyPrevious);
-          console.log("previosElementValue",previosElementValue);
-          let previousQuestionSplit = $(".timedate"+previosElementValue).val();
-          console.log("previousQuestionSplit",previousQuestionSplit);
-           previousQuestion = previousQuestionSplit.split('*')[1];
-          console.log("previousQuestion",previousQuestion)
+          let previousQuestionSplit;
+          previousQuestionSplit = $(".timedate"+selector).val();
+             previousQuestion = previousQuestionSplit.split('*')[1];
+             
+        //   if(selector!=1){
+        //   let indexKey = totalElementSelectors.indexOf(selector);
+        //   let indexKeyPrevious  = indexKey-1;
+        //   let previosElementValue=totalElementSelectors[indexKeyPrevious];
+        //   console.log("indexKey",indexKey);
+        //   console.log("clarification_",indexKeyPrevious);
+        //   console.log("previosElementValue",previosElementValue);
+        //   previousQuestionSplit = $(".timedate"+previosElementValue).val();
+        //   console.log("previousQuestionSplit",previousQuestionSplit);
+        //    previousQuestion = previousQuestionSplit.split('*')[1];
+        //   console.log("previousQuestion",previousQuestion)
 
-          }else{
-             previousQuestion=null
-          }
+        //   }else{
+        //      previousQuestionSplit = $(".timedate"+selector).val();
+        //      previousQuestion = previousQuestionSplit.split('*')[1];
+             
+        //   }
         //   let tl_Q6_split = $("input[name='deadline_for_submission_of_stage_one']").val();
         //     let tl_Q6 = tl_Q6_split.split('*')[1];
 
        
         //}
 
-            if(selector==7 || selector==8){
+            //if(selector==7 || selector==8){
+                if(selector==8 || selector==10){
               
 
             let checkRadioSelectedClassName = 'resdateradio'+selector;
@@ -220,7 +227,7 @@ console.log("totalElementSelectors",totalElementSelectors)
                     jsonVariable['Q'+selector] = {
                         value: null, 
                         selected: q7Selected, 
-                        config: selector
+                        config: 1
                     };   
 
                     manipulationArray = Object.assign(manipulationArray, jsonVariable);

@@ -921,6 +921,20 @@ const MCF3_Days = {
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
   stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
 };
+
+const DOS_Days = {
+  defaultEndingHour: Number(config.get('predefinedDays.dos_defaultEndingHour')),
+  defaultEndingMinutes: Number(config.get('predefinedDays.dos_defaultEndingMinutes')),
+  clarification_days: Number(config.get('predefinedDays.dos_clarification_days')),
+  clarification_period_end: Number(config.get('predefinedDays.dos_clarification_period_end')),
+  supplier_period: Number(config.get('predefinedDays.dos_supplier_period')),
+  closing_date: Number(config.get('predefinedDays.dos_closing_date')),
+  supplier_deadline: Number(config.get('predefinedDays.dos_supplier_deadline')),
+  supplier_period_extra: Number(config.get('predefinedDays.dos_supplier_period_extra')),
+  supplier_deadline_extra: Number(config.get('predefinedDays.dos_supplier_deadline_extra')),
+  stand_stils_date: Number(config.get('predefinedDays.dos_stand_stils_date')),
+  
+};
 export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: express.Response) => {
   await momentCssHolidays();
   
@@ -1024,6 +1038,150 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       {question: 'Q10', value: `Question 9*${Q10_after}`, order: 4,input_hidden:'timedate10',label:'clarification_10'},
       {question: 'Q11', value: `Question 9*${Q11_after}`, order: 5,input_hidden:'timedate11',label:'clarification_11'},
     ];
+  }else{
+    //DOS
+
+    let manipulation = req.body.manipulation;
+    console.log(manipulation);
+    //Q7
+
+    let pre_Q7 = manipulation.Q7.value;
+    
+    let Q7 = new Date(pre_Q7);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+    console.log("Q7",Q7)
+    // let Q7, Q7_after, Q7_check;
+    // if(manipulation.Q7.selected) {
+    //   const Q6_Parsed = `${Q6.getDate()}-${
+    //     Q6.getMonth() + 1
+    //   }-${Q6.getFullYear()}`;
+    //   const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(manipulation.Q7.config)._d;
+
+    //   Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+    //   Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+    //   Q7 = Q6_B_add;
+    //   Q7_check = Q7;
+    // } else {
+    //   Q7 = Q6;
+    //   Q7_check = undefined;
+    // }
+
+    let Q8, Q8_after, Q8_check;
+    console.log("manipulation.Q8.selected",manipulation.Q8.config);
+
+    if(manipulation.Q8.selected) {
+      const Q7_Parsed = `${Q7.getDate()}-${
+        Q7.getMonth() + 1
+      }-${Q7.getFullYear()}`;
+      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+
+      Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      Q8 = Q7_B_add;
+      Q8_check = Q8;
+    } else {
+      Q8 = Q7;
+      Q8_check = undefined;
+    }
+
+    //Q9
+    let Q9, Q9_after;
+    const Q9_Parsed = `${Q8.getDate()}-${
+      Q8.getMonth() + 1
+    }-${Q8.getFullYear()}`;
+    const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+    Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+    Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+    Q9 = Q9_B_add;
+
+    //Q10
+    // let Q10, Q10_after;
+    // const Q10_Parsed = `${Q9.getDate()}-${
+    //   Q9.getMonth() + 1
+    // }-${Q9.getFullYear()}`;
+    // const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
+    // Q10_B_add.setHours(DOS_Days.defaultEndingHour);
+    // Q10_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+    // Q10 = Q10_B_add;
+
+    let Q10, Q10_after, Q10_check;
+    if(manipulation.Q10.selected) {
+      const Q9_Parsed = `${Q9.getDate()}-${
+        Q9.getMonth() + 1
+      }-${Q9.getFullYear()}`;
+      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
+
+      Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      Q10 = Q9_B_add;
+      Q10_check = Q10;
+    } else {
+      Q10 = Q9;
+      Q10_check = undefined;
+    }
+    
+    //Q11
+    let Q11, Q11_after;
+    const Q11_Parsed = `${Q10.getDate()}-${
+      Q10.getMonth() + 1
+    }-${Q10.getFullYear()}`;
+    const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+    Q11_B_add.setHours(DOS_Days.defaultEndingHour);
+    Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+    Q11 = Q11_B_add;
+
+     //Q12
+     let Q12, Q12_after;
+     const Q12_Parsed = `${Q11.getDate()}-${
+       Q11.getMonth() + 1
+     }-${Q11.getFullYear()}`;
+     const Q12_B_add = moment(Q12_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+     Q12_B_add.setHours(DOS_Days.defaultEndingHour);
+     Q12_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+     Q12 = Q12_B_add;
+
+     //Q13
+     let Q13, Q13_after;
+     const Q13_Parsed = `${Q12.getDate()}-${
+       Q12.getMonth() + 1
+     }-${Q12.getFullYear()}`;
+     const Q13_B_add = moment(Q13_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+     Q13_B_add.setHours(DOS_Days.defaultEndingHour);
+     Q13_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+     Q13 = Q13_B_add;
+
+    //JSON Response Start
+    // if(Q8_check != undefined) {
+    //   Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    // } else {
+    //   Q8_after = 'Invalid date';
+    // }
+
+    if(Q8_check != undefined) {
+      Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    } else {
+      Q8_after = 'Invalid date';
+    }
+    Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q12_after = moment(Q12, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    Q13_after = moment(Q13, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+   
+    //JSON Response End
+
+    // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
+    resData = [
+      //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
+      {question: 'Q8', value: `Question 8*${Q8_after}`, order: 2,input_hidden:'timedate8',label:'clarification_8'},
+      {question: 'Q9', value: `Question 9*${Q9_after}`, order: 3,input_hidden:'timedate9',label:'clarification_9'},
+      {question: 'Q10', value: `Question 10*${Q10_after}`, order: 4,input_hidden:'timedate10',label:'clarification_10'},
+      {question: 'Q11', value: `Question 11*${Q11_after}`, order: 5,input_hidden:'timedate11',label:'clarification_11'},
+      {question: 'Q12', value: `Question 12*${Q12_after}`, order: 6,input_hidden:'timedate12',label:'clarification_12'},
+      {question: 'Q13', value: `Question 13*${Q13_after}`, order: 7,input_hidden:'timedate13',label:'clarification_13'},
+    
+    ];
+
+
   }
   res.json(resData);
 }

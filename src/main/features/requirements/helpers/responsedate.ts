@@ -264,13 +264,35 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       // StandstilSupplierPresentation - Start
       let nineQ;
-      if(!isEdit) {
-        //  First time logic
-        nineQ = deadline_for_submission_of_stage_one;
-      } else {
-        //  Edit Logic
-        nineQ = bidder_presentations_date;
+    
+      if(req.session.agreement_id=='RM6187'){
+
+        if(!isEdit) {
+         
+          //  First time logic
+          nineQ = deadline_for_submission_of_stage_one;
+        } else {
+         
+          //  Edit Logic
+          nineQ = bidder_presentations_date;
+        }
+
+      }else{
+
+        if(!isEdit) {
+          
+          //  First time logic
+          nineQ = evaluation_process_start_date;
+        } else {
+         
+          //  Edit Logic
+          nineQ = bidder_presentations_date;
+        }
+
       }
+      
+
+
       const StandstillPeriodStarts = nineQ;
       // StandstilSupplierPresentation - End
 
@@ -319,7 +341,22 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       proposed_award_date.setHours(predefinedDays.defaultEndingHour);
       proposed_award_date.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////11
-      const ExpectedSignature = proposed_award_date;
+        let elevenQ;
+      if(req.session.agreement_id=='RM1043.8'){
+
+        if(!isEdit) {
+          //  First time logic
+          elevenQ = standstill_period_starts_date;
+        } else {
+         
+          //  Edit Logic
+          elevenQ = standstill_period_starts_date;
+        }
+
+      }
+
+      //const ExpectedSignature = proposed_award_date;
+      const ExpectedSignature = elevenQ;
       const ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
         ExpectedSignature.getMonth() + 1
       }-${ExpectedSignature.getFullYear()}`;
@@ -595,13 +632,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     
     // StandstilSupplierPresentation - Start (override)
     fetchQuestionsData.forEach((el) => {
-      if(el.OCDS.id == 'Question 7') {
+      if(el.OCDS.id == 'Question 8') {
             let dataManipulation = el.nonOCDS;
-            dataManipulation.time_line = {"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline","conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
+            dataManipulation.time_line = {"OCDS":{"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
         }
-        if(el.OCDS.id == 'Question 8') {
+        if(el.OCDS.id == 'Question 10') {
             let dataManipulation = el.nonOCDS;
-            dataManipulation.time_line = {"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline","conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
+            dataManipulation.time_line = {"OCDS":{"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 10","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
         }
     });
       // StandstilSupplierPresentation - End (override)
