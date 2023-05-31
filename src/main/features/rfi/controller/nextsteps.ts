@@ -33,9 +33,9 @@ export const RFI_GET_NEXT_STEPS = async (req: express.Request, res: express.Resp
 
   res.locals.agreement_header = {
     agreementName,
-    project_name,
+    projectName:project_name,
     projectId,
-    agreementId_session,
+    agreementIdSession:agreementId_session,
     agreementLotName,
     lotid,
     error: isJaggaerError,
