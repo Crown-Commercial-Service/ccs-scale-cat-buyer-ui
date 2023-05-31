@@ -207,24 +207,24 @@
                                  {% set bodyContHide = 'hide' %}
                                 {% set yeschecked = '' %}
                                 {% set nochecked = '' %}
-                                  {% if(requirement.nonOCDS.time_line.options[0].select==true ) %}
+                                  {% if(requirement.nonOCDS.time_line.nonOCDS.options[0].select==true ) %}
                                   {% set yeschecked = 'checked' %}
                                    {% set bodyContHide = '' %}
                                   {% endif %}
                                   
-                                  {% if(requirement.nonOCDS.time_line.options[1].select==true ) %}
+                                  {% if(requirement.nonOCDS.time_line.nonOCDS.options[1].select==true ) %}
                                   {% set nochecked = 'checked' %}
-                                   {% set bodyContHide = '' %}
+                                   {% set bodyContHide = 'hide' %}
                                   {% endif %}
 
                                 <div class="datehead hidehr" id="headContent_{{requirement.nonOCDS.order}}">
                                     
                                     <label class="govuk-label govuk-body">
-                                     <strong>{{requirement.nonOCDS.time_line.title}}</strong>
+                                     <strong>{{requirement.nonOCDS.time_line.OCDS.title}}</strong>
                                          
                                     </label>
                                       
-                                        <p class="govuk-body">{{requirement.nonOCDS.time_line.description}}</p>
+                                        <p class="govuk-body">{{requirement.nonOCDS.time_line.OCDS.description}}</p>
                                    
                                         
                                     <div class="govuk-radios govuk-radios--inline" id="errorMsg{{requirement.nonOCDS.order}}">
