@@ -40,7 +40,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
   const journeyStatus = req.session['journey_status'];
 
   if (!req.files) {
-    const journey = journeyStatus.find(journey => journey.step === 37)?.state;
+    const journey = journeyStatus.find((journey) => journey.step === 37)?.state;
     const routeRedirect = journey === 'Optional' ? `/${selRoute}/suppliers` : `/${selRoute}/upload-doc`;
     res.redirect(routeRedirect);
   }
@@ -84,7 +84,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
               null,
               TokenDecoder.decoder(SESSION_ID),
               'Multiple File Upload Error',
-              false,
+              false
             );
           }
         } else {
@@ -136,7 +136,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             Logmessage.error_location,
             Logmessage.sessionId,
             Logmessage.error_reason,
-            Logmessage.exception,
+            Logmessage.exception
           );
           LoggTracer.errorTracer(Log, res);
         }
@@ -155,21 +155,27 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
 export const CA_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
   const { file } = req.query;
   const { selectedRoute } = req.session;
-  tempArray = tempArray.filter(afile => afile.name !== file);
+  tempArray = tempArray.filter((afile) => afile.name !== file);
   res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
 });
 
 export const CA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   try {
-      const { eventId, selectedRoute } = req.session;
-      const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+    const { eventId, selectedRoute } = req.session;
+    const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
 
-      res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
-    } catch (error) {
-      LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
-      );
-    }
+    res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      true
+    );
+  }
 });

@@ -9,7 +9,7 @@ import {
 import {
   CA_GET_CHOOSE_SECURITY_REQUIREMENTS,
   CA_POST_CHOOSE_SECURITY_REQUIREMENTS,
-}from './ca-ChooseSecurityRequirements';
+} from './ca-ChooseSecurityRequirements';
 import { CA_GET_LEARN_ASSESSMENT_BASES, CA_POST_LEARN_ASSESSMENT_BASES } from './ca-learnAssessmentBases';
 import { CA_GET_SERVICE_CAPABILITIES, CA_POST_SERVICE_CAPABILITIES } from './ca-serviceCapabilites';
 import { CA_GET_REVIEW_RANKED_SUPPLIERS, CA_POST_REVIEW_RANKED_SUPPLIERS } from './ca-reviewRankedSuppliers';
@@ -28,21 +28,24 @@ import { RFP_REQUIREMENT_TASK_LIST } from './rfp-taskList';
 
 import { RFP_GET_LEAD_PROCUREMENT, RFP_PUT_LEAD_PROCUREMENT, RFP_GET_USER_PROCUREMENT } from './rfp-leadProcurement';
 import { RFP_GET_NAME_PROJECT, RFP_POST_NAME_PROJECT } from './rfp-nameAProject';
-import { RFP_POST_RETAIN_SESSION} from './rfp-sessionretain';
+import { RFP_POST_RETAIN_SESSION } from './rfp-sessionretain';
 
+import { RFP_GET_ADDITIONAL_SERVICES, RFP_POST_ADDITIONAL_SELECT_SERVICES } from './rfp-additionalService';
 
-import { RFP_GET_ADDITIONAL_SERVICES,RFP_POST_ADDITIONAL_SELECT_SERVICES } from './rfp-additionalService';
-
-
-import { RFP_GET_CONFIRMATION_REVIEW,PUBLISH_DATE_MISMATCH, PUBLISH_DATE_MISMATCH_CANCEL } from './rfp-confirmationReview';
-import { RFP_GET_SELECTED_SERVICE,RFP_POST_SELECTED_SERVICE } from './rfp-selectedService';
+import {
+  RFP_GET_CONFIRMATION_REVIEW,
+  PUBLISH_DATE_MISMATCH,
+  PUBLISH_DATE_MISMATCH_CANCEL,
+} from './rfp-confirmationReview';
+import { RFP_GET_SELECTED_SERVICE, RFP_POST_SELECTED_SERVICE } from './rfp-selectedService';
 
 import { RFP_OFFLINE_JOURNEY_PAGE } from './rfp-offline';
 import { RFP_UPLOAD } from './rfp-uploadOverview';
 import {
   RFP_GET_UPLOAD_ATTACHMENT,
   RFP_POST_UPLOAD_ATTACHMENT,
-  RFP_POST_UPLOAD_ATTACHMENT_PROCEED,RFP_GET_REMOVE_FILES_ATTACHMENT
+  RFP_POST_UPLOAD_ATTACHMENT_PROCEED,
+  RFP_GET_REMOVE_FILES_ATTACHMENT,
 } from './rfp-uploadAttachment';
 import { RFP_GET_UPLOAD_DOC, RFP_POST_UPLOAD_DOC, RFP_GET_REMOVE_FILES, RFP_POST_UPLOAD_PROCEED } from './rfp-upload';
 import { RFP_GET_ADD_CONTEXT } from './rfp-addcontext';
@@ -103,7 +106,7 @@ import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 import { DA_GET_SUBCONTRACTORS, DA_POST_SUBCONTRACTORS } from './da-SubContractors';
 import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-serviceCapabilities';
 import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
-import { RFP_Assesstment_GET_QUESTIONS,RFP_Assesstment_POST_QUESTION } from './rfp-questions-yourassesstment';
+import { RFP_Assesstment_GET_QUESTIONS, RFP_Assesstment_POST_QUESTION } from './rfp-questions-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
@@ -113,20 +116,37 @@ import { CA_GET_SUMMARY, CA_POST_SUMMARY } from './ca-summary';
 import { RFP_GET_SERVICE_CAPABILITIES, RFP_POST_SERVICE_CAPABILITIES } from './rfp-serviceCapabilities';
 import { RFP_GET_QUALITY_GROUP, RFP_POST_QUALITY_GROUP } from './rfp-quality_group';
 import { RFP_GET_WHERE_WORK_DONE, RFP_POST_WHERE_WORK_DONE } from './rfp-whereWorkDone';
-import {CA_GET_review, CA_POST_review} from './ca-review'
-import {RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED} from './rfp-work-completed'
-import {RFP_GET_EVENT_PUBLISHED} from './rfp-eventpublished'
-import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings';
-import {GET_RFP_REVIEW,POST_RFP_REVIEW} from './rfp-review';
+import { CA_GET_review, CA_POST_review } from './ca-review';
+import { RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED } from './rfp-work-completed';
+import { RFP_GET_EVENT_PUBLISHED } from './rfp-eventpublished';
+import { RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS } from './rfp-enterYourWeightings';
+import { GET_RFP_REVIEW, POST_RFP_REVIEW } from './rfp-review';
 
-import {GET_UNPUBLISHED_EVENT_MANAGEMENT} from './rfp-unpublishedeventmanagement';
-import {GET_RFP_CLOSE_PROJECT} from './rfp-closeproject';
-import {GET_DA_REVIEW_SUPPLIER,POST_DA_REVIEW_SUPPLIER} from './da-reviewsupplier';
+import { GET_UNPUBLISHED_EVENT_MANAGEMENT } from './rfp-unpublishedeventmanagement';
+import { GET_RFP_CLOSE_PROJECT } from './rfp-closeproject';
+import { GET_DA_REVIEW_SUPPLIER, POST_DA_REVIEW_SUPPLIER } from './da-reviewsupplier';
 import { DA_GET_NAME_PROJECT, DA_POST_NAME_PROJECT } from './da-nameAProject';
 import { DA_GET_LEAD_PROCUREMENT, DA_GET_USER_PROCUREMENT, DA_PUT_LEAD_PROCUREMENT } from './da-leadProcurement';
-import { DA_GET_ADD_COLLABORATOR,DA_POST_ADD_COLLABORATOR,DA_POST_ADD_COLLABORATOR_JSENABLED,DA_POST_ADD_COLLABORATOR_TO_JAGGER,DA_POST_DELETE_COLLABORATOR_TO_JAGGER,DA_POST_PROCEED_COLLABORATORS } from './da-addcollaborator';
-import { RFP_GET_UPLOAD_ADDITIONAL , RFP_POST_UPLOAD_ADDITIONAL,RFP_POST_UPLOAD_ADDITIONAL_PROCEED,RFP_GET_REMOVE_ADDITIONAL_FILES } from './rfp-uploadAdditional';
-import { RFP_GET_UPLOAD_ADDITIONAL_DOC , RFP_POST_UPLOAD_ADDITIONAL_DOC,RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED,RFP_GET_REMOVE_ADDITIONAL_DOC_FILES } from './rfp-uploadAdditionalDoc';
+import {
+  DA_GET_ADD_COLLABORATOR,
+  DA_POST_ADD_COLLABORATOR,
+  DA_POST_ADD_COLLABORATOR_JSENABLED,
+  DA_POST_ADD_COLLABORATOR_TO_JAGGER,
+  DA_POST_DELETE_COLLABORATOR_TO_JAGGER,
+  DA_POST_PROCEED_COLLABORATORS,
+} from './da-addcollaborator';
+import {
+  RFP_GET_UPLOAD_ADDITIONAL,
+  RFP_POST_UPLOAD_ADDITIONAL,
+  RFP_POST_UPLOAD_ADDITIONAL_PROCEED,
+  RFP_GET_REMOVE_ADDITIONAL_FILES,
+} from './rfp-uploadAdditional';
+import {
+  RFP_GET_UPLOAD_ADDITIONAL_DOC,
+  RFP_POST_UPLOAD_ADDITIONAL_DOC,
+  RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED,
+  RFP_GET_REMOVE_ADDITIONAL_DOC_FILES,
+} from './rfp-uploadAdditionalDoc';
 import { DOS6_STAGE2_TASK_LIST } from './dos6-taskList';
 
 /**
@@ -136,7 +156,6 @@ import { DOS6_STAGE2_TASK_LIST } from './dos6-taskList';
  * @description Provides as Base for all Controller
  */
 export const REQUIREMENT_CONTROLLER = {
-  
   REQUIREMENT_CHOOSE_ROUTE,
   POST_REQUIREMENT_CHOOSE_ROUTE,
   DA_GET_LEARN_START,
@@ -302,8 +321,10 @@ export const REQUIREMENT_CONTROLLER = {
   GET_RFP_CLOSE_PROJECT,
 
   RFP_GET_EVENT_PUBLISHED,
-  GET_RFP_REVIEW,POST_RFP_REVIEW,
-  GET_DA_REVIEW_SUPPLIER,POST_DA_REVIEW_SUPPLIER,
+  GET_RFP_REVIEW,
+  POST_RFP_REVIEW,
+  GET_DA_REVIEW_SUPPLIER,
+  POST_DA_REVIEW_SUPPLIER,
   DA_GET_NAME_PROJECT,
   DA_POST_NAME_PROJECT,
   DA_GET_LEAD_PROCUREMENT,

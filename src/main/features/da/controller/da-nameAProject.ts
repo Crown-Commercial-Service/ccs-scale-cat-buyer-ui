@@ -16,7 +16,6 @@ import { logConstant } from '../../../common/logtracer/logConstant';
  * @GETController
  */
 export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
-  
   const { isEmptyProjectError } = req.session;
   req.session['isEmptyProjectError'] = false;
   const procurements = req.session.procurements;
@@ -29,8 +28,15 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
   const agreementName = req.session.agreementName;
   const lotid = lotId;
   const projectId = req.session.projectId;
-  
-  res.locals.agreement_header = { agreementName, projectName:project_name, projectId, agreementIdSession:agreementId_session, agreementLotName, lotid };
+
+  res.locals.agreement_header = {
+    agreementName,
+    projectName: project_name,
+    projectId,
+    agreementIdSession: agreementId_session,
+    agreementLotName,
+    lotid,
+  };
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -55,10 +61,10 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
 export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   console.log(req.body['rfi_projLongName']);
-  
+
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
   try {
@@ -67,7 +73,7 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
         name: name,
       };
 
-      try{
+      try {
         const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
         //CAS-INFO-LOG
         LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
@@ -76,11 +82,10 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Completed');
         const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
         res.redirect('/da/procurement-lead');
-      }catch(err){        
+      } catch (err) {
         req.session['isEmptyProjectError'] = true;
         res.redirect('/da/name-your-project');
       }
-      
     } else {
       req.session['isEmptyProjectError'] = true;
       res.redirect('/da/name-your-project');
@@ -93,7 +98,7 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Name a Project - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

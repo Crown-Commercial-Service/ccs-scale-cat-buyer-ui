@@ -20,8 +20,8 @@ if (app.locals.ENV === 'development') {
   ELB.headersTimeout = 61 * 100000;
   ELB.requestTimeout = 61 * 100000;
 
-  ELB.on('connection', function(socket) {
+  ELB.on('connection', function (socket) {
     console.log('A new connection was made by a client.');
-    socket.setTimeout(30 * 100000); 
+    socket.setTimeout(30 * 100000);
   });
 }

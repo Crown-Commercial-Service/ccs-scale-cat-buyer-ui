@@ -26,14 +26,14 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
-  const { rfp_collaborators : userParam } = req.query;
+  const { rfp_collaborators: userParam } = req.query;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
     let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
+      organisation_user_endpoint
     );
     organisation_user_data = organisation_user_data?.data;
-     
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.getUserDetails, req);
 
@@ -42,9 +42,9 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
-      const { userList } = organisation_user_data_loop?.data;
+      const { userList } = organisation_user_data_loop?.data ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;
@@ -63,7 +63,7 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       collaborator = { fullName: '', email: '' };
     }
     let filteredListofOrganisationUser = allUserStorge;
-    const filteredUser = userData.map(user => {
+    const filteredUser = userData.map((user) => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
 
@@ -74,21 +74,25 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     const releatedContent = req.session.releatedContent;
     const agreementId_session = req.session.agreement_id;
     let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
+    if (agreementId_session == 'RM6187') {
+      //MCF3
       forceChangeDataJson = Mcf3cmsData;
-    } else if(agreementId_session == 'RM1043.8') { //DOS
-      forceChangeDataJson = doscmsData; 
-    }else if(agreementId_session == 'RM1557.13') { //G-Cloud
-      forceChangeDataJson = gcloudcmsData; 
-    }else { //DSP
+    } else if (agreementId_session == 'RM1043.8') {
+      //DOS
+      forceChangeDataJson = doscmsData;
+    } else if (agreementId_session == 'RM1557.13') {
+      //G-Cloud
+      forceChangeDataJson = gcloudcmsData;
+    } else {
+      //DSP
       forceChangeDataJson = cmsData;
     }
-    
-    if(userParam){
-      const {userName, firstName, lastName, tel } = await getUserData(userParam)
-      collaborator = { email : userName, fullName : `${firstName} ${lastName}`, tel}
+
+    if (userParam) {
+      const { userName, firstName, lastName, tel } = await getUserData(userParam);
+      collaborator = { email: userName, fullName: `${firstName} ${lastName}`, tel };
     }
-   
+
     const windowAppendData = {
       agreementId_session,
       data: forceChangeDataJson,
@@ -101,9 +105,9 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       lead_data: leadUser,
       agreementLotName,
       error: isJaggaerError,
-      releatedContent: releatedContent
+      releatedContent: releatedContent,
     };
-   
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.addColleaguesPage, req);
 
@@ -116,7 +120,7 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      true,
+      true
     );
   }
 };
@@ -135,7 +139,7 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
     res.redirect('/rfp/add-collaborators');
   } else {
     try {
-      const userdetailsData = await getUserData(rfp_collaborators)
+      const userdetailsData = await getUserData(rfp_collaborators);
       res.status(200).json(userdetailsData);
     } catch (error) {
       LoggTracer.errorLogger(
@@ -145,35 +149,32 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
 };
 
-const getUserData = async(user_profile: string) => {
-    
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-      
-    const { userName, firstName, lastName, telephone } = userData;
-    let userdetailsData = { userName, firstName, lastName };
+const getUserData = async (user_profile: string) => {
+  const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+  const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+  const userData = organisation_user_data?.data;
 
-    if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-    else userdetailsData = { ...userdetailsData, tel: telephone };
-    return userdetailsData;
-}
+  const { userName, firstName, lastName, telephone } = userData;
+  let userdetailsData = { userName, firstName, lastName };
+
+  if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+  else userdetailsData = { ...userdetailsData, tel: telephone };
+  return userdetailsData;
+};
 
 export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
-  
   const { SESSION_ID } = req.cookies;
-  console.log(req['body'])
+  console.log(req['body']);
   const { rfp_collaborators } = req['body'];
   if (rfi_collaborators === '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/rfi/add-collaborators');
-    
   } else {
     try {
       const user_profile = rfi_collaborators;
@@ -185,7 +186,7 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
         userType: 'TEAM_MEMBER',
       };
 
-      try{
+      try {
         const updateRaw = await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
 
         //CAS-INFO-LOG
@@ -193,11 +194,10 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
 
         req.session['searched_user'] = [];
         res.redirect('/rfi/add-collaborators');
-      }catch(err){
+      } catch (err) {
         req.session['isJaggaerError'] = true;
         res.redirect('/rfi/add-collaborators');
       }
-
     } catch (error) {
       LoggTracer.errorLogger(
         res,
@@ -206,7 +206,7 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }
@@ -217,67 +217,64 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
   const { rfp_collaborators } = req['body'];
   const fieldValidate = {
     fields: {
-      'rfp_collaborators': {
+      rfp_collaborators: {
         type: 'nonEmptyString',
         name: 'Add colleagues',
-        errors :{
-          required : 'Colleagues must be selected from the list'
-        }
-      }
-    }
-  }
-  const errors = validation.getPageErrors(req.body, fieldValidate)
+        errors: {
+          required: 'Colleagues must be selected from the list',
+        },
+      },
+    },
+  };
+  const errors = validation.getPageErrors(req.body, fieldValidate);
   if (errors.hasErrors) {
-      req.session['isJaggaerError'] = errors;
-      res.redirect('/rfp/add-collaborators');
+    req.session['isJaggaerError'] = errors;
+    res.redirect('/rfp/add-collaborators');
   } else {
-     try{
+    try {
       const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfp_collaborators}`;
       const userType = {
         userType: 'TEAM_MEMBER',
       };
-        
-        try{
-          await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-          LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
-          req.session['searched_user'] = [];
-          res.redirect('/rfp/add-collaborators');
-        }catch(err){
-          const errorMessage = `You cannot add this user{ ${rfp_collaborator} }. Please try with another user`;
-          const errors = genarateFormValidation('rfp_collaborators', errorMessage )
-          req.session['isJaggaerError'] = errors;
-          res.redirect('/rfp/add-collaborators');
-        }
-       } catch(err) {
-        
-        const isJaggaerError = err.response?.data.errors.some(
-          (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
-        );
-        LoggTracer.errorLogger(
-          res,
-          err,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'Tender agreement failed to be added',
-          !isJaggaerError,
-        );
-        req.session['isJaggaerError'] = isJaggaerError;
+
+      try {
+        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        LoggTracer.infoLogger(null, logConstant.addColleaguesUpdated, req);
+        req.session['searched_user'] = [];
         res.redirect('/rfp/add-collaborators');
-     }
-      
+      } catch (err) {
+        const errorMessage = `You cannot add this user{ ${rfp_collaborator} }. Please try with another user`;
+        const errors = genarateFormValidation('rfp_collaborators', errorMessage);
+        req.session['isJaggaerError'] = errors;
+        res.redirect('/rfp/add-collaborators');
+      }
+    } catch (err) {
+      const isJaggaerError = err.response?.data.errors.some(
+        (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
+      );
+      LoggTracer.errorLogger(
+        res,
+        err,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        !isJaggaerError
+      );
+      req.session['isJaggaerError'] = isJaggaerError;
+      res.redirect('/rfp/add-collaborators');
+    }
   }
- 
 };
 
 export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {id}=req.query;
+  const { id } = req.query;
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
-    
+
     await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
-    
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.addColleaguesDeleted, req);
 
@@ -285,7 +282,7 @@ export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Reques
     res.redirect('/rfp/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -294,7 +291,7 @@ export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Reques
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender agreement failed to be added',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/add-collaborators');
@@ -306,11 +303,9 @@ export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Completed');
-  if(req.session.unpublishedeventmanagement=="true")
-  {
+  if (req.session.unpublishedeventmanagement == 'true') {
     res.redirect('/rfp/rfp-unpublishedeventmanagement');
-  }
-  else{
-  res.redirect('/rfp/task-list');
+  } else {
+    res.redirect('/rfp/task-list');
   }
 };

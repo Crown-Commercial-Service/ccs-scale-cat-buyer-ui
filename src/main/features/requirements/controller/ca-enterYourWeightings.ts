@@ -42,57 +42,57 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
-    let flag = await ShouldEventStatusBeUpdated(eventId, 46, req);
+    const flag = await ShouldEventStatusBeUpdated(eventId, 46, req);
     if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'In progress');
     }
-    let ca_weightings_description=[
+    const ca_weightings_description = [
       {
-        "ID":1,
-        "title":"Capacity (number of specialists per DDaT role)",
-        "desc":"This relates to how many staff are supplied in each role."
+        ID: 1,
+        title: 'Capacity (number of specialists per DDaT role)',
+        desc: 'This relates to how many staff are supplied in each role.',
       },
       {
-        "ID":2,
-        "title":"Security clearance and vetting",
-        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is."
+        ID: 2,
+        title: 'Security clearance and vetting',
+        desc: 'This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is.',
       },
       {
-        "ID":3,
-        "title":"Service capability",
-        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce."
+        ID: 3,
+        title: 'Service capability',
+        desc: 'This relates to the services the supplier can offer, including the specifics of each serivce.',
       },
       {
-        "ID":4,
-        "title":"Scalability(size of team)",
-        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so."
+        ID: 4,
+        title: 'Scalability(size of team)',
+        desc: 'This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so.',
       },
       {
-        "ID":5,
-        "title":"Location",
-        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country."
-      }
+        ID: 5,
+        title: 'Location',
+        desc: 'This relates to how important it is to you that any supplied staff are based in the specific regions of the country.',
+      },
     ];
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];
     dimensions.pop();
     if (dimensions.length > 0) {
-      weightingsArray = dimensions.map(anItem => {
+      weightingsArray = dimensions.map((anItem) => {
         return {
           id: anItem['dimension-id'],
           title: anItem['name'],
           description: '[Description for this dimension]',
           weightingRange: anItem['weightingRange'],
-          value: assessmentDetail.dimensionRequirements?.find(item => item['dimension-id'] == anItem['dimension-id'])
+          value: assessmentDetail.dimensionRequirements?.find((item) => item['dimension-id'] == anItem['dimension-id'])
             ?.weighting,
         };
       });
     }
-    ca_weightings_description.forEach(element => {
-      let index=weightingsArray.findIndex(x=>x.id===element.ID)
-      weightingsArray[index].title=element.title
-      weightingsArray[index].description=element.desc
+    ca_weightings_description.forEach((element) => {
+      const index = weightingsArray.findIndex((x) => x.id === element.ID);
+      weightingsArray[index].title = element.title;
+      weightingsArray[index].description = element.desc;
     });
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
@@ -118,7 +118,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA weighting page',
-      true,
+      true
     );
   }
 };
@@ -137,7 +137,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
@@ -149,11 +149,11 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
     const arr = [{ field1, field2, field3, field4, field5 }];
     const { isError, errorText } = checkErrors(arr, range);
     const { errorTextSumary } = checkErrorsSmary(arr, range);
-    req.session.scaledata=field4;
-    
+    req.session.scaledata = field4;
+
     if (isError) {
       req.session.errorTextSumary = errorTextSumary.reduce((acc, curr) => {
-        if (!acc?.find(ob => ob.text === curr.text)) return acc?.concat(curr);
+        if (!acc?.find((ob) => ob.text === curr.text)) return acc?.concat(curr);
         return acc;
       }, []);
       if (errorText.length !== 6) {
@@ -165,40 +165,37 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/ca/enter-your-weightings');
     } else {
-      let Weightings=[];
-        for(let i=1;i<=5;i++)
-        {
-            let dim=dimensions.filter(x=>x["dimension-id"] === i)
-            Weightings.push(...dim)
-        }
-      for (var dimension of Weightings) {
-          const body = {
-            name: dimension.name,
-            weighting: req.body[dimension['dimension-id']],
-            requirements: [],
-            includedCriteria: dimension.evaluationCriteria
-          };
-          
-          await TenderApi.Instance(SESSION_ID).put(
-            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-            body,
-          );
-      
-          
+      const Weightings = [];
+      for (let i = 1; i <= 5; i++) {
+        const dim = dimensions.filter((x) => x['dimension-id'] === i);
+        Weightings.push(...dim);
+      }
+      for (const dimension of Weightings) {
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension['dimension-id']],
+          requirements: [],
+          includedCriteria: dimension.evaluationCriteria,
+        };
+
+        await TenderApi.Instance(SESSION_ID).put(
+          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          body
+        );
+
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'Completed');
-        let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
+        const flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
         if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
         }
       }
-      if(req.session["CA_nextsteps_edit"])
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
-    }
-    req.session.errorText = [];
-    req.session.isError = false;
-    req.session.errorTextSumary=[];
+      if (req.session['CA_nextsteps_edit']) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+      }
+      req.session.errorText = [];
+      req.session.isError = false;
+      req.session.errorTextSumary = [];
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
@@ -209,7 +206,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       null,
       TokenDecoder.decoder(SESSION_ID),
       'CA weightings page',
-      true,
+      true
     );
   }
 };
@@ -217,7 +214,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
 function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
-  const keys = Object.keys(...arr).map(key => key);
+  const keys = Object.keys(...arr).map((key) => key);
   let isTotalOutOfHundred = 0;
   for (const obj of arr) {
     for (const k of keys) {
@@ -232,7 +229,7 @@ function checkErrors(arr, range) {
       isTotalOutOfHundred += Number(obj[k]);
     }
   }
-  if (isTotalOutOfHundred < 100  || isTotalOutOfHundred >100) {
+  if (isTotalOutOfHundred < 100 || isTotalOutOfHundred > 100) {
     isError = true;
   }
   return { isError, errorText };
@@ -240,8 +237,8 @@ function checkErrors(arr, range) {
 
 function checkErrorsSmary(arr, range) {
   const errorTextSumary = [];
-  const fieldsValues = Object.values(...arr).map(value => Number(value));
-  const keys = Object.keys(...arr).map(key => key);
+  const fieldsValues = Object.values(...arr).map((value) => Number(value));
+  const keys = Object.keys(...arr).map((key) => key);
   const total = fieldsValues.reduce((acc, curr) => acc + curr, 0);
   for (const obj of arr) {
     for (const k of keys) {

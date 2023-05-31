@@ -4,19 +4,21 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/logout
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
-export const OAUTH_LOGOUT : express.Handler = async (req : express.Request, res : express.Response)=> {
-    res.clearCookie('state'); 
-    res.clearCookie('SESSION_ID');
-    req.session["supplier_qa_url"] = undefined;
-    const paramsUrl = `client-id=${process.env.AUTH_SERVER_CLIENT_ID}&redirect-uri=${process.env.CAT_URL+config.get('authenticationService.logout_callback')}`;
-    const logoutUrl = `${process.env.AUTH_SERVER_BASE_URL}${config.get('authenticationService.logout')}?${paramsUrl}`;
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(null, logConstant.logoutSuccess, req);
-    res.redirect(logoutUrl);
-}
+export const OAUTH_LOGOUT: express.Handler = async (req: express.Request, res: express.Response) => {
+  res.clearCookie('state');
+  res.clearCookie('SESSION_ID');
+  req.session['supplier_qa_url'] = undefined;
+  const paramsUrl = `client-id=${process.env.AUTH_SERVER_CLIENT_ID}&redirect-uri=${
+    process.env.CAT_URL + config.get('authenticationService.logout_callback')
+  }`;
+  const logoutUrl = `${process.env.AUTH_SERVER_BASE_URL}${config.get('authenticationService.logout')}?${paramsUrl}`;
+  //CAS-INFO-LOG
+  LoggTracer.infoLogger(null, logConstant.logoutSuccess, req);
+  res.redirect(logoutUrl);
+};

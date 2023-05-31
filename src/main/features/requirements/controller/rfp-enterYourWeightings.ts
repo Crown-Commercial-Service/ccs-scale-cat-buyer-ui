@@ -46,13 +46,13 @@ export const RFP_GET_WEIGHTINGS = async (req: express.Request, res: express.Resp
     let weightingsArray = [];
     dimensions.pop();
     if (dimensions.length > 0) {
-      weightingsArray = dimensions.map(anItem => {
+      weightingsArray = dimensions.map((anItem) => {
         return {
           id: anItem['dimension-id'],
           title: anItem['name'],
           description: '[Description for this dimension]',
           weightingRange: anItem['weightingRange'],
-          value: assessmentDetail.dimensionRequirements?.find(item => item['dimension-id'] == anItem['dimension-id'])
+          value: assessmentDetail.dimensionRequirements?.find((item) => item['dimension-id'] == anItem['dimension-id'])
             ?.weighting,
         };
       });
@@ -80,7 +80,7 @@ export const RFP_GET_WEIGHTINGS = async (req: express.Request, res: express.Resp
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA weighting page',
-      true,
+      true
     );
   }
 };
@@ -115,7 +115,7 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
 
     if (isError) {
       req.session.errorTextSumary = errorTextSumary.reduce((acc, curr) => {
-        if (!acc?.find(ob => ob.text === curr.text)) return acc?.concat(curr);
+        if (!acc?.find((ob) => ob.text === curr.text)) return acc?.concat(curr);
         return acc;
       }, []);
       if (errorText.length !== 6) {
@@ -127,13 +127,13 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
       req.session['isJaggaerError'] = true;
       res.redirect('/rfp/enter-your-weightings');
     } else {
-      for (var dimension of dimensions) {
+      for (const dimension of dimensions) {
         const body = {
           name: dimension.name,
           weighting: req.body[dimension['dimension-id']],
           requirements: [],
           includedCriteria: dimension.evaluationCriteria
-            .map(criteria => {
+            .map((criteria) => {
               if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
                 return null;
               } else
@@ -141,16 +141,15 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
                   'criterion-id': criteria['criterion-id'],
                 };
             })
-            .filter(criteria => criteria !== null),
+            .filter((criteria) => criteria !== null),
         };
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-          body,
+          body
         );
       }
-
 
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
       res.redirect('/rfp/enter-your-weightings');
@@ -163,7 +162,7 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
       null,
       TokenDecoder.decoder(SESSION_ID),
       'CA weightings page',
-      true,
+      true
     );
   }
 };
@@ -171,7 +170,7 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
 function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
-  const keys = Object.keys(...arr).map(key => key);
+  const keys = Object.keys(...arr).map((key) => key);
   for (const obj of arr) {
     for (const k of keys) {
       if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
@@ -190,8 +189,8 @@ function checkErrors(arr, range) {
 
 function checkErrorsSmary(arr, range) {
   const errorTextSumary = [];
-  const fieldsValues = Object.values(...arr).map(value => Number(value));
-  const keys = Object.keys(...arr).map(key => key);
+  const fieldsValues = Object.values(...arr).map((value) => Number(value));
+  const keys = Object.keys(...arr).map((key) => key);
   const total = fieldsValues.reduce((acc, curr) => acc + curr, 0);
   for (const obj of arr) {
     for (const k of keys) {
