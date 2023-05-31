@@ -1,4 +1,4 @@
-import * as express from 'express'
+import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as daSupplierRatecardScreenContent from '../../../resources/content/da/da-supplier-ratecard.json';
@@ -8,25 +8,25 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 // import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Response) => {
-  req.session.unpublishedeventmanagement="false";
-  const { supplierId,supplierName } = req.query;
+  req.session.unpublishedeventmanagement = 'false';
+  const { supplierId, supplierName } = req.query;
   const { SESSION_ID } = req.cookies;
   // const { eventId, projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   try {
-  var assessmentURL=`assessments/${assessmentId}`;
-  const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
+    let assessmentURL = `assessments/${assessmentId}`;
+    const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
 
-  //CAS-INFO-LOG
-  LoggTracer.infoLogger(assessmentData, logConstant.fetchAssesmentDetails, req);
-
-  const toolId = assessmentData.data['external-tool-id']
-    // var supplier_Id = (supplierId as string).split('-');
-    var assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=`+supplierId
-    // var assessmentURL = `/assessments/tools/6/dimensions/6/data?suppliers=211345898`;
-    let assessmentsData  = await TenderApi.supplierInstance(SESSION_ID).get(assessmentURL);
     //CAS-INFO-LOG
-  LoggTracer.infoLogger(assessmentsData, logConstant.fetchAssesmentDetails, req);
+    LoggTracer.infoLogger(assessmentData, logConstant.fetchAssesmentDetails, req);
+
+    const toolId = assessmentData.data['external-tool-id'];
+    // var supplier_Id = (supplierId as string).split('-');
+    assessmentURL = `/assessments/tools/${toolId}/dimensions/6/data?suppliers=` + supplierId;
+    // var assessmentURL = `/assessments/tools/6/dimensions/6/data?suppliers=211345898`;
+    let assessmentsData = await TenderApi.supplierInstance(SESSION_ID).get(assessmentURL);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(assessmentsData, logConstant.fetchAssesmentDetails, req);
     assessmentsData = assessmentsData.data;
     // let baseURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers/${supplierId}`;
     // const { data: SuppliersData } = await TenderApi.Instance(SESSION_ID).get(baseURL);
@@ -45,7 +45,7 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
        lines.push({"name":data[1],"description":'£'+data[5]});
     }
    }*/
-   // CSV to JSON End
+    // CSV to JSON End
 
     /*const tempData = [
       {name: 'Role 1', description: '£X,XXX'},
@@ -58,32 +58,48 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
 
     //Supplier Contact Details
     const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-    let retrieveSupplierContactDetails = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
+    const retrieveSupplierContactDetails = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
     //CAS-INFO-LOG
-  LoggTracer.infoLogger(retrieveSupplierContactDetails, logConstant.supplierList, req);
-  let retrieveSupplierContactDetail=retrieveSupplierContactDetails.data;
+    LoggTracer.infoLogger(retrieveSupplierContactDetails, logConstant.supplierList, req);
+    const retrieveSupplierContactDetail = retrieveSupplierContactDetails.data;
     let contactSupplierDetails;
     const contact = retrieveSupplierContactDetail.find((el: any) => {
-      if(el.organization.id === supplierId) { return true; }
-        return false;
+      if (el.organization.id === supplierId) {
+        return true;
+      }
+      return false;
     });
-    if(contact.lotContacts != undefined) {
-      if(contact.lotContacts != undefined) {
+    if (contact.lotContacts != undefined) {
+      if (contact.lotContacts != undefined) {
         contact.lotContacts[0].contact['address'] = contact.organization.address.streetAddress;
         contact.lotContacts[0].contact['url'] = contact.organization.identifier.uri;
         contactSupplierDetails = contact.lotContacts[0].contact;
       }
     }
 
-  const releatedContent = req.session.releatedContent; 
+    const releatedContent = req.session.releatedContent;
 
-  
-  
-  const appendData = { supplierName, assessmentsData,data: daSupplierRatecardScreenContent, events: req.session.openProjectActiveEvents, historicalEvents: req.session.historicalEvents, releatedContent: releatedContent, contactSupplierDetails: contactSupplierDetails ? contactSupplierDetails: {}}
+    const appendData = {
+      supplierName,
+      assessmentsData,
+      data: daSupplierRatecardScreenContent,
+      events: req.session.openProjectActiveEvents,
+      historicalEvents: req.session.historicalEvents,
+      releatedContent: releatedContent,
+      contactSupplierDetails: contactSupplierDetails ? contactSupplierDetails : {},
+    };
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.supplierRateCard, req);
-  res.render('daw-supplier-rate-card', appendData);
-} catch (error) {
-  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, TokenDecoder.decoder(SESSION_ID), 'DA Shortlist services - DA task list page', true);
-}
-}
+    res.render('daw-supplier-rate-card', appendData);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'DA Shortlist services - DA task list page',
+      true
+    );
+  }
+};

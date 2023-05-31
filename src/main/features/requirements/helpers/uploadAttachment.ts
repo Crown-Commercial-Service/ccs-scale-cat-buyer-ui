@@ -15,20 +15,19 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   req: express.Request,
   res: express.Response,
   fileError: boolean,
-  errorList,
+  errorList
 ) => {
-  
   const lotId = req.session?.lotId;
   const { SESSION_ID } = req.cookies;
   const agreementLotName = req.session.agreementLotName;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  let { selectedRoute, stage2_value } = req.session;
+  const { selectedRoute, stage2_value } = req.session;
   const { pricingSchedule } = req.session;
   const { file_id } = req.query;
-  const {fileObjectIsEmpty}=req.session;
-  const {fileDuplicateError}=req.session;
-  errorList=errorList ==undefined ||errorList==null?[]:errorList;
+  const { fileObjectIsEmpty } = req.session;
+  const { fileDuplicateError } = req.session;
+  errorList = errorList == undefined || errorList == null ? [] : errorList;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -37,14 +36,12 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       });
       const file = FetchDocuments;
 
-
-      let fileNameStoragePricing = [];
-      FetchDocuments.data?.map(file => {
-        if (file.description === "mandatoryfirst") {
+      const fileNameStoragePricing = [];
+      FetchDocuments.data?.map((file) => {
+        if (file.description === 'mandatoryfirst') {
           fileNameStoragePricing.push(file);
         }
       });
-
 
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
@@ -62,7 +59,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       } else {
         req.session['isTcUploaded'] = false;
       }
-    
+
       res.send(fileData);
     } catch (error) {
       delete error?.config?.['headers'];
@@ -78,59 +75,60 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         Logmessage.error_location,
         Logmessage.sessionId,
         Logmessage.error_reason,
-        Logmessage.exception,
+        Logmessage.exception
       );
       LoggTracer.errorTracer(Log, res);
     }
   } else {
-   
     try {
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
 
-       //CAS-INFO-LOG 
-       LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
-      
-      let fileNameStoragePricing = [];
-      FETCH_FILEDATA?.map(file => {
-        if (file.description === "mandatoryfirst") {
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
+
+      const fileNameStoragePricing = [];
+      FETCH_FILEDATA?.map((file) => {
+        if (file.description === 'mandatoryfirst') {
           fileNameStoragePricing.push(file);
         }
       });
       const TOTALSUM = fileNameStoragePricing.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
-
       // const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       // const releatedContent = req.session.releatedContent;
 
-
       const agreementId_session = req.session.agreement_id;
-    let forceChangeDataJson;
-    if(agreementId_session == 'RM6187') { //MCF3
-      forceChangeDataJson = Mcf3cmsData;
-    }else if(agreementId_session == 'RM1043.8') { //DOS6
-      forceChangeDataJson = doscmsData;
-    }else if(agreementId_session == 'RM1557.13') { //G-cloud
-      forceChangeDataJson = gcloudcmsData;
-    }
-    else { 
-      forceChangeDataJson = cmsData;
-    }
-    const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
-    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
-    
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+      let forceChangeDataJson;
+      if (agreementId_session == 'RM6187') {
+        //MCF3
+        forceChangeDataJson = Mcf3cmsData;
+      } else if (agreementId_session == 'RM1043.8') {
+        //DOS6
+        forceChangeDataJson = doscmsData;
+      } else if (agreementId_session == 'RM1557.13') {
+        //G-cloud
+        forceChangeDataJson = gcloudcmsData;
+      } else {
+        forceChangeDataJson = cmsData;
+      }
+      const stage2BaseUrl = `/tenders/projects/${ProjectId}/events`;
+      const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
 
-    const stage2_dynamic_api_data = stage2_dynamic_api.data;
-    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == EventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
-    
-    let stage2_value = 'Stage 1';
-    if(stage2_data.length > 0){
-      stage2_value = 'Stage 2';
-    }
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
+      const stage2_dynamic_api_data = stage2_dynamic_api.data;
+      const stage2_data = stage2_dynamic_api_data?.filter(
+        (anItem: any) => anItem.id == EventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+      );
+
+      let stage2_value = 'Stage 1';
+      if (stage2_data.length > 0) {
+        stage2_value = 'Stage 2';
+      }
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -142,49 +140,47 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         Rfp_confirm_upload: false,
         IsFileError: false,
         agreementId_session: req.session.agreement_id,
-        stage2_value
+        stage2_value,
       };
-      
+
       if (pricingSchedule != undefined) {
-       delete req.session["pricingSchedule"];
-        if (errorList==null) {
-          errorList=[];
+        delete req.session['pricingSchedule'];
+        if (errorList == null) {
+          errorList = [];
         }
-       
+
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Upload your pricing schedule", href: "#rfp_offline_document" });
-          fileError=true;
+          errorList.push({ text: 'Upload your pricing schedule', href: '#rfp_offline_document' });
+          fileError = true;
         }
       }
       if (fileObjectIsEmpty) {
-        fileError=true;
-        errorList.push({ text: "Please choose file before proceeding ", href: "#upload_doc_form" })
-        delete req.session["fileObjectIsEmpty"];
+        fileError = true;
+        errorList.push({ text: 'Please choose file before proceeding ', href: '#upload_doc_form' });
+        delete req.session['fileObjectIsEmpty'];
       }
       if (fileDuplicateError) {
-        fileError=true;
-        errorList.push({ text: "The selected file has already been uploaded ", href: "#" })
-        delete req.session["fileDuplicateError"];
+        fileError = true;
+        errorList.push({ text: 'The selected file has already been uploaded ', href: '#' });
+        delete req.session['fileDuplicateError'];
       }
-      
+
       if (fileError && errorList !== null) {
-        
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
-      
-      
+
       if (fileNameStoragePricing != undefined && fileNameStoragePricing != null && fileNameStoragePricing.length > 0) {
         req.session['isTcUploaded'] = true;
-      }
-      else {
-        if(agreementId_session == 'RM6187') { //MCF3
-          if (selectedRoute === 'DA' || selectedRoute === 'FC'){
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/32`, 'In progress');
-            }
-          }
-          if(agreementId_session == 'RM1557.13') {
+      } else {
+        if (agreementId_session == 'RM6187') {
+          //MCF3
+          if (selectedRoute === 'DA' || selectedRoute === 'FC') {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/32`, 'In progress');
           }
+        }
+        if (agreementId_session == 'RM1557.13') {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/32`, 'In progress');
+        }
         req.session['isTcUploaded'] = false;
       }
 
@@ -194,24 +190,34 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       // else {
       //   req.session['isTcUploaded'] = false;
       // }
-      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
-      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
-      
-      if(selectedRoute == 'dos'){
-        if(stage2_value !== undefined && stage2_value === "Stage 2"){
+      if (
+        selectedRoute != undefined &&
+        selectedRoute != null &&
+        selectedRoute != '' &&
+        selectedRoute.toUpperCase() === 'FC'
+      )
+        selectedRoute.toUpperCase() = 'RFP';
+      if (
+        selectedRoute != undefined &&
+        selectedRoute != null &&
+        selectedRoute != '' &&
+        selectedRoute.toUpperCase() === 'FCA'
+      )
+        selectedRoute.toUpperCase() = 'CA';
+
+      if (selectedRoute == 'dos') {
+        if (stage2_value !== undefined && stage2_value === 'Stage 2') {
           // let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
           // if (flag) {
           //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
           // }
         }
       }
-      
-      
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.uploadPricingDocument, req);
 
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
-      
     } catch (error) {
       delete error?.config?.['headers'];
       const Logmessage = {
@@ -226,7 +232,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         Logmessage.error_location,
         Logmessage.sessionId,
         Logmessage.error_reason,
-        Logmessage.exception,
+        Logmessage.exception
       );
       LoggTracer.errorTracer(Log, res);
     }

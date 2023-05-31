@@ -9,47 +9,42 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
-
 //@GET /rfp/event-sent
-export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId, lotId } = req.session;
+  const { download } = req.query;
+  const { agreement_id } = req.session;
+  const { stage2_value } = req.session;
 
-    const { SESSION_ID } = req.cookies; //jwt
-    const { projectId } = req.session;
-    const {eventId,lotId} =req.session;
-    const { download } = req.query;
-    const { agreement_id } = req.session;
-    const { stage2_value } = req.session;
-    
-    let jsondata ;
-    if(agreement_id == 'RM6187') { 
-      jsondata = Mcf3cmsData;
-    }else if(agreement_id == 'RM1557.13') { 
-      jsondata = GCloudcmsData;
-    } 
-    else if(agreement_id == 'RM1043.8') {
-      jsondata = dosStage1Data;
-      if(stage2_value === "Stage 2"){
-        jsondata = dosStage2Data;
-      }
-    }else {
-      jsondata = cmsData;
+  let jsondata;
+  if (agreement_id == 'RM6187') {
+    jsondata = Mcf3cmsData;
+  } else if (agreement_id == 'RM1557.13') {
+    jsondata = GCloudcmsData;
+  } else if (agreement_id == 'RM1043.8') {
+    jsondata = dosStage1Data;
+    if (stage2_value === 'Stage 2') {
+      jsondata = dosStage2Data;
     }
+  } else {
+    jsondata = cmsData;
+  }
 
-    const appendData = {
-      data: jsondata,
-      projPersistID: req.session['project_name'],
-      rfi_ref_no : req.session.eventId,
-      selectedeventtype:req.session.selectedeventtype,
-      stage2_value,
-      agreement_id,
-      lotId
-   }
+  const appendData = {
+    data: jsondata,
+    projPersistID: req.session['project_name'],
+    rfi_ref_no: req.session.eventId,
+    selectedeventtype: req.session.selectedeventtype,
+    stage2_value,
+    agreement_id,
+    lotId,
+  };
 
-try {
-  
+  try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
-    if(download!=undefined)
-    {
+    if (download != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
@@ -67,27 +62,18 @@ try {
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
+    } else {
+      res.render('rfp-eventpublished.njk', appendData);
     }
-    else{
-      res.render('rfp-eventpublished.njk', appendData)
-    }
-}catch (error) {
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Journey service - update the status failed - RFP Publish Page',
-    true,
-  );
-}
-
-}
-    
-
- 
-
-
-
-
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - update the status failed - RFP Publish Page',
+      true
+    );
+  }
+};

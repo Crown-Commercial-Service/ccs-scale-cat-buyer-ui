@@ -34,5 +34,5 @@
       "./src/main/types"
     ]
   },
-  "include": [ "**/*.ts", "**/*.tsx"],
+  "include": [ "**/*.ts",  "**/*.d.ts"],
 }

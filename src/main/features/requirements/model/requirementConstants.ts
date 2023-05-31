@@ -8,7 +8,6 @@ export enum REQUIREMENT_PATHS {
   RFP_REQUIREMENT_TASK_LIST = '/rfp/task-list',
   RFP_OFFLINE_JOURNEY_PAGE = '/rfp/offline',
 
-
   // Add collaborator rfp
   RFP_GET_ADD_COLLABORATOR = '/rfp/add-collaborators',
   RFP_POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
@@ -21,7 +20,6 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
   RFP_POST_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
 
-  
   //RFP Resource type and Quantity
   RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
   RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
@@ -32,12 +30,11 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
-  
+
   RFP_GET_ADDITIONAL_SERVICES = '/rfp/additional_services',
 
   //CONTINUED SESSION
   RFP_POST_RETAIN_SESSION = '/rfp/retain-session',
-
 
   //CONFIRMATION REVIEW
   RFP_GET_CONFIRMATION_REVIEW = '/rfp/confirmation_review',
@@ -48,13 +45,13 @@ export enum REQUIREMENT_PATHS {
 
   //Selected service
   RFP_GET_SELECTED_SERVICE = '/rfp/selected_service',
-  RFP_POST_SELECT_SERVICES='/rfp/select-services',
+  RFP_POST_SELECT_SERVICES = '/rfp/select-services',
 
-  RFP_POST_ADDITIONAL_SELECT_SERVICES='/rfp/select-additional-services',
+  RFP_POST_ADDITIONAL_SELECT_SERVICES = '/rfp/select-additional-services',
 
   // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
-  
+
   // Your Assessment bases and evaluation weightings
   RFP_YOUR_ASSESSMENT = '/rfp/your-assessment',
   RFP_GET_YOUR_ASSESSMENT_QUESTION = '/rfp/assessment-question',
@@ -76,7 +73,7 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_REMOVE_FILES_ATTACHMENT = '/rfp/files-att/remove',
   RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
   RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
-  
+
   RFP_GET_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
   RFP_POST_UPLOAD_ADDITIONAL_PROCEED = '/rfp/upload-additional/proceed',
@@ -87,14 +84,13 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_UPLOAD_ADDITIONAL_DOC_PROCEED = '/rfp/upload-additional-doc/proceed',
   RFP_GET_REMOVE_ADDITIONAL_DOC_FILES = '/rfp/files/remove_additional_doc',
 
- //Add cllaborator DA
- DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
- DA_POST_ADD_COLLABORATOR_JSENABLED = '/da/get-collaborator-detail/js-enabled',
- DA_POST_ADD_COLLABORATOR = '/da/get-collaborator-detail',
- DA_POST_ADD_COLLABORATOR_TO_JAGGER = '/da/add-collaborator-detail',
- DA_POST_PROCEED_COLLABORATORS = '/da/proceed-collaborators',
- DA_POST_DELETE_COLLABORATOR_TO_JAGGER='/da/delete-collaborators',
-
+  //Add cllaborator DA
+  DA_GET_ADD_COLLABORATOR_REQUIRE = '/da/add-collaborators-require',
+  DA_POST_ADD_COLLABORATOR_JSENABLED_REQUIRE = '/da/get-collaborator-detail/js-enabled-require',
+  DA_POST_ADD_COLLABORATOR_REQUIRE = '/da/get-collaborator-detail-require',
+  DA_POST_ADD_COLLABORATOR_TO_JAGGER_REQUIRE = '/da/add-collaborator-detail-require',
+  DA_POST_PROCEED_COLLABORATORS_REQUIRE = '/da/proceed-collaborators-require',
+  DA_POST_DELETE_COLLABORATOR_TO_JAGGER_REQUIRE = '/da/delete-collaborators-require',
 
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
@@ -122,11 +118,11 @@ export enum REQUIREMENT_PATHS {
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
 
   //Proc lead DA
-  DA_GET_NAME_PROJECT='/da/name-your-project',
-  DA_POST_NAME_PROJECT='/da/name',
-  DA_GET_USER_PROCUREMENT='/da/users-procurement-lead',
-  DA_PUT_LEAD_PROCUREMENT='/da/procurement-lead',
-  DA_GET_LEAD_PROCUREMENT='/da/procurement-lead',
+  DA_GET_NAME_PROJECT_REQUIRE = '/da/name-your-project-require',
+  DA_POST_NAME_PROJECT_REQUIRE = '/da/name-require',
+  DA_GET_USER_PROCUREMENT_REQUIRE = '/da/users-procurement-lead-require',
+  DA_PUT_LEAD_PROCUREMENT_REQUIRE = '/da/procurement-lead-require',
+  DA_GET_LEAD_PROCUREMENT_REQUIRE = '/da/procurement-lead-require',
 
   // Upload doc ca
   CA_GET_UPLOAD_DOC = '/ca/upload-doc',
@@ -206,10 +202,10 @@ export enum REQUIREMENT_PATHS {
   DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
 
   // da type
-  DA_TYPE = '/da/type',
-  DA_POST_TYPE = '/da/type',
-  DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
-  DA_REQUIREMENT_TASK_LIST = '/da/task-list',
+  DA_TYPE_REQUIRE = '/da/type-require',
+  DA_POST_TYPE_REQUIRE = '/da/-require',
+  DA_OFFLINE_JOURNEY_PAGE_REQUIRE = '/da/offline-require',
+  DA_REQUIREMENT_TASK_LIST_REQUIRE = '/da/task-list-require',
 
   //da vetting weighting
 
@@ -237,7 +233,6 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_WEIGHTINGS = '/rfp/enter-your-weightings',
   RFP_POST_WEIGHTINGS = '/rfp/enter-your-weightings',
 
-
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
   RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
@@ -250,20 +245,18 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_REVIEW = '/ca/review',
   CA_POST_REVIEW = '/ca/review',
- 
-  RFP_GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
 
+  RFP_GET_EVENT_PUBLISHED = '/rfp/rfp-eventpublished',
 
-  GET_UNPUBLISHED_EVENT_MANAGEMENT='/rfp/rfp-unpublishedeventmanagement',
-  GET_RFP_CLOSE_PROJECT='/rfp/rfp-closeproject',
+  GET_UNPUBLISHED_EVENT_MANAGEMENT = '/rfp/rfp-unpublishedeventmanagement',
+  GET_RFP_CLOSE_PROJECT = '/rfp/rfp-closeproject',
 
-  GET_RFP_REVIEW='/rfp/review',
-  POST_RFP_REVIEW='/rfp/review',
+  GET_RFP_REVIEW = '/rfp/review',
+  POST_RFP_REVIEW = '/rfp/review',
 
-  GET_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
-  POST_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
+  GET_DA_REVIEW_SUPPLIER = '/da/reviewsupplier',
+  POST_DA_REVIEW_SUPPLIER = '/da/reviewsupplier',
 
   //DOS6 STAGE2
   DOS6_STAGE2_TASK_LIST = '/dos/task-list',
-
 }

@@ -34,16 +34,16 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     error: isValidationError,
   };
   try {
-    let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
-        if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'In progress');
-        }
-        
+    const flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'In progress');
+    }
+
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
 
-    caSubContractors.form[0].radioOptions.items = caSubContractors.form[0].radioOptions.items.map(opt => {
+    caSubContractors.form[0].radioOptions.items = caSubContractors.form[0].radioOptions.items.map((opt) => {
       if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
       else if (opt.value == 'no' && isSubContractorAccepted == false) opt.checked = true;
       return opt;
@@ -65,7 +65,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA next steps page',
-      true,
+      true
     );
   }
 };
@@ -83,7 +83,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const toolId = req.session['CapAss']?.toolId;
 
@@ -91,17 +91,17 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     const { ca_subContractors } = req.body;
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
-     const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
-     req.session['CapAss'].isSubContractorAccepted=ca_acceptsubcontractors
+      const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
+      req.session['CapAss'].isSubContractorAccepted = ca_acceptsubcontractors;
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
-      for (var dimension of assessmentDetail.dimensionRequirements) {
+      for (const dimension of assessmentDetail.dimensionRequirements) {
         const body = {
           name: dimension.name,
           weighting: dimension.weighting,
           requirements: dimension.requirements,
           includedCriteria: dimension.includedCriteria
-            .map(criteria => {
+            .map((criteria) => {
               if (!ca_acceptsubcontractors && criteria['name'] == 'Sub Contractor') {
                 return null;
               } else
@@ -109,23 +109,22 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
                   'criterion-id': criteria['criterion-id'],
                 };
             })
-            .filter(criteria => criteria !== null),
+            .filter((criteria) => criteria !== null),
         };
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-          body,
+          body
         );
       }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Completed');
-      let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
-        if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
-        }
-        if(req.session["CA_nextsteps_edit"])
-        {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
-        }
+      const flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
+      }
+      if (req.session['CA_nextsteps_edit']) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+      }
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
@@ -139,8 +138,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Post failed - CA next steps page',
-      true,
+      true
     );
   }
 };
-
