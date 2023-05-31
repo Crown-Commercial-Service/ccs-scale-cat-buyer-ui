@@ -597,11 +597,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     fetchQuestionsData.forEach((el) => {
       if(el.OCDS.id == 'Question 7') {
             let dataManipulation = el.nonOCDS;
-            dataManipulation.time_line = {"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline","conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
+            dataManipulation.time_line = {"OCDS":{"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
         }
         if(el.OCDS.id == 'Question 8') {
             let dataManipulation = el.nonOCDS;
-            dataManipulation.time_line = {"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline","conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false};
+            dataManipulation.time_line = {"OCDS":{"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
         }
     });
       // StandstilSupplierPresentation - End (override)
