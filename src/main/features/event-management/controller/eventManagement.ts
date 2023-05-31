@@ -15,22 +15,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import process from 'node:process';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
-process.on('uncaughtException', (error, origin) => {
-  console.log('----- Uncaught exception -----');
-  console.log(error);
-  console.log('----- Exception origin -----');
-  console.log(origin);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.log('----- Unhandled Rejection at -----');
-  console.log(promise);
-  console.log('----- Reason -----');
-  console.log(reason);
-});
 
 const checkWeekendDate = (date: Date): Date => {
   const dayOfWeek = new Date(date).getDay();
