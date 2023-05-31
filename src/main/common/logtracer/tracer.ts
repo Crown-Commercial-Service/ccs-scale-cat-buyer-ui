@@ -3,11 +3,10 @@ import { LogMessageFormatter } from '../logtracer/logmessageformatter';
 import * as express from 'express';
 import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
-import Rollbar from 'rollbar';
 import { Logger } from '@hmcts/nodejs-logging';
+import { rollbar } from 'main/app';
 import querystring from 'querystring';
 const logger = Logger.getLogger('logit helper');
-const rollbar_access_token = process.env.ROLLBAR_ACCESS_TOKEN;
 
 /**
  * @LogTracer for distribution tracing
@@ -180,24 +179,17 @@ export class LoggTracer {
 
     logger.error('Exception logged in Logit: ' + error_reason);
 
-    const LogMessage = {
-      AppName: 'Contract Award Service (CAS) frontend',
-      type: 'error',
-      errordetails: Log,
-      browser: res.req.headers['sec-ch-ua'],
-      mobile: res.req.headers['sec-ch-ua-mobile'],
-      platform: res.req.headers['sec-ch-ua-platform'],
-      userAgent: res.req.headers['user-agent'],
-    };
+    if (rollbar) {
+      const LogMessage = {
+        AppName: 'Contract Award Service (CAS) frontend',
+        type: 'error',
+        errordetails: Log,
+        browser: res.req.headers['sec-ch-ua'],
+        mobile: res.req.headers['sec-ch-ua-mobile'],
+        platform: res.req.headers['sec-ch-ua-platform'],
+        userAgent: res.req.headers['user-agent'],
+      };
 
-    if (rollbar_access_token) {
-      const rollbar = new Rollbar({
-        accessToken: rollbar_access_token,
-        captureUncaught: true,
-        captureUnhandledRejections: true,
-        environment: process.env.ROLLBAR_ENVIRONMENT,
-        ignoredMessages: ['error : true'],
-      });
       rollbar.error(LogMessage, LogMessage.type + ' : ' + LogMessage.errordetails.errorRoot, res.req);
     }
 
