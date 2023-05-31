@@ -330,9 +330,9 @@ const EOI_REVIEW_RENDER = async (
 
       res.locals.agreement_header = {
         agreementName,
-        project_name,
+        projectName: project_name,
         projectId,
-        agreementId_session,
+        agreementIdSession: agreementId_session,
         agreementLotName,
         lotid,
       };
