@@ -4,56 +4,51 @@ import * as data from '../../../resources/content/requirements/rfpWhereWorkDone.
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent ,eventId } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions, currentEvent, eventId } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   const { assessmentId } = currentEvent;
 
   try {
-    const locationArray = dimensions.filter(ele => ele.name === 'Location')[0]['options'];
+    const locationArray = dimensions.filter((ele) => ele.name === 'Location')[0]['options'];
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const { dimensionRequirements } = assessments;
-    let selectedopt=[];
+    const selectedopt = [];
     if (dimensionRequirements.length > 0) {
-      const dimensionReq=dimensionRequirements.filter(dimension => dimension.name === 'Location');
-     if(dimensionReq.length>0)
-      {
-        for(let i=0;i<dimensionReq[0].requirements.length;i++)
-       selectedopt.push(dimensionReq[0].requirements[i].name);
+      const dimensionReq = dimensionRequirements.filter((dimension) => dimension.name === 'Location');
+      if (dimensionReq.length > 0) {
+        for (let i = 0; i < dimensionReq[0].requirements.length; i++)
+          selectedopt.push(dimensionReq[0].requirements[i].name);
       }
     }
-    if(selectedopt.length>0)
-    {
-      selectedopt.forEach((item)=>
-      {
-        let selectedLocIndex=locationArray.findIndex((loc: any) => loc.name === item);
-        locationArray[selectedLocIndex].checked=true;
+    if (selectedopt.length > 0) {
+      selectedopt.forEach((item) => {
+        const selectedLocIndex = locationArray.findIndex((loc: any) => loc.name === item);
+        locationArray[selectedLocIndex].checked = true;
       });
-    // locationArray.map(location => {
-    //   selectedopt.map(item => {
-    //     if(item === location.name) location.checked = true;
-    //     else location.checked = false;
-    //   });
-    // });
-  }
+      // locationArray.map(location => {
+      //   selectedopt.map(item => {
+      //     if(item === location.name) location.checked = true;
+      //     else location.checked = false;
+      //   });
+      // });
+    }
     const appendData = {
       ...data,
       releatedContent,
       isError,
       errorText,
       locationArray,
-      
     };
-    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
-  }
+    const flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
+    }
     res.render('rfp-whereWorkDone', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -63,14 +58,14 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
       null,
       TokenDecoder.decoder(SESSION_ID),
       'update the status failed - RFP TaskList Page',
-      true,
+      true
     );
   }
 };
 
 export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, dimensions,eventId } = req.session;
+  const { projectId, dimensions, eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const capAssessement = req.session['CapAss'];
   let locationIds = req.body.rfp_location;
@@ -80,7 +75,7 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
     res.redirect('/rfp/where-work-done');
   } else {
     try {
-      const locationData = dimensions.filter(data => data.name === 'Location')[0];
+      const locationData = dimensions.filter((data) => data.name === 'Location')[0];
       const initialDataRequirements = [];
       if (!Array.isArray(locationIds)) locationIds = [locationIds];
       for (let i = 0; i < locationIds.length; i++) {
@@ -105,14 +100,13 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       }
       const DIMENSION_ID = locationData['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
-      await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY,);
-      
+      await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
+
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/36`, 'Completed');
-      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,37,req);
-    if(flag)
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'Not started');
-    }
+      const flag = await ShouldEventStatusBeUpdated(req.session.eventId, 37, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'Not started');
+      }
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/38`, 'Cannot start yet');
       res.redirect('/rfp/task-list');
     } catch (error) {
@@ -123,7 +117,7 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
         null,
         TokenDecoder.decoder(SESSION_ID),
         'Tender agreement failed to be added',
-        true,
+        true
       );
     }
   }

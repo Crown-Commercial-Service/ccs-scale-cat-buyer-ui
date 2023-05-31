@@ -13,8 +13,6 @@ import config from 'config';
 import qs from 'qs';
 import { Oauth_Instance } from '../../../common/util/fetch/OauthService/OauthInstance';
 
-
-
 /**
  *
  * @param req
@@ -23,20 +21,18 @@ import { Oauth_Instance } from '../../../common/util/fetch/OauthService/OauthIns
  */
 
 export const RFP_POST_RETAIN_SESSION = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies; 
+  const { SESSION_ID } = req.cookies;
 
-   try {
-      res.json({ status: true});
-    } catch (error) {
-     LoggTracer.errorLogger(
+  try {
+    res.json({ status: true });
+  } catch (error) {
+    LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       'Conclave refresh token flow error',
-      true,
+      true
     );
-  }  
-
+  }
 };
-

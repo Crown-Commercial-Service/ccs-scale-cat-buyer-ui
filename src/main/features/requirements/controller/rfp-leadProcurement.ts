@@ -31,13 +31,13 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
     LoggTracer.infoLogger(UserOrgRaw, logConstant.getUserOrgProfile, req);
 
     const { pageCount } = dataRaw;
-    let usersRaw = [];
+    const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
       const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
+        organisation_user_endpoint_loop
       );
-      const { userList } = organisation_user_data_loop?.data;
+      const { userList } = organisation_user_data_loop?.data ?? {};
       usersRaw.push(...userList);
     }
 
@@ -90,7 +90,7 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
@@ -111,7 +111,7 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
     res.redirect('/rfp/add-collaborators');
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
-      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
       res,
@@ -120,7 +120,7 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      !isJaggaerError,
+      !isJaggaerError
     );
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/procurement-lead');
@@ -149,7 +149,7 @@ export const RFP_GET_USER_PROCUREMENT = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

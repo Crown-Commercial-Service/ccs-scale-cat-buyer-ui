@@ -14,6 +14,6 @@ export default (app: Router): void => {
       info: {
         // TODO: add downstream info endpoints if app has any
       },
-    }),
+    })
   );
 };

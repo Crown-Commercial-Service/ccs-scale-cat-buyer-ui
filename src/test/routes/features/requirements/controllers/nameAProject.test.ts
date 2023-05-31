@@ -81,7 +81,7 @@ describe('Name a project', () => {
     await request(parentApp)
       .get('/rfp/name-your-project')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('.govuk-inset-text p');
@@ -97,7 +97,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: dummyName })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/procurement-lead');
       });
@@ -108,7 +108,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: '' })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/name-your-project');
       });
@@ -123,7 +123,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: 'nameExample' })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('h1.page-title');

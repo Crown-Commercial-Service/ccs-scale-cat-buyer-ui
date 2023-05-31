@@ -8,11 +8,13 @@ import favicon from 'serve-favicon';
 import { initNunjucks } from './modules/nunjucks';
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-import { NotFoundError } from './errors/errors';
 import fs from 'fs';
 export const app = express();
 import { glob } from 'glob';
-import { routeExceptionHandler } from './setup/routeexception';
+import Rollbar from 'rollbar';
+import { routeExceptionHandler } from './setup/handlers/routeException';
+import { uncaughtExceptionHandler } from './setup/handlers/uncaughtException';
+import { unhandledRejectionHandler } from './setup/handlers/unhandledRejection';
 import { RedisInstanceSetup } from './setup/redis';
 import { fileUploadSetup } from './setup/fileUpload';
 import { CsrfProtection } from './modules/csrf';
@@ -25,11 +27,9 @@ app.locals.ENV = env;
  * Content Security Policy
  */
 
-
-
 // setup logging of HTTP requests
 /**
- * @env Local variables 
+ * @env Local variables
  */
 const checkforenvFile = fs.existsSync('.env');
 import { localEnvariables } from './setup/envs';
@@ -58,15 +58,12 @@ if (env !== 'mocha') {
   new CsrfProtection().enableFor(app);
 }
 
-//Implementation of secure Request Methods 
+//Implementation of secure Request Methods
 RequestSecurity(app);
 
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
-  res.setHeader(
-    'Cache-Control',
-    'no-cache, max-age=0, must-revalidate, no-store',
-  );
+  res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
   res.setHeader(
     'Content-Security-Policy',
     'script-src \'self\' \'unsafe-inline\' *.googletagmanager.com  https://www.google-analytics.com https://ssl.google-analytics.com https://cdn2.gbqofs.com https://report.crown-comm.gbqofs.com; img-src \'self\' *.google-analytics.com *.googletagmanager.com; connect-src \'self\' *.google-analytics.com *.analytics.google.com *.googletagmanager.com https://report.crown-comm.gbqofs.io; child-src blob:'
@@ -138,19 +135,32 @@ app.enable('trust proxy');
  */
 const featureRoutes: Array<{ path: string }> = config.get('featureDir');
 featureRoutes?.forEach((aRoute: { path: string }) => {
-  glob.sync(__dirname + aRoute?.path)
+  glob
+    .sync(__dirname + aRoute?.path)
     .map((filename: string) => require(filename))
     .forEach((route: any) => route.default(app));
 });
 
 /**
  * @ExceptionHandler
- *  All error Handler Routes 
- *  
+ *  All error Handler Routes
+ *
  */
-routeExceptionHandler(
-  app,
-  NotFoundError,
-  logger,
-  env
-);
+let rollbar: Rollbar;
+
+if (process.env.ROLLBAR_ACCESS_TOKEN) {
+  rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    environment: process.env.ROLLBAR_ENVIRONMENT,
+  });
+
+  app.use(rollbar.errorHandler());
+}
+
+export { rollbar };
+
+uncaughtExceptionHandler(logger);
+unhandledRejectionHandler(logger);
+routeExceptionHandler(app, logger);
