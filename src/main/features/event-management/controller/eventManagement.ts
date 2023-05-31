@@ -2024,6 +2024,8 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       res.redirect('/event/management?id=' + eventId);
     }
   } catch (error) {
+    console.log(error);
+    
     LoggTracer.errorLogger(
       res,
       error,
