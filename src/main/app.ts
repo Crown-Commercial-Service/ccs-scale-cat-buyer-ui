@@ -8,11 +8,13 @@ import favicon from 'serve-favicon';
 import { initNunjucks } from './modules/nunjucks';
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-import { NotFoundError } from './errors/errors';
 import fs from 'fs';
 export const app = express();
 import { glob } from 'glob';
-import { routeExceptionHandler } from './setup/routeexception';
+import Rollbar from 'rollbar';
+import { routeExceptionHandler } from './setup/handlers/routeException';
+import { uncaughtExceptionHandler } from './setup/handlers/uncaughtException';
+import { unhandledRejectionHandler } from './setup/handlers/unhandledRejection';
 import { RedisInstanceSetup } from './setup/redis';
 import { fileUploadSetup } from './setup/fileUpload';
 import { CsrfProtection } from './modules/csrf';
@@ -144,4 +146,21 @@ featureRoutes?.forEach((aRoute: { path: string }) => {
  *  All error Handler Routes
  *
  */
-routeExceptionHandler(app, NotFoundError, logger, env);
+let rollbar: Rollbar;
+
+if (process.env.ROLLBAR_ACCESS_TOKEN) {
+  rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    environment: process.env.ROLLBAR_ENVIRONMENT,
+  });
+
+  app.use(rollbar.errorHandler());
+}
+
+export { rollbar };
+
+uncaughtExceptionHandler(logger);
+unhandledRejectionHandler(logger);
+routeExceptionHandler(app, logger);

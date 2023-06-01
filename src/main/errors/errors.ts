@@ -9,8 +9,8 @@ export class NotFoundError extends Error implements ViewError {
   statusCode: number = HttpStatusCode.NOT_FOUND;
   associatedView = '/404';
 
-  constructor() {
-    super('Page Not Found');
+  constructor(pageUrl: string) {
+    super(`Page Not Found, request path: "${pageUrl}"`);
   }
 }
 
