@@ -290,8 +290,8 @@ export const RFI_REVIEW_HELPER = async (
         projectId,
         agreementIdSession: req.session.agreement_id,
         agreementLotName,
-        lotId,
-      };
+        lotid:lotId,
+      };      
       let appendData = {
         rfi_data: RFI_ANSWER_STORAGE,
         rfi_keydates: expected_rfi_keydates[0],

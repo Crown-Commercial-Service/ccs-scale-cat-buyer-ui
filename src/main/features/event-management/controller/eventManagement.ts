@@ -15,26 +15,11 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import process from 'node:process';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
-process.on('uncaughtException', (error, origin) => {
-  console.log('----- Uncaught exception -----');
-  console.log(error);
-  console.log('----- Exception origin -----');
-  console.log(origin);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.log('----- Unhandled Rejection at -----');
-  console.log(promise);
-  console.log('----- Reason -----');
-  console.log(reason);
-});
 
 const checkWeekendDate = (date: Date): Date => {
   const dayOfWeek = new Date(date).getDay();
-  newDate = new Date(date);
+  const newDate = new Date(date);
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     newDate.setDate(newDate.getDate() + 1);
     newDate.setHours(23);
@@ -45,7 +30,7 @@ const checkWeekendDate = (date: Date): Date => {
 };
 
 const checkBankHolidayDate = (date: Date, listOfHolidayDate: any): Date => {
-  tempDate = new Date(date);
+  const tempDate = new Date(date);
   const newDate = moment(date).format('YYYY-MM-DD');
   const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
   if (filterDate != undefined && filterDate != null) {
@@ -2024,6 +2009,8 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       res.redirect('/event/management?id=' + eventId);
     }
   } catch (error) {
+    console.log(error);
+    
     LoggTracer.errorLogger(
       res,
       error,
