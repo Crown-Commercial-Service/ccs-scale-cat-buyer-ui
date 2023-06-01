@@ -34,7 +34,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 const checkWeekendDate = (date: Date): Date => {
   const dayOfWeek = new Date(date).getDay();
-  newDate = new Date(date);
+  const newDate = new Date(date);
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     newDate.setDate(newDate.getDate() + 1);
     newDate.setHours(23);
@@ -45,7 +45,7 @@ const checkWeekendDate = (date: Date): Date => {
 };
 
 const checkBankHolidayDate = (date: Date, listOfHolidayDate: any): Date => {
-  tempDate = new Date(date);
+  const tempDate = new Date(date);
   const newDate = moment(date).format('YYYY-MM-DD');
   const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
   if (filterDate != undefined && filterDate != null) {
