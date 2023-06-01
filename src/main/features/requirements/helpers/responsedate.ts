@@ -361,9 +361,12 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       //const ExpectedSignature = proposed_award_date;
       const ExpectedSignature = elevenQ;
-      const ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
+      let ExpectedSignatureDate;
+      if(ExpectedSignature != undefined){
+      ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
         ExpectedSignature.getMonth() + 1
       }-${ExpectedSignature.getFullYear()}`;
+    }
 
       let expected_signature_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -2307,6 +2310,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       res.render('rfp-responsedate.njk', appendData);
     }
   } catch (error) {
+    console.log('error',error)
     LoggTracer.errorLogger(
       res,
       error,
