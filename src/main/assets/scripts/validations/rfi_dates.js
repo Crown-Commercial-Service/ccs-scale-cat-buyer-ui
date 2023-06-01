@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if(arr!=undefined){
      selectors = arr.split(',');
 }
-    
+    let radioarray = [];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
@@ -220,11 +220,38 @@ if(arr!=undefined){
                     let nextElement = indexKey+1;
                     let previosElementValue=selectors[previosElement];
                     let nextElementValue=selectors[nextElement];
+                    console.log('previosElement',previosElement)
+                    console.log('nextElement',nextElement)
+                    console.log('previosElementValue',previosElementValue)
+                    console.log('nextElementValue',nextElement)
+                    
+                    let checkRadioSelectedClassName = 'resdateradio'+nextElement;
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+                    console.log('checkRadioSelectedClassName',checkRadioSelectedClassName)
+                    console.log('checkRadioSelected',checkRadioSelected)
+                    
+                    if(checkRadioSelected == 'yes'){
+                        let radioval = {
+                            id : nextElement,
+                            value:checkRadioSelected
+                        }
+                        radioarray.push(radioval)
+                    }
+                    console.log('radioarray',radioarray)
+                    console.log('radio available check',document.getElementsByClassName('timeLineEventTrigger').length)
+                    if(document.getElementsByClassName('timeLineEventTrigger').length > 0 && (checkRadioSelected == undefined || checkRadioSelected == 'no' )){
+                        console.log(' inside date change');
+                        // let day1 = $(`#clarification_date-day_${element}`);
+                        // let month1 = $(`#clarification_date-month_${element}`);
+                        // let year1 = $(`#clarification_date-year_${element}`);
+                        // let hour1 = $(`#clarification_date-hour_${element}`);
+                        // let minutes1 = $(`#clarification_date-minute_${element}`); 
 
-
+                    }
                     let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
-
+                    console.log('currentDate',currentDate)
+                    console.log('enteredDate',enteredDate)
                     let nextDate = new Date();
                     let isNextDate = false;
                     
@@ -249,6 +276,7 @@ if(arr!=undefined){
                         let errorStore;
                         
                         if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !=''){
+                         
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
                         }else{
