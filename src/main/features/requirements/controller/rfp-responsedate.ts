@@ -928,7 +928,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       const Q6_Parsed = `${Q6.getDate()}-${
         Q6.getMonth() + 1
       }-${Q6.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(manipulation.Q7.config)._d;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
 
       Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
       Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
@@ -943,8 +943,8 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     if(manipulation.Q8.selected) {
       const Q7_Parsed = `${Q7.getDate()}-${
         Q7.getMonth() + 1
-      }-${Q7.getFullYear()}`;
-      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(manipulation.Q8.config)._d;
+      }-${Q7.getFullYear()}`; 
+      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.stanstill_period_condtional)._d;
 
       Q7_B_add.setHours(MCF3_Days.defaultEndingHour);
       Q7_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
