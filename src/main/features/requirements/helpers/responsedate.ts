@@ -687,9 +687,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         forceChangeDataJson = cmsData;
       }
-    }else { 
-      forceChangeDataJson = cmsData;
-    }   
+      
     
     // StandstilSupplierPresentation - Start (override)
     fetchQuestionsData.forEach((el) => {
@@ -867,6 +865,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         res.render('rfp-responsedate.njk', appendData);
       }
+      
     } else if (req.session.questionID == 'Question 2') {
       rfp_clarification_date = req.session.rfppublishdate;
       //  rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
