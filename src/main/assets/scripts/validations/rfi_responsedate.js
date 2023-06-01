@@ -209,9 +209,10 @@ console.log("totalElementSelectors",totalElementSelectors)
         //}
 
             //if(selector==7 || selector==8){
-                if(selector==8 || selector==10){
-              
-
+                //headContent_8
+              //  if(selector==8 || selector==10){
+                    if ($('#headContent_'+selector).length){
+                  console.log("selector NEW",selector);
             let checkRadioSelectedClassName = 'resdateradio'+selector;
             let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
