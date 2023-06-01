@@ -706,8 +706,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
     });
       // StandstilSupplierPresentation - End (override)
-      console.log("fetchQuestionsData",JSON.stringify(fetchQuestionsData));
-
+     // console.log("fetchQuestionsData",JSON.stringify(fetchQuestionsData));
+     let timlineSession=''
+     if(req.session.timlineSession){
+      timlineSession=req.session.timlineSession;
+      }
       let appendData = {
         data: forceChangeDataJson,
         lotId: lotid,
@@ -759,7 +762,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
-        getEventType
+        getEventType,
+        timlineSession:timlineSession
+
       };
 
       if (errorTriggered) {
