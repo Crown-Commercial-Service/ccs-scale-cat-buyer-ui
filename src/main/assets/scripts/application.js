@@ -16,6 +16,21 @@ $(document).ready(function () {
     WidthChange(mq);
 
   }
+  $('.restrictEnter').keypress(function(event) {
+
+    if (event.keyCode == 13) {
+        event.preventDefault();
+    }
+});
+var $restrictEnter = $(".restrictEnter");
+
+$restrictEnter.on("keydown keypress", function() {    
+    var $this = $(this),
+        val = $(this).val()
+                     .replace(/ +(?= )/g,''); // replace extra spaces with a single space
+
+    $this.val(val);
+});
 
   $(".close_project").on('click', function(){
    var projectId = $(this).attr("projectid");
