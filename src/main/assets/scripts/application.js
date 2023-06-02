@@ -56,16 +56,16 @@ $restrictEnter.on("keydown keypress", function() {
         $(".dialog-close-projectCloseAllPopup").on('click', function(){
           openpopGC.classList.remove('showpopup');
        });
+         document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+          openpopGC.classList.remove('showpopup');
         $.ajax({
           url: `/closeProject?procid=${projectval}&eventId=${eventIdVal}`,
           type: "GET",
           contentType: "application/json",
-          async: false,
-        }).done(function (result) {
-          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
-          var bodytg = document.body;
-          bodytg.classList.add("pageblur");
-          openpopGC.classList.remove('showpopup');
+         }).done(function (result) {
+          
           window.location.href = window.location.origin +`/dashboard?closeStatus=${result.closeStatus}`;
           $(".dialog-close-projectCloseAllPopup").on('click', function(){
             openpopGC.classList.remove('showpopup');
