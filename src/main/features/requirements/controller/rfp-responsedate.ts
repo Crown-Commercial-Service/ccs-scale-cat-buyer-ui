@@ -36,6 +36,8 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const proj_Id = req.session.projectId;
   const { eventId, stage2_value } = req.session;
   const agreement_id = req.session.agreement_id;
+
+  
   if (agreement_id == 'RM1043.8') {
     if (stage2_value !== undefined && stage2_value === 'Stage 2') {
       //Stage 2
@@ -915,7 +917,8 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   let tl_eventType = req.body.tl_eventType;
   let tl_questionID = req.body.tl_questionID;
   let tl_val = req.body.tl_val;
-  
+  req.session.timlineSession=req.body;
+  console.log("req.session.timlineSession",req.session.timlineSession)
   if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
     let manipulation = req.body.manipulation;
     console.log(manipulation);
