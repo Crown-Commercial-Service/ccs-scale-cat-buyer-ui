@@ -19,7 +19,7 @@
         "test": "mocha \"src/test/**/*.test.ts\" --reporter-options reportFilename=all,inlineAssets=true,reportTitle=CAS-buyer-frontend-tests-all",
         "test:a11y": "mocha \"src/test/a11y/**/*.test.ts\" --timeout 60000 --reporter-options reportFilename=a11y,inlineAssets=true,reportTitle=CAS-buyer-frontend-a11y",
         "test:routes": "mocha \"src/test/routes/**/*.test.ts\" --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-routes",
-        "test:unit": "mocha \"src/test/unit/**/*.test.ts\" --reporter-options reportFilename=unit,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-tests-all",
+        "test:unit": "env-cmd -f config/.env.test mocha \"src/test/unit/**/*.test.ts\" --reporter-options reportFilename=unit,inlineAssets=true,reportTitle=CAS-buyer-frontend-unit-tests-all",
         "test:coverage": "nyc --reporter=html npm test",
         "test:smoke": "echo 'TODO add smoke tests' && exit 1",
         "test:functional": "echo 'TODO add functional tests' && exit 1",
@@ -101,6 +101,7 @@
         "chai-as-promised": "^7.1.1",
         "chai-http": "^4.3.0",
         "debug": "^4.1.1",
+        "env-cmd": "^10.1.0",
         "eslint": "^8.40.0",
         "eslint-config-prettier": "^8.8.0",
         "gulp": "^4.0.2",
@@ -123,6 +124,7 @@
         "sinon-chai": "^3.7.0",
         "supertest": "^4.0.2",
         "ts-node-dev": "^2.0.0",
-        "typescript": "^4.5.2"
+        "typescript": "^4.5.2",
+        "undici": "^5.22.1"
     }
 }

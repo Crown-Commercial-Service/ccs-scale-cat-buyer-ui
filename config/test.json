@@ -1,0 +1,18 @@
+{
+  "bankholidayservice": {
+    "BASEURL": "https://www.gov.uk"
+  },
+  "contentService": {
+    "BASEURL": "https://webprod-cms.crowncommercial.gov.uk"
+  },
+  "settings": {
+    "fetch-timelimit": "15"
+  },
+  "authenticationService": {
+    "token-endpoint": "/security/token",
+    "refresh_token": "refresh_token",
+    "token_validation_endpoint": "/security/tokens/validation",
+    "logout": "/security/log-out",
+    "logout_callback": "/logout"
+  }
+}
