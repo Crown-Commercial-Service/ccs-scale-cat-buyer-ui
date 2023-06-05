@@ -438,8 +438,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute
   } = req.body;
   const { timeline, agreement_id } = req.session;
-console.log("test1")
-  const stage2_value = req.session.stage2_value;
+ const stage2_value = req.session.stage2_value;
   const basebankURL = '/bank-holidays.json';
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   clarification_date_day = Number(clarification_date_day);
@@ -447,7 +446,6 @@ console.log("test1")
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
   // const selected_question_indexte = selected_question_index;
-  console.log("test2")
   if (
     clarification_date_day == 0 ||
     isNaN(clarification_date_day) ||
@@ -487,10 +485,8 @@ console.log("test1")
       text: errorText,
       href: 'rfp_clarification_date' + selected_question_index,
     };
-    console.log("test3")
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   } else {
-    console.log("test4")
     clarification_date_minute = Number(clarification_date_minute);
     clarification_date_month = clarification_date_month - 1;
     let timeinHoursBased = 0;
@@ -506,7 +502,6 @@ console.log("test1")
       timeinHoursBased,
       clarification_date_minute
     );
-    console.log("test5")
     const nowDate = new Date();
     const { isValid, error, errorSelector } = isValidQuestion(
       selected_question_id,
@@ -523,13 +518,11 @@ console.log("test1")
     );
 
     const dateNewNow = new Date(req.session.timeline.publish);
-    console.log("test6")
     if (date.getTime() >= dateNewNow.getTime() && isValid) {
       //date = moment(date).format('DD MMMM YYYY, hh:mm a');
       date = moment(date).format('DD MMMM YYYY, HH:mm');
 
       req.session.questionID = selected_question_id;
-      console.log("test7",selected_question_id);
       if (selected_question_id == 'Question 2') {
         req.session.rfppublishdate = timeline.publish;
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
@@ -600,7 +593,6 @@ console.log("test1")
         }
         req.session.UIDate = date;
       } else if (selected_question_id == 'Question 6') {
-        console.log("test8")
         req.session.rfppublishdate = timeline.publish;
         req.session.clarificationend = timeline.clarificationPeriodEnd;
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
@@ -615,7 +607,6 @@ console.log("test1")
           req.session.signeddate = timeline.contractsigneddate;
           req.session.startdate = timeline.supplierstartdate;
         }
-        console.log("test10")
         req.session.UIDate = date;
       } else if (selected_question_id == 'Question 7') {
         req.session.rfppublishdate = timeline.publish;
@@ -736,7 +727,6 @@ console.log("test1")
         req.session.signeddate = timeline.contractsigneddate;
         req.session.UIDate = date;
       }
-      console.log("test11")
       const filtervalues = moment(date, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
 
       const answerformater = {
@@ -750,7 +740,6 @@ console.log("test1")
           options: [answerformater],
         },
       };
-      console.log("test12",JSON.stringify(answerformater));
 
       const { SESSION_ID } = req.cookies;
       try {
@@ -760,17 +749,13 @@ console.log("test1")
         const question_id = selected_question_id;
         let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
         baseURL = baseURL + '/criteria';
-        console.log("test13",baseURL);
-
+       
         const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
-        console.log("tttt1")
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
         const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
-        console.log("tttt2")
         let criterianStorage = [];
         for (const aURI of extracted_criterion_based) {
           const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-          console.log("tttt3",criterian_bas_url)
           const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
           const criterian_array = fetch_criterian_group_data?.data;
           const rebased_object_with_requirements = criterian_array?.map((anItem) => {
@@ -778,17 +763,12 @@ console.log("test1")
             object['criterianId'] = aURI;
             return object;
           });
-          console.log("tttt4")
           criterianStorage.push(rebased_object_with_requirements);
         }
-        console.log("test14");
-
         criterianStorage = criterianStorage.flat();
         const Criterian_ID = criterianStorage[0].criterianId;
         const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-        console.log("test14",JSON.stringify(answerBody));
-        console.log("test15",answerBaseURL);
 
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
@@ -811,7 +791,7 @@ console.log("test1")
         LoggTracer.errorTracer(Log, res);
       }
     } else {
-      console.log("test15");
+     
       const selectedErrorCause = selected_question_id; //Question 2
       let selector = '';
       let selectorID = '';
@@ -819,7 +799,6 @@ console.log("test1")
         selector = error;
         selectorID = errorSelector;
       } else {
-        console.log("test16");
         switch (selectedErrorCause) {
         case 'Question 1':
           selector =
@@ -894,7 +873,6 @@ console.log("test1")
         text: selector,
         href: 'rfi_clarification_date_expanded_' + selected_question_index,
       };
-      console.log("test17");
       await RESPONSEDATEHELPER(req, res, true, errorItem);
     }
   }
@@ -937,53 +915,9 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   let tl_questionID = req.body.tl_questionID;
   let tl_val = req.body.tl_val;
   req.session.timlineSession=req.body;
-  const proc_id = req.session.projectId;
-  const event_id = req.session.eventId;
-  const { SESSION_ID } = req.cookies;
-
-  console.log("req.session.timlineSession",req.session.timlineSession)
-  console.log("tl_aggrementID",tl_aggrementID);
-  console.log("tl_eventType",tl_eventType);
-
-
-  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
-  baseURL = baseURL + '/criteria';
-  const keyDateselector = 'Key Dates';
-  console.log("AJAX1");
-
-    const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
-    const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    console.log("AJAX2");
-    const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
-    let criterianStorage = [];
-    console.log("AJAX3");
-    for (const aURI of extracted_criterion_based) {
-      console.log("AJAX4");
-      const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-      const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
-      const criterian_array = fetch_criterian_group_data?.data;
-      const rebased_object_with_requirements = criterian_array?.map((anItem) => {
-        const object = anItem;
-        object['criterianId'] = aURI;
-        return object;
-      });
-      criterianStorage.push(rebased_object_with_requirements);
-    }
-    console.log("AJAX5");
-    criterianStorage = criterianStorage.flat();
-    criterianStorage = criterianStorage.filter((AField) => AField.OCDS.id === keyDateselector);
-    const Criterian_ID = criterianStorage[0].criterianId;
-    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-    console.log("AJAX6",apiData_baseURL);
-    const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
-    const fetchQuestionsData = fetchQuestions.data;
   
-
-  
-  //if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
-    if(tl_aggrementID == "RM6187") {
-    let manipulation = req.body.manipulation;
-    console.log(manipulation);
+  if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
+   let manipulation = req.body.manipulation;
     //Q6
     let pre_Q6 = manipulation.Q6.value;
     let Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
@@ -992,17 +926,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     let Q7, Q7_after, Q7_check;
     if(manipulation.Q7.selected) {
-
-      const getQ7 = fetchQuestionsData
-      ?.filter((item) => item?.OCDS?.id == 'Question 7')
-      .map((item) => item?.nonOCDS?.options)?.[0]
-      ?.find((i) => i?.value)?.value;
-      if(getQ7 != undefined){
-          Q7= new Date(getQ7);
-          Q7_check = Q7;
-          console.log("77",getQ7)
-        }else{
-          console.log("ELSE777")
+       
           const Q6_Parsed = `${Q6.getDate()}-${
             Q6.getMonth() + 1
           }-${Q6.getFullYear()}`;
@@ -1012,30 +936,15 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
           Q7 = Q6_B_add;
           Q7_check = Q7;
-
-        }
-
-
-      
-    } else {
-      console.log("77NORRADIO")
+  } else {
+     
       Q7 = Q6;
       Q7_check = undefined;
     }
 
     let Q8, Q8_after, Q8_check;
     if(manipulation.Q8.selected) {
-
-      const getQ8 = fetchQuestionsData
-      ?.filter((item) => item?.OCDS?.id == 'Question 8')
-      .map((item) => item?.nonOCDS?.options)?.[0]
-      ?.find((i) => i?.value)?.value;
-      if(getQ8 != undefined){
-        Q8= new Date(getQ8);
-        Q8_check = Q8;
-          console.log("88",getQ8)
-        }else{
-          console.log("88ELSE",getQ8)
+        
           const Q7_Parsed = `${Q7.getDate()}-${
             Q7.getMonth() + 1
           }-${Q7.getFullYear()}`; 
@@ -1045,28 +954,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           Q7_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
           Q8 = Q7_B_add;
           Q8_check = Q8;
-        }
-          
     } else {
-      console.log("88NORRADIO")
       Q8 = Q7;
       Q8_check = undefined;
     }
 
     //Q9
     let Q9, Q9_after;
-
-    
-
-    const getQ9 = fetchQuestionsData
-    ?.filter((item) => item?.OCDS?.id == 'Question 9')
-    .map((item) => item?.nonOCDS?.options)?.[0]
-    ?.find((i) => i?.value)?.value;
-    if(getQ9 != undefined){
-        Q9= new Date(getQ9);
-        console.log("99")
-      }else{
-        console.log("99else")
         const Q9_Parsed = `${Q8.getDate()}-${
           Q8.getMonth() + 1
         }-${Q8.getFullYear()}`;
@@ -1074,20 +968,10 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q9_B_add.setHours(MCF3_Days.defaultEndingHour);
         Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
         Q9 = Q9_B_add;
-      }
+      
 
     //Q10
     let Q10, Q10_after;
-
-    const getQ10 = fetchQuestionsData
-    ?.filter((item) => item?.OCDS?.id == 'Question 10')
-    .map((item) => item?.nonOCDS?.options)?.[0]
-    ?.find((i) => i?.value)?.value;
-    if(getQ10 != undefined){
-        Q10= new Date(getQ10);
-        console.log("Q10",Q10)
-      }else{
-        console.log("Q10ELSEE",Q10)
         const Q10_Parsed = `${Q9.getDate()}-${
           Q9.getMonth() + 1
         }-${Q9.getFullYear()}`;
@@ -1095,20 +979,11 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q10_B_add.setHours(MCF3_Days.defaultEndingHour);
         Q10_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
         Q10 = Q10_B_add;
-      }
+      
     
 
     //Q11
     let Q11, Q11_after;
-    const getQ11 = fetchQuestionsData
-    ?.filter((item) => item?.OCDS?.id == 'Question 11')
-    .map((item) => item?.nonOCDS?.options)?.[0]
-    ?.find((i) => i?.value)?.value;
-    if(getQ11 != undefined){
-      Q11= new Date(getQ11);
-        console.log("Q11",Q11)
-      }else{
-        console.log("QELSE",Q11)
     const Q11_Parsed = `${Q10.getDate()}-${
       Q10.getMonth() + 1
     }-${Q10.getFullYear()}`;
@@ -1116,7 +991,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     Q11_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q11_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
     Q11 = Q11_B_add;
-  }
+  
     //JSON Response Start
     if(Q7_check != undefined) {
       Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1152,7 +1027,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     let pre_Q7 = manipulation.Q7.value;
     
     let Q7 = new Date(pre_Q7);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-    console.log("Q7",Q7)
     // let Q7, Q7_after, Q7_check;
     // if(manipulation.Q7.selected) {
     //   const Q6_Parsed = `${Q6.getDate()}-${
@@ -1170,7 +1044,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     // }
 
     let Q8, Q8_after, Q8_check;
-    console.log("manipulation.Q8.selected",manipulation.Q8.config);
 
     if(manipulation.Q8.selected) {
       const Q7_Parsed = `${Q7.getDate()}-${

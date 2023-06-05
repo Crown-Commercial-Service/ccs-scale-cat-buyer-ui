@@ -291,10 +291,10 @@ console.log("totalElementSelectors",totalElementSelectors)
     getAjax();
     });
 
-    setTimeout(() => {
-        console.log("TIMELINEEE")
-        getAjax();
-      }, 1000);
+    // setTimeout(() => {
+    //     console.log("TIMELINEEE")
+    //     getAjax();
+    //   }, 1000);
     
 
 // $('.timeLineEventTrigger').on('change', function(e) {
