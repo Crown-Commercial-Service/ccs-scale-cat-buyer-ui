@@ -219,35 +219,69 @@ if(arr!=undefined){
                     let previosElement = indexKey-1;
                     let nextElement = indexKey+1;
                     let previosElementValue=selectors[previosElement];
+
                     let nextElementValue=selectors[nextElement];
                     console.log('previosElement',previosElement)
                     console.log('nextElement',nextElement)
                     console.log('previosElementValue',previosElementValue)
                     console.log('nextElementValue',nextElement)
                     
-                    let checkRadioSelectedClassName = 'resdateradio'+nextElement;
+                    let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
                     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                     console.log('checkRadioSelectedClassName',checkRadioSelectedClassName)
                     console.log('checkRadioSelected',checkRadioSelected)
                     
-                    if(checkRadioSelected == 'yes'){
-                        let radioval = {
-                            id : nextElement,
-                            value:checkRadioSelected
+                    if(checkRadioSelected == 'no' || checkRadioSelected == undefined){
+                        previosElementValue = previosElementValue - 1;
+                        console.log('previoue element inside null ',previosElementValue)
+                        let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                        console.log('current date val ',currentDateval)
+                        //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                         
+                       
+                      //  }
+                        let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+                    if(checkRadioSelected == 'no'){
+                        previosElementValue = previosElementValue - 1;
+                        let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                        console.log('current date val 2nd no',currentDateval)
+                        if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                         
+                      
+                        console.log('previoue element inside null 2no ',previosElementValue)
                         }
-                        radioarray.push(radioval)
                     }
-                    console.log('radioarray',radioarray)
-                    console.log('radio available check',document.getElementsByClassName('timeLineEventTrigger').length)
-                    if(document.getElementsByClassName('timeLineEventTrigger').length > 0 && (checkRadioSelected == undefined || checkRadioSelected == 'no' )){
-                        console.log(' inside date change');
-                        // let day1 = $(`#clarification_date-day_${element}`);
-                        // let month1 = $(`#clarification_date-month_${element}`);
-                        // let year1 = $(`#clarification_date-year_${element}`);
-                        // let hour1 = $(`#clarification_date-hour_${element}`);
-                        // let minutes1 = $(`#clarification_date-minute_${element}`); 
+                        
+                    }
+                    // console.log('radioarray',radioarray)
+                    // if(radioarray.length == 0){
+                    //     previosElementValue = previosElementValue - 2;
+                    //     console.log(' previosElementValue == 0',previosElementValue)
+                    // }
+                    // else if(radioarray.length == 1){
+                    //   let eleId = radioarray[0].id;
+                    //   let eleVal = radioarray[0].value;
+                    //  console.log('eleId',eleId)
+                    //  console.log('eleVal',eleVal)
+                    //  let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                    //  console.log('current date val ',currentDateval)
+                    //  if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                    //     console.log('previoue element inside null ')
+                    //  previosElementValue = previosElementValue - 1;
+                    //  }
+                    //  console.log(' previosElementValue == 1',previosElementValue)
+                    // }
+                    // console.log('radio available check',document.getElementsByClassName('timeLineEventTrigger'))
+                    // if(document.getElementsByClassName('timeLineEventTrigger').length > 0 && (checkRadioSelected == undefined || checkRadioSelected == 'no' )){
+                    //     console.log(' inside date change');
+                    //     // let day1 = $(`#clarification_date-day_${element}`);
+                    //     // let month1 = $(`#clarification_date-month_${element}`);
+                    //     // let year1 = $(`#clarification_date-year_${element}`);
+                    //     // let hour1 = $(`#clarification_date-hour_${element}`);
+                    //     // let minutes1 = $(`#clarification_date-minute_${element}`); 
 
-                    }
+                    // }
                     let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
                     console.log('currentDate',currentDate)
