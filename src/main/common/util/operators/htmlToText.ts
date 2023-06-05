@@ -1,8 +1,5 @@
-
-export class htmlToText{
-    
-    static convertor = (strInputCode : String) => {
-        return strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
-    }
-
+export class htmlToText {
+  static convertor = (strInputCode: string) => {
+    return strInputCode.replace(/<\/?[^>]+(>|$)/g, '');
+  };
 }

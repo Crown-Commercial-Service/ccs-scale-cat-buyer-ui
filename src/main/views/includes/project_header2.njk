@@ -1,9 +1,9 @@
 <div class="project-overview">
   <p class="govuk-body">Selected agreement: <strong>
     {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
-      {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+      {% if(agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
         {{agreement_header['agreementName']}} Lot 4
-      {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}  
+      {% elseif(agreement_header['agreementIdSession']=='RM1043.8') %}  
       {{agreement_header['agreementName']}}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
       {% else %}
         {{agreement_header['agreementName']}}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
@@ -15,16 +15,16 @@
   <p class="govuk-body">Agreement ID: 
     {%if(agreement_header !=undefined and   agreement_header !=null) %}
     <strong>
-      {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}L4
+      {% if(agreement_header['agreementIdSession'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementIdSession']}}L4
         {% else %}
-          {{ agreement_header['agreementId_session'] }}
+          {{ agreement_header['agreementIdSession'] }}
         {% endif %}
     </strong>
     {%endif%}
     </p>
-  {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
-   <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId'] +" & "+agreement_header['project_name']}}</strong></p>
+  {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['projectName'] %}
+   <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId'] +" & "+agreement_header['projectName']}}</strong></p>
     {% else %}
      <p class="govuk-body">Project name: You have not saved projects </p>
     {% endif %}

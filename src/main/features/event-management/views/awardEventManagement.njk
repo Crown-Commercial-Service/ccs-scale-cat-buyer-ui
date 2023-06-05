@@ -28,9 +28,9 @@
         <div class="project-overview">
           <p class="govuk-body">Selected agreement: <strong>
               {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}    
-                {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+                {% if(agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
                 {{ agreement_header['agreementName'] }} Lot 4
-                {% elseif(agreement_header['agreementId_session']=='RM1043.8') %}
+                {% elseif(agreement_header['agreementIdSession']=='RM1043.8') %}
                 {{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
                 {% else %}
                 {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
@@ -39,14 +39,14 @@
     
   </strong></p>
           <p class="govuk-body">Agreement ID: <strong>
-        {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-          {{ agreement_header['agreementId_session']}}L4
+        {% if(agreement_header['agreementIdSession'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+          {{ agreement_header['agreementIdSession']}}L4
         {% else %}
-          {{ agreement_header['agreementId_session'] }}
+          {{ agreement_header['agreementIdSession'] }}
         {% endif %}
           </strong>
           </p>
-          <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['project_name']}}</strong></p>
+          <p class="govuk-body">Project ID & Name: <strong>{{agreement_header['projectId']+" & "+agreement_header['projectName']}}</strong></p>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@
           </p>
         </h2>
 
-            {% if((agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
+            {% if((agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') or agreementId_session == "RM6187") %}
 
             {% if(agreementId_session == "RM1557.13" and (status.toLowerCase() === 'complete' or status.toLowerCase() === 'awarded' or status.toLowerCase() === 'pre-award')) %}
               <p class="govuk-body">Read or download a copy of your published project. You cannot make any changes.
@@ -542,7 +542,7 @@
     }) }}
 {% else %}
 {% set s_name = 'I acknowledge the responsibility to award this supplier after the standstill period has passed..' | safe %}
-{%if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+{%if (agreement_header['agreementIdSession'] == 'RM1043.8') %}
 {% set s_name = 'I acknowledge the responsibility to confirm receipt of the contract signed by the supplier.' | safe %}
 {{ CCSWarningText({
                     text: s_name,
@@ -551,7 +551,7 @@
                     }) }}
 
 {%else%}
-{%if (agreement_header['agreementId_session'] == 'RM6187' or agreement_header['agreementId_session'] == "RM1557.13") %}
+{%if (agreement_header['agreementIdSession'] == 'RM6187' or agreement_header['agreementIdSession'] == "RM1557.13") %}
   {% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
   {%endif%}
   {{ CCSWarningText({
@@ -574,7 +574,7 @@
 
   {%endif%}
 
-  <input id="agreementId" type="hidden" value={{agreement_header['agreementId_session']}}>
+  <input id="agreementId" type="hidden" value={{agreement_header['agreementIdSession']}}>
       <input id="lotId" type="hidden" value={{agreement_header['lotid']}}>
 
   {{ csrfProtection(csrf) }}

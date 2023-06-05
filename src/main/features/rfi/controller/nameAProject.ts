@@ -17,7 +17,6 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
  * @GETController
  */
 export const GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
-
   const { isEmptyProjectError } = req.session;
   req.session['isEmptyProjectError'] = false;
   const procurements = req.session.procurements;
@@ -29,13 +28,15 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const agreementId_session = req.session.agreement_id;
 
   let forceChangeDataJson;
-  if(agreementId_session == 'RM6187') { //MCF3
+  if (agreementId_session == 'RM6187') {
+    //MCF3
     forceChangeDataJson = MCF3cmsData;
-  } else { //DSP
+  } else {
+    //DSP
     forceChangeDataJson = cmsData;
   }
-  
-  if(agreementId_session == 'RM1557.13'){
+
+  if (agreementId_session == 'RM1557.13') {
     forceChangeDataJson = gcloudcmsData;
   }
 
@@ -47,7 +48,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     agreementLotName,
     error: isEmptyProjectError,
     releatedContent: releatedContent,
-    agreementId_session:req.session.agreement_id
+    agreementId_session: req.session.agreement_id,
   };
 
   //CAS-INFO-LOG
@@ -66,7 +67,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
 export const POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId ,eventId} = req.session;
+  const { projectId, eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
@@ -76,11 +77,10 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
         name: name,
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
-      
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(response, logConstant.NameAProjectUpdated, req);
-      
-      
+
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Completed');
       const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
@@ -97,7 +97,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'RFI Name a Project - Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };

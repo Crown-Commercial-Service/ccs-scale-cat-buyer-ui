@@ -6,9 +6,10 @@ import { app } from '../../../../../main/app';
 import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
-const environentVar = require('dotenv').config();
-const { parsed: envs } = environentVar;
+import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
+
+const { parsed: envs } = dotenv.config();
 
 describe('Name a project', () => {
   let parentApp;
@@ -44,17 +45,17 @@ describe('Name a project', () => {
         .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
     }
     nock('https://tst.api.crowncommercial.gov.uk')
-      .post(`/security/tokens/validation`)
+      .post('/security/tokens/validation')
       .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles`)
+      .get('/user-profiles')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263`)
+      .get('/agreements/RM6263')
       .query(true)
       .reply(200, { data: [{ name: 'sisarProject' }] });
 
@@ -71,7 +72,7 @@ describe('Name a project', () => {
       },
     ];
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots`)
+      .get('/agreements/RM6263/lots')
       .query(true)
       .reply(200, dummyLots);
   });
@@ -80,7 +81,7 @@ describe('Name a project', () => {
     await request(parentApp)
       .get('/rfp/name-your-project')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('.govuk-inset-text p');
@@ -96,7 +97,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: dummyName })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/procurement-lead');
       });
@@ -107,7 +108,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: '' })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(302);
         expect(res.header.location).to.be.equal('/rfp/name-your-project');
       });
@@ -122,7 +123,7 @@ describe('Name a project', () => {
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: 'nameExample' })
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
+      .expect((res) => {
         expect(res.status).to.equal(200);
         const dom = new JSDOM(res.text);
         const { textContent } = dom.window.document.querySelector('h1.page-title');

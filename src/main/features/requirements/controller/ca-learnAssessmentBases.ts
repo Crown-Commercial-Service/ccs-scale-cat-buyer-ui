@@ -49,7 +49,7 @@ export const CA_GET_LEARN_ASSESSMENT_BASES = async (req: express.Request, res: e
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA learn page',
-      true,
+      true
     );
   }
 };
@@ -68,7 +68,7 @@ export const CA_POST_LEARN_ASSESSMENT_BASES = async (req: express.Request, res: 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Post failed - CA learn page',
-      true,
+      true
     );
   }
 };

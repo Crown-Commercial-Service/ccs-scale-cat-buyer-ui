@@ -16,8 +16,70 @@ $(document).ready(function () {
     WidthChange(mq);
 
   }
+  $('.restrictEnter').keypress(function(event) {
 
+    if (event.keyCode == 13) {
+        event.preventDefault();
+    }
+});
+var $restrictEnter = $(".restrictEnter");
 
+$restrictEnter.on("keydown keypress", function() {    
+    var $this = $(this),
+        val = $(this).val()
+                     .replace(/ +(?= )/g,''); // replace extra spaces with a single space
+
+    $this.val(val);
+});
+
+  $(".close_project").on('click', function(){
+   var projectId = $(this).attr("projectid");
+   var eventId = $(this).attr("eventid");
+   $(document).find("#projectid_popup").val(projectId)
+   $(document).find("#eventid_popup").val(eventId)
+  
+  });
+
+  const openpopGC = document.querySelector('.backdrop-projectCloseAllPopup')
+    //  openpopGC.classList.add('showpopup')
+      $(".dialog-close-projectCloseAllPopup").on('click', function(){
+            openpopGC.classList.remove('showpopup');
+         });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-projectCloseAllPopup');
+      if(deconf != null){
+        deconf.addEventListener('click', ev => {
+        let projectval =   $(document).find("#projectid_popup").val();
+        let eventIdVal =   $(document).find("#eventid_popup").val();
+        $(".dialog-close-projectCloseAllPopup").on('click', function(){
+          openpopGC.classList.remove('showpopup');
+       });
+         document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+          openpopGC.classList.remove('showpopup');
+        $.ajax({
+          url: `/closeProject?procid=${projectval}&eventId=${eventIdVal}`,
+          type: "GET",
+          contentType: "application/json",
+         }).done(function (result) {
+          
+          window.location.href = window.location.origin +`/dashboard?closeStatus=${result.closeStatus}`;
+          $(".dialog-close-projectCloseAllPopup").on('click', function(){
+            openpopGC.classList.remove('showpopup');
+         });
+       
+         
+        }).fail((res) => {
+          console.log(res);
+          window.location.href = window.location.origin +`/dashboard?closeStatus=false`;
+
+        })
+       
+      });
+    }
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {

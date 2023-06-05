@@ -17,7 +17,6 @@ import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-
 /**
  * @Controller
  * @GET
@@ -36,7 +35,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.fetchedAssesstmentsQuestions, req);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    
+
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
     //CAS-INFO-LOG
@@ -63,8 +62,8 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
-    
-    if (group_id === 'Group 3' && id === 'Criterion 2'){
+
+    if (group_id === 'Group 3' && id === 'Criterion 2') {
       fetch_dynamic_api_data.pop();
     }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
@@ -102,11 +101,9 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      }
-      else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+      } else if (aSelector.nonOCDS.questionType === 'Table' || aSelector.nonOCDS.questionType === 'Integer') {
         return 'ccs_rfp_scoring_criteria';
-      }
-      else {
+      } else {
         return '';
       }
     });
@@ -118,7 +115,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     const releatedContent = req.session.releatedContent;
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
-    fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
+    fetch_dynamic_api_data = fetch_dynamic_api_data.map((item) => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
         newItem.nonOCDS.dependant = false;
@@ -136,7 +133,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
         const RelationsShip = ITEM.nonOCDS.dependency.relationships;
         for (const Relation of RelationsShip) {
           const { dependentOnId } = Relation;
-          const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+          const findElementInData = fetch_dynamic_api_data.filter((item) => item.OCDS.id === dependentOnId)[0];
           findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
           TemporaryObjStorage.push(findElementInData);
         }
@@ -146,14 +143,14 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     }
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
       .map(JSON.parse)
-      .filter(item => !item.nonOCDS.dependant);
+      .filter((item) => !item.nonOCDS.dependant);
 
-    let formNameValue = form_name.find(fn => fn !== '');
+    const formNameValue = form_name.find((fn) => fn !== '');
     if (group_id === 'Group 8' && id === 'Criterion 2') {
-      TemporaryObjStorage.forEach(x => {
+      TemporaryObjStorage.forEach((x) => {
         //x.nonOCDS.childern=[];
         if (x.nonOCDS.questionType === 'Table') {
-          x.nonOCDS.options.forEach(element => {
+          x.nonOCDS.options.forEach((element) => {
             element.optiontableDefination = mapTableDefinationData(element);
             element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
           });
@@ -162,7 +159,6 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
 
-    
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -185,7 +181,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       releatedContent: releatedContent,
       section: section,
       step: step,
-      eventManagement_eventType:model_eventType
+      eventManagement_eventType: model_eventType,
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -196,15 +192,15 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       data.form_name = 'da_multianswer_question_form';
     }
     if (group_id === 'Group 1' && id === 'Criterion 2') {
-      data.data=[];
-      data.form_name='read_me';
+      data.data = [];
+      data.form_name = 'read_me';
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-  //CAS-INFO-LOG
-  LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.yourassesstments, req);
 
     res.render('daw-question-assessment', data);
   } catch (error) {
@@ -221,7 +217,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       Logmessage.error_location,
       Logmessage.sessionId,
       Logmessage.error_reason,
-      Logmessage.exception,
+      Logmessage.exception
     );
     LoggTracer.errorTracer(Log, res);
   }
@@ -241,30 +237,33 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    
+
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
-    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+    const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    let { rfp_build_started, question_id } = req.body;
+    
+    const { rfp_build_started } = req.body;
+    let { question_id } = req.body;
+
     if (question_id === undefined) {
-      question_id = Object.keys(req.body).filter(x => x.includes('Question'));
+      question_id = Object.keys(req.body).filter((x) => x.includes('Question'));
     }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    let retrieveAgreement  = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    let retrieveAgreement = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
     retrieveAgreement = retrieveAgreement.data;
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
-    let question_idsFilrtedList = [];
+    const question_idsFilrtedList = [];
 
-    question_ids.forEach(x => {
+    question_ids.forEach((x) => {
       if (question_idsFilrtedList.length > 0) {
-        let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
+        const existing = question_idsFilrtedList.filter((xx) => xx.trim() == x.trim());
         if (existing == undefined || existing == null || existing.length <= 0) {
           question_idsFilrtedList.push(x);
         }
@@ -278,11 +277,11 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'question_id',
+          'question_id'
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+        const object_values = Object.values(filtered_object_with_empty_keys).map((an_answer) => {
           return { value: an_answer, selected: true };
         });
 
@@ -291,18 +290,18 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
           const urlReadmeDetail = `/tenders/projects/${req.query.proc_id}/events/${req.query.event_id}/criteria/${req.query.id}/groups/${req.query.group_id}/questions`;
           const { data: getReadmeDetail } = await TenderApi.Instance(SESSION_ID).get(urlReadmeDetail);
           const dataSetReadme = getReadmeDetail.find((el) => el.nonOCDS.questionType === 'ReadMe');
-          if(dataSetReadme !== undefined) {
-            let readmeQuestionID = dataSetReadme.OCDS.id;
-            let readmeMultiAnswer = dataSetReadme.nonOCDS.multiAnswer;
-            let ReadmeBody = {
+          if (dataSetReadme !== undefined) {
+            const readmeQuestionID = dataSetReadme.OCDS.id;
+            const readmeMultiAnswer = dataSetReadme.nonOCDS.multiAnswer;
+            const ReadmeBody = {
               nonOCDS: {
                 answered: true,
                 multiAnswer: readmeMultiAnswer,
                 options: [{ selected: true }],
               },
             };
-            let ReadmeBaseURL = `/tenders/projects/${req.query.proc_id}/events/${req.query.event_id}/criteria/${req.query.id}/groups/${req.query.group_id}/questions/${readmeQuestionID}`;
-            let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(ReadmeBaseURL, ReadmeBody);
+            const ReadmeBaseURL = `/tenders/projects/${req.query.proc_id}/events/${req.query.event_id}/criteria/${req.query.id}/groups/${req.query.group_id}/questions/${readmeQuestionID}`;
+            const response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(ReadmeBaseURL, ReadmeBody);
             //CAS-INFO-LOG
             LoggTracer.infoLogger(response, logConstant.saveassesstments, req);
           }
@@ -317,13 +316,13 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
             agreement_id,
             id,
             res,
-            req,
+            req
           );
         } else {
           let validationError = false;
           let answerValueBody = {};
           for (let i = 0; i < question_ids.length; i++) {
-            const questionNonOCDS = nonOCDS.find(item => item.questionId?.trim() == question_ids[i]?.trim());
+            const questionNonOCDS = nonOCDS.find((item) => item.questionId?.trim() == question_ids[i]?.trim());
             if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
               if (questionNonOCDS.mandatory == true && object_values.length == 0) {
                 validationError = true;
@@ -335,8 +334,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   options: [...object_values],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Table') {
+            } else if (questionNonOCDS.questionType === 'Table') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
               }
@@ -348,18 +346,19 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
               score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
               //Balwinder
 
-              let rows = [];
-              let tableData = [];
+              const rows = [];
+              const tableData = [];
               for (let index = 0; index < score_criteria_level.length; index++) {
                 rows.push({ id: index + 1, name: score_criteria_level[index] });
               }
 
               for (let index = 0; index < score_criteria_points.length; index++) {
-                let cols = [];
+                const cols = [];
                 cols.push(score_criteria_points[index]);
                 cols.push(score_criteria_desc[index]);
                 tableData.push({
-                  row: index + 1, cols: cols
+                  row: index + 1,
+                  cols: cols,
                 });
               }
               answerValueBody = {
@@ -372,30 +371,26 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                         titles: {
                           columns: [
                             {
-                              "id": 0,
-                              "name": "Marking Scheme"
+                              id: 0,
+                              name: 'Marking Scheme',
                             },
                             {
-                              "id": 1,
-                              "name": "Points"
+                              id: 1,
+                              name: 'Points',
                             },
                             {
-                              "id": 2,
-                              "name": "Description"
-                            }],
-                          rows: [
-                            ...rows
-                          ]
+                              id: 2,
+                              name: 'Description',
+                            },
+                          ],
+                          rows: [...rows],
                         },
-                        data: [
-                          ...tableData
-                        ]
-                      }
-                    }
+                        data: [...tableData],
+                      },
+                    },
                   ],
                 },
               };
-
             } else if (questionNonOCDS.questionType === 'KeyValuePair') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
@@ -427,7 +422,6 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   };
                 }
               }
-
             } else if (questionNonOCDS.questionType === 'MultiSelect') {
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
@@ -454,9 +448,9 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                 break;
               } else if (
                 selectedOptionToggle[0].find(
-                  x =>
+                  (x) =>
                     x.value === 'No specific location, for example they can work remotely' ||
-                    x.value === 'Not Applicable',
+                    x.value === 'Not Applicable'
                 ) &&
                 selectedOptionToggle[0].length > 1
               ) {
@@ -481,11 +475,16 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                 },
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
-              let currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
-              let inputDate = req.body["rfp_duration-years_" + question_ids[i]] + '-' + req.body["rfp_duration_months_" + question_ids[i]] + '-' + req.body["rfp_duration_days_" + question_ids[i]];
-              let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
-              let isInputDateLess = moment(inputDate).isBefore(currentDate);
-              let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
+              const currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
+              const inputDate =
+                req.body['rfp_duration-years_' + question_ids[i]] +
+                '-' +
+                req.body['rfp_duration_months_' + question_ids[i]] +
+                '-' +
+                req.body['rfp_duration_days_' + question_ids[i]];
+              const agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
+              const isInputDateLess = moment(inputDate).isBefore(currentDate);
+              const isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
               req.session['IsInputDateLessError'] = false;
               req.session['IsExpiryDateLessError'] = false;
               if (isInputDateLess) {
@@ -502,20 +501,19 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   nonOCDS: {
                     answered: true,
                     options: [
-                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration-years_' + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration_months_' + question_ids[i]], select: true },
+                      { value: req.body['rfp_duration_days_' + question_ids[i]], select: true },
                     ],
                   },
                 };
               }
-            }
-            else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
+            } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
               }
-              let splterm = req.body;
+              const splterm = req.body;
               let splTermvalue = req.body;
               const TAStorage = [];
               const questionDataList = splterm[question_ids[i]];
@@ -531,47 +529,49 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   options: [...TAStorage],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Percentage') {
+            } else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
               const { percentage } = req.body;
               if (dataList != undefined) {
-                var optins = dataList?.filter(val => val !== '')
-                  .map(val => {
+                const optins = dataList
+                  ?.filter((val) => val !== '')
+                  .map((val) => {
                     return { value: val, selected: true };
                   });
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: true,
-                    options: optins
-                  }
+                    options: optins,
+                  },
                 };
               } else if (percentage != undefined && percentage != null) {
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [{ value: percentage[i], selected: true }]
-                  }
+                    options: [{ value: percentage[i], selected: true }],
+                  },
                 };
               }
-
-            }
-            else if (questionNonOCDS.questionType != 'Integer' && questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+            } else if (
+              questionNonOCDS.questionType != 'Integer' &&
+              questionNonOCDS.questionType != 'Percentage' &&
+              question_ids.length == 4 &&
+              questionNonOCDS.multiAnswer === true
+            ) {
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
                   multiAnswer: questionNonOCDS.multiAnswer,
                   options: req.body[question_ids[i]]
-                    .filter(val => val !== '')
-                    .map(val => {
+                    .filter((val) => val !== '')
+                    .map((val) => {
                       return { value: val, selected: true };
                     }),
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'SingleSelect') {
+            } else if (questionNonOCDS.questionType === 'SingleSelect') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
@@ -580,11 +580,10 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                 nonOCDS: {
                   answered: true,
                   multiAnswer: questionNonOCDS.multiAnswer,
-                  options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                  options: [{ value: req.body['ccs_vetting_type']?.trim(), selected: true }],
                 },
               };
-            }
-            else if (questionNonOCDS.questionType === 'Monetary') {
+            } else if (questionNonOCDS.questionType === 'Monetary') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
@@ -611,7 +610,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                 break;
               }
               let objValueArrayCheck = false;
-              object_values.map(obj => {
+              object_values.map((obj) => {
                 if (Array.isArray(obj.value)) objValueArrayCheck = true;
               });
               if (objValueArrayCheck) {
@@ -635,8 +634,17 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  let response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                if (
+                  answerValueBody != undefined &&
+                  answerValueBody != null &&
+                  answerValueBody?.nonOCDS != undefined &&
+                  answerValueBody?.nonOCDS?.options.length > 0 &&
+                  answerValueBody?.nonOCDS?.options[0].value != undefined
+                ) {
+                  const response = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                    answerBaseURL,
+                    answerValueBody
+                  );
                   //CAS-INFO-LOG
                   LoggTracer.infoLogger(response, logConstant.saveassesstments, req);
                 }
@@ -648,7 +656,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   null,
                   TokenDecoder.decoder(SESSION_ID),
                   'DA Question Assessments - Tenders Service Api cannot be connected',
-                  true,
+                  true
                 );
                 // LoggTracer.errorTracer(error, res);
               }
@@ -668,7 +676,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
               agreement_id,
               id,
               res,
-              req,
+              req
             );
           } else {
             res.send();
@@ -690,20 +698,20 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA Question Assessments - Tenders Service Api cannot be connected',
-      true,
+      true
     );
   }
 };
 
 const KeyValuePairValidation = (object_values: any, req: express.Request) => {
   if (object_values.length == 2) {
-    let key = object_values[0];
-    let keyValue = object_values[1];
+    const key = object_values[0];
+    const keyValue = object_values[1];
     let keyErrorIndex = '',
       keyValueErrorIndex = '';
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
-      let eitherElementEmptys = [];
-      for (var i = 0; i < key.value.length; i++) {
+      const eitherElementEmptys = [];
+      for (let i = 0; i < key.value.length; i++) {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
           eitherElementEmptys.push({ index: i, isEmpty: true });
         } else {
@@ -734,8 +742,8 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
 };
 
 const findErrorText = (data: any, req: express.Request) => {
-  let errorText = [];
-  data.forEach(requirement => {
+  const errorText = [];
+  data.forEach((requirement) => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair')
       errorText.push({ text: 'You must add information in both fields.' });
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
@@ -764,7 +772,7 @@ const findErrorText = (data: any, req: express.Request) => {
       req.session['isLocationError'] == true &&
       req.session['isLocationMandatoryError'] == false
     ) {
-      if (requirement.nonOCDS.options.find(x => x.value === 'Not Applicable'))
+      if (requirement.nonOCDS.options.find((x) => x.value === 'Not Applicable'))
         errorText.push({
           text: 'You must select either one phase resource is required for, or select "Not Applicable"',
         });
@@ -796,55 +804,64 @@ const isDateOlder = (date1: any, date2: any) => {
   );
 };
 
-const mapTitle = groupId => {
+const mapTitle = (groupId) => {
   let title = '';
   switch (groupId) {
-    case 'Group 4':
-      title = 'technical';
-      break;
-    case 'Group 5':
-      title = 'cultural';
-      break;
-    case 'Group 6':
-      title = 'social value';
-      break;
-    default:
-      return '';
+  case 'Group 4':
+    title = 'technical';
+    break;
+  case 'Group 5':
+    title = 'cultural';
+    break;
+  case 'Group 6':
+    title = 'social value';
+    break;
+  default:
+    return '';
   }
   return title;
 };
 
 const mapTableDefinationData = (tableData) => {
-  let object = null;
-  var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
+  const object = null;
+  const columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
   //var rowDataList
-  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data) : null
+  const tableDefination =
+    tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined
+      ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data)
+      : null;
 
-  return { head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [], rows: tableDefination?.length > 0 ? tableDefination : [] };
-}
+  return {
+    head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [],
+    rows: tableDefination?.length > 0 ? tableDefination : [],
+  };
+};
 
 const getColumnsHeaderList = (columns) => {
-  const list = columns?.map(element => {
+  const list = columns?.map((element) => {
     return { text: element.name };
   });
-  return list
-}
+  return list;
+};
 const getRowDataList = (rows, data1) => {
-  let dataRowsList = [];
-  rows?.forEach(element => {
+  const dataRowsList = [];
+  rows?.forEach((element) => {
     element.text = element.name;
-    var data = getDataList(element.id, data1);
-    let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+    const data = getDataList(element.id, data1);
+    const innerArrObj = [
+      { text: element.name, classes: 'govuk-!-width-one-quarter' },
+      { classes: 'govuk-!-width-one-quarter', text: data[0].cols[0] },
+      { classes: 'govuk-!-width-one-half', text: data[0].cols[1] },
+    ];
     dataRowsList.push(innerArrObj);
   });
   return dataRowsList;
-}
+};
 const getDataList = (id, data) => {
-  const obj = data?.filter(element => {
+  const obj = data?.filter((element) => {
     if (element.row == id) {
       return element;
     }
   });
   return obj;
-}
-
+};

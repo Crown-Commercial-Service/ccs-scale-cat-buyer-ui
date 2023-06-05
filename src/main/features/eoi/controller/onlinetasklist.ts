@@ -29,20 +29,18 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
     const { SESSION_ID } = req.cookies;
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
-      
-      if(agreement_id == 'RM6187'){
-       
-      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
-    const journeys=journeySteps.find(item => item.step == 20);
-    
-    if(journeys.state !='Completed'){
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
-    }
-  }
-  
+      if (agreement_id == 'RM6187') {
+        const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+        const journeys = journeySteps.find((item) => item.step == 20);
+
+        if (journeys.state != 'Completed') {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+        }
+      }
+
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-      
-      //CAS-INFO-LOG 
+
+      //CAS-INFO-LOG
       LoggTracer.infoLogger(fetch_dynamic_api, logConstant.buildYourEoiQuestionList, req);
 
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -50,7 +48,6 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
 
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
-
         const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
         const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
         const criterian_array = fetch_criterian_group_data?.data;
@@ -69,15 +66,14 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       const sorted_ascendingly = criterianStorage
         .map((aCriterian: any) => {
           const object = aCriterian;
-          let tempId = object.criterianId.split('Criterion ').join('') + '000'
+          const tempId = object.criterianId.split('Criterion ').join('') + '000';
           if (object.nonOCDS['mandatory'] === false)
-            object.OCDS['description'] = object.OCDS['description'] + ' (Optional)'
-          object.OCDS['sortId'] = Number(tempId) + Number(aCriterian.OCDS['id']?.split('Group ').join(''))
-          if (!isNaN(object.OCDS['sortId']))
-            return object;
+            object.OCDS['description'] = object.OCDS['description'] + ' (Optional)';
+          object.OCDS['sortId'] = Number(tempId) + Number(aCriterian.OCDS['id']?.split('Group ').join(''));
+          if (!isNaN(object.OCDS['sortId'])) return object;
         })
         .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
-        .filter(obj => obj != undefined);
+        .filter((obj) => obj != undefined);
 
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
@@ -85,12 +81,13 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       const releatedContent = req.session?.releatedContent;
 
       let forceChangeDataJson;
-      if (agreement_id == 'RM6187') { //MCF3
+      if (agreement_id == 'RM6187') {
+        //MCF3
         forceChangeDataJson = Mcf3cmsData;
       } else {
         forceChangeDataJson = fileData;
       }
-      
+
       for (let index = 0; index < select_default_data_from_fetch_dynamic_api.length; index++) {
         select_default_data_from_fetch_dynamic_api[index].questionStatus = 'todo';
         const baseURLQ: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${select_default_data_from_fetch_dynamic_api[index].criterianId}/groups/${select_default_data_from_fetch_dynamic_api[index].OCDS.id}/questions`;
@@ -99,23 +96,22 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
         for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
           //if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
-            let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
-           // let item1 = questionOptions.find(i => i.selected === true);
-           let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
-            if(item1){
-              select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
-            }
+          const questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
+          // let item1 = questionOptions.find(i => i.selected === true);
+          const item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
+          if (item1) {
+            select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
+          }
 
           // } else {
-            
+
           //   if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
-              
+
           //     select_default_data_from_fetch_dynamic_api[index].questionStatus = 'Done';
           //   } else {
           //   }
           // }
         }
-
       }
 
       const display_fetch_data = {
@@ -126,10 +122,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         event_id: event_id,
         lotId,
         agreementLotName,
-        releatedContent: releatedContent
+        releatedContent: releatedContent,
       };
 
-      //CAS-INFO-LOG 
+      //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.buildYourEoiPageLog, req);
 
       res.render('onlinetasklistEoi', display_fetch_data);
@@ -141,7 +137,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         null,
         TokenDecoder.decoder(SESSION_ID),
         'EOI - Tenders Service Api cannot be connected',
-        true,
+        true
       );
     }
   }

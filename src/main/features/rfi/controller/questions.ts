@@ -12,9 +12,8 @@ import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
 
 /**
  * @Controller
@@ -35,9 +34,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-     
-    //CAS-INFO-LOG 
-     LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.rfiQuestionDetails, req);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.rfiQuestionDetails, req);
 
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
@@ -80,35 +79,29 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return '';
       }
     });
-    
+
     req.session?.nonOCDSList = nonOCDSList;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
-    if(fetch_dynamic_api_data[0].OCDS.id=='Question 5' && agreement_id == 'RM6263')
-    {
-      fetch_dynamic_api_data[0].OCDS.title="Terms and acronyms (optional)";
+    if (fetch_dynamic_api_data[0].OCDS.id == 'Question 5' && agreement_id == 'RM6263') {
+      fetch_dynamic_api_data[0].OCDS.title = 'Terms and acronyms (optional)';
     }
-    if(fetch_dynamic_api_data[0].OCDS.id=='Question 4' && agreement_id == 'RM6263')
-    {
-      fetch_dynamic_api_data[0].nonOCDS.options[0].text='For individuals who do not need to have a specific level of security clearance because your organisation has its own pre-employment checks.';
+    if (fetch_dynamic_api_data[0].OCDS.id == 'Question 4' && agreement_id == 'RM6263') {
+      fetch_dynamic_api_data[0].nonOCDS.options[0].text =
+        'For individuals who do not need to have a specific level of security clearance because your organisation has its own pre-employment checks.';
     }
-    if(fetch_dynamic_api_data[0].OCDS.id=='Question 6')
-    {
-      
-
-      if(agreement_id == 'RM6187') {
+    if (fetch_dynamic_api_data[0].OCDS.id == 'Question 6') {
+      if (agreement_id == 'RM6187') {
         //MCF3
-        titleText="Where the supplied staff will work";
-      } else if(agreement_id == 'RM6263') {
+        titleText = 'Where the supplied staff will work';
+      } else if (agreement_id == 'RM6263') {
         //DSP
         //cmsData = cmsDSPData;
-        titleText="Where staff will work";
+        titleText = 'Where staff will work';
       }
-
-
     }
-    
+
     const data = {
       data: fetch_dynamic_api_data,
       agreement_id: agreement_id,
@@ -131,9 +124,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
-    
-   //CAS-INFO-LOG
-   LoggTracer.infoLogger(null, data.rfiTitle, req);
+
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, data.rfiTitle, req);
 
     res.render('questions', data);
   } catch (error) {
@@ -150,7 +143,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       Logmessage.error_location,
       Logmessage.sessionId,
       Logmessage.error_reason,
-      Logmessage.exception,
+      Logmessage.exception
     );
     LoggTracer.errorTracer(Log, res);
   }
@@ -165,59 +158,53 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
-  
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
-    const { projectId,eventId } = req.session;
-    let flag=await ShouldEventStatusBeUpdated(eventId,10,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
+    const { projectId, eventId } = req.session;
+    const flag = await ShouldEventStatusBeUpdated(eventId, 10, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
     }
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
-   
+
     if (operations.equals(started_progress_check, false)) {
       // const { rfi_build_started, question_id, questionType } = req.body;
       const { rfi_build_started, questionType } = req.body;
-     
-      let Mcf3Qid = req.body.question_id;
+
+      const Mcf3Qid = req.body.question_id;
       let question_id;
-      let question_id_append = req.body.question_id;
-      if(typeof(question_id_append) == 'object') {
-        
-        question_id = question_id_append[question_id_append.length - 1];//question_id_append[0];
+      const question_id_append = req.body.question_id;
+      if (typeof question_id_append === 'object') {
+        question_id = question_id_append[question_id_append.length - 1]; //question_id_append[0];
       } else {
         question_id = question_id_append;
       }
 
-     
-      const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
+      const nonOCDS = req.session?.nonOCDSList.find((x) => x.question_id === question_id);
       if (rfi_build_started === 'true') {
         let validationError = false;
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'question_id',
+          'question_id'
         );
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'questionType',
+          'questionType'
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
         const regex = /questionnaire/gi;
         const url = req.originalUrl.toString();
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+        const object_values = Object.values(filtered_object_with_empty_keys).map((an_answer) => {
           return { value: an_answer };
         });
-        
+
         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
-        
           req.session.isValidationError = true;
           if (object_values.length > 0) {
-         
             const object_values_Keyterm = object_values[0].value;
             const object_values_acronyms = object_values[1].value;
             const keyTermsAcronymsSorted = [];
@@ -233,18 +220,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             req.session.isFieldError = true;
           }
           if (questionType === 'MultiSelecttrue') {
-          
             validationError = true;
             req.session['isLocationError'] = true;
             req.session['isLocationMandatoryError'] = true;
           }
-       
+
           res.redirect(url.replace(regex, 'questions'));
         } else {
-          
           req.session['isLocationMandatoryError'] = false;
           if (questionType === 'Valuetrue') {
-
             const QAStorage = [];
             for (let item = 0; item < object_values.length; item++) {
               QAStorage.push({ value: object_values[item].value, selected: true });
@@ -255,12 +239,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 options: [...QAStorage],
               },
             };
-            
+
             try {
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              
-              //CAS-INFO-LOG 
+              const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                answerBaseURL,
+                answerValueBody
+              );
+
+              //CAS-INFO-LOG
               LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
 
               if (stop_page_navigate == null || stop_page_navigate == undefined) {
@@ -274,7 +261,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   agreement_id,
                   id,
                   res,
-                  req,
+                  req
                 );
               } else {
                 res.send();
@@ -294,13 +281,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 Logmessage.error_location,
                 Logmessage.sessionId,
                 Logmessage.error_reason,
-                Logmessage.exception,
+                Logmessage.exception
               );
               LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
-
-          
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
@@ -318,11 +303,14 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
 
             try {
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+              const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                answerBaseURL,
+                answerBody
+              );
 
-              //CAS-INFO-LOG 
+              //CAS-INFO-LOG
               LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
-              
+
               if (stop_page_navigate == null || stop_page_navigate == undefined) {
                 QuestionHelper.AFTER_UPDATINGDATA(
                   ErrorView,
@@ -334,16 +322,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   agreement_id,
                   id,
                   res,
-                  req,
+                  req
                 );
               } else {
                 res.send();
                 return;
               }
             } catch (error) {
-
-             
-
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -357,13 +342,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 Logmessage.error_location,
                 Logmessage.sessionId,
                 Logmessage.error_reason,
-                Logmessage.exception,
+                Logmessage.exception
               );
               LoggTracer.errorTracer(Log, res);
             }
           } else {
-
-
             const question_array_check: boolean = Array.isArray(question_id);
             if (question_array_check) {
               const sortedStorage = [];
@@ -381,14 +364,16 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     options: [iteration.answer],
                   },
                 };
-               
+
                 try {
                   const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                  let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                  
-                  //CAS-INFO-LOG 
+                  const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                    answerBaseURL,
+                    answerBody
+                  );
+
+                  //CAS-INFO-LOG
                   LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
-              
 
                   QuestionHelper.AFTER_UPDATINGDATA(
                     ErrorView,
@@ -400,10 +385,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     agreement_id,
                     id,
                     res,
-                    req,
+                    req
                   );
                 } catch (error) {
-
                   delete error?.config?.['headers'];
                   const Logmessage = {
                     Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -417,13 +401,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     Logmessage.error_location,
                     Logmessage.sessionId,
                     Logmessage.error_reason,
-                    Logmessage.exception,
+                    Logmessage.exception
                   );
                   LoggTracer.errorTracer(Log, res);
                 }
               }
             } else {
-             
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
                 if (check) {
@@ -434,7 +417,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return arrayOFArrayedObjects;
                 } else return { value: anObject.value, selected: true };
               });
-             
+
               selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
                 if (Array.isArray(anItem)) {
                   return anItem;
@@ -442,13 +425,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return [anItem];
                 }
               });
-           
+
               try {
                 if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                   //return error & show
-                
                 } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
-                
                   const answerBody = {
                     nonOCDS: {
                       answered: true,
@@ -456,26 +437,27 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     },
                   };
                   const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                  
-                  //CAS-INFO-LOG 
-                  LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+                  const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                    answerBaseURL,
+                    answerBody
+                  );
 
+                  //CAS-INFO-LOG
+                  LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
                 } else if (
                   selectedOptionToggle[0].find(
-                    x => x.value === 'Not No specific location, for example they can work remotely',
+                    (x) => x.value === 'Not No specific location, for example they can work remotely'
                   ) &&
                   selectedOptionToggle[0].length > 2
                 ) {
-                 
                   validationError = true;
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
-                  if(agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {  //MCF3 or gcloud
-                    
-                    if(typeof(Mcf3Qid) == 'object') {
-                     
+                  if (agreement_id == 'RM6187' || agreement_id == 'RM1557.13') {
+                    //MCF3 or gcloud
+
+                    if (typeof Mcf3Qid === 'object') {
                       const sortedStorageMcf3 = [];
                       for (let h = 0; h < Mcf3Qid.length; h++) {
                         const comparisonObject = {
@@ -484,7 +466,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         };
                         sortedStorageMcf3.push(comparisonObject);
                       }
-                      
+
                       for (const iterationMcf3 of sortedStorageMcf3) {
                         const answerBody = {
                           nonOCDS: {
@@ -494,14 +476,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         };
                         answerBody.nonOCDS.options[0]['selected'] = true;
                         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iterationMcf3.questionNo}`;
-                        let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                      
-                        //CAS-INFO-LOG 
-                        LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+                        const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                          answerBaseURL,
+                          answerBody
+                        );
 
+                        //CAS-INFO-LOG
+                        LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
                       }
                     } else {
-                     
                       const answerBody = {
                         nonOCDS: {
                           answered: true,
@@ -509,14 +492,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                         },
                       };
                       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                      let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                      const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                        answerBaseURL,
+                        answerBody
+                      );
 
-                       //CAS-INFO-LOG 
-                       LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
-
+                      //CAS-INFO-LOG
+                      LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
                     }
                   } else {
-                    
                     const answerBody = {
                       nonOCDS: {
                         answered: true,
@@ -524,11 +508,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                       },
                     };
                     const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                    let questionResponse= await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                    
-                    //CAS-INFO-LOG 
-                    LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
+                    const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                      answerBaseURL,
+                      answerBody
+                    );
 
+                    //CAS-INFO-LOG
+                    LoggTracer.infoLogger(questionResponse, logConstant.rfiQuestionUpdated, req);
                   }
                 }
                 if (req.session['isLocationError'] === false) {
@@ -542,7 +528,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     agreement_id,
                     id,
                     res,
-                    req,
+                    req
                   );
                 }
               } catch (error) {
@@ -559,7 +545,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   Logmessage.error_location,
                   Logmessage.sessionId,
                   Logmessage.error_reason,
-                  Logmessage.exception,
+                  Logmessage.exception
                 );
                 LoggTracer.errorTracer(Log, res);
               }
@@ -580,23 +566,20 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
       null,
       TokenDecoder.decoder(SESSION_ID),
       'RFI Question - Tenders Service Api cannot be connected',
-      true,
+      true
     );
   }
 };
 
 const findErrorText = (data: any, req: express.Request) => {
   let errorText = '';
-  data.forEach(requirement => {
+  data.forEach((requirement) => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
-    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true){
-      const { agreement_id} = req.query;
-      if(agreement_id== 'RM6187')
-      errorText = 'You must ask at least one question';
-      else
-      errorText = 'You must add at least one question';
-    }
-    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true) {
+      const { agreement_id } = req.query;
+      if (agreement_id == 'RM6187') errorText = 'You must ask at least one question';
+      else errorText = 'You must add at least one question';
+    } else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must enter information here';
@@ -621,11 +604,11 @@ const checkFormInputValidationError = (nonOCDS: any, object_values: any, questio
     return true;
   }
   if (questionType === 'KeyValuePairtrue' && object_values.length == 2) {
-    let key = object_values[0];
-    let keyValue = object_values[1];  
+    const key = object_values[0];
+    const keyValue = object_values[1];
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
-      let eitherElementEmptys = [];
-      for (var i = 0; i < key.value.length; i++) {
+      const eitherElementEmptys = [];
+      for (let i = 0; i < key.value.length; i++) {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
           eitherElementEmptys.push({ index: i, isError: true });
         }
