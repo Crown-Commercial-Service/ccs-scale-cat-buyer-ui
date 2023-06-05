@@ -216,7 +216,7 @@ console.log("totalElementSelectors",totalElementSelectors)
             let checkRadioSelectedClassName = 'resdateradio'+selector;
             let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
-                 var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventtype");
+                 var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventType");
                  var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
                 
                     if(checkRadioSelected == 'yes') {
@@ -290,6 +290,12 @@ console.log("totalElementSelectors",totalElementSelectors)
     $('.timeLineEventTrigger').on('click', function(e) {
     getAjax();
     });
+
+    // setTimeout(() => {
+    //     console.log("TIMELINEEE")
+    //     getAjax();
+    //   }, 1000);
+    
 
 // $('.timeLineEventTrigger').on('change', function(e) {
 //     var tl_val = $(this).val();
