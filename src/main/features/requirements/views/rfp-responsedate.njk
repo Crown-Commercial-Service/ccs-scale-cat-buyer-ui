@@ -212,7 +212,7 @@
                                  {% set bodyContHide = 'hide' %}
                                 {% set yeschecked = '' %}
                                 {% set nochecked = '' %}
-                                  {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[0].select==true or obj[key].selected==true ) %}
+                                  {# {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[0].select==true or obj[key].selected==true ) %}
                                   {% set yeschecked = 'checked' %}
                                    {% set bodyContHide = '' %}
                                   {% endif %}
@@ -220,8 +220,17 @@
                                   {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[1].select==true or obj[key].selected==false ) %}
                                   {% set nochecked = 'checked' %}
                                    {% set bodyContHide = 'hide' %}
-                                  {% endif %}
+                                  {% endif %} #}
 
+                                         {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[0].select==true ) %}
+                                  {% set yeschecked = 'checked' %}
+                                   {% set bodyContHide = '' %}
+                                  {% endif %}
+                                  
+                                  {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[1].select==true ) %}
+                                  {% set nochecked = 'checked' %}
+                                   {% set bodyContHide = 'hide' %}
+                                  {% endif %}
                                 <div class="datehead hidehr" id="headContent_{{requirement.nonOCDS.order}}">
                                     
                                     <label class="govuk-label govuk-body">
