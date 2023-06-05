@@ -47,9 +47,9 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   );
   res.locals.agreement_header = {
     agreementName,
-    project_name,
+    projectName:project_name,
     projectId,
-    agreementId_session,
+    agreementIdSession:agreementId_session,
     agreementLotName,
     lotid,
   };

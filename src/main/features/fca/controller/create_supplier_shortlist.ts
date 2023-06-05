@@ -91,9 +91,9 @@ export const CREATE_SUPPLIER_SHORTLIST = async (req: express.Request, res: expre
     statusStepsDataFilter(fcaCreateSupplierShortlistContent, journeySteps, 'FCA', agreement_id, projectId, eventId);
     res.locals.agreement_header = {
       agreementName,
-      project_name,
+      projectName:project_name,
       projectId,
-      agreementId_session,
+      agreementIdSession:agreementId_session,
       agreementLotName,
       lotid,
     };
