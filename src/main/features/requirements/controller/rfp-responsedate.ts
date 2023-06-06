@@ -438,8 +438,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute
   } = req.body;
   const { timeline, agreement_id } = req.session;
-
-  const stage2_value = req.session.stage2_value;
+ const stage2_value = req.session.stage2_value;
   const basebankURL = '/bank-holidays.json';
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   clarification_date_day = Number(clarification_date_day);
@@ -447,7 +446,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
   // const selected_question_indexte = selected_question_index;
-
   if (
     clarification_date_day == 0 ||
     isNaN(clarification_date_day) ||
@@ -504,7 +502,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       timeinHoursBased,
       clarification_date_minute
     );
-
     const nowDate = new Date();
     const { isValid, error, errorSelector } = isValidQuestion(
       selected_question_id,
@@ -521,13 +518,11 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     );
 
     const dateNewNow = new Date(req.session.timeline.publish);
-
     if (date.getTime() >= dateNewNow.getTime() && isValid) {
       //date = moment(date).format('DD MMMM YYYY, hh:mm a');
       date = moment(date).format('DD MMMM YYYY, HH:mm');
 
       req.session.questionID = selected_question_id;
-
       if (selected_question_id == 'Question 2') {
         req.session.rfppublishdate = timeline.publish;
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
@@ -732,7 +727,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         req.session.signeddate = timeline.contractsigneddate;
         req.session.UIDate = date;
       }
-
       const filtervalues = moment(date, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
 
       const answerformater = {
@@ -746,6 +740,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
           options: [answerformater],
         },
       };
+
       const { SESSION_ID } = req.cookies;
       try {
         const proc_id = req.session.projectId;
@@ -754,6 +749,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         const question_id = selected_question_id;
         let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
         baseURL = baseURL + '/criteria';
+       
         const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
         const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
@@ -795,6 +791,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         LoggTracer.errorTracer(Log, res);
       }
     } else {
+     
       const selectedErrorCause = selected_question_id; //Question 2
       let selector = '';
       let selectorID = '';
@@ -918,41 +915,45 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   let tl_questionID = req.body.tl_questionID;
   let tl_val = req.body.tl_val;
   req.session.timlineSession=req.body;
-  console.log("req.session.timlineSession",req.session.timlineSession)
+  
   if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
-    let manipulation = req.body.manipulation;
-    console.log(manipulation);
+   let manipulation = req.body.manipulation;
     //Q6
     let pre_Q6 = manipulation.Q6.value;
     let Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
     
+  
+
     let Q7, Q7_after, Q7_check;
     if(manipulation.Q7.selected) {
-      const Q6_Parsed = `${Q6.getDate()}-${
-        Q6.getMonth() + 1
-      }-${Q6.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
-
-      Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
-      Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-      Q7 = Q6_B_add;
-      Q7_check = Q7;
-    } else {
+       
+          const Q6_Parsed = `${Q6.getDate()}-${
+            Q6.getMonth() + 1
+          }-${Q6.getFullYear()}`;
+          const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
+    
+          Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+          Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+          Q7 = Q6_B_add;
+          Q7_check = Q7;
+  } else {
+     
       Q7 = Q6;
       Q7_check = undefined;
     }
 
     let Q8, Q8_after, Q8_check;
     if(manipulation.Q8.selected) {
-      const Q7_Parsed = `${Q7.getDate()}-${
-        Q7.getMonth() + 1
-      }-${Q7.getFullYear()}`; 
-      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.stanstill_period_condtional)._d;
-
-      Q7_B_add.setHours(MCF3_Days.defaultEndingHour);
-      Q7_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-      Q8 = Q7_B_add;
-      Q8_check = Q8;
+        
+          const Q7_Parsed = `${Q7.getDate()}-${
+            Q7.getMonth() + 1
+          }-${Q7.getFullYear()}`; 
+          const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.stanstill_period_condtional)._d;
+    
+          Q7_B_add.setHours(MCF3_Days.defaultEndingHour);
+          Q7_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+          Q8 = Q7_B_add;
+          Q8_check = Q8;
     } else {
       Q8 = Q7;
       Q8_check = undefined;
@@ -960,23 +961,26 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     //Q9
     let Q9, Q9_after;
-    const Q9_Parsed = `${Q8.getDate()}-${
-      Q8.getMonth() + 1
-    }-${Q8.getFullYear()}`;
-    const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
-    Q9_B_add.setHours(MCF3_Days.defaultEndingHour);
-    Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-    Q9 = Q9_B_add;
+        const Q9_Parsed = `${Q8.getDate()}-${
+          Q8.getMonth() + 1
+        }-${Q8.getFullYear()}`;
+        const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
+        Q9_B_add.setHours(MCF3_Days.defaultEndingHour);
+        Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+        Q9 = Q9_B_add;
+      
 
     //Q10
     let Q10, Q10_after;
-    const Q10_Parsed = `${Q9.getDate()}-${
-      Q9.getMonth() + 1
-    }-${Q9.getFullYear()}`;
-    const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
-    Q10_B_add.setHours(MCF3_Days.defaultEndingHour);
-    Q10_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-    Q10 = Q10_B_add;
+        const Q10_Parsed = `${Q9.getDate()}-${
+          Q9.getMonth() + 1
+        }-${Q9.getFullYear()}`;
+        const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
+        Q10_B_add.setHours(MCF3_Days.defaultEndingHour);
+        Q10_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+        Q10 = Q10_B_add;
+      
+    
 
     //Q11
     let Q11, Q11_after;
@@ -987,7 +991,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     Q11_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q11_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
     Q11 = Q11_B_add;
-
+  
     //JSON Response Start
     if(Q7_check != undefined) {
       Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1023,7 +1027,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     let pre_Q7 = manipulation.Q7.value;
     
     let Q7 = new Date(pre_Q7);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-    console.log("Q7",Q7)
     // let Q7, Q7_after, Q7_check;
     // if(manipulation.Q7.selected) {
     //   const Q6_Parsed = `${Q6.getDate()}-${
@@ -1041,7 +1044,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     // }
 
     let Q8, Q8_after, Q8_check;
-    console.log("manipulation.Q8.selected",manipulation.Q8.config);
 
     if(manipulation.Q8.selected) {
       const Q7_Parsed = `${Q7.getDate()}-${
