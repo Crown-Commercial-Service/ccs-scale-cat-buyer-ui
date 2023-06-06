@@ -224,16 +224,18 @@ if(arr!=undefined){
                     console.log('previosElement',previosElement)
                     console.log('nextElement',nextElement)
                     console.log('previosElementValue',previosElementValue)
-                    console.log('nextElementValue',nextElement)
+                    console.log('nextElementValue',nextElementValue)
                     
                     let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
                     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                     console.log('checkRadioSelectedClassName',checkRadioSelectedClassName)
                     console.log('checkRadioSelected',checkRadioSelected)
-                    
-                    if(checkRadioSelected == 'no' || checkRadioSelected == undefined){
+                   
+                    if(checkRadioSelected == 'no'){
                         previosElementValue = previosElementValue - 1;
-                        console.log('previoue element inside null ',previosElementValue)
+                        nextElementValue = nextElementValue +1;
+                        console.log('previoue element inside null 1st no',previosElementValue)
+                        console.log('next element inside null 1st no',nextElementValue)
                         let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                         console.log('current date val ',currentDateval)
                         //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
@@ -242,8 +244,12 @@ if(arr!=undefined){
                       //  }
                         let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
                     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+
                     if(checkRadioSelected == 'no'){
                         previosElementValue = previosElementValue - 1;
+                        nextElementValue = nextElementValue +1;
+                        console.log('next element inside null 2nd no',nextElementValue)
+
                         let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                         console.log('current date val 2nd no',currentDateval)
                         if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
@@ -298,8 +304,34 @@ if(arr!=undefined){
                         // parent = document.getElementById(`showDateDiv${element+ 1}`);
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("children",children);
-                        
+                        let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                        let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+                        console.log('checkRadioNextSelectedClassName',checkRadioNextSelectedClassName)
+                        console.log('checkRadioNextSelected',checkRadioNextSelected)
+                        if(checkRadioNextSelected == 'no'){
+                             nextElementValue = parseInt(nextElementValue) + 1;
+                             console.log('next element inside null 1st no',nextElementValue)
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            console.log('current date val ',currentDateval)
+                            //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                             
+                           
+                          //  }
+                          let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                          let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+    
+                        if(checkRadioNextSelected == 'no'){
+                            nextElementValue = nextElementValue +1;
+                            console.log('next element inside null 2nd no',nextElementValue)
+    
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            console.log('current date val 2nd no',currentDateval)
+                           
+                        }
+                            
+                        }
                         nextDate = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                        console.log('nextDate',nextDate)
                         isNextDate = true;
                     }
                     
