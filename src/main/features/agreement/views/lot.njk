@@ -120,9 +120,7 @@
                 <a
                   class="govuk-link govuk-link--no-visited-state"
                   target='_blank'
-                  href="/fca/supplier/list?agreement={{ agreement_id }}&lot={{ lot | replace("
-                  Lot", "
-                  ") }}">
+                  href="/fca/supplier/list?agreement={{ agreement_id }}&lot={{ lot | replace("Lot ", "") }}">
                   lot supplier list ({{ agreement.suppliersCount }} suppliers)
                   <span class="govuk-visually-hidden">(opens in a new window)</span>
                 </a>
