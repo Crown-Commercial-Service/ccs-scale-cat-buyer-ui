@@ -1,11 +1,11 @@
-import * as express from 'express'
+import * as express from 'express';
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/login
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
-export const Error_500 = (req : express.Request, res : express.Response)=> {
-   res.render('error/500')
-}
+export const Error_500 = (req: express.Request, res: express.Response) => {
+  res.render('error/500');
+};

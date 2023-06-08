@@ -8,43 +8,45 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 
 //@GET /rfi/event-sent
 export const GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Response) => {
+  const agreementName = req.session.agreementName;
+  const lotid = req.session?.lotId;
+  const project_name = req.session.project_name;
+  const agreementId_session = req.session.agreement_id;
+  const agreementLotName = req.session.agreementLotName;
+  const projectId = req.session.projectId;
+  res.locals.agreement_header = {
+    agreementName,
+    projectName:project_name,
+    projectId,
+    agreementIdSession:agreementId_session,
+    agreementLotName,
+    lotid,
+  };
+  const { SESSION_ID } = req.cookies; //jwt
+  const { eventId } = req.session;
 
-  
+  const jsonData = agreementId_session == 'RM6187' ? Mcf3cmsData : cmsData;
+  const appendData = {
+    data: jsonData,
+    projPersistID: req.session['project_name'],
+    rfi_ref_no: req.session.eventId,
+  };
+  try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
 
-    
-    const agreementName = req.session.agreementName;
-    const lotid = req.session?.lotId;
-    const project_name = req.session.project_name;
-    const agreementId_session = req.session.agreement_id;
-    const agreementLotName = req.session.agreementLotName;
-    const projectId = req.session.projectId;
-    res.locals.agreement_header = { agreementName, project_name, projectId, agreementId_session, agreementLotName, lotid };
-    const { SESSION_ID } = req.cookies; //jwt
-    const { eventId } = req.session;
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.eoiPublishPageLog, req);
 
-    let jsonData = (agreementId_session == 'RM6187')?Mcf3cmsData:cmsData;
-    const appendData = {
-      data: jsonData,
-      projPersistID: req.session['project_name'],
-      rfi_ref_no: req.session.eventId
+    res.render('eventPublishedEoi.njk', appendData);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - update the status failed - EOI publish Page',
+      true
+    );
   }
-    try {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
-     
-     //CAS-INFO-LOG 
-     LoggTracer.infoLogger(null, logConstant.eoiPublishPageLog, req);
-
-
-        res.render('eventPublishedEoi.njk', appendData)
-      }catch (error) {
-        LoggTracer.errorLogger(
-          res,
-          error,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'Journey service - update the status failed - EOI publish Page',
-          true,
-        );
-      }
-}
+};

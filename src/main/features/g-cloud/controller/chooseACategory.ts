@@ -6,62 +6,70 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 import { logConstant } from '../../../common/logtracer/logConstant';
 
 export const GET_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.Response) => {
-    const { SESSION_ID } = req.cookies;
-    const { agreement_id } = req.session;
+  const { SESSION_ID } = req.cookies;
+  const { agreement_id } = req.session;
 
-    try {
-      const BaseUrlAgreement=`/agreements/${agreement_id}/lots`;
-      let retrieveAgreements = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+  try {
+    const BaseUrlAgreement = `/agreements/${agreement_id}/lots`;
+    const retrieveAgreements = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
 
-      //CAS-INFO-LOG
-      LoggTracer.infoLogger(retrieveAgreements, logConstant.lotDetailsFromAggrement, req);
-      let retrieveAgreement = retrieveAgreements.data;
-      
-      retrieveAgreement = retrieveAgreement.sort((a:any, b:any) => (a.number < b.number ? -1 : 1));
-      
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(retrieveAgreements, logConstant.lotDetailsFromAggrement, req);
+    let retrieveAgreement = retrieveAgreements.data;
 
-      const releatedContent = req.session.releatedContent;
-      const { isJaggaerError } = req.session;
-      req.session['isJaggaerError'] = false;
-      req.session.searchKeywords=[];
-      const appendData = {
-        data: chooseACategoryData,
-        retrieveAgreement: retrieveAgreement,
-        releatedContent: releatedContent,
-        lotId:req.session.lotId,
-        agreementLotName:req.session.agreementLotName,
-        error:isJaggaerError
-      };
-      //CAS-INFO-LOG
-      LoggTracer.infoLogger(null, logConstant.chooseACategoryLog, req);
+    retrieveAgreement = retrieveAgreement.sort((a: any, b: any) => (a.number < b.number ? -1 : 1));
 
-      res.render('chooseACategory', appendData);
-        
-    } catch (error) {
-        LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-          TokenDecoder.decoder(SESSION_ID), 'G-Cloud 13 throws error - Tenders Api is causing problem', true,
-        );
-    }
+    const releatedContent = req.session.releatedContent;
+    const { isJaggaerError } = req.session;
+    req.session['isJaggaerError'] = false;
+    req.session.searchKeywords = [];
+    const appendData = {
+      data: chooseACategoryData,
+      retrieveAgreement: retrieveAgreement,
+      releatedContent: releatedContent,
+      lotId: req.session.lotId,
+      agreementLotName: req.session.agreementLotName,
+      error: isJaggaerError,
+    };
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.chooseACategoryLog, req);
+
+    res.render('chooseACategory', appendData);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'G-Cloud 13 throws error - Tenders Api is causing problem',
+      true
+    );
+  }
 };
 
 export const POST_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   try {
-    if(typeof req.body.lot !== 'undefined'){
-      if(req.body.lot=='all'){
+    if (typeof req.body.lot !== 'undefined') {
+      if (req.body.lot == 'all') {
         res.redirect('/g-cloud/search');
-      }else{
-        res.redirect('/g-cloud/search?lot='+req.body.lot);
+      } else {
+        res.redirect('/g-cloud/search?lot=' + req.body.lot);
       }
-
-    }else{
+    } else {
       req.session['isJaggaerError'] = true;
       res.redirect('/g-cloud/choose-category');
     }
-      
   } catch (error) {
-      LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), 'G-Cloud 13 throws error - Tenders Api is causing problem', true,
-      );
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'G-Cloud 13 throws error - Tenders Api is causing problem',
+      true
+    );
   }
 };

@@ -7,7 +7,7 @@ import { LoggTracer } from '../../logtracer/tracer';
 import config from 'config';
 import { cookies } from '../../cookies/cookies';
 import qs from 'qs';
-import session from 'express-session';	
+import session from 'express-session';
 /**
  *
  * @Middleware
@@ -19,23 +19,21 @@ import session from 'express-session';
 export const AUTH: express.Handler = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  next: express.NextFunction
 ) => {
   const { SESSION_ID, state } = req.cookies;
-  let requestURL = req.url;	
+  const requestURL = req.url;
 
-  if (requestURL.indexOf('event/qa') == 1) {	
-    req.session["supplier_qa_url"] = requestURL;	
-  }	
-  /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')	
+  if (requestURL.indexOf('event/qa') == 1) {
+    req.session['supplier_qa_url'] = requestURL;
+  }
+  /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')
   if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa') == 1) {
-    req.session["supplier_qa_url"] = requestURL;	
-    res.redirect('/oauth/login');	
-  }	
-  else if (SESSION_ID === undefined) {	
-    res.redirect('/oauth/login');	
-  }	
-  else {
+    req.session['supplier_qa_url'] = requestURL;
+    res.redirect('/oauth/login');
+  } else if (SESSION_ID === undefined) {
+    res.redirect('/oauth/login');
+  } else {
     //Session ID
     console.log(SESSION_ID);
     const decoded: any = jwt.decode(req.session['access_token'], { complete: true });
@@ -44,7 +42,7 @@ export const AUTH: express.Handler = async (
     const AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
     const check_token_validation = AuthCheck_Instance.post('');
     check_token_validation
-      .then(async data => {
+      .then(async (data) => {
         const auth_status_check = data?.data;
         if (auth_status_check) {
           const isAuthicated = {
@@ -62,7 +60,7 @@ export const AUTH: express.Handler = async (
             const user_email = decoded.payload.sub;
             const UserProfile_Instance = Oauth_Instance.TokenWithApiKeyInstance(
               process.env.CONCLAVE_WRAPPER_API_KEY,
-              user_email,
+              user_email
             );
             const userProfile = await UserProfile_Instance.get('');
             res.locals.user_firstName = userProfile.data['firstName'];
@@ -97,7 +95,7 @@ export const AUTH: express.Handler = async (
           res.redirect('/oauth/logout');
         }
       })
-      .catch(error => {
+      .catch((error) => {
         LoggTracer.errorLogger(
           res,
           error,
@@ -105,7 +103,7 @@ export const AUTH: express.Handler = async (
           state,
           TokenDecoder.decoder(SESSION_ID),
           'Conclave authentication flow error',
-          true,
+          true
         );
       });
   }
@@ -142,7 +140,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
         `${req.headers.host}${req.originalUrl}`,
         null,
         'Conclave refresh token flow error',
-        true,
+        true
       );
     }
   }

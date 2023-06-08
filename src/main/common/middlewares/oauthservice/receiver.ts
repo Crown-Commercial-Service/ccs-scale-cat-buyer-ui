@@ -9,7 +9,7 @@ import { ErrorView } from '../../shared/error/errorView';
 import { LoggTracer } from '../../logtracer/tracer';
 import * as jwtDecoder from 'jsonwebtoken';
 
-const { Logger } = require('@hmcts/nodejs-logging');
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('receiver-middleware');
 
 /**
@@ -22,7 +22,7 @@ const logger = Logger.getLogger('receiver-middleware');
 export const CREDENTAILS_FETCH_RECEIVER = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  next: express.NextFunction
 ) => {
   const { code, state } = req.query;
   if (Query.isUndefined(code)) {
@@ -104,7 +104,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
           null,
           null,
           'Conclave authentication flow error',
-          false,
+          false
         );
         res.redirect('/401');
       } else {
@@ -115,7 +115,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
           null,
           null,
           'Conclave authentication flow error',
-          true,
+          true
         );
       }
     }

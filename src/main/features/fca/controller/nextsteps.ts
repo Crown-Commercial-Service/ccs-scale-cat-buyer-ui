@@ -7,35 +7,35 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 // import * as journyData from '../../procurement/model/tasklist.json';
 
 //@GET /fca/event-sent
-export const FCA_GET_NEXTSTEPS  = async (req: express.Request, res: express.Response) => {
-    //cmsData.breadCrumbs[1].href=cmsData.breadCrumbs[1].href+req.session.eventId;
-    const { agreementLotName, agreementName, agreement_id, releatedContent, project_name, projectId } = req.session;
-    const { isEmptyNextstepError } = req.session;
-    req.session['isEmptyNextstepError'] = false;
-    const lotid = req.session?.lotId;
-    const agreementId_session = agreement_id;
-    const appendData = {
-          data: cmsData,
-          projPersistID: req.session['project_name'],
-          eventId : req.session.eventId,
-          releatedContent,
-          error: isEmptyNextstepError,
-          agreementId_session,
-    }
-    const { SESSION_ID } = req.cookies; //jwt
-    res.locals.agreement_header = {
-        agreementName,
-        project_name,
-        projectId,
-        agreementId_session,
-        agreementLotName,
-        lotid,
-        error: isEmptyNextstepError,
-      };
-try {
-  // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/1`, 'Completed');
-    res.render('fca-nextSteps.njk', appendData)
-} catch (error) {
+export const FCA_GET_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
+  //cmsData.breadCrumbs[1].href=cmsData.breadCrumbs[1].href+req.session.eventId;
+  const { agreementLotName, agreementName, agreement_id, releatedContent, project_name, projectId } = req.session;
+  const { isEmptyNextstepError } = req.session;
+  req.session['isEmptyNextstepError'] = false;
+  const lotid = req.session?.lotId;
+  const agreementId_session = agreement_id;
+  const appendData = {
+    data: cmsData,
+    projPersistID: req.session['project_name'],
+    eventId: req.session.eventId,
+    releatedContent,
+    error: isEmptyNextstepError,
+    agreementId_session,
+  };
+  const { SESSION_ID } = req.cookies; //jwt
+  res.locals.agreement_header = {
+    agreementName,
+    projectName:project_name,
+    projectId,
+    agreementIdSession:agreementId_session,
+    agreementLotName,
+    lotid,
+    error: isEmptyNextstepError,
+  };
+  try {
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/1`, 'Completed');
+    res.render('fca-nextSteps.njk', appendData);
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,
@@ -43,23 +43,21 @@ try {
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA - Journey service - update the status failed - Publish Page',
-      true,
+      true
     );
   }
+};
 
-}
-
-export const FCA_POST_NEXTSTEPS  = async (req: express.Request, res: express.Response) => {
-  const  input = req.body;
+export const FCA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
+  const input = req.body;
   const { SESSION_ID } = req.cookies;
   const { eventId, projectId, procurements } = req.session;
   // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/1`, 'Completed');
   try {
-    if(input.fca_next_steps == undefined) {
+    if (input.fca_next_steps == undefined) {
       req.session['isEmptyNextstepError'] = true;
       res.redirect('/fca/next-step');
-    } else if(input.fca_next_steps == 'goto_next') {
-
+    } else if (input.fca_next_steps == 'goto_next') {
       //FCA to TBD event update -- Force (Start)
       // const eventTypeURL = `tenders/projects/${projectId}/events`;
       // const eventType = 'RFI';
@@ -69,7 +67,7 @@ export const FCA_POST_NEXTSTEPS  = async (req: express.Request, res: express.Res
       // const { data } = await TenderApi.Instance(SESSION_ID).post(eventTypeURL, _body);
       // req.session.currentEvent = data;
       const currentProcNum = procurements.findIndex(
-        (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
+        (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
       );
       // req.session.procurements[currentProcNum].eventId = data.id;
       req.session.procurements[currentProcNum].started = false;
@@ -93,12 +91,12 @@ export const FCA_POST_NEXTSTEPS  = async (req: express.Request, res: express.Res
 
       // req.session.isPACompleted = true;
       //FCA to TBD event update -- Force (End)
-      
+
       //Journet Update
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/80`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/1`, 'Completed');
       res.redirect('/projects/create-or-choose');
-    }else{
+    } else {
       res.redirect('/dashboard');
     }
   } catch (error) {
@@ -109,7 +107,7 @@ export const FCA_POST_NEXTSTEPS  = async (req: express.Request, res: express.Res
       null,
       TokenDecoder.decoder(SESSION_ID),
       'FCA Next Step - Tenders Service Api cannot be connected',
-      true,
+      true
     );
   }
-}
+};

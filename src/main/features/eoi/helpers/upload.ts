@@ -16,7 +16,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   res: express.Response,
   fileError: boolean,
   errorList,
-  type = 'eoi',
+  type = 'eoi'
 ) => {
   const lotId = req.session?.lotId;
   const { SESSION_ID } = req.cookies;
@@ -24,7 +24,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
-  const {fileDuplicateError,UploadError}=req.session;
+  const { fileDuplicateError, UploadError } = req.session;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -58,7 +58,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         Logmessage.error_location,
         Logmessage.sessionId,
         Logmessage.error_reason,
-        Logmessage.exception,
+        Logmessage.exception
       );
       LoggTracer.errorTracer(Log, res);
     }
@@ -68,22 +68,22 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
 
-      //CAS-INFO-LOG 
+      //CAS-INFO-LOG
       LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.getUploadDocument, req);
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
 
       const agreementId_session = req.session.agreement_id;
       let forceChangeDataJson;
-      if(agreementId_session == 'RM6187') { //MCF3
+      if (agreementId_session == 'RM6187') {
+        //MCF3
         forceChangeDataJson = mcf3cmsData;
-      } else { 
+      } else {
         forceChangeDataJson = cmsData;
       }
-if(UploadError){
-  
-  errorList.push({ text: "Please attach the file before upload. ", href: "#eoi_offline_document" })
-}
+      if (UploadError) {
+        errorList.push({ text: 'Please attach the file before upload. ', href: '#eoi_offline_document' });
+      }
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -91,26 +91,25 @@ if(UploadError){
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        agreementId_session:req.session.agreement_id,
-        UploadError, 
-        errorlist: errorList
+        agreementId_session: req.session.agreement_id,
+        UploadError,
+        errorlist: errorList,
       };
       if (fileDuplicateError) {
-        fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#eoi_offline_document" })
-        delete req.session["fileDuplicateError"];
+        fileError = true;
+        errorList.push({ text: 'The chosen file already exist ', href: '#eoi_offline_document' });
+        delete req.session['fileDuplicateError'];
       }
 
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
-        
-       //CAS-INFO-LOG 
-        LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
+
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
 
       res.render('uploadDocumentEoi', windowAppendData);
     } catch (error) {
-      
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -124,7 +123,7 @@ if(UploadError){
         Logmessage.error_location,
         Logmessage.sessionId,
         Logmessage.error_reason,
-        Logmessage.exception,
+        Logmessage.exception
       );
       LoggTracer.errorTracer(Log, res);
     }

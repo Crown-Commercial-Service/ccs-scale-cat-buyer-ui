@@ -1,14 +1,14 @@
-import * as express from 'express'
-const { Logger } = require('@hmcts/nodejs-logging');
+import * as express from 'express';
+import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('Not found page (404)');
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/login
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
-export const Error_404 = (req : express.Request, res : express.Response)=> {
-   logger.info("User landed in 404 page");
-   res.render('error/404')
-}
+export const Error_404 = (req: express.Request, res: express.Response) => {
+  logger.info('User landed in 404 page');
+  res.render('error/404');
+};

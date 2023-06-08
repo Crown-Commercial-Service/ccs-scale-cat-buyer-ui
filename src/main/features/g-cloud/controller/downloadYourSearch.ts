@@ -8,18 +8,16 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
 
 export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: express.Response) => {
-    const { SESSION_ID } = req.cookies;
-    const { download,assessmentID } = req.query;
-    
-    try {
+  const { SESSION_ID } = req.cookies;
+  const { download, assessmentID } = req.query;
 
-      if(assessmentID!=undefined){
-        req.session.downloadassessmentID=assessmentID;
-      }
+  try {
+    if (assessmentID != undefined) {
+      req.session.downloadassessmentID = assessmentID;
+    }
 
-      if(download!=undefined)
-    {
-      const downloadURL=`/assessments/${req.session.downloadassessmentID}/export/gcloud`;
+    if (download != undefined) {
+      const downloadURL = `/assessments/${req.session.downloadassessmentID}/export/gcloud`;
       const FetchDocuments = await gCloudApi.file_dowload_Instance(SESSION_ID).get(downloadURL, {
         responseType: 'arraybuffer',
       });
@@ -38,43 +36,48 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
-    }
-    else{
+    } else {
+      const baseURL = `/assessments/${req.session.downloadassessmentID}/gcloud`;
 
-      const baseURL=`/assessments/${req.session.downloadassessmentID}/gcloud`;
+      const assessmentDetail = await TenderApi.Instance(SESSION_ID).get(baseURL);
 
-      let assessmentDetail = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(assessmentDetail, logConstant.assessmentDetail, req);
 
-       //CAS-INFO-LOG
-       LoggTracer.infoLogger(assessmentDetail, logConstant.assessmentDetail, req);
+      const assessmentDetails = assessmentDetail.data;
 
-       let assessmentDetails = assessmentDetail.data;
-
-       let exporteddate =assessmentDetails.lastUpdate!=undefined?`${moment(assessmentDetails.lastUpdate).format('dddd DD MMMM YYYY')} at ${new Date(assessmentDetails.lastUpdate).toLocaleTimeString('en-GB',
-      { timeStyle: 'short', hour12: true, timeZone: 'Europe/London' })} BST`:'';
+      const exporteddate =
+        assessmentDetails.lastUpdate != undefined
+          ? `${moment(assessmentDetails.lastUpdate).format('dddd DD MMMM YYYY')} at ${new Date(
+            assessmentDetails.lastUpdate
+          ).toLocaleTimeString('en-GB', { timeStyle: 'short', hour12: true, timeZone: 'Europe/London' })} BST`
+          : '';
 
       const releatedContent = req.session.releatedContent;
       const appendData = {
         data: downloadYourSearchData,
         releatedContent: releatedContent,
-        lotId:req.session.lotId,
-        agreementLotName:req.session.agreementLotName,
+        lotId: req.session.lotId,
+        agreementLotName: req.session.agreementLotName,
         assessmentID,
         exporteddate,
-        returnto: `/g-cloud/search${req.session.searchResultsUrl == undefined ?'':'?'+ req.session.searchResultsUrl}`
-        
+        returnto: `/g-cloud/search${
+          req.session.searchResultsUrl == undefined ? '' : '?' + req.session.searchResultsUrl
+        }`,
       };
-    //CAS-INFO-LOG
-    LoggTracer.infoLogger(null, logConstant.downloadYourSearch, req);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.downloadYourSearch, req);
       res.render('downloadYourSearch', appendData);
     }
-
-      
-        
-    } catch (error) {
-        LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
-          TokenDecoder.decoder(SESSION_ID), 'G-Cloud 13 throws error - Tenders Api is causing problem', true,
-        );
-    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'G-Cloud 13 throws error - Tenders Api is causing problem',
+      true
+    );
+  }
 };
-

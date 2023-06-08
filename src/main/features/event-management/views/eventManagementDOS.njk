@@ -27,12 +27,12 @@
             {{data.title}}</strong>
         </h1>
         <div class="project-overview">
-          {% if (agreement_header['agreementId_session'] == 'RM1043.8') %}
+          {% if (agreement_header['agreementIdSession'] == 'RM1043.8') %}
               <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}, Lot {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong> </p>
            {% else %}
             <p class="govuk-body">Selected agreement: <strong>
             {% if(agreement_header !=undefined and agreement_header !=null and agreement_header.agreementLotName != undefined)%}
-              {% if(agreement_header['agreementId_session']=='RM1557.13' and agreement_header['lotid']=='4') %}
+              {% if(agreement_header['agreementIdSession']=='RM1557.13' and agreement_header['lotid']=='4') %}
               {{ agreement_header['agreementName'] }} Lot 4
               {% else %}
               {{ agreement_header['agreementName'] }}, {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }} 
@@ -43,13 +43,13 @@
           {% endif %} 
 
           <p class="govuk-body">Agreement ID: <strong>
-              {% if(agreement_header['agreementId_session'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
-                {{ agreement_header['agreementId_session']}}L4
+              {% if(agreement_header['agreementIdSession'] == 'RM1557.13' and agreement_header['lotid']=='4') %}
+                {{ agreement_header['agreementIdSession']}}L4
               {% else %}
-                {{ agreement_header['agreementId_session'] }}
+                {{ agreement_header['agreementIdSession'] }}
               {% endif %}
           </strong></p>
-          <p class="govuk-body">Project ID & Name: <strong>{{projectId+" & "+projectName }}</strong></p>
+          <p class="govuk-body">Project ID & Name: <strong>{{ agreement_header['projectId']+" & "+agreement_header['projectName'] }}</strong></p>
         </div>
       </div>
     </div>

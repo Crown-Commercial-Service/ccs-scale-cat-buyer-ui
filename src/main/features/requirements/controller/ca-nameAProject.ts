@@ -46,7 +46,7 @@ export const CA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
 export const CA_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
@@ -70,7 +70,7 @@ export const CA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tender Api - getting users from organization or from tenders failed',
-      true,
+      true
     );
   }
 };
