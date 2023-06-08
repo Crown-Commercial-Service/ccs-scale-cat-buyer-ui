@@ -227,15 +227,17 @@ if(arr!=undefined){
                     console.log('nextElementValue',nextElementValue)
                     
                     let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                    let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
+                   console.log('check radio available',checkRadioClassName)
                     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                     console.log('checkRadioSelectedClassName',checkRadioSelectedClassName)
                     console.log('checkRadioSelected',checkRadioSelected)
                    
-                    if(checkRadioSelected == 'no'){
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
                         previosElementValue = previosElementValue - 1;
-                        nextElementValue = nextElementValue +1;
+                      //  nextElementValue = nextElementValue +1;
                         console.log('previoue element inside null 1st no',previosElementValue)
-                        console.log('next element inside null 1st no',nextElementValue)
+                      //  console.log('next element inside null 1st no',nextElementValue)
                         let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                         console.log('current date val ',currentDateval)
                         //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
@@ -243,20 +245,15 @@ if(arr!=undefined){
                        
                       //  }
                         let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                        let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
                     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
 
-                    if(checkRadioSelected == 'no'){
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
                         previosElementValue = previosElementValue - 1;
-                        nextElementValue = nextElementValue +1;
-                        console.log('next element inside null 2nd no',nextElementValue)
+                        //nextElementValue = nextElementValue +1;
+                        //console.log('next element inside null 2nd no',previosElementValue)
 
-                        let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
-                        console.log('current date val 2nd no',currentDateval)
-                        if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
-                         
-                      
-                        console.log('previoue element inside null 2no ',previosElementValue)
-                        }
+                        
                     }
                         
                     }
@@ -288,6 +285,7 @@ if(arr!=undefined){
                     //     // let minutes1 = $(`#clarification_date-minute_${element}`); 
 
                     // }
+                    console.log('previosElementValue',previosElementValue)
                     let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
                     console.log('currentDate',currentDate)
@@ -305,10 +303,11 @@ if(arr!=undefined){
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("children",children);
                         let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                        let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
                         let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
                         console.log('checkRadioNextSelectedClassName',checkRadioNextSelectedClassName)
                         console.log('checkRadioNextSelected',checkRadioNextSelected)
-                        if(checkRadioNextSelected == 'no'){
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length > 0 && checkRadioSelected != 'yes')){
                              nextElementValue = parseInt(nextElementValue) + 1;
                              console.log('next element inside null 1st no',nextElementValue)
                             let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
@@ -318,11 +317,13 @@ if(arr!=undefined){
                            
                           //  }
                           let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                          let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
                           let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
-    
-                        if(checkRadioNextSelected == 'no'){
+                         console.log('checkRadioNextSelected in 2nd no%%%',checkRadioNextSelected)
+                         console.log('checkRadioNextClassName',checkRadioNextClassName.length)
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length>0 && checkRadioSelected !== 'yes')){
                             nextElementValue = nextElementValue +1;
-                            console.log('next element inside null 2nd no',nextElementValue)
+                            console.log('next element inside null 2nd no$$$',nextElementValue)
     
                             let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
                             console.log('current date val 2nd no',currentDateval)
@@ -330,6 +331,7 @@ if(arr!=undefined){
                         }
                             
                         }
+                        console.log('next element value after 2nd',nextElementValue)
                         nextDate = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
                         console.log('nextDate',nextDate)
                         isNextDate = true;
@@ -346,8 +348,8 @@ if(arr!=undefined){
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
                         }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
-							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]]
+                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline14"); 
+							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline14"]]
                         }
             
                         ccsZPresentErrorSummary(errorStore);
@@ -361,8 +363,8 @@ if(arr!=undefined){
                                 ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
                                 errorStore = [[parentID, "You cannot change this date and time to be later than the next step in the timeline"]]
                             }else{
-                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
-                                errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]]
+                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline11"); 
+                                errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline11"]]
                             }
                         }else{
                             ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
