@@ -946,7 +946,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
   }
 
-  if(tl_aggrementID == "RM6187") {
+  if(tl_aggrementID == "RM6187" || tl_aggrementID == "RM1557.13") {
    
    //console.log("manipulation",manipulation);
     //Q6
@@ -1045,6 +1045,15 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       {question: 'Q10', value: `Question 9*${Q10_after}`, order: 4,input_hidden:'timedate10',label:'clarification_10'},
       {question: 'Q11', value: `Question 9*${Q11_after}`, order: 5,input_hidden:'timedate11',label:'clarification_11'},
     ];
+
+
+    req.session.timeline.evaluationProcessStartDate = Q7_after;
+    req.session.timeline.bidderPresentationsDate = Q8_after;
+    req.session.timeline.standstillPeriodStartsDate = Q9_after;
+    req.session.timeline.proposedAwardDate = Q10_after;
+    req.session.timeline.expectedSignatureDate = Q11_after;
+    
+   // console.log("TIMELINE",req.session.timeline)
  // console.log("manipulation.Q7.selectedValue",manipulation.Q7.config);
     let apiData = {
       7:{question: 'Q7', value: `${Q7_after}`, order: 1,qusId:7,config:manipulation.Q7.config},
