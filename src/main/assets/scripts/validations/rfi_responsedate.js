@@ -173,7 +173,7 @@ const saveButtonUnHideDateRfi = () => {
 
     function getAjax(){
       let manipulationArray = {};
-      let q7Selected, compareAccess;
+      let selectedValue,q7Selected, compareAccess;
       compareAccess = [];
 console.log("totalElementSelectors",totalElementSelectors)
         for (const selector of totalElementSelectors) {
@@ -218,17 +218,25 @@ console.log("totalElementSelectors",totalElementSelectors)
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
                  var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventType");
                  var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
-                
+                 
+                    console.log("checkRadioSelected",checkRadioSelected)
+
                     if(checkRadioSelected == 'yes') {
                         q7Selected = true;
-                    } else {
+                        selectedValue="yes";
+                    }else if(checkRadioSelected == 'no'){
                         q7Selected = false;
+                        selectedValue="no";
+                    }else {
+                        q7Selected = false;
+                        selectedValue="";
                     }
                    
                     jsonVariable['Q'+selector] = {
                         value: null, 
                         selected: q7Selected, 
-                        config: 1
+                        config: selectedValue,
+                        id:selector
                     };   
 
                     manipulationArray = Object.assign(manipulationArray, jsonVariable);
@@ -237,6 +245,7 @@ console.log("totalElementSelectors",totalElementSelectors)
                     jsonVariable['Q'+selector] = {
                         value: previousQuestion, 
                         selected: null, 
+                        id:selector
                 }
                 
                 manipulationArray = Object.assign(manipulationArray, jsonVariable);
