@@ -16,6 +16,21 @@ $(document).ready(function () {
     WidthChange(mq);
 
   }
+  $('.restrictEnter').keypress(function(event) {
+
+    if (event.keyCode == 13) {
+        event.preventDefault();
+    }
+});
+var $restrictEnter = $(".restrictEnter");
+
+$restrictEnter.on("keydown keypress", function() {    
+    var $this = $(this),
+        val = $(this).val()
+                     .replace(/ +(?= )/g,''); // replace extra spaces with a single space
+
+    $this.val(val);
+});
 
   $(".close_project").on('click', function(){
    var projectId = $(this).attr("projectid");
@@ -41,16 +56,16 @@ $(document).ready(function () {
         $(".dialog-close-projectCloseAllPopup").on('click', function(){
           openpopGC.classList.remove('showpopup');
        });
+         document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+          var bodytg = document.body;
+          bodytg.classList.add("pageblur");
+          openpopGC.classList.remove('showpopup');
         $.ajax({
           url: `/closeProject?procid=${projectval}&eventId=${eventIdVal}`,
           type: "GET",
           contentType: "application/json",
-          async: false,
-        }).done(function (result) {
-          document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
-          var bodytg = document.body;
-          bodytg.classList.add("pageblur");
-          openpopGC.classList.remove('showpopup');
+         }).done(function (result) {
+          
           window.location.href = window.location.origin +`/dashboard?closeStatus=${result.closeStatus}`;
           $(".dialog-close-projectCloseAllPopup").on('click', function(){
             openpopGC.classList.remove('showpopup');

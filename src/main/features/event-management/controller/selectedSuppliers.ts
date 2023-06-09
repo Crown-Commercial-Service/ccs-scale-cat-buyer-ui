@@ -29,11 +29,11 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
 
   // Event header
   res.locals.agreement_header = {
-    project_name: project_name,
+    projectName: project_name,
     projectId,
     Evaluation,
     agreementName,
-    agreement_id,
+    agreementIdSession:agreement_id,
     agreementLotName,
     lotid,
   };
@@ -73,9 +73,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     };
     res.locals.agreement_header = {
       agreementName,
-      project_name,
+      projectName:project_name,
       projectId,
-      agreementId_session,
+      agreementIdSession:agreementId_session,
       agreementLotName,
       lotid,
     };
