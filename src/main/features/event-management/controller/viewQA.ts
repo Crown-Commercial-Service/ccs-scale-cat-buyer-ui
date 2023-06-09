@@ -47,10 +47,10 @@ export const EVENT_MANAGEMENT_QA_SUPPLIERS = async (req: express.Request, res: e
     const lotid = response.lotId;
 
     res.locals.agreement_header = {
-      project_name: projectName,
+      projectName: projectName,
       projectId,
       agreementName,
-      agreementId_session,
+      agreementIdSession:agreementId_session,
       agreementLotName,
       lotid,
     };
@@ -148,10 +148,10 @@ export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Res
     const lotid = response.lotId;
 
     res.locals.agreement_header = {
-      project_name: projectName,
+      projectName: projectName,
       projectId,
       agreementName,
-      agreementId_session,
+      agreementIdSession:agreementId_session,
       agreementLotName,
       lotid,
     };
@@ -208,9 +208,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
         res.locals.agreement_header = {
           projectId: projectId,
           eventId: eventId,
-          project_name: fetchData.data.projectName,
+          projectName: fetchData.data.projectName,
           agreementName: fetchData.data.agreementName,
-          agreementId_session: fetchData.data.agreementId,
+          agreementIdSession: fetchData.data.agreementId,
           agreementLotName: fetchData.data.lotName,
           lotid: fetchData.data.lotId,
         };
