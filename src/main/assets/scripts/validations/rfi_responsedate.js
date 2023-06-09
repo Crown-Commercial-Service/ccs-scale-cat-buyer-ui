@@ -173,7 +173,7 @@ const saveButtonUnHideDateRfi = () => {
 
     function getAjax(){
       let manipulationArray = {};
-      let q7Selected, compareAccess;
+      let selectedValue,q7Selected, compareAccess;
       compareAccess = [];
 console.log("totalElementSelectors",totalElementSelectors)
         for (const selector of totalElementSelectors) {
@@ -209,25 +209,34 @@ console.log("totalElementSelectors",totalElementSelectors)
         //}
 
             //if(selector==7 || selector==8){
-                if(selector==8 || selector==10){
-              
-
+                //headContent_8
+              //  if(selector==8 || selector==10){
+                    if ($('#headContent_'+selector).length){
+                  console.log("selector NEW",selector);
             let checkRadioSelectedClassName = 'resdateradio'+selector;
             let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
-                 var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventtype");
+                 var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventType");
                  var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
-                
+                 
+                    console.log("checkRadioSelected",checkRadioSelected)
+
                     if(checkRadioSelected == 'yes') {
                         q7Selected = true;
-                    } else {
+                        selectedValue="yes";
+                    }else if(checkRadioSelected == 'no'){
                         q7Selected = false;
+                        selectedValue="no";
+                    }else {
+                        q7Selected = false;
+                        selectedValue="";
                     }
                    
                     jsonVariable['Q'+selector] = {
                         value: null, 
                         selected: q7Selected, 
-                        config: 1
+                        config: selectedValue,
+                        id:selector
                     };   
 
                     manipulationArray = Object.assign(manipulationArray, jsonVariable);
@@ -236,6 +245,7 @@ console.log("totalElementSelectors",totalElementSelectors)
                     jsonVariable['Q'+selector] = {
                         value: previousQuestion, 
                         selected: null, 
+                        id:selector
                 }
                 
                 manipulationArray = Object.assign(manipulationArray, jsonVariable);
@@ -289,6 +299,12 @@ console.log("totalElementSelectors",totalElementSelectors)
     $('.timeLineEventTrigger').on('click', function(e) {
     getAjax();
     });
+
+    // setTimeout(() => {
+    //     console.log("TIMELINEEE")
+    //     getAjax();
+    //   }, 1000);
+    
 
 // $('.timeLineEventTrigger').on('change', function(e) {
 //     var tl_val = $(this).val();
