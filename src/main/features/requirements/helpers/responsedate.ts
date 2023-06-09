@@ -885,7 +885,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
-        console.log('appendData',JSON.stringify(appendData))
         res.render('rfp-responsedate.njk', appendData);
       }
       
