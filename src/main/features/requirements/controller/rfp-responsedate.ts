@@ -122,9 +122,9 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      console.log('answerBaseURL 12',answerBaseURL)
-      console.log('answerBody 12',JSON.stringify(answerBody))
-     // const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      console.log("answerBaseURL",answerBaseURL);
+      console.log("answerBody",JSON.stringify(answerBody));
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -399,6 +399,8 @@ console.log('questionId',questionId)
     else{
       previousDateVal = timeline.bidderPresentationsDate;
     }
+    console.log('timeline.evaluationProcessStartDate 9',timeline.evaluationProcessStartDate)
+    console.log('timeline.deadlineForSubmissionOfStageOne 9',timeline.deadlineForSubmissionOfStageOne)
     console.log('timeline.bidderPresentationsDate 9',timeline.bidderPresentationsDate)
     console.log('previousDateVal 9 ',previousDateVal)
     console.log('timeline.proposedAwardDate 9',timeline.proposedAwardDate)
@@ -482,6 +484,7 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+  console.log("helppppp1")
   const {
     clarification_date_hourFormat,
     selected_question_id,
@@ -853,6 +856,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         selected: true,
         text: selected_question_id,
       };
+
       const answerBody = {
         nonOCDS: {
           answered: true,
@@ -891,7 +895,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         console.log('answerBaseURL 11',answerBaseURL)
         console.log('answerBody 11',JSON.stringify(answerBody))
 
-       // await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
       } catch (error) {
         delete error?.config?.['headers'];
@@ -1037,15 +1041,40 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   let tl_questionID = req.body.tl_questionID;
   let tl_val = req.body.tl_val;
   req.session.timlineSession=req.body;
-  
-  if(tl_aggrementID == "RM6187" && tl_eventType == 'FC') {
-   let manipulation = req.body.manipulation;
+  let manipulation = req.body.manipulation;
+  const { SESSION_ID } = req.cookies;
+
+  const proc_id = req.session.projectId;
+  const event_id = req.session.eventId;
+  const group_id = 'Key Dates';
+  const question_id = tl_questionID;
+  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  baseURL = baseURL + '/criteria';
+
+  const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+  const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+  const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
+  let criterianStorage = [];
+  for (const aURI of extracted_criterion_based) {
+    const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+    const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+    const criterian_array = fetch_criterian_group_data?.data;
+    const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+      const object = anItem;
+      object['criterianId'] = aURI;
+      return object;
+    });
+    criterianStorage.push(rebased_object_with_requirements);
+
+  }
+
+  if(tl_aggrementID == "RM6187") {
+   
+   //console.log("manipulation",manipulation);
     //Q6
     let pre_Q6 = manipulation.Q6.value;
     let Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
     
-  
-
     let Q7, Q7_after, Q7_check;
     if(manipulation.Q7.selected) {
        
@@ -1063,7 +1092,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q7 = Q6;
       Q7_check = undefined;
     }
-
+    
     let Q8, Q8_after, Q8_check;
     if(manipulation.Q8.selected) {
         
@@ -1080,7 +1109,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q8 = Q7;
       Q8_check = undefined;
     }
-
+    
     //Q9
     let Q9, Q9_after;
         const Q9_Parsed = `${Q8.getDate()}-${
@@ -1091,7 +1120,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
         Q9 = Q9_B_add;
       
-
     //Q10
     let Q10, Q10_after;
         const Q10_Parsed = `${Q9.getDate()}-${
@@ -1118,13 +1146,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     if(Q7_check != undefined) {
       Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
     } else {
-      Q7_after = 'Invalid date';
+      Q7_after = '';
     }
 
     if(Q8_check != undefined) {
       Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
     } else {
-      Q8_after = 'Invalid date';
+      Q8_after = '';
     }
     Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
     Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1139,6 +1167,109 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       {question: 'Q10', value: `Question 9*${Q10_after}`, order: 4,input_hidden:'timedate10',label:'clarification_10'},
       {question: 'Q11', value: `Question 9*${Q11_after}`, order: 5,input_hidden:'timedate11',label:'clarification_11'},
     ];
+ // console.log("manipulation.Q7.selectedValue",manipulation.Q7.config);
+    let apiData = {
+      7:{question: 'Q7', value: `${Q7_after}`, order: 1,qusId:7,config:manipulation.Q7.config},
+      8:{question: 'Q8', value: `${Q8_after}`, order: 2,qusId:8,config:manipulation.Q8.config},
+      9:{question: 'Q9', value: `${Q9_after}`, order: 3,qusId:9},
+      10:{question: 'Q10', value: `${Q10_after}`, order: 4,qusId:10},
+      11:{question: 'Q11', value: `${Q11_after}`, order: 5,qusId:11},
+    };
+   
+    const keyDateselector = 'Key Dates';
+  criterianStorage = criterianStorage.flat();
+    criterianStorage = criterianStorage.filter((AField) => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
+    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+    //console.log("apiData_baseURL",apiData_baseURL)
+    const fetchQuestionsQus = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+    const fetchQuestionsQusData = fetchQuestionsQus.data
+    for (const answersQus of fetchQuestionsQusData) {
+      //    console.log("IDD",answersQus.OCDS.id);
+      const proc_id = req.session.projectId;
+      const event_id = req.session.eventId;
+      const id = Criterian_ID;
+      const group_id = 'Key Dates';
+      const question_id = answersQus.OCDS.id;
+      
+    let qusD;
+    qusD = question_id.replace("Question ", ""); 
+    let manipulationData = apiData[qusD];
+       
+      if(manipulationData!=undefined){
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+        let filtervalues=''
+        if(manipulationData.value!=''){
+        let findFilterQuestionValue = new Date(manipulationData.value);
+        const findFilterValues = findFilterQuestionValue;
+         filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+       
+       }
+       
+       const answerformater = {
+        value: filtervalues,
+        selected: true,
+        text: question_id,
+      };
+      let answerBody;
+      if(manipulationData.config){
+        
+
+        if(manipulationData.config!=''){
+        
+        let noCheck=false;
+            let yesCheck=false;
+            
+            if(manipulationData.config=='yes'){
+               yesCheck=true;
+             }
+
+          if(manipulationData.config=='no'){
+             noCheck=true;
+           }
+           
+        const radionArrayOption = [
+          {
+            value: "Yes",
+            selected: yesCheck,
+          },
+          {
+            value: "No",
+            selected: noCheck,
+          }
+        ];
+
+           answerBody = {
+        nonOCDS: {
+          answered: true,
+          options: [answerformater],
+          timelineDependency:{
+            nonOCDS:{
+              options: radionArrayOption,
+            }
+          }
+        },
+      };
+      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+    }
+
+      }else{
+        if(manipulationData.config!=''){
+         answerBody = {
+          nonOCDS: {
+            answered: true,
+            options: [answerformater],
+          },
+        };
+
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+   }
+      }       
+    }
+    }
+
   }else{
     //DOS
 
