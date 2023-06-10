@@ -122,7 +122,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-    //  const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -187,7 +187,6 @@ function isValidQuestion(
   agreement_id: any,
   stage2_value: any,
   bankholidaydata: any,
-  timlineSession : any,
   selectedOptionList:any
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
@@ -257,9 +256,7 @@ function isValidQuestion(
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
-console.log('questionId',questionId)
-console.log('selectedOptionList',selectedOptionList)
-console.log('timeline',timeline)
+
   switch (questionId) {
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
@@ -539,6 +536,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     );
     const nowDate = new Date();
     //add timeline 
+ try{
     const { SESSION_ID } = req.cookies;
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
@@ -567,15 +565,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   const id = Criterian_ID;
   const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${group_id}/questions`;
   const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
-    const fetchQuestionsData = fetchQuestions.data;
-    const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
-  //  const selectedOption = findFilterQuestion[0].nonOCDS.timelineDependency?.nonOCDS?.options;
-  //  const selectedValue = selectedOption.filter((selectVal) => selectVal.selected === true);
-  //   console.log('selectedOption  add',selectedValue)
-    const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+  const fetchQuestionsData = fetchQuestions.data;
+  const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
+  const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
    
-  //  let selectedOptionList = [];
-  let result1;
   let selectedOptionList = {};
     findFilterQuestioncheck.forEach((data) => {
       const selectedOption = data.nonOCDS.timelineDependency?.nonOCDS?.options;
@@ -585,9 +578,8 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       result['Q'+data.nonOCDS.order] =selectedValue[0];  
       selectedOptionList = Object.assign(selectedOptionList, result);
     })
-    // const findFilterQuestion = fetchQuestionsData.filter((question) => question.Question === question_id);
   //add timeline
-
+    
     const { isValid, error, errorSelector } = isValidQuestion(
       selected_question_id,
       clarification_date_day,
@@ -600,7 +592,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       agreement_id,
       stage2_value,
       bankholidaydata,
-      timlineSession,
       selectedOptionList
     );
 
@@ -830,7 +821,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       };
 
       
-      try {
+      // try {
         // const proc_id = req.session.projectId;
         // const event_id = req.session.eventId;
         // const group_id = 'Key Dates';
@@ -857,26 +848,26 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         // const Criterian_ID = criterianStorage[0].criterianId;
         // const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-       // await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
-      } catch (error) {
-        delete error?.config?.['headers'];
-        const Logmessage = {
-          Person_id: TokenDecoder.decoder(SESSION_ID),
-          error_location: `${req.headers.host}${req.originalUrl}`,
-          sessionId: 'null',
-          error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-          exception: error,
-        };
-        const Log = new LogMessageFormatter(
-          Logmessage.Person_id,
-          Logmessage.error_location,
-          Logmessage.sessionId,
-          Logmessage.error_reason,
-          Logmessage.exception
-        );
-        LoggTracer.errorTracer(Log, res);
-      }
+      // } catch (error) {
+      //   delete error?.config?.['headers'];
+      //   const Logmessage = {
+      //     Person_id: TokenDecoder.decoder(SESSION_ID),
+      //     error_location: `${req.headers.host}${req.originalUrl}`,
+      //     sessionId: 'null',
+      //     error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+      //     exception: error,
+      //   };
+      //   const Log = new LogMessageFormatter(
+      //     Logmessage.Person_id,
+      //     Logmessage.error_location,
+      //     Logmessage.sessionId,
+      //     Logmessage.error_reason,
+      //     Logmessage.exception
+      //   );
+      //   LoggTracer.errorTracer(Log, res);
+      // }
     } else {
      
       const selectedErrorCause = selected_question_id; //Question 2
@@ -962,6 +953,24 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       };
       await RESPONSEDATEHELPER(req, res, true, errorItem);
     }
+  } catch (error) {
+    delete error?.config?.['headers'];
+    const Logmessage = {
+      Person_id: TokenDecoder.decoder(SESSION_ID),
+      error_location: `${req.headers.host}${req.originalUrl}`,
+      sessionId: 'null',
+      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+      exception: error,
+    };
+    const Log = new LogMessageFormatter(
+      Logmessage.Person_id,
+      Logmessage.error_location,
+      Logmessage.sessionId,
+      Logmessage.error_reason,
+      Logmessage.exception
+    );
+    LoggTracer.errorTracer(Log, res);
+  }
   }
 
 };
