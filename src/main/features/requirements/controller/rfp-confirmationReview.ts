@@ -126,7 +126,9 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
     publishDate = moment(publishDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
     let warning = false;
     //31-03-23  //02-04-23
-    if (publishDate < currentDate) {
+    // if (publishDate < currentDate) {
+      let cvb = true;
+      if (cvb) {
       warning = true;
 
       req.session.isTimelineRevert = true;
