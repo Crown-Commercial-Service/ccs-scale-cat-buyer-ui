@@ -3220,11 +3220,18 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       ?.find((i) => i?.value)?.value;
      
     // StandstilSupplierPresentation Review Page - Start  
-    let fcQ7, fcQ8 = true;
-    fcQ7 = fetchQuestionsData
+    let fcQ7 = true, fcQ8 = true;
+    let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+    let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+    if(preCheckQuestion7.length > 0) {
+      fcQ7 = fetchQuestionsData
       ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
-    fcQ8 = fetchQuestionsData
-      ?.some((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
+    }
+    if(preCheckQuestion8.length > 0) {
+      fcQ8 = fetchQuestionsData
+        ?.some((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
+    }
+    // StandstilSupplierPresentation Review Page - End
 
     const supplier_dealine_expect_the_bidders = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 7')
@@ -3234,7 +3241,6 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       ?.filter((item) => item?.OCDS?.id == 'Question 8')
       .map((item) => item?.nonOCDS?.options)?.[0]
       ?.find((i) => i?.value)?.value;
-    // StandstilSupplierPresentation Review Page - End
       
     const supplier_dealine_for_expect_to_award = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 9')
@@ -3971,7 +3977,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       publishClickEventStatus: publishClickEventStatus,
       selectedEventType: req.session['eventManagement_eventType'],
       fcQ7: fcQ7,
-      fcQ8: fcQ7
+      fcQ8: fcQ8
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440
@@ -3993,7 +3999,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-    
+    console.log(JSON.stringify(appendData));
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
@@ -4199,12 +4205,19 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
       ?.find((i) => i?.value)?.value;
 
     // StandstilSupplierPresentation Review Page - Start  
-    let fcQ7, fcQ8 = true;
-    fcQ7 = fetchQuestionsData
-      ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
-    fcQ8 = fetchQuestionsData
+    let fcQ7 = true, fcQ8 = true;
+    let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+    let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+    if(preCheckQuestion7.length > 0) {
+      fcQ7 = fetchQuestionsData
+        ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
+    }
+    if(preCheckQuestion8.length > 0) {
+      fcQ8 = fetchQuestionsData
       ?.some((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
-    
+    }
+    // StandstilSupplierPresentation Review Page - Start
+
     const supplier_dealine_expect_the_bidders = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 7')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -4212,8 +4225,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     const supplier_dealine_for_pre_award = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 8')
       .map((item) => item?.nonOCDS?.options)?.[0]
-      ?.find((i) => i?.value)?.value;
-    // StandstilSupplierPresentation Review Page - Start 
+      ?.find((i) => i?.value)?.value; 
 
     const supplier_dealine_for_expect_to_award = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 9')
