@@ -2435,7 +2435,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
   }
 };
 
-export const TIMELINEDEPENDENCYHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
+export const TIMELINEDEPENDENCYHELPER = async (req: express.Request, res: express.Response) => {
   //Initial
   let dataReturn = null;
   const { SESSION_ID } = req.cookies;
