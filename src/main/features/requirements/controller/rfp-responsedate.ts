@@ -122,7 +122,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-    //  const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -187,7 +187,6 @@ function isValidQuestion(
   agreement_id: any,
   stage2_value: any,
   bankholidaydata: any,
-  timlineSession : any,
   selectedOptionList:any
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
@@ -257,9 +256,7 @@ function isValidQuestion(
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
-console.log('questionId',questionId)
-console.log('selectedOptionList',selectedOptionList)
-console.log('timeline',timeline)
+
   switch (questionId) {
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
@@ -600,7 +597,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       agreement_id,
       stage2_value,
       bankholidaydata,
-      timlineSession,
       selectedOptionList
     );
 
@@ -857,7 +853,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         // const Criterian_ID = criterianStorage[0].criterianId;
         // const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-       // await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
       } catch (error) {
         delete error?.config?.['headers'];

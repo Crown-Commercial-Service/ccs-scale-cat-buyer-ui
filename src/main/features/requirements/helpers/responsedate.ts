@@ -267,9 +267,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       // StandstilSupplierPresentation - Start
       let nineQ;
     
-      if(req.session.agreement_id=='RM6187'){
-   
-        if(!isEdit) {
+      if(req.session.agreement_id=='RM6187' || req.session.agreement_id=='RM1557.13'){
+        const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === 'Question 7');
+        const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+        if(!isEdit && findFilterQuestioncheck.length > 0) {
         
           //  First time logic
           //  First time logic
@@ -279,6 +280,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         } else {
          
           //  Edit Logic
+         
           nineQ = bidder_presentations_date;
         }
 
@@ -296,7 +298,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
 
       }
-     
      
 
       const StandstillPeriodStarts = nineQ;
@@ -2328,7 +2329,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-
       res.render('rfp-responsedate.njk', appendData);
     }
   } catch (error) {
@@ -2413,7 +2413,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-     // const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       lastCount++;
       if (lastCount == allunfilledAnswer.length) {
         req.session.isTimelineRevert = false;
