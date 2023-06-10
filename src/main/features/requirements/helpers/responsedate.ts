@@ -122,7 +122,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-    console.log("apiData_baseURL",apiData_baseURL);
 
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
@@ -130,7 +129,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     // StandstilSupplierPresentation - Start
     let isEdit = fetchQuestionsData?.some(item => item?.OCDS?.id == "Question 1" && item?.nonOCDS?.options.length != 0);
     // StandstilSupplierPresentation - End
-    console.log('isEdit',isEdit)
     let publishDate = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 1')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -145,8 +143,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let rfp_clarification_endDate;
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
-   console.log('req.session.questionID',req.session.questionID)
-   console.log('req.session.UIDate',req.session.UIDate)
+  
     if (req.session.UIDate == null) {
       ////////////////////////////////    1
       let rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
@@ -273,8 +270,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       if(req.session.agreement_id=='RM6187'){
    
         if(!isEdit) {
-          console.log('deadline_for_submission_of_stage_one in nineq',deadline_for_submission_of_stage_one)
-       console.log('evaluation_process_start_date',evaluation_process_start_date)
+        
           //  First time logic
           //  First time logic
           // evaluation_process_start_date = deadline_for_submission_of_stage_one
@@ -300,13 +296,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
 
       }
-      console.log('bidder_presentations_date nineQ after',bidder_presentations_date)
-      console.log('nineQ after',nineQ)
+     
      
 
       const StandstillPeriodStarts = nineQ;
       // StandstilSupplierPresentation - End
-      console.log('StandstillPeriodStarts nineq',StandstillPeriodStarts)
       const StandstillPeriodStartsDate = `${StandstillPeriodStarts.getDate()}-${
         StandstillPeriodStarts.getMonth() + 1
       }-${StandstillPeriodStarts.getFullYear()}`;
@@ -330,7 +324,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       standstill_period_starts_date.setHours(predefinedDays.defaultEndingHour);
       standstill_period_starts_date.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////10
-      console.log('standstill_period_starts_date',standstill_period_starts_date)
       const ProposedAward = standstill_period_starts_date;
       const ProposedAwardDate = `${ProposedAward.getDate()}-${
         ProposedAward.getMonth() + 1
@@ -352,12 +345,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       proposed_award_date.setHours(predefinedDays.defaultEndingHour);
       proposed_award_date.setMinutes(predefinedDays.defaultEndingMinutes);
-      console.log('proposed_award_date in elevenq',proposed_award_date)
 
       //////////////////////////////////////11
         let elevenQ;
       if(req.session.agreement_id=='RM1043.8'){
-        console.log('standstill_period_starts_date in elevenq',standstill_period_starts_date)
         if(!isEdit) {
           //  First time logic
           // proposed_award_date =standstill_period_starts_date;//test timeline
@@ -371,10 +362,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       }else{
         elevenQ = proposed_award_date;
       }
-      console.log('elevenQ after in elevenq',elevenQ)
       //const ExpectedSignature = proposed_award_date;
       const ExpectedSignature = elevenQ;
-      console.log('ExpectedSignature after in elevenq',ExpectedSignature)
 
       let ExpectedSignatureDate;
       if(ExpectedSignature != undefined){
@@ -864,7 +853,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             ? moment(supplier_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm')
             : null;
       }
-      console.log('req.session.timeline in get',req.session.timeline)
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
       //CAS-32
@@ -2344,7 +2332,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       res.render('rfp-responsedate.njk', appendData);
     }
   } catch (error) {
-    console.log('error',error)
     LoggTracer.errorLogger(
       res,
       error,
@@ -2426,9 +2413,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      console.log('answerBaseURL',answerBaseURL)
-      console.log('answerBody',answerBody)
-     // const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       lastCount++;
       if (lastCount == allunfilledAnswer.length) {
         req.session.isTimelineRevert = false;

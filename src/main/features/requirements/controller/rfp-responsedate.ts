@@ -122,8 +122,6 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      console.log("answerBaseURL",answerBaseURL);
-      console.log("answerBody",JSON.stringify(answerBody));
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
@@ -259,9 +257,6 @@ function isValidQuestion(
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
-console.log('timeline',timeline)  
-console.log('timlineSession',timlineSession)
-console.log('questionId',questionId)
 
   switch (questionId) {
   case 'Question 1':
@@ -307,22 +302,15 @@ console.log('questionId',questionId)
   case 'Question 5':
     if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
       isValid = false;
-      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline5';
+      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
     if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
       isValid = false;
-      error = 'You cannot set a date and time that is greater than the next milestone in the timeline5';
+      error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
     errorSelector = 'rfi_clarification_date_expanded_5';
     break;
   case 'Question 6':
-    console.log('question 6 new Date',questionNewDate)
-    console.log('question 6 timeline.evaluationProcessStartDate',timeline.evaluationProcessStartDate)
-    console.log('question 6 timeline.bidderPresentationsDate',timeline.bidderPresentationsDate)
-    console.log('question 6 timeline.standstillPeriodStartsDate',timeline.standstillPeriodStartsDate)
-    console.log('questionNewDate  Q7 6',selectedOptionList.Q7.selected)
-    console.log('questionNewDate  Q8 6',selectedOptionList.Q8.selected)
-
     let nextDateVal6;
     if(selectedOptionList.Q7.selected == false && selectedOptionList.Q8.selected == false){
       nextDateVal6 = timeline.standstillPeriodStartsDate;
@@ -333,35 +321,30 @@ console.log('questionId',questionId)
     else{
       nextDateVal6 =timeline.evaluationProcessStartDate;
     }
-    console.log('nextDateVal6  Q7 6',nextDateVal6)
+    
     if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
       isValid = false;
-      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline6';
+      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
     if (questionNewDate > new Date(nextDateVal6)) {
       isValid = false;
-      error = 'You cannot set a date and time that is greater than the next milestone in the timeline6';
+      error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
     errorSelector = 'rfi_clarification_date_expanded_6';
     break;
   case 'Question 7':
-    console.log('questionNewDate 7',questionNewDate)
-    console.log('timeline.evaluationProcessStartDate 7',timeline.deadlineForSubmissionOfStageOne)
-    console.log('timeline.bidderPresentationsDate 7',timeline.bidderPresentationsDate)
+    
     if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
       isValid = false;
-      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline7';
+      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
     if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
       isValid = false;
-      error = 'You cannot set a date and time that is greater than the next milestone in the timeline7';
+      error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
     errorSelector = 'rfi_clarification_date_expanded_7';
     break;
   case 'Question 8':
-    console.log('questionNewDate 7',questionNewDate)
-    console.log('timeline.evaluationProcessStartDate 7',timeline.evaluationProcessStartDate)
-    console.log('timeline.deadlineForSubmissionOfStageOne 7',timeline.deadlineForSubmissionOfStageOne)
     let previousDateVal7;
     if(selectedOptionList.Q7.selected == false){
       previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
@@ -369,26 +352,21 @@ console.log('questionId',questionId)
     else{
       previousDateVal7 = timeline.evaluationProcessStartDate;
     }
-    console.log('timeline.evaluationProcessStartDate 7',timeline.evaluationProcessStartDate)
-    console.log('previousDateVal 7',previousDateVal7)
     if (questionNewDate < new Date(previousDateVal7)) {
       isValid = false;
-      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline8';
+      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
 
     if (!(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
       if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline8';
+        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
     }
 
     errorSelector = 'rfi_clarification_date_expanded_8';
     break;
   case 'Question 9':
-    console.log('questionNewDate 9',questionNewDate)
-    console.log('questionNewDate  Q8 9',selectedOptionList.Q8.selected)
-    console.log('questionNewDate Q7 9',selectedOptionList.Q7.selected)
     let previousDateVal;
     if(selectedOptionList.Q8.selected == false && selectedOptionList.Q7.selected == false ){
       previousDateVal = timeline.deadlineForSubmissionOfStageOne
@@ -399,19 +377,14 @@ console.log('questionId',questionId)
     else{
       previousDateVal = timeline.bidderPresentationsDate;
     }
-    console.log('timeline.evaluationProcessStartDate 9',timeline.evaluationProcessStartDate)
-    console.log('timeline.deadlineForSubmissionOfStageOne 9',timeline.deadlineForSubmissionOfStageOne)
-    console.log('timeline.bidderPresentationsDate 9',timeline.bidderPresentationsDate)
-    console.log('previousDateVal 9 ',previousDateVal)
-    console.log('timeline.proposedAwardDate 9',timeline.proposedAwardDate)
-
+    
     if (questionNewDate < new Date(previousDateVal)) {
       isValid = false;
-      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline9';
+      error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
     if (questionNewDate > new Date(timeline.proposedAwardDate)) {
       isValid = false;
-      error = 'You cannot set a date and time that is greater than the next milestone in the timeline9';
+      error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
     errorSelector = 'rfi_clarification_date_expanded_9';
     break;
@@ -484,7 +457,6 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  console.log("helppppp1")
   const {
     clarification_date_hourFormat,
     selected_question_id,
@@ -497,10 +469,9 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_hour,
     clarification_date_minute
   } = req.body;
-  console.log('req.body',req.body)
+  
   const { timeline, agreement_id, timlineSession} = req.session;
-  console.log('timlineSession in add section',timlineSession)
- const stage2_value = req.session.stage2_value;
+  const stage2_value = req.session.stage2_value;
   const basebankURL = '/bank-holidays.json';
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   clarification_date_day = Number(clarification_date_day);
@@ -590,11 +561,9 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     criterianStorage.push(rebased_object_with_requirements);
   }
   criterianStorage = criterianStorage.flat();
-  console.log('criterianStorage',criterianStorage)
   const Criterian_ID = criterianStorage[0].criterianId;
   const id = Criterian_ID;
   const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${group_id}/questions`;
-  console.log('apiData_baseURL',apiData_baseURL)
   const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
     const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
@@ -607,19 +576,13 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   let result1;
   let selectedOptionList = {};
     findFilterQuestioncheck.forEach((data) => {
-      console.log('data',data)
       const selectedOption = data.nonOCDS.timelineDependency?.nonOCDS?.options;
       const selectedValue = selectedOption.filter((selectVal) => selectVal.value === "Yes");
-      console.log('selectedValue',selectedValue)
-      console.log('data.OCDS.id',data.OCDS.id)
       var result = {};
      
       result['Q'+data.nonOCDS.order] =selectedValue[0];  
-      console.log('result',result)
       selectedOptionList = Object.assign(selectedOptionList, result);
-      console.log('selectedOptionList 11',selectedOptionList)
     })
-    console.log('selectedOptionList',selectedOptionList)
     // const findFilterQuestion = fetchQuestionsData.filter((question) => question.Question === question_id);
   //add timeline
 
@@ -892,9 +855,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         // const Criterian_ID = criterianStorage[0].criterianId;
         // const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-        console.log('answerBaseURL 11',answerBaseURL)
-        console.log('answerBody 11',JSON.stringify(answerBody))
-
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
       } catch (error) {
@@ -1283,7 +1243,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     //DOS
 
     let manipulation = req.body.manipulation;
-    console.log(manipulation);
     //Q7
 
     let pre_Q7 = manipulation.Q7.value;
