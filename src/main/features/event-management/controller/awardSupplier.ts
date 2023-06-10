@@ -1,6 +1,9 @@
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import {  TIMELINEDEPENDENCYHELPER } from '../../requirements/helpers/responsedate';
+
+
 import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -95,10 +98,11 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
       viewError,
       eventId,
     };
+    
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.awardSupplierPageLogg, req);
-
+    
     res.render('awardSupplier', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -112,15 +116,59 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
     );
   }
 };
+
 export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
   const { award_supplier_confirmation, supplier_id } = req.body;
   const { SESSION_ID } = req.cookies;
+  const baseurl = `/tenders/projects/${req.session.projectId}/events`;
+  const { eventId,projectId } = req.session;
+
+  const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl);
+  //status=apidata.data[0].dashboardStatus;
+  const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+  const eventType = selectedEventData[0].eventType;
 
   // const { supplierId } = req.query;
   try {
     if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
+      //res.redirect('/stand-period');
+      let state = '';
+      let redirectState=false;
+    let getData:any = await TIMELINEDEPENDENCYHELPER(req, res);
+
+    if (eventType == 'DA') {
+      state = 'AWARD';
+      redirectState=true;
+    }else if(getData==null){
+      redirectState=false;
+    }
+    else if(getData.Q8.value=='Yes' && getData.Q8.selected==true){
+      state = 'PRE_AWARD';
+      redirectState=true;
+    }else if(getData.Q8.value=='No' && getData.Q8.selected==true){
+      state = 'AWARD';
+      redirectState=true;
+    }else{
+    
+    }
+if(redirectState==true){
+      const body = {
+        suppliers: [
+          {
+            id: supplier_id,
+          },
+        ],
+      };
+   
+     const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`;
+     await TenderApi.Instance(SESSION_ID).post(awardURL, body);
+    res.redirect('/event/management?id=' + eventId);
+
+    }else{
       res.redirect('/stand-period');
-    } else {
+    }
+  
+  } else {
       req.session['viewError'] = true;
       res.redirect('award-supplier?supplierId=' + supplier_id);
     }
@@ -136,3 +184,28 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
     );
   }
 };
+
+// export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
+//   const { award_supplier_confirmation, supplier_id } = req.body;
+//   const { SESSION_ID } = req.cookies;
+
+//   // const { supplierId } = req.query;
+//   try {
+//     if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
+//       res.redirect('/stand-period');
+//     } else {
+//       req.session['viewError'] = true;
+//       res.redirect('award-supplier?supplierId=' + supplier_id);
+//     }
+//   } catch (error) {
+//     LoggTracer.errorLogger(
+//       res,
+//       error,
+//       `${req.headers.host}${req.originalUrl}`,
+//       null,
+//       TokenDecoder.decoder(SESSION_ID),
+//       'Award Supplier - Tenders Service Api cannot be connected',
+//       true
+//     );
+//   }
+// };
