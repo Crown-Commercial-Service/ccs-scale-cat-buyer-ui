@@ -122,9 +122,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      console.log("answerBaseURL",answerBaseURL);
-      console.log("answerBody",JSON.stringify(answerBody));
-      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+    //  const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -188,7 +186,9 @@ function isValidQuestion(
   timeline: any,
   agreement_id: any,
   stage2_value: any,
-  bankholidaydata: any
+  bankholidaydata: any,
+  timlineSession : any,
+  selectedOptionList:any
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
   //let todaydate=new Date();
@@ -257,7 +257,9 @@ function isValidQuestion(
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
-
+console.log('questionId',questionId)
+console.log('selectedOptionList',selectedOptionList)
+console.log('timeline',timeline)
   switch (questionId) {
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
@@ -311,17 +313,29 @@ function isValidQuestion(
     errorSelector = 'rfi_clarification_date_expanded_5';
     break;
   case 'Question 6':
+    let nextDateVal6;
+    if(selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false){
+      nextDateVal6 = timeline.standstillPeriodStartsDate;
+    }
+    else if(selectedOptionList?.Q7?.selected == false){
+      nextDateVal6 = timeline.bidderPresentationsDate;
+    }
+    else{
+      nextDateVal6 =timeline.evaluationProcessStartDate;
+    }
+    
     if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
-    if (questionNewDate > new Date(timeline.evaluationProcessStartDate)) {
+    if (questionNewDate > new Date(nextDateVal6)) {
       isValid = false;
       error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
     errorSelector = 'rfi_clarification_date_expanded_6';
     break;
   case 'Question 7':
+    
     if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -333,7 +347,14 @@ function isValidQuestion(
     errorSelector = 'rfi_clarification_date_expanded_7';
     break;
   case 'Question 8':
-    if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
+    let previousDateVal7;
+    if(selectedOptionList?.Q7?.selected == false){
+      previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
+    }
+    else{
+      previousDateVal7 = timeline.evaluationProcessStartDate;
+    }
+    if (questionNewDate < new Date(previousDateVal7)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
@@ -348,7 +369,18 @@ function isValidQuestion(
     errorSelector = 'rfi_clarification_date_expanded_8';
     break;
   case 'Question 9':
-    if (questionNewDate < new Date(timeline.bidderPresentationsDate)) {
+    let previousDateVal;
+    if(selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false ){
+      previousDateVal = timeline.deadlineForSubmissionOfStageOne
+    }
+    else if(selectedOptionList?.Q8?.selected == false){
+      previousDateVal = timeline.evaluationProcessStartDate;
+    }
+    else{
+      previousDateVal = timeline.bidderPresentationsDate;
+    }
+    
+    if (questionNewDate < new Date(previousDateVal)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
@@ -427,7 +459,6 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  console.log("helppppp1")
   const {
     clarification_date_hourFormat,
     selected_question_id,
@@ -440,8 +471,9 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_hour,
     clarification_date_minute
   } = req.body;
-  const { timeline, agreement_id } = req.session;
- const stage2_value = req.session.stage2_value;
+  
+  const { timeline, agreement_id, timlineSession} = req.session;
+  const stage2_value = req.session.stage2_value;
   const basebankURL = '/bank-holidays.json';
   const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
   clarification_date_day = Number(clarification_date_day);
@@ -449,7 +481,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
   // const selected_question_indexte = selected_question_index;
-  if (
+    if (
     clarification_date_day == 0 ||
     isNaN(clarification_date_day) ||
     clarification_date_month == 0 ||
@@ -506,6 +538,56 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       clarification_date_minute
     );
     const nowDate = new Date();
+    //add timeline 
+    const { SESSION_ID } = req.cookies;
+  const proc_id = req.session.projectId;
+  const event_id = req.session.eventId;
+  const group_id = 'Key Dates';
+  const question_id = selected_question_id;
+  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  baseURL = baseURL + '/criteria';
+ 
+  const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+  const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+  const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
+  let criterianStorage = [];
+  for (const aURI of extracted_criterion_based) {
+    const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+    const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+    const criterian_array = fetch_criterian_group_data?.data;
+    const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+      const object = anItem;
+      object['criterianId'] = aURI;
+      return object;
+    });
+    criterianStorage.push(rebased_object_with_requirements);
+  }
+  criterianStorage = criterianStorage.flat();
+  const Criterian_ID = criterianStorage[0].criterianId;
+  const id = Criterian_ID;
+  const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${group_id}/questions`;
+  const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+    const fetchQuestionsData = fetchQuestions.data;
+    const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
+  //  const selectedOption = findFilterQuestion[0].nonOCDS.timelineDependency?.nonOCDS?.options;
+  //  const selectedValue = selectedOption.filter((selectVal) => selectVal.selected === true);
+  //   console.log('selectedOption  add',selectedValue)
+    const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+   
+  //  let selectedOptionList = [];
+  let result1;
+  let selectedOptionList = {};
+    findFilterQuestioncheck.forEach((data) => {
+      const selectedOption = data.nonOCDS.timelineDependency?.nonOCDS?.options;
+      const selectedValue = selectedOption.filter((selectVal) => selectVal.value === "Yes");
+      var result = {};
+     
+      result['Q'+data.nonOCDS.order] =selectedValue[0];  
+      selectedOptionList = Object.assign(selectedOptionList, result);
+    })
+    // const findFilterQuestion = fetchQuestionsData.filter((question) => question.Question === question_id);
+  //add timeline
+
     const { isValid, error, errorSelector } = isValidQuestion(
       selected_question_id,
       clarification_date_day,
@@ -517,7 +599,9 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       timeline,
       agreement_id,
       stage2_value,
-      bankholidaydata
+      bankholidaydata,
+      timlineSession,
+      selectedOptionList
     );
 
     const dateNewNow = new Date(req.session.timeline.publish);
@@ -745,36 +829,35 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         },
       };
 
-      const { SESSION_ID } = req.cookies;
+      
       try {
-        const proc_id = req.session.projectId;
-        const event_id = req.session.eventId;
-        const group_id = 'Key Dates';
-        const question_id = selected_question_id;
-        let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
-        baseURL = baseURL + '/criteria';
+        // const proc_id = req.session.projectId;
+        // const event_id = req.session.eventId;
+        // const group_id = 'Key Dates';
+        // const question_id = selected_question_id;
+        // let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+        // baseURL = baseURL + '/criteria';
        
-        const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
-        const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-        const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
-        let criterianStorage = [];
-        for (const aURI of extracted_criterion_based) {
-          const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-          const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
-          const criterian_array = fetch_criterian_group_data?.data;
-          const rebased_object_with_requirements = criterian_array?.map((anItem) => {
-            const object = anItem;
-            object['criterianId'] = aURI;
-            return object;
-          });
-          criterianStorage.push(rebased_object_with_requirements);
-        }
-        criterianStorage = criterianStorage.flat();
-        const Criterian_ID = criterianStorage[0].criterianId;
-        const id = Criterian_ID;
+        // const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+        // const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+        // const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
+        // let criterianStorage = [];
+        // for (const aURI of extracted_criterion_based) {
+        //   const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+        //   const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+        //   const criterian_array = fetch_criterian_group_data?.data;
+        //   const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+        //     const object = anItem;
+        //     object['criterianId'] = aURI;
+        //     return object;
+        //   });
+        //   criterianStorage.push(rebased_object_with_requirements);
+        // }
+        // criterianStorage = criterianStorage.flat();
+        // const Criterian_ID = criterianStorage[0].criterianId;
+        // const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-
-        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+       // await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
       } catch (error) {
         delete error?.config?.['headers'];
@@ -880,6 +963,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       await RESPONSEDATEHELPER(req, res, true, errorItem);
     }
   }
+
 };
 
 // StandstilSupplierPresentation - Start
@@ -1069,7 +1153,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     //DOS
 
     let manipulation = req.body.manipulation;
-    console.log(manipulation);
     //Q7
 
     let pre_Q7 = manipulation.Q7.value;
