@@ -874,7 +874,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           `Question 12*${appendData.contract_signed_date}`,
           `Question 13*${appendData.supplier_start_date}`
         );
-
+        
+        // console.log(arrOfCurrentTimeline);
+        // req.session.isTimelineRevert = false;
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
@@ -2432,3 +2434,58 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
     );
   }
 };
+
+export const TIMELINEDEPENDENCYHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
+  //Initial
+  let dataReturn = null;
+  const { SESSION_ID } = req.cookies;
+  const proc_id = req.session['projectId'];
+  const event_id = req.session['eventId'];
+  const agreementId_session = req.session.agreement_id;
+
+  //Current active event ID
+  const eventTypeURL = `tenders/projects/${proc_id}/events`;
+  let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+  getEventType = getEventType.data.filter((x) => x.id == event_id)[0]?.eventType;
+
+  let rspbaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  rspbaseURL = rspbaseURL + '/criteria';
+  const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(rspbaseURL);
+  const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+  const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
+  let criterianStorage = [];
+  for (const aURI of extracted_criterion_based) {
+    const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+    const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+    const criterian_array = fetch_criterian_group_data?.data;
+    const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+      const object = anItem;
+      object['criterianId'] = aURI;
+      return object;
+    });
+    criterianStorage.push(rebased_object_with_requirements);
+  }
+  const keyDateselector = 'Key Dates';
+  criterianStorage = criterianStorage?.flat();
+  criterianStorage = criterianStorage?.filter((AField) => AField?.OCDS?.id === keyDateselector);
+
+  const Criterian_ID = criterianStorage?.[0]?.criterianId;
+  const prompt = criterianStorage?.[0]?.nonOCDS?.prompt;
+  const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+  const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+  const fetchQuestionsData = fetchQuestions?.data;
+  
+  let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+  let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+  if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+    //Only for MCF3 FC & GC13 FC
+    if(preCheckQuestion8.length > 0) {
+      dataReturn = {};
+      dataReturn.Q7 = fetchQuestionsData
+      ?.filter((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined)[0]?.nonOCDS?.timelineDependency?.nonOCDS?.options.filter((ab) => ab.selected === true)[0];
+      dataReturn.Q8 = fetchQuestionsData
+      ?.filter((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined)[0]?.nonOCDS?.timelineDependency?.nonOCDS?.options.filter((ab) => ab.selected === true)[0];
+    }
+  }
+  return dataReturn;
+}
