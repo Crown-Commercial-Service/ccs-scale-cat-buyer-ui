@@ -172,6 +172,11 @@ const saveButtonUnHideDateRfi = () => {
    // getRadioValidation();
 
     function getAjax(){
+        //Loader initiated
+        document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
+        var bodytg = document.body;
+        bodytg.classList.add("pageblur");
+
       let manipulationArray = {};
       let selectedValue,q7Selected, compareAccess;
       compareAccess = [];
@@ -290,7 +295,11 @@ console.log("totalElementSelectors",totalElementSelectors)
                                   $('.'+input_hidden).val(value.value);
                                 
                             });
+                            var bodytg = document.body;
+                            bodytg.classList.remove("pageblur");
                         }).fail((err) => {
+                            var bodytg = document.body;
+                            bodytg.classList.remove("pageblur");
                         })
          
    
