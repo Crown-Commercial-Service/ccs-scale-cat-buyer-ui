@@ -601,7 +601,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           ?.filter((item) => item?.OCDS?.id == 'Question 11')
           .map((item) => item?.nonOCDS?.options)?.[0]
           ?.find((i) => i?.value)?.value;
-        // console.log("asss",new Date(expected_signature_dateGet));
 
         expected_signature_date =
           expected_signature_dateGet != undefined ? new Date(expected_signature_dateGet) : expected_signature_date;
@@ -651,8 +650,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         //   proposed_award_date = proposed_award_dateGet!=undefined?new Date(proposed_award_dateGet):proposed_award_date;
 
         //   let expected_signature_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 11").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-        // // console.log("asss",new Date(expected_signature_dateGet));
-
+        
         //   expected_signature_date = expected_signature_dateGet!=undefined?new Date(expected_signature_dateGet):expected_signature_date;
         // //  expected_signature_date=new Date(expected_signature_dateNew);
 
@@ -700,7 +698,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     // StandstilSupplierPresentation - Start (override)
     // fetchQuestionsData.forEach((el) => {
     //   if(el.OCDS.id == 'Question 7') {
-    //     //console.log("DEPANDDD",el.nonOCDS.timeline_dependency)
     //         let dataManipulation = el.nonOCDS;
     //         dataManipulation.timelineDependency = {"OCDS":{"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
     //     }
@@ -710,7 +707,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     //     }
     // });
       // StandstilSupplierPresentation - End (override)
-     // console.log("fetchQuestionsData",JSON.stringify(fetchQuestionsData));
      let timlineSession=''
      if(req.session.timlineSession){
       timlineSession=req.session.timlineSession;
@@ -875,8 +871,94 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           `Question 13*${appendData.supplier_start_date}`
         );
         
-        // console.log(arrOfCurrentTimeline);
-        // req.session.isTimelineRevert = false;
+        const isTimeDeps = await TIMELINEDEPENDENCYHELPER(req, res);
+        if(isTimeDeps != null) {
+          if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+            //Only for MCF3 FC & GC13 FC
+            arrOfCurrentTimeline.splice(6, 1); 
+            arrOfCurrentTimeline.splice(6, 1); 
+            const radionArrayOption = [{value: "Yes",selected: false},{value: "No", selected: true}];
+            ['Question 7', 'Question 8'].map(async (b) => {
+              let answerBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{"text": b,"value": "","selected": true}],
+                  timelineDependency:{
+                    nonOCDS:{
+                      answered: true,
+                      options: radionArrayOption,
+                    }
+                  }
+                }};
+                const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${b}`;
+                await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+            });
+            let q6_val = arrOfCurrentTimeline.filter((item) => item.split('*')[0] == 'Question 6')[0].split('*')[1];
+            //Pre condition
+            let commonForQ9, commonForQ10, commonForQ11, commonForHQ9, commonForMQ9;
+            if(agreementId_session == 'RM6187') { //MCF3 FC
+              // Hours & Mints
+              commonForHQ9 = MCF3_Days.defaultEndingHour;
+              commonForMQ9 = MCF3_Days.defaultEndingMinutes;
+
+              //Days
+              commonForQ9 = MCF3_Days.supplier_award_date;
+              commonForQ10 = MCF3_Days.supplier_award_date;
+              commonForQ11 = MCF3_Days.supplier_persentation
+            }
+            if(agreementId_session == 'RM1557.13') { //MCF3 FC
+              // Hours & Mints
+              commonForHQ9 = MCF3_Days.defaultEndingHour;
+              commonForMQ9 = MCF3_Days.defaultEndingMinutes;
+
+              //Days
+              commonForQ9 = MCF3_Days.supplier_award_date;
+              commonForQ10 = MCF3_Days.supplier_award_date;
+              commonForQ11 = MCF3_Days.supplier_persentation
+            }
+
+            let Q9, Q10, Q11, Q9_after, Q10_after, Q11_after;
+
+            let pre_Q6 = q6_val;
+            let Q6 = new Date(pre_Q6);
+
+            //Q9
+            const Q9_Parsed = `${Q6.getDate()}-${
+              Q6.getMonth() + 1
+            }-${Q6.getFullYear()}`;
+            const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ9)._d;
+            Q9_B_add.setHours(commonForHQ9);
+            Q9_B_add.setMinutes(commonForMQ9);
+            Q9 = Q9_B_add;
+
+            //Q10
+            const Q10_Parsed = `${Q9.getDate()}-${
+              Q9.getMonth() + 1
+            }-${Q9.getFullYear()}`;
+            const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ10)._d;
+            Q10_B_add.setHours(commonForHQ9);
+            Q10_B_add.setMinutes(commonForMQ9);
+            Q10 = Q10_B_add;
+
+            //Q11
+            const Q11_Parsed = `${Q10.getDate()}-${
+              Q10.getMonth() + 1
+            }-${Q10.getFullYear()}`;
+            const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ11)._d;
+            Q11_B_add.setHours(commonForHQ9);
+            Q11_B_add.setMinutes(commonForMQ9);
+            Q11 = Q11_B_add;
+
+            Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+            Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+            Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+            arrOfCurrentTimeline[6] = `Question 9*${Q9_after}`;	//Q9
+            arrOfCurrentTimeline[7] = `Question 10*${Q10_after}`;	//Q10
+            arrOfCurrentTimeline[8] = `Question 11*${Q11_after}`;	//Q11
+          }
+        }
+        
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
@@ -2401,24 +2483,26 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       const group_id = 'Key Dates';
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter((question) => question.Question === question_id);
-      const findFilterValues = findFilterQuestion[0].value;
-      const filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-      const answerformater = {
-        value: filtervalues,
-        selected: true,
-        text: answers,
-      };
-      const answerBody = {
-        nonOCDS: {
-          answered: true,
-          options: [answerformater],
-        },
-      };
-      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-      lastCount++;
-      if (lastCount == allunfilledAnswer.length) {
-        req.session.isTimelineRevert = false;
+      if(findFilterQuestion.length !== 0) {
+        const findFilterValues = findFilterQuestion[0].value;
+        const filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+        const answerformater = {
+          value: filtervalues,
+          selected: true,
+          text: answers,
+        };
+        const answerBody = {
+          nonOCDS: {
+            answered: true,
+            options: [answerformater],
+          },
+        };
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+        const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        lastCount++;
+        if (lastCount == allunfilledAnswer.length) {
+          req.session.isTimelineRevert = false;
+        }
       }
     }
     req.session.isTimelineRevert = false;

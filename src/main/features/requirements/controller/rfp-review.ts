@@ -33,7 +33,6 @@ const predefinedDays = {
 //@GET /rfp/review
 export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response) => {
   //RFP_REVIEW_RENDER(req, res, false, false); remove comment
-  console.log('************************************* Pop!!');
   const { download } = req.query;
   const { SESSION_ID } = req.cookies;
   const EventId = req.session['eventId'];
@@ -3999,7 +3998,6 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-    console.log(JSON.stringify(appendData));
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
