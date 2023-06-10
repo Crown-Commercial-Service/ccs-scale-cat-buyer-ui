@@ -2413,7 +2413,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+     // const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       lastCount++;
       if (lastCount == allunfilledAnswer.length) {
         req.session.isTimelineRevert = false;

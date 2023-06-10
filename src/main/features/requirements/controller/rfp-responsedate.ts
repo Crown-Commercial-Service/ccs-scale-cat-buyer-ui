@@ -122,7 +122,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
         },
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+    //  const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -257,7 +257,9 @@ function isValidQuestion(
     isValid = false;
     error = 'You cannot set a date in weekend';
   }
-
+console.log('questionId',questionId)
+console.log('selectedOptionList',selectedOptionList)
+console.log('timeline',timeline)
   switch (questionId) {
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
@@ -312,10 +314,10 @@ function isValidQuestion(
     break;
   case 'Question 6':
     let nextDateVal6;
-    if(selectedOptionList.Q7.selected == false && selectedOptionList.Q8.selected == false){
+    if(selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false){
       nextDateVal6 = timeline.standstillPeriodStartsDate;
     }
-    else if(selectedOptionList.Q7.selected == false){
+    else if(selectedOptionList?.Q7?.selected == false){
       nextDateVal6 = timeline.bidderPresentationsDate;
     }
     else{
@@ -346,7 +348,7 @@ function isValidQuestion(
     break;
   case 'Question 8':
     let previousDateVal7;
-    if(selectedOptionList.Q7.selected == false){
+    if(selectedOptionList?.Q7?.selected == false){
       previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
     }
     else{
@@ -368,10 +370,10 @@ function isValidQuestion(
     break;
   case 'Question 9':
     let previousDateVal;
-    if(selectedOptionList.Q8.selected == false && selectedOptionList.Q7.selected == false ){
+    if(selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false ){
       previousDateVal = timeline.deadlineForSubmissionOfStageOne
     }
-    else if(selectedOptionList.Q8.selected == false){
+    else if(selectedOptionList?.Q8?.selected == false){
       previousDateVal = timeline.evaluationProcessStartDate;
     }
     else{
@@ -855,7 +857,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         // const Criterian_ID = criterianStorage[0].criterianId;
         // const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-        await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+       // await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
       } catch (error) {
         delete error?.config?.['headers'];
