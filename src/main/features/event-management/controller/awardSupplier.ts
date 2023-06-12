@@ -122,6 +122,7 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
   const { SESSION_ID } = req.cookies;
   const baseurl = `/tenders/projects/${req.session.projectId}/events`;
   const { eventId,projectId } = req.session;
+  const agreementId_session = req.session.agreement_id;
 
   const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl);
   //status=apidata.data[0].dashboardStatus;
@@ -141,11 +142,23 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
       redirectState=true;
     }else if(getData==null){
       redirectState=false;
-    }
-    else if(getData.Q8.value=='Yes' && getData.Q8.selected==true){
+    }else if(agreementId_session=="RM1043.8" && getData.Q10.value=='Yes' && getData.Q10.selected==true){
       state = 'PRE_AWARD';
       redirectState=true;
-    }else if(getData.Q8.value=='No' && getData.Q8.selected==true){
+    }else if(agreementId_session=="RM1043.8" && getData.Q10.value=='No' && getData.Q10.selected==true){
+      state = 'AWARD';
+      redirectState=true;
+    }else if(agreementId_session=="RM1043.8" && getData.Q5.value=='Yes' && getData.Q5.selected==true){
+      state = 'PRE_AWARD';
+      redirectState=true;
+    }else if(agreementId_session=="RM1043.8" && getData.Q5.value=='No' && getData.Q5.selected==true){
+      state = 'AWARD';
+      redirectState=true;
+    }
+    else if(agreementId_session=="RM6187" && getData.Q8.value=='Yes' && getData.Q8.selected==true){
+      state = 'PRE_AWARD';
+      redirectState=true;
+    }else if(agreementId_session=="RM6187" && getData.Q8.value=='No' && getData.Q8.selected==true){
       state = 'AWARD';
       redirectState=true;
     }else{
@@ -160,8 +173,10 @@ if(redirectState==true){
         ],
       };
    
+      console.log("body",body);
+
      const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`;
-     await TenderApi.Instance(SESSION_ID).post(awardURL, body);
+    await TenderApi.Instance(SESSION_ID).post(awardURL, body);
     res.redirect('/event/management?id=' + eventId);
 
     }else{
