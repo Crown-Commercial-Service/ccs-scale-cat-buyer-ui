@@ -245,7 +245,7 @@ function isValidQuestion(
 
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
-    error = 'You cannot set a date in weekend';
+    error = 'Enter a date that falls on a weekday';
     isweekendErrorFlag = true;
   }
 
@@ -256,7 +256,7 @@ function isValidQuestion(
 
   if (isweekendErrorFlag) {
     isValid = false;
-    error = 'You cannot set a date in weekend';
+    error = 'Enter a date that falls on a weekday';
   }
 
   switch (questionId) {
