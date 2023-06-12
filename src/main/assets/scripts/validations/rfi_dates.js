@@ -328,8 +328,8 @@ if(arr!=undefined){
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
                         }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline14"); 
-							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline14"]]
+                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
+							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]]
                         }
             
                         ccsZPresentErrorSummary(errorStore);

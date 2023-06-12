@@ -1354,7 +1354,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
       };
-      console.log('req.session.timeline',req.session.timeline)
+      console.log('req.session.timeline',req.session.timeline);
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
       } else {

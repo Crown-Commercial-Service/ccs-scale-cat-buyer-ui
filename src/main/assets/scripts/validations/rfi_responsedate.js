@@ -136,11 +136,12 @@ function getRadioValidation(){
 
 for (const selector of totalElementSelectors) {
     let checkRadioSelectedClassName = 'resdateradio'+selector;
+    let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+selector);
     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
 
 
 
-    if(checkRadioSelected==undefined)
+    if(checkRadioSelected==undefined && checkRadioClassName.length > 0)
     {
     if(selector==7){
         ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select whether you want supplier presentations"); 
@@ -180,7 +181,6 @@ const saveButtonUnHideDateRfi = () => {
       let manipulationArray = {};
       let selectedValue,q7Selected, compareAccess;
       compareAccess = [];
-console.log("totalElementSelectors",totalElementSelectors)
         for (const selector of totalElementSelectors) {
             var jsonVariable = {};
             q7Selected=false;
@@ -217,14 +217,12 @@ console.log("totalElementSelectors",totalElementSelectors)
                 //headContent_8
               //  if(selector==8 || selector==10){
                     if ($('#headContent_'+selector).length){
-                  console.log("selector NEW",selector);
             let checkRadioSelectedClassName = 'resdateradio'+selector;
             let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
                  var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventType");
                  var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
                  
-                    console.log("checkRadioSelected",checkRadioSelected)
 
                     if(checkRadioSelected == 'yes') {
                         q7Selected = true;
@@ -266,7 +264,6 @@ console.log("totalElementSelectors",totalElementSelectors)
                     tl_val:'yes',
                     manipulation: manipulationArray
                 }
-                console.log("postTLData",postTLData);
                 $.ajax({
                             url: `/timeline_standstill_supplier`,
                             type: "POST",
@@ -278,7 +275,6 @@ console.log("totalElementSelectors",totalElementSelectors)
                             let items = res;
                             items.sort((a, b) => a.value - b.value);
                             items.forEach((value, key) => {
-                                 console.log("value",value.value);
                                //  let dataAccess = compareAccess.find((el) => el.question == value.question);
                                let labelAppends = value.value.split('*');
                                 let labelAppend = labelAppends[1].replace(":", "-");
