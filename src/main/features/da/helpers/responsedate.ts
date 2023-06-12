@@ -1354,11 +1354,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
       };
+      console.log('req.session.timeline',req.session.timeline)
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
       } else {
         req.session.timeline.standstillPeriodStartsDate = standstill_period_starts_date;
       }
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.ResponseDateLog, req);
       res.render('daw-responsedate.njk', appendData);

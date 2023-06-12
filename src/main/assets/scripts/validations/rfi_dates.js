@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if(arr!=undefined){
      selectors = arr.split(',');
 }
-    
+    let radioarray = [];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
@@ -210,17 +210,72 @@ if(arr!=undefined){
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
-                    
+                                        
                     let indexKey = selectors.indexOf(element);
+                                        
                     let previosElement = indexKey-1;
                     let nextElement = indexKey+1;
                     let previosElementValue=selectors[previosElement];
+
                     let nextElementValue=selectors[nextElement];
+                                        
+                    let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                    let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+                    
+                   
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
+                        previosElementValue = previosElementValue - 1;
+                      //  nextElementValue = nextElementValue +1;
+                      //  console.log('next element inside null 1st no',nextElementValue)
+                        let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                        //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                         
+                       
+                      //  }
+                        let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                        let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
 
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
+                        previosElementValue = previosElementValue - 1;
+                        //nextElementValue = nextElementValue +1;
+                        //console.log('next element inside null 2nd no',previosElementValue)
 
+                        
+                    }
+                        
+                    }
+                    // console.log('radioarray',radioarray)
+                    // if(radioarray.length == 0){
+                    //     previosElementValue = previosElementValue - 2;
+                    //     console.log(' previosElementValue == 0',previosElementValue)
+                    // }
+                    // else if(radioarray.length == 1){
+                    //   let eleId = radioarray[0].id;
+                    //   let eleVal = radioarray[0].value;
+                    //  console.log('eleId',eleId)
+                    //  console.log('eleVal',eleVal)
+                    //  let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                    //  console.log('current date val ',currentDateval)
+                    //  if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                    //     console.log('previoue element inside null ')
+                    //  previosElementValue = previosElementValue - 1;
+                    //  }
+                    //  console.log(' previosElementValue == 1',previosElementValue)
+                    // }
+                    // console.log('radio available check',document.getElementsByClassName('timeLineEventTrigger'))
+                    // if(document.getElementsByClassName('timeLineEventTrigger').length > 0 && (checkRadioSelected == undefined || checkRadioSelected == 'no' )){
+                    //     console.log(' inside date change');
+                    //     // let day1 = $(`#clarification_date-day_${element}`);
+                    //     // let month1 = $(`#clarification_date-month_${element}`);
+                    //     // let year1 = $(`#clarification_date-year_${element}`);
+                    //     // let hour1 = $(`#clarification_date-hour_${element}`);
+                    //     // let minutes1 = $(`#clarification_date-minute_${element}`); 
+
+                    // }
                     let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
-
                     let nextDate = new Date();
                     let isNextDate = false;
                     
@@ -233,7 +288,31 @@ if(arr!=undefined){
                         // parent = document.getElementById(`showDateDiv${element+ 1}`);
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("children",children);
-                        
+                        let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                        let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
+                        let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length > 0 && checkRadioSelected != 'yes')){
+                             nextElementValue = parseInt(nextElementValue) + 1;
+                             
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            
+                            //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                             
+                           
+                          //  }
+                          let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                          let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
+                          let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+                         
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length>0 && checkRadioSelected !== 'yes')){
+                            nextElementValue = nextElementValue +1;
+                                
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            
+                           
+                        }
+                            
+                        }
                         nextDate = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
                         isNextDate = true;
                     }
@@ -245,6 +324,7 @@ if(arr!=undefined){
                         let errorStore;
                         
                         if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !=''){
+                         
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
                         }else{

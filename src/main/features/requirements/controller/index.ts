@@ -101,7 +101,7 @@ import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
 import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
 import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
-import { RFP_GET_RESPONSE_DATE, RFP_POST_ADD_RESPONSE_DATE, RFP_POST_RESPONSE_DATE } from './rfp-responsedate';
+import { RFP_GET_RESPONSE_DATE, RFP_POST_ADD_RESPONSE_DATE, RFP_POST_RESPONSE_DATE, TIMELINE_STANDSTILL_SUPPLIERT } from './rfp-responsedate';
 import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 import { DA_GET_SUBCONTRACTORS, DA_POST_SUBCONTRACTORS } from './da-SubContractors';
 import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-serviceCapabilities';
@@ -342,4 +342,8 @@ export const REQUIREMENT_CONTROLLER = {
   DOS6_STAGE2_TASK_LIST,
 
   RFP_SUPPLIER_RATECARD,
+
+  // StandstilSupplierPresentation - Start
+  TIMELINE_STANDSTILL_SUPPLIERT,
+  // StandstilSupplierPresentation - End
 };

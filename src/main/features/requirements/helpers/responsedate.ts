@@ -53,6 +53,7 @@ const MCF3_Days = {
   supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
   supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
 };
 
 const DOS_Days = {
@@ -93,6 +94,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
   const selectedeventtype = req.session.selectedeventtype;
+
+  // StandstilSupplierPresentation - Start
+  const eventTypeURL = `tenders/projects/${projectId}/events`;
+  let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+  getEventType = getEventType.data.filter(x => x.id == event_id)[0]?.eventType;
+  // StandstilSupplierPresentation - End
+
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -118,6 +126,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
 
+    // StandstilSupplierPresentation - Start
+    let isEdit = fetchQuestionsData?.some(item => item?.OCDS?.id == "Question 1" && item?.nonOCDS?.options.length != 0);
+    // StandstilSupplierPresentation - End
     let publishDate = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 1')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -132,7 +143,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let rfp_clarification_endDate;
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
-
+  
     if (req.session.UIDate == null) {
       ////////////////////////////////    1
       let rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
@@ -231,10 +242,18 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_deadline
         )._d;
-      } else if (req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
-        bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
-          predefinedDays.supplier_persentation
-        )._d;
+      } else if(req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
+        // StandstilSupplierPresentation - Start (Temp)
+        if(getEventType == 'FC') {
+          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.stanstill_period_condtional,
+          )._d;
+        } else {
+          bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.supplier_persentation,
+          )._d;
+        }
+        // StandstilSupplierPresentation - End (Temp)
       } else {
         bidder_presentations_date = moment(BidderPresentationsDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_period_extra
@@ -244,7 +263,45 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       bidder_presentations_date.setHours(predefinedDays.defaultEndingHour);
       bidder_presentations_date.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////9
-      const StandstillPeriodStarts = bidder_presentations_date;
+
+      // StandstilSupplierPresentation - Start
+      let nineQ;
+    
+      if(req.session.agreement_id=='RM6187' || req.session.agreement_id=='RM1557.13'){
+        const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === 'Question 7');
+        const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+        if(!isEdit && findFilterQuestioncheck.length > 0) {
+        
+          //  First time logic
+          //  First time logic
+          // evaluation_process_start_date = deadline_for_submission_of_stage_one
+          // bidder_presentations_date = deadline_for_submission_of_stage_one
+          nineQ = deadline_for_submission_of_stage_one;
+        } else {
+         
+          //  Edit Logic
+         
+          nineQ = bidder_presentations_date;
+        }
+
+      }else{
+
+        if(!isEdit) {
+          
+          //  First time logic
+          // bidder_presentations_date = evaluation_process_start_date;//test timeline
+          nineQ = evaluation_process_start_date;
+        } else {
+         
+          //  Edit Logic
+          nineQ = bidder_presentations_date;
+        }
+
+      }
+     
+
+      const StandstillPeriodStarts = nineQ;
+      // StandstilSupplierPresentation - End
       const StandstillPeriodStartsDate = `${StandstillPeriodStarts.getDate()}-${
         StandstillPeriodStarts.getMonth() + 1
       }-${StandstillPeriodStarts.getFullYear()}`;
@@ -289,11 +346,32 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       proposed_award_date.setHours(predefinedDays.defaultEndingHour);
       proposed_award_date.setMinutes(predefinedDays.defaultEndingMinutes);
+
       //////////////////////////////////////11
-      const ExpectedSignature = proposed_award_date;
-      const ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
+        let elevenQ;
+      if(req.session.agreement_id=='RM1043.8'){
+        if(!isEdit) {
+          //  First time logic
+          // proposed_award_date =standstill_period_starts_date;//test timeline
+          elevenQ = standstill_period_starts_date;
+        } else {
+         
+          //  Edit Logic
+          elevenQ = standstill_period_starts_date;
+        }
+
+      }else{
+        elevenQ = proposed_award_date;
+      }
+      //const ExpectedSignature = proposed_award_date;
+      const ExpectedSignature = elevenQ;
+
+      let ExpectedSignatureDate;
+      if(ExpectedSignature != undefined){
+      ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
         ExpectedSignature.getMonth() + 1
       }-${ExpectedSignature.getFullYear()}`;
+    }
 
       let expected_signature_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -523,7 +601,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           ?.filter((item) => item?.OCDS?.id == 'Question 11')
           .map((item) => item?.nonOCDS?.options)?.[0]
           ?.find((i) => i?.value)?.value;
-        // console.log("asss",new Date(expected_signature_dateGet));
 
         expected_signature_date =
           expected_signature_dateGet != undefined ? new Date(expected_signature_dateGet) : expected_signature_date;
@@ -573,8 +650,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         //   proposed_award_date = proposed_award_dateGet!=undefined?new Date(proposed_award_dateGet):proposed_award_date;
 
         //   let expected_signature_dateGet = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 11").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-        // // console.log("asss",new Date(expected_signature_dateGet));
-
+        
         //   expected_signature_date = expected_signature_dateGet!=undefined?new Date(expected_signature_dateGet):expected_signature_date;
         // //  expected_signature_date=new Date(expected_signature_dateNew);
 
@@ -617,6 +693,26 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         forceChangeDataJson = cmsData;
       }
+      
+    
+    // StandstilSupplierPresentation - Start (override)
+    // fetchQuestionsData.forEach((el) => {
+    //   if(el.OCDS.id == 'Question 7') {
+    //         let dataManipulation = el.nonOCDS;
+    //         dataManipulation.timelineDependency = {"OCDS":{"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
+    //     }
+    //     if(el.OCDS.id == 'Question 8') {
+    //         let dataManipulation = el.nonOCDS;
+    //         dataManipulation.timelineDependency = {"OCDS":{"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
+    //     }
+    // });
+      // StandstilSupplierPresentation - End (override)
+     let timlineSession=''
+     if(req.session.timlineSession){
+      timlineSession=req.session.timlineSession;
+      }
+  // requirement.nonOCDS.timelineDependency.nonOCDS
+
       let appendData = {
         data: forceChangeDataJson,
         lotId: lotid,
@@ -668,8 +764,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
-      };
+        getEventType,
+        timlineSession:timlineSession
 
+      };
+      
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
       } else {
@@ -751,7 +850,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             ? moment(supplier_start_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, HH:mm')
             : null;
       }
-
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
       //CAS-32
@@ -772,12 +870,101 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           `Question 12*${appendData.contract_signed_date}`,
           `Question 13*${appendData.supplier_start_date}`
         );
+        
+        const isTimeDeps = await TIMELINEDEPENDENCYHELPER(req, res);
+        if(isTimeDeps != null) {
+          if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+            //Only for MCF3 FC & GC13 FC
+            arrOfCurrentTimeline.splice(6, 1); 
+            arrOfCurrentTimeline.splice(6, 1); 
+            const radionArrayOption = [{value: "Yes",selected: false},{value: "No", selected: true}];
+            ['Question 7', 'Question 8'].map(async (b) => {
+              let answerBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{"text": b,"value": "","selected": true}],
+                  timelineDependency:{
+                    nonOCDS:{
+                      answered: true,
+                      options: radionArrayOption,
+                    }
+                  }
+                }};
+                const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${b}`;
+                await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+            });
+            let q6_val = arrOfCurrentTimeline.filter((item) => item.split('*')[0] == 'Question 6')[0].split('*')[1];
+            //Pre condition
+            let commonForQ9, commonForQ10, commonForQ11, commonForHQ9, commonForMQ9;
+            if(agreementId_session == 'RM6187') { //MCF3 FC
+              // Hours & Mints
+              commonForHQ9 = MCF3_Days.defaultEndingHour;
+              commonForMQ9 = MCF3_Days.defaultEndingMinutes;
 
+              //Days
+              commonForQ9 = MCF3_Days.supplier_award_date;
+              commonForQ10 = MCF3_Days.supplier_award_date;
+              commonForQ11 = MCF3_Days.supplier_persentation
+            }
+            if(agreementId_session == 'RM1557.13') { //MCF3 FC
+              // Hours & Mints
+              commonForHQ9 = MCF3_Days.defaultEndingHour;
+              commonForMQ9 = MCF3_Days.defaultEndingMinutes;
+
+              //Days
+              commonForQ9 = MCF3_Days.supplier_award_date;
+              commonForQ10 = MCF3_Days.supplier_award_date;
+              commonForQ11 = MCF3_Days.supplier_persentation
+            }
+
+            let Q9, Q10, Q11, Q9_after, Q10_after, Q11_after;
+
+            let pre_Q6 = q6_val;
+            let Q6 = new Date(pre_Q6);
+
+            //Q9
+            const Q9_Parsed = `${Q6.getDate()}-${
+              Q6.getMonth() + 1
+            }-${Q6.getFullYear()}`;
+            const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ9)._d;
+            Q9_B_add.setHours(commonForHQ9);
+            Q9_B_add.setMinutes(commonForMQ9);
+            Q9 = Q9_B_add;
+
+            //Q10
+            const Q10_Parsed = `${Q9.getDate()}-${
+              Q9.getMonth() + 1
+            }-${Q9.getFullYear()}`;
+            const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ10)._d;
+            Q10_B_add.setHours(commonForHQ9);
+            Q10_B_add.setMinutes(commonForMQ9);
+            Q10 = Q10_B_add;
+
+            //Q11
+            const Q11_Parsed = `${Q10.getDate()}-${
+              Q10.getMonth() + 1
+            }-${Q10.getFullYear()}`;
+            const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(commonForQ11)._d;
+            Q11_B_add.setHours(commonForHQ9);
+            Q11_B_add.setMinutes(commonForMQ9);
+            Q11 = Q11_B_add;
+
+            Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+            Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+            Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+            arrOfCurrentTimeline[6] = `Question 9*${Q9_after}`;	//Q9
+            arrOfCurrentTimeline[7] = `Question 10*${Q10_after}`;	//Q10
+            arrOfCurrentTimeline[8] = `Question 11*${Q11_after}`;	//Q11
+          }
+        }
+        
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
         res.render('rfp-responsedate.njk', appendData);
       }
+      
     } else if (req.session.questionID == 'Question 2') {
       rfp_clarification_date = req.session.rfppublishdate;
       //  rfp_clarification_date =moment(req.session.rfppublishdate,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY');
@@ -878,8 +1065,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         supplier_period_for_clarification_period,
         supplier_dealine_for_clarification_period,
         deadline_for_submission_of_stage_one,
-        evaluation_process_start_date,
-        bidder_presentations_date,
+        evaluation_process_start_date,  //Q7-MCF3
+        bidder_presentations_date,  //Q8-MCF3
         standstill_period_starts_date,
         proposed_award_date,
         expected_signature_date,
@@ -1592,6 +1779,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       } else {
         forceChangeDataJson = cmsData;
       }
+
+     
       let appendData = {
         data: forceChangeDataJson,
         lotid: lotid,
@@ -1679,7 +1868,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           // fetchQuestionsData[i].nonOCDS.options[0].value = moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
         }
       }
-
+      fetchQuestionsData.forEach((el) => {
+        if(el.OCDS.id == 'Question 7') {
+              let dataManipulation = el.nonOCDS;
+              dataManipulation.timeline_dependency = {"OCDS":{"title":"Do you want supplier presentations?","description":"Selecting ‘Yes’ will add a 5-day presentation period to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 7","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
+          }
+          if(el.OCDS.id == 'Question 8') {
+              let dataManipulation = el.nonOCDS;
+              dataManipulation.timeline_dependency = {"OCDS":{"title":"Do you want a standstill?","description":"Selecting ‘Yes’ will add a 10-day standstill to your timeline"},"nonOCDS":{"conditional":{"dependentOnID":"Question 8","dependencyType":"EqualTo","dependencyValue":"Yes"},"options":[{"value":"Yes","text":"","select":false},{"value":"No","text":"","select":false}],"answered":false}};
+          }
+      });
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -2215,7 +2413,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.setYourTimeLinePage, req);
-
       res.render('rfp-responsedate.njk', appendData);
     }
   } catch (error) {
@@ -2286,24 +2483,26 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
       const group_id = 'Key Dates';
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter((question) => question.Question === question_id);
-      const findFilterValues = findFilterQuestion[0].value;
-      const filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-      const answerformater = {
-        value: filtervalues,
-        selected: true,
-        text: answers,
-      };
-      const answerBody = {
-        nonOCDS: {
-          answered: true,
-          options: [answerformater],
-        },
-      };
-      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-      const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-      lastCount++;
-      if (lastCount == allunfilledAnswer.length) {
-        req.session.isTimelineRevert = false;
+      if(findFilterQuestion.length !== 0) {
+        const findFilterValues = findFilterQuestion[0].value;
+        const filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+        const answerformater = {
+          value: filtervalues,
+          selected: true,
+          text: answers,
+        };
+        const answerBody = {
+          nonOCDS: {
+            answered: true,
+            options: [answerformater],
+          },
+        };
+        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+        const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+        lastCount++;
+        if (lastCount == allunfilledAnswer.length) {
+          req.session.isTimelineRevert = false;
+        }
       }
     }
     req.session.isTimelineRevert = false;
@@ -2319,3 +2518,58 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
     );
   }
 };
+
+export const TIMELINEDEPENDENCYHELPER = async (req: express.Request, res: express.Response) => {
+  //Initial
+  let dataReturn = null;
+  const { SESSION_ID } = req.cookies;
+  const proc_id = req.session['projectId'];
+  const event_id = req.session['eventId'];
+  const agreementId_session = req.session.agreement_id;
+
+  //Current active event ID
+  const eventTypeURL = `tenders/projects/${proc_id}/events`;
+  let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+  getEventType = getEventType.data.filter((x) => x.id == event_id)[0]?.eventType;
+
+  let rspbaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  rspbaseURL = rspbaseURL + '/criteria';
+  const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(rspbaseURL);
+  const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+  const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
+  let criterianStorage = [];
+  for (const aURI of extracted_criterion_based) {
+    const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+    const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+    const criterian_array = fetch_criterian_group_data?.data;
+    const rebased_object_with_requirements = criterian_array?.map((anItem) => {
+      const object = anItem;
+      object['criterianId'] = aURI;
+      return object;
+    });
+    criterianStorage.push(rebased_object_with_requirements);
+  }
+  const keyDateselector = 'Key Dates';
+  criterianStorage = criterianStorage?.flat();
+  criterianStorage = criterianStorage?.filter((AField) => AField?.OCDS?.id === keyDateselector);
+
+  const Criterian_ID = criterianStorage?.[0]?.criterianId;
+  const prompt = criterianStorage?.[0]?.nonOCDS?.prompt;
+  const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+  const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+  const fetchQuestionsData = fetchQuestions?.data;
+  
+  let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+  let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+  if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+    //Only for MCF3 FC & GC13 FC
+    if(preCheckQuestion8.length > 0) {
+      dataReturn = {};
+      dataReturn.Q7 = fetchQuestionsData
+      ?.filter((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined)[0]?.nonOCDS?.timelineDependency?.nonOCDS?.options.filter((ab) => ab.selected === true)[0];
+      dataReturn.Q8 = fetchQuestionsData
+      ?.filter((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined)[0]?.nonOCDS?.timelineDependency?.nonOCDS?.options.filter((ab) => ab.selected === true)[0];
+    }
+  }
+  return dataReturn;
+}
