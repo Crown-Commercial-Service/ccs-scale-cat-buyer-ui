@@ -567,7 +567,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const startDate1 = startDate.split('/');
         const endDate1 = endDate.split('/');
         const currentDate1 = currentDate.split('/');
-
+       
         const fromDate = new Date(
           startDate1[2],
           parseInt(startDate1[1]) - 1,
@@ -582,9 +582,22 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           currentDate1[3],
           currentDate1[4]
         );
-        const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
 
-        if (checkDate > fromDate) {
+        const fromDateNew = new Date(
+          startDate1[2],
+          parseInt(startDate1[1]) - 1,
+          startDate1[0],
+        );
+        const checkDateNew = new Date(
+          currentDate1[2],
+          parseInt(currentDate1[1]) - 1,
+          currentDate1[0],
+        );
+
+        const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
+          console.log("checkDate",checkDateNew)
+          console.log("fromDate",fromDateNew)
+        if (checkDateNew >= fromDateNew) {
           awardOption = 'true';
         }
       }
