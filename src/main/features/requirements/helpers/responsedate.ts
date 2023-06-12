@@ -285,8 +285,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         }
 
       }else{
-
-        if(!isEdit) {
+        const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === 'Question 8');
+        const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+        if(!isEdit && findFilterQuestioncheck.length > 0) {
           
           //  First time logic
           // bidder_presentations_date = evaluation_process_start_date;//test timeline
@@ -350,14 +351,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       //////////////////////////////////////11
         let elevenQ;
       if(req.session.agreement_id=='RM1043.8'){
-        if(!isEdit) {
+        const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === 'Question 10');
+        const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
+        if(!isEdit && findFilterQuestioncheck.length > 0) {
           //  First time logic
           // proposed_award_date =standstill_period_starts_date;//test timeline
           elevenQ = standstill_period_starts_date;
         } else {
          
           //  Edit Logic
-          elevenQ = standstill_period_starts_date;
+          elevenQ = proposed_award_date;
         }
 
       }else{
@@ -2416,6 +2419,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       res.render('rfp-responsedate.njk', appendData);
     }
   } catch (error) {
+    console.log('error',error)
     LoggTracer.errorLogger(
       res,
       error,

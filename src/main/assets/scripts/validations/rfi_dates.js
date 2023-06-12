@@ -323,12 +323,12 @@ if(arr!=undefined){
                         year.addClass("govuk-input--error")
                         let errorStore;
                         
-                        if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !=''){
-                         
+
+                        if(agreementId == 'RM1043.8'){
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
                         }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
+                             ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
 							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]]
                         }
             
