@@ -9,7 +9,7 @@ before_install:
 
 before_script:
   - echo "Check that the code will transpile"
-  - npm run type-check
+  - npm run type-check  # NPM RUN LINT REMOVED
 
 script:
   - echo "Run full npm test when tests have been fixed"
