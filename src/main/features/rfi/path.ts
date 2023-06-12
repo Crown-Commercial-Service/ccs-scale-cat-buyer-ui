@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import { RFI_PATHS } from './model/rficonstant';
 import { associatedViews } from './controller/index';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
 

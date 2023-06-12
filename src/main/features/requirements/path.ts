@@ -3,7 +3,7 @@ import { REQUIREMENT_CONTROLLER } from './controller/index';
 import { REQUIREMENT_PATHS } from './model/requirementConstants';
 import { Application } from 'express';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 //import * as express from 'express';
 
 export default function (app: Application): void {
