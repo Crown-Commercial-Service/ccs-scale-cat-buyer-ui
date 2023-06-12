@@ -613,6 +613,8 @@
                       <p>
                         {% if (deadline_period_for_clarification_period != undefined and deadline_period_for_clarification_period != null and deadline_period_for_clarification_period != '') %}
                           {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                        {% else %}
+                          Not specified
                         {% endif %}
                       </p>
                     </dd>
@@ -642,6 +644,8 @@
                       <p>
                         {% if supplier_dealine_for_clarification_period != undefined and supplier_dealine_for_clarification_period != null and supplier_dealine_for_clarification_period != '' %}
                           {{ supplier_dealine_for_clarification_period | dateddmmyyyy }}
+                        {% else %}
+                          Not specified
                         {% endif %}
                       </p>
                     </dd>
