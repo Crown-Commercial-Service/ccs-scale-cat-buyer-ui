@@ -3220,11 +3220,11 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
      
     // StandstilSupplierPresentation Review Page - Start  
     let fcQ7 = true, fcQ8 = true;
-    let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
-    let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+    const preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+    const preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
     if(preCheckQuestion7.length > 0) {
       fcQ7 = fetchQuestionsData
-      ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
+        ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
     }
     if(preCheckQuestion8.length > 0) {
       fcQ8 = fetchQuestionsData
@@ -4204,15 +4204,15 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
 
     // StandstilSupplierPresentation Review Page - Start  
     let fcQ7 = true, fcQ8 = true;
-    let preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
-    let preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+    const preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+    const preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
     if(preCheckQuestion7.length > 0) {
       fcQ7 = fetchQuestionsData
         ?.some((item) => item?.OCDS?.id == 'Question 7'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
     }
     if(preCheckQuestion8.length > 0) {
       fcQ8 = fetchQuestionsData
-      ?.some((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
+        ?.some((item) => item?.OCDS?.id == 'Question 8'  && item?.nonOCDS?.timelineDependency != undefined && item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)?.value === 'Yes');
     }
     // StandstilSupplierPresentation Review Page - Start
 
