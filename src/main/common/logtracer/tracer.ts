@@ -40,8 +40,8 @@ export class LoggTracer {
       duration: dataSet?.duration != undefined ? dataSet?.duration : null,
       time: new Date(),
     };
-    if(process.env.LOGIT_API_KEY != "") {
-    await LoggerInstance.Instance.post('', LogMessage); }
+    if(process.env.LOGIT_API_KEY != '') {
+      await LoggerInstance.Instance.post('', LogMessage); }
   };
 
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
@@ -87,8 +87,8 @@ export class LoggTracer {
       //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
       // }
     };
-    if(process.env.LOGIT_API_KEY != "") {
-    await LoggerInstance.Instance.post('', LogMessage); }
+    if(process.env.LOGIT_API_KEY != '') {
+      await LoggerInstance.Instance.post('', LogMessage); }
 
     if (!isNaN(errorLog.statusCode) && errorLog.statusCode == 401) {
       res.clearCookie(cookies.sessionID);
@@ -145,8 +145,8 @@ export class LoggTracer {
       //   AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog
       // }
     };
-    if(process.env.LOGIT_API_KEY != "") {
-    await LoggerInstance.Instance.post('', LogMessage); }
+    if(process.env.LOGIT_API_KEY != '') {
+      await LoggerInstance.Instance.post('', LogMessage); }
   };
 
   static errorLogger = async (

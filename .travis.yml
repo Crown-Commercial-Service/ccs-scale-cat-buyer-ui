@@ -9,11 +9,11 @@ before_install:
 
 before_script:
   - echo "Check that the code will transpile"
-  - npm run type-check  # NPM RUN LINT REMOVED
+  - npm run type-check
 
 script:
   - echo "Run full npm test when tests have been fixed"
-  - npm run test:unit
+  - npm run lint && npm run test:unit
 
 after_success:
   - echo "Determine deployment environment"
