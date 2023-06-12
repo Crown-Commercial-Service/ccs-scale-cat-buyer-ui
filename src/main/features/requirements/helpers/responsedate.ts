@@ -869,9 +869,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           `Question 12*${appendData.contract_signed_date}`,
           `Question 13*${appendData.supplier_start_date}`
         );
-        // console.log(arrOfCurrentTimeline);
+        
         const isTimeDeps = await TIMELINEDEPENDENCYHELPER(req, res);
-        // console.log(`*************** isTimeDeps: ${isTimeDeps}`);
         if(isTimeDeps != null) {
           if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
             //Only for MCF3 FC & GC13 FC
@@ -1030,14 +1029,77 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             }
             if(stage2_value == 'Stage 2') {
               //Stage 2
-              // console.log(arrOfCurrentTimeline);
+              arrOfCurrentTimeline.splice(2, 1);
+              arrOfCurrentTimeline.splice(3, 1);
+              const radionArrayOption = [{value: 'Yes',selected: false},{value: 'No', selected: true}];
+              ['Question 3', 'Question 5'].map(async (b) => {
+                const answerBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [{'text': b,'value': '','selected': true}],
+                    timelineDependency:{
+                      nonOCDS:{
+                        answered: true,
+                        options: radionArrayOption,
+                      }
+                    }
+                  }};
+                const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions/${b}`;
+                await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+              });
+              const q2_val = arrOfCurrentTimeline.filter((item) => item.split('*')[0] == 'Question 2')[0].split('*')[1];
+              //Pre condition
+              const pre_Q2 = q2_val;
+              const Q2 = new Date(pre_Q2);
+
+              //Q4
+              const Q4_Parsed = `${Q2.getDate()}-${
+                Q2.getMonth() + 1
+              }-${Q2.getFullYear()}`;
+              const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+              Q4_B_add.setHours(DOS_Days.defaultEndingHour);
+              Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+              const Q4 = Q4_B_add;
+
+              //Q6
+              const Q6_Parsed = `${Q4.getDate()}-${
+                Q4.getMonth() + 1
+              }-${Q4.getFullYear()}`;
+              const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              Q6_B_add.setHours(DOS_Days.defaultEndingHour);
+              Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+              const Q6 = Q6_B_add;
+
+              //Q7
+              const Q7_Parsed = `${Q6.getDate()}-${
+                Q6.getMonth() + 1
+              }-${Q6.getFullYear()}`;
+              const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+              Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+              const Q7 = Q7_B_add;
+
+              //Q8
+              const Q8_Parsed = `${Q7.getDate()}-${
+                Q7.getMonth() + 1
+              }-${Q7.getFullYear()}`;
+              const Q8_B_add = moment(Q8_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+              Q8_B_add.setHours(DOS_Days.defaultEndingHour);
+              Q8_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+              const Q8 = Q8_B_add;
+
+              const Q4_after = moment(Q4, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+              const Q6_after = moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+              const Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+              const Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+              arrOfCurrentTimeline[2] = `Question 4*${Q4_after}`;	//Q4
+              arrOfCurrentTimeline[3] = `Question 6*${Q6_after}`;	//Q6
+              arrOfCurrentTimeline[4] = `Question 7*${Q7_after}`;	//Q7
+              arrOfCurrentTimeline[5] = `Question 8*${Q8_after}`;	//Q8
             }
           }
         }
-        // res.write("Temp");
-        // res.end();
-        // console.log('******************** pre');
-        // console.log(arrOfCurrentTimeline);
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
