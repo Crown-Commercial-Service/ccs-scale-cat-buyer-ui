@@ -1183,7 +1183,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     Q9_B_add.setHours(DOS_Days.defaultEndingHour);
     Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
     const Q9 = Q9_B_add;
-
+    
     let Q10, Q10_after, Q10_check;
     if (manipulation.Q10.selected) {
       const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1
