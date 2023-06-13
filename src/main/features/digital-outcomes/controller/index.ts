@@ -1,0 +1,15 @@
+import { GET_OPPORTUNITIES,GET_OPPORTUNITIES_DETAILS } from './opportunities';
+
+export const DIGITALOUTCOMES_CONTROLLER = {
+  /**
+   * @GET_VIEW
+   */
+  GET_OPPORTUNITIES,
+  GET_OPPORTUNITIES_DETAILS
+
+  /**
+   * @POST_VIEW
+   */
+  // POST_FILTER,
+  
+};
