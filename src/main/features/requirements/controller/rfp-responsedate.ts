@@ -121,6 +121,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -1019,7 +1020,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const manipulation = req.body.manipulation;
   const { SESSION_ID } = req.cookies;
   const stage2_value = req.session.stage2_value;
-  console.log("stage2_value",stage2_value);
 
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
@@ -1047,7 +1047,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
   if (tl_aggrementID == 'RM6187' || tl_aggrementID == 'RM1557.13') {
 
-    //console.log("manipulation",manipulation);
     //Q6
     const pre_Q6 = manipulation.Q6.value;
     const Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
@@ -1155,9 +1154,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   } else {
     //DOS
     const manipulation = req.body.manipulation;
-  console.log("stage2_value",stage2_value);
     if(stage2_value=="Stage 2"){
-      console.log("stage2222")
       const pre_Q2 = manipulation.Q2.value;
 
       
@@ -1176,7 +1173,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       };
 
       const Q2 = new Date(pre_Q2);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-      console.log("Q3",DOS_Days.clarification_period_end,Q2);
 
       let Q3, Q3_after, Q3_check;
       if (manipulation.Q3.selected) {
@@ -1193,7 +1189,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q3_check = undefined;
       }
       
-      console.log("Q4",DOS_Days.supplier_period);
        //Q4
     const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1
     }-${Q3.getFullYear()}`;
@@ -1202,7 +1197,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
     const Q4 = Q4_B_add;
    
-    console.log("Q5",DOS_Days.supplier_deadline);
     let Q5, Q5_after, Q5_check;
     if (manipulation.Q5.selected) {
       const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1
@@ -1218,7 +1212,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q5_check = undefined;
     }
 
-    console.log("Q6",DOS_Days.supplier_period_extra);
       //Q6
       const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1
       }-${Q5.getFullYear()}`;
@@ -1227,7 +1220,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q6 = Q6_B_add;
 
-      console.log("Q7",DOS_Days.closing_date);
        //Q7
        const Q7_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1
        }-${Q6.getFullYear()}`;
@@ -1236,7 +1228,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
        const Q7 = Q7_B_add;
        
-       console.log("Q8",DOS_Days.supplier_deadline);
          //Q8
          const Q8_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1
          }-${Q7.getFullYear()}`;
@@ -1274,8 +1265,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           { question: 'Q8', value: `Question 8*${Q8_after}`, order: 7, input_hidden: 'timedate8', label: 'clarification_8' },
     
         ];
-
-        console.log("resData",resData);
         
         apiData = {
           3: { question: 'Q3', value: `${Q3_after}`, order: 1, qusId: 3, config: manipulation.Q3.config },
@@ -1288,13 +1277,9 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     }else{
 
-      console.log("stage11")
     //Q7
-
     const pre_Q7 = manipulation.Q7.value;
-
     const Q7 = new Date(pre_Q7);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-
     let Q8, Q8_after, Q8_check;
 
     if (manipulation.Q8.selected) {
@@ -1417,11 +1402,9 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   criterianStorage = criterianStorage.filter((AField) => AField.OCDS.id === keyDateselector);
   const Criterian_ID = criterianStorage[0].criterianId;
   const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
-  //console.log("apiData_baseURL",apiData_baseURL)
   const fetchQuestionsQus = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
   const fetchQuestionsQusData = fetchQuestionsQus.data;
   for (const answersQus of fetchQuestionsQusData) {
-    //    console.log("IDD",answersQus.OCDS.id);
     const proc_id = req.session.projectId;
     const event_id = req.session.eventId;
     const id = Criterian_ID;
@@ -1487,9 +1470,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURL",answerBaseURL);
-          console.log("answerBody",JSON.stringify(answerBody));
-          //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
 
       } else {
@@ -1502,9 +1483,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           };
 
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURLELSE",answerBaseURL);
-          console.log("answerBodyElse",JSON.stringify(answerBody));
-          //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       }
     }
