@@ -322,7 +322,7 @@
                                                     <p>If you do not require a standstill, change this date to be the same as the date in point 9 below.</p> #}
                                                 {% endif %}
                                                 {% if (agreementId_session == 'RM1043.8') %}
-                                                    <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                                    {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
                                                 {% endif %}
                                                 <strong id="bidder_presentations_date" class="clarification_8 dynamicid_{{ loop.index }}">{{ bidder_presentations_date }}</strong>
                                             </label>
@@ -333,8 +333,8 @@
                                         {% elif(requirement.OCDS.id == "Question 10") %}
                                             <label class="govuk-label govuk-body">
                                                 {% if (agreementId_session == 'RM1043.8') %}
-                                                    <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
-                                                        require a standstill, change this date to be the same as the date in point 11 below.</p>
+                                                    {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
+                                                        require a standstill, change this date to be the same as the date in point 11 below.</p> #}
                                                 {% endif %}
                                                 <strong id="proposed_award_date" class="clarification_10 dynamicid_{{ loop.index }}">{{ proposed_award_date }}</strong>
                                             </label>
