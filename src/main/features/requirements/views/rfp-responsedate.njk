@@ -149,7 +149,7 @@
                                 <p>A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p>
                                 <div class="govuk-inset-text">
                                     <p class="govuk-body">
-                                        <strong>You can change the length of time for each section to more suitable times for you. It is recommended that you set your times no later than 4pm on a weekday in case you need to contact CCS about your project.</stong>
+                                        <strong>You can change the length of time for each section to more suitable times for you. It is recommended that you set your times no later than 4pm on a weekday in case you need to contact CCS about your project.Your stage 1 choices for including supplier presentations and a standstill period are reflected here. You can change them as needed.</stong>
                                     </p>
                                 </div>
                             {%endif%}
@@ -270,19 +270,19 @@
                                     {% if(requirement.nonOCDS.options[0].selected) %}
                                         <label class="govuk-label govuk-body">
                                             {% if ((agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') and requirement.OCDS.id == "Question 8") %}
-                                                <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
-                                                    require a standstill, change this date to be the same as the date in point 9 below.</p>
+                                                {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
+                                                    require a standstill, change this date to be the same as the date in point 9 below.</p> #}
                                             {% endif %}
                                             {% if(requirement.OCDS.id == "Question 7" and agreementId_session == 'RM1557.13') %}
                                                 <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p>
                                             {% endif %}
                                             {% if (agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 5" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 10" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
-                                                <p>
+                                                {# <p>
                                                     A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not require
-                                                    a standstill, change this date to be the same as the date in point 11 below.</p>
+                                                    a standstill, change this date to be the same as the date in point 11 below.</p> #}
                                             {% endif %}
                                             {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 3" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 8" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
-                                                <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
+                                                {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
                                             {% endif %}
                                             <strong id="lbl-clarification" class="clarification_{{requirement.nonOCDS.order}} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong>
                                         </label>
@@ -318,8 +318,8 @@
                                         {% elif(requirement.OCDS.id == "Question 8") %}
                                             <label class="govuk-label govuk-body">
                                                 {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
-                                                    <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision.</p>
-                                                    <p>If you do not require a standstill, change this date to be the same as the date in point 9 below.</p>
+                                                    {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision.</p>
+                                                    <p>If you do not require a standstill, change this date to be the same as the date in point 9 below.</p> #}
                                                 {% endif %}
                                                 {% if (agreementId_session == 'RM1043.8') %}
                                                     <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p>
