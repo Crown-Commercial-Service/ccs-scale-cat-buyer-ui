@@ -1467,6 +1467,5 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
 
   res.json(resData);
-  }
-};
+  };
 // StandstilSupplierPresentation - End
