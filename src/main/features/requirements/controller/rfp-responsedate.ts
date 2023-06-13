@@ -120,7 +120,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-      
+
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -1485,4 +1485,5 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
   res.json(resData);
 };
+
 // StandstilSupplierPresentation - End
