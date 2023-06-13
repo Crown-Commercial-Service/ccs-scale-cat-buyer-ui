@@ -145,8 +145,8 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
     // let lot_id = lotid;
     res.locals.agreement_header = {
       agreementName,
-      projectName:project_name,
-      agreementIdSession:agreementId_session,
+      projectName: project_name,
+      agreementIdSession: agreementId_session,
       agreementLotName,
       lotid,
       eventId,

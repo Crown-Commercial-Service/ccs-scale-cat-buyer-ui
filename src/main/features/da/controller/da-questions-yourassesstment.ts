@@ -242,7 +242,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    
+
     const { rfp_build_started } = req.body;
     let { question_id } = req.body;
 

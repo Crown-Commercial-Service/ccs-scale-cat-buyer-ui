@@ -385,16 +385,13 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/da/add/response-date"
 export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  const {
-    clarification_date_hourFormat,
-    selected_question_id,
-  } = req.body;
+  const { clarification_date_hourFormat, selected_question_id } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute
+    clarification_date_minute,
   } = req.body;
   const { timeline, agreement_id } = req.session;
   clarification_date_day = Number(clarification_date_day);
