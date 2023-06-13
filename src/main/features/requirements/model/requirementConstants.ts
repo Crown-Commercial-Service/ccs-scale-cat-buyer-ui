@@ -198,7 +198,7 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
 
-  DA_GET_WHERE_WORK_DONE = '/da/where-work-done',
+  DA_GET_WHERE_WORK_DONE = '/da/where-work-done', 
   DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
 
   // StandstilSupplierPresentation - Start
