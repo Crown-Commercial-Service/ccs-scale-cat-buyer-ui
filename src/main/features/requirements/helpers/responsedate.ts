@@ -861,8 +861,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         );
 
         const isTimeDeps = await TIMELINEDEPENDENCYHELPER(req, res);
-        if (isTimeDeps != null) {
-          if ((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+        if(isTimeDeps != null) {
+          if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
             //Only for MCF3 FC & GC13 FC
             arrOfCurrentTimeline.splice(6, 1);
             arrOfCurrentTimeline.splice(6, 1);
@@ -940,11 +940,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             const Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
             const Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
 
-            arrOfCurrentTimeline[6] = `Question 9*${Q9_after}`; //Q9
-            arrOfCurrentTimeline[7] = `Question 10*${Q10_after}`; //Q10
-            arrOfCurrentTimeline[8] = `Question 11*${Q11_after}`; //Q11
-          } else if (agreementId_session == 'RM1043.8' && getEventType == 'FC') {
-            if (stage2_value == 'Stage 1') {
+            arrOfCurrentTimeline[6] = `Question 9*${Q9_after}`;	//Q9
+            arrOfCurrentTimeline[7] = `Question 10*${Q10_after}`;	//Q10
+            arrOfCurrentTimeline[8] = `Question 11*${Q11_after}`;	//Q11
+          } else if(agreementId_session == 'RM1043.8' && getEventType == 'FC') {
+            
+            if(stage2_value == 'Stage 1') {
+
               //Stage 1
               arrOfCurrentTimeline.splice(7, 1);
               arrOfCurrentTimeline.splice(8, 1);
@@ -1020,12 +1022,19 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
                 { value: 'No', selected: true },
               ];
               ['Question 3', 'Question 5'].map(async (b) => {
+                let bData;
+                if(b == 'Question 3') {
+                  bData = 'Question 8';
+                }
+                if(b == 'Question 5') {
+                  bData = 'Question 10';
+                }
                 const answerBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ text: b, value: '', selected: true }],
-                    timelineDependency: {
-                      nonOCDS: {
+                    options: [{'text': bData,'value': '','selected': true}],
+                    timelineDependency:{
+                      nonOCDS:{
                         answered: true,
                         options: radionArrayOption,
                       },
@@ -1080,6 +1089,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             }
           }
         }
+        
         await timelineForcePostForPublish(req, res, arrOfCurrentTimeline);
         res.redirect('/rfp/response-date');
       } else {
@@ -2635,7 +2645,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
         const answerformater = {
           value: filtervalues,
           selected: true,
-          text: answers,
+          text: (stage2_value == 'Stage 2') ? `Question ${parseInt(answers.split(" ")[1]) + 5}` : answers,
         };
         const answerBody = {
           nonOCDS: {
@@ -2716,13 +2726,10 @@ export const TIMELINEDEPENDENCYHELPER = async (req: express.Request, res: expres
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions?.data;
 
-    const preCheckQuestion7 = fetchQuestionsData?.filter(
-      (item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined
-    );
-    const preCheckQuestion8 = fetchQuestionsData?.filter(
-      (item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined
-    );
-    if ((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+    const preCheckQuestion7 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined);
+    const preCheckQuestion8 = fetchQuestionsData?.filter((item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined);
+    if((agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') && getEventType == 'FC') {
+
       //Only for MCF3 FC & GC13 FC
       if (preCheckQuestion8.length > 0) {
         dataReturn = {};
