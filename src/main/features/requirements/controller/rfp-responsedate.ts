@@ -26,7 +26,7 @@ const momentCssHolidays = async () => {
 
   moment.updateLocale('en', {
     holidays: holiDaysArr,
-    holidayFormat: 'DD-MM-YYYY'
+    holidayFormat: 'DD-MM-YYYY',
   });
 };
 
@@ -34,7 +34,6 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const { SESSION_ID } = req.cookies;
   const { eventId, stage2_value } = req.session;
   const agreement_id = req.session.agreement_id;
-
 
   if (agreement_id == 'RM1043.8') {
     if (stage2_value !== undefined && stage2_value === 'Stage 2') {
@@ -121,6 +120,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       };
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       const timeLineRaw = await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+      
       //CAS-INFO-LOG
       LoggTracer.infoLogger(timeLineRaw, logConstant.setYourTimeLineUpdated, req);
     }
@@ -313,11 +313,9 @@ function isValidQuestion(
     let nextDateVal6;
     if (selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false) {
       nextDateVal6 = timeline.standstillPeriodStartsDate;
-    }
-    else if (selectedOptionList?.Q7?.selected == false) {
+    } else if (selectedOptionList?.Q7?.selected == false) {
       nextDateVal6 = timeline.bidderPresentationsDate;
-    }
-    else {
+    } else {
       nextDateVal6 = timeline.evaluationProcessStartDate;
     }
 
@@ -333,7 +331,6 @@ function isValidQuestion(
     break;
   }
   case 'Question 7':
-
     if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -348,8 +345,7 @@ function isValidQuestion(
     let previousDateVal7;
     if (selectedOptionList?.Q7?.selected == false) {
       previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
-    }
-    else {
+    } else {
       previousDateVal7 = timeline.evaluationProcessStartDate;
     }
     if (questionNewDate < new Date(previousDateVal7)) {
@@ -371,11 +367,9 @@ function isValidQuestion(
     let previousDateVal;
     if (selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false) {
       previousDateVal = timeline.deadlineForSubmissionOfStageOne;
-    }
-    else if (selectedOptionList?.Q8?.selected == false) {
+    } else if (selectedOptionList?.Q8?.selected == false) {
       previousDateVal = timeline.evaluationProcessStartDate;
-    }
-    else {
+    } else {
       previousDateVal = timeline.bidderPresentationsDate;
     }
 
@@ -459,17 +453,13 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  const {
-    clarification_date_hourFormat,
-    selected_question_id,
-    selected_question_index,
-  } = req.body;
+  const { clarification_date_hourFormat, selected_question_id, selected_question_index } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute
+    clarification_date_minute,
   } = req.body;
 
   const { timeline, agreement_id, timlineSession } = req.session;
@@ -538,7 +528,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       clarification_date_minute
     );
     const nowDate = new Date();
-    //add timeline 
+    //add timeline
     try {
       const { SESSION_ID } = req.cookies;
       const proc_id = req.session.projectId;
@@ -822,7 +812,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
           },
         };
 
-
         // try {
         // const proc_id = req.session.projectId;
         // const event_id = req.session.eventId;
@@ -871,7 +860,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         //   LoggTracer.errorTracer(Log, res);
         // }
       } else {
-
         const selectedErrorCause = selected_question_id; //Question 2
         let selector = '';
         let selectorID = '';
@@ -974,7 +962,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       LoggTracer.errorTracer(Log, res);
     }
   }
-
 };
 
 // StandstilSupplierPresentation - Start
@@ -989,7 +976,7 @@ const MCF3_Days = {
   supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
   supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
-  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional')),
 };
 
 const DOS_Days = {
@@ -1003,7 +990,6 @@ const DOS_Days = {
   supplier_period_extra: Number(config.get('predefinedDays.dos_supplier_period_extra')),
   supplier_deadline_extra: Number(config.get('predefinedDays.dos_supplier_deadline_extra')),
   stand_stils_date: Number(config.get('predefinedDays.dos_stand_stils_date')),
-
 };
 export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: express.Response) => {
   await momentCssHolidays();
@@ -1018,7 +1004,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const manipulation = req.body.manipulation;
   const { SESSION_ID } = req.cookies;
   const stage2_value = req.session.stage2_value;
-  console.log("stage2_value",stage2_value);
 
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
@@ -1461,8 +1446,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURL",answerBaseURL);
-          console.log("answerBody",JSON.stringify(answerBody));
           await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
 
@@ -1476,8 +1459,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           };
 
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURLELSE",answerBaseURL);
-          console.log("answerBodyElse",JSON.stringify(answerBody));
           await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       }
