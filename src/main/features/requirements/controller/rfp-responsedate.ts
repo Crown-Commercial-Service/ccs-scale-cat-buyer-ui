@@ -26,7 +26,7 @@ const momentCssHolidays = async () => {
 
   moment.updateLocale('en', {
     holidays: holiDaysArr,
-    holidayFormat: 'DD-MM-YYYY'
+    holidayFormat: 'DD-MM-YYYY',
   });
 };
 
@@ -34,7 +34,6 @@ export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.R
   const { SESSION_ID } = req.cookies;
   const { eventId, stage2_value } = req.session;
   const agreement_id = req.session.agreement_id;
-
 
   if (agreement_id == 'RM1043.8') {
     if (stage2_value !== undefined && stage2_value === 'Stage 2') {
@@ -313,11 +312,9 @@ function isValidQuestion(
     let nextDateVal6;
     if (selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false) {
       nextDateVal6 = timeline.standstillPeriodStartsDate;
-    }
-    else if (selectedOptionList?.Q7?.selected == false) {
+    } else if (selectedOptionList?.Q7?.selected == false) {
       nextDateVal6 = timeline.bidderPresentationsDate;
-    }
-    else {
+    } else {
       nextDateVal6 = timeline.evaluationProcessStartDate;
     }
 
@@ -333,7 +330,6 @@ function isValidQuestion(
     break;
   }
   case 'Question 7':
-
     if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -348,8 +344,7 @@ function isValidQuestion(
     let previousDateVal7;
     if (selectedOptionList?.Q7?.selected == false) {
       previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
-    }
-    else {
+    } else {
       previousDateVal7 = timeline.evaluationProcessStartDate;
     }
     if (questionNewDate < new Date(previousDateVal7)) {
@@ -371,11 +366,9 @@ function isValidQuestion(
     let previousDateVal;
     if (selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false) {
       previousDateVal = timeline.deadlineForSubmissionOfStageOne;
-    }
-    else if (selectedOptionList?.Q8?.selected == false) {
+    } else if (selectedOptionList?.Q8?.selected == false) {
       previousDateVal = timeline.evaluationProcessStartDate;
-    }
-    else {
+    } else {
       previousDateVal = timeline.bidderPresentationsDate;
     }
 
@@ -459,17 +452,13 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  const {
-    clarification_date_hourFormat,
-    selected_question_id,
-    selected_question_index,
-  } = req.body;
+  const { clarification_date_hourFormat, selected_question_id, selected_question_index } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute
+    clarification_date_minute,
   } = req.body;
 
   const { timeline, agreement_id, timlineSession } = req.session;
@@ -538,7 +527,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       clarification_date_minute
     );
     const nowDate = new Date();
-    //add timeline 
+    //add timeline
     try {
       const { SESSION_ID } = req.cookies;
       const proc_id = req.session.projectId;
@@ -823,7 +812,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
           },
         };
 
-
         // try {
         // const proc_id = req.session.projectId;
         // const event_id = req.session.eventId;
@@ -872,7 +860,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         //   LoggTracer.errorTracer(Log, res);
         // }
       } else {
-
         const selectedErrorCause = selected_question_id; //Question 2
         let selector = '';
         let selectorID = '';
@@ -975,7 +962,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       LoggTracer.errorTracer(Log, res);
     }
   }
-
 };
 
 // StandstilSupplierPresentation - Start
@@ -990,7 +976,7 @@ const MCF3_Days = {
   supplier_persentation: Number(config.get('predefinedDays.mcf3_fc_supplier_persentation')),
   supplier_award_date: Number(config.get('predefinedDays.mcf3_fc_supplier_award_date')),
   supplier_deadline_extra: Number(config.get('predefinedDays.mcf3_fc_supplier_deadline_extra')),
-  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional'))
+  stanstill_period_condtional: Number(config.get('predefinedDays.mcf3_fc_stanstillPeriodCondtional')),
 };
 
 const DOS_Days = {
@@ -1004,7 +990,6 @@ const DOS_Days = {
   supplier_period_extra: Number(config.get('predefinedDays.dos_supplier_period_extra')),
   supplier_deadline_extra: Number(config.get('predefinedDays.dos_supplier_deadline_extra')),
   stand_stils_date: Number(config.get('predefinedDays.dos_stand_stils_date')),
-
 };
 export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: express.Response) => {
   await momentCssHolidays();
@@ -1019,7 +1004,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const manipulation = req.body.manipulation;
   const { SESSION_ID } = req.cookies;
   const stage2_value = req.session.stage2_value;
-  console.log("stage2_value",stage2_value);
+  console.log('stage2_value', stage2_value);
 
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
@@ -1042,21 +1027,17 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       return object;
     });
     criterianStorage.push(rebased_object_with_requirements);
-
   }
 
   if (tl_aggrementID == 'RM6187' || tl_aggrementID == 'RM1557.13') {
-
     //console.log("manipulation",manipulation);
     //Q6
     const pre_Q6 = manipulation.Q6.value;
-    const Q6 = new Date(pre_Q6);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+    const Q6 = new Date(pre_Q6); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
 
     let Q7, Q7_after, Q7_check;
     if (manipulation.Q7.selected) {
-
-      const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1
-      }-${Q6.getFullYear()}`;
+      const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
       const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
 
       Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
@@ -1064,16 +1045,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q7 = Q6_B_add;
       Q7_check = Q7;
     } else {
-      
       Q7 = Q6;
       Q7_check = undefined;
     }
 
     let Q8, Q8_after, Q8_check;
     if (manipulation.Q8.selected) {
-
-      const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1
-      }-${Q7.getFullYear()}`;
+      const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
       const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.stanstill_period_condtional)._d;
 
       Q7_B_add.setHours(MCF3_Days.defaultEndingHour);
@@ -1085,24 +1063,19 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q8_check = undefined;
     }
 
-    const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1
-    }-${Q8.getFullYear()}`;
+    const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
     const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
     Q9_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q9_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
     const Q9 = Q9_B_add;
 
-    const Q10_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1
-    }-${Q9.getFullYear()}`;
+    const Q10_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
     const Q10_B_add = moment(Q10_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_award_date)._d;
     Q10_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q10_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
     const Q10 = Q10_B_add;
 
-
-
-    const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1
-    }-${Q10.getFullYear()}`;
+    const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1}-${Q10.getFullYear()}`;
     const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
     Q11_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q11_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
@@ -1127,20 +1100,48 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
     resData = [
-      { question: 'Q7', value: `Question 7*${Q7_after}`, order: 1, input_hidden: 'timedate7', label: 'clarification_7' },
-      { question: 'Q8', value: `Question 8*${Q8_after}`, order: 2, input_hidden: 'timedate8', label: 'clarification_8' },
-      { question: 'Q9', value: `Question 9*${Q9_after}`, order: 3, input_hidden: 'timedate9', label: 'clarification_9' },
-      { question: 'Q10', value: `Question 10*${Q10_after}`, order: 4, input_hidden: 'timedate10', label: 'clarification_10' },
-      { question: 'Q11', value: `Question 11*${Q11_after}`, order: 5, input_hidden: 'timedate11', label: 'clarification_11' },
+      {
+        question: 'Q7',
+        value: `Question 7*${Q7_after}`,
+        order: 1,
+        input_hidden: 'timedate7',
+        label: 'clarification_7',
+      },
+      {
+        question: 'Q8',
+        value: `Question 8*${Q8_after}`,
+        order: 2,
+        input_hidden: 'timedate8',
+        label: 'clarification_8',
+      },
+      {
+        question: 'Q9',
+        value: `Question 9*${Q9_after}`,
+        order: 3,
+        input_hidden: 'timedate9',
+        label: 'clarification_9',
+      },
+      {
+        question: 'Q10',
+        value: `Question 10*${Q10_after}`,
+        order: 4,
+        input_hidden: 'timedate10',
+        label: 'clarification_10',
+      },
+      {
+        question: 'Q11',
+        value: `Question 11*${Q11_after}`,
+        order: 5,
+        input_hidden: 'timedate11',
+        label: 'clarification_11',
+      },
     ];
-
 
     req.session.timeline.evaluationProcessStartDate = Q7_after;
     req.session.timeline.bidderPresentationsDate = Q8_after;
     req.session.timeline.standstillPeriodStartsDate = Q9_after;
     req.session.timeline.proposedAwardDate = Q10_after;
     req.session.timeline.expectedSignatureDate = Q11_after;
-
 
     apiData = {
       7: { question: 'Q7', value: `${Q7_after}`, order: 1, qusId: 7, config: manipulation.Q7.config },
@@ -1149,18 +1150,14 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       10: { question: 'Q10', value: `${Q10_after}`, order: 4, qusId: 10 },
       11: { question: 'Q11', value: `${Q11_after}`, order: 5, qusId: 11 },
     };
-
-
-
   } else {
     //DOS
     const manipulation = req.body.manipulation;
-  console.log("stage2_value",stage2_value);
-    if(stage2_value=="Stage 2"){
-      console.log("stage2222")
+    console.log('stage2_value', stage2_value);
+    if (stage2_value == 'Stage 2') {
+      console.log('stage2222');
       const pre_Q2 = manipulation.Q2.value;
 
-      
       const DOS_Days = {
         defaultEndingHour: Number(config.get('predefinedDays.dos_defaultEndingHour')),
         defaultEndingMinutes: Number(config.get('predefinedDays.dos_defaultEndingMinutes')),
@@ -1172,18 +1169,16 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         supplier_period_extra: Number(config.get('predefinedDays.dos_supplier_period_extra')),
         supplier_deadline_extra: Number(config.get('predefinedDays.dos_supplier_deadline_extra')),
         stand_stils_date: Number(config.get('predefinedDays.dos_stand_stils_date')),
-      
       };
 
-      const Q2 = new Date(pre_Q2);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-      console.log("Q3",DOS_Days.clarification_period_end,Q2);
+      const Q2 = new Date(pre_Q2); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+      console.log('Q3', DOS_Days.clarification_period_end, Q2);
 
       let Q3, Q3_after, Q3_check;
       if (manipulation.Q3.selected) {
-        const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1
-        }-${Q2.getFullYear()}`;
+        const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
         const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-  
+
         Q2_B_add.setHours(DOS_Days.defaultEndingHour);
         Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
         Q3 = Q2_B_add;
@@ -1192,225 +1187,275 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q3 = Q2;
         Q3_check = undefined;
       }
-      
-      console.log("Q4",DOS_Days.supplier_period);
-       //Q4
-    const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1
-    }-${Q3.getFullYear()}`;
-    const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_period)._d;
-    Q4_B_add.setHours(DOS_Days.defaultEndingHour);
-    Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-    const Q4 = Q4_B_add;
-   
-    console.log("Q5",DOS_Days.supplier_deadline);
-    let Q5, Q5_after, Q5_check;
-    if (manipulation.Q5.selected) {
-      const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1
-      }-${Q4.getFullYear()}`;
-      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
+      console.log('Q4', DOS_Days.supplier_period);
+      //Q4
+      const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
+      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_period)._d;
       Q4_B_add.setHours(DOS_Days.defaultEndingHour);
       Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      Q5 = Q4_B_add;
-      Q5_check = Q5;
-    } else {
-      Q5 = Q4;
-      Q5_check = undefined;
-    }
+      const Q4 = Q4_B_add;
 
-    console.log("Q6",DOS_Days.supplier_period_extra);
+      console.log('Q5', DOS_Days.supplier_deadline);
+      let Q5, Q5_after, Q5_check;
+      if (manipulation.Q5.selected) {
+        const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1}-${Q4.getFullYear()}`;
+        const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+
+        Q4_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q5 = Q4_B_add;
+        Q5_check = Q5;
+      } else {
+        Q5 = Q4;
+        Q5_check = undefined;
+      }
+
+      console.log('Q6', DOS_Days.supplier_period_extra);
       //Q6
-      const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1
-      }-${Q5.getFullYear()}`;
+      const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1}-${Q5.getFullYear()}`;
       const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_period_extra)._d;
       Q6_B_add.setHours(DOS_Days.defaultEndingHour);
       Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q6 = Q6_B_add;
 
-      console.log("Q7",DOS_Days.closing_date);
-       //Q7
-       const Q7_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1
-       }-${Q6.getFullYear()}`;
-       const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
-       Q7_B_add.setHours(DOS_Days.defaultEndingHour);
-       Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-       const Q7 = Q7_B_add;
-       
-       console.log("Q8",DOS_Days.supplier_deadline);
-         //Q8
-         const Q8_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1
-         }-${Q7.getFullYear()}`;
-         const Q8_B_add = moment(Q8_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-         Q8_B_add.setHours(DOS_Days.defaultEndingHour);
-         Q8_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-         const Q8 = Q8_B_add;
-
-         if (Q3_check != undefined) {
-          Q3_after = moment(Q3, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q3_after = '';
-        }
-    
-    
-        if (Q5_check != undefined) {
-          Q5_after = moment(Q5, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q5_after = '';
-        }
-
-        const Q4_after = moment(Q4, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        // Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        const Q6_after = moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        const Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        const Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-
-        resData = [
-          //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
-          { question: 'Q3', value: `Question 3*${Q3_after}`, order: 2, input_hidden: 'timedate3', label: 'clarification_3' },
-          { question: 'Q4', value: `Question 4*${Q4_after}`, order: 3, input_hidden: 'timedate4', label: 'clarification_4' },
-          { question: 'Q5', value: `Question 5*${Q5_after}`, order: 4, input_hidden: 'timedate5', label: 'clarification_5' },
-          { question: 'Q6', value: `Question 6*${Q6_after}`, order: 5, input_hidden: 'timedate6', label: 'clarification_6' },
-          { question: 'Q7', value: `Question 7*${Q7_after}`, order: 6, input_hidden: 'timedate7', label: 'clarification_7' },
-          { question: 'Q8', value: `Question 8*${Q8_after}`, order: 7, input_hidden: 'timedate8', label: 'clarification_8' },
-    
-        ];
-
-        console.log("resData",resData);
-        
-        apiData = {
-          3: { question: 'Q3', value: `${Q3_after}`, order: 1, qusId: 3, config: manipulation.Q3.config },
-          4: { question: 'Q4', value: `${Q4_after}`, order: 2, qusId: 4 },
-          5: { question: 'Q5', value: `${Q5_after}`, order: 3, qusId: 5, config: manipulation.Q5.config },
-          6: { question: 'Q6', value: `${Q6_after}`, order: 4, qusId: 6 },
-          7: { question: 'Q7', value: `${Q7_after}`, order: 5, qusId: 7 },
-          8: { question: 'Q8', value: `${Q8_after}`, order: 6, qusId: 8 },
-        };
-
-    }else{
-
-      console.log("stage11")
-    //Q7
-
-    const pre_Q7 = manipulation.Q7.value;
-
-    const Q7 = new Date(pre_Q7);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-
-    let Q8, Q8_after, Q8_check;
-
-    if (manipulation.Q8.selected) {
-      const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1
-      }-${Q7.getFullYear()}`;
-      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-
+      console.log('Q7', DOS_Days.closing_date);
+      //Q7
+      const Q7_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
+      const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
       Q7_B_add.setHours(DOS_Days.defaultEndingHour);
       Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      Q8 = Q7_B_add;
-      Q8_check = Q8;
+      const Q7 = Q7_B_add;
+
+      console.log('Q8', DOS_Days.supplier_deadline);
+      //Q8
+      const Q8_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
+      const Q8_B_add = moment(Q8_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+      Q8_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q8_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q8 = Q8_B_add;
+
+      if (Q3_check != undefined) {
+        Q3_after = moment(Q3, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q3_after = '';
+      }
+
+      if (Q5_check != undefined) {
+        Q5_after = moment(Q5, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q5_after = '';
+      }
+
+      const Q4_after = moment(Q4, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      // Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q6_after = moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+      resData = [
+        //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
+        {
+          question: 'Q3',
+          value: `Question 3*${Q3_after}`,
+          order: 2,
+          input_hidden: 'timedate3',
+          label: 'clarification_3',
+        },
+        {
+          question: 'Q4',
+          value: `Question 4*${Q4_after}`,
+          order: 3,
+          input_hidden: 'timedate4',
+          label: 'clarification_4',
+        },
+        {
+          question: 'Q5',
+          value: `Question 5*${Q5_after}`,
+          order: 4,
+          input_hidden: 'timedate5',
+          label: 'clarification_5',
+        },
+        {
+          question: 'Q6',
+          value: `Question 6*${Q6_after}`,
+          order: 5,
+          input_hidden: 'timedate6',
+          label: 'clarification_6',
+        },
+        {
+          question: 'Q7',
+          value: `Question 7*${Q7_after}`,
+          order: 6,
+          input_hidden: 'timedate7',
+          label: 'clarification_7',
+        },
+        {
+          question: 'Q8',
+          value: `Question 8*${Q8_after}`,
+          order: 7,
+          input_hidden: 'timedate8',
+          label: 'clarification_8',
+        },
+      ];
+
+      console.log('resData', resData);
+
+      apiData = {
+        3: { question: 'Q3', value: `${Q3_after}`, order: 1, qusId: 3, config: manipulation.Q3.config },
+        4: { question: 'Q4', value: `${Q4_after}`, order: 2, qusId: 4 },
+        5: { question: 'Q5', value: `${Q5_after}`, order: 3, qusId: 5, config: manipulation.Q5.config },
+        6: { question: 'Q6', value: `${Q6_after}`, order: 4, qusId: 6 },
+        7: { question: 'Q7', value: `${Q7_after}`, order: 5, qusId: 7 },
+        8: { question: 'Q8', value: `${Q8_after}`, order: 6, qusId: 8 },
+      };
     } else {
-      Q8 = Q7;
-      Q8_check = undefined;
-    }
+      console.log('stage11');
+      //Q7
 
-    //Q9
-    const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1
-    }-${Q8.getFullYear()}`;
-    const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-    Q9_B_add.setHours(DOS_Days.defaultEndingHour);
-    Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-    const Q9 = Q9_B_add;
-    
-    let Q10, Q10_after, Q10_check;
-    if (manipulation.Q10.selected) {
-      const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1
-      }-${Q9.getFullYear()}`;
-      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
+      const pre_Q7 = manipulation.Q7.value;
 
+      const Q7 = new Date(pre_Q7); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
+      let Q8, Q8_after, Q8_check;
+
+      if (manipulation.Q8.selected) {
+        const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
+        const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+
+        Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q8 = Q7_B_add;
+        Q8_check = Q8;
+      } else {
+        Q8 = Q7;
+        Q8_check = undefined;
+      }
+
+      //Q9
+      const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
+      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
       Q9_B_add.setHours(DOS_Days.defaultEndingHour);
       Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      Q10 = Q9_B_add;
-      Q10_check = Q10;
-    } else {
-      Q10 = Q9;
-      Q10_check = undefined;
+      const Q9 = Q9_B_add;
+
+      let Q10, Q10_after, Q10_check;
+      if (manipulation.Q10.selected) {
+        const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
+        const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
+
+        Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q10 = Q9_B_add;
+        Q10_check = Q10;
+      } else {
+        Q10 = Q9;
+        Q10_check = undefined;
+      }
+
+      //Q11
+      const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1}-${Q10.getFullYear()}`;
+      const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      Q11_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q11 = Q11_B_add;
+
+      //Q12
+      const Q12_Parsed = `${Q11.getDate()}-${Q11.getMonth() + 1}-${Q11.getFullYear()}`;
+      const Q12_B_add = moment(Q12_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      Q12_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q12_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q12 = Q12_B_add;
+
+      //Q13
+      const Q13_Parsed = `${Q12.getDate()}-${Q12.getMonth() + 1}-${Q12.getFullYear()}`;
+      const Q13_B_add = moment(Q13_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+      Q13_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q13_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q13 = Q13_B_add;
+
+      if (Q8_check != undefined) {
+        Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q8_after = '';
+      }
+
+      if (Q10_check != undefined) {
+        Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q10_after = '';
+      }
+
+      const Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      // Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q12_after = moment(Q12, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      const Q13_after = moment(Q13, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+      req.session.timeline.bidderPresentationsDate = Q8_after;
+      req.session.timeline.standstillPeriodStartsDate = Q9_after;
+      req.session.timeline.proposedAwardDate = Q10_after;
+      req.session.timeline.expectedSignatureDate = Q11_after;
+      req.session.timeline.contractsigneddate = Q12_after;
+      req.session.timeline.supplierstartdate = Q13_after;
+
+      // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
+      resData = [
+        //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
+        {
+          question: 'Q8',
+          value: `Question 8*${Q8_after}`,
+          order: 2,
+          input_hidden: 'timedate8',
+          label: 'clarification_8',
+        },
+        {
+          question: 'Q9',
+          value: `Question 9*${Q9_after}`,
+          order: 3,
+          input_hidden: 'timedate9',
+          label: 'clarification_9',
+        },
+        {
+          question: 'Q10',
+          value: `Question 10*${Q10_after}`,
+          order: 4,
+          input_hidden: 'timedate10',
+          label: 'clarification_10',
+        },
+        {
+          question: 'Q11',
+          value: `Question 11*${Q11_after}`,
+          order: 5,
+          input_hidden: 'timedate11',
+          label: 'clarification_11',
+        },
+        {
+          question: 'Q12',
+          value: `Question 12*${Q12_after}`,
+          order: 6,
+          input_hidden: 'timedate12',
+          label: 'clarification_12',
+        },
+        {
+          question: 'Q13',
+          value: `Question 13*${Q13_after}`,
+          order: 7,
+          input_hidden: 'timedate13',
+          label: 'clarification_13',
+        },
+      ];
+
+      apiData = {
+        8: { question: 'Q8', value: `${Q8_after}`, order: 1, qusId: 8, config: manipulation.Q8.config },
+        9: { question: 'Q9', value: `${Q9_after}`, order: 2, qusId: 9 },
+        10: { question: 'Q10', value: `${Q10_after}`, order: 3, qusId: 10, config: manipulation.Q10.config },
+        11: { question: 'Q11', value: `${Q11_after}`, order: 4, qusId: 11 },
+        12: { question: 'Q12', value: `${Q12_after}`, order: 5, qusId: 12 },
+        13: { question: 'Q13', value: `${Q13_after}`, order: 6, qusId: 13 },
+      };
     }
-
-    //Q11
-    const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1
-    }-${Q10.getFullYear()}`;
-    const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
-    Q11_B_add.setHours(DOS_Days.defaultEndingHour);
-    Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-    const Q11 = Q11_B_add;
-
-    //Q12
-    const Q12_Parsed = `${Q11.getDate()}-${Q11.getMonth() + 1
-    }-${Q11.getFullYear()}`;
-    const Q12_B_add = moment(Q12_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
-    Q12_B_add.setHours(DOS_Days.defaultEndingHour);
-    Q12_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-    const Q12 = Q12_B_add;
-
-    //Q13
-    const Q13_Parsed = `${Q12.getDate()}-${Q12.getMonth() + 1
-    }-${Q12.getFullYear()}`;
-    const Q13_B_add = moment(Q13_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-    Q13_B_add.setHours(DOS_Days.defaultEndingHour);
-    Q13_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-    const Q13 = Q13_B_add;
-
-
-
-    if (Q8_check != undefined) {
-      Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    } else {
-      Q8_after = '';
-    }
-
-
-    if (Q10_check != undefined) {
-      Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    } else {
-      Q10_after = '';
-    }
-
-    const Q9_after = moment(Q9, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    // Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    const Q11_after = moment(Q11, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    const Q12_after = moment(Q12, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-    const Q13_after = moment(Q13, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-
-
-    req.session.timeline.bidderPresentationsDate = Q8_after;
-    req.session.timeline.standstillPeriodStartsDate = Q9_after;
-    req.session.timeline.proposedAwardDate = Q10_after;
-    req.session.timeline.expectedSignatureDate = Q11_after;
-    req.session.timeline.contractsigneddate = Q12_after;
-    req.session.timeline.supplierstartdate = Q13_after;
-
-    // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
-    resData = [
-      //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
-      { question: 'Q8', value: `Question 8*${Q8_after}`, order: 2, input_hidden: 'timedate8', label: 'clarification_8' },
-      { question: 'Q9', value: `Question 9*${Q9_after}`, order: 3, input_hidden: 'timedate9', label: 'clarification_9' },
-      { question: 'Q10', value: `Question 10*${Q10_after}`, order: 4, input_hidden: 'timedate10', label: 'clarification_10' },
-      { question: 'Q11', value: `Question 11*${Q11_after}`, order: 5, input_hidden: 'timedate11', label: 'clarification_11' },
-      { question: 'Q12', value: `Question 12*${Q12_after}`, order: 6, input_hidden: 'timedate12', label: 'clarification_12' },
-      { question: 'Q13', value: `Question 13*${Q13_after}`, order: 7, input_hidden: 'timedate13', label: 'clarification_13' },
-
-    ];
-
-    apiData = {
-      8: { question: 'Q8', value: `${Q8_after}`, order: 1, qusId: 8, config: manipulation.Q8.config },
-      9: { question: 'Q9', value: `${Q9_after}`, order: 2, qusId: 9 },
-      10: { question: 'Q10', value: `${Q10_after}`, order: 3, qusId: 10, config: manipulation.Q10.config },
-      11: { question: 'Q11', value: `${Q11_after}`, order: 4, qusId: 11 },
-      12: { question: 'Q12', value: `${Q12_after}`, order: 5, qusId: 12 },
-      13: { question: 'Q13', value: `${Q13_after}`, order: 6, qusId: 13 },
-    };
   }
-
-  }
-
 
   const keyDateselector = 'Key Dates';
   criterianStorage = criterianStorage.flat();
@@ -1438,7 +1483,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         const findFilterQuestionValue = new Date(manipulationData.value);
         const findFilterValues = findFilterQuestionValue;
         filtervalues = moment(findFilterValues, 'DD MMMM YYYY, HH:mm:ss ').format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-
       }
 
       const answerformater = {
@@ -1448,10 +1492,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       };
       let answerBody;
       if (manipulationData.config) {
-
-
         if (manipulationData.config != '') {
-
           let noCheck = false;
           let yesCheck = false;
 
@@ -1471,7 +1512,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
             {
               value: 'No',
               selected: noCheck,
-            }
+            },
           ];
 
           answerBody = {
@@ -1482,16 +1523,15 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
                 nonOCDS: {
                   answered: true,
                   options: radionArrayOption,
-                }
-              }
+                },
+              },
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURL",answerBaseURL);
-          console.log("answerBody",JSON.stringify(answerBody));
+          console.log('answerBaseURL', answerBaseURL);
+          console.log('answerBody', JSON.stringify(answerBody));
           //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
-
       } else {
         if (manipulationData.config != '') {
           answerBody = {
@@ -1502,14 +1542,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           };
 
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log("answerBaseURLELSE",answerBaseURL);
-          console.log("answerBodyElse",JSON.stringify(answerBody));
+          console.log('answerBaseURLELSE', answerBaseURL);
+          console.log('answerBodyElse', JSON.stringify(answerBody));
           //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       }
     }
   }
-
 
   res.json(resData);
 };

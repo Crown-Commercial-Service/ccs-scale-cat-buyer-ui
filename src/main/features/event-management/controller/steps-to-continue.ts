@@ -41,9 +41,9 @@ export const GET_STEPS_TO_CONTINUE = async (req: express.Request, res: express.R
   };
   res.locals.agreement_header = {
     agreementName,
-    projectName:project_name,
+    projectName: project_name,
     projectId,
-    agreementIdSession:agreementId_session,
+    agreementIdSession: agreementId_session,
     agreementLotName,
     lotid,
     error: isJaggaerError,

@@ -88,9 +88,9 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
     const lotid = lotId;
     res.locals.agreement_header = {
       agreementName,
-      projectName:project_name,
+      projectName: project_name,
       projectId,
-      agreementIdSession:agreementId_session,
+      agreementIdSession: agreementId_session,
       agreementLotName,
       lotid,
     };

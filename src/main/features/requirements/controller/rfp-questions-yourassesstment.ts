@@ -640,11 +640,13 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               }
             } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
               if (
-                !((agreement_id === 'RM1043.8' &&
-                  id == 'Criterion 2' &&
-                  req.session.lotId == 1 &&
-                  (group_id == 'Group 6' || group_id == 'Group 9')) ||
-                (req.session.lotId == 3 && (group_id == 'Group 6' || group_id == 'Group 8')))
+                !(
+                  (agreement_id === 'RM1043.8' &&
+                    id == 'Criterion 2' &&
+                    req.session.lotId == 1 &&
+                    (group_id == 'Group 6' || group_id == 'Group 9')) ||
+                  (req.session.lotId == 3 && (group_id == 'Group 6' || group_id == 'Group 8'))
+                )
               ) {
                 if (KeyValuePairValidation(object_values, req)) {
                   validationError = true;
