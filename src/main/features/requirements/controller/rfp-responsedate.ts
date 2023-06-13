@@ -1463,7 +1463,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       const answerformater = {
         value: filtervalues,
         selected: true,
-        text: question_id,
+        text: stage2_value == 'Stage 2' ? `Question ${parseInt(question_id.split(' ')[1]) + 5}` : question_id,//question_id,
       };
       let answerBody;
       if (manipulationData.config) {
