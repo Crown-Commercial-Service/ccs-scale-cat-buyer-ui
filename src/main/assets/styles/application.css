@@ -1441,12 +1441,17 @@ p + .govuk-heading-s,
   margin-bottom: 0;
   padding-bottom: 0;
 }
-
+.datehead.hidehr + .govuk-radios__conditional_custom.datebody, .govuk-radios__conditional_custom.conditional_desc{
+  margin-bottom: 15px;
+      margin-left: 18px;
+      padding-left: 33px;
+      border-left: 4px solid #b1b4b6;
+  }
 .datehead.hidehr:after {
   background: transparent;
   height: 0;
 }
-.datehead:after {
+/* .datehead:after {
   position: absolute;
   content: "";
   width: calc(100% + 35px);
@@ -1454,7 +1459,7 @@ p + .govuk-heading-s,
   background: #b1b4b6;
   height: 1px;
   bottom: 0;
-}
+} */
 
 .datehead .govuk-radios {
   margin-top: 15px;

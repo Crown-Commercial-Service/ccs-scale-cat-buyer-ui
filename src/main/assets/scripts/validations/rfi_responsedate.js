@@ -27,7 +27,7 @@ for (const selector of totalElementSelectors) {
     let elementCancelID = "#cancel_change_clarification_date_" + selector;
     let elementSelector = $(elementID);
     let elementSelectorCancel = $(elementCancelID);
-    elementSelector.fadeIn();
+    elementSelector.fadeIn(); 
 
     elementSelectorCancel.fadeIn();
     elementSelector.on('click', () => {
@@ -84,7 +84,8 @@ for (const selector of totalElementSelectors) {
             $('.showDivDynamic'+selector).removeClass('govuk-form-group--error')
             $(erroReove).html(" ")
             $('#headBodyContent_'+selector).show();
-            $('#headBodyContent_'+selector).removeClass('hide');
+            $('#headBodyContent_'+selector).addClass('conditional_desc');
+            $('#headBodyContent_'+selector).removeClass('hide'); 
            $('#headContent_'+selector).removeClass('hidehr');
            
         }
