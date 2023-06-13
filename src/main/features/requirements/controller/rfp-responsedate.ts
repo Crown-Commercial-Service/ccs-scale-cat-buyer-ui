@@ -256,7 +256,7 @@ function isValidQuestion(
     isValid = false;
     error = 'Enter a date that falls on a weekday';
   }
-
+  
   switch (questionId) {
   case 'Question 1':
     errorSelector = 'rfi_clarification_date_expanded_1';
@@ -274,6 +274,7 @@ function isValidQuestion(
     errorSelector = 'rfi_clarification_date_expanded_2';
     break;
   case 'Question 3':
+
     if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
       isValid = false;
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
@@ -285,14 +286,21 @@ function isValidQuestion(
     errorSelector = 'rfi_clarification_date_expanded_3';
     break;
   case 'Question 4':
+     let nextval;
     if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
       isValid = false;
 
       error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
     }
+    if ((agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
+      nextval = timeline.confirmNextStepsSuppliers
+    }
+    else{
+      nextval = timeline.deadlineForSubmissionOfStageOne
+    }
 
     //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-    if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+    if (questionNewDate > new Date(nextval)) {
       isValid = false;
       error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
     }
@@ -528,16 +536,16 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       clarification_date_minute
     );
     const nowDate = new Date();
+    const { SESSION_ID } = req.cookies;
     //add timeline
     try {
-      const { SESSION_ID } = req.cookies;
+      
       const proc_id = req.session.projectId;
       const event_id = req.session.eventId;
       const group_id = 'Key Dates';
       const question_id = selected_question_id;
       let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
       baseURL = baseURL + '/criteria';
-
       const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id).sort();
@@ -557,6 +565,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       const Criterian_ID = criterianStorage[0].criterianId;
       const id = Criterian_ID;
       const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${group_id}/questions`;
+
       const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
       const fetchQuestionsData = fetchQuestions.data;
       const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
@@ -838,6 +847,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         // criterianStorage = criterianStorage.flat();
         // const Criterian_ID = criterianStorage[0].criterianId;
         // const id = Criterian_ID;
+
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
@@ -1225,6 +1235,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         const Q6_after = moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
         const Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
         const Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+
+        req.session.timeline.publishResponsesClarificationQuestions = Q3_after;
+        req.session.timeline.supplierSubmitResponse = Q4_after;
+        req.session.timeline.confirmNextStepsSuppliers = Q5_after;
+        req.session.timeline.deadlineForSubmissionOfStageOne = Q6_after;
+        req.session.timeline.evaluationProcessStartDate = Q7_after;
+        req.session.timeline.bidderPresentationsDate = Q8_after;
 
         resData = [
           //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
