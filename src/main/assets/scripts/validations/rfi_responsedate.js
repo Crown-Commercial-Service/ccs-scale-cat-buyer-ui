@@ -161,27 +161,68 @@ submitValidationSelector.on('click', () => {
 
 function getRadioValidation(){
     errorStore=[];
+   
+    let agreement_Id = '';
+     let stageValue = '';
 
+    if(document.getElementById("agreementId") != null && document.getElementById("agreementId").value != undefined ){
+        agreement_Id =  document.getElementById("agreementId").value;
+    }
+    if(document.getElementById("stage2_value") != null && document.getElementById("stage2_value").value != undefined ){
+        stageValue = document.getElementById("stage2_value").value;
+    }
+    
 for (const selector of totalElementSelectors) {
     let checkRadioSelectedClassName = 'resdateradio'+selector;
     let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+selector);
     let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+   
 
 
 
     if(checkRadioSelected==undefined && checkRadioClassName.length > 0)
-    {
-    if(selector==7){
-        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want supplier presentations"); 
-        fieldCheck = ['errorMsg'+selector, 'Select if you want supplier presentations'];
-        errorStore.push(fieldCheck);
+    {  
+         if(agreement_Id == 'RM6187' || agreement_Id == 'RM1557.13') {    
+            if(selector==7){
+            ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want supplier presentations"); 
+            fieldCheck = ['errorMsg'+selector, 'Select if you want supplier presentations'];
+            errorStore.push(fieldCheck);
+            }
+            if(selector==8){
+                ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want a standstill"); 
+                fieldCheck = ['errorMsg'+selector, 'Select if you want a standstill'];
+                errorStore.push(fieldCheck);
+            }
         }
-    if(selector==8){
-        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want a standstill"); 
-        fieldCheck = ['errorMsg'+selector, 'Select if you want a standstill'];
-        errorStore.push(fieldCheck);
-     }
-    
+       else if( agreement_Id == 'RM1043.8') {
+           
+            if(stageValue == 'Stage 1'){
+                if(selector == 8){
+                    ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want supplier presentations"); 
+                    fieldCheck = ['errorMsg'+selector, 'Select if you want supplier presentations'];
+                    errorStore.push(fieldCheck);
+                    }
+                if(selector == 10){
+                    ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want a standstill"); 
+                    fieldCheck = ['errorMsg'+selector, 'Select if you want a standstill'];
+                    errorStore.push(fieldCheck);
+                }
+                
+            }
+            else {
+                if(selector == 3){
+                    ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want supplier presentations"); 
+                    fieldCheck = ['errorMsg'+selector, 'Select if you want supplier presentations'];
+                    errorStore.push(fieldCheck);
+                    }
+                if(selector == 5){
+                    ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want a standstill"); 
+                    fieldCheck = ['errorMsg'+selector, 'Select if you want a standstill'];
+                    errorStore.push(fieldCheck);
+                }
+
+            }
+        }
     }
 
 //Looend
