@@ -587,8 +587,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const checkDateNew = new Date(currentDate1[2], parseInt(currentDate1[1]) - 1, currentDate1[0]);
 
         const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
+        const lastUpdate =
+        moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+          'YYYY-MM-DDTHH:mm:ss'
+        ) + 'Z';
+       let newcheckDate = new Date(lastUpdate);
+       
 
-        if (checkDateNew >= fromDateNew) {
+        if (newcheckDate >= fromDate) {
           awardOption = 'true';
         }
       }
