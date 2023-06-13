@@ -571,7 +571,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       const fetchQuestionsData = fetchQuestions.data;
       const findFilterQuestion = fetchQuestionsData.filter((question) => question.OCDS.id === selected_question_id);
       const findFilterQuestioncheck = fetchQuestionsData.filter((question) => question.nonOCDS.timelineDependency);
-
       let selectedOptionList = {};
       findFilterQuestioncheck.forEach((data) => {
         const selectedOption = data.nonOCDS.timelineDependency?.nonOCDS?.options;
@@ -1155,30 +1154,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   } else {
     //DOS
     const manipulation = req.body.manipulation;
-  console.log("stage2_value",stage2_value);
+  //q2 - 10days
     if(stage2_value=="Stage 2"){
-      console.log("stage2222")
       const pre_Q2 = manipulation.Q2.value;
 
-      
-      const DOS_Days = {
-        defaultEndingHour: Number(config.get('predefinedDays.dos_defaultEndingHour')),
-        defaultEndingMinutes: Number(config.get('predefinedDays.dos_defaultEndingMinutes')),
-        clarification_days: Number(config.get('predefinedDays.dos_clarification_days')),
-        clarification_period_end: Number(config.get('predefinedDays.dos_clarification_period_end')),
-        supplier_period: Number(config.get('predefinedDays.dos_supplier_period')),
-        closing_date: Number(config.get('predefinedDays.dos_closing_date')),
-        supplier_deadline: Number(config.get('predefinedDays.dos_supplier_deadline')),
-        supplier_period_extra: Number(config.get('predefinedDays.dos_supplier_period_extra')),
-        supplier_deadline_extra: Number(config.get('predefinedDays.dos_supplier_deadline_extra')),
-        stand_stils_date: Number(config.get('predefinedDays.dos_stand_stils_date')),
-      
-      };
-
       const Q2 = new Date(pre_Q2);//moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-      console.log("Q3",DOS_Days.clarification_period_end,Q2);
 
-      let Q3, Q3_after, Q3_check;
+      let Q3, Q3_after, Q3_check;//5 days
       if (manipulation.Q3.selected) {
         const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1
         }-${Q2.getFullYear()}`;
@@ -1193,21 +1175,19 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q3_check = undefined;
       }
       
-      console.log("Q4",DOS_Days.supplier_period);
        //Q4
     const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1
     }-${Q3.getFullYear()}`;
-    const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_period)._d;
+    const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
     Q4_B_add.setHours(DOS_Days.defaultEndingHour);
     Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
     const Q4 = Q4_B_add;
    
-    console.log("Q5",DOS_Days.supplier_deadline);
     let Q5, Q5_after, Q5_check;
     if (manipulation.Q5.selected) {
       const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1
       }-${Q4.getFullYear()}`;
-      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
 
       Q4_B_add.setHours(DOS_Days.defaultEndingHour);
       Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
@@ -1218,16 +1198,14 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q5_check = undefined;
     }
 
-    console.log("Q6",DOS_Days.supplier_period_extra);
       //Q6
       const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1
       }-${Q5.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_period_extra)._d;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
       Q6_B_add.setHours(DOS_Days.defaultEndingHour);
       Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q6 = Q6_B_add;
 
-      console.log("Q7",DOS_Days.closing_date);
        //Q7
        const Q7_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1
        }-${Q6.getFullYear()}`;
@@ -1236,7 +1214,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
        const Q7 = Q7_B_add;
        
-       console.log("Q8",DOS_Days.supplier_deadline);
          //Q8
          const Q8_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1
          }-${Q7.getFullYear()}`;
@@ -1275,7 +1252,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     
         ];
 
-        console.log("resData",resData);
         
         apiData = {
           3: { question: 'Q3', value: `${Q3_after}`, order: 1, qusId: 3, config: manipulation.Q3.config },
@@ -1288,7 +1264,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     }else{
 
-      console.log("stage11")
     //Q7
 
     const pre_Q7 = manipulation.Q7.value;
@@ -1387,7 +1362,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     req.session.timeline.contractsigneddate = Q12_after;
     req.session.timeline.supplierstartdate = Q13_after;
 
-    // console.log(moment(Q6, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm'));
     resData = [
       //{question: 'Q7', value: `Question 7*${Q7_after}`, order: 1,input_hidden:'timedate7',label:'clarification_7'},
       { question: 'Q8', value: `Question 8*${Q8_after}`, order: 2, input_hidden: 'timedate8', label: 'clarification_8' },
@@ -1489,7 +1463,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
           console.log("answerBaseURL",answerBaseURL);
           console.log("answerBody",JSON.stringify(answerBody));
-          //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
 
       } else {
@@ -1504,7 +1478,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
           console.log("answerBaseURLELSE",answerBaseURL);
           console.log("answerBodyElse",JSON.stringify(answerBody));
-          //await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       }
     }
