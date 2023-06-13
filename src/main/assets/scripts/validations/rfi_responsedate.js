@@ -50,6 +50,33 @@ for (const selector of totalElementSelectors) {
     
     //Radio Yes or no Select
     elementRadioIDSelector.on('click', () => {
+       
+        ccsZremoveErrorMessageRFIDate();
+         removeErrorFieldsEoiTerms();
+       
+
+        let ClickedID = "#rfi_clarification_date_expanded_" + selector;
+
+        let elementSelectorClicked = $(ClickedID);
+        if (elementSelectorClicked.length === 0) {
+            ClickedID = "#rfi_clarification_date_expanded_" + selector;
+            elementSelectorClicked = $(ClickedID);
+        }
+        elementSelectorClicked.fadeOut();
+        elementSelectorClicked.find('input[type=text]').val('');
+        ccsZremoveErrorMessageRFIDate(document.getElementById(ClickedID.slice(1)))
+
+        if (errorSelectorId === ClickedID) {
+            for (let selector of totalElementSelectors) {
+                let changeID = "#change_clarification_date_" + selector;
+                $(changeID).show();
+            }
+        } else {
+            const elementIDChange = $("#change_clarification_date_" + selector);
+            elementIDChange.show();
+        }
+        saveButtonUnHideDateRfi();
+    
         let getClassName = 'resdateradio'+selector;
          let checkedBox = $('input[name='+getClassName+']:checked').val();
         let erroReove = '#errorMsg'+selector+'-error';
@@ -144,13 +171,13 @@ for (const selector of totalElementSelectors) {
     if(checkRadioSelected==undefined && checkRadioClassName.length > 0)
     {
     if(selector==7){
-        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select whether you want supplier presentations"); 
-        fieldCheck = ['errorMsg'+selector, 'Select whether you want supplier presentations'];
+        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want supplier presentations"); 
+        fieldCheck = ['errorMsg'+selector, 'Select if you want supplier presentations'];
         errorStore.push(fieldCheck);
         }
     if(selector==8){
-        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select whether you want a standstill"); 
-        fieldCheck = ['errorMsg'+selector, 'Select whether you want a standstill'];
+        ccsZaddErrorMessage(document.getElementById('errorMsg'+selector), "Select if you want a standstill"); 
+        fieldCheck = ['errorMsg'+selector, 'Select if you want a standstill'];
         errorStore.push(fieldCheck);
      }
     

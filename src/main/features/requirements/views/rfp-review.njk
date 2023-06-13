@@ -1526,31 +1526,35 @@
               </div>
 
               {# StandstilSupplierPresentation Review Page - Start  #}
-               {% if fcQ7 %}
+               {# {% if fcQ7 %} #}
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                   <dt class="govuk-summary-list__value"><p>Supplier presentations (if you have requested this)</p></dt>
                   <dd class="govuk-summary-list__value">
                     <p>
                       {% if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !='' %}
                         {{ supplier_dealine_expect_the_bidders | dateddmmyyyy }}
+                      {% else %}
+                        Not specified
                       {% endif %}
                     </p>
                   </dd>
                 </div>
-              {% endif %}
+              {# {% endif %} #}
               
-              {% if fcQ8 %}
+              {# {% if fcQ8 %} #}
                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                   <dt class="govuk-summary-list__value"><p>Standstill period starts (if applicable)  </p></dt>
                   <dd class="govuk-summary-list__value">
                     <p>
                       {% if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !='' %}
                         {{ supplier_dealine_for_pre_award | dateddmmyyyy }}
+                      {% else %}
+                        Not specified
                       {% endif %}
                     </p>
                   </dd>
                 </div>
-              {% endif %}
+              {# {% endif %} #}
               {# StandstilSupplierPresentation Review Page - End  #}
 
               <div class="govuk-summary-list__row govuk-summary-list__row--no-border">

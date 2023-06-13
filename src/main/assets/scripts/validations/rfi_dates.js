@@ -323,33 +323,17 @@ if(arr!=undefined){
                         year.addClass("govuk-input--error")
                         let errorStore;
                         
-
-                        if(agreementId == 'RM1043.8'){
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
-                        }else{
-                             ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
-							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]]
-                        }
-            
-                        ccsZPresentErrorSummary(errorStore);
+                         ccsZPresentErrorSummary(errorStore);
                     } else if(isNextDate && (enteredDate > nextDate)){
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
                         let errorStore;
-                        if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !='' && stageValue == "Stage 1"){
-                            if(lotId == '1'){
-                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
-                                errorStore = [[parentID, "You cannot change this date and time to be later than the next step in the timeline"]]
-                            }else{
-                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
-                                errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]]
-                            }
-                        }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
-                            errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]]
-                        }
+                        
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
+                        errorStore = [[parentID, "You cannot change this date and time to be later than the next step in the timeline"]]
                         ccsZPresentErrorSummary(errorStore);
                     }else {
                         document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
