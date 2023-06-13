@@ -152,10 +152,10 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
       } else if (agreementId_session == 'RM1043.8' && getData.Q5.value == 'No' && getData.Q5.selected == true) {
         state = 'AWARD';
         redirectState = true;
-      } else if (agreementId_session == 'RM6187' && getData.Q8.value == 'Yes' && getData.Q8.selected == true) {
+      } else if ((agreementId_session == 'RM1557.13' || agreementId_session == 'RM6187') && getData.Q8.value == 'Yes' && getData.Q8.selected == true) {
         state = 'PRE_AWARD';
         redirectState = true;
-      } else if (agreementId_session == 'RM6187' && getData.Q8.value == 'No' && getData.Q8.selected == true) {
+      } else if ((agreementId_session == 'RM1557.13' || agreementId_session == 'RM6187') && getData.Q8.value == 'No' && getData.Q8.selected == true) {
         state = 'AWARD';
         redirectState = true;
       }
@@ -167,9 +167,8 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
             },
           ],
         };
-
+       
         const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`;
-
         await TenderApi.Instance(SESSION_ID).post(awardURL, body);
         res.redirect('/event/management?id=' + eventId);
       } else {
