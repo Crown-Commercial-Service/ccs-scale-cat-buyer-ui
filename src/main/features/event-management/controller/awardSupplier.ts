@@ -134,18 +134,18 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
       let state = '';
       let redirectState = false;
       const getData: any = await TIMELINEDEPENDENCYHELPER(req, res);
-
+     
       if (eventType == 'DA') {
         state = 'AWARD';
         redirectState = true;
       } else if (getData == null) {
         redirectState = false;
-      } else if (agreementId_session == 'RM1043.8' && getData.Q10.value == 'Yes' && getData.Q10.selected == true) {
-        state = 'PRE_AWARD';
-        redirectState = true;
-      } else if (agreementId_session == 'RM1043.8' && getData.Q10.value == 'No' && getData.Q10.selected == true) {
-        state = 'AWARD';
-        redirectState = true;
+      // } else if (agreementId_session == 'RM1043.8' && getData.Q10.value == 'Yes' && getData.Q10.selected == true) {
+      //   state = 'PRE_AWARD';
+      //   redirectState = true;
+      // } else if (agreementId_session == 'RM1043.8' && getData.Q10.value == 'No' && getData.Q10.selected == true) {
+      //   state = 'AWARD';
+      //   redirectState = true;
       } else if (agreementId_session == 'RM1043.8' && getData.Q5.value == 'Yes' && getData.Q5.selected == true) {
         state = 'PRE_AWARD';
         redirectState = true;
@@ -158,6 +158,8 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
       } else if (agreementId_session == 'RM6187' && getData.Q8.value == 'No' && getData.Q8.selected == true) {
         state = 'AWARD';
         redirectState = true;
+      }else{
+        
       }
       if (redirectState == true) {
         const body = {
@@ -168,10 +170,9 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
           ],
         };
 
-        console.log('body', body);
-
         const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`;
-        await TenderApi.Instance(SESSION_ID).post(awardURL, body);
+
+         await TenderApi.Instance(SESSION_ID).post(awardURL, body);
         res.redirect('/event/management?id=' + eventId);
       } else {
         res.redirect('/stand-period');
