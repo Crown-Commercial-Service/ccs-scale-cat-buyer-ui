@@ -21,7 +21,7 @@ export const RFI_GET_CLOSE = async (req: express.Request, res: express.Response)
     const baseURL = `tenders/projects/${projectId}/close`;
     //const _body = 'cancelled';
     const _body = {
-      'terminationType': 'cancelled'       
+      terminationType: 'cancelled',
     };
     const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
     if (response.status == 200) {
