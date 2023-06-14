@@ -241,7 +241,7 @@ const saveButtonUnHideDateRfi = () => {
 
    // getRadioValidation();
 
-    function getAjax(){
+    function getAjax(select_tl_questionID){
         //Loader initiated
         document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
         var bodytg = document.body;
@@ -291,7 +291,9 @@ const saveButtonUnHideDateRfi = () => {
                 var tl_aggrementID = $('.resdateradioclass'+selector).attr("data-aggrement");
                  var tl_eventType = $('.resdateradioclass'+selector).attr("data-eventType");
                  var tl_questionID = $('.resdateradioclass'+selector).attr("data-question");
-                 
+                 if(selector==8){
+
+                 }
 
                     if(checkRadioSelected == 'yes') {
                         q7Selected = true;
@@ -305,7 +307,8 @@ const saveButtonUnHideDateRfi = () => {
                     }
                    
                     jsonVariable['Q'+selector] = {
-                        value: null, 
+                       // value: null, 
+                       value:previousQuestion,
                         selected: q7Selected, 
                         config: selectedValue,
                         id:selector
@@ -330,9 +333,11 @@ const saveButtonUnHideDateRfi = () => {
                     tl_aggrementID,
                     tl_eventType,
                     tl_questionID,
+                    select_tl_questionID,
                     tl_val:'yes',
                     manipulation: manipulationArray
                 }
+                console.log("postTLData",postTLData);
                 $.ajax({
                             url: `/timeline_standstill_supplier`,
                             type: "POST",
@@ -371,7 +376,11 @@ const saveButtonUnHideDateRfi = () => {
 
     }
     $('.timeLineEventTrigger').on('click', function(e) {
-    getAjax();
+        var tl_questionID = $(this).attr("data-question");
+        console.log("tl_questionID",tl_questionID);
+
+        getAjax(tl_questionID);
+
     });
 
     // setTimeout(() => {
