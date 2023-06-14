@@ -284,7 +284,7 @@ function isValidQuestion(
       }
       errorSelector = 'rfi_clarification_date_expanded_3';
       break;
-    case 'Question 4':
+    case 'Question 4': {
       let nextval;
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
@@ -304,6 +304,7 @@ function isValidQuestion(
       }
       errorSelector = 'rfi_clarification_date_expanded_4';
       break;
+    }
     case 'Question 5':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
