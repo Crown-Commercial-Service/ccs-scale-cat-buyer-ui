@@ -1,8 +1,7 @@
 dist: focal
 os: linux
 language: node_js
-node_js:
-  — 18.16.0
+node_js: — 18.16.0
 
 before_install:
   - npm i -g npm@8.19.4
@@ -13,7 +12,7 @@ before_script:
 
 script:
   - echo "Run full npm test when tests have been fixed"
-  - npm run test:unit
+  - npm run lint && npm run test:unit
 
 after_success:
   - echo "Determine deployment environment"
@@ -105,13 +104,13 @@ deploy:
       all_branches: true
       condition: $DEPLOY_BRANCH = TRUE
 
-# WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments 
+# WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments
 env:
   global:
     # CF_USERNAME
-    - secure: "8vR6tbXwHAq7W1WQWaPAEw9kdfCOwiuTB0JKFy6F/I4K35mB9tglw5L6LslXY5V2BAIM3XHnukSzr0l5klk5B5FZwe4UIm+XCD3b+SmAL+zdEvwQEyTRrwpooz26MCXFpGMWU6+YLfGPvST/voM6svfV22VQlC+aGgORakTX9wHlArBo0FCs9/ks58Pks5Ih9s0tkK2D/2h5vStHeKoF/K+pnsO6bJl+xbCA81a5QIRwRGk/yFCYj6sviAdXSj/nNdG0CSQZih5bbwBwWgR+0tvm6k4/8bLUId4MCZk5D2Jk+fKhbskGSRIkZtr0hnbYmyLKsot0dW2XBp8V/5BDmMCHWiG+8RWyV2Xp4JBYPLlBjhHWZoGTAFtrb5pZtW9YgcyzNiF3xlk4y5jWDsD/iUv03RxZ2cISog4tpaETXWrRGSVq7gqmDz3JP0hCoP/LGdp7Eq2ABiffFpNS8CFWOy9Vxi7GztGX8EpX4NGZx9uSypkvnwyAMqrAxDZgO6J+9QGkwDqxp/iFEzcD/CEIXfjRrDM6BnC0cD1bWOQjKyn63Vp7FtnZ++X80u37Mt+FfV2KX1khUtiefaY7fu2hznjQYzxarGWp45kTE2QQaQO25HRpNtdfcDeG0FFxGdr32IovB+gTyFp5oL/xhvxQYc7n+30vmtT38pMmBwbnq9E="
+    - secure: '8vR6tbXwHAq7W1WQWaPAEw9kdfCOwiuTB0JKFy6F/I4K35mB9tglw5L6LslXY5V2BAIM3XHnukSzr0l5klk5B5FZwe4UIm+XCD3b+SmAL+zdEvwQEyTRrwpooz26MCXFpGMWU6+YLfGPvST/voM6svfV22VQlC+aGgORakTX9wHlArBo0FCs9/ks58Pks5Ih9s0tkK2D/2h5vStHeKoF/K+pnsO6bJl+xbCA81a5QIRwRGk/yFCYj6sviAdXSj/nNdG0CSQZih5bbwBwWgR+0tvm6k4/8bLUId4MCZk5D2Jk+fKhbskGSRIkZtr0hnbYmyLKsot0dW2XBp8V/5BDmMCHWiG+8RWyV2Xp4JBYPLlBjhHWZoGTAFtrb5pZtW9YgcyzNiF3xlk4y5jWDsD/iUv03RxZ2cISog4tpaETXWrRGSVq7gqmDz3JP0hCoP/LGdp7Eq2ABiffFpNS8CFWOy9Vxi7GztGX8EpX4NGZx9uSypkvnwyAMqrAxDZgO6J+9QGkwDqxp/iFEzcD/CEIXfjRrDM6BnC0cD1bWOQjKyn63Vp7FtnZ++X80u37Mt+FfV2KX1khUtiefaY7fu2hznjQYzxarGWp45kTE2QQaQO25HRpNtdfcDeG0FFxGdr32IovB+gTyFp5oL/xhvxQYc7n+30vmtT38pMmBwbnq9E='
     # CF_PASSWORD
-    - secure: "8ARLNJkWSR3w0vnpdIA0YfemXOuO+8a9xvqdXLUYwPGsFzhfeqfsNcKN3ht/McKLAD+8HkrXC/2r3qqYpzi940eujzBcOpk4ufhXuFJokPyPx1Ncko2rCnBxq67mgKu6bWoja5H/FZxnhSPtFw/YjB5tzmeQI5YMWqMbVedjTVpUkkvGkm92QDTTfJXtUM6GtG0y+wFnSINLYpoS4FHNIWfmS2tVTDsORwHwn67btf54ekyQQeT4/kpyKd4c3zoC/0cDjGXVU/OQO6AktHHS3r9ZMftAOPUx/STB32RWoRtdcwAGvvvyXPBu+uADRUV6Puwe4ZCIDaB2EO4oIh4qtTIG5g8E5uyu9RdbOmLdVLYfmJ9Hxd5UwfuTA3rJ/QFWKVGPypK2Cv5pe8QKebRbkQLxrJkjiNMIs+wZQU6yr5FP3I/6QaGppCDSO3p3QFlUTIM+S9hgWSnhGvfm80jHLh+cE7KHqMr3Cea+E7ulijx45KZokV/ZZwN24YyNOWvJsKYJGc8Elqq+ET6cona3kdpA/S7DnLqaPI39nV/mRqtVum2boqcO7yoom0JhgvoqDMupBEMg0BSArJneKiVxkxN6jIOj+3CYwZtg5+f9Pn4O9S/qPOkL8rrU+j7Mf51poDwhtEBMR+w+YZpET6ZLK/iG7zygEqUY8KZYowNoeY4="
+    - secure: '8ARLNJkWSR3w0vnpdIA0YfemXOuO+8a9xvqdXLUYwPGsFzhfeqfsNcKN3ht/McKLAD+8HkrXC/2r3qqYpzi940eujzBcOpk4ufhXuFJokPyPx1Ncko2rCnBxq67mgKu6bWoja5H/FZxnhSPtFw/YjB5tzmeQI5YMWqMbVedjTVpUkkvGkm92QDTTfJXtUM6GtG0y+wFnSINLYpoS4FHNIWfmS2tVTDsORwHwn67btf54ekyQQeT4/kpyKd4c3zoC/0cDjGXVU/OQO6AktHHS3r9ZMftAOPUx/STB32RWoRtdcwAGvvvyXPBu+uADRUV6Puwe4ZCIDaB2EO4oIh4qtTIG5g8E5uyu9RdbOmLdVLYfmJ9Hxd5UwfuTA3rJ/QFWKVGPypK2Cv5pe8QKebRbkQLxrJkjiNMIs+wZQU6yr5FP3I/6QaGppCDSO3p3QFlUTIM+S9hgWSnhGvfm80jHLh+cE7KHqMr3Cea+E7ulijx45KZokV/ZZwN24YyNOWvJsKYJGc8Elqq+ET6cona3kdpA/S7DnLqaPI39nV/mRqtVum2boqcO7yoom0JhgvoqDMupBEMg0BSArJneKiVxkxN6jIOj+3CYwZtg5+f9Pn4O9S/qPOkL8rrU+j7Mf51poDwhtEBMR+w+YZpET6ZLK/iG7zygEqUY8KZYowNoeY4='
     - DEPLOY_BRANCH=FALSE
     - SPACE_NAME=""
     - CF_ENVIRONMENT=""
