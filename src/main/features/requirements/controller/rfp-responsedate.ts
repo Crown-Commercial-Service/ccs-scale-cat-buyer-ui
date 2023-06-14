@@ -1044,13 +1044,18 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     let Q7, Q7_after, Q7_check;
     if (manipulation.Q7.selected) {
-      const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
+      if (manipulation.Q7.value != "") {
+        Q7 = new Date(manipulation.Q7.value);
+        Q7_check = Q7;
+      } else {
+        const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
+        const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
 
-      Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
-      Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-      Q7 = Q6_B_add;
-      Q7_check = Q7;
+        Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+        Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+        Q7 = Q6_B_add;
+        Q7_check = Q7;
+      }
     } else {
       Q7 = Q6;
       Q7_check = undefined;
