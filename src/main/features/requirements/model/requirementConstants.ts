@@ -201,6 +201,10 @@ export enum REQUIREMENT_PATHS {
   DA_GET_WHERE_WORK_DONE = '/da/where-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
 
+  // StandstilSupplierPresentation - Start
+  TIMELINE_STANDSTILL_SUPPLIERT = '/timeline_standstill_supplier',
+  // StandstilSupplierPresentation - End
+
   // da type
   DA_TYPE_REQUIRE = '/da/type-require',
   DA_POST_TYPE_REQUIRE = '/da/-require',

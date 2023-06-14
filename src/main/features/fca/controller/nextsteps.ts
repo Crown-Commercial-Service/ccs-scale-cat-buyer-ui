@@ -25,9 +25,9 @@ export const FCA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies; //jwt
   res.locals.agreement_header = {
     agreementName,
-    projectName:project_name,
+    projectName: project_name,
     projectId,
-    agreementIdSession:agreementId_session,
+    agreementIdSession: agreementId_session,
     agreementLotName,
     lotid,
     error: isEmptyNextstepError,
