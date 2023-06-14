@@ -1010,8 +1010,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const tl_val = req.body.tl_val;
   req.session.timlineSession = req.body;
   const manipulation = req.body.manipulation;
-  const select_tl_questionID = req.body.select_tl_questionID;
-
   const { SESSION_ID } = req.cookies;
   const stage2_value = req.session.stage2_value;
 
@@ -1041,42 +1039,21 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   if (tl_aggrementID == 'RM6187' || tl_aggrementID == 'RM1557.13') {
     //console.log("manipulation",manipulation);
     //Q6
+    const pre_Q6 = manipulation.Q6.value;
+    const Q6 = new Date(pre_Q6); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
 
     let Q7, Q7_after, Q7_check;
+    if (manipulation.Q7.selected) {
+      const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
 
-    if (select_tl_questionID != 8) {
-      const pre_Q6 = manipulation.Q6.value;
-      const Q6 = new Date(pre_Q6); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-
-      if (manipulation.Q7.selected) {
-        const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
-        const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
-
-        Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
-        Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-        Q7 = Q6_B_add;
-        Q7_check = Q7;
-      } else {
-        Q7 = Q6;
-        Q7_check = undefined;
-      }
-
-      //JSON Response Start
-      if (Q7_check != undefined) {
-        Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-      } else {
-        Q7_after = '';
-      }
+      Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+      Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+      Q7 = Q6_B_add;
+      Q7_check = Q7;
     } else {
-      const pre_Q6 = manipulation.Q6.value;
-      const Q6 = new Date(pre_Q6);
-      const pre_Q7 = manipulation.Q7.value;
-      Q7 = new Date(pre_Q7);
-      if (Q7_after != '') {
-        Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-      } else {
-        Q7_after = '';
-      }
+      Q7 = Q6;
+      Q7_check = undefined;
     }
 
     let Q8, Q8_after, Q8_check;
@@ -1110,6 +1087,13 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     Q11_B_add.setHours(MCF3_Days.defaultEndingHour);
     Q11_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
     const Q11 = Q11_B_add;
+
+    //JSON Response Start
+    if (Q7_check != undefined) {
+      Q7_after = moment(Q7, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+    } else {
+      Q7_after = '';
+    }
 
     if (Q8_check != undefined) {
       Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1173,59 +1157,35 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       10: { question: 'Q10', value: `${Q10_after}`, order: 4, qusId: 10 },
       11: { question: 'Q11', value: `${Q11_after}`, order: 5, qusId: 11 },
     };
-    console.log('apiData', JSON.stringify(apiData));
   } else {
     //DOS
     const manipulation = req.body.manipulation;
     //q2 - 10days
-
     if (stage2_value == 'Stage 2') {
+      const pre_Q2 = manipulation.Q2.value;
+
+      const Q2 = new Date(pre_Q2); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
       let Q3, Q3_after, Q3_check; //5 days
-      let Q4;
-      if (select_tl_questionID != 5) {
-        const pre_Q2 = manipulation.Q2.value;
+      if (manipulation.Q3.selected) {
+        const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
+        const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        const Q2 = new Date(pre_Q2); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-
-        if (manipulation.Q3.selected) {
-          const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
-          const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-
-          Q2_B_add.setHours(DOS_Days.defaultEndingHour);
-          Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-          Q3 = Q2_B_add;
-          Q3_check = Q3;
-        } else {
-          Q3 = Q2;
-          Q3_check = undefined;
-        }
-
-        //Q4
-        const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
-        const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-        Q4_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q4 = Q4_B_add;
-
-        if (Q3_check != undefined) {
-          Q3_after = moment(Q3, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q3_after = '';
-        }
+        Q2_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q3 = Q2_B_add;
+        Q3_check = Q3;
       } else {
-        const pre_Q2 = manipulation.Q2.value;
-        const Q2 = new Date(pre_Q2);
-        const pre_Q3 = manipulation.Q3.value;
-        const Q3 = new Date(pre_Q3);
-        if (Q3_after != '') {
-          Q3_after = moment(Q3, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q3_after = '';
-        }
-
-        const pre_Q4 = manipulation.Q4.value;
-        Q4 = new Date(pre_Q4);
+        Q3 = Q2;
+        Q3_check = undefined;
       }
+
+      //Q4
+      const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
+      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+      Q4_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q4 = Q4_B_add;
 
       let Q5, Q5_after, Q5_check;
       if (manipulation.Q5.selected) {
@@ -1261,6 +1221,12 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q8_B_add.setHours(DOS_Days.defaultEndingHour);
       Q8_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q8 = Q8_B_add;
+
+      if (Q3_check != undefined) {
+        Q3_after = moment(Q3, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q3_after = '';
+      }
 
       if (Q5_check != undefined) {
         Q5_after = moment(Q5, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1336,53 +1302,33 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         8: { question: 'Q8', value: `${Q8_after}`, order: 6, qusId: 8 },
       };
     } else {
-      let Q9;
+      //Q7
+
+      const pre_Q7 = manipulation.Q7.value;
+
+      const Q7 = new Date(pre_Q7); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
       let Q8, Q8_after, Q8_check;
 
-      if (select_tl_questionID != 10) {
-        //Q7
-        const pre_Q7 = manipulation.Q7.value;
+      if (manipulation.Q8.selected) {
+        const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
+        const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        const Q7 = new Date(pre_Q7); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
-
-        if (manipulation.Q8.selected) {
-          const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
-          const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
-
-          Q7_B_add.setHours(DOS_Days.defaultEndingHour);
-          Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-          Q8 = Q7_B_add;
-          Q8_check = Q8;
-        } else {
-          Q8 = Q7;
-          Q8_check = undefined;
-        }
-
-        //Q9
-        const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
-        const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-        Q9_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q9 = Q9_B_add;
-        if (Q8_check != undefined) {
-          Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q8_after = '';
-        }
+        Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q8 = Q7_B_add;
+        Q8_check = Q8;
       } else {
-        const pre_Q7 = manipulation.Q7.value;
-        const Q7 = new Date(pre_Q7);
-        const pre_Q8 = manipulation.Q8.value;
-        const Q8 = new Date(pre_Q8);
-        if (Q8_after != '') {
-          Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
-        } else {
-          Q8_after = '';
-        }
-
-        const pre_Q9 = manipulation.Q9.value;
-        Q9 = new Date(pre_Q9);
+        Q8 = Q7;
+        Q8_check = undefined;
       }
+
+      //Q9
+      const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
+      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+      Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+      Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+      const Q9 = Q9_B_add;
 
       let Q10, Q10_after, Q10_check;
       if (manipulation.Q10.selected) {
@@ -1418,6 +1364,12 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q13_B_add.setHours(DOS_Days.defaultEndingHour);
       Q13_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q13 = Q13_B_add;
+
+      if (Q8_check != undefined) {
+        Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
+      } else {
+        Q8_after = '';
+      }
 
       if (Q10_check != undefined) {
         Q10_after = moment(Q10, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
@@ -1566,7 +1518,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
             },
           };
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log('answerBaseURLNew', answerBaseURL);
           await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       } else {
@@ -1579,8 +1530,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
           };
 
           const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-          console.log('answerBaseElse', answerBaseURL);
-
           await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         }
       }

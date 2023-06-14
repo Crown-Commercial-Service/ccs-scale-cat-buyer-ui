@@ -241,7 +241,7 @@ const saveButtonUnHideDateRfi = () => {
 
    // getRadioValidation();
 
-    function getAjax(select_tl_questionID){
+    function getAjax(select_tl_questionID) {
         //Loader initiated
         document.querySelector(".loderMakeRes").innerHTML = '<p class="govuk-body loader-desc-hdr"></p><p class="govuk-body loader-desc">Please wait...</p>';
         var bodytg = document.body;
@@ -337,7 +337,7 @@ const saveButtonUnHideDateRfi = () => {
                     tl_val:'yes',
                     manipulation: manipulationArray
                 }
-                console.log("postTLData",postTLData);
+                
                 $.ajax({
                             url: `/timeline_standstill_supplier`,
                             type: "POST",
@@ -377,10 +377,7 @@ const saveButtonUnHideDateRfi = () => {
     }
     $('.timeLineEventTrigger').on('click', function(e) {
         var tl_questionID = $(this).attr("data-question");
-        console.log("tl_questionID",tl_questionID);
-
         getAjax(tl_questionID);
-
     });
 
     // setTimeout(() => {
