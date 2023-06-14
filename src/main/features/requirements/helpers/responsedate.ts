@@ -1330,6 +1330,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
+        stage2_value,
       };
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
@@ -1573,6 +1574,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
+        stage2_value,
       };
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
@@ -1895,6 +1897,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         agreementIdSession,
         agreementLotName,
         lotid,
+        stage2_value,
       };
       let forceChangeDataJson;
       if (agreementId_session == 'RM6187') {
@@ -1934,6 +1937,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
+        stage2_value,
       };
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };
@@ -2207,6 +2211,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         releatedContent: req.session.releatedContent,
         selectedeventtype,
         agreementId_session,
+        stage2_value,
       };
       if (errorTriggered) {
         appendData = { ...appendData, error: true, errorMessage: errorItem, selectedeventtype };

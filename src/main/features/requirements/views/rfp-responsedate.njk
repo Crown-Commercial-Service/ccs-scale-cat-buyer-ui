@@ -7,7 +7,8 @@
 {% set title = 'RFP - response date | Crown Commercial Service' %}
 {% from "macros/csrf.njk" import csrfProtection %}
 {% block breadCrumb %}
-    {% if (agreementId_session == 'RM6187') or (agreementId_session == 'RM1557.13') or (stage2_value == "Stage 2" and agreementId_session == 'RM1043.8') %}
+    {% if (agreementId_session == 'RM6187') 
+        or(agreementId_session == 'RM1557.13')or(stage2_value == "Stage 2" and agreementId_session == 'RM1043.8') %}
         {{ CCSBreadcrumbs({
         items: [
             {
@@ -57,7 +58,7 @@
                 </h1>
             </div>
         </div>
-        {% if(error) %}
+        {% if (error) %}
             {{ CCSErrorSummary({
   titleText: "There is a problem",
   errorList: [
@@ -71,7 +72,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                {% if (selectedeventtype=='DA') %}
+                {% if (selectedeventtype == 'DA') %}
                     <p class="govuk-body">{{ data.subtitleDA }}</p>
                     <p class="govuk-body">{{ data.subtitleDA1 }}</p>
                 {% else %}
@@ -122,40 +123,40 @@
                                         working days from publishing responses to the clarification questions to the deadline for suppliers to submit their
                                         response</li>
                                 {% endif %}
-                                  {% endif %}
+                            {% endif %}
                             {% if agreementId_session == 'RM1557.13' %}
                                 <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit
                                     their response</li>
                             {% endif %}
                         </ul>
-                        {% endif %}
-                        <p class="govuk-body">{{data.subtitle2}}</p>
-                        
-                        {% if agreementId_session != 'RM1043.8' %}
+                    {% endif %}
+                    <p class="govuk-body">{{data.subtitle2}}</p>
+
+                    {% if agreementId_session != 'RM1043.8' %}
+                        <div class="govuk-inset-text">
+                            <p class="govuk-body">
+                                <b>{{data.subtitle3}}</b>
+                            </p>
+                        </div>
+                    {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}
+                        <div class="govuk-inset-text">
+                            <p class="govuk-body">
+                                <b>{{data.subtitle3}}</b>
+                            </p>
+                        </div>
+                    {% endif %}
+                    <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
+                        {% if agreementId_session == 'RM1043.8' and stage2_value == "Stage 2" %}
+                            <p>A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p>
                             <div class="govuk-inset-text">
                                 <p class="govuk-body">
-                                    <b>{{data.subtitle3}}</b>
+                                    <strong>You can change the length of time for each section to more suitable times for you. It is recommended that you set your times no later than 4pm on a weekday in case you need to contact CCS about your project. Your stage 1 choices for including supplier presentations and a standstill period are reflected here. You can change them as needed.</stong>
                                 </p>
                             </div>
-                        {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}    
-                         <div class="govuk-inset-text">
-                                <p class="govuk-body">
-                                    <b>{{data.subtitle3}}</b>
-                                </p>
-                            </div>
-                        {% endif %}
-                        <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
-                            {% if agreementId_session =='RM1043.8' and stage2_value == "Stage 2" %}
-                                <p>A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p>
-                                <div class="govuk-inset-text">
-                                    <p class="govuk-body">
-                                        <strong>You can change the length of time for each section to more suitable times for you. It is recommended that you set your times no later than 4pm on a weekday in case you need to contact CCS about your project. Your stage 1 choices for including supplier presentations and a standstill period are reflected here. You can change them as needed.</stong>
-                                    </p>
-                                </div>
                             {%endif%}
                             <p class="govuk-body-l govuk-!-margin-top-3">
                                 <strong>
-                    {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}
+                                    {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13'%}
                     Timeline for your further competition
                     {% elseif agreementId_session =='RM1043.8' and stage2_value !== "Stage 2" %}
                     Your further competition timeline 
@@ -164,18 +165,18 @@
                     {% else %}
                     Timeline for the 1-stage further competition
                     {% endif %}
-                    {# <p class="govuk-body">{{ data.subtitle2 }}</p> #}
-                    {# {% if agreementId_session != 'RM1043.8' %} #}
-                    
-                    {% if(data.subtitle3 == '') and (stage2_value == "Stage 2" and agreementId_session == 'RM1043.8') %}
-                        <div class="govuk-inset-text">
-                            <p class="govuk-body">
-                                <b>{{ data.subtitle3 }}</b>
-                            </p>
-                        </div>
-                    {% endif %}
-                    {# {% endif %} #}
-                    {# <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
+                                    {# <p class="govuk-body">{{ data.subtitle2 }}</p> #}
+                                    {# {% if agreementId_session != 'RM1043.8' %} #}
+
+                                    {% if (data.subtitle3 == '') and (stage2_value == "Stage 2" and agreementId_session == 'RM1043.8') %}
+                                        <div class="govuk-inset-text">
+                                            <p class="govuk-body">
+                                                <b>{{ data.subtitle3 }}</b>
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    {# {% endif %} #}
+                                    {# <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5 govuk-!-margin-top-9">
                         <p class="govuk-body-l govuk-!-margin-top-3">
                             <strong>
                                 {% if agreementId_session == 'RM6187' or  agreementId_session == 'RM1557.13' %}
@@ -187,32 +188,32 @@
                                 {% else %}
                                     Timeline for the 1-stage further competition
                                 {% endif %} #}
-                            </strong>
-                        </p>
-                    </div> 
-                {% endif %}
-                {% block valuewitNoMultiSelect %}
-                {% set ordersArr = [] %}
-                {% for req in framework%}
-                    {% set ordersArr = (ordersArr.push(req.nonOCDS.order), ordersArr) %}
-                {%endfor %}
-                <span id="clarification_date_arr" attr="{{ordersArr}}"></span>
-                    {% for requirement in framework %}
-                        {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
-                            
-                             {% set bodyContHide = '' %}
+                                </strong>
+                            </p>
+                        </div>
+                    {% endif %}
+                    {% block valuewitNoMultiSelect %}
+                        {% set ordersArr = [] %}
+                        {% for req in framework%}
+                            {% set ordersArr = (ordersArr.push(req.nonOCDS.order), ordersArr) %}
+                        {%endfor %}
+                        <span id="clarification_date_arr" attr="{{ordersArr}}"></span>
+                        {% for requirement in framework %}
+                            {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
 
-                            <div class="govuk-form-group ccs-page-section eoi_publish_date rfi-timeline-list showDivDynamic{{requirement.nonOCDS.order}}" id="showDateDiv{{ loop.index }}" data-label="{{ loop.index }}">
-                                {% if(requirement.nonOCDS.timelineDependency ) %}
-                               {% set radioSelected = 'Q' + requirement.nonOCDS.order %}
-                              
-                               {% set obj = timlineSession.manipulation  %}
-                               {% set key = radioSelected  %}
-                               
-                                 {% set bodyContHide = 'hide' %}
-                                {% set yeschecked = '' %}
-                                {% set nochecked = '' %}
-                                  {# {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[0].select==true or obj[key].selected==true ) %}
+                                {% set bodyContHide = '' %}
+
+                                <div class="govuk-form-group ccs-page-section eoi_publish_date rfi-timeline-list showDivDynamic{{requirement.nonOCDS.order}}" id="showDateDiv{{ loop.index }}" data-label="{{ loop.index }}">
+                                    {% if (requirement.nonOCDS.timelineDependency) %}
+                                        {% set radioSelected = 'Q' + requirement.nonOCDS.order %}
+
+                                        {% set obj = timlineSession.manipulation %}
+                                        {% set key = radioSelected %}
+
+                                        {% set bodyContHide = 'hide' %}
+                                        {% set yeschecked = '' %}
+                                        {% set nochecked = '' %}
+                                        {# {% if(requirement.nonOCDS.timeline_dependency.nonOCDS.options[0].select==true or obj[key].selected==true ) %}
                                   {% set yeschecked = 'checked' %}
                                    {% set bodyContHide = '' %}
                                   {% endif %}
@@ -222,175 +223,177 @@
                                    {% set bodyContHide = 'hide' %}
                                   {% endif %} #}
 
-                                         {% if(requirement.nonOCDS.timelineDependency.nonOCDS.options[0].selected==true ) %}
-                                  {% set yeschecked = 'checked' %}
-                                   {% set bodyContHide = '' %}
-                                  {% endif %}
-                                  
-                                  {% if(requirement.nonOCDS.timelineDependency.nonOCDS.options[1].selected==true ) %}
-                                  {% set nochecked = 'checked' %}
-                                   {% set bodyContHide = 'hide' %}
-                                  {% endif %}
-                                <div class="datehead hidehr" id="headContent_{{requirement.nonOCDS.order}}">
-                                    
-                                    <label class="govuk-label govuk-body">
-                                     <strong>{{requirement.nonOCDS.timelineDependency.OCDS.title}}</strong>
-                                         
-                                    </label>
-                                      
-                                        <p class="govuk-body">{{requirement.nonOCDS.timelineDependency.OCDS.description}}</p>
-                                   
-                                        
-                                    <div class="govuk-radios govuk-radios--inline" id="errorMsg{{requirement.nonOCDS.order}}">
-                                        <div class="govuk-radios__item">
-                                            <input class="govuk-radios__input timeLineEventTrigger resdateradioclass{{requirement.nonOCDS.order}}" {{yeschecked}} data-question="{{requirement.nonOCDS.order}}" data-eventType="{{getEventType}}" data-aggrement="{{agreementId_session}}" id="resdateradio{{requirement.nonOCDS.order}}" name="resdateradio{{requirement.nonOCDS.order}}" type="radio" value="yes">
-                                            <label class="govuk-label govuk-radios__label" for="usage">Yes</label>
+                                        {% if (requirement.nonOCDS.timelineDependency.nonOCDS.options[0].selected == true) %}
+                                            {% set yeschecked = 'checked' %}
+                                            {% set bodyContHide = '' %}
+                                        {% endif %}
+
+                                        {% if (requirement.nonOCDS.timelineDependency.nonOCDS.options[1].selected == true) %}
+                                            {% set nochecked = 'checked' %}
+                                            {% set bodyContHide = 'hide' %}
+                                        {% endif %}
+                                        <div class="datehead hidehr" id="headContent_{{requirement.nonOCDS.order}}">
+
+                                            <label class="govuk-label govuk-body">
+                                                <strong>{{requirement.nonOCDS.timelineDependency.OCDS.title}}</strong>
+
+                                            </label>
+
+                                            <p class="govuk-body">{{requirement.nonOCDS.timelineDependency.OCDS.description}}</p>
+
+                                            <div class="govuk-radios govuk-radios--inline" id="errorMsg{{requirement.nonOCDS.order}}">
+                                                <div class="govuk-radios__item">
+                                                    <input class="govuk-radios__input timeLineEventTrigger resdateradioclass{{requirement.nonOCDS.order}}" {{yeschecked}} data-question="{{requirement.nonOCDS.order}}" data-eventType="{{getEventType}}" data-aggrement="{{agreementId_session}}" id="resdateradio{{requirement.nonOCDS.order}}" name="resdateradio{{requirement.nonOCDS.order}}" type="radio" value="yes">
+                                                    <label class="govuk-label govuk-radios__label" for="usage">Yes</label>
+                                                </div>
+                                                <div class="govuk-radios__item">
+                                                    <input class="govuk-radios__input timeLineEventTrigger resdateradioclass{{requirement.nonOCDS.order}}" {{nochecked}} data-question="{{requirement.nonOCDS.order}}" data-eventType="{{getEventType}}" data-aggrement="{{agreementId_session}}" id="resdateradion{{requirement.nonOCDS.order}}" name="resdateradio{{requirement.nonOCDS.order}}"  type="radio" value="no">
+                                                    <label class="govuk-label govuk-radios__label" for="usage-2">No</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="govuk-radios__item">
-                                            <input class="govuk-radios__input timeLineEventTrigger resdateradioclass{{requirement.nonOCDS.order}}" {{nochecked}} data-question="{{requirement.nonOCDS.order}}" data-eventType="{{getEventType}}" data-aggrement="{{agreementId_session}}" id="resdateradion{{requirement.nonOCDS.order}}" name="resdateradio{{requirement.nonOCDS.order}}"  type="radio" value="no">
-                                            <label class="govuk-label govuk-radios__label" for="usage-2">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                 {% endif %}
-                                 
-                                <div class="govuk-radios__conditional_custom datebody {{bodyContHide}}" id="headBodyContent_{{requirement.nonOCDS.order}}">
-                                {% if(requirement.OCDS.title == "Start second stage supplier evaluation" ) %}
-                                    <p class="govuk-body">
+                                    {% endif %}
+
+                                    <div class="govuk-radios__conditional_custom datebody {{bodyContHide}}" id="headBodyContent_{{requirement.nonOCDS.order}}">
+                                        {% if (requirement.OCDS.title == "Start second stage supplier evaluation") %}
+                                            <p class="govuk-body">
                                         Evaluation of stage 2</p>
-                                {% else %}
-                                    <p class="govuk-body">
-                                       {{ requirement.OCDS.title }}</p>
-                                {% endif %}
-                                {% if(requirement.OCDS.title == "Publish your EoI" ) %}
-                                    <p class="govuk-body">
-                                        {{ data['data'].body.p1 }}</p>
-                                {% endif %}
-                                <div id="rfp_clarification_date{{ loop.index }}">
-                                    {% if(requirement.nonOCDS.options[0].selected) %}
-                                        <label class="govuk-label govuk-body">
-                                            {% if ((agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') and requirement.OCDS.id == "Question 8") %}
-                                                {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
+                                        {% else %}
+                                            <p class="govuk-body">
+                                                {{ requirement.OCDS.title }}</p>
+                                        {% endif %}
+                                        {% if (requirement.OCDS.title == "Publish your EoI") %}
+                                            <p class="govuk-body">
+                                                {{ data['data'].body.p1 }}</p>
+                                        {% endif %}
+                                        <div id="rfp_clarification_date{{ loop.index }}">
+                                            {% if (requirement.nonOCDS.options[0].selected) %}
+                                                <label class="govuk-label govuk-body">
+                                                    {% if ((agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13')and requirement.OCDS.id == "Question 8") %}
+                                                        {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
                                                     require a standstill, change this date to be the same as the date in point 9 below.</p> #}
-                                            {% endif %}
-                                            {% if(requirement.OCDS.id == "Question 7" and agreementId_session == 'RM1557.13') %}
-                                                {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p> #}
-                                            {% endif %}
-                                            {% if (agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 5" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 10" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
-                                                {# <p>
+                                                    {% endif %}
+                                                    {% if (requirement.OCDS.id == "Question 7" and agreementId_session == 'RM1557.13') %}
+                                                        {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p> #}
+                                                    {% endif %}
+                                                    {% if (agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 5" and stage2_value == "Stage 2") 
+                                                        or(requirement.OCDS.id == "Question 10" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
+                                                        {# <p>
                                                     A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not require
                                                     a standstill, change this date to be the same as the date in point 11 below.</p> #}
+                                                    {% endif %}
+                                                    {% if (agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 3" and stage2_value == "Stage 2") 
+                                                        or(requirement.OCDS.id == "Question 8" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
+                                                        {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
+                                                    {% endif %}
+                                                    <strong id="lbl-clarification" class="clarification_{{requirement.nonOCDS.order}} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong>
+                                                </label>
                                             {% endif %}
-                                            {% if(agreementId_session == 'RM1043.8' and requirement.OCDS.id == "Question 3" and stage2_value == "Stage 2") or (requirement.OCDS.id == "Question 8" and agreementId_session == 'RM1043.8' and stage2_value != "Stage 2") %}
-                                                {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
-                                            {% endif %}
-                                            <strong id="lbl-clarification" class="clarification_{{requirement.nonOCDS.order}} dynamicid_{{ loop.index }}">{{ requirement.nonOCDS.options[0].value }}</strong>
-                                        </label>
-                                    {% endif %}
-                                    {% if( requirement.nonOCDS.options.length == 0) %}
-                                        {% if(requirement.OCDS.id == "Question 2" ) %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="clarification_period_end" class="clarification_2 dynamicid_{{ loop.index }}">{{ rfp_clarification_period_end }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 3") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="deadline_period_for_clarification_period" class="clarification_3 dynamicid_{{ loop.index }}">{{ deadline_period_for_clarification_period }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 4") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="supplier_period_for_clarification_period" class="clarification_4 dynamicid_{{ loop.index }}">{{ supplier_period_for_clarification_period }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 5") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="supplier_dealine_for_clarification_period" class="clarification_5 dynamicid_{{ loop.index }}">{{ supplier_dealine_for_clarification_period }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 6") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="deadline_for_submission_of_stage_one" class="clarification_6 dynamicid_{{ loop.index }}">{{ deadline_for_submission_of_stage_one }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 7") %}
-                                            <label class="govuk-label govuk-body">
-                                                {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
-                                                    {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p> #}
-                                                {% endif %}
-                                                <strong id="evaluation_process_start_date" class="clarification_7 dynamicid_{{ loop.index }}">{{ evaluation_process_start_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 8") %}
-                                            <label class="govuk-label govuk-body">
-                                                {% if(agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
-                                                    {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision.</p>
+                                            {% if (requirement.nonOCDS.options.length == 0) %}
+                                                {% if (requirement.OCDS.id == "Question 2") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="clarification_period_end" class="clarification_2 dynamicid_{{ loop.index }}">{{ rfp_clarification_period_end }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 3") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="deadline_period_for_clarification_period" class="clarification_3 dynamicid_{{ loop.index }}">{{ deadline_period_for_clarification_period }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 4") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="supplier_period_for_clarification_period" class="clarification_4 dynamicid_{{ loop.index }}">{{ supplier_period_for_clarification_period }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 5") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="supplier_dealine_for_clarification_period" class="clarification_5 dynamicid_{{ loop.index }}">{{ supplier_dealine_for_clarification_period }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 6") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="deadline_for_submission_of_stage_one" class="clarification_6 dynamicid_{{ loop.index }}">{{ deadline_for_submission_of_stage_one }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 7") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        {% if (agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
+                                                            {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 8 below.</p> #}
+                                                        {% endif %}
+                                                        <strong id="evaluation_process_start_date" class="clarification_7 dynamicid_{{ loop.index }}">{{ evaluation_process_start_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 8") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        {% if (agreementId_session == 'RM6187' or agreementId_session == 'RM1557.13') %}
+                                                            {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision.</p>
                                                     <p>If you do not require a standstill, change this date to be the same as the date in point 9 below.</p> #}
-                                                {% endif %}
-                                                {% if (agreementId_session == 'RM1043.8') %}
-                                                    {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
-                                                {% endif %}
-                                                <strong id="bidder_presentations_date" class="clarification_8 dynamicid_{{ loop.index }}">{{ bidder_presentations_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 9") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="standstill_period_starts_date" class="clarification_9 dynamicid_{{ loop.index }}">{{ standstill_period_starts_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 10") %}
-                                            <label class="govuk-label govuk-body">
-                                                {% if (agreementId_session == 'RM1043.8') %}
-                                                    {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
+                                                        {% endif %}
+                                                        {% if (agreementId_session == 'RM1043.8') %}
+                                                            {# <p>If you do not require supplier presentations, change this date to be the same as the date in point 9 below.</p> #}
+                                                        {% endif %}
+                                                        <strong id="bidder_presentations_date" class="clarification_8 dynamicid_{{ loop.index }}">{{ bidder_presentations_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 9") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="standstill_period_starts_date" class="clarification_9 dynamicid_{{ loop.index }}">{{ standstill_period_starts_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 10") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        {% if (agreementId_session == 'RM1043.8') %}
+                                                            {# <p>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not
                                                         require a standstill, change this date to be the same as the date in point 11 below.</p> #}
+                                                        {% endif %}
+                                                        <strong id="proposed_award_date" class="clarification_10 dynamicid_{{ loop.index }}">{{ proposed_award_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 11") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="expected_signature_date" class="clarification_11 dynamicid_{{ loop.index }}">{{ expected_signature_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 12") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="contract_signed_date" class="clarification_12 dynamicid_{{ loop.index }}">{{ contract_signed_date }}</strong>
+                                                    </label>
+                                                {% elif(requirement.OCDS.id == "Question 13") %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong id="supplier_start_date" class="clarification_13 dynamicid_{{ loop.index }}">{{ supplier_start_date }}</strong>
+                                                    </label>
+                                                {% else %}
+                                                    <label class="govuk-label govuk-body">
+                                                        <strong class="clarification_1 dynamicid_{{ loop.index }}">{{ rfp_clarification_date }}</strong>
+                                                    </label>
                                                 {% endif %}
-                                                <strong id="proposed_award_date" class="clarification_10 dynamicid_{{ loop.index }}">{{ proposed_award_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 11") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="expected_signature_date" class="clarification_11 dynamicid_{{ loop.index }}">{{ expected_signature_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 12") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="contract_signed_date" class="clarification_12 dynamicid_{{ loop.index }}">{{ contract_signed_date }}</strong>
-                                            </label>
-                                        {% elif(requirement.OCDS.id == "Question 13") %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong id="supplier_start_date" class="clarification_13 dynamicid_{{ loop.index }}">{{ supplier_start_date }}</strong>
-                                            </label>
-                                        {% else %}
-                                            <label class="govuk-label govuk-body">
-                                                <strong class="clarification_1 dynamicid_{{ loop.index }}">{{ rfp_clarification_date }}</strong>
-                                            </label>
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if (requirement.OCDS.id !== "Question 1") %}
-                                        <a
+                                            {% endif %}
+                                            {% if (requirement.OCDS.id !== "Question 1") %}
+                                                <a
                                             href="#rfi_clarification_date_expanded_{{requirement.nonOCDS.order}}"
                                             id="change_clarification_date_{{requirement.nonOCDS.order}}"
                                             class="govuk-link govuk-link--no-visited-state change">change</a>
-                                        <div id="rfi_clarification_date_expanded_{{requirement.nonOCDS.order}}" class='rfi_hideFirst'>
-                                            <div>
-                                                <label class="govuk-label govuk-body">
-                                                    <strong id="lbl-clarification_copy">{{ clarification_date_string }}</strong>
-                                                </label>
-                                                {% if(agreementId_session == 'RM1557.13') %}
-                                                    <a
+                                                <div id="rfi_clarification_date_expanded_{{requirement.nonOCDS.order}}" class='rfi_hideFirst'>
+                                                    <div>
+                                                        <label class="govuk-label govuk-body">
+                                                            <strong id="lbl-clarification_copy">{{ clarification_date_string }}</strong>
+                                                        </label>
+                                                        {% if (agreementId_session == 'RM1557.13') %}
+                                                            <a
                                                         href="#rfi_clarification_date_{{requirement.nonOCDS.order}}"
                                                         id="cancel_change_clarification_date_{{requirement.nonOCDS.order}}"
                                                         class="govuk-link govuk-link--no-visited-state "
                                                         hidden>Cancel Change</a>
-                                                {% else %}
-                                                    <a
+                                                        {% else %}
+                                                            <a
                                                         href="#rfi_clarification_date_{{requirement.nonOCDS.order}}"
                                                         id="cancel_change_clarification_date_{{requirement.nonOCDS.order}}"
                                                         class="govuk-link govuk-link--no-visited-state "
                                                         hidden>I do not want to change this date and time</a>
-                                                {% endif %}
-                                            </div>
-                                            <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{requirement.nonOCDS.order}}">
-                                                {{ csrfProtection(csrf) }}
-                                                <input type="hidden" value="{{ agreementId_session }}" id="agreementID">
-                                                    <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
-                                                        <div class="govuk-date-input govuk-!-margin-top-5" id="clarification_date">
-                                                            <div class="govuk-date-input__item">
-                                                                <div class="govuk-form-group">
-                                                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
+                                                        {% endif %}
+                                                    </div>
+                                                    <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{requirement.nonOCDS.order}}">
+                                                        {{ csrfProtection(csrf) }}
+                                                        <input type="hidden" value="{{ agreementId_session }}" id="agreementID">
+                                                        <input type="hidden" id="stage2_value" value="{{stage2_value}}" >
+                                                        <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
+                                                            <div class="govuk-date-input govuk-!-margin-top-5" id="clarification_date">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
                                                                         Date
                                                                     </label>
-                                                                    <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-day_{{requirement.nonOCDS.order}}" name="clarification_date_day" type="text" inputmode="numeric" value="{{ data['clarification_date-day'] }}"></div>
+                                                                        <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-day_{{requirement.nonOCDS.order}}" name="clarification_date_day" type="text" inputmode="numeric" value="{{ data['clarification_date-day'] }}"></div>
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
@@ -398,33 +401,33 @@
                                                                             Month
                                                                         </label>
                                                                         <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-month_{{requirement.nonOCDS.order}}" name="clarification_date_month" type="text" inputmode="numeric" value="{{ data['clarification_date-month'] }}"></div>
-                                                                    </div>
-                                                                    <div class="govuk-date-input__item">
-                                                                        <div class="govuk-form-group">
-                                                                            <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
+                                                                </div>
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
                                                                                 Year
                                                                             </label>
-                                                                            <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-4" id="clarification_date-year_{{requirement.nonOCDS.order}}" name="clarification_date_year" type="text" maxlength="4" inputmode="numeric" value="{{ data['clarification_date-year'] }}"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </fieldset>
-                                                                <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_time">
-                                                                    <div class="govuk-date-input govuk-!-margin-top-5" id="clarification_time">
-                                                                        <div class="govuk-date-input__item">
-                                                                            <div class="govuk-form-group">
-                                                                                <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
+                                                                        <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-4" id="clarification_date-year_{{requirement.nonOCDS.order}}" name="clarification_date_year" type="text" maxlength="4" inputmode="numeric" value="{{ data['clarification_date-year'] }}"></div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_time">
+                                                            <div class="govuk-date-input govuk-!-margin-top-5" id="clarification_time">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
                                                                                     Hour
                                                                                 </label>
-                                                                                <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-hour_{{requirement.nonOCDS.order}}" name="clarification_date_hour" type="text" inputmode="numeric" value="{{ data['clarification_date-hour'] }}"></div>
-                                                                            </div>
-                                                                            <div class="govuk-date-input__item">
-                                                                                <div class="govuk-form-group">
-                                                                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
+                                                                        <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-hour_{{requirement.nonOCDS.order}}" name="clarification_date_hour" type="text" inputmode="numeric" value="{{ data['clarification_date-hour'] }}"></div>
+                                                                </div>
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
                                                                                         Minutes
                                                                                     </label>
-                                                                                    <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-minute_{{requirement.nonOCDS.order}}" name="clarification_date_minute" type="text" inputmode="numeric" value="{{ data['clarification_date-minute'] }}"></div>
-                                                                                </div>
-                                                                                {# <div class="govuk-date-input__item">
+                                                                        <input class="govuk-input govuk-date-input__input removeErr govuk-input--width-2" id="clarification_date-minute_{{requirement.nonOCDS.order}}" name="clarification_date_minute" type="text" inputmode="numeric" value="{{ data['clarification_date-minute'] }}"></div>
+                                                                </div>
+                                                                {# <div class="govuk-date-input__item">
                                                                                                                                         {{ CCSSelect({
                                                                                                     id: "clarification_date-hourFormat",
                                                                                                     name: "clarification_date_hourFormat",                      
@@ -443,150 +446,149 @@
                                                                                                     })
                                                                                                     }}
                                                                                                                                     </div> #}
-                                                                            </div>
-                                                                        </fieldset>
-                                                                        
-                                                                        
-                                                                        {{ CCSInput({
+                                                            </div>
+                                                        </fieldset>
+
+                                                        {{ CCSInput({
         id: "selected_question_id",
         name: "selected_question_id",
         type: "hidden",
         value: requirement.OCDS.id
         }) }}
-                                                                        {{ CCSInput({
+                                                        {{ CCSInput({
             id: "selected_question_index",
             name: "selected_question_index",
             type: "hidden",
             value: requirement.nonOCDS.order
             }) }}
-                                                                        <br>
-                                                                            <br>
-                                                                                {{ CCSButton({
+                                                        <br>
+                                                        <br>
+                                                        {{ CCSButton({
         attributes: {
         id: "save_clarification_date"
         },
         text: "Save New Date",
         classes: "govuk-button--secondary"
         }) }}
-                                                                            </form>
-                                                                        </div>
-                                                               {% endif %}
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endblock %}
-                                                <div class="govuk-button-group">
-                                                    <form method="post" action="/rfp/response-date" id="timelineresponsedate">
-                                                        {{ csrfProtection(csrf) }}
-                                                        {{ CCSInput({
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endblock %}
+                    <div class="govuk-button-group">
+                        <form method="post" action="/rfp/response-date" id="timelineresponsedate">
+                            {{ csrfProtection(csrf) }}
+                            {{ CCSInput({
 id: "timeStamp",
 name: "rfp_clarification_date",
 type: "hidden",
 classes:"timedate1",
 value: "Question 1*"+rfp_clarification_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "rfp_clarification_period_end",
 type: "hidden",
 classes:"timedate2",
 value: "Question 2*"+rfp_clarification_period_end
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "deadline_period_for_clarification_period",
 type: "hidden",
 classes:"timedate3",
 value: "Question 3*"+deadline_period_for_clarification_period
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "supplier_period_for_clarification_period",
 type: "hidden",
 classes:"timedate4",
 value: "Question 4*"+supplier_period_for_clarification_period
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "supplier_dealine_for_clarification_period",
 type: "hidden",
 classes:"timedate5",
 value: "Question 5*"+supplier_dealine_for_clarification_period
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "deadline_for_submission_of_stage_one",
 type: "hidden",
 classes:"timedate6",
 value: "Question 6*"+deadline_for_submission_of_stage_one
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "evaluation_process_start_date",
 type: "hidden",
 classes:"timedate7",
 value: "Question 7*"+evaluation_process_start_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "bidder_presentations_date",
 type: "hidden",
 classes:"timedate8",
 value: "Question 8*"+bidder_presentations_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "standstill_period_starts_date",
 type: "hidden",
 classes:"timedate9",
 value: "Question 9*"+standstill_period_starts_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "proposed_award_date",
 type: "hidden",
 classes:"timedate10",
 value: "Question 10*"+proposed_award_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "expected_signature_date",
 type: "hidden",
 classes:"timedate11",
 value: "Question 11*"+expected_signature_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "contract_signed_date",
 type: "hidden",
 classes:"timedate12",
 value: "Question 12*"+contract_signed_date
 }) }}
-                                                        {{ CCSInput({
+                            {{ CCSInput({
 id: "timeStamp",
 name: "supplier_start_date",
 type: "hidden",
 classes:"timedate13",
 value: "Question 13*"+supplier_start_date
 }) }}
-                                                        <button class="govuk-button" id="hideMeWhileDateChange" data-module="govuk-button">Save and continue</button>
-                                                        <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="govuk-grid-column-one-third">
-                                                {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
-                                            </div>
-                                        </div>
-    {# Loader container #}
-  <div class="loader-container">
-    <div class="loader-division">
-      <img src="/assets/images/loader.gif" alt="Loading">
-      <div class="loderMakeRes"></div>
-    </div>
-  </div>
+                            <button class="govuk-button" id="hideMeWhileDateChange" data-module="govuk-button">Save and continue</button>
+                            <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                        </form>
+                    </div>
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotId,'') }}
+                </div>
+            </div>
+            {# Loader container #}
+            <div class="loader-container">
+                <div class="loader-division">
+                    <img src="/assets/images/loader.gif" alt="Loading">
+                    <div class="loderMakeRes"></div>
+                </div>
+            </div>
 
-                                    </main>
-                                {% endblock %}
+        </main>
+    {% endblock %}
