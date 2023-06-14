@@ -20,7 +20,11 @@
   "rules": {
     "indent": [
       "error",
-      2
+      2,
+      {
+        "offsetTernaryExpressions": true,
+        "MemberExpression": 1
+      }
     ],
     "linebreak-style": [
       "error",
