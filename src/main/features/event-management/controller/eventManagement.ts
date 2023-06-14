@@ -267,13 +267,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (agreementId_session === 'RM1043.8') {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+                supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
                 : '';
           } else {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+                supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
                 : '';
           }
@@ -288,9 +288,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-              supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+                supplierFiltedData.contactPoint != null &&
+                supplierFiltedData.contactPoint?.name != undefined &&
+                supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -965,7 +965,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           //supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.responseDate =
             supplierdata.data?.responders[i]?.responseDate != undefined &&
-            supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
               ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
               : '';
           supplierDetailsObj.score = score != undefined ? score : 0;
@@ -979,9 +979,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-              supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+                supplierFiltedData.contactPoint != null &&
+                supplierFiltedData.contactPoint?.name != undefined &&
+                supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
