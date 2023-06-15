@@ -1192,7 +1192,10 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
       //Q4
       let Q4;
-      if (manipulation.Q3.selected && manipulation.Q3.value == '') {
+      if (
+        (manipulation.Q3.selected == false && manipulation.Q3.value != '') ||
+        (manipulation.Q3.selected && manipulation.Q3.value == '')
+      ) {
         const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
         const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q4_B_add.setHours(DOS_Days.defaultEndingHour);
@@ -1343,10 +1346,12 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q8 = Q7;
         Q8_check = undefined;
       }
-
       //Q9
       let Q9;
-      if (manipulation.Q8.selected && manipulation.Q8.value == '') {
+      if (
+        (manipulation.Q8.selected == false && manipulation.Q8.value != '') ||
+        (manipulation.Q8.selected && manipulation.Q8.value == '')
+      ) {
         const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
         const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q9_B_add.setHours(DOS_Days.defaultEndingHour);
@@ -1355,7 +1360,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       } else {
         Q9 = new Date(manipulation.Q9.value);
       }
-
       let Q10, Q10_after, Q10_check, preConStandstill_11;
       if (manipulation.Q10.selected) {
         const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
@@ -1392,7 +1396,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       Q13_B_add.setHours(DOS_Days.defaultEndingHour);
       Q13_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q13 = Q13_B_add;
-
       if (Q8_check != undefined) {
         Q8_after = moment(Q8, 'YYYY-MM-DDTHH:mm:ss').format('DD MMMM YYYY, HH:mm');
       } else {
