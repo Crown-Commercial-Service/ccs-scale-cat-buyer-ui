@@ -1044,7 +1044,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     let Q7, Q7_after, Q7_check;
     if (manipulation.Q7.selected) {
-      if (manipulation.Q7.value != "") {
+      if (manipulation.Q7.value != '') {
         Q7 = new Date(manipulation.Q7.value);
         Q7_check = Q7;
       } else {
