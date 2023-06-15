@@ -905,4 +905,8 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_DA_REVIEW_SUPPLIER
   );
+
+  // StandstilSupplierPresentation - Start
+  app.post(REQUIREMENT_PATHS.TIMELINE_STANDSTILL_SUPPLIERT, AUTH, REQUIREMENT_CONTROLLER.TIMELINE_STANDSTILL_SUPPLIERT);
+  // StandstilSupplierPresentation - End
 }

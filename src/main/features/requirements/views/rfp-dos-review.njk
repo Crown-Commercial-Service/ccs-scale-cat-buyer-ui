@@ -3000,12 +3000,14 @@
                         {% if (agreement_id == "RM1043.8") %}
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                             <dt class="govuk-summary-list__value">
-                              <p>Supplier presentations (if applicable)</p>
+                              <p>Supplier presentations </p>
                             </dt>
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_for_pre_award != undefined and supplier_dealine_for_pre_award != null and supplier_dealine_for_pre_award != '' %}
                                   {{ supplier_dealine_for_pre_award }}
+                                {% else %}
+                                  Not included
                                 {% endif %}
                               </p>
                             </dd>
@@ -3054,12 +3056,14 @@
                         {% if (agreement_id == "RM1043.8") %}
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                             <dt class="govuk-summary-list__value">
-                              <p>Standstill period starts (if you requested this)</p>
+                              <p>Standstill period starts</p>
                             </dt>
                             <dd class="govuk-summary-list__value">
                               <p>
                                 {% if supplier_dealine_sign_contract != undefined and supplier_dealine_sign_contract != null and supplier_dealine_sign_contract != '' %}
                                   {{ supplier_dealine_sign_contract }}
+                                {% else %}
+                                  Not included
                                 {% endif %}
                               </p>
                             </dd>
