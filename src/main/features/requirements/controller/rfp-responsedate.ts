@@ -1202,7 +1202,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q4 = new Date(manipulation.Q4.value);
       }
 
-      let Q5, Q5_after, Q5_check;
+      let Q5, Q5_after, Q5_check, preConStandstill_6;
       if (manipulation.Q5.selected) {
         const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1}-${Q4.getFullYear()}`;
         const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
@@ -1211,14 +1211,16 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
         Q5 = Q4_B_add;
         Q5_check = Q5;
+        preConStandstill_6 = DOS_Days.closing_date;
       } else {
         Q5 = Q4;
         Q5_check = undefined;
+        preConStandstill_6 = DOS_Days.stand_stils_date;
       }
 
       //Q6
       const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1}-${Q5.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(preConStandstill_6)._d;
       Q6_B_add.setHours(DOS_Days.defaultEndingHour);
       Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q6 = Q6_B_add;
@@ -1354,7 +1356,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q9 = new Date(manipulation.Q9.value);
       }
 
-      let Q10, Q10_after, Q10_check;
+      let Q10, Q10_after, Q10_check, preConStandstill_11;
       if (manipulation.Q10.selected) {
         const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
         const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
@@ -1363,14 +1365,16 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
         Q10 = Q9_B_add;
         Q10_check = Q10;
+        preConStandstill_11 = DOS_Days.closing_date;
       } else {
         Q10 = Q9;
         Q10_check = undefined;
+        preConStandstill_11 = DOS_Days.stand_stils_date;
       }
 
       //Q11
       const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1}-${Q10.getFullYear()}`;
-      const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(preConStandstill_11)._d;
       Q11_B_add.setHours(DOS_Days.defaultEndingHour);
       Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q11 = Q11_B_add;
