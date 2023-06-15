@@ -1173,24 +1173,34 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
       let Q3, Q3_after, Q3_check; //5 days
       if (manipulation.Q3.selected) {
-        const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
-        const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+        if (manipulation.Q3.value != '') {
+          Q3 = new Date(manipulation.Q3.value);
+          Q3_check = Q3;
+        } else {
+          const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
+          const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        Q2_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q3 = Q2_B_add;
-        Q3_check = Q3;
+          Q2_B_add.setHours(DOS_Days.defaultEndingHour);
+          Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+          Q3 = Q2_B_add;
+          Q3_check = Q3;
+        }
       } else {
         Q3 = Q2;
         Q3_check = undefined;
       }
 
       //Q4
-      const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
-      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-      Q4_B_add.setHours(DOS_Days.defaultEndingHour);
-      Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      const Q4 = Q4_B_add;
+      let Q4;
+      if (manipulation.Q3.selected && manipulation.Q3.value == '') {
+        const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
+        const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+        Q4_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q4 = Q4_B_add;
+      } else {
+        Q4 = new Date(manipulation.Q4.value);
+      }
 
       let Q5, Q5_after, Q5_check, preConStandstill_6;
       if (manipulation.Q5.selected) {
@@ -1310,7 +1320,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       };
     } else {
       //Q7
-
       const pre_Q7 = manipulation.Q7.value;
 
       const Q7 = new Date(pre_Q7); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
@@ -1318,24 +1327,34 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       let Q8, Q8_after, Q8_check;
 
       if (manipulation.Q8.selected) {
-        const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
-        const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+        if (manipulation.Q8.value != '') {
+          Q8 = new Date(manipulation.Q8.value);
+          Q8_check = Q8;
+        } else {
+          const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
+          const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        Q7_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q8 = Q7_B_add;
-        Q8_check = Q8;
+          Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+          Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+          Q8 = Q7_B_add;
+          Q8_check = Q8;
+        }
       } else {
         Q8 = Q7;
         Q8_check = undefined;
       }
 
       //Q9
-      const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
-      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-      Q9_B_add.setHours(DOS_Days.defaultEndingHour);
-      Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      const Q9 = Q9_B_add;
+      let Q9;
+      if (manipulation.Q8.selected && manipulation.Q8.value == '') {
+        const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
+        const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+        Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q9 = Q9_B_add;
+      } else {
+        Q9 = new Date(manipulation.Q9.value);
+      }
 
       let Q10, Q10_after, Q10_check, preConStandstill_11;
       if (manipulation.Q10.selected) {
