@@ -1044,13 +1044,18 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
     let Q7, Q7_after, Q7_check;
     if (manipulation.Q7.selected) {
-      const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
+      if (manipulation.Q7.value != '') {
+        Q7 = new Date(manipulation.Q7.value);
+        Q7_check = Q7;
+      } else {
+        const Q6_Parsed = `${Q6.getDate()}-${Q6.getMonth() + 1}-${Q6.getFullYear()}`;
+        const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(MCF3_Days.supplier_persentation)._d;
 
-      Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
-      Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
-      Q7 = Q6_B_add;
-      Q7_check = Q7;
+        Q6_B_add.setHours(MCF3_Days.defaultEndingHour);
+        Q6_B_add.setMinutes(MCF3_Days.defaultEndingMinutes);
+        Q7 = Q6_B_add;
+        Q7_check = Q7;
+      }
     } else {
       Q7 = Q6;
       Q7_check = undefined;
@@ -1168,26 +1173,36 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
       let Q3, Q3_after, Q3_check; //5 days
       if (manipulation.Q3.selected) {
-        const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
-        const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+        if (manipulation.Q3.value != '') {
+          Q3 = new Date(manipulation.Q3.value);
+          Q3_check = Q3;
+        } else {
+          const Q2_Parsed = `${Q2.getDate()}-${Q2.getMonth() + 1}-${Q2.getFullYear()}`;
+          const Q2_B_add = moment(Q2_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        Q2_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q3 = Q2_B_add;
-        Q3_check = Q3;
+          Q2_B_add.setHours(DOS_Days.defaultEndingHour);
+          Q2_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+          Q3 = Q2_B_add;
+          Q3_check = Q3;
+        }
       } else {
         Q3 = Q2;
         Q3_check = undefined;
       }
 
       //Q4
-      const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
-      const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-      Q4_B_add.setHours(DOS_Days.defaultEndingHour);
-      Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      const Q4 = Q4_B_add;
+      let Q4;
+      if (manipulation.Q3.selected && manipulation.Q3.value == '') {
+        const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
+        const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+        Q4_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q4 = Q4_B_add;
+      } else {
+        Q4 = new Date(manipulation.Q4.value);
+      }
 
-      let Q5, Q5_after, Q5_check;
+      let Q5, Q5_after, Q5_check, preConStandstill_6;
       if (manipulation.Q5.selected) {
         const Q4_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1}-${Q4.getFullYear()}`;
         const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
@@ -1196,14 +1211,16 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q4_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
         Q5 = Q4_B_add;
         Q5_check = Q5;
+        preConStandstill_6 = DOS_Days.closing_date;
       } else {
         Q5 = Q4;
         Q5_check = undefined;
+        preConStandstill_6 = DOS_Days.stand_stils_date;
       }
 
       //Q6
       const Q6_Parsed = `${Q5.getDate()}-${Q5.getMonth() + 1}-${Q5.getFullYear()}`;
-      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(preConStandstill_6)._d;
       Q6_B_add.setHours(DOS_Days.defaultEndingHour);
       Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q6 = Q6_B_add;
@@ -1303,7 +1320,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       };
     } else {
       //Q7
-
       const pre_Q7 = manipulation.Q7.value;
 
       const Q7 = new Date(pre_Q7); //moment(new Date(pre_Q6), 'DD MMMM YYYY, HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss')+'Z';
@@ -1311,26 +1327,36 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       let Q8, Q8_after, Q8_check;
 
       if (manipulation.Q8.selected) {
-        const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
-        const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
+        if (manipulation.Q8.value != '') {
+          Q8 = new Date(manipulation.Q8.value);
+          Q8_check = Q8;
+        } else {
+          const Q7_Parsed = `${Q7.getDate()}-${Q7.getMonth() + 1}-${Q7.getFullYear()}`;
+          const Q7_B_add = moment(Q7_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.supplier_deadline)._d;
 
-        Q7_B_add.setHours(DOS_Days.defaultEndingHour);
-        Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-        Q8 = Q7_B_add;
-        Q8_check = Q8;
+          Q7_B_add.setHours(DOS_Days.defaultEndingHour);
+          Q7_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+          Q8 = Q7_B_add;
+          Q8_check = Q8;
+        }
       } else {
         Q8 = Q7;
         Q8_check = undefined;
       }
 
       //Q9
-      const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
-      const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
-      Q9_B_add.setHours(DOS_Days.defaultEndingHour);
-      Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
-      const Q9 = Q9_B_add;
+      let Q9;
+      if (manipulation.Q8.selected && manipulation.Q8.value == '') {
+        const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
+        const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
+        Q9_B_add.setHours(DOS_Days.defaultEndingHour);
+        Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
+        Q9 = Q9_B_add;
+      } else {
+        Q9 = new Date(manipulation.Q9.value);
+      }
 
-      let Q10, Q10_after, Q10_check;
+      let Q10, Q10_after, Q10_check, preConStandstill_11;
       if (manipulation.Q10.selected) {
         const Q9_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
         const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
@@ -1339,14 +1365,16 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
         Q9_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
         Q10 = Q9_B_add;
         Q10_check = Q10;
+        preConStandstill_11 = DOS_Days.closing_date;
       } else {
         Q10 = Q9;
         Q10_check = undefined;
+        preConStandstill_11 = DOS_Days.stand_stils_date;
       }
 
       //Q11
       const Q11_Parsed = `${Q10.getDate()}-${Q10.getMonth() + 1}-${Q10.getFullYear()}`;
-      const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+      const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(preConStandstill_11)._d;
       Q11_B_add.setHours(DOS_Days.defaultEndingHour);
       Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
       const Q11 = Q11_B_add;
