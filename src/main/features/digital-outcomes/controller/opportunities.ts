@@ -12,7 +12,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     try {
 
           console.log(req.params.id);
-           res.render('opportunitiesDetails');
+           res.render('opportunitiesReview');
 
        } catch (error) {
        

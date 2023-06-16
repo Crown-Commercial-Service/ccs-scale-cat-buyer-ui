@@ -39,7 +39,7 @@
 {%endif %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
      <strong>Digital Outcomes opportunities</strong>
 
      <p class="govuk-body">View buyer requirements for digital outcomes and user research participants.</p>
@@ -52,7 +52,7 @@
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
      
 
-      <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+      <div class="govuk-grid-row govuk-!-margin-bottom-6">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="250">
             <div class="govuk-form-group">
@@ -77,13 +77,125 @@
     </div>
   
 </div>
-<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-0">
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third govuk-grid-sresult-left">
-    <div class="govuk-tag--grey govuk-!-padding-4 govuk-!-font-weight-bold govuk-!-font-size-24">
+    <div class="govuk-!-font-weight-bold govuk-!-font-size-24">
       Choose a lot
     </div>
     <div class="govuk-grid-row govuk-!-margin-top-4">
+      <div class="govuk-grid-column-full govuk-list-filter-category">
+        <strong>All lots</strong>
+        <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
+          <li>
+            <a class="govuk-link clickCategory" href="">Digital outcomes (3108)</a>
+          </li>
+          <li>
+            <a class="govuk-link clickCategory link-disabled"  href="">User research studios (2239)</a>
+          </li>
+          <li>
+            <a class="govuk-link clickCategory"  href="">User research participants (118)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-filter-search govuk-filter-search-custom">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <strong>Apply filters</strong>
+            </div>
+            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+              <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-14" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
+            </div>
+          </div>
+          <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-accordion govuk-!-margin-bottom-2 govuk-!-margin-left-3" data-module="govuk-accordion" id="accordion-default">
+              
+                <div class="govuk-accordion__section ">
+                  <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                      <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-1">
+                        Status
+                      </span>
+                    </h2>
+                  </div>                                      
+                  <!-- <small class="govuk-!-margin-left-5 ">1 selected</small> -->
+                  <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                    <div class="govuk-form-group">
+                      <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter1">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter1">
+                              Open
+                            </label>
+                          </div>
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter2">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter2">
+                              Closed
+                            </label>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div class="govuk-accordion__section govuk-accordion__section_disabled">
+                  <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                      <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
+                        Location
+                      </span>
+                    </h2>
+                  </div>
+                  <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+                    <div class="govuk-form-group">
+                      <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter3">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
+                              Location 1
+                            </label>
+                          </div>
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter4">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
+                              Location 2
+                            </label>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <h3 class="govuk-heading-s">Opportunity data</h3>
+            <div class="govuk-download-csv">
+              <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
+              <span>
+                <a href="" class="govuk-link govuk-!-font-size-19">Download data</a>
+                <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-1">CSV</p>
+              </span>
+            </div>
+            <div class="govuk-download-csv-p">
+              <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
+              <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a></p>
+              <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- <div class="govuk-grid-row govuk-!-margin-top-4">
       <div class="govuk-grid-column-full govuk-list-filter-category" id="mainLotandcategoryContainer">
         {% if(njkDatas.haveLot) %}
           <a class="govuk-link govuk-link-filter-main" href="/dos/search">All lots</a>
@@ -165,16 +277,16 @@
           </ul>
         {% endif %}
       </div>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-padding-right-3">
+    </div> -->
+    <!-- <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
       <div class="govuk-grid-column-full">
         <div class="govuk-filter-search">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-              <h3 class="govuk-heading-m">Apply filters</h3>
+              <h3 class="govuk-heading-s">Apply filters</h3>
             </div>
             <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-              <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-19 govuk-link--no-underline" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
+              <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-14" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
             </div>
         </div>
         <div class="govuk-grid-row">
@@ -212,9 +324,26 @@
             </div>
           </div>
         </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <h3 class="govuk-heading-s">Opportunity data</h3>
+            <div class="govuk-download-csv">
+              <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
+              <span>
+                <a href="" class="govuk-link govuk-!-font-size-19">Download data</a>
+                <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-1">CSV</p>
+              </span>
+            </div>
+            <div class="govuk-download-csv-p">
+              <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
+              <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a></p>
+              <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
 </div>
 <div class="govuk-grid-column-two-thirds govuk-grid-sresult-right" >
@@ -235,27 +364,79 @@
               <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
                   <a class="govuk-link" href="">Dorset ICS Integration and Interoperability Review & Recommendation</a>
               </h2>
-              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">
+              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
                  The NHS providers within the Dorset Integrated Care System (ICS)
               </p>
-              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">
+              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
                  South West England
               </p>
-              <p class="govuk-body govuk-!-font-size-12">Value: £58,716</p>
-              <p class="govuk-body govuk-!-font-size-12">Digital outcomes</p>
-              <p class="govuk-body govuk-!-font-size-12">Closed: awaiting outcome</p>
-
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: £58,716</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Digital outcomes</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: awaiting outcome</p>
               <p class="govuk-body govuk-!-font-size-16">
                   The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC
-              </p>
-              
+              </p>              
             </li>
-         
+            <li class="app-search-result">
+              <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+                  <a class="govuk-link" href="">Dorset ICS Integration and Interoperability Review & Recommendation</a>
+              </h2>
+              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+                 The NHS providers within the Dorset Integrated Care System (ICS)
+              </p>
+              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
+                 South West England
+              </p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: £58,716</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Digital outcomes</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: awaiting outcome</p>
+              <p class="govuk-body govuk-!-font-size-16">
+                  The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC
+              </p>              
+            </li>
         </ul>
+        <div class="app-search-result-nodata">
+          <p class="govuk-body">Improve your search results by:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4" id="">
+            <li><p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">removing filters</p></li>
+            <li><p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">choosing a different lot</p></li>
+            <li><p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">double-checking your spelling</p></li>
+            <li><p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">using fewer keywords</p></li>
+            <li><p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">searching for something less specific, you can refine your results later</p></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-
+  <div class="govuk-grid-row">    
+    <div class="govuk-grid-column-full">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <div class="govuk-grid-column-one-half">
+        <p class="govuk-body govuk-!-margin-0">
+          <a href="/g-cloud/search?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
+            <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+              <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+            </svg>
+            Previous Page</a>
+        </p>
+        <p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">1 of 183</a></p>  
+      </div>
+      <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+        <p class="govuk-body govuk-!-margin-0">
+          <a href="/g-cloud/search?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
+            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+            </svg>
+            Next Page</a>
+          </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
+            1 of 183
+          </a>
+      </p>
+      </div>
+    </div>
+  </div>
   <div id="paginationContainer">
   {% if(data.meta.total > 0) %}
     <div class="govuk-grid-row">
@@ -326,29 +507,4 @@
 </div>
 </div>
 </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

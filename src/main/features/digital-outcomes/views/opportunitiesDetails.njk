@@ -1,1 +1,179 @@
-fsdhefdgdhdkjh
+{% extends "template.njk" %}
+
+
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Digital Outcomes opportunitiest | Contract Award Service' %}
+
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Digital Outcomes opportunities",
+            "href": ""
+        },
+        {
+            "text": "Dorset ICS Integration and Interoperability Review & Recommendation",
+            "href": "#"
+        }
+    ]
+      }) }}
+{% endblock %}
+
+{% block content %}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: error
+    }
+  ]
+}) }}
+{%endif %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-!-padding-4 banner-warning govuk-!-margin-bottom-8">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-4">This opportunity is closed for applications</h2>
+            <p class="govuk-body govuk-!-margin-bottom-0">The deadline was Thursday 20 April 2023</p>
+        </div>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-xl">The NHS providers within the Dorset Integrated Care System (ICS)</span>
+        <h1 class="govuk-heading-l">Dorset ICS Integration and Interoperability Review & Recommendation</h1>
+        <div class="project-overview govuk-!-margin-bottom-3">
+            <p class="govuk-body">Get a deeper understanding of this opportunity by reviewing its requirements, evaluation criteria and answers to supplier questions.</p>
+            <p class="govuk-body">When the opportunity is awarded this page will display the award summary, including the selected supplier and award date.</p>
+        </div>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Clarification questions and responses</h2>
+        <p class="govuk-body">            
+            <a class="govuk-link" href="">Open clarification questions and responses</a>            
+        </p>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-0">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">1. Details of the opportunity</h2>
+                </dt>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">View opportunity details</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body">            
+                        You can view or download information about the opportunity.        
+                    </p>
+                </dt>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Download opportunity details</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-0">
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">2. Supplier response summary</h2>
+                </dt>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of incomplete applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of complete applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of incomplete SME applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of complete SME applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of incomplete large organisation applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row_two_column">
+                <dt class="govuk-summary-list__key">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Number of complete large organisation applications</p>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">10</p>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3">3. Award summary</h2>
+    </div>
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body govuk-!-font-weight-bold govuk-!-font-size-24">CAPITA BUSINESS SERVICES LTD</p>
+        <p class="govuk-body govuk-body-color-warning text-strikethrough">US-DUNS-500191747</p>
+    </div>
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body govuk-!-font-weight-bold">Address:</p>
+        <p class="govuk-body">---</p>
+    </div>
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body govuk-!-font-weight-bold">Website:</p>
+        <p class="govuk-body"><a href="https://www.capita.com/" class="govuk-link">https://www.capita.com/</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body govuk-!-font-weight-bold">Awarded date:</p>
+        <p class="govuk-body">01/05/2023 <span class="govuk-body-color-warning text-strikethrough">04:47</span></p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button">Apply for this opportunity</button>
+            <a class="govuk-link" href="#">Return to Digital Outcomes opportunities</a>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock %}
