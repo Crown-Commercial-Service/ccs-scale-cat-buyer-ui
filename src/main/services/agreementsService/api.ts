@@ -19,6 +19,9 @@ const endPoints: EndPoints = {
   agreementLotEventTypes: '/agreements/:agreement-id/lots/:lot-id/event-types'
 };
 
+// This data is static so we can Cache for an hour 
+const agreementServiceCacheLength = 3600;
+
 // GET /agreements/:agreement-id
 const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementDetail>> => {
   return genericFecthGet<AgreementDetail>(
@@ -29,7 +32,11 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
         [':agreement-id', agreementId]
       ]
     },
-    headers
+    headers,
+    {
+      key: `get_agreements_${agreementId}`,
+      seconds: agreementServiceCacheLength
+    }
   );
 };
 
@@ -43,7 +50,11 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
         [':agreement-id', agreementId]
       ]
     },
-    headers
+    headers,
+    {
+      key: `get_agreements_${agreementId}_lots`,
+      seconds: agreementServiceCacheLength
+    }
   );
 };
 
@@ -58,7 +69,11 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
         [':lot-id', lotId]
       ]
     },
-    headers
+    headers,
+    {
+      key: `get_agreements_${agreementId}_lots_${lotId}`,
+      seconds: agreementServiceCacheLength
+    }
   );
 };
 
@@ -73,11 +88,15 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
         [':lot-id', lotId]
       ]
     },
-    headers
+    headers,
+    {
+      key: `get_agreements_${agreementId}_lots_${lotId}_suppliers`,
+      seconds: 900
+    }
   );
 };
 
-// GET /agreements:agreement-id/lots/:lot-id/suppliers
+// GET /agreements:agreement-id/lots/:lot-id/event-types
 const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Promise<FetchResult<AgreementLotEventType[]>> => {
   return genericFecthGet<AgreementLotEventType[]>(
     {
@@ -88,7 +107,11 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
         [':lot-id', lotId]
       ]
     },
-    headers
+    headers,
+    {
+      key: `get_agreements_${agreementId}_lots_${lotId}_event_types`,
+      seconds: agreementServiceCacheLength
+    }
   );
 };
 
