@@ -324,22 +324,15 @@ export const RFI_REVIEW_HELPER = async (
 
       res.render('review', appendData);
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'RFI Review - Dyanamic framework throws error - Tender Api is causing problem',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception
+      LoggTracer.errorLogger(
+        res,
+        error,
+        null,
+        null,
+        null,
+        null,
+        false
       );
-      LoggTracer.errorTracer(Log, res);
     }
   }
 };
