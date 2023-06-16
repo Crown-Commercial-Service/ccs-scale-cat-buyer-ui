@@ -1007,6 +1007,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const tl_aggrementID = req.body.tl_aggrementID;
   const tl_eventType = req.body.tl_eventType;
   const tl_questionID = req.body.tl_questionID;
+  const tl_Selected_questionID = req.body.select_tl_questionID;
   const tl_val = req.body.tl_val;
   req.session.timlineSession = req.body;
   const manipulation = req.body.manipulation;
@@ -1035,6 +1036,8 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     });
     criterianStorage.push(rebased_object_with_requirements);
   }
+  console.log('tl_questionID', tl_questionID);
+  console.log('select_tl_questionID', req.body.select_tl_questionID);
 
   if (tl_aggrementID == 'RM6187' || tl_aggrementID == 'RM1557.13') {
     //console.log("manipulation",manipulation);
@@ -1348,10 +1351,8 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       }
       //Q9
       let Q9;
-      if (
-        (manipulation.Q8.selected == false && manipulation.Q8.value != '') ||
-        (manipulation.Q8.selected && manipulation.Q8.value == '')
-      ) {
+      // if ((manipulation.Q8.selected == false && manipulation.Q8.value != '') || manipulation.Q8.selected) {
+      if (tl_Selected_questionID == 8) {
         const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
         const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q9_B_add.setHours(DOS_Days.defaultEndingHour);
