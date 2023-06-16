@@ -130,22 +130,15 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     res.render('questions', data);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'RFI Dynamic framework throws error - Tenders Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -268,22 +261,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              delete error?.config?.['headers'];
-              const Logmessage = {
-                Person_id: TokenDecoder.decoder(SESSION_ID),
-                error_location: `${req.headers.host}${req.originalUrl}`,
-                sessionId: 'null',
-                error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
-                exception: error,
-              };
-              const Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception
+              LoggTracer.errorLogger(
+                res,
+                error,
+                null,
+                null,
+                null,
+                null,
+                false
               );
-              LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
             let { term, value } = req.body;
@@ -329,22 +315,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              delete error?.config?.['headers'];
-              const Logmessage = {
-                Person_id: TokenDecoder.decoder(SESSION_ID),
-                error_location: `${req.headers.host}${req.originalUrl}`,
-                sessionId: 'null',
-                error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
-                exception: error,
-              };
-              const Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception
+              LoggTracer.errorLogger(
+                res,
+                error,
+                null,
+                null,
+                null,
+                null,
+                false
               );
-              LoggTracer.errorTracer(Log, res);
             }
           } else {
             const question_array_check: boolean = Array.isArray(question_id);
@@ -388,22 +367,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     req
                   );
                 } catch (error) {
-                  delete error?.config?.['headers'];
-                  const Logmessage = {
-                    Person_id: TokenDecoder.decoder(SESSION_ID),
-                    error_location: `${req.headers.host}${req.originalUrl}`,
-                    sessionId: 'null',
-                    error_reason: 'RFI Dynamic framework throws error - Tender Api is causing problem',
-                    exception: error,
-                  };
-                  const Log = new LogMessageFormatter(
-                    Logmessage.Person_id,
-                    Logmessage.error_location,
-                    Logmessage.sessionId,
-                    Logmessage.error_reason,
-                    Logmessage.exception
+                  LoggTracer.errorLogger(
+                    res,
+                    error,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false
                   );
-                  LoggTracer.errorTracer(Log, res);
                 }
               }
             } else {
@@ -532,22 +504,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   );
                 }
               } catch (error) {
-                delete error?.config?.['headers'];
-                const Logmessage = {
-                  Person_id: TokenDecoder.decoder(SESSION_ID),
-                  error_location: `${req.headers.host}${req.originalUrl}`,
-                  sessionId: 'null',
-                  error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
-                  exception: error,
-                };
-                const Log = new LogMessageFormatter(
-                  Logmessage.Person_id,
-                  Logmessage.error_location,
-                  Logmessage.sessionId,
-                  Logmessage.error_reason,
-                  Logmessage.exception
+                LoggTracer.errorLogger(
+                  res,
+                  error,
+                  null,
+                  null,
+                  null,
+                  null,
+                  false
                 );
-                LoggTracer.errorTracer(Log, res);
               }
             }
           }
