@@ -4,7 +4,7 @@ import * as express from 'express';
 import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
 import { Logger } from '@hmcts/nodejs-logging';
-import { rollbar } from 'main/app';
+import { initRollbar } from 'main/setup/rollbar';
 import querystring from 'querystring';
 const logger = Logger.getLogger('logit helper');
 
@@ -180,6 +180,8 @@ export class LoggTracer {
     );
 
     logger.error('Exception logged in Logit: ' + error_reason);
+
+    const rollbar = initRollbar();
 
     if (rollbar) {
       const LogMessage = {
