@@ -985,7 +985,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
               //Q11
               const Q11_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
-              const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
               Q11_B_add.setHours(DOS_Days.defaultEndingHour);
               Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
               const Q11 = Q11_B_add;
@@ -1059,7 +1059,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
               //Q6
               const Q6_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1}-${Q4.getFullYear()}`;
-              const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
               Q6_B_add.setHours(DOS_Days.defaultEndingHour);
               Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
               const Q6 = Q6_B_add;
