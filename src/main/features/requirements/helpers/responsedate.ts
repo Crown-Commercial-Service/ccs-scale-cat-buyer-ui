@@ -152,9 +152,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       ////////////////////////////////////   2
       const clarification_period_end_date = new Date();
-      const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
-        clarification_period_end_date.getMonth() + 1
-      }-${clarification_period_end_date.getFullYear()}`;
+      const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
+        }-${clarification_period_end_date.getFullYear()}`;
       let rfp_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.clarification_days
       )._d;
@@ -163,9 +162,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       ////////////////////////////////////   3
       const DeadlinePeriodDate = rfp_clarification_period_end;
-      const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
-        DeadlinePeriodDate.getMonth() + 1
-      }-${DeadlinePeriodDate.getFullYear()}`;
+      const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${DeadlinePeriodDate.getMonth() + 1
+        }-${DeadlinePeriodDate.getFullYear()}`;
       let deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.clarification_period_end
       )._d;
@@ -174,9 +172,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       ////////////////////////////////////   4
       const SupplierPeriodDate = deadline_period_for_clarification_period;
-      const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${
-        SupplierPeriodDate.getMonth() + 1
-      }-${SupplierPeriodDate.getFullYear()}`;
+      const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${SupplierPeriodDate.getMonth() + 1
+        }-${SupplierPeriodDate.getFullYear()}`;
       let supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_period
       )._d;
@@ -185,9 +182,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       ////////////////////////////////////   5
       const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-      const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${
-        SupplierPeriodDeadLine.getMonth() + 1
-      }-${SupplierPeriodDeadLine.getFullYear()}`;
+      const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1
+        }-${SupplierPeriodDeadLine.getFullYear()}`;
       let supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_deadline
       )._d;
@@ -195,9 +191,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
       ////////////////////////////////////   6
       const SupplierSubmissionDeadLine = supplier_dealine_for_clarification_period;
-      const SupplierSubmissionDeadLineDate = `${SupplierSubmissionDeadLine.getDate()}-${
-        SupplierSubmissionDeadLine.getMonth() + 1
-      }-${SupplierSubmissionDeadLine.getFullYear()}`;
+      const SupplierSubmissionDeadLineDate = `${SupplierSubmissionDeadLine.getDate()}-${SupplierSubmissionDeadLine.getMonth() + 1
+        }-${SupplierSubmissionDeadLine.getFullYear()}`;
       let deadline_for_submission_of_stage_one = moment(SupplierSubmissionDeadLineDate, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_period_extra
       )._d;
@@ -208,9 +203,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       if (req.session.isTimelineRevert && stage2_value === 'Stage 2') {
         EvaluationProcessStart = new Date();
       }
-      const EvaluationProcessStartDate = `${EvaluationProcessStart.getDate()}-${
-        EvaluationProcessStart.getMonth() + 1
-      }-${EvaluationProcessStart.getFullYear()}`;
+      const EvaluationProcessStartDate = `${EvaluationProcessStart.getDate()}-${EvaluationProcessStart.getMonth() + 1
+        }-${EvaluationProcessStart.getFullYear()}`;
 
       let evaluation_process_start_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -233,9 +227,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       //////////////////////////////////////8
       const BidderPresentations = evaluation_process_start_date;
-      const BidderPresentationsDate = `${BidderPresentations.getDate()}-${
-        BidderPresentations.getMonth() + 1
-      }-${BidderPresentations.getFullYear()}`;
+      const BidderPresentationsDate = `${BidderPresentations.getDate()}-${BidderPresentations.getMonth() + 1
+        }-${BidderPresentations.getFullYear()}`;
 
       let bidder_presentations_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -297,9 +290,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       const StandstillPeriodStarts = nineQ;
       // StandstilSupplierPresentation - End
-      const StandstillPeriodStartsDate = `${StandstillPeriodStarts.getDate()}-${
-        StandstillPeriodStarts.getMonth() + 1
-      }-${StandstillPeriodStarts.getFullYear()}`;
+      const StandstillPeriodStartsDate = `${StandstillPeriodStarts.getDate()}-${StandstillPeriodStarts.getMonth() + 1
+        }-${StandstillPeriodStarts.getFullYear()}`;
 
       let standstill_period_starts_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -321,9 +313,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       standstill_period_starts_date.setMinutes(predefinedDays.defaultEndingMinutes);
       //////////////////////////////////////10
       const ProposedAward = standstill_period_starts_date;
-      const ProposedAwardDate = `${ProposedAward.getDate()}-${
-        ProposedAward.getMonth() + 1
-      }-${ProposedAward.getFullYear()}`;
+      const ProposedAwardDate = `${ProposedAward.getDate()}-${ProposedAward.getMonth() + 1
+        }-${ProposedAward.getFullYear()}`;
 
       let proposed_award_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
@@ -364,17 +355,26 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       let ExpectedSignatureDate;
       if (ExpectedSignature != undefined) {
-        ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${
-          ExpectedSignature.getMonth() + 1
-        }-${ExpectedSignature.getFullYear()}`;
+        ExpectedSignatureDate = `${ExpectedSignature.getDate()}-${ExpectedSignature.getMonth() + 1
+          }-${ExpectedSignature.getFullYear()}`;
       }
 
       let expected_signature_date = '';
       if (req.session.agreement_id == 'RM1043.8') {
         //DOS
-        expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
-          predefinedDays.closing_date
-        )._d;
+        //  Dos6 standstil based, 11 Question date calculation
+        if (!isEdit && stage2_value == 'Stage 1') {
+          //  First time logic
+          expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.stand_stils_date
+          )._d;
+        } else {
+          // As default
+          expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
+            predefinedDays.closing_date
+          )._d;
+        }
+        //  Dos6 standstil based, 11 Question date calculation
       } else if (req.session.agreement_id == 'RM6187' || req.session.agreement_id == 'RM1557.13') {
         expected_signature_date = moment(ExpectedSignatureDate, 'DD-MM-YYYY').businessAdd(
           predefinedDays.supplier_persentation
@@ -394,18 +394,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       if (req.session.agreement_id == 'RM1043.8') {
         //DOS
         const ContractSigned = expected_signature_date;
-        const ContractSignedDate = `${ContractSigned.getDate()}-${
-          ContractSigned.getMonth() + 1
-        }-${ContractSigned.getFullYear()}`;
+        const ContractSignedDate = `${ContractSigned.getDate()}-${ContractSigned.getMonth() + 1
+          }-${ContractSigned.getFullYear()}`;
         contract_signed_date = moment(ContractSignedDate, 'DD-MM-YYYY').businessAdd(predefinedDays.closing_date)._d;
         contract_signed_date.setHours(predefinedDays.defaultEndingHour);
         contract_signed_date.setMinutes(predefinedDays.defaultEndingMinutes);
 
         //////////////////////////////////////13
         const SupplierStart = contract_signed_date;
-        const SupplierStartDate = `${SupplierStart.getDate()}-${
-          SupplierStart.getMonth() + 1
-        }-${SupplierStart.getFullYear()}`;
+        const SupplierStartDate = `${SupplierStart.getDate()}-${SupplierStart.getMonth() + 1
+          }-${SupplierStart.getFullYear()}`;
         supplier_start_date = moment(SupplierStartDate, 'DD-MM-YYYY').businessAdd(predefinedDays.supplier_deadline)._d;
         supplier_start_date.setHours(predefinedDays.defaultEndingHour);
         supplier_start_date.setMinutes(predefinedDays.defaultEndingMinutes);
@@ -987,7 +985,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
               //Q11
               const Q11_Parsed = `${Q9.getDate()}-${Q9.getMonth() + 1}-${Q9.getFullYear()}`;
-              const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              const Q11_B_add = moment(Q11_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
               Q11_B_add.setHours(DOS_Days.defaultEndingHour);
               Q11_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
               const Q11 = Q11_B_add;
@@ -1061,7 +1059,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
               //Q6
               const Q6_Parsed = `${Q4.getDate()}-${Q4.getMonth() + 1}-${Q4.getFullYear()}`;
-              const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.closing_date)._d;
+              const Q6_B_add = moment(Q6_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.stand_stils_date)._d;
               Q6_B_add.setHours(DOS_Days.defaultEndingHour);
               Q6_B_add.setMinutes(DOS_Days.defaultEndingMinutes);
               const Q6 = Q6_B_add;
