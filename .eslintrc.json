@@ -18,6 +18,10 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "indent": [
+      "error",
+      2
+    ],
     "linebreak-style": [
       "error",
       "unix"
@@ -31,7 +35,7 @@
       "always"
     ],
     "@typescript-eslint/ban-ts-comment": [
-      "off"
+      "warn"
     ]
   }
 }

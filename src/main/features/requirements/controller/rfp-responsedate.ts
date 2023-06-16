@@ -258,188 +258,188 @@ function isValidQuestion(
   }
 
   switch (questionId) {
-    case 'Question 1':
-      errorSelector = 'rfi_clarification_date_expanded_1';
-      break;
-    case 'Question 2':
-      if (questionNewDate < new Date(timeline.publish)) {
-        isValid = false;
+  case 'Question 1':
+    errorSelector = 'rfi_clarification_date_expanded_1';
+    break;
+  case 'Question 2':
+    if (questionNewDate < new Date(timeline.publish)) {
+      isValid = false;
 
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_2';
-      break;
-    case 'Question 3':
-      if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_3';
-      break;
-    case 'Question 4': {
-      let nextval;
-      if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2') {
-        nextval = timeline.confirmNextStepsSuppliers;
-      } else {
-        nextval = timeline.deadlineForSubmissionOfStageOne;
-      }
-
-      //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-      if (questionNewDate > new Date(nextval)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_4';
-      break;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
     }
-    case 'Question 5':
-      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_5';
-      break;
-    case 'Question 6': {
-      let nextDateVal6;
-      if (selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false) {
-        nextDateVal6 = timeline.standstillPeriodStartsDate;
-      } else if (selectedOptionList?.Q7?.selected == false) {
-        nextDateVal6 = timeline.bidderPresentationsDate;
-      } else {
-        nextDateVal6 = timeline.evaluationProcessStartDate;
-      }
-
-      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(nextDateVal6)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_6';
-      break;
+    if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
     }
-    case 'Question 7':
-      if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_7';
-      break;
-    case 'Question 8': {
-      let previousDateVal7;
-      if (selectedOptionList?.Q7?.selected == false) {
-        previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
-      } else {
-        previousDateVal7 = timeline.evaluationProcessStartDate;
-      }
-      if (questionNewDate < new Date(previousDateVal7)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-
-      if (!(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
-        if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
-          isValid = false;
-          error = 'You cannot change this date and time to be later than the next step in the timeline';
-        }
-      }
-
-      errorSelector = 'rfi_clarification_date_expanded_8';
-      break;
+    errorSelector = 'rfi_clarification_date_expanded_2';
+    break;
+  case 'Question 3':
+    if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
     }
-    case 'Question 9': {
-      let previousDateVal;
-      if (selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false) {
-        previousDateVal = timeline.deadlineForSubmissionOfStageOne;
-      } else if (selectedOptionList?.Q8?.selected == false) {
-        previousDateVal = timeline.evaluationProcessStartDate;
-      } else {
-        previousDateVal = timeline.bidderPresentationsDate;
-      }
-
-      if (questionNewDate < new Date(previousDateVal)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be later than the next step in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_9';
-      break;
+    if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
     }
-    case 'Question 10':
-      if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
+    errorSelector = 'rfi_clarification_date_expanded_3';
+    break;
+  case 'Question 4': {
+    let nextval;
+    if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
+      isValid = false;
+
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2') {
+      nextval = timeline.confirmNextStepsSuppliers;
+    } else {
+      nextval = timeline.deadlineForSubmissionOfStageOne;
+    }
+
+    //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+    if (questionNewDate > new Date(nextval)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_4';
+    break;
+  }
+  case 'Question 5':
+    if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_5';
+    break;
+  case 'Question 6': {
+    let nextDateVal6;
+    if (selectedOptionList?.Q7?.selected == false && selectedOptionList?.Q8?.selected == false) {
+      nextDateVal6 = timeline.standstillPeriodStartsDate;
+    } else if (selectedOptionList?.Q7?.selected == false) {
+      nextDateVal6 = timeline.bidderPresentationsDate;
+    } else {
+      nextDateVal6 = timeline.evaluationProcessStartDate;
+    }
+
+    if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(nextDateVal6)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_6';
+    break;
+  }
+  case 'Question 7':
+    if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_7';
+    break;
+  case 'Question 8': {
+    let previousDateVal7;
+    if (selectedOptionList?.Q7?.selected == false) {
+      previousDateVal7 = timeline.deadlineForSubmissionOfStageOne;
+    } else {
+      previousDateVal7 = timeline.evaluationProcessStartDate;
+    }
+    if (questionNewDate < new Date(previousDateVal7)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+
+    if (!(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
+      if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
         error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
-      errorSelector = 'rfi_clarification_date_expanded_10';
-      break;
-    case 'Question 11':
-      if (questionNewDate < new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (agreement_id == 'RM1043.8') {
-        //DOS
-        if (questionNewDate > new Date(timeline.contractsigneddate)) {
-          isValid = false;
-          error = 'You cannot change this date and time to be later than the next step in the timeline';
-        }
-      }
-      errorSelector = 'rfi_clarification_date_expanded_11';
-      break;
+    }
 
-    case 'Question 12':
-      if (questionNewDate < new Date(timeline.expectedSignatureDate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.supplierstartdate)) {
+    errorSelector = 'rfi_clarification_date_expanded_8';
+    break;
+  }
+  case 'Question 9': {
+    let previousDateVal;
+    if (selectedOptionList?.Q8?.selected == false && selectedOptionList?.Q7?.selected == false) {
+      previousDateVal = timeline.deadlineForSubmissionOfStageOne;
+    } else if (selectedOptionList?.Q8?.selected == false) {
+      previousDateVal = timeline.evaluationProcessStartDate;
+    } else {
+      previousDateVal = timeline.bidderPresentationsDate;
+    }
+
+    if (questionNewDate < new Date(previousDateVal)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(timeline.proposedAwardDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_9';
+    break;
+  }
+  case 'Question 10':
+    if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_10';
+    break;
+  case 'Question 11':
+    if (questionNewDate < new Date(timeline.proposedAwardDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (agreement_id == 'RM1043.8') {
+      //DOS
+      if (questionNewDate > new Date(timeline.contractsigneddate)) {
         isValid = false;
         error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
-      errorSelector = 'rfi_clarification_date_expanded_12';
-      break;
+    }
+    errorSelector = 'rfi_clarification_date_expanded_11';
+    break;
 
-    case 'Question 13':
-      if (questionNewDate < new Date(timeline.contractsigneddate)) {
-        isValid = false;
-        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
-      }
+  case 'Question 12':
+    if (questionNewDate < new Date(timeline.expectedSignatureDate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
+    if (questionNewDate > new Date(timeline.supplierstartdate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be later than the next step in the timeline';
+    }
+    errorSelector = 'rfi_clarification_date_expanded_12';
+    break;
 
-      errorSelector = 'rfi_clarification_date_expanded_13';
-      break;
+  case 'Question 13':
+    if (questionNewDate < new Date(timeline.contractsigneddate)) {
+      isValid = false;
+      error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
+    }
 
-    default:
-      isValid = true;
+    errorSelector = 'rfi_clarification_date_expanded_13';
+    break;
+
+  default:
+    isValid = true;
   }
   return { isValid, error, errorSelector };
 }
@@ -858,73 +858,73 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
           selectorID = errorSelector;
         } else {
           switch (selectedErrorCause) {
-            case 'Question 1':
-              selector =
+          case 'Question 1':
+            selector =
                 ' Publish your RFP - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_1';
-              break;
-            case 'Question 2':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_1';
+            break;
+          case 'Question 2':
+            selector =
                 'Clarification period ends - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_2';
-              break;
-            case 'Question 3':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_2';
+            break;
+          case 'Question 3':
+            selector =
                 'Deadline for publishing responses to RFP clarification questions- You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_3';
-              break;
-            case 'Question 4':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_3';
+            break;
+          case 'Question 4':
+            selector =
                 'Deadline for suppliers to submit their RFP response - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_4';
-              break;
-            case 'Question 5':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_4';
+            break;
+          case 'Question 5':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_5';
-              break;
-            case 'Question 6':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_5';
+            break;
+          case 'Question 6':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_6';
-              break;
-            case 'Question 7':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_6';
+            break;
+          case 'Question 7':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_7';
-              break;
-            case 'Question 8':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_7';
+            break;
+          case 'Question 8':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_8';
-              break;
-            case 'Question 9':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_8';
+            break;
+          case 'Question 9':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_9';
-              break;
-            case 'Question 10':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_9';
+            break;
+          case 'Question 10':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_10';
-              break;
-            case 'Question 11':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_10';
+            break;
+          case 'Question 11':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_11';
-              break;
-            case 'Question 12':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_11';
+            break;
+          case 'Question 12':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_12';
-              break;
-            case 'Question 13':
-              selector =
+            selectorID = 'rfi_clarification_date_expanded_12';
+            break;
+          case 'Question 13':
+            selector =
                 'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
-              selectorID = 'rfi_clarification_date_expanded_13';
-              break;
-            default:
-              selector = ' You cannot set a date and time that is earlier than the previous milestone in the timeline';
+            selectorID = 'rfi_clarification_date_expanded_13';
+            break;
+          default:
+            selector = ' You cannot set a date and time that is earlier than the previous milestone in the timeline';
           }
         }
         const errorItem = {
