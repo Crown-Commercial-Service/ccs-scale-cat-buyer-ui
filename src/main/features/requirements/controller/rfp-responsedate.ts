@@ -1036,8 +1036,6 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
     });
     criterianStorage.push(rebased_object_with_requirements);
   }
-  console.log('tl_questionID', tl_questionID);
-  console.log('select_tl_questionID', req.body.select_tl_questionID);
 
   if (tl_aggrementID == 'RM6187' || tl_aggrementID == 'RM1557.13') {
     //console.log("manipulation",manipulation);
