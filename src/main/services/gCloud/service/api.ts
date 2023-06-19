@@ -10,18 +10,12 @@ const headers = {
   Authorization: `Bearer ${dmpAPIKey}`
 };
 
-const endPoints: EndPoints = {
-  service: '/services/:service-id',
-  supplier: '/suppliers/:supplier-id',
-  supplierFramework: '/suppliers/:supplier-id/frameworks/g-cloud-13'
-};
-
 // GET /services/:service-id
 const getService = async (serviceId: string): Promise<FetchResult<GCloudService>> => {
   return genericFecthGet<GCloudService>(
     {
       baseURL: baseURL,
-      path: endPoints.service,
+      path: EndPoints.SERVICE,
       params: [
         [':service-id', serviceId]
       ]
@@ -35,7 +29,7 @@ const getSupplier = async (supplierId: string): Promise<FetchResult<GCloudSuppli
   return genericFecthGet<GCloudSupplier>(
     {
       baseURL: baseURL,
-      path: endPoints.supplier,
+      path: EndPoints.SUPPLIER,
       params: [
         [':supplier-id', supplierId]
       ]
@@ -49,7 +43,7 @@ const getSupplierFramework = async (supplierId: string): Promise<FetchResult<GCl
   return genericFecthGet<GCloudSupplierFramework>(
     {
       baseURL: baseURL,
-      path: endPoints.supplierFramework,
+      path: EndPoints.SUPPLIER_FRAMEWORK,
       params: [
         [':supplier-id', supplierId]
       ]
