@@ -5,16 +5,12 @@ import { BankHolidays, EndPoints } from '../types/bankHolidays/api';
 
 const baseURL: string = config.get('bankholidayservice.BASEURL');
 
-const endPoints: EndPoints = {
-  bankHolidays: '/bank-holidays.json',
-};
-
 // GET /bank-holidays.json
 const getBankHolidays = async (): Promise<FetchResult<BankHolidays>> => {
   return genericFecthGet<BankHolidays>(
     {
       baseURL: baseURL,
-      path: endPoints.bankHolidays
+      path: EndPoints.BANK_HOLIDAYS
     },
     {
       'Content-Type': 'application/json',

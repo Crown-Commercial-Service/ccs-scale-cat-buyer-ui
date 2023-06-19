@@ -1,7 +1,7 @@
-type EndPoints = {
-  service: string
-  supplier: string
-  supplierFramework: string
+enum EndPoints {
+  SERVICE = '/services/:service-id',
+  SUPPLIER = '/suppliers/:supplier-id',
+  SUPPLIER_FRAMEWORK = '/suppliers/:supplier-id/frameworks/g-cloud-13'
 }
 
 type GCloudService = {

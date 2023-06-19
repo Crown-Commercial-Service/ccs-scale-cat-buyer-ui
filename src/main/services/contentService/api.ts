@@ -6,16 +6,12 @@ import { ContentServiceMenu, EndPoints } from '../types/contentService/api';
 const baseURL: string = config.get('contentService.BASEURL');
 const timeout = Number(config.get('settings.fetch-timelimit'));
 
-const endPoints: EndPoints = {
-  menu: '/wp-json/wp-api-menus/v2/menus/:menu-id',
-};
-
 // GET /wp-json/wp-api-menus/v2/menus/:menu-id
 const getMenu = async (menuId: string): Promise<FetchResult<ContentServiceMenu>> => {
   return genericFecthGet<ContentServiceMenu>(
     {
       baseURL: baseURL,
-      path: endPoints.menu,
+      path: EndPoints.MENU,
       params: [
         [':menu-id', menuId]
       ]

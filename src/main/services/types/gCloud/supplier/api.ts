@@ -1,5 +1,5 @@
-type EndPoints = {
-  filters: string
+enum EndPoints {
+  FILTERS = '/g-cloud-filters'
 }
 
 type GCloudFilterQueryParams = {
