@@ -41,13 +41,13 @@ process.env.PACKAGES_PROJECT = 'cas-buyer-frontend';
 // Connect to redis
 redisSession().then((redisSessionMiddlewear) => {
   app.use(redisSessionMiddlewear);
-  
+
   // Init Nunjucks (template framework)
   initNunjucks(app, isDevEnvironment);
-  
+
   // Init Helmet (sets HTTP response headers)
   initHelmet(app, config.get('security'));
-  
+
   // Set app configurations
   app.use(Express.accessLogger());
   app.use(favicon(pathJoin(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
@@ -56,33 +56,34 @@ redisSession().then((redisSessionMiddlewear) => {
   app.use(express.static(pathJoin(__dirname, 'public')));
   app.use(cookieParser());
   app.use(fileUpload());
-  
+
   if (environment !== 'mocha') {
     new CsrfProtection().enableFor(app);
   }
-  
+
   setupRequestSecurity(app);
   setupResLocalsMiddleware(app, environment);
-  
+
   app.enable('trust proxy');
-  
+
   // Dynamically import the application routes
   const featureRoutes: Array<{ path: string }> = config.get('featureDir');
-  
+  const CurrentOs: string = process.platform;
+  const CurrentOsOutput = (CurrentOs === "win32") ? { windowsPathsNoEscape: true } : {};
   featureRoutes?.forEach((route: { path: string }) => {
     glob
-      .sync(__dirname + route?.path)
+      .sync(__dirname + route?.path, CurrentOsOutput)
       .map((filename: string) => require(filename))
       .forEach((route: any) => route.default(app));
   });
-  
+
   // Setup rollbar and exception handling
   const rollbar = initRollbar();
-  
+
   if (rollbar) {
     app.use(rollbar.errorHandler());
   }
-  
+
   uncaughtExceptionHandler(logger);
   unhandledRejectionHandler(logger);
   routeExceptionHandler(app, logger);
