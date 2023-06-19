@@ -934,15 +934,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         await RESPONSEDATEHELPER(req, res, true, errorItem);
       }
     } catch (error) {
-      LoggTracer.errorLogger(
-        res,
-        error,
-        null,
-        null,
-        null,
-        null,
-        false
-      );
+      LoggTracer.errorLogger(res, error, null, null, null, null, false);
     }
   }
 };
@@ -1168,10 +1160,11 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
       //Q4
       let Q4;
-      if (
-        (manipulation.Q3.selected == false && manipulation.Q3.value != '') ||
-        (manipulation.Q3.selected && manipulation.Q3.value == '')
-      ) {
+      // if (
+      //   (manipulation.Q3.selected == false && manipulation.Q3.value != '') ||
+      //   (manipulation.Q3.selected && manipulation.Q3.value == '')
+      // ) {
+      if (tl_Selected_questionID == 3) {
         const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
         const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q4_B_add.setHours(DOS_Days.defaultEndingHour);
