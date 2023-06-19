@@ -1,3 +1,8 @@
+type EndPoints = {
+  token: string
+  validateToken: string
+};
+
 type AuthCredentials = {
   refresh_token?: string
   code?: string
@@ -10,10 +15,5 @@ type RefreshData = {
   session_state: string
   refresh_token: string
 }
-
-type EndPoints = {
-  token: string
-  validateToken: string
-};
 
 export { AuthCredentials, RefreshData, EndPoints };

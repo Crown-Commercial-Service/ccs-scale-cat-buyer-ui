@@ -1,6 +1,6 @@
-type EndPoints = {
-  servicesSearch: string
-  servicesAggregations: string
+enum EndPoints {
+  SERVICES_SEARCH = '/services/search',
+  SERVICES_AGGREGATIONS = '/services/aggregations'
 }
 
 type GCloudService = {

@@ -1,5 +1,5 @@
-type EndPoints = {
-  bankHolidays: string
+enum EndPoints {
+  BANK_HOLIDAYS = '/bank-holidays.json'
 };
 
 type BankHolidayEvent = {

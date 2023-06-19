@@ -6,14 +6,13 @@ const baseURL: string = process.env.GCLOUD_SEARCH_API_URL;
 const searchAPIKey = process.env.GCLOUD_SEARCH_API_TOKEN;
 const gCloudIndex = process.env.GCLOUD_INDEX;
 
-const endPoints: EndPoints = {
-  servicesSearch: `${gCloudIndex}/services/search`,
-  servicesAggregations: `${gCloudIndex}/services/aggregations`
-};
-
 const headers = {
   'Content-Type': 'application/json',
   Authorization: `Bearer ${searchAPIKey}`
+};
+
+const endPointWithIndex = (path: string) => {
+  return `${gCloudIndex}${path}`;
 };
 
 // GET /:g-cloud-index/services/search
@@ -21,7 +20,7 @@ const getServicesSearch = async (queryParams?: { [key: string]: string }): Promi
   return genericFecthGet<GCloudServiceSearch>(
     {
       baseURL: baseURL,
-      path: endPoints.servicesSearch,
+      path: endPointWithIndex(EndPoints.SERVICES_SEARCH),
       queryParams: queryParams
     },
     headers
@@ -33,7 +32,7 @@ const getServicesAggregations = async (queryParams?: { [key: string]: string }):
   return genericFecthGet<GCloudServiceAggregations>(
     {
       baseURL: baseURL,
-      path: endPoints.servicesAggregations,
+      path: endPointWithIndex(EndPoints.SERVICES_AGGREGATIONS),
       queryParams: queryParams
     },
     headers
