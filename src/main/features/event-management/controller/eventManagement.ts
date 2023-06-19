@@ -267,13 +267,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (agreementId_session === 'RM1043.8') {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+                supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
                 : '';
           } else {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+                supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
                 : '';
           }
@@ -288,9 +288,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-              supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+                supplierFiltedData.contactPoint != null &&
+                supplierFiltedData.contactPoint?.name != undefined &&
+                supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -582,9 +582,18 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           currentDate1[3],
           currentDate1[4]
         );
-        const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
 
-        if (checkDate > fromDate) {
+        const fromDateNew = new Date(startDate1[2], parseInt(startDate1[1]) - 1, startDate1[0]);
+        const checkDateNew = new Date(currentDate1[2], parseInt(currentDate1[1]) - 1, currentDate1[0]);
+
+        const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
+        const lastUpdate =
+          moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+            'YYYY-MM-DDTHH:mm:ss'
+          ) + 'Z';
+        const newcheckDate = new Date(lastUpdate);
+
+        if (newcheckDate >= fromDate) {
           awardOption = 'true';
         }
       }
@@ -619,60 +628,60 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let redirectUrl: string;
       if (status.toLowerCase() == 'in-progress') {
         switch (eventType) {
-        case 'RFI':
-          redirectUrl = '/rfi/rfi-tasklist';
-          break;
-        case 'EOI':
-          redirectUrl = '/eoi/eoi-tasklist';
-          break;
-        case 'DA':
-          if (agreementId_session == 'RM6263') {
-            //DSP
+          case 'RFI':
+            redirectUrl = '/rfi/rfi-tasklist';
+            break;
+          case 'EOI':
+            redirectUrl = '/eoi/eoi-tasklist';
+            break;
+          case 'DA':
+            if (agreementId_session == 'RM6263') {
+              //DSP
+              redirectUrl = '/rfp/task-list';
+            } else {
+              //MCF3
+              redirectUrl = '/da/task-list';
+            }
+            req.session.selectedeventtype = 'DA';
+            break;
+          case 'FC':
             redirectUrl = '/rfp/task-list';
-          } else {
-            //MCF3
-            redirectUrl = '/da/task-list';
-          }
-          req.session.selectedeventtype = 'DA';
-          break;
-        case 'FC':
-          redirectUrl = '/rfp/task-list';
-          break;
-        default:
-          redirectUrl = '/event/management';
-          break;
+            break;
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'assessment') {
         switch (eventType) {
-        case 'DAA':
-          redirectUrl = '/da/task-list?path=B1';
-          break;
-        case 'FCA':
-          redirectUrl = '/ca/task-list?path=A1';
-          break;
-        case 'PA':
-          redirectUrl = '/projects/routeToCreateSupplier';
-          break;
-        default:
-          redirectUrl = '/event/management';
-          break;
+          case 'DAA':
+            redirectUrl = '/da/task-list?path=B1';
+            break;
+          case 'FCA':
+            redirectUrl = '/ca/task-list?path=A1';
+            break;
+          case 'PA':
+            redirectUrl = '/projects/routeToCreateSupplier';
+            break;
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
-        case 'TBD': {
-          const { eventId, projectId, procurements } = req.session;
-          const currentProcNum = procurements.findIndex(
-            (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
-          );
-          req.session.procurements[currentProcNum].started = false;
-          redirectUrl = '/projects/create-or-choose';
-          break;
-        }
-        default:
-          redirectUrl = '/event/management';
-          break;
+          case 'TBD': {
+            const { eventId, projectId, procurements } = req.session;
+            const currentProcNum = procurements.findIndex(
+              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
+            );
+            req.session.procurements[currentProcNum].started = false;
+            redirectUrl = '/projects/create-or-choose';
+            break;
+          }
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else {
@@ -690,70 +699,70 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
         let redirectUrl_: string;
         switch (eventType) {
-        case 'RFI':
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
+          case 'RFI':
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
               status.toLowerCase() == 'awarded' ||
               status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        case 'EOI':
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
-              status.toLowerCase() == 'awarded' ||
-              status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        case 'FC':
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
-              status.toLowerCase() == 'awarded' ||
-              status.toLowerCase() == 'complete'
-          ) {
-            //Awards/templates
-            // const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
-            // const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
-            // let documentTemplatesUnSuccess = "";
-            // for (let i = 0; i < awardsTemplatesData.length; i++) {
-            //   if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
-            //     documentTemplatesUnSuccess = awardsTemplatesData[i].id;
-            //   }
-            // }
-            // appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess
-            res.render('awardEventManagement', appendData);
-          } else {
-            if (agreementId_session === 'RM1043.8') {
-              appendData.stage2_value = stage2_value;
-              res.render('eventManagementDOS', appendData);
+            ) {
+              res.render('awardEventManagement', appendData);
             } else {
               res.render('eventManagement', appendData);
             }
-          }
-          break;
-        case 'DA':
-          req.session.selectedeventtype = 'DA';
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
+            break;
+          case 'EOI':
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
               status.toLowerCase() == 'awarded' ||
               status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        default:
-          redirectUrl_ = '/event/management';
-          res.redirect(redirectUrl_);
-          break;
+            ) {
+              res.render('awardEventManagement', appendData);
+            } else {
+              res.render('eventManagement', appendData);
+            }
+            break;
+          case 'FC':
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
+              status.toLowerCase() == 'awarded' ||
+              status.toLowerCase() == 'complete'
+            ) {
+              //Awards/templates
+              // const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
+              // const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
+              // let documentTemplatesUnSuccess = "";
+              // for (let i = 0; i < awardsTemplatesData.length; i++) {
+              //   if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
+              //     documentTemplatesUnSuccess = awardsTemplatesData[i].id;
+              //   }
+              // }
+              // appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess
+              res.render('awardEventManagement', appendData);
+            } else {
+              if (agreementId_session === 'RM1043.8') {
+                appendData.stage2_value = stage2_value;
+                res.render('eventManagementDOS', appendData);
+              } else {
+                res.render('eventManagement', appendData);
+              }
+            }
+            break;
+          case 'DA':
+            req.session.selectedeventtype = 'DA';
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
+              status.toLowerCase() == 'awarded' ||
+              status.toLowerCase() == 'complete'
+            ) {
+              res.render('awardEventManagement', appendData);
+            } else {
+              res.render('eventManagement', appendData);
+            }
+            break;
+          default:
+            redirectUrl_ = '/event/management';
+            res.redirect(redirectUrl_);
+            break;
         }
       }
     }
@@ -956,7 +965,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           //supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.responseDate =
             supplierdata.data?.responders[i]?.responseDate != undefined &&
-            supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
               ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
               : '';
           supplierDetailsObj.score = score != undefined ? score : 0;
@@ -970,9 +979,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-              supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+                supplierFiltedData.contactPoint != null &&
+                supplierFiltedData.contactPoint?.name != undefined &&
+                supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -1174,60 +1183,60 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       let redirectUrl: string;
       if (status.toLowerCase() == 'in-progress') {
         switch (eventType) {
-        case 'RFI':
-          redirectUrl = '/rfi/rfi-tasklist';
-          break;
-        case 'EOI':
-          redirectUrl = '/eoi/eoi-tasklist';
-          break;
-        case 'DA':
-          if (agreementId_session == 'RM6263') {
-            //DSP
+          case 'RFI':
+            redirectUrl = '/rfi/rfi-tasklist';
+            break;
+          case 'EOI':
+            redirectUrl = '/eoi/eoi-tasklist';
+            break;
+          case 'DA':
+            if (agreementId_session == 'RM6263') {
+              //DSP
+              redirectUrl = '/rfp/task-list';
+            } else {
+              //MCF3
+              redirectUrl = '/da/task-list';
+            }
+            req.session.selectedeventtype = 'DA';
+            break;
+          case 'FC':
             redirectUrl = '/rfp/task-list';
-          } else {
-            //MCF3
-            redirectUrl = '/da/task-list';
-          }
-          req.session.selectedeventtype = 'DA';
-          break;
-        case 'FC':
-          redirectUrl = '/rfp/task-list';
-          break;
-        default:
-          redirectUrl = '/event/management';
-          break;
+            break;
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'assessment') {
         switch (eventType) {
-        case 'DAA':
-          redirectUrl = '/da/task-list?path=B1';
-          break;
-        case 'FCA':
-          redirectUrl = '/ca/task-list?path=A1';
-          break;
-        case 'PA':
-          redirectUrl = '/projects/routeToCreateSupplier';
-          break;
-        default:
-          redirectUrl = '/event/management';
-          break;
+          case 'DAA':
+            redirectUrl = '/da/task-list?path=B1';
+            break;
+          case 'FCA':
+            redirectUrl = '/ca/task-list?path=A1';
+            break;
+          case 'PA':
+            redirectUrl = '/projects/routeToCreateSupplier';
+            break;
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
-        case 'TBD': {
-          const { eventId, projectId, procurements } = req.session;
-          const currentProcNum = procurements.findIndex(
-            (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
-          );
-          req.session.procurements[currentProcNum].started = false;
-          redirectUrl = '/projects/create-or-choose';
-          break;
-        }
-        default:
-          redirectUrl = '/event/management';
-          break;
+          case 'TBD': {
+            const { eventId, projectId, procurements } = req.session;
+            const currentProcNum = procurements.findIndex(
+              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
+            );
+            req.session.procurements[currentProcNum].started = false;
+            redirectUrl = '/projects/create-or-choose';
+            break;
+          }
+          default:
+            redirectUrl = '/event/management';
+            break;
         }
         res.redirect(redirectUrl);
       } else {
@@ -1245,89 +1254,89 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
 
         let redirectUrl_: string;
         switch (eventType) {
-        case 'RFI':
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
+          case 'RFI':
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
               status.toLowerCase() == 'awarded' ||
               status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        case 'EOI':
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
-              status.toLowerCase() == 'awarded' ||
-              status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        case 'FC':
-          req.session.selectedeventtype = 'FC';
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
-              status.toLowerCase() == 'awarded' ||
-              status.toLowerCase() == 'complete'
-          ) {
-            //Awards/templates
-            const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`;
-            const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
-            let documentTemplatesUnSuccess = '';
-            for (let i = 0; i < awardsTemplatesData.length; i++) {
-              if (awardsTemplatesData[i].description.includes('UnSuccessful')) {
-                documentTemplatesUnSuccess = awardsTemplatesData[i].id;
-              }
-            }
-            appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess;
-            res.render('awardEventManagement', appendData);
-          } else {
-            const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
-            const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
-            const stage2_dynamic_api_data = stage2_dynamic_api.data;
-
-            //CAS-INFO-LOG
-            //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
-
-            const stage2_data = stage2_dynamic_api_data?.filter(
-              (anItem: any) =>
-                anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
-            );
-
-            let stage2_value = 'Stage 1';
-            if (stage2_data.length > 0) {
-              stage2_value = 'Stage 2';
-            }
-
-            if (agreementId_session === 'RM1043.8') {
-              appendData.stage2_value = stage2_value;
-              res.render('eventManagementDOS', appendData);
+            ) {
+              res.render('awardEventManagement', appendData);
             } else {
               res.render('eventManagement', appendData);
             }
-            // res.render('eventManagementDOS', appendData)
-          }
-          break;
-        case 'DA':
-          req.session.selectedeventtype = 'DA';
-          if (
-            (status != undefined && status.toLowerCase() == 'pre-award') ||
+            break;
+          case 'EOI':
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
               status.toLowerCase() == 'awarded' ||
               status.toLowerCase() == 'complete'
-          ) {
-            res.render('awardEventManagement', appendData);
-          } else {
-            res.render('eventManagement', appendData);
-          }
-          break;
-        default:
-          redirectUrl_ = '/event/management';
-          res.redirect(redirectUrl_);
-          break;
+            ) {
+              res.render('awardEventManagement', appendData);
+            } else {
+              res.render('eventManagement', appendData);
+            }
+            break;
+          case 'FC':
+            req.session.selectedeventtype = 'FC';
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
+              status.toLowerCase() == 'awarded' ||
+              status.toLowerCase() == 'complete'
+            ) {
+              //Awards/templates
+              const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`;
+              const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
+              let documentTemplatesUnSuccess = '';
+              for (let i = 0; i < awardsTemplatesData.length; i++) {
+                if (awardsTemplatesData[i].description.includes('UnSuccessful')) {
+                  documentTemplatesUnSuccess = awardsTemplatesData[i].id;
+                }
+              }
+              appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess;
+              res.render('awardEventManagement', appendData);
+            } else {
+              const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+              const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+              const stage2_dynamic_api_data = stage2_dynamic_api.data;
+
+              //CAS-INFO-LOG
+              //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
+
+              const stage2_data = stage2_dynamic_api_data?.filter(
+                (anItem: any) =>
+                  anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+              );
+
+              let stage2_value = 'Stage 1';
+              if (stage2_data.length > 0) {
+                stage2_value = 'Stage 2';
+              }
+
+              if (agreementId_session === 'RM1043.8') {
+                appendData.stage2_value = stage2_value;
+                res.render('eventManagementDOS', appendData);
+              } else {
+                res.render('eventManagement', appendData);
+              }
+              // res.render('eventManagementDOS', appendData)
+            }
+            break;
+          case 'DA':
+            req.session.selectedeventtype = 'DA';
+            if (
+              (status != undefined && status.toLowerCase() == 'pre-award') ||
+              status.toLowerCase() == 'awarded' ||
+              status.toLowerCase() == 'complete'
+            ) {
+              res.render('awardEventManagement', appendData);
+            } else {
+              res.render('eventManagement', appendData);
+            }
+            break;
+          default:
+            redirectUrl_ = '/event/management';
+            res.redirect(redirectUrl_);
+            break;
         }
       }
     }
@@ -1463,18 +1472,18 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       //const pageType = req.session['pageType'];
       if (Type != undefined && Type != null) {
         switch (Type) {
-        case 'confirmSupplier':
-          redirectUrl = '/confirm-supplier?supplierid=' + reviewsupplierid;
-          break;
-        case 'supplierDocument':
-          redirectUrl = '/award-supplier-document?supplierId=' + reviewsupplierid;
-          break;
-        case 'awardSupplier':
-          redirectUrl = '/award-supplier?supplierId=' + reviewsupplierid;
-          break;
-        default:
-          // redirectUrl = '/event/management?id='+eventId
-          break;
+          case 'confirmSupplier':
+            redirectUrl = '/confirm-supplier?supplierid=' + reviewsupplierid;
+            break;
+          case 'supplierDocument':
+            redirectUrl = '/award-supplier-document?supplierId=' + reviewsupplierid;
+            break;
+          case 'awardSupplier':
+            redirectUrl = '/award-supplier?supplierId=' + reviewsupplierid;
+            break;
+          default:
+            // redirectUrl = '/event/management?id='+eventId
+            break;
         }
       }
 
@@ -2010,7 +2019,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     }
   } catch (error) {
     console.log(error);
-    
+
     LoggTracer.errorLogger(
       res,
       error,

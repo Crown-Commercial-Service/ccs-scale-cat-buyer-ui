@@ -342,22 +342,15 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     LoggTracer.infoLogger(null, data.rfpTitle, req);
     res.render('rfp-question-assessment', data);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'FC Dynamic framework throws error - Tenders Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -640,11 +633,13 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               }
             } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
               if (
-                !((agreement_id === 'RM1043.8' &&
-                  id == 'Criterion 2' &&
-                  req.session.lotId == 1 &&
-                  (group_id == 'Group 6' || group_id == 'Group 9')) ||
-                (req.session.lotId == 3 && (group_id == 'Group 6' || group_id == 'Group 8')))
+                !(
+                  (agreement_id === 'RM1043.8' &&
+                    id == 'Criterion 2' &&
+                    req.session.lotId == 1 &&
+                    (group_id == 'Group 6' || group_id == 'Group 9')) ||
+                  (req.session.lotId == 3 && (group_id == 'Group 6' || group_id == 'Group 8'))
+                )
               ) {
                 if (KeyValuePairValidation(object_values, req)) {
                   validationError = true;
@@ -874,7 +869,15 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   }
                 }
               } catch (error) {
-                LoggTracer.errorTracer(error, res);
+                LoggTracer.errorLogger(
+                  res,
+                  error,
+                  null,
+                  null,
+                  null,
+                  null,
+                  false
+                );
               }
             }
           }
@@ -905,24 +908,16 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
-    delete err?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'FC Dynamic framework throws error - Tenders Api is causing problem',
-      exception: err,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-
-    LoggTracer.errorTracer(Log, res);
   }
 };
 

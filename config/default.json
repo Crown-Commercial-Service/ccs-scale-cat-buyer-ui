@@ -88,6 +88,7 @@
     "mcf3_fc_supplier_award_date": "10",
     "mcf3_fc_supplier_deadline_extra": "10",
     "mcf3_fc_defaultEndingHour": "16",
-    "mcf3_fc_defaultEndingMinutes": "00" 
+    "mcf3_fc_defaultEndingMinutes": "00",
+    "mcf3_fc_stanstillPeriodCondtional": "5"
   }
 }

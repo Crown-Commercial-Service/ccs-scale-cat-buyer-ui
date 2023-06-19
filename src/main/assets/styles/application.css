@@ -1432,7 +1432,38 @@ p + .govuk-heading-s,
   color: red !important;
   font-size: 84px !important;
 }
+.datehead {
+  margin-bottom: 15px;
+  padding-bottom: 25px;
+  position: relative;
+}
+.datehead.hidehr {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.datehead.hidehr + .govuk-radios__conditional_custom.datebody, .govuk-radios__conditional_custom.conditional_desc{
+  margin-bottom: 15px;
+      margin-left: 18px;
+      padding-left: 33px;
+      border-left: 4px solid #b1b4b6;
+  }
+.datehead.hidehr:after {
+  background: transparent;
+  height: 0;
+}
+/* .datehead:after {
+  position: absolute;
+  content: "";
+  width: calc(100% + 35px);
+  left: -35px;
+  background: #b1b4b6;
+  height: 1px;
+  bottom: 0;
+} */
 
+.datehead .govuk-radios {
+  margin-top: 15px;
+}
 .govuk-radios__label_custom p {
   display: inline-block;
   color: #0b0c0c;

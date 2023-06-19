@@ -185,22 +185,15 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     res.render('questionsEoi', data);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'EOI Dynamic framework throws error - Tenders Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -576,8 +569,16 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
-    LoggTracer.errorTracer(err, res);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
+    );
   }
 };
 

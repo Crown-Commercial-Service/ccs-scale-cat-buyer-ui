@@ -385,16 +385,13 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/da/add/response-date"
 export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  const {
-    clarification_date_hourFormat,
-    selected_question_id,
-  } = req.body;
+  const { clarification_date_hourFormat, selected_question_id } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute
+    clarification_date_minute,
   } = req.body;
   const { timeline, agreement_id } = req.session;
   clarification_date_day = Number(clarification_date_day);
@@ -620,22 +617,15 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/da/response-date');
       } catch (error) {
-        delete error?.config?.['headers'];
-        const Logmessage = {
-          Person_id: TokenDecoder.decoder(SESSION_ID),
-          error_location: `${req.headers.host}${req.originalUrl}`,
-          sessionId: 'null',
-          error_reason: 'DA Timeline - Dyanamic framework throws error - Tender Api is causing problem',
-          exception: error,
-        };
-        const Log = new LogMessageFormatter(
-          Logmessage.Person_id,
-          Logmessage.error_location,
-          Logmessage.sessionId,
-          Logmessage.error_reason,
-          Logmessage.exception
+        LoggTracer.errorLogger(
+          res,
+          error,
+          null,
+          null,
+          null,
+          null,
+          false
         );
-        LoggTracer.errorTracer(Log, res);
       }
     } else {
       const selectedErrorCause = selected_question_id; //Question 2

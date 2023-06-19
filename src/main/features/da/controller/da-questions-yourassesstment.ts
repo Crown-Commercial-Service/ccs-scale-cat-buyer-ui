@@ -204,22 +204,15 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
 
     res.render('daw-question-assessment', data);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'DA Dynamic framework throws error - Tenders Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -242,7 +235,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
-    
+
     const { rfp_build_started } = req.body;
     let { question_id } = req.body;
 
@@ -658,7 +651,6 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                   'DA Question Assessments - Tenders Service Api cannot be connected',
                   true
                 );
-                // LoggTracer.errorTracer(error, res);
               }
             }
           }
@@ -690,7 +682,6 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
       res.redirect('/error');
     }
   } catch (err) {
-    // LoggTracer.errorTracer(err, res);
     LoggTracer.errorLogger(
       res,
       err,
