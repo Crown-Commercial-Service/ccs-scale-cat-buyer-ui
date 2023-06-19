@@ -267,13 +267,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (agreementId_session === 'RM1043.8') {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-                supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
                 : '';
           } else {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-                supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
                 : '';
           }
@@ -288,9 +288,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-                supplierFiltedData.contactPoint != null &&
-                supplierFiltedData.contactPoint?.name != undefined &&
-                supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != null &&
+              supplierFiltedData.contactPoint?.name != undefined &&
+              supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -398,7 +398,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             );
 
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
-            supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY');
+            //            supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY');
 
             const todayDate = new Date();
             const standStillDate = new Date(currentDate);
@@ -536,9 +536,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         //LoggTracer.infoLogger(fetchQuestions, logConstant.questionDetail, req);
 
         let standstill = '';
+        let standstillEndDate = '';
         if (agreementId_session == 'RM6187' && (eventType == 'FC' || eventType == 'DA')) {
           standstill = fetchQuestionsData
             ?.filter((item) => item?.OCDS?.id == 'Question 8')
+            .map((item) => item?.nonOCDS?.options)?.[0]
+            ?.find((i) => i?.value)?.value;
+
+          standstillEndDate = fetchQuestionsData
+            ?.filter((item) => item?.OCDS?.id == 'Question 9')
             .map((item) => item?.nonOCDS?.options)?.[0]
             ?.find((i) => i?.value)?.value;
         } else if (agreementId_session == 'RM1557.13' && eventType == 'FC' && lotid == '4') {
@@ -546,12 +552,41 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             ?.filter((item) => item?.OCDS?.id == 'Question 8')
             .map((item) => item?.nonOCDS?.options)?.[0]
             ?.find((i) => i?.value)?.value;
+
+          standstillEndDate = fetchQuestionsData
+            ?.filter((item) => item?.OCDS?.id == 'Question 9')
+            .map((item) => item?.nonOCDS?.options)?.[0]
+            ?.find((i) => i?.value)?.value;
         } else {
           standstill = fetchQuestionsData
             ?.filter((item) => item?.OCDS?.id == 'Question 5')
             .map((item) => item?.nonOCDS?.options)?.[0]
             ?.find((i) => i?.value)?.value;
+
+          const stage2_data_pre = stage2_dynamic_api_data?.filter(
+            (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+          );
+          let stage2_value_pre = 'Stage 1';
+          if (stage2_data_pre.length > 0) {
+            stage2_value_pre = 'Stage 2';
+          }
+          if (stage2_value_pre == 'Stage 1') {
+            standstillEndDate = fetchQuestionsData
+              ?.filter((item) => item?.OCDS?.id == 'Question 11')
+              .map((item) => item?.nonOCDS?.options)?.[0]
+              ?.find((i) => i?.value)?.value;
+          } else {
+            standstillEndDate = fetchQuestionsData
+              ?.filter((item) => item?.OCDS?.id == 'Question 6')
+              .map((item) => item?.nonOCDS?.options)?.[0]
+              ?.find((i) => i?.value)?.value;
+          }
         }
+
+        supplierDetails.supplierStandStillDate = moment(standstillEndDate, 'YYYY-MM-DDTHH:mm:ss').format(
+          'DD/MM/YYYY HH:mm'
+        );
+        // supplierDetails.supplierStandStillDate = moment(standstillEndDate).format('DD/MM/YYYY HH:mm');
 
         const awardstart = fetchQuestionsData
           ?.filter((item) => item?.OCDS?.id == 'Question 6')
@@ -965,7 +1000,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           //supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.responseDate =
             supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+            supplierdata.data?.responders[i]?.responseDate != null
               ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
               : '';
           supplierDetailsObj.score = score != undefined ? score : 0;
@@ -979,9 +1014,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-                supplierFiltedData.contactPoint != null &&
-                supplierFiltedData.contactPoint?.name != undefined &&
-                supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != null &&
+              supplierFiltedData.contactPoint?.name != undefined &&
+              supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
