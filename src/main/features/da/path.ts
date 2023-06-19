@@ -3,7 +3,7 @@ import { REQUIREMENT_CONTROLLER } from './controller/index';
 import { REQUIRMENT_DA_PATHS } from './model/daConstants';
 import { Application } from 'express';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 
 export default function (app: Application): void {
   app.get(REQUIRMENT_DA_PATHS.DA_TYPE, [AUTH], REQUIREMENT_CONTROLLER.DA_TYPE);

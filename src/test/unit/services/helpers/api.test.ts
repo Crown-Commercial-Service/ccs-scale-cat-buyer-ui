@@ -1,7 +1,9 @@
+import Sinon from 'sinon';
 import { expect } from 'chai';
 import { genericFecthGet, genericFecthPost } from 'main/services/helpers/api';
 import { FetchError, FetchTimeoutError } from 'main/services/helpers/errors';
 import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/types/helpers/api';
+import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'test/utils/mocks/redis';
 import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
 
 type GenericData = {
@@ -132,6 +134,62 @@ describe('fecth helpers', () => {
 
         expect(genericFecthGetResult.unwrap()).to.eql({ ok: true });
       });
+
+      describe('and there are cache params', () => {
+        const mock = Sinon.createSandbox();
+        const path = '/test';
+
+        afterEach(() => {
+          mock.restore();
+        });
+
+        it('calls the redis cache and the endpoint when there is no data', async () => {
+          const mockRedisClientSpy = creatRedisMockSpy(mock);
+
+          mockPool.intercept({
+            path: path,
+            headers: headers
+          }).reply(200, { ok: true });
+
+          const genericFecthGetResult = await genericFecthGet(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers,
+            {
+              key: 'my_cache_key',
+              seconds: 394
+            }
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthGetResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthGetResult.data).to.eql({ ok: true });
+
+          assertRedisCalls(mockRedisClientSpy, 'my_cache_key', { ok: true }, 394);
+        });
+
+        it('calls only the redis cache when there is data', async () => {
+          const mockRedisClientSpy = creatRedisMockSpy(mock, { ok: true });
+
+          const genericFecthGetResult = await genericFecthGet(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers,
+            {
+              key: 'my_cache_key',
+              seconds: 394
+            }
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthGetResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthGetResult.data).to.eql({ ok: true });
+
+          assertRedisCallsWithCache(mockRedisClientSpy, 'my_cache_key');
+        });
+      });
     });
 
     describe('when the response is not 200', () => {
@@ -213,6 +271,7 @@ describe('fecth helpers', () => {
             path: path
           },
           headers,
+          undefined,
           10
         ) as FetchResultError;
 

@@ -191,23 +191,15 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
               res.redirect(`/${selRoute}/upload-additional`);
             }
           } catch (error) {
-            delete error?.config?.['headers'];
-            const Logmessage = {
-              Person_id: TokenDecoder.decoder(SESSION_ID),
-              error_location: `${req.headers.host}${req.originalUrl}`,
-              sessionId: 'null',
-              error_reason: `File uploading Causes Problem in ${selRoute}  - Tenders Api throws error`,
-              exception: error,
-            };
-            const Log = new LogMessageFormatter(
-              Logmessage.Person_id,
-              Logmessage.error_location,
-              Logmessage.sessionId,
-              Logmessage.error_reason,
-              Logmessage.exception,
-              Logmessage.sessionId
+            LoggTracer.errorLogger(
+              res,
+              error,
+              null,
+              null,
+              null,
+              null,
+              false
             );
-            LoggTracer.errorTracer(Log, res);
           }
         } else {
           FileFilterArray.push({

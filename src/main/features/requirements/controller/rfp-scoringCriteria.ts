@@ -491,7 +491,15 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                   break;
                 }
               } catch (error) {
-                LoggTracer.errorTracer(error, res);
+                LoggTracer.errorLogger(
+                  res,
+                  error,
+                  null,
+                  null,
+                  null,
+                  null,
+                  false
+                );
               }
             }
           }
@@ -955,7 +963,15 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   res.redirect('/rfp/task-list');
                 }
               } catch (error) {
-                LoggTracer.errorTracer(error, res);
+                LoggTracer.errorLogger(
+                  res,
+                  error,
+                  null,
+                  null,
+                  null,
+                  null,
+                  false
+                );
               }
             }
           }
@@ -986,8 +1002,16 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
-    LoggTracer.errorTracer(err, res);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
+    );
   }
 };
 

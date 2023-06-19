@@ -265,22 +265,22 @@ function isValidQuestion(
       if (questionNewDate < new Date(timeline.publish)) {
         isValid = false;
 
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_2';
       break;
     case 'Question 3':
       if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_3';
       break;
@@ -289,7 +289,7 @@ function isValidQuestion(
       if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
 
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2') {
         nextval = timeline.confirmNextStepsSuppliers;
@@ -300,7 +300,7 @@ function isValidQuestion(
       //  if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
       if (questionNewDate > new Date(nextval)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_4';
       break;
@@ -308,11 +308,11 @@ function isValidQuestion(
     case 'Question 5':
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_5';
       break;
@@ -328,11 +328,11 @@ function isValidQuestion(
 
       if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(nextDateVal6)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_6';
       break;
@@ -340,11 +340,11 @@ function isValidQuestion(
     case 'Question 7':
       if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_7';
       break;
@@ -357,13 +357,13 @@ function isValidQuestion(
       }
       if (questionNewDate < new Date(previousDateVal7)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
 
       if (!(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2')) {
         if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
           isValid = false;
-          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+          error = 'You cannot change this date and time to be later than the next step in the timeline';
         }
       }
 
@@ -382,11 +382,11 @@ function isValidQuestion(
 
       if (questionNewDate < new Date(previousDateVal)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.proposedAwardDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_9';
       break;
@@ -394,24 +394,24 @@ function isValidQuestion(
     case 'Question 10':
       if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_10';
       break;
     case 'Question 11':
       if (questionNewDate < new Date(timeline.proposedAwardDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (agreement_id == 'RM1043.8') {
         //DOS
         if (questionNewDate > new Date(timeline.contractsigneddate)) {
           isValid = false;
-          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+          error = 'You cannot change this date and time to be later than the next step in the timeline';
         }
       }
       errorSelector = 'rfi_clarification_date_expanded_11';
@@ -420,11 +420,11 @@ function isValidQuestion(
     case 'Question 12':
       if (questionNewDate < new Date(timeline.expectedSignatureDate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
       if (questionNewDate > new Date(timeline.supplierstartdate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        error = 'You cannot change this date and time to be later than the next step in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_12';
       break;
@@ -432,7 +432,7 @@ function isValidQuestion(
     case 'Question 13':
       if (questionNewDate < new Date(timeline.contractsigneddate)) {
         isValid = false;
-        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'You cannot change this date and time to be earlier than the previous step in the timeline';
       }
 
       errorSelector = 'rfi_clarification_date_expanded_13';
@@ -849,24 +849,6 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/rfp/response-date');
-        // } catch (error) {
-        //   delete error?.config?.['headers'];
-        //   const Logmessage = {
-        //     Person_id: TokenDecoder.decoder(SESSION_ID),
-        //     error_location: `${req.headers.host}${req.originalUrl}`,
-        //     sessionId: 'null',
-        //     error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-        //     exception: error,
-        //   };
-        //   const Log = new LogMessageFormatter(
-        //     Logmessage.Person_id,
-        //     Logmessage.error_location,
-        //     Logmessage.sessionId,
-        //     Logmessage.error_reason,
-        //     Logmessage.exception
-        //   );
-        //   LoggTracer.errorTracer(Log, res);
-        // }
       } else {
         const selectedErrorCause = selected_question_id; //Question 2
         let selector = '';
@@ -952,22 +934,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         await RESPONSEDATEHELPER(req, res, true, errorItem);
       }
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception
-      );
-      LoggTracer.errorTracer(Log, res);
+      LoggTracer.errorLogger(res, error, null, null, null, null, false);
     }
   }
 };
@@ -1007,6 +974,7 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
   const tl_aggrementID = req.body.tl_aggrementID;
   const tl_eventType = req.body.tl_eventType;
   const tl_questionID = req.body.tl_questionID;
+  const tl_Selected_questionID = req.body.select_tl_questionID;
   const tl_val = req.body.tl_val;
   req.session.timlineSession = req.body;
   const manipulation = req.body.manipulation;
@@ -1192,10 +1160,11 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
 
       //Q4
       let Q4;
-      if (
-        (manipulation.Q3.selected == false && manipulation.Q3.value != '') ||
-        (manipulation.Q3.selected && manipulation.Q3.value == '')
-      ) {
+      // if (
+      //   (manipulation.Q3.selected == false && manipulation.Q3.value != '') ||
+      //   (manipulation.Q3.selected && manipulation.Q3.value == '')
+      // ) {
+      if (tl_Selected_questionID == 3) {
         const Q4_Parsed = `${Q3.getDate()}-${Q3.getMonth() + 1}-${Q3.getFullYear()}`;
         const Q4_B_add = moment(Q4_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q4_B_add.setHours(DOS_Days.defaultEndingHour);
@@ -1348,10 +1317,8 @@ export const TIMELINE_STANDSTILL_SUPPLIERT = async (req: express.Request, res: e
       }
       //Q9
       let Q9;
-      if (
-        (manipulation.Q8.selected == false && manipulation.Q8.value != '') ||
-        (manipulation.Q8.selected && manipulation.Q8.value == '')
-      ) {
+      // if ((manipulation.Q8.selected == false && manipulation.Q8.value != '') || manipulation.Q8.selected) {
+      if (tl_Selected_questionID == 8) {
         const Q9_Parsed = `${Q8.getDate()}-${Q8.getMonth() + 1}-${Q8.getFullYear()}`;
         const Q9_B_add = moment(Q9_Parsed, 'DD-MM-YYYY').businessAdd(DOS_Days.clarification_period_end)._d;
         Q9_B_add.setHours(DOS_Days.defaultEndingHour);

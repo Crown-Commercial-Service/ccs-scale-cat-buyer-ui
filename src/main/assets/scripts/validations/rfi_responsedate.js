@@ -258,7 +258,9 @@ const saveButtonUnHideDateRfi = () => {
           let previousQuestionSplit;
           previousQuestionSplit = $(".timedate"+selector).val();
              previousQuestion = previousQuestionSplit.split('*')[1];
-             
+             if(previousQuestion === 'Invalid date') {
+                previousQuestion = '';
+             }
         //   if(selector!=1){
         //   let indexKey = totalElementSelectors.indexOf(selector);
         //   let indexKeyPrevious  = indexKey-1;

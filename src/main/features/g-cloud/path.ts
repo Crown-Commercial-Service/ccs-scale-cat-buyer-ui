@@ -1,6 +1,6 @@
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
 import { gcloudController } from './controller/index';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 import { GCloud_PATHS } from './model/gCloudConstants';
 import { Application } from 'express';
 //import {EventEngagementMiddleware} from '../../common/middlewares/event-management/activeevents'
