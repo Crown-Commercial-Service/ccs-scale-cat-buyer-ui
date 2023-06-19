@@ -26,9 +26,9 @@
       "title": "Dorset ICS Integration and Interoperability Review & Recommendation",
       "subTitle": "The NHS providers within the Dorset Integrated Care System (ICS)",
       "country": "South West England",
-      "Value": "£58,716",
-      "Digital": "outcomes",
-      "Closed": "awaiting outcome",
+      "value": "£58,716",
+      "digital": "outcomes",
+      "closed": "awaiting outcome",
       "description": "The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC",
       "radioOptions": {
         "idPrefix": "ccs_chose_route",
