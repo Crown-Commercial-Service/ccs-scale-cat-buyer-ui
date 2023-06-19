@@ -1,21 +1,17 @@
 import * as express from 'express';
+import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
-     try {
-            res.render('opportunities');
-
-        } catch (error) {
-        
-        }
+  try {
+    const display_fetch_data = {
+      file_data: fileData,
+    };
+    res.render('opportunities', display_fetch_data);
+  } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
-    try {
-
-          console.log(req.params.id);
-           res.render('opportunitiesReview');
-
-       } catch (error) {
-       
-       }
+  try {
+    console.log(req.params.id);
+    res.render('opportunitiesReview');
+  } catch (error) {}
 };
-
