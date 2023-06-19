@@ -360,40 +360,28 @@
       <div class="govuk-grid-column-full">
         <ul class="govuk-list govuk-supplier-list" id="">
           
+           {% for form in file_data.form %}
             <li class="app-search-result">
               <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-                  <a class="govuk-link" href="">Dorset ICS Integration and Interoperability Review & Recommendation</a>
+                  <a class="govuk-link" href="">{{form.title}}</a>
               </h2>
               <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                 The NHS providers within the Dorset Integrated Care System (ICS)
+               {{form.subTitle}}
               </p>
               <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
-                 South West England
+                 {{form.country}}
               </p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: £58,716</p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Digital outcomes</p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: awaiting outcome</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.value}}</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.digital}}</p>
+              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: {{form.closed}}</p>
               <p class="govuk-body govuk-!-font-size-16">
-                  The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC
+               {{form.description}}
               </p>              
             </li>
-            <li class="app-search-result">
-              <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-                  <a class="govuk-link" href="">Dorset ICS Integration and Interoperability Review & Recommendation</a>
-              </h2>
-              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                 The NHS providers within the Dorset Integrated Care System (ICS)
-              </p>
-              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
-                 South West England
-              </p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: £58,716</p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Digital outcomes</p>
-              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: awaiting outcome</p>
-              <p class="govuk-body govuk-!-font-size-16">
-                  The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC
-              </p>              
-            </li>
+
+              {% endfor %}
+
+
         </ul>
         <div class="app-search-result-nodata">
           <p class="govuk-body">Improve your search results by:</p>
