@@ -16,9 +16,9 @@ export const GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Res
   const projectId = req.session.projectId;
   res.locals.agreement_header = {
     agreementName,
-    projectName:project_name,
+    projectName: project_name,
     projectId,
-    agreementIdSession:agreementId_session,
+    agreementIdSession: agreementId_session,
     agreementLotName,
     lotid,
   };

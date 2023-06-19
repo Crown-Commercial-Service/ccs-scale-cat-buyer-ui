@@ -2,7 +2,7 @@ import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
 import { associatedViews } from './controller/index';
 import { PROCUREMENT_PATHS } from './model/procurement';
 import { Application } from 'express';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 
 export default function (app: Application): void {
   // This is the reciever callback after getting the token

@@ -239,10 +239,7 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 // @POST "/eoi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   try {
-    const {
-      clarification_date_hourFormat,
-      selected_question_id,
-    } = req.body;
+    const { clarification_date_hourFormat, selected_question_id } = req.body;
     let {
       clarification_date_day,
       clarification_date_month,
@@ -380,22 +377,15 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
         res.redirect('/eoi/response-date');
       } catch (error) {
-        delete error?.config?.['headers'];
-        const Logmessage = {
-          Person_id: TokenDecoder.decoder(SESSION_ID),
-          error_location: `${req.headers.host}${req.originalUrl}`,
-          sessionId: 'null',
-          error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-          exception: error,
-        };
-        const Log = new LogMessageFormatter(
-          Logmessage.Person_id,
-          Logmessage.error_location,
-          Logmessage.sessionId,
-          Logmessage.error_reason,
-          Logmessage.exception
+        LoggTracer.errorLogger(
+          res,
+          error,
+          null,
+          null,
+          null,
+          null,
+          false
         );
-        LoggTracer.errorTracer(Log, res);
       }
     } else {
       const selectedErrorCause = selected_question_id; //Question 2

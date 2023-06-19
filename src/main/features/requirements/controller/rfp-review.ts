@@ -654,22 +654,15 @@ const RFP_REVIEW_RENDER_STAGE = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageTwo, req);
     res.render('rfp-review-stage', appendData);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 const RFP_REVIEW_RENDER_TEST = async (
@@ -2599,22 +2592,15 @@ const RFP_REVIEW_RENDER_TEST = async (
       res.render('rfp-review', appendData);
     }
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -2908,22 +2894,15 @@ const RFP_REVIEW_RENDER = async (
 
     res.render('rfp-review', appendData);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -3217,6 +3196,36 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       ?.filter((item) => item?.OCDS?.id == 'Question 6')
       .map((item) => item?.nonOCDS?.options)?.[0]
       ?.find((i) => i?.value)?.value;
+
+    // StandstilSupplierPresentation Review Page - Start
+    let fcQ7 = true,
+      fcQ8 = true;
+    const preCheckQuestion7 = fetchQuestionsData?.filter(
+      (item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined
+    );
+    const preCheckQuestion8 = fetchQuestionsData?.filter(
+      (item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined
+    );
+    if (preCheckQuestion7.length > 0) {
+      fcQ7 = fetchQuestionsData?.some(
+        (item) =>
+          item?.OCDS?.id == 'Question 7' &&
+          item?.nonOCDS?.timelineDependency != undefined &&
+          item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)
+            ?.value === 'Yes'
+      );
+    }
+    if (preCheckQuestion8.length > 0) {
+      fcQ8 = fetchQuestionsData?.some(
+        (item) =>
+          item?.OCDS?.id == 'Question 8' &&
+          item?.nonOCDS?.timelineDependency != undefined &&
+          item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)
+            ?.value === 'Yes'
+      );
+    }
+    // StandstilSupplierPresentation Review Page - End
+
     const supplier_dealine_expect_the_bidders = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 7')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -3225,6 +3234,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       ?.filter((item) => item?.OCDS?.id == 'Question 8')
       .map((item) => item?.nonOCDS?.options)?.[0]
       ?.find((i) => i?.value)?.value;
+
     const supplier_dealine_for_expect_to_award = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 9')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -3959,6 +3969,8 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       agreementId_session,
       publishClickEventStatus: publishClickEventStatus,
       selectedEventType: req.session['eventManagement_eventType'],
+      fcQ7: fcQ7,
+      fcQ8: fcQ8,
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440
@@ -3984,22 +3996,15 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -4183,6 +4188,36 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
       ?.filter((item) => item?.OCDS?.id == 'Question 6')
       .map((item) => item?.nonOCDS?.options)?.[0]
       ?.find((i) => i?.value)?.value;
+
+    // StandstilSupplierPresentation Review Page - Start
+    let fcQ7 = true,
+      fcQ8 = true;
+    const preCheckQuestion7 = fetchQuestionsData?.filter(
+      (item) => item?.OCDS?.id == 'Question 7' && item?.nonOCDS?.timelineDependency != undefined
+    );
+    const preCheckQuestion8 = fetchQuestionsData?.filter(
+      (item) => item?.OCDS?.id == 'Question 8' && item?.nonOCDS?.timelineDependency != undefined
+    );
+    if (preCheckQuestion7.length > 0) {
+      fcQ7 = fetchQuestionsData?.some(
+        (item) =>
+          item?.OCDS?.id == 'Question 7' &&
+          item?.nonOCDS?.timelineDependency != undefined &&
+          item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)
+            ?.value === 'Yes'
+      );
+    }
+    if (preCheckQuestion8.length > 0) {
+      fcQ8 = fetchQuestionsData?.some(
+        (item) =>
+          item?.OCDS?.id == 'Question 8' &&
+          item?.nonOCDS?.timelineDependency != undefined &&
+          item?.nonOCDS?.timelineDependency?.nonOCDS?.options.find((a) => a.value === 'Yes' && a.selected === true)
+            ?.value === 'Yes'
+      );
+    }
+    // StandstilSupplierPresentation Review Page - Start
+
     const supplier_dealine_expect_the_bidders = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 7')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -4191,6 +4226,7 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
       ?.filter((item) => item?.OCDS?.id == 'Question 8')
       .map((item) => item?.nonOCDS?.options)?.[0]
       ?.find((i) => i?.value)?.value;
+
     const supplier_dealine_for_expect_to_award = fetchQuestionsData
       ?.filter((item) => item?.OCDS?.id == 'Question 9')
       .map((item) => item?.nonOCDS?.options)?.[0]
@@ -4777,6 +4813,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
       selectedeventtype,
       agreementId_session,
       publishClickEventStatus: publishClickEventStatus,
+      fcQ7: fcQ7,
+      fcQ8: fcQ8,
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440
@@ -4800,21 +4838,14 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-gcloudreview', appendData);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
