@@ -67,6 +67,14 @@ export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.
     }
     res.redirect('/rfp/ratio-quality-group');
   } catch (error) {
-    LoggTracer.errorTracer(error, res);
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
+    );
   }
 };
