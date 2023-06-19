@@ -3,6 +3,11 @@ enum HTTPMethod {
   POST = 'POST'
 }
 
+type CacheOptions = {
+  key: string
+  seconds: number
+}
+
 interface FetchRequestInit extends Omit<RequestInit, 'method'> {
   method: HTTPMethod
 }
@@ -28,4 +33,4 @@ type FetchResult<T> = BaseFetchResult<T> & {
   unwrap: () => T
 }
 
-export { HTTPMethod, FetchRequestInit, BaseFetchResult, FetchResult, FetchResultStatus, FetchResultOK, FetchResultError };
+export { HTTPMethod, CacheOptions, FetchRequestInit, BaseFetchResult, FetchResult, FetchResultStatus, FetchResultOK, FetchResultError };

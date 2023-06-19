@@ -1,7 +1,8 @@
-import { BaseFetchResult, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from '../types/helpers/api';
+import { BaseFetchResult, CacheOptions, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from '../types/helpers/api';
 import { FormatURLParams } from '../types/helpers/url';
 import { FetchError, FetchTimeoutError } from './errors';
 import { formatURL } from './url';
+import { createRedisClient } from 'main/setup/redis/client';
 
 /**
  * If the result status is 'error' it will throw an exception,
@@ -45,6 +46,31 @@ const fetchWithOptionalTimeout = async (fetchOptions: FetchRequestInit, urlParam
   return response;
 };
 
+const getCachedData = async <T>(key: string): Promise<T | null> => {
+  const client = createRedisClient();
+
+  await client.connect();
+
+  const dataString = await client.get(key);
+  const data = dataString ? JSON.parse(dataString) : dataString;
+
+  await client.disconnect();
+
+  return data;
+};
+
+const setCachedData = async <T>(data: T, cacheOptions: CacheOptions): Promise<void> => {
+  const client = createRedisClient();
+
+  await client.connect();
+
+  await client.set(cacheOptions.key, JSON.stringify(data), {
+    EX: cacheOptions.seconds
+  });
+
+  await client.disconnect();
+};
+
 /**
  * Makes a call with the NODE Fetch API and
  * retuns an FetchResultOK if there are no errors,
@@ -54,23 +80,37 @@ const fetchWithOptionalTimeout = async (fetchOptions: FetchRequestInit, urlParam
  * @param timeout 
  * @returns 
  */
-const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: FormatURLParams, timeout?: number): Promise<FetchResult<T>> => {
+const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: FormatURLParams, cacheOptions?: CacheOptions, timeout?: number): Promise<FetchResult<T>> => {
   let result: BaseFetchResult<T>;
 
   try {
-    const response = await fetchWithOptionalTimeout(fetchOptions, urlParams, timeout);
+    let responseData: T;
 
-    if (response.status !== 200) {
-      throw new FetchError(
-        fetchOptions.method,
-        urlParams.baseURL + urlParams.path,
-        response.status
-      );
+    if (cacheOptions) {
+      responseData = await getCachedData(cacheOptions.key);
+    }
+
+    if (!responseData) {
+      const response = await fetchWithOptionalTimeout(fetchOptions, urlParams, timeout);
+
+      if (response.status !== 200) {
+        throw new FetchError(
+          fetchOptions.method,
+          urlParams.baseURL + urlParams.path,
+          response.status
+        );
+      }
+
+      responseData = await response.json();
+
+      if (cacheOptions) {
+        await setCachedData(responseData, cacheOptions);
+      }
     }
 
     result = {
       status: FetchResultStatus.OK,
-      data: await response.json(),
+      data: responseData,
     };
   } catch (error) {
     result = {
@@ -92,13 +132,14 @@ const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: Format
  * @param timeout 
  * @returns 
  */
-const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, cacheOptions?: CacheOptions, timeout?: number): Promise<FetchResult<T>> => {
   return genericFetch<T>(
     {
       method: HTTPMethod.GET,
       headers: headers
     },
     urlParams,
+    cacheOptions,
     timeout
   );
 };
@@ -119,6 +160,7 @@ const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: 
       body: JSON.stringify(data ?? {})
     },
     urlParams,
+    undefined,
     timeout
   );
 };
