@@ -67,7 +67,7 @@
         "govuk-frontend": "^4.0.1",
         "helmet": "^3.21.2",
         "i18next": "^22.5.0",
-        "jquery": "^3.6.0",
+        "jquery": "^3.7.0",
         "json2csv": "^5.0.7",
         "jsonwebtoken": "^8.5.1",
         "moment": "^2.29.4",
