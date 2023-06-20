@@ -24,7 +24,7 @@
         "test:smoke": "echo 'TODO add smoke tests' && exit 1",
         "test:functional": "echo 'TODO add functional tests' && exit 1",
         "build-assets": "gulp build",
-        "watch-assets": "gulp watch-assets"
+        "watch-assets": "gulp watchAssets"
     },
     "dependencies": {
         "@hmcts/info-provider": "^1.1.0",
