@@ -1,9 +1,9 @@
 import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as fcaSupplierRatecardScreenContent from '../../../resources/content/fca/fca_supplier_ratecard.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { agreementsService } from 'main/services/agreementsService';
 // import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 export const SUPPLIER_RATECARD = async (req: express.Request, res: express.Response) => {
@@ -22,10 +22,10 @@ export const SUPPLIER_RATECARD = async (req: express.Request, res: express.Respo
     // var assessmentURL = `/assessments/tools/6/dimensions/6/data?suppliers=211345898`;
 
     const assessmentsData = await (await TenderApi.supplierInstance(SESSION_ID).get(assessmentURL))?.data;
+
     //Supplier Contact Details
-    const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-    // console.log('log1',BaseURLSupplierContact);
-    const { data: retrieveSupplierContactDetails } = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
+    const retrieveSupplierContactDetails = (await agreementsService.api.getAgreementLotSuppliers(req.session.agreement_id, req.session.lotId)).unwrap();
+
     let contactSupplierDetails;
     const contact = retrieveSupplierContactDetails.find((el: any) => {
       if (el.organization.id === supplierId) {
