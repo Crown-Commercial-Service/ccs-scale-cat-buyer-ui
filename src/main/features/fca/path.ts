@@ -2,7 +2,7 @@ import { Application } from 'express';
 import { FCA_PATHS } from './model/fca';
 import { fcaController } from './controller/index';
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementDetailsFetch';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
 
 export default function (app: Application): void {

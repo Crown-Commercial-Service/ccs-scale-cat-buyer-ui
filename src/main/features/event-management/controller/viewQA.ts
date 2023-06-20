@@ -50,7 +50,7 @@ export const EVENT_MANAGEMENT_QA_SUPPLIERS = async (req: express.Request, res: e
       projectName: projectName,
       projectId,
       agreementName,
-      agreementIdSession:agreementId_session,
+      agreementIdSession: agreementId_session,
       agreementLotName,
       lotid,
     };
@@ -151,7 +151,7 @@ export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Res
       projectName: projectName,
       projectId,
       agreementName,
-      agreementIdSession:agreementId_session,
+      agreementIdSession: agreementId_session,
       agreementLotName,
       lotid,
     };
