@@ -237,7 +237,7 @@ function isValidQuestion(
   const bankHolidayResult = checkBankHoliday(questionInputDate, bankHolidayEnglandWales);
   if (bankHolidayResult) {
     isValid = false;
-    error = 'You cannot set a date in bank holiday';
+    error = 'You cannot set a date that falls on a bank holiday';
   }
   const dayOfWeek = new Date(questionNewDate).getDay();
 
@@ -249,7 +249,7 @@ function isValidQuestion(
 
   if (bankHolidayResult) {
     isValid = false;
-    error = 'You cannot set a date in bank holiday';
+    error = 'You cannot set a date that falls on a bank holiday';
   }
 
   if (isweekendErrorFlag) {
