@@ -10,15 +10,12 @@ import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json';
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { bankHolidays } from 'main/services/bankHolidays';
 
 const momentCssHolidays = async () => {
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
-  let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-  const bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
+  const bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   const holiDaysArr = [];
   for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
     const AsDate = new Date(bankHolidayEnglandWales[h].date);
@@ -110,9 +107,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         'DD MMMM YYYY, HH:mm'
       );
       const clarification_period_end_date = new Date();
-      const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
-        clarification_period_end_date.getMonth() + 1
-      }-${clarification_period_end_date.getFullYear()}`;
+      const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
+        }-${clarification_period_end_date.getFullYear()}`;
       let rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
         predefinedDays.clarification_days
       )._d;
@@ -121,9 +117,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       const DeadlinePeriodDate = rfi_clarification_period_end;
 
-      const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
-        DeadlinePeriodDate.getMonth() + 1
-      }-${DeadlinePeriodDate.getFullYear()}`;
+      const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${DeadlinePeriodDate.getMonth() + 1
+        }-${DeadlinePeriodDate.getFullYear()}`;
       let deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.clarification_period_end
       )._d;
@@ -131,9 +126,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       deadline_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
       const SupplierPeriodDate = deadline_period_for_clarification_period;
-      const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${
-        SupplierPeriodDate.getMonth() + 1
-      }-${SupplierPeriodDate.getFullYear()}`;
+      const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${SupplierPeriodDate.getMonth() + 1
+        }-${SupplierPeriodDate.getFullYear()}`;
       let supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_period
       )._d;
@@ -141,9 +135,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
       const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-      const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${
-        SupplierPeriodDeadLine.getMonth() + 1
-      }-${SupplierPeriodDeadLine.getFullYear()}`;
+      const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1
+        }-${SupplierPeriodDeadLine.getFullYear()}`;
       let supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_deadline
       )._d;
