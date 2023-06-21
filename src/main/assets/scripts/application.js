@@ -959,6 +959,47 @@ function removeURLParameter(url, parameter) {
   }
 }
 
+
+document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
+  event.addEventListener('change', function (event) {
+      console.log("Helper1")
+      let eventFilterType;
+      let filterName = this.getAttribute('name');//$(this).attr("name");
+      let filterValue = this.getAttribute('value');//$(this).attr("value");
+      if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+      let urlParams = removeURLParameter(document.location.search, 'page');
+      let urlObj = parseQueryG13(urlParams);
+      urlObj = tune(urlObj);
+      let baseUrl = window.location.href.split('?')[0];
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+      //url change
+      const baseSearchUrl = '/g-cloud/search';
+      window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
+  
+  
+      // document.getElementById('searchResultsContainer').innerHTML = '';
+      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('paginationContainer').innerHTML = '';
+      let slist = document.querySelector('.govuk-grid-sresult-right');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled', true);
+      //const baseAPIUrl = '/g-cloud/search-api';
+      const baseAPIUrl = '/opportunities/search-api';
+      console.log("BBB",baseAPIUrl,finalTriggerUrl);
+      //GET_OPPORTUNITIES_API
+      $.ajax({
+        url: `${baseAPIUrl}${finalTriggerUrl}`,
+        type: "GET",
+        contentType: "application/json",
+      }).done(function (result) {
+      
+        console.log("result",result);
+
+      });
+    
+  });
+});
+
 document.querySelectorAll(".g13Check").forEach(function (event) {
   event.addEventListener('change', function (event) {
     let eventFilterType;
