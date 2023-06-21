@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const checkPercentagesCond = () => {
   removeErrorFieldsRfpPercentage();
-  let fieldCheck = "",
+  let fieldCheck = '',
     errorStore = [];
     const urlParams = new URLSearchParams(window.location.search);
     const agrement_id = urlParams.get('agreement_id');
@@ -73,7 +73,7 @@ const checkPercentagesCond = () => {
     for (let k = 0; k < allTextBox.length; k++) {
       totalValue += Number(allTextBox[k].value);
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
-    var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
       
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
         if (subTitle!= 'Social value'){ 
@@ -109,12 +109,28 @@ const checkPercentagesCond = () => {
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       } else if (Number(allTextBox[k].value) >= 0 && subTitle!= 'Social value') {
         var result = checkRange(range.split("-")[0], range.split("-")[1], allTextBox[k].value);
+        let rangeStart;
+      
+      if(range && agrement_id == 'RM1043.8'){
+        if(range.split("-")[0] == 0)
+          rangeStart = 1;
+        else
+          rangeStart  = range.split("-")[0];
+      }
+        if(agrement_id == 'RM1043.8' && subTitle.includes("Essential skills and experience") && Number(allTextBox[k].value == 0) ){
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" between " + rangeStart +"%"+ " - " + range.split("-")[1] + "%", false);
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+        else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions") && Number(allTextBox[k].value == 0)){
+           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" between " + rangeStart +"%"+ " - " + range.split("-")[1] + "%", false);
+           if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
         if (result.start) {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
           if(agrement_id == 'RM1043.8') 
-              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting between " + rangeStart + "%-" + range.split("-")[1] + "%", /\w+/, false);
           else
              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -122,7 +138,7 @@ const checkPercentagesCond = () => {
         }
         else if (result.end) {
           if(agrement_id == 'RM1043.8') 
-             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between " + range.split("-")[0] + "%-" + range.split("-")[1] + "%", /\w+/, false);
+             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting between " + rangeStart + "%-" + range.split("-")[1] + "%", /\w+/, false);
           else
              fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "%-" + range.split("-")[1] + "%]", /\w+/, false); 
           if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -134,13 +150,12 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
 
         }
         else if (result.end) {
-          console.log(range)
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting between 0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
 
