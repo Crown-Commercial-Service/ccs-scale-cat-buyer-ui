@@ -18,7 +18,7 @@ export class LogMessageFormatter {
     session_id: string,
     error_reason: any,
     exception: any,
-    statusCode: any,
+    statusCode: any
   ) {
     this.uuid = Person_id;
     this.timestamp = new Date().toUTCString();

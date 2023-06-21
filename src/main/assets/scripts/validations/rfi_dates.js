@@ -16,8 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         lotId = document.getElementById("lotId").value;
     }
 
-    let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-
+    // let selectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    
+    let arr = $("#clarification_date_arr").attr("attr");
+    let selectors=[];
+if(arr!=undefined){
+     selectors = arr.split(',');
+}
+    let radioarray = [];
     for (let element of selectors) { 
         let day = $(`#clarification_date-day_${element}`);
         let month = $(`#clarification_date-month_${element}`);
@@ -26,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let minutes = $(`#clarification_date-minute_${element}`);
         
         let responseDate = $(`#ccs_rfp_response_date_form_${element}`);
-
+        
         // day.on('blur', () => {
         //     let value = day;
         //     if (value != undefined && value.val() != '') {
@@ -131,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             month.removeClass("govuk-input--error")
             year.removeClass("govuk-input--error")
             let parentID = getParentId(element);
+            
             ccsZremoveErrorMessage(document.getElementById(parentID));
             ccsZremoveErrorMessageRFIDate();
             if (((year.val() != undefined && year.val() == "") || (month.val() != undefined && month.val() == "") || (day.val() != undefined && day.val() == "")) && ((hour.val() != undefined && hour.val() == "") || (minutes.val() != undefined && minutes.val() == ""))) {
@@ -203,58 +210,130 @@ document.addEventListener('DOMContentLoaded', () => {
         
                     ccsZPresentErrorSummary(errorStore);
                 } else {
+                                        
+                    let indexKey = selectors.indexOf(element);
+                                        
+                    let previosElement = indexKey-1;
+                    let nextElement = indexKey+1;
+                    let previosElementValue=selectors[previosElement];
 
+                    let nextElementValue=selectors[nextElement];
+                                        
+                    let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                    let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
+                    
+                   
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
+                        previosElementValue = previosElementValue - 1;
+                      //  nextElementValue = nextElementValue +1;
+                      //  console.log('next element inside null 1st no',nextElementValue)
+                        let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                        //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                         
+                       
+                      //  }
+                        let checkRadioSelectedClassName = 'resdateradio'+previosElementValue;
+                        let checkRadioClassName = document.getElementsByClassName('resdateradioclass'+previosElementValue);
+                    let checkRadioSelected = $('input[name='+checkRadioSelectedClassName+']:checked').val();
 
-                    let currentDate = new Date(document.getElementsByClassName(`dynamicid_${element - 1}`)[0].innerText);
+                    if(checkRadioSelected == 'no' || (checkRadioClassName.length > 0 && checkRadioSelected != 'yes')){
+                        previosElementValue = previosElementValue - 1;
+                        //nextElementValue = nextElementValue +1;
+                        //console.log('next element inside null 2nd no',previosElementValue)
+
+                        
+                    }
+                        
+                    }
+                    // console.log('radioarray',radioarray)
+                    // if(radioarray.length == 0){
+                    //     previosElementValue = previosElementValue - 2;
+                    //     console.log(' previosElementValue == 0',previosElementValue)
+                    // }
+                    // else if(radioarray.length == 1){
+                    //   let eleId = radioarray[0].id;
+                    //   let eleVal = radioarray[0].value;
+                    //  console.log('eleId',eleId)
+                    //  console.log('eleVal',eleVal)
+                    //  let currentDateval = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
+                    //  console.log('current date val ',currentDateval)
+                    //  if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                    //     console.log('previoue element inside null ')
+                    //  previosElementValue = previosElementValue - 1;
+                    //  }
+                    //  console.log(' previosElementValue == 1',previosElementValue)
+                    // }
+                    // console.log('radio available check',document.getElementsByClassName('timeLineEventTrigger'))
+                    // if(document.getElementsByClassName('timeLineEventTrigger').length > 0 && (checkRadioSelected == undefined || checkRadioSelected == 'no' )){
+                    //     console.log(' inside date change');
+                    //     // let day1 = $(`#clarification_date-day_${element}`);
+                    //     // let month1 = $(`#clarification_date-month_${element}`);
+                    //     // let year1 = $(`#clarification_date-year_${element}`);
+                    //     // let hour1 = $(`#clarification_date-hour_${element}`);
+                    //     // let minutes1 = $(`#clarification_date-minute_${element}`); 
+
+                    // }
+                    let currentDate = new Date(document.getElementsByClassName(`clarification_${previosElementValue}`)[0].innerText);
                     let enteredDate = new Date(year.val(), month.val() - 1, day.val(), hour.val(), minutes.val());
-        
                     let nextDate = new Date();
                     let isNextDate = false;
-                    if(selectors.length + 1 > element && document.getElementsByClassName(`dynamicid_${element+ 1}`).length > 0){
-                        // parent = document.getElementById('showDateDiv5');
+                    
+                  //  if(selectors.length + 1 > element && document.getElementsByClassName(`clarification_${nextElementValue}`).length > 0){
+                    if(document.getElementsByClassName(`clarification_${nextElementValue}`).length > 0){
+                       
+                  // parent = document.getElementById('showDateDiv5');
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("element",element)
                         // parent = document.getElementById(`showDateDiv${element+ 1}`);
                         // children = parent.children[1].children[0].children[0].innerHTML
                         // console.log("children",children);
-
-                        nextDate = new Date(document.getElementsByClassName(`dynamicid_${element+ 1}`)[0].innerText);
-                        
+                        let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                        let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
+                        let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length > 0 && checkRadioSelected != 'yes')){
+                             nextElementValue = parseInt(nextElementValue) + 1;
+                             
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            
+                            //if(currentDateval == '' || currentDateval == undefined || currentDateval == null){
+                             
+                           
+                          //  }
+                          let checkRadioNextSelectedClassName = 'resdateradio'+nextElementValue;
+                          let checkRadioNextClassName = document.getElementsByClassName('resdateradioclass'+nextElementValue);
+                          let checkRadioNextSelected = $('input[name='+checkRadioNextSelectedClassName+']:checked').val();
+                         
+                        if(checkRadioNextSelected == 'no' || (checkRadioNextClassName.length>0 && checkRadioSelected !== 'yes')){
+                            nextElementValue = nextElementValue +1;
+                                
+                            let currentDateval = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
+                            
+                           
+                        }
+                            
+                        }
+                        nextDate = new Date(document.getElementsByClassName(`clarification_${nextElementValue}`)[0].innerText);
                         isNextDate = true;
                     }
-
+                    
                     if (enteredDate < currentDate) {
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
                         let errorStore;
                         
-                        if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !=''){
                          ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be earlier than the previous step in the timeline"); 
                          errorStore = [[parentID, "You cannot change this date and time to be earlier than the previous step in the timeline"]]
-                        }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is earlier than the next milestone in the timeline"); 
-							 errorStore = [[parentID, "You cannot set a date and time that is earlier than the next milestone in the timeline"]]
-                        }
-            
-                        ccsZPresentErrorSummary(errorStore);
+                         ccsZPresentErrorSummary(errorStore);
                     } else if(isNextDate && (enteredDate > nextDate)){
                         day.addClass("govuk-input--error")
                         month.addClass("govuk-input--error")
                         year.addClass("govuk-input--error")
                         let errorStore;
-                        if(lotId != '' && agreementId != '' && agreementId == 'RM1043.8' && stageValue !='' && stageValue == "Stage 1"){
-                            if(lotId == '1'){
-                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
-                                errorStore = [[parentID, "You cannot change this date and time to be later than the next step in the timeline"]]
-                            }else{
-                                ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
-                                errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]]
-                            }
-                        }else{
-                            ccsZaddErrorMessage(document.getElementById(parentID), "You cannot set a date and time that is greater than the next milestone in the timeline"); 
-                            errorStore = [[parentID, "You cannot set a date and time that is greater than the next milestone in the timeline"]]
-                        }
+                        
+                        ccsZaddErrorMessage(document.getElementById(parentID), "You cannot change this date and time to be later than the next step in the timeline"); 
+                        errorStore = [[parentID, "You cannot change this date and time to be later than the next step in the timeline"]]
                         ccsZPresentErrorSummary(errorStore);
                     }else {
                         document.getElementById(`ccs_rfp_response_date_form_${element}`).submit()
@@ -283,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         }
+       
     }
 
 });

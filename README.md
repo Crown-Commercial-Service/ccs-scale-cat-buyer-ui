@@ -68,6 +68,11 @@ Run the linting:
 $ npm run lint
 ```
 
+To automatically fix issues run:
+```bash
+$ npm run lint:fix
+```
+
 ### Unit tests
 
 **NOTE:** if you are using windows, you need to run `SET NODE_ENV=development` before running the tests.
@@ -192,4 +197,4 @@ Terraform state for each space (environment) is persisted to a dedicated AWS acc
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

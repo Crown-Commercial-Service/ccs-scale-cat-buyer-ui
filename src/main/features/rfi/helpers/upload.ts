@@ -16,7 +16,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   res: express.Response,
   fileError: boolean,
   errorList,
-  type = 'rfi',
+  type = 'rfi'
 ) => {
   const lotId = req.session?.lotId;
   const { SESSION_ID } = req.cookies;
@@ -24,8 +24,8 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
-  const {fileDuplicateError,RfiUploadError,RfiUploadClick}=req.session;
-   
+  const { fileDuplicateError, RfiUploadError, RfiUploadClick } = req.session;
+
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -46,30 +46,23 @@ export const FILEUPLOADHELPER: express.Handler = async (
       });
       res.send(fileData);
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in RFI  - Tenders Api throws error',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception,
+      LoggTracer.errorLogger(
+        res,
+        error,
+        null,
+        null,
+        null,
+        null,
+        false
       );
-      LoggTracer.errorTracer(Log, res);
     }
   } else {
     try {
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
-      
-      //CAS-INFO-LOG 
+
+      //CAS-INFO-LOG
       LoggTracer.infoLogger(FETCH_FILEDATA, logConstant.rfigetUploadDocument, req);
 
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
@@ -77,14 +70,15 @@ export const FILEUPLOADHELPER: express.Handler = async (
 
       const agreementId_session = req.session.agreement_id;
       let forceChangeDataJson;
-      if(agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') { //MCF3 or gcloud
+      if (agreementId_session == 'RM6187' || agreementId_session == 'RM1557.13') {
+        //MCF3 or gcloud
         forceChangeDataJson = Mcf3cmsData;
-      } else { 
+      } else {
         forceChangeDataJson = cmsData;
       }
-      if(RfiUploadError && RfiUploadClick){
-         errorList.push({ text: "Please attach the file before upload ", href: "#rfi_offline_document" })
-         req.session.RfiUploadClick = false; // error cleared during refresh
+      if (RfiUploadError && RfiUploadClick) {
+        errorList.push({ text: 'Please attach the file before upload ', href: '#rfi_offline_document' });
+        req.session.RfiUploadClick = false; // error cleared during refresh
       }
       let windowAppendData = {
         lotId,
@@ -93,43 +87,36 @@ export const FILEUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        agreementId_session:req.session.agreement_id,
+        agreementId_session: req.session.agreement_id,
         RfiUploadError,
         errorlist: errorList,
-        errorCount: errorList.length
+        errorCount: errorList.length,
       };
 
       if (fileDuplicateError) {
-        fileError=true;
-        errorList.push({ text: "The chosen file already exist ", href: "#" })
-        delete req.session["fileDuplicateError"];
+        fileError = true;
+        errorList.push({ text: 'The chosen file already exist ', href: '#' });
+        delete req.session['fileDuplicateError'];
       }
-      
+
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
-    
-      //CAS-INFO-LOG 
+
+      //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.rfiUploadDocumentPageLog, req);
 
       res.render(type === 'rfi' ? 'uploadDocument' : 'uploadDocumentEoi', windowAppendData);
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in RFI  - Tenders Api throws error',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception,
+      LoggTracer.errorLogger(
+        res,
+        error,
+        null,
+        null,
+        null,
+        null,
+        false
       );
-      LoggTracer.errorTracer(Log, res);
     }
   }
 };

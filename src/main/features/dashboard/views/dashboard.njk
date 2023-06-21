@@ -7,7 +7,68 @@
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+           {{ 
+  CCSDialog({
+    title: "Confirm you want to close this project",
+    description:"This project has not been published. Upon closure, it will appear in your past projects list, but you will no longer have access to it.",
+    redirect:'#',
+    type:'projectCloseAllPopup'
+  }) 
+}}
+<div class="loader-container">
+    <div class="loader-division">
+      <img src="/assets/images/loader.gif" alt="Loading">
+      <div class="loderMakeRes"></div>
+    </div>
+  </div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {# Banner notic Start #}
+    {% if issetDashBanner != '' %}
+      <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title"></h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <b>
+            {{issetDashBanner}}
+          </b>
+        </div>
+      </div>
+    {% endif %}
+    {# Banner notic End #}
+     {% set ttiletext = 'Project closed ' %}
+       {% set CreatedReplyCustomhtml %}
+                <h3 class="govuk-notification-banner__heading">
+                   Your project was closed.
+                </h3>
+       {% endset %}
+
+       {% set errHtml %}
+            <h3 class="govuk-notification-banner__heading">
+                Your project was not closed, Please try again.
+            </h3>
+
+{% endset %}
+       {% if closeprojectStatus == "true" %}
+     
+              <div class="govuk-grid-column-one-half">
+                        {{ govukNotificationBanner({	
+                        html: CreatedReplyCustomhtml,	
+                        type: "success",	
+                        titleText: ttiletext	
+                        }) }}
+                    </div>
+      {% elseif closeprojectStatus == "false" %}
+                <div class="govuk-grid-column-one-half">
+                    {{ govukNotificationBanner({
+                html: errHtml,
+                type: "Important",
+                titleText: data.notification2.title
+                }) }}
+                </div>              
+                    
+     {% endif %}
+    
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -119,13 +180,24 @@
                       {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy}}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-!-text-align-right">
+                  <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
                     {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
                       To Be Reviewed
                     {% else %}
                       {{ event.activeEvent.status }}
                     {% endif %}
                   </td>
+                
+                  <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
+                      {%if(event.activeEvent.status.toUpperCase() == 'IN-PROGRESS')%}
+                      <p class="govuk-body govuk-!-margin-bottom-0" >
+                         <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
+                           Close project
+                         </a>
+                      </p>
+                      {% endif %}
+                  </td>
+                  
                 </tr>
               {% endfor %}
             </tbody>
@@ -140,6 +212,7 @@
                 <th scope="col" class="govuk-table__header govuk-table__header_custom_w-3">{{data.subsection2_table_th_3}}</th>
                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
                 <th scope="col" class="govuk-table__header govuk-!-text-align-right">{{data.subsection2_table_th_5}}</th>
+               
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -176,7 +249,7 @@
                       {{ event.activeEvent.tenderPeriod.endDate|timedateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
-                  <td class="govuk-table__cell govuk-!-text-align-right">
+                  <td class="govuk-table__cell govuk-!-text-align-right" nowrap>
                     {% if (event.activeEvent.status.toUpperCase() == 'TO BE EVALUATED' and event.activeEvent.eventType == 'RFI') %}
                       To Be Reviewed
                     {% else %}
@@ -184,6 +257,18 @@
                     {% endif %}
 
                   </td>
+                  
+                   <td class="govuk-!-text-align-right govuk-custom-cell" nowrap>
+                    {%if(event.activeEvent.status.toUpperCase() == 'IN-PROGRESS')%}
+                    <p class="govuk-body govuk-!-margin-bottom-0" >
+                       <a href="#backdrop-projectCloseAllPopup" class="govuk-link close_project" data-module="govuk-button"  projectid = "{{event.projectId}}" eventid = "{{event.activeEvent.id}}" >
+           Close project
+          </a>
+             
+                    </p>
+                  {% endif %}
+                  </td>
+                  
                 </tr>
               {% endfor %}
             </tbody>
@@ -239,7 +324,11 @@
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                         {% if event.activeEvent.tenderPeriod.startDate%}
+                             <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                         {% else %}
+                         {{ event.activeEvent.id }}
+                         {% endif %}
                         <input type="hidden" value="{{event.projectId}}">
                         <input type="hidden" value="{{event.activeEvent.id}}">
                         <input type="hidden" value="{{event.activeEvent.eventSupportId}}">
@@ -292,7 +381,11 @@
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell govuk-table__header_custom_w-1">
                       <p class="govuk-body govuk-!-margin-bottom-0">
+                        {% if event.activeEvent.tenderPeriod.startDate %}
                         <a class="govuk-link" href="/event/management_close?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                            {% else %}
+                            {{ event.activeEvent.id }}
+                         {% endif %}
                         <input type="hidden" value="{{event.projectId}}">
                         <input type="hidden" value="{{event.activeEvent.id}}">
                         <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->

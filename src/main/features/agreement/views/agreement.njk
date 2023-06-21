@@ -62,7 +62,7 @@
                 </dd>
               {% endfor %}
               {% else %} {# GCLOUD #}
-                        {# {% for item in sortedItems %}
+                       {% for item in sortedItems %}
                         {% if item.number == '4' %}
                           <dt>
                             <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">{{item.name}}</a>
@@ -77,7 +77,7 @@
                             </p>
                           </dd>
                           {% endif %}
-                       {% endfor %}  #}
+                       {% endfor %}  
                       <dt>
                           <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId=All&agreementLotName=Find cloud hosting, software and support" class=" govuk-link govuk-link--no-visited-state">Find cloud hosting, software and support</a>
                           
@@ -151,7 +151,7 @@
                             <p class="govuk-body">e.g. content delivery networks or accounting software</p>
                            </dd>
 
-                           {# {% for lot in agreement.lotDetails %}
+                            {% for lot in agreement.lotDetails %}
                             {% if lot.number == '4' %}
                               <dt>
                                 <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">{{lot.name}}</a>
@@ -166,7 +166,7 @@
                                 </p>
                               </dd>
                               {% endif %}
-                            {% endfor %}  #}
+                            {% endfor %}  
 
                         {% endif %}
                       </dl>

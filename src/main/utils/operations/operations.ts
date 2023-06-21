@@ -1,24 +1,15 @@
-export class operations {
+class operations {
+  static equals = (arg1: any, arg2: any) => {
+    return arg1 === arg2;
+  };
 
-    static equals = (arg1: any, args2: any) => {
-        if(arg1 === args2){
-            return true;
-        }
-        return false;
-    }
+  static notEquals = (arg1: any, arg2: any) => {
+    return arg1 !== arg2;
+  };
 
-    static notEquals = (arg1: any, args2: any) => {
-        if(arg1 !== args2){
-            return true;
-        }
-        return false;
-    }
-
-    static isUndefined = (Object_as_argument: any, Object_key : string)=> {
-        if(Object_as_argument[Object_key] === undefined){
-                return true;
-        }
-        return false;
-    }
-
+  static isUndefined = (object: any, key: string) => {
+    return object[key] === undefined;
+  };
 }
+
+export { operations };

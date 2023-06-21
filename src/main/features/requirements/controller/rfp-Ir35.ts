@@ -3,7 +3,7 @@ import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 import * as cmsDataMCF from '../../../resources/content/MCF3/requirements/rfp-ir35.json';
 
@@ -21,28 +21,26 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
     const BaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
     const Response = await TenderApi.Instance(SESSION_ID).get(BaseURL);
     const ResponseData = Response.data;
-   let text=ResponseData[0].nonOCDS;
-    for(let i=0;i<=ResponseData.length;i++)
-    {
-    //  let changecontent=text.options[i].value;
-    //   switch(changecontent){
-    //     case 'Contracted out services the off-payroll rules do not apply':
-    //       text.options[i].value='Yes,the Off-payroll working rules apply';
-    //     break
-    //     case 'Supply of resource':
-    //       text.options[i].value='No,the off-payroll rules do not apply';
-    //     break
-    //  }
+    const text = ResponseData[0].nonOCDS;
+    for (let i = 0; i <= ResponseData.length; i++) {
+      //  let changecontent=text.options[i].value;
+      //   switch(changecontent){
+      //     case 'Contracted out services the off-payroll rules do not apply':
+      //       text.options[i].value='Yes,the Off-payroll working rules apply';
+      //     break
+      //     case 'Supply of resource':
+      //       text.options[i].value='No,the off-payroll rules do not apply';
+      //     break
+      //  }
     }
     const windowAppendData = {
       apiData: ResponseData,
-      data:cmsDataMCF,
+      data: cmsDataMCF,
       releatedContent,
     };
-    let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
+    const flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
     }
     res.render('rfp-ir35.njk', windowAppendData);
   } catch (error) {
@@ -53,7 +51,7 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
       null,
       TokenDecoder.decoder(SESSION_ID),
       'IR35 FC - Tenders Service Api cannot be connected',
-      true,
+      true
     );
   }
 };
@@ -83,18 +81,17 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
         ],
       },
     };
-    if (REQUESTBODY?.nonOCDS?.options?.length >0 && REQUESTBODY.nonOCDS.options[0].value !==undefined) {
+    if (REQUESTBODY?.nonOCDS?.options?.length > 0 && REQUESTBODY.nonOCDS.options[0].value !== undefined) {
       await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
-    if(flag){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+      const flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+      }
+      res.redirect('/rfp/task-list');
+    } else {
+      res.redirect('/rfp/IR35');
     }
-    res.redirect('/rfp/task-list');
-    }else{
-      res.redirect("/rfp/IR35");
-    }
-    
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -103,7 +100,7 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tenders Service Api cannot be connected',
-      true,
+      true
     );
   }
 };

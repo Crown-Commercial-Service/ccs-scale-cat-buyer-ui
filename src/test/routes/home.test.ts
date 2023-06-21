@@ -7,7 +7,7 @@ describe('Home page', () => {
     it('should render Home page when everything is fine', async () => {
       await request(app)
         .get('/')
-        .expect(res => expect(res.status).to.equal(200))
-    })
-  })
-})
+        .expect((res) => expect(res.status).to.equal(200));
+    });
+  });
+});

@@ -129,7 +129,7 @@
               {% for i in range(2, 11) -%}
 
                <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
-<a href='{{i}}'  class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+<a href='{{i}}'  class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>
 
                 {{ CCSCharacterCount({
                       label: {
@@ -471,7 +471,7 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> Remove </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -595,7 +595,7 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> Remove </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -834,7 +834,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='delete'> Remove </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },

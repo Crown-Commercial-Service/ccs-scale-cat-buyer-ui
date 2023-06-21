@@ -10,9 +10,9 @@ import { FILEUPLOADHELPER } from '../helpers/upload';
 import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/da/offline-doc.json';
 
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
-let tempArray = [];
+const tempArray = [];
 
 // requirements Upload document
 /**
@@ -37,8 +37,8 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   if (selectedRoute === 'DA') selectedRoute = 'DA';
-  selectedRoute='DA';
-  
+  selectedRoute = 'DA';
+
   const selRoute = selectedRoute.toLowerCase();
   const file_started = req.body[`${selRoute}_file_started`];
   const { SESSION_ID } = req.cookies;
@@ -49,11 +49,11 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
   if (req.files != undefined && req.files != null) {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
     const FileFilterArray = [];
-  
+
     if (file_started) {
-      
-      const offline_document = req.files[`${selRoute}_offline_document`] || req.files[`${selRoute}_attachment_document`];
-     
+      const offline_document =
+        req.files[`${selRoute}_offline_document`] || req.files[`${selRoute}_attachment_document`];
+
       const multipleFileCheck = Array.isArray(offline_document);
       if (multipleFileCheck) {
         for (const file of offline_document) {
@@ -70,41 +70,45 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
               contentType: file.mimetype,
               filename: file.name,
             });
-            formData.append('description', "mandatorysecond");
+            formData.append('description', 'mandatorysecond');
             formData.append('audience', 'supplier');
             const formHeaders = formData.getHeaders();
             try {
               // ------file duplicate check start
-            const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-            //CAS-INFO-LOG
-            LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
-            const FETCH_FILEDATA = FetchDocuments.data;
+              const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+              //CAS-INFO-LOG
+              LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
+              const FETCH_FILEDATA = FetchDocuments.data;
 
-            let duplicateFile = false;
-            for(const item of FETCH_FILEDATA){
-                if(item.fileName == file.name){
+              let duplicateFile = false;
+              for (const item of FETCH_FILEDATA) {
+                if (item.fileName == file.name) {
                   duplicateFile = true;
                 }
-            }
-            // ------file duplicate check end
-            if(duplicateFile){
-              req.session['isTcUploaded'] = false
-              req.session["fileDuplicateError"]=true;
-              FileFilterArray.push({
-                href: '#documents_upload',
-                text: fileName,
-              });
-              FILEUPLOADHELPER(req, res, true, FileFilterArray);
-            }else{
-              let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-                headers: {
-                  ...formHeaders,
-                },
-              });
+              }
+              // ------file duplicate check end
+              if (duplicateFile) {
+                req.session['isTcUploaded'] = false;
+                req.session['fileDuplicateError'] = true;
+                FileFilterArray.push({
+                  href: '#documents_upload',
+                  text: fileName,
+                });
+                FILEUPLOADHELPER(req, res, true, FileFilterArray);
+              } else {
+                const response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(
+                  FILE_PUBLISHER_BASEURL,
+                  formData,
+                  {
+                    headers: {
+                      ...formHeaders,
+                    },
+                  }
+                );
                 //CAS-INFO-LOG
-              LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
-              req.session['isTcUploaded'] = true
-            }
+                LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
+                req.session['isTcUploaded'] = true;
+              }
             } catch (error) {
               LoggTracer.errorLogger(
                 res,
@@ -113,7 +117,7 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
                 null,
                 TokenDecoder.decoder(SESSION_ID),
                 'DA - Multiple File Upload Error',
-                false,
+                false
               );
             }
           } else {
@@ -126,12 +130,12 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
 
         if (FileFilterArray.length > 0) {
           FILEUPLOADHELPER(req, res, true, FileFilterArray);
-        } else res.redirect(`/da/upload-doc`); //res.redirect(`/${selRoute}/upload-doc`);
+        } else res.redirect('/da/upload-doc'); //res.redirect(`/${selRoute}/upload-doc`);
       } else {
         const fileName = offline_document.name;
         const fileMimeType = offline_document.mimetype;
         const fileSize = offline_document.size;
-        
+
         const validateMimeType = FileValidations.formatValidation(fileMimeType);
         const validateFileSize = FileValidations.sizeValidation(fileSize);
 
@@ -141,7 +145,7 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          formData.append('description', "mandatorysecond");
+          formData.append('description', 'mandatorysecond');
           formData.append('audience', 'supplier');
           const formHeaders = formData.getHeaders();
           try {
@@ -154,50 +158,46 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             const FETCH_FILEDATA = FetchDocuments.data;
 
             let duplicateFile = false;
-            for(const item of FETCH_FILEDATA){
-                if(item.fileName == offline_document.name){
-                  duplicateFile = true;
-                }
+            for (const item of FETCH_FILEDATA) {
+              if (item.fileName == offline_document.name) {
+                duplicateFile = true;
+              }
             }
             // ------file duplicate check end
-            if(duplicateFile){
-              req.session['isTcUploaded'] = false
-              req.session["fileDuplicateError"]=true;
+            if (duplicateFile) {
+              req.session['isTcUploaded'] = false;
+              req.session['fileDuplicateError'] = true;
               FileFilterArray.push({
                 href: '#documents_upload',
                 text: fileName,
               });
               FILEUPLOADHELPER(req, res, true, FileFilterArray);
-            }else{
-            let response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-              headers: {
-                ...formHeaders,
-              },
-            });
-            //CAS-INFO-LOG
-            LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
+            } else {
+              const response = await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(
+                FILE_PUBLISHER_BASEURL,
+                formData,
+                {
+                  headers: {
+                    ...formHeaders,
+                  },
+                }
+              );
+              //CAS-INFO-LOG
+              LoggTracer.infoLogger(response, logConstant.UploadDocumentUpdated, req);
 
-
-            res.redirect(`/da/upload-doc`);
-            //res.redirect(`/${selRoute}/upload-doc`);
-          }
+              res.redirect('/da/upload-doc');
+              //res.redirect(`/${selRoute}/upload-doc`);
+            }
           } catch (error) {
-            delete error?.config?.['headers'];
-            const Logmessage = {
-              Person_id: TokenDecoder.decoder(SESSION_ID),
-              error_location: `${req.headers.host}${req.originalUrl}`,
-              sessionId: 'null',
-              error_reason: `File uploading Causes Problem in ${selRoute}  - Tenders Api throws error`,
-              exception: error,
-            };
-            const Log = new LogMessageFormatter(
-              Logmessage.Person_id,
-              Logmessage.error_location,
-              Logmessage.sessionId,
-              Logmessage.error_reason,
-              Logmessage.exception,
+            LoggTracer.errorLogger(
+              res,
+              error,
+              null,
+              null,
+              null,
+              null,
+              false
             );
-            LoggTracer.errorTracer(Log, res);
           }
         } else {
           FileFilterArray.push({
@@ -209,35 +209,32 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
         }
       }
     } else {
-      res.render('error/500')
-    };
+      res.render('error/500');
+    }
   } else {
-   
-    req.session["fileObjectIsEmpty"] = true;
+    req.session['fileObjectIsEmpty'] = true;
     res.redirect(req.url);
     //res.redirect(`/${selRoute}/upload-doc`);
     //const journey = journeyStatus.find(journey => journey.step === 37)?.state;
     //const routeRedirect = journey === 'Optional' ? `/${selRoute}/suppliers` : `/${selRoute}/upload-doc`;
     //res.redirect(routeRedirect);
   }
-
-
 };
 
 export const DA_GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
-  let { selectedRoute } = req.session
-  if (selectedRoute === 'FC') selectedRoute = 'RFP'
-  if (selectedRoute === 'DA') selectedRoute = 'DA'
-  const { SESSION_ID } = req.cookies //jwt
-  const { projectId } = req.session
-  const EventId = req.session['eventId']
-  const { file_id } = req.query
-  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
+  if (selectedRoute === 'DA') selectedRoute = 'DA';
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const EventId = req.session['eventId'];
+  const { file_id } = req.query;
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`;
   try {
-    let response = await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    const response = await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(response, logConstant.UploadDocumentDeleted, req);
-    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`)
+    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -246,57 +243,52 @@ export const DA_GET_REMOVE_FILES = (express.Handler = async (req: express.Reques
       null,
       TokenDecoder.decoder(SESSION_ID),
       'DA - Remove document failed',
-      true,
+      true
     );
   }
 });
 
 export const DA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   const { selectedRoute } = req.session;
-  const agreement_id =req.session.agreement_id;
- 
+  const agreement_id = req.session.agreement_id;
+
   if (req.session['isTcUploaded']) {
- 
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     if (selectedRoute === 'DA') selectedRoute = 'DA';
     //selectedRoute='DA';
-  
+
     const step = selectedRoute.toUpperCase() === 'DA' ? 32 : 71;
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(FetchDocuments, logConstant.getUploadDocument, req);
     const FETCH_FILEDATA = FetchDocuments?.data;
-    let fileNameStorageTermsnCond = [];
-    let fileNameStoragePricing = [];
-    let additionalfile=[];
-    FETCH_FILEDATA?.map(file => {
-      
-      if (file.description === "mandatoryfirst") {
+    const fileNameStorageTermsnCond = [];
+    const fileNameStoragePricing = [];
+    const additionalfile = [];
+    FETCH_FILEDATA?.map((file) => {
+      if (file.description === 'mandatoryfirst') {
         fileNameStoragePricing.push(file.fileName);
       }
-      if (file.description === "mandatorysecond") {
+      if (file.description === 'mandatorysecond') {
         fileNameStorageTermsnCond.push(file.fileName);
       }
-      if (file.description === "optional") {
+      if (file.description === 'optional') {
         additionalfile.push(file.fileName);
       }
     });
-   
-    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
-     {
-      
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-      let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
-     // if(flag)
-     // {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
-     // } 
 
-      }
-    
+    if (fileNameStorageTermsnCond.length > 0 && fileNameStoragePricing.length > 0) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+      const flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+      // if(flag)
+      // {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
+      // }
+    }
+
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
     // let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
     // if(flag)
@@ -304,23 +296,16 @@ export const DA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Req
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
     // }
 
-
-
-
-    if(agreement_id == 'RM6187') {
-   
-       res.redirect('/da/upload-additional');
-    }else{
-    
-      res.redirect(`/da/IR35`);
+    if (agreement_id == 'RM6187') {
+      res.redirect('/da/upload-additional');
+    } else {
+      res.redirect('/da/IR35');
     }
-    
   } else {
- 
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
-    const agreement_id =req.session.agreement_id;
+    const agreement_id = req.session.agreement_id;
     let windowAppendData = {
       lotId,
       agreementLotName,
@@ -328,14 +313,13 @@ export const DA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Req
       files: null,
       releatedContent: releatedContent,
       storage: 0,
-      agreement_id:agreement_id,
-    }
+      agreement_id: agreement_id,
+    };
     windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true' });
-    req.session["termsNcond"] = { "IsDocumentError": true, "IsFile": req.session['isTcUploaded'] ? true : false };
-      //CAS-INFO-LOG
-      LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
-    res.redirect(`/da/upload-doc`);
-  //  res.render('daw-uploadDocument.njk', windowAppendData)
+    req.session['termsNcond'] = { IsDocumentError: true, IsFile: req.session['isTcUploaded'] ? true : false };
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(null, logConstant.eoiUploadDocumentPageLog, req);
+    res.redirect('/da/upload-doc');
+    //  res.render('daw-uploadDocument.njk', windowAppendData)
   }
-
 });

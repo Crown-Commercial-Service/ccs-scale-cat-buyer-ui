@@ -12,7 +12,7 @@ import config from 'config';
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
 import { Parser } from 'json2csv';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 // RFI Suppliers
@@ -20,181 +20,156 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies; //jwt
 
   let cmsData;
-  if(req.session.agreement_id == 'RM6187') {
+  if (req.session.agreement_id == 'RM6187') {
     //MCF3
     cmsData = cmsDataMCF;
-  } else if(req.session.agreement_id == 'RM6263') {
+  } else if (req.session.agreement_id == 'RM6263') {
     //DSP
     cmsData = cmsDataDCP;
-  }else if(req.session.agreement_id == 'RM1557.13') {
+  } else if (req.session.agreement_id == 'RM1557.13') {
     //DSP
     cmsData = cmsDataGCLOUD;
   }
 
-  const { projectId ,eventId} = req.session;
-  const { download,previous,next,fromMessage } = req.query
-  const releatedContent = req.session.releatedContent
-  let lotid=req.session.lotId;
-  lotid=lotid.replace('Lot ','')
-  const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
+  const { projectId, eventId } = req.session;
+  const { download, previous, next, fromMessage } = req.query;
+  const releatedContent = req.session.releatedContent;
+  let lotid = req.session.lotId;
+  lotid = lotid.replace('Lot ', '');
+  const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
   try {
-    let flag=await ShouldEventStatusBeUpdated(eventId,39,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
+    const flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
     }
     let supplierList = [];
     const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
     const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
-    let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
-    if(SUPPLIER_DATA!=undefined){
-      let allSuppliers=await GetLotSuppliers(req);
-      for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
-          {
-              let supplierInfo=allSuppliers.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[i].id)?.[0];
-              if(supplierInfo!=undefined)
-              {
-                supplierList.push(supplierInfo);
-              }
-          }
+    const SUPPLIER_DATA = SUPPLIERS?.data; //saved suppliers
+    if (SUPPLIER_DATA != undefined) {
+      const allSuppliers = await GetLotSuppliers(req);
+      for (let i = 0; i < SUPPLIER_DATA.suppliers.length; i++) {
+        const supplierInfo = allSuppliers.filter((s) => s.organization.id == SUPPLIER_DATA.suppliers[i].id)?.[0];
+        if (supplierInfo != undefined) {
+          supplierList.push(supplierInfo);
+        }
+      }
+    } else {
+      supplierList = await GetLotSuppliers(req);
     }
-    else{
-    supplierList = await GetLotSuppliers(req);
-    }
-    const rowCount=10;let showPrevious=false,showNext=false;
+    const rowCount = 10;
+    let showPrevious = false,
+      showNext = false;
     const agreementId_session = req.session.agreement_id;
-    supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+    supplierList = supplierList.sort((a, b) =>
+      a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
+        ? -1
+        : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
+          ? 1
+          : 0
+    );
     const supplierListDwn = supplierList;
-    const supplierLength=supplierList.length;
-    let enablebtn=true	
-    
-    if(fromMessage!=undefined)	
-    {	
-     // req.session["rfiSuppliersbtn"]=true	
+    const supplierLength = supplierList.length;
+    const enablebtn = true;
+
+    if (fromMessage != undefined) {
+      // req.session["rfiSuppliersbtn"]=true
     }
-    
+
     let appendData = {
       data: cmsData,
       suppliers_list: supplierList,
       releatedContent: releatedContent,
       lotSuppliers: lotSuppliers,
-      supplierLength,enablebtn,
-      agreementId_session
+      supplierLength,
+      enablebtn,
+      agreementId_session,
     };
-    
-    if(download!=undefined)
-  {
-    const JsonData:any = [];
-    let contactSupplierDetails;
-    for(let i=0;i<appendData.suppliers_list.length;i++){
-      const contact = appendData.suppliers_list[i];
-      let contactData:any = [];
-      contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-      if(contact.lotContacts != undefined) {
-        contactData['Contact email'] = contact?.lotContacts[0]?.contact?.email == undefined?'-': contact?.lotContacts[0]?.contact?.email;
-        contactData['Contact phone number'] = contact?.lotContacts[0]?.contact?.telephone == undefined?'-': contact?.lotContacts[0]?.contact?.telephone;
-        }else{
+
+    if (download != undefined) {
+      const JsonData: any = [];
+      let contactSupplierDetails;
+      for (let i = 0; i < appendData.suppliers_list.length; i++) {
+        const contact = appendData.suppliers_list[i];
+        const contactData: any = [];
+        contactData['Contact name'] =
+          contact?.organization?.contactPoint?.name == undefined ? '-' : contact?.organization?.contactPoint?.name;
+        if (contact.lotContacts != undefined) {
+          contactData['Contact email'] =
+            contact?.lotContacts[0]?.contact?.email == undefined ? '-' : contact?.lotContacts[0]?.contact?.email;
+          contactData['Contact phone number'] =
+            contact?.lotContacts[0]?.contact?.telephone == undefined
+              ? '-'
+              : contact?.lotContacts[0]?.contact?.telephone;
+        } else {
           contactData['Contact email'] = '-';
           contactData['Contact phone number'] = '-';
         }
 
-        contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
-      contactData['Registered company name (Legal name)'] = contact.organization?.name == undefined?'-': contact.organization.name;
-      const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-      const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
-      
-      const postalCode = contact?.organization?.address?.postalCode == undefined?' ': contact?.organization?.address?.postalCode;
-      const countryName = contact?.organization?.address?.countryName == undefined?' ': contact?.organization?.address?.countryName;
-      const countryCode = contact?.organization?.address?.countryCode == undefined?' ': contact?.organization?.address?.countryCode;
-      
-      contactData['Registered company address'] = streetAddress+" "+locality+" "+postalCode+" "+countryName+" "+countryCode;
-      // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
-     // contactData['Trading name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
-     contactData['Trading name'] = contact.organization?.details?.tradingName == undefined?'-': contact.organization?.details?.tradingName;
-            
-     contactData['Url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-      contactData['Status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-      
+        contactData['Supplier id'] = contact.organization?.name == undefined ? '-' : contact.organization.id;
+        contactData['Registered company name (Legal name)'] =
+          contact.organization?.name == undefined ? '-' : contact.organization.name;
+        const streetAddress =
+          contact?.organization?.address?.streetAddress == undefined
+            ? '-'
+            : contact?.organization?.address?.streetAddress;
+        const locality =
+          contact?.organization?.address?.locality == undefined ? '-' : contact?.organization?.address?.locality;
 
-      // if(contact.lotContacts != undefined) {
-      //   contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-      //   contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-      //   contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-      //   contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-      //   contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-      //   contactSupplierDetails = contact.lotContacts[0].contact;
-      // }
-      contactSupplierDetails = contactData;
-      JsonData.push(contactSupplierDetails)
-    }
-   
-    //let fields = ["name","email","telephone","address","url","Contact Point name"];
-    let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name (Legal name)","Trading name","Registered company address","Url","Status"]; 
-    const json2csv = new Parser({fields});
-    const csv = json2csv.parse(JsonData);
-    res.header('Content-Type', 'text/csv');
-    res.attachment("FC_Suppliers_List.csv");         
-    res.send(csv);
+        const postalCode =
+          contact?.organization?.address?.postalCode == undefined ? ' ' : contact?.organization?.address?.postalCode;
+        const countryName =
+          contact?.organization?.address?.countryName == undefined ? ' ' : contact?.organization?.address?.countryName;
+        const countryCode =
+          contact?.organization?.address?.countryCode == undefined ? ' ' : contact?.organization?.address?.countryCode;
 
-  }
-  else{
-    let noOfPages=Math.ceil(supplierList.length/rowCount);
-    if(previous==undefined && next==undefined)
-    {
-      req.session.supplierpagenumber=1;
-      if(supplierList.length<=rowCount)
-      {
-        showPrevious=false;
-        showNext=false;
-        appendData = {
-          data: cmsData,
-          suppliers_list: supplierList,
-          lotSuppliers: lotSuppliers,
-          releatedContent: releatedContent,
-          showPrevious,
-          showNext,
-          supplierLength,enablebtn,
-          agreementId_session
-        };
+        contactData['Registered company address'] =
+          streetAddress + ' ' + locality + ' ' + postalCode + ' ' + countryName + ' ' + countryCode;
+        // contactData['Legal name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+        // contactData['Trading name'] = contact.organization?.identifier?.legalName == undefined?'-': contact.organization?.identifier?.legalName;
+        contactData['Trading name'] =
+          contact.organization?.details?.tradingName == undefined ? '-' : contact.organization?.details?.tradingName;
+
+        contactData['Url'] =
+          contact.organization?.identifier?.uri == undefined ? '-' : contact.organization?.identifier?.uri;
+        contactData['Status'] = contact?.supplierStatus == undefined ? '-' : contact?.supplierStatus;
+
+        // if(contact.lotContacts != undefined) {
+        //   contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+        //   contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+        //   contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+        //   contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+        //   contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+        //   contactSupplierDetails = contact.lotContacts[0].contact;
+        // }
+        contactSupplierDetails = contactData;
+        JsonData.push(contactSupplierDetails);
       }
-      else
-      {
-        showPrevious=false;
-        showNext=true;
-        
-        supplierList=supplierList.slice(0,rowCount);
-        appendData = {
-          data: cmsData,
-          suppliers_list: supplierList,
-          lotSuppliers: lotSuppliers,
-          releatedContent: releatedContent,
-          showPrevious,
-          showNext,
-          supplierLength,
-          currentpagenumber:1,
-          noOfPages,enablebtn,
-          agreementId_session
-        };
-      }
-    }
-    else
-    {
-      if(previous!=undefined)
-      {
-          let currentpagenumber=req.session.supplierpagenumber;
-          let previouspagenumber=currentpagenumber-1;
-          let lastindex=previouspagenumber*rowCount;
-          supplierList=supplierList.slice(lastindex-rowCount,lastindex);
-          req.session.supplierpagenumber=previouspagenumber;
-          if(previouspagenumber==1)
-          {
-            showPrevious=false;
-          }
-          else
-          {
-            showPrevious=true;
-          }
-          showNext=true;
+
+      //let fields = ["name","email","telephone","address","url","Contact Point name"];
+      const fields = [
+        'Contact name',
+        'Contact email',
+        'Contact phone number',
+        'Supplier id',
+        'Registered company name (Legal name)',
+        'Trading name',
+        'Registered company address',
+        'Url',
+        'Status',
+      ];
+      const json2csv = new Parser({ fields });
+      const csv = json2csv.parse(JsonData);
+      res.header('Content-Type', 'text/csv');
+      res.attachment('FC_Suppliers_List.csv');
+      res.send(csv);
+    } else {
+      const noOfPages = Math.ceil(supplierList.length / rowCount);
+      if (previous == undefined && next == undefined) {
+        req.session.supplierpagenumber = 1;
+        if (supplierList.length <= rowCount) {
+          showPrevious = false;
+          showNext = false;
           appendData = {
             data: cmsData,
             suppliers_list: supplierList,
@@ -203,59 +178,97 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
             showPrevious,
             showNext,
             supplierLength,
-            currentpagenumber:previouspagenumber,
-            noOfPages,enablebtn,
-            agreementId_session
+            enablebtn,
+            agreementId_session,
           };
-      }
-      else{//next is undefined
-        let currentpagenumber=req.session.supplierpagenumber;
-        let nextpagenumber=currentpagenumber+1;
-        let lastindex=nextpagenumber*rowCount;
-        let firstindex=0;
-        if(lastindex > supplierList.length)
-        {
-          lastindex=supplierList.length;
-          firstindex=currentpagenumber*rowCount;
-        }
-        else
-        {
-          firstindex=lastindex-rowCount;
-        }
-        supplierList=supplierList.slice(firstindex,lastindex);
-        req.session.supplierpagenumber=nextpagenumber;
-        
-        if(nextpagenumber==noOfPages)
-        {
-          showNext=false;
-        }
-        else
-        {
-          showNext=true;
-        }
-        showPrevious=true;
-        appendData = {
-          data: cmsData,
-          suppliers_list: supplierList,
-          lotSuppliers: lotSuppliers,
-          releatedContent: releatedContent,
-          showPrevious,
-          showNext,
-          supplierLength,
-          currentpagenumber:nextpagenumber,
-          noOfPages,enablebtn,
-          agreementId_session
-        };
-      }
-    }
+        } else {
+          showPrevious = false;
+          showNext = true;
 
-    if(fromMessage!=undefined)
-    {	
-      appendData= Object.assign({}, { ...appendData, enablebtn: false})	
-    }
+          supplierList = supplierList.slice(0, rowCount);
+          appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            showPrevious,
+            showNext,
+            supplierLength,
+            currentpagenumber: 1,
+            noOfPages,
+            enablebtn,
+            agreementId_session,
+          };
+        }
+      } else {
+        if (previous != undefined) {
+          const currentpagenumber = req.session.supplierpagenumber;
+          const previouspagenumber = currentpagenumber - 1;
+          const lastindex = previouspagenumber * rowCount;
+          supplierList = supplierList.slice(lastindex - rowCount, lastindex);
+          req.session.supplierpagenumber = previouspagenumber;
+          if (previouspagenumber == 1) {
+            showPrevious = false;
+          } else {
+            showPrevious = true;
+          }
+          showNext = true;
+          appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            showPrevious,
+            showNext,
+            supplierLength,
+            currentpagenumber: previouspagenumber,
+            noOfPages,
+            enablebtn,
+            agreementId_session,
+          };
+        } else {
+          //next is undefined
+          const currentpagenumber = req.session.supplierpagenumber;
+          const nextpagenumber = currentpagenumber + 1;
+          let lastindex = nextpagenumber * rowCount;
+          let firstindex = 0;
+          if (lastindex > supplierList.length) {
+            lastindex = supplierList.length;
+            firstindex = currentpagenumber * rowCount;
+          } else {
+            firstindex = lastindex - rowCount;
+          }
+          supplierList = supplierList.slice(firstindex, lastindex);
+          req.session.supplierpagenumber = nextpagenumber;
 
-    res.render('rfp-suppliers', appendData);
-  }
+          if (nextpagenumber == noOfPages) {
+            showNext = false;
+          } else {
+            showNext = true;
+          }
+          showPrevious = true;
+          appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            showPrevious,
+            showNext,
+            supplierLength,
+            currentpagenumber: nextpagenumber,
+            noOfPages,
+            enablebtn,
+            agreementId_session,
+          };
+        }
+      }
+
+      if (fromMessage != undefined) {
+        appendData = Object.assign({}, { ...appendData, enablebtn: false });
+      }
+
+      res.render('rfp-suppliers', appendData);
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -264,7 +277,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Suppliers page error - RFP',
-      true,
+      true
     );
   }
 };
@@ -273,29 +286,25 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   try {
-    if(req.session.agreement_id == 'RM1557.13') {
-
+    if (req.session.agreement_id == 'RM1557.13') {
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
-    if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
-      if(flag)
-      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
-    }
-  }
-
-    }else{
+      if (response.status == HttpStatusCode.OK) {
+        const flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+        if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+        }
+      }
+    } else {
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
-    if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
-      if(flag)
-      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+      if (response.status == HttpStatusCode.OK) {
+        const flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+        if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+        }
+      }
     }
-  }
-    }
-    
-     res.redirect('/rfp/response-date');
+
+    res.redirect('/rfp/response-date');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -304,7 +313,7 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Suppliers page error - RFP',
-      true,
+      true
     );
   }
 };

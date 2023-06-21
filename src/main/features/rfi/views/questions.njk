@@ -177,7 +177,7 @@
             {% for i in range(1, loopRange) -%}
             <div id="fc_question_{{i}}" class="closeCCS {{'additional' if i>1 }}">
                {% if i!=1 %} 
-              <a href='{{i}}' class='del rfi_del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>
+              <a href='{{i}}' class='del rfi_del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> Remove </a>
               {% endif %}
 
               {% if i==1 %}
@@ -314,12 +314,17 @@
           {% set maxlength = '5000' %}
            {% set className = 'removeErr messagesendcount' %}
 {% if agreement_id == "RM1557.13" or  agreement_id == "RM6187" %}
+{% if agreement_id == "RM1557.13"%}
+    {% set descriptiontext = 'Enter your project background' %}
+{%else%}    
+ {% set descriptiontext = 'Project background' %}
+{% endif %}
 {% set maxlength = '10000' %}
  {% set className = 'removeErr rfp_term_definition' %}
 {% endif %}
 {{ CCSCharacterCount({
                               label: {
-                                text: "Project background",
+                                text: descriptiontext,
                                 classes: "govuk-label govuk-label--m"
                                 },
                               id: "rfi_prob_statement",
@@ -474,7 +479,7 @@
                     {% if i == 1%}
                         {% set html = " term or acronym"%}
                     {% else %}
-                        {% set html = " term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon delextremeright' title='remove'> X </a>"%}
+                        {% set html = " term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon delextremeright' title='remove'> Remove </a>"%}
                     {% endif %}
                     {% call CCSFieldset({
                     legend: {

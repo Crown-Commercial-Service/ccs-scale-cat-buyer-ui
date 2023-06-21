@@ -17,7 +17,6 @@ import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-
 /**
  * @Controller
  * @GET
@@ -29,25 +28,22 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
 
   try {
+    if (agreement_id == 'RM6187') {
+      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+      const journeys = journeySteps.find((item) => item.step == 20);
 
-    if(agreement_id == 'RM6187'){
-     
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
-    const journeys=journeySteps.find(item => item.step == 20);
-    
-    if(journeys.state !='Completed'){
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+      if (journeys.state != 'Completed') {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+      }
     }
-  }
 
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
-    
+
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-       
-    //CAS-INFO-LOG 
-    LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.questionDetails, req);
 
+    //CAS-INFO-LOG
+    LoggTracer.infoLogger(fetch_dynamic_api_data, logConstant.questionDetails, req);
 
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
@@ -79,7 +75,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         multiAnswer: aSelector.nonOCDS.multiAnswer,
         length: aSelector.nonOCDS.length,
       };
-      
+
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
         return 'ccs_eoi_vetting_form';
@@ -100,33 +96,32 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       } else if (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_eoi_date_form';
       } else if (aSelector.nonOCDS.questionType === 'Duration' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_eoi_date_form';  
+        return 'ccs_eoi_date_form';
       } else {
         return '';
       }
     });
-    
+
     const ChoosenAgreement = req.session.agreement_id;
     const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
-    
+
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
-    if(group_id=='Group 7')
-    {
-      form_name[0]='ccs_eoi_vetting_form';
-      form_name[1]='ccs_eoi_vetting_form';
-      if(fetch_dynamic_api_data[1] == undefined) {
-        fetch_dynamic_api_data[0].nonOCDS.multiAnswer=false;
+    if (group_id == 'Group 7') {
+      form_name[0] = 'ccs_eoi_vetting_form';
+      form_name[1] = 'ccs_eoi_vetting_form';
+      if (fetch_dynamic_api_data[1] == undefined) {
+        fetch_dynamic_api_data[0].nonOCDS.multiAnswer = false;
       } else {
-        fetch_dynamic_api_data[1].nonOCDS.multiAnswer=false;
+        fetch_dynamic_api_data[1].nonOCDS.multiAnswer = false;
       }
     }
 
-    fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
+    fetch_dynamic_api_data = fetch_dynamic_api_data.map((item) => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
         newItem.nonOCDS.dependant = false;
@@ -144,7 +139,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         const RelationsShip = ITEM.nonOCDS.dependency.relationships;
         for (const Relation of RelationsShip) {
           const { dependentOnId } = Relation;
-          const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+          const findElementInData = fetch_dynamic_api_data.filter((item) => item.OCDS.id === dependentOnId)[0];
           findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
           TemporaryObjStorage.push(findElementInData);
         }
@@ -169,7 +164,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       errorText: errorText,
       releatedContent: releatedContent,
     };
-    
+
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
@@ -184,29 +179,21 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
- 
+
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, data.eoiTitle, req);
-   
-   res.render('questionsEoi', data);
-   
+
+    res.render('questionsEoi', data);
   } catch (error) {
-    delete error?.config?.['headers'];
-    const Logmessage = {
-      Person_id: TokenDecoder.decoder(SESSION_ID),
-      error_location: `${req.headers.host}${req.originalUrl}`,
-      sessionId: 'null',
-      error_reason: 'EOI Dynamic framework throws error - Tenders Api is causing problem',
-      exception: error,
-    };
-    const Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception,
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
     );
-    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -219,32 +206,31 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/eoi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
-
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { eventId } = req.session;
-   
+
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
-    const journeys=journeySteps.find(item => item.step == 20);
-    
-    if(journeys.state !='Completed'){
+    const journeys = journeySteps.find((item) => item.step == 20);
+
+    if (journeys.state != 'Completed') {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/20`, 'In progress');
     }
-    
+
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
-    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+    const nonOCDS = req.session?.nonOCDSList?.filter((anItem) => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'eoi_build_started');
-    let { eoi_build_started, question_id } = req.body;
+    const { eoi_build_started, question_id } = req.body;
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
     const retrieveAgreement = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
-     
+
     //CAS-INFO-LOG
-     LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
+    LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
 
     const agreementExpiryDate = retrieveAgreement.data.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
@@ -263,21 +249,18 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+        const object_values = Object.values(filtered_object_with_empty_keys).map((an_answer) => {
           return { value: an_answer, selected: true };
         });
 
         let validationError = false;
         let answerValueBody = {};
-    
-        
+
         for (let i = 0; i < question_ids.length; i++) {
-          const questionNonOCDS = nonOCDS.find(item => item.questionId == question_ids[i]);
+          const questionNonOCDS = nonOCDS.find((item) => item.questionId == question_ids[i]);
 
-         
-
-         if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
-            if (KeyPairMultiValidation(object_values, req)) { 
+          if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
+            if (KeyPairMultiValidation(object_values, req)) {
               validationError = true;
               break;
             }
@@ -288,7 +271,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               },
             };
           } else if (questionNonOCDS.questionType === 'KeyValuePair') {
-            
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
             }
@@ -302,7 +284,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               const termObject = { value: term[item], text: value[item], selected: true };
               TAStorage.push(termObject);
             }
-            
+
             answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -335,7 +317,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               break;
             } else if (
               selectedOptionToggle[0].find(
-                x => x.value === 'Not No specific location, for example they can work remotely',
+                (x) => x.value === 'Not No specific location, for example they can work remotely'
               ) &&
               selectedOptionToggle[0].length > 2
             ) {
@@ -351,27 +333,26 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               };
             }
           } else if (questionNonOCDS.questionType === 'Date') {
-            
             const slideObj = object_values.slice(0, 3);
 
-            let dayval = slideObj[0].value.length == 2?slideObj[0].value:'0'+slideObj[0].value;
-             let monthval = slideObj[1].value.length == 2?slideObj[1].value:'0'+slideObj[1].value;
-            
+            const dayval = slideObj[0].value.length == 2 ? slideObj[0].value : '0' + slideObj[0].value;
+            const monthval = slideObj[1].value.length == 2 ? slideObj[1].value : '0' + slideObj[1].value;
+
             answerValueBody = {
               nonOCDS: {
                 answered: true,
-                options: [{ value: slideObj[2].value+'-'+monthval+'-'+dayval, selected: true }],
+                options: [{ value: slideObj[2].value + '-' + monthval + '-' + dayval, selected: true }],
               },
             };
           } else if (questionNonOCDS.questionType === 'Duration') {
             // SCAT-6028 - Date format issue changed from DD-MM-YYYY to YYYY-MM-DD
-            let currentDate = moment(new Date(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            const currentDate = moment(new Date(), 'DD/MM/YYYY').format('YYYY-MM-DD');
             // let inputDate = object_values[0].value + '-' + object_values[1].value + '-' + object_values[2].value;
-            let inputDate = object_values[2].value + '-' + object_values[1].value + '-' + object_values[0].value;
-            let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-           
-            let isInputDateLess = moment(inputDate).isBefore(currentDate);
-            let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
+            const inputDate = object_values[2].value + '-' + object_values[1].value + '-' + object_values[0].value;
+            const agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+            const isInputDateLess = moment(inputDate).isBefore(currentDate);
+            const isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
             req.session['IsInputDateLessError'] = false;
             req.session['IsExpiryDateLessError'] = false;
             if (isInputDateLess) {
@@ -383,41 +364,38 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               // req.session['IsExpiryDateLessError'] = true;
               // break;
             } else {
-            //   const slideObj = object_values.slice(3);
-            //   answerValueBody = {
-            //     nonOCDS: {
-            //       answered: true,
-            //       options: [...slideObj],
-            //     },
-            //   };
-          
-            const slideObj = object_values.slice(3);
-                let dureationValue = null;
-                let year = 0;
-                let month = 0;
-                let day = 0;
-                if (Number(req.body["eoi_duration-years"]) >= 0) {
-                  year = Number(req.body["eoi_duration-years"]);
-                }
-                if (Number(req.body["eoi_duration-months"]) >= 0) {
-                  month = Number(req.body["eoi_duration-months"]);
-                }
-                if (Number(req.body["eoi_duration-days"]) >= 0) {
-                  day = Number(req.body["eoi_duration-days"]);
-                }
-                dureationValue = "P" + year + "Y" + month + "M" + day + "D";
-              
-                dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
-                answerValueBody = {
-                  nonOCDS: {
-                    answered: true,
-                    options: [
-                      { value: dureationValue, selected: true },
-                    ],
-                  },
-                };
-          
-          }
+              //   const slideObj = object_values.slice(3);
+              //   answerValueBody = {
+              //     nonOCDS: {
+              //       answered: true,
+              //       options: [...slideObj],
+              //     },
+              //   };
+
+              const slideObj = object_values.slice(3);
+              let dureationValue = null;
+              let year = 0;
+              let month = 0;
+              let day = 0;
+              if (Number(req.body['eoi_duration-years']) >= 0) {
+                year = Number(req.body['eoi_duration-years']);
+              }
+              if (Number(req.body['eoi_duration-months']) >= 0) {
+                month = Number(req.body['eoi_duration-months']);
+              }
+              if (Number(req.body['eoi_duration-days']) >= 0) {
+                day = Number(req.body['eoi_duration-days']);
+              }
+              dureationValue = 'P' + year + 'Y' + month + 'M' + day + 'D';
+
+              dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{ value: dureationValue, selected: true }],
+                },
+              };
+            }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
@@ -429,29 +407,26 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             const TAStorage = [];
             splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
 
-            if(splTermvalue != undefined && splTermvalue != ""){
-            splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
+            if (splTermvalue != undefined && splTermvalue != '') {
+              splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
 
-            for (let item = 0; item < splterm.length; item++) {
-              const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
-              TAStorage.push(spltermObject);
-            }
-          }
-            else{
+              for (let item = 0; item < splterm.length; item++) {
+                const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
+                TAStorage.push(spltermObject);
+              }
+            } else {
               for (let item = 0; item < splterm.length; item++) {
                 const spltermObject = { value: splterm[item], selected: true };
                 TAStorage.push(spltermObject);
               }
-            }  
+            }
             answerValueBody = {
               nonOCDS: {
                 answered: true,
                 options: [...TAStorage],
               },
             };
-          } 
-          else if (questionNonOCDS.questionType === 'SingleSelect') {
-            
+          } else if (questionNonOCDS.questionType === 'SingleSelect') {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
@@ -461,24 +436,30 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 answered: true,
                 multiAnswer: questionNonOCDS.multiAnswer,
                 //options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
-                options: [{ value: req.body["ccs_vetting_type"], selected: true }],
+                options: [{ value: req.body['ccs_vetting_type'], selected: true }],
               },
             };
-          }
-          else if (questionNonOCDS.questionType === 'Text' && req.body.rfp_security_confirmation != undefined &&  req.body.rfp_security_confirmation != null) {
-            let res = /^[a-zA-Z ]+$/;
+          } else if (
+            questionNonOCDS.questionType === 'Text' &&
+            req.body.rfp_security_confirmation != undefined &&
+            req.body.rfp_security_confirmation != null
+          ) {
+            const res = /^[a-zA-Z ]+$/;
             let optionsData = [];
-            if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation!=='' && res.test(req.body.rfp_security_confirmation)) {
-            
+            if (
+              req.body.rfp_security_confirmation != undefined &&
+              req.body.rfp_security_confirmation != null &&
+              req.body.rfp_security_confirmation != undefined &&
+              req.body.rfp_security_confirmation !== '' &&
+              res.test(req.body.rfp_security_confirmation)
+            ) {
               optionsData = [];
-              optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
+              optionsData.push({ value: req.body.rfp_security_confirmation, selected: true });
             } else {
-              
-              optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
+              optionsData.push({ value: req.body.rfp_security_confirmation, selected: true });
             }
-            
+
             if (!validationError) {
-             
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -487,79 +468,78 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 },
               };
             }
-          }
-          else {
-            
-                    if (
-                      (questionNonOCDS.mandatory == true && object_values.length == 0) ||
-                      object_values[0]?.value.length == 0
-                    ) {
-                      validationError = true;
-                      break;
-                    }
+          } else {
+            if (
+              (questionNonOCDS.mandatory == true && object_values.length == 0) ||
+              object_values[0]?.value.length == 0
+            ) {
+              validationError = true;
+              break;
+            }
 
-                   
+            if (req.body.eoi_prob_statement === '') {
+              validationError = true;
+              break;
+            }
+            if (req.body.ccs_vetting_type === '') {
+              validationError = true;
+              break;
+            }
+            if (KeyPairValidation(object_values, req)) {
+              validationError = true;
+              break;
+            }
+            let objValueArrayCheck = false;
+            object_values.map((obj) => {
+              if (Array.isArray(obj.value)) objValueArrayCheck = true;
+            });
+            if (objValueArrayCheck) {
+              let objValue;
+              if (agreement_id == 'RM6187') {
+                objValue = null;
+                if (object_values[0].value[i] != '') {
+                  objValue = object_values[0].value[i];
+                }
+              } else {
+                objValue = object_values[0].value[i];
+              }
 
-                    if(req.body.eoi_prob_statement===''){
-                      validationError = true;
-                      break;
-                    }
-                    if(req.body.ccs_vetting_type===''){
-                      validationError = true;
-                      break;
-                    }
-                    if (KeyPairValidation(object_values, req)) { 
-                      validationError = true;
-                      break;
-                    }
-                      let objValueArrayCheck = false;
-                      object_values.map(obj => {
-                        if (Array.isArray(obj.value)) objValueArrayCheck = true;
-                      });
-                    if (objValueArrayCheck) {
-
-                      let objValue;
-                      if(agreement_id=="RM6187"){
-
-                         objValue=null;
-                        if(object_values[0].value[i]!=''){
-                           objValue=object_values[0].value[i];
-                        }
-                      
-                      }else{
-                        
-                        objValue=object_values[0].value[i];
-                      }
-                     
-                      answerValueBody = {
-                        nonOCDS: {
-                          answered: true,
-                          options: [{ value: objValue, selected: true }],
-                        },
-                      };
-                    } else {
-                     
-                      answerValueBody = {
-                        nonOCDS: {
-                          answered: true,
-                          options: [...object_values],
-                        },
-                      };
-                    }
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{ value: objValue, selected: true }],
+                },
+              };
+            } else {
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [...object_values],
+                },
+              };
+            }
           }
           if (!validationError) {
             try {
-              
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-             
-              let questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              //CAS-INFO-LOG 
+
+              const questionResponse = await DynamicFrameworkInstance.Instance(SESSION_ID).put(
+                answerBaseURL,
+                answerValueBody
+              );
+              //CAS-INFO-LOG
               LoggTracer.infoLogger(questionResponse, logConstant.questionUpdated, req);
-             
             } catch (error) {
               // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
-              LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                  TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true);
+              LoggTracer.errorLogger(
+                res,
+                error,
+                `${req.headers.host}${req.originalUrl}`,
+                state,
+                TokenDecoder.decoder(SESSION_ID),
+                'Agreement Service Api cannot be connected',
+                true
+              );
             }
           }
         }
@@ -567,7 +547,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           req.session['isValidationError'] = true;
           res.redirect(url.replace(regex, 'questions'));
         } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-          
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
@@ -578,7 +557,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             agreement_id,
             id,
             res,
-            req,
+            req
           );
         } else {
           res.send();
@@ -590,51 +569,49 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
-    LoggTracer.errorTracer(err, res);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      null,
+      null,
+      null,
+      null,
+      false
+    );
   }
 };
 
-
-
-
-
 const KeyPairValidation = (object_values: any, req: express.Request) => {
-
- 
   if (object_values.length == 1) {
-    let key = object_values[0]?.value;
-    let keyErrorIndex = '';
-    if (key !==''){
-      let eitherElementEmptys = [];
+    const key = object_values[0]?.value;
+    const keyErrorIndex = '';
+    if (key !== '') {
+      const eitherElementEmptys = [];
 
-      if(req.body.Name_of_the_organisation_using_the_products_or_services_that_are_being_procured){
-        if ((key === '')) {
+      if (req.body.Name_of_the_organisation_using_the_products_or_services_that_are_being_procured) {
+        if (key === '') {
           eitherElementEmptys.push({ index: '1', isEmpty: true });
         } else {
           if (key.length > 500) {
             // keyErrorIndex = keyErrorIndex + '1' + ',';
           }
-          
         }
-      }else{
-           if ((key === '')) {
-            eitherElementEmptys.push({ index: '1', isEmpty: true });
-          } else {
-            if (key.length > 10000) {
-              // keyErrorIndex = keyErrorIndex + '1' + ',';
-            }
-            
+      } else {
+        if (key === '') {
+          eitherElementEmptys.push({ index: '1', isEmpty: true });
+        } else {
+          if (key.length > 10000) {
+            // keyErrorIndex = keyErrorIndex + '1' + ',';
           }
+        }
       }
-      
-        
-        
+
       if (eitherElementEmptys.length > 0 || keyErrorIndex !== '') {
         req.session.isFieldError = true;
         req.session.emptyFieldError = eitherElementEmptys.length > 0;
         req.session.fieldLengthError = [keyErrorIndex];
-        
+
         return true;
       }
     }
@@ -642,27 +619,20 @@ const KeyPairValidation = (object_values: any, req: express.Request) => {
   return false;
 };
 
-
 const KeyPairMultiValidation = (object_values: any, req: express.Request) => {
-  
-
   if (object_values.length >= 1) {
-    let key = object_values;
-    let keyErrorIndex = '';
-     
-    if (Array.isArray(key) ) {
-     
-      let eitherElementEmptys = [];
+    const key = object_values;
+    const keyErrorIndex = '';
 
-      for (var i = 0; i < key.length; i++) {
-      
-          if (key[i].value.length > 10000) {
-            // keyErrorIndex = keyErrorIndex + i + ',';
-          }
-          
-       
+    if (Array.isArray(key)) {
+      const eitherElementEmptys = [];
+
+      for (let i = 0; i < key.length; i++) {
+        if (key[i].value.length > 10000) {
+          // keyErrorIndex = keyErrorIndex + i + ',';
+        }
       }
-      if (eitherElementEmptys.length > 0 || keyErrorIndex !== '' ) {
+      if (eitherElementEmptys.length > 0 || keyErrorIndex !== '') {
         req.session.isFieldError = true;
         req.session.emptyFieldError = eitherElementEmptys.length > 0;
         req.session.fieldLengthError = [keyErrorIndex];
@@ -675,14 +645,14 @@ const KeyPairMultiValidation = (object_values: any, req: express.Request) => {
 
 const KeyValuePairValidation = (object_values: any, req: express.Request) => {
   if (object_values.length == 2) {
-    let key = object_values[0];
-    let keyValue = object_values[1];
-    let keyErrorIndex = '',
+    const key = object_values[0];
+    const keyValue = object_values[1];
+    const keyErrorIndex = '',
       keyValueErrorIndex = '';
 
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
-      let eitherElementEmptys = [];
-      for (var i = 0; i < key.value.length; i++) {
+      const eitherElementEmptys = [];
+      for (let i = 0; i < key.value.length; i++) {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
           eitherElementEmptys.push({ index: i, isEmpty: true });
         } else {
@@ -713,39 +683,33 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
 };
 
 const findErrorText = (data: any, req: express.Request) => {
-  
-  let errorText = [];
-  data.forEach(requirement => {
+  const errorText = [];
+  data.forEach((requirement) => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair')
       errorText.push({ text: 'You must add information in both fields.' });
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
-    if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
-      errorText.push({ text: 'You must be 10000 characters or fewer' });
-      else{
-        if(req.session.agreement_id == 'RM6187'){
+      if (req.session.fieldLengthError?.length == 1 && req.session.fieldLengthError[0] !== '')
+        errorText.push({ text: 'You must be 10000 characters or fewer' });
+      else {
+        if (req.session.agreement_id == 'RM6187') {
           errorText.push({ text: 'Enter at least 1 project objective' });
-        }else{
+        } else {
           errorText.push({ text: 'You must add at least one objective' });
         }
       }
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
-
-    if (req.session.fieldLengthError?.length !== 1 ){
-      if(req.session.agreement_id == 'RM6187'){
-        errorText.push({ text: 'You must add background information about your procurement' });
-      }
-      else{
-        errorText.push({ text: 'You must be 10000 characters or fewer' });
-      }
-    }
-   else
-      errorText.push({ text: 'You must enter information here' });
+      if (req.session.fieldLengthError?.length !== 1) {
+        if (req.session.agreement_id == 'RM6187') {
+          errorText.push({ text: 'You must add background information about your procurement' });
+        } else {
+          errorText.push({ text: 'You must be 10000 characters or fewer' });
+        }
+      } else errorText.push({ text: 'You must enter information here' });
     else if (
       requirement.nonOCDS.questionType == 'Text' &&
       requirement.nonOCDS.multiAnswer === true &&
       requirement.OCDS.id == 'Question 1'
-    ) 
-    {
+    ) {
       if (req.session.emptyFieldError) errorText.push({ text: 'You must add information in both fields.' });
       if (req.session.fieldLengthError?.length == 2 && req.session.fieldLengthError[0] !== '')
         errorText.push({
@@ -773,13 +737,13 @@ const findErrorText = (data: any, req: express.Request) => {
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Start date must be a valid future date' });
     //else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
-      //errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
-      else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
+    //errorText.push({ text: 'It is recommended that your project does not start after lot expiry date' });
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must be 500 characters or fewer' });
-      else if (requirement.nonOCDS.questionType == 'SingleSelect')
-      errorText.push({ text: 'You must select at least one option' });  
+    else if (requirement.nonOCDS.questionType == 'SingleSelect')
+      errorText.push({ text: 'You must select at least one option' });
   });
-  
+
   return errorText;
 };
 

@@ -1432,7 +1432,38 @@ p + .govuk-heading-s,
   color: red !important;
   font-size: 84px !important;
 }
+.datehead {
+  margin-bottom: 15px;
+  padding-bottom: 25px;
+  position: relative;
+}
+.datehead.hidehr {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.datehead.hidehr + .govuk-radios__conditional_custom.datebody, .govuk-radios__conditional_custom.conditional_desc{
+  margin-bottom: 15px;
+      margin-left: 18px;
+      padding-left: 33px;
+      border-left: 4px solid #b1b4b6;
+  }
+.datehead.hidehr:after {
+  background: transparent;
+  height: 0;
+}
+/* .datehead:after {
+  position: absolute;
+  content: "";
+  width: calc(100% + 35px);
+  left: -35px;
+  background: #b1b4b6;
+  height: 1px;
+  bottom: 0;
+} */
 
+.datehead .govuk-radios {
+  margin-top: 15px;
+}
 .govuk-radios__label_custom p {
   display: inline-block;
   color: #0b0c0c;
@@ -4018,11 +4049,20 @@ p + .govuk-heading-s,
 span#create_supplier_message-error{
 display: none;
 }
-
+.govuk-custom-cell{
+  vertical-align: top;
+  padding: 10px 0;
+}
 span#create_message_input-error,span#reply_message_input-error{
 display: none;
 }
 .backdrop-supplierConfirmAllPopup{
+  display: none !important;
+}
+.backdrop-sessionTimeoutPopup{
+  display: none !important;
+}
+.backdrop-projectCloseAllPopup{
   display: none !important;
 }
 .backdrop-checksupplierConfirmAllPopup{
@@ -4031,10 +4071,22 @@ display: none;
 .backdrop-supplierConfirmAllPopup:target{
   display: block !important;
 }
+.backdrop-sessionTimeoutPopup:target{
+  display: block !important;
+}
+.backdrop-projectCloseAllPopup:target{
+  display: block !important;
+}
 .backdrop-checksupplierConfirmAllPopup:target{
   display: block !important;
 }
 #backdrop-supplierConfirmAllPopup .messagepop{
+  display: block !important;
+}
+#backdrop-sessionTimeoutPopup .messagepop{
+  display: block !important;
+}
+#backdrop-projectCloseAllPopup .messagepop{
   display: block !important;
 }
 #backdrop-checksupplierConfirmAllPopup .messagepop{
@@ -9422,13 +9474,15 @@ p,
 .backdrop-award.showpopup,
 .backdrop-publishTimelineMismatch.showpopup,
 .backdrop-supplierConfirmAllPopup.showpopup,
+.backdrop-sessionTimeoutPopup.showpopup,
+.backdrop-projectCloseAllPopup.showpopup,
 .backdrop-checksupplierConfirmAllPopup.showpopup,
 .backdrop-confirmLowScoreSupplierPopup.showpopup,
 .backdrop-Qanda.showpopup
 {
   display: block !important;
 }
-.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
+.backdrop-nextsteps,.backdrop-gcloud_delete, .backdrop-publishTimelineMismatch, .backdrop-supplierConfirmAllPopup,.backdrop-sessionTimeoutPopup,.backdrop-projectCloseAllPopup, .backdrop-checksupplierConfirmAllPopup, .backdrop-confirmLowScoreSupplierPopup,.backdrop-nextstepspopup, .backdrop-Qanda {
   position: fixed;
   top: 0px;
   left: 0px;

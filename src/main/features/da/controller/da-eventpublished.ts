@@ -6,41 +6,37 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 
-
 //@GET /rfp/event-sent
-export const DA_GET_EVENT_PUBLISHED  = async (req: express.Request, res: express.Response) => {
+export const DA_GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { download } = req.query;
+  const agreementId_session = req.session.agreement_id;
 
-    const { SESSION_ID } = req.cookies; //jwt
-    const { projectId } = req.session;
-    const {eventId} =req.session;
-    const { download } = req.query;
-    const agreementId_session = req.session.agreement_id;
-    
-    // let jsondata ;
-    // if(agreement_id == 'RM6187') {
-    //   jsondata = Mcf3cmsData;
-    // } else {
-    //   jsondata = cmsData;
-    // }
+  // let jsondata ;
+  // if(agreement_id == 'RM6187') {
+  //   jsondata = Mcf3cmsData;
+  // } else {
+  //   jsondata = cmsData;
+  // }
 
-    const appendData = {
-      data: daData,
-      projPersistID: req.session['project_name'],
-      rfi_ref_no : req.session.eventId,
-      agreementId_session,
-      selectedeventtype:'DA'
-   }
+  const appendData = {
+    data: daData,
+    projPersistID: req.session['project_name'],
+    rfi_ref_no: req.session.eventId,
+    agreementId_session,
+    selectedeventtype: 'DA',
+  };
 
-try {
-    
-    if(download!=undefined)
-    {
+  try {
+    if (download != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
-       //CAS-INFO-LOG
-       LoggTracer.infoLogger(FetchDocuments, logConstant.exportDetailFetch, req);
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(FetchDocuments, logConstant.exportDetailFetch, req);
       const file = FetchDocuments;
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
@@ -54,22 +50,20 @@ try {
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
+    } else {
+      //CAS-INFO-LOG
+      LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
+      res.render('daw-eventpublished.njk', appendData);
     }
-    else{
-        //CAS-INFO-LOG
-   LoggTracer.infoLogger(null, logConstant.writePublishPage, req);
-      res.render('daw-eventpublished.njk', appendData)
-    }
-}catch (error) {
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Journey service - update the status failed - DA Publish Page',
-    true,
-  );
-}
-
-}
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - update the status failed - DA Publish Page',
+      true
+    );
+  }
+};

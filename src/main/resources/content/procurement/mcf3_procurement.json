@@ -13,10 +13,11 @@
         }
     ],
     "title": "Procurement overview",
-    "line1": "Follow the steps below to create your procurement. Each stage can be saved and resumed at any time.",
+    "line1": "Follow the steps below to create your procurement. Each stage can be saved and resumed at any time.You cannot run multiple stages at the same time.",
     "line2": "You can download and save what you enter to your own system.",
     "line4": "Check the terms and conditions for this lot within the documents area of the MCF3 agreement page.",
     "line5": "documents area",
+    "line6": "You cannot run multiple stages at the same time.",
     "events": [{
             "eventno": 1,
             "eventTitle": "See available suppliers",
@@ -48,7 +49,7 @@
 
             "href": "/projects/events/choose-route",
             "sections": [
-                "You can refine your needs by asking questions before formally publishing your requirements. You cannot run an Expression of Interest, Request for Information, Further Competition or Direct Award at the same time, in the same project.",
+                "You can refine your needs by asking questions before formally publishing your requirements.",
                 "You can do pre-market engagement in one of the following ways:"
             ],
             "subsections": [

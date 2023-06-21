@@ -1,21 +1,19 @@
-import * as os from 'os';
-
-import { infoRequestHandler, InfoContributor } from '@hmcts/info-provider';
+import { hostname } from 'os';
 import { Router } from 'express';
+import { infoRequestHandler } from '@hmcts/info-provider';
 
-export default function(app: Router): void {
+export default (app: Router): void => {
   app.get(
     '/info',
     infoRequestHandler({
       extraBuildInfo: {
-        host: os.hostname(),
+        host: hostname(),
         name: 'expressjs-template',
         uptime: process.uptime(),
       },
       info: {
-        'CAS-Buyer-UI': new InfoContributor(process.env.CAT_URL+'/info')
+        // TODO: add downstream info endpoints if app has any
       },
-    }),
+    })
   );
-
-}
+};

@@ -1,20 +1,24 @@
-import moment from 'moment'
+import moment from 'moment';
 
-export function calculateMonthIncrement (startDate: moment.Moment, monthsToAdd?: number) {
-
+const calculateMonthIncrement = (startDate: moment.Moment, monthsToAdd?: number): moment.Moment => {
   if (!startDate) {
-    throw new Error(`Start Date is invalid`)
+    throw new Error('Start Date is invalid');
   }
   if (monthsToAdd === null) {
-    throw new Error(`monthsToAdd is invalid`)
+    throw new Error('monthsToAdd is invalid');
   }
 
-  const futureMonth = moment(startDate).add(monthsToAdd === undefined ? 1 : monthsToAdd, 'M')
-
-  if ((monthsToAdd === undefined ? true : monthsToAdd >= 0) &&
-      startDate.date() !== futureMonth.date() && futureMonth.daysInMonth() === futureMonth.date()) {
-    futureMonth.add(1, 'd')
+  if (monthsToAdd === undefined) {
+    monthsToAdd = 1;
   }
 
-  return futureMonth
-}
+  const futureMonth = moment(startDate).add(monthsToAdd, 'M');
+
+  if (monthsToAdd >= 0 && startDate.date() !== futureMonth.date() && futureMonth.daysInMonth() === futureMonth.date()) {
+    futureMonth.add(1, 'd');
+  }
+
+  return futureMonth;
+};
+
+export { calculateMonthIncrement };
