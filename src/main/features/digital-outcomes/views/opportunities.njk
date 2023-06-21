@@ -76,20 +76,34 @@
         <div class="govuk-!-font-weight-bold govuk-!-font-size-24">
       Choose a lot
     </div>
-        <div class="govuk-grid-row govuk-!-margin-top-4">
-          <div class="govuk-grid-column-full govuk-list-filter-category">
-            <strong>All lots</strong>
-            <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
-              <li>
-                <a class="govuk-link clickCategory" href="">Digital outcomes (3108)</a>
-              </li>
-              <li>
-                <a class="govuk-link clickCategory link-disabled"  href="">User research studios (2239)</a>
-              </li>
-              <li>
-                <a class="govuk-link clickCategory"  href="">User research participants (118)</a>
-              </li>
-            </ul>
+
+    <div class="govuk-grid-row govuk-!-margin-top-4">
+      <div class="govuk-grid-column-full govuk-list-filter-category" id="mainLotandcategoryContainer">
+        <strong>All lots</strong>
+        <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
+          <li>
+            <a class="govuk-link clickCategory" href="">Digital outcomes (3108)</a>
+          </li>
+          <li>
+            <a class="govuk-link clickCategory link-disabled"  href="">User research studios (2239)</a>
+          </li>
+          <li>
+            <a class="govuk-link clickCategory"  href="">User research participants (118)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-filter-search govuk-filter-search-custom">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <strong>Apply filters</strong>
+            </div>
+            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+              <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-14" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
+            </div>
+
           </div>
         </div>
         <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
@@ -143,21 +157,22 @@
                           <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
                         Location
                       </span>
-                        </h2>
-                      </div>
-                      <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-                        <div class="govuk-form-group">
-                          <fieldset class="govuk-fieldset">
-                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-                              <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter3">
-                                <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
+
+                    </h2>
+                  </div>
+                  <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+                    <div class="govuk-form-group">
+                      <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input oppertunitiescheck" name=status type="checkbox" id="search-filter3">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
                               Location 1
                             </label>
-                              </div>
-                              <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter4">
-                                <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
+                          </div>
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input oppertunitiescheck" name=status type="checkbox" id="search-filter4">
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
                               Location 2
                             </label>
                               </div>

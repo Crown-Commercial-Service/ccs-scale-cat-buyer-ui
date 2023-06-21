@@ -15,3 +15,15 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     res.render('opportunitiesReview');
   } catch (error) {}
 };
+
+export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
+  try {
+    const display_fetch_data = {
+      file_data: fileData,
+    };
+
+    res.json(display_fetch_data);
+
+    //res.render('opportunities', display_fetch_data);
+  } catch (error) {}
+};
