@@ -5,10 +5,6 @@ import { FetchResult } from 'main/services/types/helpers/api';
 const baseURL: string = process.env.GCLOUD_SUPPLIER_API_URL;
 const supplierAPIKey = process.env.GCLOUD_TOKEN;
 
-const endPoints: EndPoints = {
-  filters: '/g-cloud-filters'
-};
-
 // GET /g-cloud-filters
 const getGCloudFilters = async (lot: string, serviceCategories: string, parentCategory: string): Promise<FetchResult<GCloudFilters>> => {
   const queryParams: GCloudFilterQueryParams = {
@@ -22,7 +18,7 @@ const getGCloudFilters = async (lot: string, serviceCategories: string, parentCa
   return genericFecthGet<GCloudFilters>(
     {
       baseURL: baseURL,
-      path: endPoints.filters,
+      path: EndPoints.FILTERS,
       queryParams: queryParams
     },
     {

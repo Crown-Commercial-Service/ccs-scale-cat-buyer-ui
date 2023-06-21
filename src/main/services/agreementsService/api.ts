@@ -11,14 +11,6 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
-const endPoints: EndPoints = {
-  agreement: '/agreements/:agreement-id',
-  agreementLots: '/agreements/:agreement-id/lots',
-  agreementLot: '/agreements/:agreement-id/lots/:lot-id',
-  agreementLotSuppliers: '/agreements/:agreement-id/lots/:lot-id/suppliers',
-  agreementLotEventTypes: '/agreements/:agreement-id/lots/:lot-id/event-types'
-};
-
 // This data is static so we can Cache for an hour 
 const agreementServiceCacheLength = 3600;
 
@@ -27,7 +19,7 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
   return genericFecthGet<AgreementDetail>(
     {
       baseURL: baseURL,
-      path: endPoints.agreement,
+      path: EndPoints.AGREEMENT,
       params: [
         [':agreement-id', agreementId]
       ]
@@ -45,7 +37,7 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
   return genericFecthGet<LotDetail[]>(
     {
       baseURL: baseURL,
-      path: endPoints.agreementLots,
+      path: EndPoints.AGREEMENT_LOTS,
       params: [
         [':agreement-id', agreementId]
       ]
@@ -63,7 +55,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
   return genericFecthGet<LotDetail>(
     {
       baseURL: baseURL,
-      path: endPoints.agreementLot,
+      path: EndPoints.AGREEMENT_LOT,
       params: [
         [':agreement-id', agreementId],
         [':lot-id', lotId]
@@ -82,7 +74,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
   return genericFecthGet<LotSupplier[]>(
     {
       baseURL: baseURL,
-      path: endPoints.agreementLotSuppliers,
+      path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
       params: [
         [':agreement-id', agreementId],
         [':lot-id', lotId]
@@ -101,7 +93,7 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
   return genericFecthGet<AgreementLotEventType[]>(
     {
       baseURL: baseURL,
-      path: endPoints.agreementLotEventTypes,
+      path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
       params: [
         [':agreement-id', agreementId],
         [':lot-id', lotId]
