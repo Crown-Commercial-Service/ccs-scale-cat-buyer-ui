@@ -1,23 +1,13 @@
 import * as express from 'express';
-import { contentAPI } from '../../util/fetch/contentservice/contentApiInstance';
 import FileIOSystem from 'fs';
 import config from 'config';
 import { operations } from '../../../utils/operations/operations';
 import { LoggTracer } from '../../logtracer/tracer';
+import { Logger } from '@hmcts/nodejs-logging';
+import { contentService } from 'main/services/contentService';
 
-/**
- *
- * @Middleware
- * @param req
- * @param res
- * @param next
- */
+const logger = Logger.getLogger('contentService');
 
-type menuFetchItems = {
-  ID?: string;
-  name?: string;
-  data: any;
-};
 export class ContentFetchMiddleware {
   static MenuContentFilePath = config.get('contentService.menuDirectory')?.toString();
   static FetchContents: express.Handler = async (
@@ -27,20 +17,20 @@ export class ContentFetchMiddleware {
   ) => {
     try {
       const allMenuIdentifiersId = ['21', '22', '23', '24', '25'];
-      const menuItemsStorage: Array<any> = [];
-      for (const menuId of allMenuIdentifiersId) {
-        const BaseURL = `/wp-json/wp-api-menus/v2/menus/${menuId}`;
-        const newInstance = contentAPI.Instance(null);
-        newInstance.defaults.timeout = Number(config.get('settings.fetch-timelimit'));
-        const fetchMenuItems = await newInstance.get(BaseURL);
-        const { ID, name }: menuFetchItems = fetchMenuItems?.data ?? {};
-        const reformedObject = {
+      const menuItemsStorage = await Promise.all(allMenuIdentifiersId.map(async (menuId) => {
+        const startTime = performance.now();
+        const menu = (await contentService.api.getMenu(menuId)).unwrap();
+      
+        logger.info( `Feached menu from the content service API for menu ${menuId} in ${performance.now() - startTime}ms`);
+  
+        const { ID, name } = menu;
+        return {
           ID: ID,
           name: name,
-          data: fetchMenuItems?.data,
+          data: menu,
         };
-        menuItemsStorage.push(reformedObject);
-      }
+      }));
+
       FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, 'utf8', (error: any, savedContentData) => {
         if (error) {
           LoggTracer.errorLogger(
