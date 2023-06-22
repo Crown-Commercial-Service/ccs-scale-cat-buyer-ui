@@ -17,7 +17,10 @@ const getMenu = async (menuId: string): Promise<FetchResult<ContentServiceMenu>>
     {
       'Content-Type': 'application/json',
     },
-    undefined,
+    {
+      key: `get_content_service_menu_${menuId}`,
+      seconds: 3600
+    },
     timeout
   );
 };

@@ -5,8 +5,11 @@ import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
 import { contentServiceAPI } from 'main/services/contentService/api';
 import { FetchTimeoutError } from 'main/services/helpers/errors';
 import { ContentServiceMenu } from 'main/services/types/contentService/api';
+import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'test/utils/mocks/redis';
+import Sinon from 'sinon';
 
 describe('Content service API helpers', () => {
+  const mock = Sinon.createSandbox();
   const baseURL = config.get('contentService.BASEURL') as string;
   const headers = {
     'Content-Type': 'application/json',
@@ -19,73 +22,77 @@ describe('Content service API helpers', () => {
     setGlobalDispatcher(mockAgent);
   });
 
+  afterEach(() => {
+    mock.restore();
+  });
+
   describe('getMenu', () => {
     const menuId = 'menuId-1234';
     const path = `/wp-json/wp-api-menus/v2/menus/${menuId}`;
-
-    it('calls the get menu endpoint with the correct url and headers', async () => {
-      mockPool.intercept({
-        method: 'GET',
-        path: path,
-        headers: headers
-      }).reply(200, {
-        ID: 1234,
-        name: 'myName',
-        slug: 'mySlug',
-        description: 'myDescription',
-        count: 234,
-        items: [],
-        meta: {
-          links: {
-            collection: 'myCollection',
-            self: 'mySelf'
-          }
+    const data: ContentServiceMenu = {
+      ID: 1234,
+      name: 'myName',
+      slug: 'mySlug',
+      description: 'myDescription',
+      count: 234,
+      items: [],
+      meta: {
+        links: {
+          collection: 'myCollection',
+          self: 'mySelf'
         }
+      }
+    };
+
+    describe('when no data is cached', () => {
+      it('calls the get menu endpoint with the correct url and headers', async () => {
+        const mockRedisClientSpy = creatRedisMockSpy(mock);
+
+        mockPool.intercept({
+          method: 'GET',
+          path: path,
+          headers: headers
+        }).reply(200, data);
+  
+        const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultOK<ContentServiceMenu>;
+
+        expect(findMenuResult.status).to.eq(FetchResultStatus.OK);
+        expect(findMenuResult.data).to.eql(data);
+
+        assertRedisCalls(mockRedisClientSpy, 'get_content_service_menu_menuId-1234', data, 3600);
       });
+    });
 
-      const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultOK<ContentServiceMenu>;
+    describe('when data is cached', () => {
+      it('does not call the get menu endpoint but still returns the data', async () => {
+        const mockRedisClientSpy = creatRedisMockSpy(mock, data);
 
-      expect(findMenuResult.status).to.eq(FetchResultStatus.OK);
-      expect(findMenuResult.data).to.eql({
-        ID: 1234,
-        name: 'myName',
-        slug: 'mySlug',
-        description: 'myDescription',
-        count: 234,
-        items: [],
-        meta: {
-          links: {
-            collection: 'myCollection',
-            self: 'mySelf'
-          }
-        }
+        const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultOK<ContentServiceMenu>;
+
+        expect(findMenuResult.status).to.eq(FetchResultStatus.OK);
+        expect(findMenuResult.data).to.eql(data);
+
+        assertRedisCallsWithCache(mockRedisClientSpy, 'get_content_service_menu_menuId-1234');
       });
     });
 
     it('returns an error if the delay is too long', async () => {
+      const mockRedisClientSpy = creatRedisMockSpy(mock);
+
       mockPool.intercept({
         method: 'GET',
         path: path,
         headers: headers
-      }).reply(200, {
-        ID: 1234,
-        name: 'myName',
-        slug: 'mySlug',
-        description: 'myDescription',
-        count: 234,
-        items: [],
-        meta: {
-          links: {
-            collection: 'myCollection',
-            self: 'mySelf'
-          }
-        }
-      }).delay(160);
+      }).reply(200, data).delay(160);
 
       const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultError;
 
       expect(findMenuResult.status).to.eq(FetchResultStatus.ERROR);
       expect(findMenuResult.error).to.eql(new FetchTimeoutError(HTTPMethod.GET, baseURL + '/wp-json/wp-api-menus/v2/menus/:menuId', 15));
+
+      // The behaviour of redis is the same as in the scenario where there is a cache,
+      // i.e. it tries to retrieve the data from the cache but does not set any new data
+      assertRedisCallsWithCache(mockRedisClientSpy, 'get_content_service_menu_menuId-1234');
     });
   });
 });
