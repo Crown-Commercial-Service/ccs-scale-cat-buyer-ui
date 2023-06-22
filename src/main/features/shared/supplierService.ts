@@ -1,14 +1,14 @@
-import { AgreementAPI } from '../../common/util/fetch/agreementservice/agreementsApiInstance';
-import express from 'express';
+import { LotSupplier } from '@common/middlewares/models/lot-supplier';
+import { Request } from 'express';
+import { agreementsService } from 'main/services/agreementsService';
+import { FetchResultStatus } from 'main/services/types/helpers/api';
 
-export const GetLotSuppliers = async (req: express.Request) => {
+export const GetLotSuppliers = async (req: Request): Promise<LotSupplier[]> => {
   const { agreement_id, lotId } = req.session;
-  const lotSuppliersEndpoint = `agreements/${agreement_id}/lots/${lotId}/suppliers`;
-  console.log(lotSuppliersEndpoint);
-  try {
-    const { data: suppliers } = await AgreementAPI.Instance(null).get(lotSuppliersEndpoint);
-    return suppliers;
-  } catch (err) {
-    // Do nothing if there is an error
+
+  const getAgreementLotSuppliersResponse = await agreementsService.api.getAgreementLotSuppliers(agreement_id, lotId);
+
+  if(getAgreementLotSuppliersResponse.status === FetchResultStatus.OK) {
+    return getAgreementLotSuppliersResponse.data;
   }
 };

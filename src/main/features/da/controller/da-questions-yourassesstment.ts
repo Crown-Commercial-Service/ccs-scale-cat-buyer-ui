@@ -14,8 +14,8 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import moment from 'moment-business-days';
 import moment from 'moment';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 
 /**
  * @Controller
@@ -107,9 +107,9 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
         return '';
       }
     });
-    const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
-    const AgreementEndDate = FetchAgreementServiceData.data.endDate;
+    const agreementId = req.session.agreement_id;
+    const FetchAgreementServiceData = (await agreementsService.api.getAgreement(agreementId)).unwrap();
+    const AgreementEndDate = FetchAgreementServiceData.endDate;
 
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
@@ -244,11 +244,9 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
-    const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    let retrieveAgreement = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    const retrieveAgreement = (await agreementsService.api.getAgreement(agreement_id)).unwrap();
     //CAS-INFO-LOG
     LoggTracer.infoLogger(retrieveAgreement, logConstant.aggrementDetailFetch, req);
-    retrieveAgreement = retrieveAgreement.data;
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
