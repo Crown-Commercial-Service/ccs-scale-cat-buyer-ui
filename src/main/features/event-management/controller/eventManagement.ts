@@ -112,7 +112,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       if (agreementId_session == 'RM1557.13' && lotid == 'All') {
         supplierDataList = '';
       } else {
-        supplierDataList = (await agreementsService.api.getAgreementLotSuppliers(agreementId_session, lotId)).unwrap();
+        supplierDataList = (await agreementsService.api.getAgreementLotSuppliers(agreementId_session, lotid)).unwrap();
 
         //CAS-INFO-LOG
         //LoggTracer.infoLogger(supplierDataList, logConstant.supplierDetails, req);
