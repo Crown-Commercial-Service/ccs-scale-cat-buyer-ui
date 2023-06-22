@@ -61,7 +61,6 @@ const checkPercentagesCond = () => {
   
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
-  console.log(Number($("#totalPercentage").text()));
   // if (Number($("#totalPercentage").text()) > 100) {
     // errorStore.push(['There is a problem', 'The total weighting cannot exceed 100%'])
     //ccsZPresentErrorSummary([errorStore]);
@@ -131,7 +130,6 @@ const checkPercentagesCond = () => {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
-          console.log('start')
           if(agrement_id == 'RM1043.8') 
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" between " + rangeStart + " and " + range.split("-")[1] + "%", false);
           else
@@ -140,7 +138,6 @@ const checkPercentagesCond = () => {
 
         }
         else if (result.end) {
-          console.log('end')
 
           if(agrement_id == 'RM1043.8') 
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for "+subTitle.toLowerCase()+" between " + rangeStart + " and " + range.split("-")[1] + "%", false);
