@@ -20,9 +20,7 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
     {
       baseURL: baseURL,
       path: EndPoints.AGREEMENT,
-      params: [
-        [':agreement-id', agreementId]
-      ]
+      params: { agreementId }
     },
     headers,
     {
@@ -38,9 +36,7 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
     {
       baseURL: baseURL,
       path: EndPoints.AGREEMENT_LOTS,
-      params: [
-        [':agreement-id', agreementId]
-      ]
+      params: { agreementId }
     },
     headers,
     {
@@ -56,10 +52,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
     {
       baseURL: baseURL,
       path: EndPoints.AGREEMENT_LOT,
-      params: [
-        [':agreement-id', agreementId],
-        [':lot-id', lotId]
-      ]
+      params: { agreementId, lotId }
     },
     headers,
     {
@@ -75,10 +68,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
     {
       baseURL: baseURL,
       path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
-      params: [
-        [':agreement-id', agreementId],
-        [':lot-id', lotId]
-      ]
+      params: { agreementId, lotId }
     },
     headers,
     {
@@ -94,10 +84,7 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
     {
       baseURL: baseURL,
       path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
-      params: [
-        [':agreement-id', agreementId],
-        [':lot-id', lotId]
-      ]
+      params: { agreementId, lotId }
     },
     headers,
     {

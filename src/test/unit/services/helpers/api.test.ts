@@ -47,7 +47,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
 
         mockPool.intercept({
           path: '/test/test-1234',
@@ -58,7 +58,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']]
+            params: { testId: 'test-1234' }
           },
           headers
         ) as FetchResultOK<GenericData>;
@@ -92,7 +92,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id and query params', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
         const queryParams = {
           myParam: 'myParam'
         };
@@ -106,7 +106,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']],
+            params: { testId: 'test-1234' },
             queryParams: queryParams
           },
           headers
@@ -314,7 +314,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
 
         mockPool.intercept({
           method: 'POST',
@@ -327,7 +327,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']]
+            params: { testId: 'test-1234' }
           },
           headers,
           body
@@ -365,7 +365,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id and query params', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
         const queryParams = {
           myParam: 'myParam'
         };
@@ -381,7 +381,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']],
+            params: { testId: 'test-1234' },
             queryParams: queryParams
           },
           headers,
