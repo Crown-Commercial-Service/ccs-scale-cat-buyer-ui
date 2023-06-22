@@ -45,22 +45,15 @@ export const FILEUPLOADHELPER: express.Handler = async (
       });
       res.send(fileData);
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: `File uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception
+      LoggTracer.errorLogger(
+        res,
+        error,
+        null,
+        null,
+        null,
+        null,
+        false
       );
-      LoggTracer.errorTracer(Log, res);
     }
   } else {
     try {
@@ -149,22 +142,15 @@ export const FILEUPLOADHELPER: express.Handler = async (
       // res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
       res.render('daw-uploadDocument', windowAppendData);
     } catch (error) {
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: `File uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception
+      LoggTracer.errorLogger(
+        res,
+        error,
+        null,
+        null,
+        null,
+        null,
+        false
       );
-      LoggTracer.errorTracer(Log, res);
     }
   }
 };

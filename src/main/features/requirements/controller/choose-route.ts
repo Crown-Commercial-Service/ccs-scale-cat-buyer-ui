@@ -47,9 +47,9 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   );
   res.locals.agreement_header = {
     agreementName,
-    projectName:project_name,
+    projectName: project_name,
     projectId,
-    agreementIdSession:agreementId_session,
+    agreementIdSession: agreementId_session,
     agreementLotName,
     lotid,
   };
@@ -66,39 +66,39 @@ function updateRadioButtonOptions(
   let updatedOptions = chooseRouteOptions;
   const updateLotId = lotId.length > 1 ? lotId : lotId;
   switch (agreementId) {
-  case 'RM6263':
-    if (updateLotId == 'Lot 1') {
-      for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-        if (types.find((element) => element == 'FC')) {
-          if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
-            // updatedOptions.form.radioOptions.items[i].disabled = "true"
-          } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-            updatedOptions.form.radioOptions.items[i].remove = 'true';
+    case 'RM6263':
+      if (updateLotId == 'Lot 1') {
+        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+          if (types.find((element) => element == 'FC')) {
+            if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
+              // updatedOptions.form.radioOptions.items[i].disabled = "true"
+            } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
+              updatedOptions.form.radioOptions.items[i].remove = 'true';
+            }
           }
         }
-      }
-    } else {
-      for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-        if (types.find((element) => element == 'FC')) {
-          updatedOptions.form.radioOptions.items[i].remove = 'false';
-        }
-        if (types.find((element) => element == 'DAA')) {
-          if (
-            updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
+      } else {
+        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+          if (types.find((element) => element == 'FC')) {
+            updatedOptions.form.radioOptions.items[i].remove = 'false';
+          }
+          if (types.find((element) => element == 'DAA')) {
+            if (
+              updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
               updatedOptions.form.radioOptions.items[i].value === 'award'
-          ) {
-            // updatedOptions.form.radioOptions.items[i].disabled = "true"
+            ) {
+              // updatedOptions.form.radioOptions.items[i].disabled = "true"
+            }
           }
         }
       }
-    }
-    break;
+      break;
 
-  case 'RM6187':
-    break;
+    case 'RM6187':
+      break;
 
-  default:
-    updatedOptions = chooseRouteOptions;
+    default:
+      updatedOptions = chooseRouteOptions;
   }
   return updatedOptions;
 }
@@ -128,50 +128,50 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
     if (fc_route_to_market) {
       switch (fc_route_to_market) {
-      case '1-stage': {
-        const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
-        req.session.caSelectedRoute = fc_route_to_market;
-        logger.info('One stage further competition selected');
-        req.session.selectedRoute = 'FC';
-        res.redirect(redirect_address);
-        break;
-      }
-      case '2-stage': {
-        const newAddress = REQUIREMENT_PATHS.GET_LEARN;
-        req.session.caSelectedRoute = fc_route_to_market;
-        logger.info('two stage further competition selected');
-        if (req.session.agreement_id == 'RM6263') {
-          //DSP
-          req.session.selectedRoute = 'FCA';
-        } else {
-          //MCF3
-          req.session.selectedRoute = 'PA';
+        case '1-stage': {
+          const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
+          req.session.caSelectedRoute = fc_route_to_market;
+          logger.info('One stage further competition selected');
+          req.session.selectedRoute = 'FC';
+          res.redirect(redirect_address);
+          break;
         }
-        res.redirect(newAddress);
-        break;
-      }
-      case '1-stage-award': {
-        const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
-        req.session.caSelectedRoute = fc_route_to_market;
-        logger.info('DA selected');
-        req.session.selectedRoute = 'DAA';
-        res.redirect(nextAddress);
-        break;
-      }
+        case '2-stage': {
+          const newAddress = REQUIREMENT_PATHS.GET_LEARN;
+          req.session.caSelectedRoute = fc_route_to_market;
+          logger.info('two stage further competition selected');
+          if (req.session.agreement_id == 'RM6263') {
+            //DSP
+            req.session.selectedRoute = 'FCA';
+          } else {
+            //MCF3
+            req.session.selectedRoute = 'PA';
+          }
+          res.redirect(newAddress);
+          break;
+        }
+        case '1-stage-award': {
+          const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
+          req.session.caSelectedRoute = fc_route_to_market;
+          logger.info('DA selected');
+          req.session.selectedRoute = 'DAA';
+          res.redirect(nextAddress);
+          break;
+        }
 
-      case 'award': {
-        const redirect_address_new = REQUIRMENT_DA_PATHS.DA_TYPE;
-        req.session.caSelectedRoute = fc_route_to_market;
-        logger.info('One stage further competition selected');
-        req.session.selectedRoute = 'DA';
-        console.log('**************************************************************');
-        console.log('redirect_address_new', redirect_address_new);
-        console.log('**************************************************************');
-        res.redirect(redirect_address_new);
-        break;
-      }
-      default:
-        res.redirect('/404');
+        case 'award': {
+          const redirect_address_new = REQUIRMENT_DA_PATHS.DA_TYPE;
+          req.session.caSelectedRoute = fc_route_to_market;
+          logger.info('One stage further competition selected');
+          req.session.selectedRoute = 'DA';
+          console.log('**************************************************************');
+          console.log('redirect_address_new', redirect_address_new);
+          console.log('**************************************************************');
+          res.redirect(redirect_address_new);
+          break;
+        }
+        default:
+          res.redirect('/404');
       }
     } else {
       req.session['isJaggaerError'] = true;

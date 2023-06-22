@@ -159,209 +159,209 @@ function isValidQuestion(
   const bankHolidayResult = checkBankHoliday(questionInputDate, bankHolidayEnglandWales);
   if (bankHolidayResult) {
     isValid = false;
-    error = 'You cannot set a date in bank holiday';
+    error = 'You cannot set a date that falls on a bank holiday';
   }
 
   const dayOfWeek = new Date(questionNewDate).getDay();
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
-    error = 'You can not set a date in weekend';
+    error = 'Enter a date that falls on a weekday';
   }
   if (agreement_id == 'RM6263') {
     switch (questionId) {
-    case 'Question 1':
-      errorSelector = 'rfi_clarification_date_expanded_1';
-      break;
-    case 'Question 2':
-      if (questionNewDate < new Date(timeline.publish)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_2';
-      break;
-    case 'Question 3':
-      if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_3';
-      break;
-    case 'Question 4':
-      if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_4';
-      break;
-    case 'Question 5':
-      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_5';
-      break;
-    case 'Question 6':
-      if (questionNewDate < new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.evaluationProcessStartDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_6';
-      break;
-    case 'Question 7':
-      if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_7';
-      break;
-    case 'Question 8':
-      if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_8';
-      break;
-    case 'Question 9':
-      if (questionNewDate < new Date(timeline.bidderPresentationsDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_9';
-      break;
-    case 'Question 10':
-      if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_10';
-      break;
-    case 'Question 11':
-      if (questionNewDate < new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_11';
-      break;
-    default:
-      isValid = true;
+      case 'Question 1':
+        errorSelector = 'rfi_clarification_date_expanded_1';
+        break;
+      case 'Question 2':
+        if (questionNewDate < new Date(timeline.publish)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_2';
+        break;
+      case 'Question 3':
+        if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_3';
+        break;
+      case 'Question 4':
+        if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_4';
+        break;
+      case 'Question 5':
+        if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_5';
+        break;
+      case 'Question 6':
+        if (questionNewDate < new Date(timeline.confirmNextStepsSuppliers)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.evaluationProcessStartDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_6';
+        break;
+      case 'Question 7':
+        if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_7';
+        break;
+      case 'Question 8':
+        if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_8';
+        break;
+      case 'Question 9':
+        if (questionNewDate < new Date(timeline.bidderPresentationsDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.proposedAwardDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_9';
+        break;
+      case 'Question 10':
+        if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_10';
+        break;
+      case 'Question 11':
+        if (questionNewDate < new Date(timeline.proposedAwardDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_11';
+        break;
+      default:
+        isValid = true;
     }
   } else {
     switch (questionId) {
-    case 'Question 1':
-      errorSelector = 'rfi_clarification_date_expanded_1';
-      break;
-    case 'Question 2':
-      if (questionNewDate < new Date(timeline.publish)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_2';
-      break;
-    case 'Question 3':
-      if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_3';
-      break;
-    case 'Question 4':
-      if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_4';
-      break;
-    case 'Question 5':
-      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_5';
-      break;
+      case 'Question 1':
+        errorSelector = 'rfi_clarification_date_expanded_1';
+        break;
+      case 'Question 2':
+        if (questionNewDate < new Date(timeline.publish)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_2';
+        break;
+      case 'Question 3':
+        if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_3';
+        break;
+      case 'Question 4':
+        if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_4';
+        break;
+      case 'Question 5':
+        if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_5';
+        break;
 
-    case 'Question 9':
-      if (questionNewDate < new Date(timeline.confirmNextStepsSuppliers)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_9';
-      break;
-    case 'Question 10':
-      if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_10';
-      break;
-    case 'Question 11':
-      if (questionNewDate < new Date(timeline.proposedAwardDate)) {
-        isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-      }
-      errorSelector = 'rfi_clarification_date_expanded_11';
-      break;
-    default:
-      isValid = true;
+      case 'Question 9':
+        if (questionNewDate < new Date(timeline.confirmNextStepsSuppliers)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.proposedAwardDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_9';
+        break;
+      case 'Question 10':
+        if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_10';
+        break;
+      case 'Question 11':
+        if (questionNewDate < new Date(timeline.proposedAwardDate)) {
+          isValid = false;
+          error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        }
+        errorSelector = 'rfi_clarification_date_expanded_11';
+        break;
+      default:
+        isValid = true;
     }
   }
 
@@ -385,16 +385,13 @@ function checkBankHoliday(questionInputDate, bankHolidayEnglandWales) {
 
 // @POST "/da/add/response-date"
 export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  const {
-    clarification_date_hourFormat,
-    selected_question_id,
-  } = req.body;
+  const { clarification_date_hourFormat, selected_question_id } = req.body;
   let {
     clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
-    clarification_date_minute
+    clarification_date_minute,
   } = req.body;
   const { timeline, agreement_id } = req.session;
   clarification_date_day = Number(clarification_date_day);
@@ -620,22 +617,7 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
         res.redirect('/da/response-date');
       } catch (error) {
-        delete error?.config?.['headers'];
-        const Logmessage = {
-          Person_id: TokenDecoder.decoder(SESSION_ID),
-          error_location: `${req.headers.host}${req.originalUrl}`,
-          sessionId: 'null',
-          error_reason: 'DA Timeline - Dyanamic framework throws error - Tender Api is causing problem',
-          exception: error,
-        };
-        const Log = new LogMessageFormatter(
-          Logmessage.Person_id,
-          Logmessage.error_location,
-          Logmessage.sessionId,
-          Logmessage.error_reason,
-          Logmessage.exception
-        );
-        LoggTracer.errorTracer(Log, res);
+        LoggTracer.errorLogger(res, error, null, null, null, null, false);
       }
     } else {
       const selectedErrorCause = selected_question_id; //Question 2
@@ -646,64 +628,64 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
         selectorID = errorSelector;
       } else {
         switch (selectedErrorCause) {
-        case 'Question 1':
-          selector =
+          case 'Question 1':
+            selector =
               ' Publish your DA - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_1';
+            selectorID = 'rfi_clarification_date_expanded_1';
 
-          break;
-        case 'Question 2':
-          selector =
+            break;
+          case 'Question 2':
+            selector =
               'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_2';
-          break;
-        case 'Question 3':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_2';
+            break;
+          case 'Question 3':
+            selector =
               'Deadline for publishing responses to DA clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_3';
-          break;
-        case 'Question 4':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_3';
+            break;
+          case 'Question 4':
+            selector =
               'Deadline for suppliers to submit their DA response - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfp_clarification_date_expanded_4';
-          break;
-        case 'Question 5':
-          selector =
+            selectorID = 'rfp_clarification_date_expanded_4';
+            break;
+          case 'Question 5':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_5';
-          break;
-        case 'Question 6':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_5';
+            break;
+          case 'Question 6':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_6';
-          break;
-        case 'Question 7':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_6';
+            break;
+          case 'Question 7':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_7';
-          break;
-        case 'Question 8':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_7';
+            break;
+          case 'Question 8':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_8';
-          break;
-        case 'Question 9':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_8';
+            break;
+          case 'Question 9':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_9';
-          break;
-        case 'Question 10':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_9';
+            break;
+          case 'Question 10':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_10';
-          break;
-        case 'Question 11':
-          selector =
+            selectorID = 'rfi_clarification_date_expanded_10';
+            break;
+          case 'Question 11':
+            selector =
               'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
-          selectorID = 'rfi_clarification_date_expanded_11';
-          break;
-        default:
-          selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';
+            selectorID = 'rfi_clarification_date_expanded_11';
+            break;
+          default:
+            selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';
         }
       }
       const errorItem = {

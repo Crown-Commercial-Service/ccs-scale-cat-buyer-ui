@@ -606,13 +606,15 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>{{ "Supplier presentations (if applicable)" if agreement_id == "RM1043.8"  else "Deadline to publish your responses to the clarification questions" }}
+                      <p>{{ "Supplier presentations " if agreement_id == "RM1043.8"  else "Deadline to publish your responses to the clarification questions" }}
                       </p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       <p>
                         {% if (deadline_period_for_clarification_period != undefined and deadline_period_for_clarification_period != null and deadline_period_for_clarification_period != '') %}
                           {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                        {% else %}
+                          Not included
                         {% endif %}
                       </p>
                     </dd>
@@ -636,12 +638,14 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">
-                      <p>Standstill period starts (if you requested this)</p>
+                      <p>Standstill period starts</p>
                     </dt>
                     <dd class="govuk-summary-list__value">
                       <p>
                         {% if supplier_dealine_for_clarification_period != undefined and supplier_dealine_for_clarification_period != null and supplier_dealine_for_clarification_period != '' %}
                           {{ supplier_dealine_for_clarification_period | dateddmmyyyy }}
+                        {% else %}
+                          Not included
                         {% endif %}
                       </p>
                     </dd>

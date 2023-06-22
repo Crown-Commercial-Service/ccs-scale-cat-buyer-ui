@@ -41,9 +41,9 @@ export const GET_STEPS_TO_CONTINUE = async (req: express.Request, res: express.R
   };
   res.locals.agreement_header = {
     agreementName,
-    projectName:project_name,
+    projectName: project_name,
     projectId,
-    agreementIdSession:agreementId_session,
+    agreementIdSession: agreementId_session,
     agreementLotName,
     lotid,
     error: isJaggaerError,
@@ -144,54 +144,54 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
 
     if (rfi_next_steps) {
       switch (rfi_next_steps) {
-      case '[DA]':
-        req.session.showWritePublish = true;
-        if (agreementId_session == 'RM6187') {
-          req.session['isRFIComplete'] = true;
-          await terminateEventClose(req, res);
-        }
-        res.redirect('/projects/create-or-choose');
-        break;
+        case '[DA]':
+          req.session.showWritePublish = true;
+          if (agreementId_session == 'RM6187') {
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
+          res.redirect('/projects/create-or-choose');
+          break;
 
-      case '[Rfi]':
-        req.session.showPreMarket = true;
-        if (agreementId_session == 'RM6187') {
-          req.session['isRFIComplete'] = true;
-          await terminateEventClose(req, res);
-        }
-        res.redirect('/projects/create-or-choose');
-        break;
-      case '[1-stage FC]':
-        req.session.showWritePublish = true;
-        if (agreementId_session == 'RM6187') {
-          req.session['isRFIComplete'] = true;
-          await terminateEventClose(req, res);
-        }
-        res.redirect('/projects/create-or-choose');
-        break;
-      case '[2-stage FC]':
-        req.session.showWritePublish = true;
-        res.redirect('/projects/create-or-choose');
-        break;
-      case '[EoI]':
-        req.session.showPreMarket = true;
-        if (agreementId_session == 'RM6187') {
-          req.session['isRFIComplete'] = true;
-          await terminateEventClose(req, res);
-        }
-        res.redirect('/projects/create-or-choose');
-        break;
-      case '[FCA]':
-        req.session.showWritePublish = true;
-        res.redirect('/projects/create-or-choose');
-        break;
-      case '[DAA]':
-        req.session.showWritePublish = true;
-        req.session.stepstocontinueDAA = true;
-        res.redirect('/projects/create-or-choose');
-        break;
-      default:
-        res.redirect('/404');
+        case '[Rfi]':
+          req.session.showPreMarket = true;
+          if (agreementId_session == 'RM6187') {
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
+          res.redirect('/projects/create-or-choose');
+          break;
+        case '[1-stage FC]':
+          req.session.showWritePublish = true;
+          if (agreementId_session == 'RM6187') {
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
+          res.redirect('/projects/create-or-choose');
+          break;
+        case '[2-stage FC]':
+          req.session.showWritePublish = true;
+          res.redirect('/projects/create-or-choose');
+          break;
+        case '[EoI]':
+          req.session.showPreMarket = true;
+          if (agreementId_session == 'RM6187') {
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
+          res.redirect('/projects/create-or-choose');
+          break;
+        case '[FCA]':
+          req.session.showWritePublish = true;
+          res.redirect('/projects/create-or-choose');
+          break;
+        case '[DAA]':
+          req.session.showWritePublish = true;
+          req.session.stepstocontinueDAA = true;
+          res.redirect('/projects/create-or-choose');
+          break;
+        default:
+          res.redirect('/404');
       }
     } else {
       req.session['isJaggaerError'] = true;
