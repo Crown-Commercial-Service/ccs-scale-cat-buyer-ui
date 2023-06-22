@@ -10,9 +10,7 @@ const getEvents = async (accessToken: string, projectId: string): Promise<FetchR
     {
       baseURL: baseURL,
       path: EndPoints.EVENTS,
-      params: [
-        [':project-id', projectId]
-      ]
+      params: { projectId }
     },
     headers(accessToken)
   );

@@ -12,9 +12,7 @@ const getMenu = async (menuId: string): Promise<FetchResult<ContentServiceMenu>>
     {
       baseURL: baseURL,
       path: EndPoints.MENU,
-      params: [
-        [':menu-id', menuId]
-      ]
+      params: { menuId }
     },
     {
       'Content-Type': 'application/json',

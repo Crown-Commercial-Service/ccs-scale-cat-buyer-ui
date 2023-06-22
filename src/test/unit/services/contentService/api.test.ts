@@ -85,7 +85,7 @@ describe('Content service API helpers', () => {
       const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultError;
 
       expect(findMenuResult.status).to.eq(FetchResultStatus.ERROR);
-      expect(findMenuResult.error).to.eql(new FetchTimeoutError(HTTPMethod.GET, baseURL + '/wp-json/wp-api-menus/v2/menus/:menu-id', 15));
+      expect(findMenuResult.error).to.eql(new FetchTimeoutError(HTTPMethod.GET, baseURL + '/wp-json/wp-api-menus/v2/menus/:menuId', 15));
     });
   });
 });
