@@ -12,7 +12,12 @@ const getProjects = async (accessToken: string, queryParams?: { [key: string]: s
       path: EndPoints.PROJECTS,
       queryParams: queryParams
     },
-    headers(accessToken)
+    headers(accessToken),
+    undefined,
+    {
+      name: 'tenders API',
+      message: 'Feached projects from the Tenders API'
+    }
   );
 };
 

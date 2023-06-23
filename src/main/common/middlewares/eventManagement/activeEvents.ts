@@ -3,12 +3,9 @@ import { LoggTracer } from '../../logtracer/tracer';
 import { tendersService } from 'main/services/tendersService';
 import { Project } from '../models/tendersService/project';
 import { Request, Response, NextFunction } from 'express';
-import { Logger } from '@hmcts/nodejs-logging';
 import { DashboardPaths } from 'main/features/dashboard/model/dashboardConstants';
 import { objectSet } from '@utils/objectSet';
 import { EventDashboardStatus, EventStatus, EventTypes } from '../models/tendersService/event';
-
-const logger = Logger.getLogger('dashboard');
 
 enum EventGroup {
   OPEN,
@@ -22,10 +19,7 @@ type EventResult = {
 }
 
 const getProjectEvents = async (accessToken: string, project: Project): Promise<EventResult[]> => {
-  const startTime = performance.now();
   const events = (await tendersService.api.events.getEvents(accessToken, String(project.projectId))).unwrap();
-
-  logger.info(`Feached project events from Tenders API for ${project.projectId} in ${performance.now() - startTime}ms`);
 
   return events.map((event): EventResult => {
     if (event === undefined) {
@@ -220,10 +214,7 @@ const getEvents = async (req: Request, res: Response, next: NextFunction) => {
   req.session['isTimelineRevert'] = false;
 
   try {
-    const startTime = performance.now();
     const projects = (await tendersService.api.projects.getProjects(accessToken)).unwrap();
-
-    logger.info(`Feached projects from Tenders API in ${performance.now() - startTime}ms`);
 
     const projectEventsCollection = (await Promise.all(projects.map(async (project) => await getProjectEvents(accessToken, project)))).flat();
 
@@ -264,15 +255,12 @@ const searchEvents = async (req: Request, res: Response, next: NextFunction) => 
       ];
 
       const projectCollections = await Promise.all(searchTypes.map(async (searchType) => {
-        const startTime = performance.now();
         const projects = (await tendersService.api.projects.getProjects(accessToken, {
           'search-type': searchType,
           'search-term': `*${searchNew}*`,
           'page': '0',
           'page-size': '20'
         })).unwrap();
-
-        logger.info(`Feached projects from Tenders API for search type ${searchType} in ${performance.now() - startTime}ms`);
 
         return projects;
       }));
