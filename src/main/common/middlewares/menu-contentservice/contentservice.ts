@@ -3,10 +3,7 @@ import FileIOSystem from 'fs';
 import config from 'config';
 import { operations } from '../../../utils/operations/operations';
 import { LoggTracer } from '../../logtracer/tracer';
-import { Logger } from '@hmcts/nodejs-logging';
 import { contentService } from 'main/services/contentService';
-
-const logger = Logger.getLogger('contentService');
 
 export class ContentFetchMiddleware {
   static MenuContentFilePath = config.get('contentService.menuDirectory')?.toString();
@@ -18,12 +15,9 @@ export class ContentFetchMiddleware {
     try {
       const allMenuIdentifiersId = ['21', '22', '23', '24', '25'];
       const menuItemsStorage = await Promise.all(allMenuIdentifiersId.map(async (menuId) => {
-        const startTime = performance.now();
-        const menu = (await contentService.api.getMenu(menuId)).unwrap();
-      
-        logger.info( `Feached menu from the content service API for menu ${menuId} in ${performance.now() - startTime}ms`);
-  
+        const menu = (await contentService.api.getMenu(menuId)).unwrap();  
         const { ID, name } = menu;
+
         return {
           ID: ID,
           name: name,

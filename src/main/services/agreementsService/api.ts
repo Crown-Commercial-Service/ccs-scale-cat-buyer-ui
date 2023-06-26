@@ -26,6 +26,10 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
     {
       key: `get_agreements_${agreementId}`,
       seconds: agreementServiceCacheLength
+    },
+    {
+      name: 'agreement service',
+      message: `Feached agreement from the Agreement service API for agreement: ${agreementId}`
     }
   );
 };
@@ -42,6 +46,10 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
     {
       key: `get_agreements_${agreementId}_lots`,
       seconds: agreementServiceCacheLength
+    },
+    {
+      name: 'agreement service',
+      message: `Feached agreement lots from the Agreement service API for agreement: ${agreementId}`
     }
   );
 };
@@ -58,6 +66,10 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
     {
       key: `get_agreements_${agreementId}_lots_${lotId}`,
       seconds: agreementServiceCacheLength
+    },
+    {
+      name: 'agreement service',
+      message: `Feached agreement lot from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
     }
   );
 };
@@ -74,6 +86,10 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
     {
       key: `get_agreements_${agreementId}_lots_${lotId}_suppliers`,
       seconds: 900
+    },
+    {
+      name: 'agreement service',
+      message: `Feached agreement lot suppliers from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
     }
   );
 };
@@ -90,6 +106,10 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
     {
       key: `get_agreements_${agreementId}_lots_${lotId}_event_types`,
       seconds: agreementServiceCacheLength
+    },
+    {
+      name: 'agreement service',
+      message: `Feached agreement lot event types from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
     }
   );
 };

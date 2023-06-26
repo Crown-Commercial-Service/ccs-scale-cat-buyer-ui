@@ -3,8 +3,11 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
 import { projectsAPI } from 'main/services/tendersService/projects/api';
 import { Project } from '@common/middlewares/models/tendersService/project';
+import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'test/utils/mocks/performanceLogger';
+import Sinon from 'sinon';
 
 describe('Tenders Service Projects API helpers', () => {
+  const mock = Sinon.createSandbox();
   const baseURL = process.env.TENDERS_SERVICE_API_URL;
   const accessToken = 'ACCESS_TOKEN';
   const headers = {
@@ -19,10 +22,19 @@ describe('Tenders Service Projects API helpers', () => {
     setGlobalDispatcher(mockAgent);
   });
 
+  afterEach(() => {
+    mock.restore();
+  });
+
   describe('getProjects', () => {
     const path = '/tenders/projects';
 
-    it('calls the get projects endpoint with the correct url and headers', async () => {
+    it('calls the get projects endpoint with the correct url and headers and logs the performance', async () => {
+      const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+        name: 'tenders API',
+        message: 'Feached projects from the Tenders API'
+      });
+
       mockPool.intercept({
         method: 'GET',
         path: path,
@@ -71,6 +83,8 @@ describe('Tenders Service Projects API helpers', () => {
           }
         }
       ]);
+
+      assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
     });
 
     it('calls the get projects endpoint with the correct url, headers and query params', async () => {

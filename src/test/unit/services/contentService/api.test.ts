@@ -7,6 +7,7 @@ import { FetchTimeoutError } from 'main/services/helpers/errors';
 import { ContentServiceMenu } from 'main/services/types/contentService/api';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'test/utils/mocks/redis';
 import Sinon from 'sinon';
+import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'test/utils/mocks/performanceLogger';
 
 describe('Content service API helpers', () => {
   const mock = Sinon.createSandbox();
@@ -45,8 +46,12 @@ describe('Content service API helpers', () => {
     };
 
     describe('when no data is cached', () => {
-      it('calls the get menu endpoint with the correct url and headers', async () => {
+      it('calls the get menu endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'content service',
+          message: `Feached menu from the Content service API for menu: ${menuId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -60,12 +65,17 @@ describe('Content service API helpers', () => {
         expect(findMenuResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_content_service_menu_menuId-1234', data, 3600);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get menu endpoint but still returns the data', async () => {
+      it('does not call the get menu endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'content service',
+          message: `Feached menu from the Content service API for menu: ${menuId}`
+        });
 
         const findMenuResult = await contentServiceAPI.getMenu(menuId) as FetchResultOK<ContentServiceMenu>;
 
@@ -73,6 +83,7 @@ describe('Content service API helpers', () => {
         expect(findMenuResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_content_service_menu_menuId-1234');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
