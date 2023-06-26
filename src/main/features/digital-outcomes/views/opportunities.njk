@@ -87,7 +87,7 @@
                     <a data-name="lot" data-value={{lotwithcount.slug}} class="govuk-link clickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</a>
                     {%else%}
                     {%if(lotName == lotNameCheck)%}
-                      <li data-name="lot" data-value={{lotwithcount.slug}} class="clickCategory" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</li>
+                      <li data-name="lot" data-value={{lotwithcount.slug}} class="clickCategory" >{{lotwithcount.key | title }}  ({{lotwithcount.count}})</li>
                       {%else%}
                       <a data-name="lot" data-value={{lotwithcount.slug}} class="govuk-link clickCategory" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</a>
                       {%endif%}
