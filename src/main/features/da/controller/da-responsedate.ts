@@ -8,8 +8,9 @@ import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { bankHolidays } from 'main/services/bankHolidays';
+import { BankHolidays } from 'main/services/types/bankHolidays/api';
 
 export const DA_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -118,7 +119,7 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
   agreement_id: any,
-  bankholidaydata: any
+  bankholidaydata: BankHolidays
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
   //let todaydate=new Date();
@@ -150,9 +151,7 @@ function isValidQuestion(
 
   let bankHolidayEnglandWales;
   if (bankholidaydata) {
-    let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-    bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-    bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+    bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   }
   const questionInputDate = new Date(year, month, day);
 
@@ -399,8 +398,7 @@ export const DA_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expre
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
 
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
 
   if (
     clarification_date_day == 0 ||

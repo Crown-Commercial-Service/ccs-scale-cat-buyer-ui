@@ -10,11 +10,14 @@ const getEvents = async (accessToken: string, projectId: string): Promise<FetchR
     {
       baseURL: baseURL,
       path: EndPoints.EVENTS,
-      params: [
-        [':project-id', projectId]
-      ]
+      params: { projectId }
     },
-    headers(accessToken)
+    headers(accessToken),
+    undefined,
+    {
+      name: 'tenders API',
+      message: `Feached project events from the Tenders API for project: ${projectId}`
+    }
   );
 };
 

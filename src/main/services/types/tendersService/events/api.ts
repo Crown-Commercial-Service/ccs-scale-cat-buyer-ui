@@ -1,5 +1,5 @@
 enum EndPoints {
-  EVENTS = '/tenders/projects/:project-id/events'
+  EVENTS = '/tenders/projects/:projectId/events'
 }
 
 export { EndPoints };
