@@ -131,19 +131,19 @@
                       </span>
                             </h2>
                           </div>
-                          <!-- <small class="govuk-!-margin-left-5 ">1 selected</small> -->
+                     <small class="govuk-!-margin-left-5 hide opencloseCount">1 selected</small>
                           <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
                             <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                                   <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter1">
+                                    <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter1" value="open">
                                     <label class="govuk-label govuk-checkboxes__label" for="search-filter1">
                               Open
                             </label>
                                   </div>
                                   <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input g13Check" name=status type="checkbox" id="search-filter2">
+                                    <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter2" value="close">
                                     <label class="govuk-label govuk-checkboxes__label" for="search-filter2">
                               Closed
                             </label>
@@ -156,23 +156,25 @@
                         <div class="govuk-accordion__section">
                           <div class="govuk-accordion__section-header">
                             <h2 class="govuk-accordion__section-heading">
+                              
                               <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
                         Location
                       </span>
                             </h2>
                           </div>
+                            <small class="govuk-!-margin-left-5 hide locationCount">1 selected</small>
                           <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
                             <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                                   <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck" name=status type="checkbox" id="search-filter3">
+                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location1" type="checkbox" id="search-filter3" value="location1">
                                     <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
                               Location 1
                             </label>
                                   </div>
                                   <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck" name=status type="checkbox" id="search-filter4">
+                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2">
                                     <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
                               Location 2
                             </label>
