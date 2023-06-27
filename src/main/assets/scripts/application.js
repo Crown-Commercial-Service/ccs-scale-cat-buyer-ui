@@ -938,6 +938,7 @@ function titleCase(str) {
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
+  console.log("url",url)
   var urlparts = url.split('?');
   if (urlparts.length >= 2) {
 
@@ -963,17 +964,41 @@ function removeURLParameter(url, parameter) {
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
   event.addEventListener('change', function (event) {
       console.log("Helper1")
+     // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
       let filterValue = this.getAttribute('value');//$(this).attr("value");
+      
+      let opencloseCheckLength = $('.opencloseCheckLength:checked').length
+      let locationlengthcheck = $('.locationlengthcheck:checked').length
+      
+      $(".opencloseCount").addClass("hide");
+      $(".locationCount").addClass("hide");
+
+      console.log("opencloseCheckLength",opencloseCheckLength)
+      console.log("locationlengthcheck",locationlengthcheck)
+      if(opencloseCheckLength>0){
+        
+        $(".opencloseCount").removeClass("hide");
+        $('.opencloseCount').html(opencloseCheckLength+' selected');
+      }
+
+      if(locationlengthcheck>0){
+        console.log("consol2")
+        $(".locationCount").removeClass("hide");
+        $('.locationCount').html(locationlengthcheck+' selected');
+      }
+
       if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
-      let urlParams = removeURLParameter(document.location.search, 'page');
+    
+       let urlParams = removeURLParameter(document.location.search, 'page');
+
       let urlObj = parseQueryG13(urlParams);
       urlObj = tune(urlObj);
       let baseUrl = window.location.href.split('?')[0];
       let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
       //url change
-      const baseSearchUrl = '/g-cloud/search';
+      const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
       window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
   
   
@@ -1006,9 +1031,12 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
     let filterName = this.getAttribute('name');//$(this).attr("name");
     let filterValue = this.getAttribute('value');//$(this).attr("value");
     if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+
     let urlParams = removeURLParameter(document.location.search, 'page');
     let urlObj = parseQueryG13(urlParams);
+
     urlObj = tune(urlObj);
+    
     let baseUrl = window.location.href.split('?')[0];
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     //url change
