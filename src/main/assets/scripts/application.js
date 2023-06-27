@@ -938,7 +938,7 @@ function titleCase(str) {
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
-  console.log("url",url)
+ 
   var urlparts = url.split('?');
   if (urlparts.length >= 2) {
 
@@ -963,7 +963,7 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
   event.addEventListener('change', function (event) {
-      console.log("Helper1")
+     
      // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
@@ -975,8 +975,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       $(".opencloseCount").addClass("hide");
       $(".locationCount").addClass("hide");
 
-      console.log("opencloseCheckLength",opencloseCheckLength)
-      console.log("locationlengthcheck",locationlengthcheck)
+    
       if(opencloseCheckLength>0){
         
         $(".opencloseCount").removeClass("hide");
@@ -984,7 +983,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       }
 
       if(locationlengthcheck>0){
-        console.log("consol2")
+        
         $(".locationCount").removeClass("hide");
         $('.locationCount').html(locationlengthcheck+' selected');
       }
