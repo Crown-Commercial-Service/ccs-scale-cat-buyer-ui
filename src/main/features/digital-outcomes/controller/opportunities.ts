@@ -3,7 +3,7 @@ import * as fileData from '../../../resources/content/digital-outcomes/oppertuni
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
-    const { lot } = req.query;
+    const { lot, q } = req.query;
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -21,9 +21,14 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       noOfPages: 1413,
       CurrentPageNumber: 1,
     };
+    const searchKeywordsQuery: any = q;
+    const keywordsQuery = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    const lotsQuery = lot != undefined ? `&lot=${lot}` : '';
+    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${lotsQuery}`;
     const display_fetch_data = {
       file_data: fileData,
       njkDatas,
+      clearFilterURL: clearFilterURL,
     };
 
     res.render('opportunities', display_fetch_data);
