@@ -963,7 +963,7 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
   event.addEventListener('change', function (event) {
-     
+    
      // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
@@ -1000,14 +1000,12 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
       window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
   
-  
       // document.getElementById('searchResultsContainer').innerHTML = '';
-      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('newmainLotandcategoryContainer').innerHTML = '';
       document.getElementById('paginationContainer').innerHTML = '';
       let slist = document.querySelector('.govuk-grid-sresult-right');
       slist.classList.add('loadingres')
       $('#criteriasavebtn').prop('disabled', true);
-      //const baseAPIUrl = '/g-cloud/search-api';
       const baseAPIUrl = '/opportunities/search-api';
       console.log("BBB",baseAPIUrl,finalTriggerUrl);
       //GET_OPPORTUNITIES_API
@@ -1016,8 +1014,34 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         type: "GET",
         contentType: "application/json",
       }).done(function (result) {
-      
-        console.log("result",result);
+        
+       let totalResults =  result.totalResults;
+       $('#totalRecords').html(totalResults);
+        slist.classList.remove('loadingres');
+        var mainLothtml = '';
+        $.each(result.results, function (key, val) {
+          mainLothtml +='<li class="app-search-result">';
+          mainLothtml +='<h2 class="govuk-heading-s govuk-!-margin-bottom-1">';
+          mainLothtml +='<a class="govuk-link" href="">' + val.projectName + '</a>';
+          mainLothtml +='</h2>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
+          mainLothtml +='</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
+          mainLothtml +='</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: ' + val.status + '</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+          mainLothtml +='</p>';
+          mainLothtml +='</li>';
+      });
+
+       
+
+
+
+          document.getElementById('contentHead').innerHTML = mainLothtml;
+
 
       });
     

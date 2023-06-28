@@ -44,8 +44,87 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
   try {
     const display_fetch_data = {
-      file_data: fileData,
+      totalResults: 3,
+      results: [
+        {
+          projectId: 123456,
+          projectName: 'Security Architect April 2023 - April 2024',
+          buyerName: 'Department of Work & Pensions',
+          location: 'North East England',
+          budgetRange: '1000-5000',
+          agreement: 'Digital Outcomes',
+          lot: 'Lot 1',
+          status: 'open',
+          subStatus: '????',
+          description:
+            'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
+        },
+        {
+          projectId: 123456,
+          projectName: '22Security Architect April 2023 - April 2024',
+          buyerName: 'Department of Work & Pensions',
+          location: 'North East England',
+          budgetRange: '2000-5000',
+          agreement: 'Digital Outcomes',
+          lot: 'Lot 1',
+          status: 'open',
+          subStatus: '????',
+          description:
+            'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
+        },
+        {
+          projectId: 3333333123456,
+          projectName: '33Security Architect April 2023 - April 2024',
+          buyerName: 'Department of Work & Pensions',
+          location: 'North East England',
+          budgetRange: '3000-5000',
+          agreement: 'Digital Outcomes',
+          lot: 'Lot 1',
+          status: 'open',
+          subStatus: '????',
+          description:
+            'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
+        },
+      ],
+      searchCriteria: {
+        keyword: 'string',
+        lots: [
+          {
+            id: 1,
+            text: 'Digital Outcomes (3108)',
+            selected: true,
+          },
+          {
+            id: 2,
+            text: 'Digital Specialists (2239)',
+            selected: false,
+          },
+          {
+            id: 3,
+            text: 'User Research Participants (118)',
+            selected: false,
+          },
+        ],
+        filters: [
+          {
+            id: 0,
+            text: 'string',
+            selected: true,
+          },
+        ],
+      },
+      links: {
+        next: 'string',
+        prev: 'string',
+        self: 'string',
+        last: 'string',
+        first: 'string',
+      },
     };
+
+    // const display_fetch_data = {
+    //   file_data: fileData,
+    // };
 
     res.json(display_fetch_data);
 
