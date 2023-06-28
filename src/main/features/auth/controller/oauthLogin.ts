@@ -1,5 +1,5 @@
-import * as express from 'express';
-import { AuthorizationRedirect } from './authRedirect';
+import { Request, Response } from 'express';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  *
@@ -8,8 +8,8 @@ import { AuthorizationRedirect } from './authRedirect';
  * @param req
  * @param res
  */
-export const OAUTH_LOGIN = (req: express.Request, res: express.Response) => {
-  let redirectURL: string | any = new AuthorizationRedirect();
-  redirectURL = redirectURL.Redirect_Oauth_URL(req);
+export const OAUTH_LOGIN = (req: Request, res: Response) => {
+  const redirectURL = ppg.url.oAuth.login(req);
+
   res.redirect(redirectURL);
 };

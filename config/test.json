@@ -7,12 +7,5 @@
   },
   "settings": {
     "fetch-timelimit": "15"
-  },
-  "authenticationService": {
-    "token-endpoint": "/security/token",
-    "refresh_token": "refresh_token",
-    "token_validation_endpoint": "/security/tokens/validation",
-    "logout": "/security/log-out",
-    "logout_callback": "/logout"
   }
 }

@@ -20,15 +20,6 @@
     "BASEURL": "https://webprod-cms.crowncommercial.gov.uk",
     "menuDirectory": "src/main/resources/content/menu-content/content.json"
   },
-  "authenticationService": {
-    "token-endpoint": "/security/token",
-    "access_granttype": "authorization_code",
-    "refresh_token": "refresh_token",
-    "token_validation_endpoint": "/security/tokens/validation",
-    "logout": "/security/log-out",
-    "logout_callback": "/logout",
-    "user_profile_endpoint": "/user-profiles"
-  },
   "logger": {
     "baseURL": "https://api.logit.io/v2"
   },

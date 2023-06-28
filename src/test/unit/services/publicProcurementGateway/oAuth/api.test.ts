@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { oAuthAPI } from 'main/services/publicProcurementGateway/oAuth/api';
 import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
-import { AuthCredentials, RefreshData } from 'main/services/types/publicProcurementGateway/oAuth/api';
+import { AuthCredentials, GrantType, RefreshData } from 'main/services/types/publicProcurementGateway/oAuth/api';
 import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
 
 describe('OAuth API helpers', () => {
@@ -19,10 +19,9 @@ describe('OAuth API helpers', () => {
   describe('postRefreshToken', () => {
     it('calls the post refresh token endpoint with the correct url and headers', async () => {
       const authCredentials: AuthCredentials = {
-        refresh_token: 'myRefreshToken',
+        grant_type: GrantType.AUTHORIZATION_CODE,
         code: 'myCode',
         redirect_uri: 'myRedirectUri',
-        response_type: 'myResponseType'
       };
       mockPool.intercept({
         method: 'POST',
@@ -30,12 +29,11 @@ describe('OAuth API helpers', () => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           client_id: clientId,
           client_secret: clientSecret,
-          grant_type: 'refresh_token',
           ...authCredentials
-        })
+        }).toString()
       }).reply(200, { access_token: 'myAccessToken', session_state: 'mySessionState', refresh_token: 'myRefreshToken' });
 
       const refreshTokenResult = await oAuthAPI.postRefreshToken(authCredentials) as FetchResultOK<RefreshData>;
@@ -46,6 +44,7 @@ describe('OAuth API helpers', () => {
 
     it('calls the post refresh token endpoint with the correct url and headers when there are less auth credentials', async () => {
       const authCredentials: AuthCredentials = {
+        grant_type: GrantType.REFRESH_TOKEN,
         refresh_token: 'myRefreshToken',
       };
       mockPool.intercept({
@@ -54,12 +53,11 @@ describe('OAuth API helpers', () => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           client_id: clientId,
           client_secret: clientSecret,
-          grant_type: 'refresh_token',
           ...authCredentials
-        })
+        }).toString()
       }).reply(200, { access_token: 'myAccessToken', session_state: 'mySessionState', refresh_token: 'myRefreshToken' });
 
       const refreshTokenResult = await oAuthAPI.postRefreshToken(authCredentials) as FetchResultOK<RefreshData>;
