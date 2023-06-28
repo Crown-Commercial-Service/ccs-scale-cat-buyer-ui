@@ -8,8 +8,9 @@ import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { bankHolidays } from 'main/services/bankHolidays';
+import { BankHolidays } from 'main/services/types/bankHolidays/api';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -111,7 +112,7 @@ function isValidQuestion(
   questionId: number,
   questionNewDate: string,
   timeline: any,
-  bankholidaydata: any,
+  bankholidaydata: BankHolidays,
   day: number,
   month: number,
   year: number
@@ -128,9 +129,7 @@ function isValidQuestion(
 
   let bankHolidayEnglandWales;
   if (bankholidaydata) {
-    let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-    bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-    bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+    bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   }
   const questionInputDate = new Date(year, month, day);
 
@@ -227,8 +226,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
 
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
   if (
     clarification_date_day == 0 ||
     isNaN(clarification_date_day) ||

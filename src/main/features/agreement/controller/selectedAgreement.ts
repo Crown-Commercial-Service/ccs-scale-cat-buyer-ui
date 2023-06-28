@@ -1,10 +1,10 @@
 //@ts-nocheck
 import * as express from 'express';
 import { ReleatedContent } from '../model/related-content';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 
 /**
  *
@@ -22,8 +22,7 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
     if (agreementId == 'RM1557.13' && lotId == 'All') {
       req.session.agreementLotName = agreementLotName;
     } else {
-      const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`;
-      const { data: retrieveAgreementLot } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+      const retrieveAgreementLot = (await agreementsService.api.getAgreementLot(agreementId, lotId)).unwrap();
 
       //CAS-INFO-LOG
       LoggTracer.infoLogger(retrieveAgreementLot, logConstant.lotDetailsFromAggrement, req);

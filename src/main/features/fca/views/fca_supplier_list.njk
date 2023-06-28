@@ -98,10 +98,13 @@
 					{% for item in suppliers_list %}
 						<li>
 							<h3 class="govuk-heading-m ccs-heading-link ccs-font-weight-semibold govuk-!-font-size-24">
-								{# <a href="/fca/supplier/ratecard?supplierId={{item.organization.id}}&supplierName={{item.organization.name}}">{{item.organization.name}}</a> #}
-							{{item.organization.name}}
+								{{ item.organization.name }}
 							</h3>
-							<p class="govuk-list govuk-!-font-size-17featured ccs-framework-list">{{item.organization.name}}</p>
+							{% if item.organization.details.tradingName and item.organization.details.tradingName !== item.organization.name %}
+								<p class="govuk-list govuk-!-font-size-17featured ccs-framework-list">
+									Trading as {{ item.organization.details.tradingName }}
+								</p>
+							{% endif %}
 						</li>
 					{% else %}
 						<p class="govuk-list govuk-!-font-size-17featured ccs-framework-list">Datas Not Found !</p>

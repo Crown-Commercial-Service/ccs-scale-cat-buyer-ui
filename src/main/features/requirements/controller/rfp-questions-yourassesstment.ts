@@ -14,9 +14,9 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import moment from 'moment-business-days';
 import moment from 'moment';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 
 /**
  * @Controller
@@ -42,8 +42,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     //Lot Supplier Count  --> CurrentLotSupplierCount
     let CurrentLotSupplierCount = null;
     if (agreement_id == 'RM1043.8') {
-      const BaseUrlAgreementSuppliers = `/agreements/${agreement_id}/lots/${req.session?.lotId}/suppliers`;
-      const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance(null).get(BaseUrlAgreementSuppliers);
+      const retrieveAgreementSuppliers = (await agreementsService.api.getAgreementLotSuppliers(agreement_id, req.session?.lotId)).unwrap();
       CurrentLotSupplierCount = retrieveAgreementSuppliers.length;
     }
 
@@ -130,9 +129,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         return '';
       }
     });
-    const ChoosenAgreement = req.session.agreement_id;
-    const FetchAgreementServiceData = await AgreementAPI.Instance(null).get(`/agreements/${ChoosenAgreement}`);
-    const AgreementEndDate = FetchAgreementServiceData.data.endDate;
+    const agreementId = req.session.agreement_id;
+    const FetchAgreementServiceData = (await agreementsService.api.getAgreement(agreementId)).unwrap();
+    const AgreementEndDate = FetchAgreementServiceData.endDate;
 
     req.session?.nonOCDSList = nonOCDSList;
 
@@ -177,7 +176,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({});
     }
-    if (ChoosenAgreement == 'RM1043.8' && req.session?.lotId == '1' && group_id == 'Group 9') {
+    if (agreementId == 'RM1043.8' && req.session?.lotId == '1' && group_id == 'Group 9') {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({
         social_link:
@@ -185,7 +184,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         social_label: 'Social value in the award of central government contracts (PPN 06/20)',
       });
     } else if (
-      ChoosenAgreement == 'RM1557.13' &&
+      agreementId == 'RM1557.13' &&
       req.session?.lotId == '4' &&
       (group_id == 'Group 1' || group_id == 'Group 2' || group_id == 'Group 3' || group_id == 'Group 6')
     ) {
@@ -195,7 +194,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
           'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts',
         social_label: 'Social value in the award of central government contracts (PPN 06/20)',
       });
-    } else if (ChoosenAgreement == 'RM1043.8' && id === 'Criterion 2' && group_id == 'Group 3') {
+    } else if (agreementId == 'RM1043.8' && id === 'Criterion 2' && group_id == 'Group 3') {
       relatedOverride = req.session.releatedContent;
       socialRelated = new Object({
         social_link:
@@ -379,9 +378,9 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
-    const BaseUrlAgreement = `/agreements/${agreement_id}`;
-    const { data: retrieveAgreement } = await AgreementAPI.Instance(null).get(BaseUrlAgreement);
+    const retrieveAgreement = (await agreementsService.api.getAgreement(agreement_id)).unwrap();
     const agreementExpiryDate = retrieveAgreement.endDate;
+
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
     const question_idsFilrtedList = [];

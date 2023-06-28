@@ -36,7 +36,14 @@
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
 
                 {% if agreementId_session == "RM6187" %}
-                    <p class="govuk-body">{{data.subtitle1_mcf | safe}}</p>
+                    <p class="govuk-body">
+                        Find more information on each supplier on the
+                        <b>
+                            <a target="blank" rel="noopener noreferrer" href="{{ lotSuppliers }}">
+                                CCS website (opens in a new tab).
+                            </a>
+                        </b>
+                    </p>
                 {% else %}  
                     <p class="govuk-body">{{data.subtitle1 | safe}}</p>
                 {% endif %}
