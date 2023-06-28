@@ -10,15 +10,12 @@ import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
 import config from 'config';
 import { dateFilter } from 'main/modules/nunjucks/filters/dateFilter';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { bankHolidays } from 'main/services/bankHolidays';
 
 const momentCssHolidays = async () => {
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
-  let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-  const bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
+  const bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   const holiDaysArr = [];
   for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
     const AsDate = new Date(bankHolidayEnglandWales[h].date);

@@ -1,4 +1,3 @@
-//import { AgreementAPI } from '../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { TenderApi } from '../../common/util/fetch/procurementService/TenderApiInstance';
 import express from 'express';
 
