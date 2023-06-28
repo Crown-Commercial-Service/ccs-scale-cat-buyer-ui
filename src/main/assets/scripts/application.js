@@ -963,7 +963,7 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
   event.addEventListener('change', function (event) {
-    mainLotandcategoryContainer
+    
      // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
