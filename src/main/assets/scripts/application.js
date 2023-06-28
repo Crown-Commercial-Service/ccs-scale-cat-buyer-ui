@@ -1288,6 +1288,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 
   var Searchinput = document.getElementsByClassName("g13_search")[0];
+  console.log('Searchinput',Searchinput)
   if (Searchinput) {
     Searchinput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
@@ -1303,6 +1304,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.querySelector(".g13_search_click").addEventListener('click', function () {
       removeErrorFieldsEoiTerms();
       let searchQueryUrl = "";
+      console.log('window.location.search',window.location.search);
       document.getElementById('searchQuery').value = window.location.search;
       let searchValue = document.getElementsByClassName("g13_search");
       let definition_field = document.getElementById("with-hint");
@@ -1518,6 +1520,244 @@ window.addEventListener('DOMContentLoaded', (event) => {
       })
     });
   }
+//Opportunities Search Starts
+
+var Searchinput = document.getElementsByClassName("oppurtunities_search")[0];
+console.log('Searchinput',Searchinput)
+if (Searchinput) {
+  Searchinput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.getElementsByClassName("oppurtunities_search_click")[0].click();
+    }
+  });
+}
+
+
+if (document.querySelector(".oppurtunities_search_click")) {
+
+  document.querySelector(".oppurtunities_search_click").addEventListener('click', function () {
+    removeErrorFieldsEoiTerms();
+    let searchQueryUrl = "";
+    console.log('window.location.search',window.location.search);
+    document.getElementById('searchQuery').value = window.location.search;
+    let searchValue = document.getElementsByClassName("oppurtunities_search");
+    let definition_field = document.getElementById("with-hint");
+    if (searchValue[0].value.length > 250) {
+      ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
+      return false;
+    }
+    let urlParams = removeURLParameter(document.location.search, 'page');
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+    if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+    if (searchValue[0].value.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue[0].value) })
+    let baseUrl = window.location.href.split('?')[0];
+    urlObj.forEach((el, i) => {
+      let key = el.key;
+      let value = el.value;
+      if (i == 0) {
+        if (key != '') {
+          searchQueryUrl += `?${key}=${value}`;
+        }
+      } else {
+        searchQueryUrl += `&${key}=${value}`;
+      }
+    });
+
+    //url change
+    const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
+    window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
+
+    document.getElementById('searchResultsContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('paginationContainer').innerHTML = '';
+    const baseAPIUrl = '/g-cloud/search-api';
+    let slist = document.querySelector('#searchResultsContainer');
+    slist.classList.add('loadingres')
+    $('#criteriasavebtn').prop('disabled', true);
+    $.ajax({
+      url: `${baseAPIUrl}${searchQueryUrl}`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
+      $('#criteriasavebtn').prop('disabled', false);
+      $('#criteriasavebtn').removeClass('govuk-button--disabled');
+      $("#clearfilter").attr("href", result.clearFilterURL);
+      if (result.data.meta.total > 0) {
+        slist.classList.remove('loadingres')
+        getCriterianDetails(result.data.meta.total);
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+        var mainLothtml = '';
+        if (result.njkDatas.haveLot) {
+          mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+        } else {
+          mainLothtml += '<strong>All Categories</strong>'
+          mainLothtml += '<ul class="govuk-list">'
+          result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+            mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          })
+          mainLothtml += '</ul>'
+        }
+
+        if (result.njkDatas.haveLot) {
+          mainLothtml += '<ul class="govuk-list">'
+          if (result.njkDatas.haveserviceCategory) {
+            mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+          } else {
+            mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+          }
+          if (result.njkDatas.lotInfos.currentparentCategory) {
+            mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+          }
+
+          mainLothtml += '<li>';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          result.njkDatas.lotInfos.subservices.forEach(subservice => {
+            if (subservice.childrenssts) {
+              if (result.njkDatas.lotInfos.currentparentCategory) {
+                mainLothtml += '<li>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                    mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+                  } else {
+                    var childVal = child.value.split(' ').join('+');
+                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                  }
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
+              } else {
+                mainLothtml += '<li>';
+                mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                subservice.childrens.forEach(child => {
+                  var childVal = child.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+                });
+                mainLothtml += '</ul>';
+                mainLothtml += '</ul>';
+              }
+              mainLothtml += '</li>';
+            } else {
+
+              if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+                mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+              } else {
+                if (subservice.name !== 'supportMultiCloud') {
+                  var subserviceValue = subservice.value.split(' ').join('+');
+                  mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+                }
+              }
+            }
+          });
+          mainLothtml += '</ul>';
+          mainLothtml += '</ul>';
+          mainLothtml += '</li>';
+          mainLothtml += '</ul>';
+        }
+        document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+
+        var searchresultshtml = '';
+        searchresultshtml += '<div class="govuk-grid-row">';
+        searchresultshtml += '<div class="govuk-grid-column-full">';
+        searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+        result.data.documents.forEach(element => {
+          searchresultshtml += '<li class="app-search-result">'
+            + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+            + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+            + '</h2>'
+            + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+            + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+            + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+            + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+            + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+            + '</ul>'
+            + '</li>';
+
+        });
+        searchresultshtml += '<div>';
+        searchresultshtml += '<div>';
+        searchresultshtml += '<ul>';
+        document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+        var paginationHtml = ''
+        paginationHtml += '<div class="govuk-grid-row">';
+        paginationHtml += '<div class="govuk-grid-column-full">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.PrvePageUrl != '') {
+          if (result.njkDatas.CurrentPageNumber != 1) {
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+            paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+            paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+            paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+            paginationHtml += '</svg>';
+            paginationHtml += 'Previous Page</a>';
+            paginationHtml += '</p>';
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+          }
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+
+        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div>';
+        paginationHtml += '&nbsp;';
+        if (result.njkDatas.NextPageUrl != '') {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Next Page</a>';
+          paginationHtml += '</p>';
+        }
+        if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        } else {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        }
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        paginationHtml += '</div>';
+        document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      } else {
+        $('#criteriasavebtn').prop('disabled', true);
+        document.getElementById('searchResultsContainer').innerHTML = '';
+        getCriterianDetails(0);
+        slist.classList.remove('loadingres')
+
+        document.getElementById('rightSidefooterCotainer').innerHTML = '';
+        var Noresulthtml = '';
+        Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+        Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+        Noresulthtml += '</li>removing filters</li><br>';
+        Noresulthtml += '</li>choosing a different category</li><br>';
+        Noresulthtml += '</li>double-checking your spelling</li><br>';
+        Noresulthtml += '</li>using fewer keywords</li><br>';
+        Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+        Noresulthtml += '</ul>';
+        Noresulthtml += '</ul>';
+        document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
+      }
+      loadQuerySelector();
+    }).fail((res) => {
+    })
+  });
+}
+
+//Opportunities Search Ends
+
 });
 
 
