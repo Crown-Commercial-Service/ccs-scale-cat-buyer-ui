@@ -8,10 +8,7 @@
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: [
-        {
-            "text": "XXXXXXXXXXXXXXXXXXXXXX",
-            "href": ""
-        },
+       
         {
             "text": "Digital Outcomes opportunities",
             "href": "#"
@@ -78,7 +75,7 @@
         <div class="govuk-grid-row govuk-!-margin-top-4">
           <div class="govuk-grid-column-full govuk-list-filter-category"  id="mainLotandcategoryContainer">
             <strong>All lots</strong>
-            <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
+            <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
               {% for lotwithcount in njkDatas.lotInfos.lots %}
                 {% set lotName = njkDatas.currentLot %}
                 {% set lotNameCheck = lotwithcount.slug %}
@@ -190,6 +187,9 @@
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                       <h3 class="govuk-heading-s">Opportunity data</h3>
+                      <div class="govuk-download-csv-p">
+                        <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
+                      </div>
                       <div class="govuk-download-csv">
                         <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
                         <span>
@@ -198,7 +198,6 @@
                         </span>
                       </div>
                       <div class="govuk-download-csv-p">
-                        <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
                         <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a>
                         </p>
                         <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
@@ -364,14 +363,15 @@
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
                 <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
-                  <b class="govuk-!-font-size-48">0</b> results found in <b>All lots</b></span></p>
+                  <b class="govuk-!-font-size-48">
+                    <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>All lots</b></span></p>
             </div>
           </div>
 
           <div id="">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
-                <ul class="govuk-list govuk-supplier-list" id="">
+                <ul class="govuk-list govuk-supplier-list" id="contentHead">
                   {% for form in search_data.results %}
                     <li class="app-search-result">
                       <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
