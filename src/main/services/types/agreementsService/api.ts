@@ -1,9 +1,9 @@
 enum EndPoints {
-  AGREEMENT = '/agreements/:agreement-id',
-  AGREEMENT_LOTS = '/agreements/:agreement-id/lots',
-  AGREEMENT_LOT = '/agreements/:agreement-id/lots/:lot-id',
-  AGREEMENT_LOT_SUPPLIERS = '/agreements/:agreement-id/lots/:lot-id/suppliers',
-  AGREEMENT_LOT_EVENT_TYPES = '/agreements/:agreement-id/lots/:lot-id/event-types'
+  AGREEMENT = '/agreements/:agreementId',
+  AGREEMENT_LOTS = '/agreements/:agreementId/lots',
+  AGREEMENT_LOT = '/agreements/:agreementId/lots/:lotId',
+  AGREEMENT_LOT_SUPPLIERS = '/agreements/:agreementId/lots/:lotId/suppliers',
+  AGREEMENT_LOT_EVENT_TYPES = '/agreements/:agreementId/lots/:lotId/event-types'
 }
 
 type AgreementLotEventType = {

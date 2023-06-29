@@ -8,6 +8,7 @@ import { agreementsServiceAPI } from 'main/services/agreementsService/api';
 import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
 import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'test/utils/mocks/redis';
+import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'test/utils/mocks/performanceLogger';
 
 describe('Agrements Service API helpers', () => {
   const mock = Sinon.createSandbox();
@@ -34,8 +35,12 @@ describe('Agrements Service API helpers', () => {
     const data = { name: 'myName', endDate: 'myEndDate' };
 
     describe('when no data is cached', () => {
-      it('calls the get agreement endpoint with the correct url and headers', async () => {
+      it('calls the get agreement endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement from the Agreement service API for agreement: ${agreementId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -49,12 +54,17 @@ describe('Agrements Service API helpers', () => {
         expect(findAgreementResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_agreements_agreementId-1234', data, 3600);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get agreement endpoint but still returns the data', async () => {
+      it('does not call the get agreement endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement from the Agreement service API for agreement: ${agreementId}`
+        });
 
         const findAgreementResult = await agreementsServiceAPI.getAgreement(agreementId) as FetchResultOK<AgreementDetail>;
 
@@ -62,6 +72,7 @@ describe('Agrements Service API helpers', () => {
         expect(findAgreementResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_agreements_agreementId-1234');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
   });
@@ -84,8 +95,12 @@ describe('Agrements Service API helpers', () => {
     ];
 
     describe('when no data is cached', () => {
-      it('calls the get agreement lots endpoint with the correct url and headers', async () => {
+      it('calls the get agreement lots endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lots from the Agreement service API for agreement: ${agreementId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -99,12 +114,17 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotsResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots', data, 3600);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get agreement lots endpoint but still returns the data', async () => {
+      it('does not call the get agreement lots endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lots from the Agreement service API for agreement: ${agreementId}`
+        });
 
         const getAgreementLotsResult = await agreementsServiceAPI.getAgreementLots(agreementId) as FetchResultOK<LotDetail[]>;
 
@@ -112,6 +132,7 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotsResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
   });
@@ -133,8 +154,12 @@ describe('Agrements Service API helpers', () => {
     };
 
     describe('when no data is cached', () => {
-      it('calls the get agreement lot endpoint with the correct url and headers', async () => {
+      it('calls the get agreement lot endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -148,12 +173,17 @@ describe('Agrements Service API helpers', () => {
         expect(findAgreementLotResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234', data, 3600);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get agreement lot endpoint but still returns the data', async () => {
+      it('does not call the get agreement lot endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         const findAgreementLotResult = await agreementsServiceAPI.getAgreementLot(agreementId, lotId) as FetchResultOK<LotDetail>;
 
@@ -161,6 +191,7 @@ describe('Agrements Service API helpers', () => {
         expect(findAgreementLotResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
   });
@@ -191,8 +222,12 @@ describe('Agrements Service API helpers', () => {
     ];
 
     describe('when no data is cached', () => {
-      it('calls the get agreement lot suppliers endpoint with the correct url and headers', async () => {
+      it('calls the get agreement lot suppliers endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot suppliers from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -206,12 +241,17 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotSuppliersResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234_suppliers', data, 900);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get agreement lot suppliers endpoint but still returns the data', async () => {
+      it('does not call the get agreement lot suppliers endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot suppliers from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         const getAgreementLotSuppliersResult = await agreementsServiceAPI.getAgreementLotSuppliers(agreementId, lotId) as FetchResultOK<LotSupplier[]>;
 
@@ -219,6 +259,7 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotSuppliersResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234_suppliers');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
   });
@@ -228,8 +269,12 @@ describe('Agrements Service API helpers', () => {
     const data = [{ type: 'myType' }];
 
     describe('when no data is cached', () => {
-      it('calls the get agreement lot event types endpoint with the correct url and headers', async () => {
+      it('calls the get agreement lot event types endpoint with the correct url and headers and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot event types from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         mockPool.intercept({
           method: 'GET',
@@ -243,12 +288,17 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotEventTypesResult.data).to.eql(data);
 
         assertRedisCalls(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234_event_types', data, 3600);
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
 
     describe('when data is cached', () => {
-      it('does not call the get agreement lot event types endpoint but still returns the data', async () => {
+      it('does not call the get agreement lot event types endpoint but still returns the data and logs the performance', async () => {
         const mockRedisClientSpy = creatRedisMockSpy(mock, data);
+        const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+          name: 'agreement service',
+          message: `Feached agreement lot event types from the Agreement service API for agreement: ${agreementId}, lot: ${lotId}`
+        });
 
         const getAgreementLotEventTypesResult = await agreementsServiceAPI.getAgreementLotEventTypes(agreementId, lotId) as FetchResultOK<AgreementLotEventType[]>;
 
@@ -256,6 +306,7 @@ describe('Agrements Service API helpers', () => {
         expect(getAgreementLotEventTypesResult.data).to.eql(data);
 
         assertRedisCallsWithCache(mockRedisClientSpy, 'get_agreements_agreementId-1234_lots_lotId-1234_event_types');
+        assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
       });
     });
   });

@@ -1,10 +1,10 @@
 import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as daSupplierRatecardScreenContent from '../../../resources/content/da/da-supplier-ratecard.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 // import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Response) => {
@@ -57,13 +57,11 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
     ];*/
 
     //Supplier Contact Details
-    const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-    const retrieveSupplierContactDetails = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
+    const retrieveSupplierContactDetails = (await agreementsService.api.getAgreementLotSuppliers(req.session.agreement_id, req.session.lotId)).unwrap();
     //CAS-INFO-LOG
     LoggTracer.infoLogger(retrieveSupplierContactDetails, logConstant.supplierList, req);
-    const retrieveSupplierContactDetail = retrieveSupplierContactDetails.data;
     let contactSupplierDetails;
-    const contact = retrieveSupplierContactDetail.find((el: any) => {
+    const contact = retrieveSupplierContactDetails.find((el: any) => {
       if (el.organization.id === supplierId) {
         return true;
       }
