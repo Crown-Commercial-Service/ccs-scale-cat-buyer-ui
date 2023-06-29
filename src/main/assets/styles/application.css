@@ -9534,6 +9534,10 @@ p,
 .g13_search_click {
   height: 36px;
 }
+
+.oppurtunities_search_click {
+  height: 36px;
+}
 .govuk-input__wrapper_custom .govuk-input__suffix{
   background: #007e8a;
 }

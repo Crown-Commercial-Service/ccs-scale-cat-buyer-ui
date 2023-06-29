@@ -8,10 +8,7 @@
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: [
-        {
-            "text": "XXXXXXXXXXXXXXXXXXXXXX",
-            "href": ""
-        },
+       
         {
             "text": "Digital Outcomes opportunities",
             "href": "#"
@@ -51,9 +48,9 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="250">
               <div class="govuk-form-group">
                 <div class="govuk-input__wrapper govuk-input__wrapper_custom">
-                  <input type="text" class="govuk-input govuk-js-character-count g13_search" id="with-hint" maxlength="250" name="with-hint" aria-describedby="with-hint-info with-hint-hint" spellcheck="false">
+                  <input type="text" class="govuk-input govuk-js-character-count oppurtunities_search" id="with-hint" maxlength="250" name="with-hint" aria-describedby="with-hint-info with-hint-hint" spellcheck="false">
                   <div class="govuk-input__suffix">
-                    <button class="govuk-button g13_search_click" data-module="govuk-button">
+                    <button class="govuk-button oppurtunities_search_click" data-module="govuk-button">
                     Search
                   </button>
                   </div>
@@ -131,7 +128,7 @@
                       </span>
                             </h2>
                           </div>
-                     <small class="govuk-!-margin-left-5 hide opencloseCount">1 selected</small>
+                          <small class="govuk-!-margin-left-5 hide opencloseCount">1 selected</small>
                           <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
                             <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
@@ -153,16 +150,16 @@
                             </div>
                           </div>
                         </div>
-                        <div class="govuk-accordion__section">
+                        <div class="govuk-accordion__section govuk-accordion__section_disabled">
                           <div class="govuk-accordion__section-header">
                             <h2 class="govuk-accordion__section-heading">
-                              
+
                               <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
                         Location
                       </span>
                             </h2>
                           </div>
-                            <small class="govuk-!-margin-left-5 hide locationCount">1 selected</small>
+                          <small class="govuk-!-margin-left-5 hide locationCount">1 selected</small>
                           <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
                             <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
@@ -190,6 +187,9 @@
                   <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                       <h3 class="govuk-heading-s">Opportunity data</h3>
+                      <div class="govuk-download-csv-p">
+                        <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
+                      </div>
                       <div class="govuk-download-csv">
                         <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
                         <span>
@@ -198,7 +198,6 @@
                         </span>
                       </div>
                       <div class="govuk-download-csv-p">
-                        <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
                         <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a>
                         </p>
                         <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
@@ -364,7 +363,8 @@
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
                 <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
-                  <b class="govuk-!-font-size-48"><span id="totalRecords">0</span></b> results found in <b>All lots</b></span></p>
+                  <b class="govuk-!-font-size-48">
+                    <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>All lots</b></span></p>
             </div>
           </div>
 
@@ -372,20 +372,20 @@
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
                 <ul class="govuk-list govuk-supplier-list" id="contentHead">
-                  {% for form in file_data.form %}
+                  {% for form in search_data.results %}
                     <li class="app-search-result">
                       <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-                        <a class="govuk-link" href="">{{form.title}}</a>
+                        <a class="govuk-link" href="">{{form.projectName}}</a>
                       </h2>
                       <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                        {{form.subTitle}}
+                        {{form.buyerName}}
                       </p>
                       <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
-                        {{form.country}}
+                        {{form.location}}
                       </p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.value}}</p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.digital}}</p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: {{form.closed}}</p>
+                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
+                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.agreement}}</p>
+                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status}} : {{form.subStatus}}</p>
                       <p class="govuk-body govuk-!-font-size-16">
                         {{form.description}}
                       </p>
