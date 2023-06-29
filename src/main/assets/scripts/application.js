@@ -1036,10 +1036,6 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</li>';
       });
 
-       
-
-
-
           document.getElementById('contentHead').innerHTML = mainLothtml;
 
 
