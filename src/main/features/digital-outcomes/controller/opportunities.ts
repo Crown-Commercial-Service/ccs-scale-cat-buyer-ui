@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 //import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
+import moment from 'moment-business-days';
+
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
     const { lot, status, q } = req.query;
@@ -145,6 +148,20 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
   try {
     console.log(req.params.id);
     res.render('opportunitiesReview');
+  } catch (error) {}
+};
+
+export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
+  try {
+    //tenderers
+    const display_fetch_data = {
+      tenderer: sampleJson.records[0].compiledRelease.tender,
+      tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
+      parties: sampleJson.records[0].compiledRelease.parties[0],
+      awards: sampleJson.records[0].compiledRelease.awards[0],
+      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+    };
+    res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
 };
 

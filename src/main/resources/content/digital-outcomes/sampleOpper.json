@@ -1,0 +1,4541 @@
+{
+    "uri": "https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}",
+    "version": "1.0",
+    "extensions": [
+      "string"
+    ],
+    "publisher": {
+      "name": "Crown Commercial Services",
+      "scheme": "XX-CCS",
+      "uid": "123456789",
+      "uri": "https://www.crowncommercial.gov.uk/"
+    },
+    "license": "string",
+    "publicationPolicy": "https://www.crowncommercial.gov.uk/agreements/publicationPolicy",
+    "publishedDate": "01/01/2021",
+    "packages": [
+      "string"
+    ],
+    "records": [
+      {
+        "ocid": "string",
+        "releases": [
+          {
+            "url": "string",
+            "date": "2023-06-29T08:19:09.583Z",
+            "tag": "planning"
+          },
+          {
+            "ocid": "string",
+            "id": "string",
+            "date": "2023-06-29T08:19:09.583Z",
+            "tag": "planning",
+            "initiationType": "tender",
+            "parties": [
+              {
+                "name": "string",
+                "id": "string",
+                "identifier": {
+                  "scheme": "GB-COH",
+                  "id": "abc12345",
+                  "legalName": "string",
+                  "uri": "string"
+                },
+                "additionalIdentifiers": [
+                  {
+                    "scheme": "GB-COH",
+                    "id": "abc12345",
+                    "legalName": "string",
+                    "uri": "string"
+                  }
+                ],
+                "address": {
+                  "streetAddress": "string",
+                  "locality": "string",
+                  "region": "string",
+                  "postalCode": "string",
+                  "countryName": "string"
+                },
+                "contactPoint": {
+                  "name": "string",
+                  "email": "string",
+                  "telephone": "string",
+                  "faxNumber": "string",
+                  "url": "string"
+                },
+                "roles": [
+                  "buyer"
+                ],
+                "details": {}
+              }
+            ],
+            "buyer": {
+              "name": "string",
+              "id": "string"
+            },
+            "planning": {
+              "rationale": "'rationale_x-UUHhNbu-RP5e-j-0-0-cXRnpCJG-sUCYdNK-DK9Rfig-Rn6-nF-Ua0WqdC-NviquBj-LkwWr9-vIHClj-S1V-ZxdKf7-f-i-dSS-l4-4-dIGr1dC-pk27fx-RyDBDLS-i-nb-4D-r-cfzF2pB-ftSN8-G6u6-w-UpgQFfs-Besgu-BWaZW9ZP-APh-HjsRPiNy-fM-VYz9FVj-kIeyE1-l-6yPKsOyV-L-ApzSE-5GOwxS-uV7Jo1R-oM-5Q-ooll-8-AUKy-8Sb1jy8-x-GCo5-XkubN-HrJUrKwI-2':",
+              "budget": {
+                "id": "string",
+                "description": "string",
+                "amount": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "project": "string",
+                "projectID": "string",
+                "uri": "string"
+              },
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.584Z",
+                  "dateModified": "2023-06-29T08:19:09.584Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab"
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "type": "preProcurement",
+                  "description": "string",
+                  "code": "string",
+                  "dueDate": "2023-06-29T08:19:09.584Z",
+                  "dateMet": "2023-06-29T08:19:09.584Z",
+                  "dateModified": "2023-06-29T08:19:09.584Z",
+                  "status": "scheduled"
+                }
+              ]
+            },
+            "tender": {
+              "id": "string",
+              "title": "string",
+              "description": "string",
+              "status": "planning",
+              "procuringEntity": {
+                "name": "string",
+                "id": "string"
+              },
+              "items": [
+                {
+                  "id": "string",
+                  "description": "string",
+                  "classification": {
+                    "scheme": "CPV",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                  },
+                  "additionalClassifications": [
+                    {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    }
+                  ],
+                  "quantity": 0,
+                  "unit": {
+                    "scheme": "UNCEFACT",
+                    "id": "*****NEEDS FIXING*****",
+                    "name": "string",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "uri": "string"
+                  }
+                }
+              ],
+              "value": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "minValue": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "procurementMethod": "open",
+              "procurementMethodDetails": "string",
+              "procurementMethodRationale": "string",
+              "mainProcurementCategory": "goods",
+              "additionalProcurementCategories": "goods",
+              "awardCriteria": "costOnly",
+              "awardCriteriaDetails": "string",
+              "submissionMethod": [
+                "electronicSubmission"
+              ],
+              "submissionMethodDetails": "string",
+              "tenderPeriod": {
+                "startDate": "2023-06-29T08:19:09.584Z",
+                "endDate": "2023-06-29T08:19:09.584Z",
+                "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                "durationInDays": 0
+              },
+              "enquiryPeriod": {
+                "startDate": "2023-06-29T08:19:09.584Z",
+                "endDate": "2023-06-29T08:19:09.584Z",
+                "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                "durationInDays": 0
+              },
+              "hasEnquiries": true,
+              "eligibilityCriteria": "string",
+              "awardPeriod": {
+                "startDate": "2023-06-29T08:19:09.584Z",
+                "endDate": "2023-06-29T08:19:09.584Z",
+                "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                "durationInDays": 0
+              },
+              "contractPeriod": {
+                "startDate": "2023-06-29T08:19:09.584Z",
+                "endDate": "2023-06-29T08:19:09.584Z",
+                "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                "durationInDays": 0
+              },
+              "numberOfTenderers": 0,
+              "tenderers": [
+                {
+                  "name": "string",
+                  "id": "string"
+                }
+              ],
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.584Z",
+                  "dateModified": "2023-06-29T08:19:09.584Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab"
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "type": "preProcurement",
+                  "description": "string",
+                  "code": "string",
+                  "dueDate": "2023-06-29T08:19:09.584Z",
+                  "dateMet": "2023-06-29T08:19:09.584Z",
+                  "dateModified": "2023-06-29T08:19:09.584Z",
+                  "status": "scheduled"
+                }
+              ],
+              "amendments": [
+                {
+                  "date": "2023-06-29T08:19:09.584Z",
+                  "rationale": "string",
+                  "id": "string",
+                  "description": "string",
+                  "amendsReleaseID": "string",
+                  "releaseID": "string"
+                }
+              ]
+            },
+            "awards": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "status": "costOnly",
+                "date": "2023-06-29T08:19:09.584Z",
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "suppliers": [
+                  {
+                    "name": "string",
+                    "id": "string"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    },
+                    "additionalClassifications": [
+                      {
+                        "scheme": "CPV",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                      }
+                    ],
+                    "quantity": 0,
+                    "unit": {
+                      "scheme": "UNCEFACT",
+                      "id": "*****NEEDS FIXING*****",
+                      "name": "string",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "uri": "string"
+                    }
+                  }
+                ],
+                "contractPeriod": {
+                  "startDate": "2023-06-29T08:19:09.584Z",
+                  "endDate": "2023-06-29T08:19:09.584Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                  "durationInDays": 0
+                },
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.584Z",
+                    "dateModified": "2023-06-29T08:19:09.584Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab"
+                  }
+                ],
+                "amendments": [
+                  {
+                    "date": "2023-06-29T08:19:09.584Z",
+                    "rationale": "string",
+                    "id": "string",
+                    "description": "string",
+                    "amendsReleaseID": "string",
+                    "releaseID": "string"
+                  }
+                ]
+              }
+            ],
+            "contracts": [
+              {
+                "id": "string",
+                "awardID": "string",
+                "title": "string",
+                "description": "string",
+                "status": "pending",
+                "period": {
+                  "startDate": "2023-06-29T08:19:09.584Z",
+                  "endDate": "2023-06-29T08:19:09.584Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.584Z",
+                  "durationInDays": 0
+                },
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "items": [
+                  {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    },
+                    "additionalClassifications": [
+                      {
+                        "scheme": "CPV",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                      }
+                    ],
+                    "quantity": 0,
+                    "unit": {
+                      "scheme": "UNCEFACT",
+                      "id": "*****NEEDS FIXING*****",
+                      "name": "string",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "uri": "string"
+                    }
+                  }
+                ],
+                "dateSigned": "2023-06-29T08:19:09.584Z",
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.584Z",
+                    "dateModified": "2023-06-29T08:19:09.584Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab"
+                  }
+                ],
+                "implementation": {
+                  "transactions": [
+                    {
+                      "id": "string",
+                      "source": "string",
+                      "date": "2023-06-29T08:19:09.584Z",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "payer": {
+                        "name": "string",
+                        "id": "string"
+                      },
+                      "payee": {
+                        "name": "string",
+                        "id": "string"
+                      },
+                      "uri": "string"
+                    }
+                  ],
+                  "milestones": [
+                    {
+                      "id": "string",
+                      "title": "string",
+                      "type": "preProcurement",
+                      "description": "string",
+                      "code": "string",
+                      "dueDate": "2023-06-29T08:19:09.584Z",
+                      "dateMet": "2023-06-29T08:19:09.584Z",
+                      "dateModified": "2023-06-29T08:19:09.584Z",
+                      "status": "scheduled"
+                    }
+                  ],
+                  "documents": [
+                    {
+                      "id": "string",
+                      "documentType": "plannedProcurementNotice",
+                      "title": "string",
+                      "description": "string",
+                      "url": "string",
+                      "datePublished": "2023-06-29T08:19:09.584Z",
+                      "dateModified": "2023-06-29T08:19:09.584Z",
+                      "format": "application/1d-interleaved-parityfec",
+                      "language": "ab"
+                    }
+                  ]
+                },
+                "relatedProcesses": [
+                  {
+                    "id": "string",
+                    "relationship": "framework",
+                    "title": "string",
+                    "scheme": "ocid",
+                    "identifier": "string",
+                    "uri": "string"
+                  }
+                ],
+                "milestones": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "type": "preProcurement",
+                    "description": "string",
+                    "code": "string",
+                    "dueDate": "2023-06-29T08:19:09.584Z",
+                    "dateMet": "2023-06-29T08:19:09.584Z",
+                    "dateModified": "2023-06-29T08:19:09.584Z",
+                    "status": "scheduled"
+                  }
+                ],
+                "amendments": [
+                  {
+                    "date": "2023-06-29T08:19:09.584Z",
+                    "rationale": "string",
+                    "id": "string",
+                    "description": "string",
+                    "amendsReleaseID": "string",
+                    "releaseID": "string"
+                  }
+                ]
+              }
+            ],
+            "language": "en",
+            "relatedProcesses": [
+              {
+                "id": "string",
+                "relationship": "framework",
+                "title": "string",
+                "scheme": "ocid",
+                "identifier": "string",
+                "uri": "string"
+              }
+            ],
+            "url": "https://www.crowncommercial.gov.uk/package/record/release"
+          },
+          {
+            "url": "string",
+            "date": "2023-06-29T08:19:09.584Z",
+            "tag": "planning"
+          },
+          {
+            "ocid": "string",
+            "id": "string",
+            "date": "2023-06-29T08:19:09.584Z",
+            "tag": "planning",
+            "initiationType": "tender",
+            "parties": [
+              {
+                "name": "string",
+                "id": "string",
+                "identifier": {
+                  "scheme": "GB-COH",
+                  "id": "abc12345",
+                  "legalName": "string",
+                  "uri": "string"
+                },
+                "additionalIdentifiers": [
+                  {
+                    "scheme": "GB-COH",
+                    "id": "abc12345",
+                    "legalName": "string",
+                    "uri": "string"
+                  }
+                ],
+                "address": {
+                  "streetAddress": "string",
+                  "locality": "string",
+                  "region": "string",
+                  "postalCode": "string",
+                  "countryName": "string"
+                },
+                "contactPoint": {
+                  "name": "string",
+                  "email": "string",
+                  "telephone": "string",
+                  "faxNumber": "string",
+                  "url": "string"
+                },
+                "roles": [
+                  "buyer"
+                ],
+                "details": {}
+              }
+            ],
+            "buyer": {
+              "name": "string",
+              "id": "string"
+            },
+            "planning": {
+              "rationale": "'rationale_VNN-cWzR-3vGC-upyNRyk-HbTlrji-4bIB-8Dyr-2gWu-4ZZq-dgs5WWG-4awB-4UpC-mip8NZnE-87dVog-rEec0-1bLC4OrL-4VBq-1MzSNsIQ-4LOP-CtD4C-jPMvk0-3WPz-1Nu3-26jV-pXtDrdX-m9QxCuSn-9s2pf5w-2YGD-0NLp-4qZ5-uUbkkVS-7j6O-8SXY-0PiR-hl2BVP-hPysi7-UiM25Bh-xxK0hh-0qROf-7ixv-8BRC-6Oyw-8dTT-p5EsWP-0JMm94W-ZLrddH-QZDZcu-5uTA-5hLfBb-68kX-3EioO5xE-XD7ZlMqU-oiTVM-61Uu-NoPf1BG-1S85-3p1m-nFqOKei-3Lvd-19xG-Ly6Eo50-A-zKc9c-EJ-yNzHY-FjUV-MGSDZc-YzG6S-3yX-wIAZu1pp-xpF9e7-dd-gPt7-mnNsV-0N9-7794-DWkp-Rhge-BEcN-a5wUmDZ-HlKj0Uw-iAZ2-BAC-khMHcV9d-njqok-4ZsCjoJ-LV2m-9Gxlsa-eL-r3L-w6-O7Cu-eNn-vFjNbXvm-Ie-QbTQhoV-dACplb-nCCQ8Zs-FH-R4qv-R1yyj-00-EA3zZP-ucSFA9-jZc-f02ccr-DAxjeBE-3YjJ3-AfvuX-0UXi6M-2UixW-743F-22Ps54Ii-1ZAuarh4-irVWlwz-h-FvYLS15K-8kr17-WOnoLrjr-qUKBkiy-YubYtxo-qNKIlCd-97K-uMPZ-Ay4y-YCxccPXF-iswt2x-J2jL45cl-ttJWAv3-3dOR4d5B-CdNO-CLv1Azl-pY3ew-4IYpJ-ncU-iH-9RB-BPt8rl9-3e-AXIB2Pa-GFb8hKzn-wwZcPd-1phXHT6-nbh0V9-b6veXdjr-CP3r-pBT1nsmW-A4b7A-g5Vh7KxV-3NxPM26-Mh-OontaH-bb9-GdEhsVaE-YCIpu9-MpPHS-Zs1-f01A-aj-krSrENW-tNPnkJae-Gz-CeCWeiIM-qa-ZKa4ur-uZU-Wo-Uf-RKKQzzoN-fe-9ij-TE8RWb-sJgCln-e1V-jqzDT-iJ2FQljC-CfHJpCcs-mH0-NSxqWd-SA3h-dRVlKS-OI-KHUA3h-u1cu-WX1D3-2L2TiS-5tj9-ex-EP61sb-fW2d-GVfK-LthXZI-BZXG1S-P4k-bFMclEP-D-u0g-yeeRKE-Oo-yTa-Iu7U8-II1Q-b4XGYroJ-V88WAJ-136R-4i0-MZ3NVSmm-PY-MFPvT-PGf7UJPS-VdWiGdb-4bHgEu-AG-9SwQfUyb-uc3mqMLv-rvoh-Begwo2q-Os98-QMd-6Eia-SLd-lNLe9FD-9-MeILXncW-ds1JnAPy-xvdrB4Q-5Ji9iUj-UYyZZ-Kj2G-eA9vm-lY6YgRw-qqJKn-0vi-hz-qHASaWHU-TUg4hC-Rtogys-FcmZ-rwG-HXy-1H-vWpLziz-qxxEu-B4pkmA-Id-cFhl-Y2c5r9-IbmF91h-5oOi-dwkvO-PRBJfO-ClVy-B6DtmE-zL35J8-1dT7gXi-SDpEY-AB-ij6di-sFhnqbz-iud-8irU-KKzD-QNOe5B-RcO3Ugf-7Q5-2bZm-57v-GOqYjMeW-v-FlY-nCwy-t99iyOH-b4mM-tMNlHV-Z63W-D-1ug9CL-Rwx5ZI-HS-UlvVBzbl-Gc-RFC-2T-ezKtfci-6GnKaVa2-R1-K7kjn-umxKC-0TJ1-PV-8RXc-vKkU2-J6ThCGn-ItKutGnq-SQi6RTYV-hPNr-EomSw9P-pUf631k4-Y3ZBn-9dF-GswDu-oPP6v-k9-yT6YIzi-Gr2z9YM-SZWifL-sUB-atwdO-3x-7yxEQ-bCYvFEE-fq-LQftD-UmJ7-Z8Y-iYImvH-R68-oSxO-MZ-C9oDAL5-U7-Ih-vKHuWr-w6n5NVje-AOnx2IYa-bqyB-Pi5fZ-Qg-K94sN-ei2Y-IWv-CpautbE-DE2ZRO-Ej8Q0Y4M-sUmgMl-59bY-VX1Uk-TDQtVXk-fzs9yA-4E-LV-x0DvT2-GK-KYux-jJwr5Shf-oNlwbjh-wmFw-bpXoU5-qGYtRJ-mOdAtwJ1-P-MJESw-gwiE-vHU8CdV-24SgXT-Ifr-db-bQnS6v5Q-2b0iI-IPIvqePl-J0-ZA-r8uh-35-DxHRgmAb-7cI0vPo-e1TG-smq-WOx6zmP-qSsP-UzZQ5-KUb-IIAxFQV-p4-dkRXFHt-r9o-oJD-X4y-OWiNH-A81Amm-nqOIA-xmLV-xozeN-TC432zR-rYq3-CS11-kYmXeuo-YgEwjG-yHxCp-1Pe-JJjtgbh-mtcQNIy-oAF90e9M-XiaJ-wyIqQb-My8GOVdy-80Rv4-Ulx9D-iMThrHDJ-5rH-LwTieq-Ushos-qHTDF6-0a-CTy-CpMp-5jPV-bIlO74-7FU-mzbW-J5fFC-NzGCFNOp-w21Czo-TZISPF-vg-jI7MVGkG-8zu-hSDAT-oXPI-hmcb-qf-3eUb-eq0qKJz0-zz-0LNF-Gn-IIv-YH-lk-B1Y6-VgRUukAs-0lpEdRX0-4x4x3R-bf-4W0qftG-Fi1Og4-y5NN3-FNPbLOYh-TrSmhmKZ-wfeOND0-26q0-7lqr2S-SshM-GSd-Ho2Oaaw0-6-4TbceJD-XNB-b0m-ZbLUYGI-tthOo-T9Can6-P4-mtqmMlA-ykp3J2m-1re2-Opmeh1-Xa9-qfbE-P-B7-cZOSuoSd-WaqeOs0A-f5U-MKUrZ6R-zuE7-YD-eZ-eaTw5-M9-JMQ68-DRxOMUx-qmfW3-mCE0-L-nyg-ocd39pi-5mo-yEvWOp-7yQqqPkW-SPe0HwSd-bdnHRrvp-ZAVuAr-RFtKs2-oqhkLq1-JO-10-0McuofJ-A9S-x89M2xRb-7zJe-vUVuD9IG-YYMQ-PF6-6fl-MIm-RnuMcSJ-eQ-qap2-oq-byuFJ-uwg-SMHNeV-2If2AYDX-MJtq-n2-JFqhJO1-qR8nzO-iepY8K6M-wa63H-OlvOEu2-5Z4xG3-fBEtTV-nmFq-Myt-ssjY-uCufD-hUnBq-P0J0-6zF-HFU-kc-eTn4-iy-Vs-tLE-RB1k-bsp8ODTc-4lBc98a-JDUGG8lh-64gLpK-H-BC-YIB-Rc-LT-nMjwThR0-B5-pQrPfqVY-uvupK07-ZBH4zlTv-Up37-Z32g-Dt5cU-rPQKfIg-rb-eWBP-Q7ln7H-8PRfHAid-7IYx4CbM-Zs8x-7DN3Wpj-2jxHlh-Cxb-oufa-dMCuTz-jf-Jg0r-GUyPTVTx-4IAe8-H-cXJujxMu-0X-jEjbfm-o4cx21b-k87-o5S-JxE-6V77Kxrk-vU0w7q-CRP2cXC-JFhQTI-eb-JCie-Ci2-82rJ-QM4g2pNC-9YYsusnN-qNsC4JFV-q8bfxC-3V-RIF-M9vRpxm-T6-K9OO8-U2-fiBp-SyPobWjG-pYJSvZzL-orgt3-zP-bkbak3-OKyDuW2-WLvt-TmJsWeA-WoJ-Ex5vB-m9K-pE1T1kr-srW4jT7T-R9NS-fcZqMe-84fkb6wH-tD09Oh59-tpZLb-4dd5g7-uMYp-YdGCGBZ-8Cdhv56-GwGhXRAV-NBXLHkX-uAf-H8cOfo-gDktN-bk-VHwEz3-Z-0hjXDIB-IsqSh-AFt-ouJrYRKm-VlSJRZ-JgUW-dMBm6vk-8PS-yE-KBO-Xrq-PDdLMw19-S-sksLAZCF-9VMJb-8e5JUs-HdAGACaB-HEdq-UmMgCH-uJ7-1qS6A7dZ-qYbZIn-4oP6a0DG-uzIo-iIkkf8-VLi0Mg5g-2GuFM2-CmhNsmRT-GZulp0L-Cj-trfTf-nT-3KbSqRTW-4xq-DH61EVQr-cj8X-ZLah9Ou-P5Lk-MOHc9e-3hG3or-cj0O-v0Sd3-k-s2-0PGgzp-inQD-IKk-fw-ebs9LLbH-obnH-JdMDnVbe-4b3evbT-Vo4TJ87-L6cMwyjR-Mwnsq1H-Ql7-8SRmeOW-GHdy0-WUHUGwSu-8XT3IWRj-LNuwG0-UAsDob-xOhQPd-ySs-vUOSzsb-RaXvPAI-uOEwuw8-iC7MaxqI-JhQ-FpT9m-xRa7sQWL-GQyiRHck-wlKs9v4-wJsi-me8Zfa-lk-y3FH6o-jI6xzYWv-kfjZR0um-8ff2Tl7j-oUTYQItx-4WSy-nFb9xC-fPc1eyu-xy-pJ-eStOQ-22Jg8D-r7y443-WaFUdSs-xYX-Iae-2ZRCm-NZcel5-UO-fatedcp0-bPlo-b-eRu-nYs-Ln4D-yFkIFQ-rqsTCn-kjUfrGa-aA8hVsK-krfJ-90TsZn-IC3-6T-sdDKVXK-P9v-z6b8-leySewxA-b8ElONWq-DOD2bPTT-qvL-g4-ukzkR-sY6cwf84-3p-pU6v6f-x29Gbjmg-Kwdc-p9PnVEUD-UTc30n-VwTj-iPwQjZKX-YhJO3jf-Sb-El8qF-nlXF-unHLRAf-aehRxvs-1Z-8Ebp-Gis5rMLF-eEEpNv-him9m-Zxtxth-ywRi3Y-WD-x64Wm-Y9-MuP3h06-y04Pqx-ieMXhc7-HSHj7-aX-5mSR0CKB-SMRP-ram-E0KNXNPt-vJ9qzCv-q7f8PjP-nFrXuL-XfRm-Vi-Vgfb-dQd-Mw4dPHN2-fu-JQIcF3-zcvqeAZ-s8j7AMv-GklI748D-csD3n-7mqs-WSiet-GIOY-Z5-tu-ew-yNJ-7L-Gyb-4MU3J-T8r-80-NTKiO-Buzxq-1dSs-LPyTAkMu-EFQESlrs-JAsRdPw-hJuE-wK6uoM-In-qvj-9nW-xQ-CotQp-WR-as7s-JAaAzWFz-JrVYDf39-Pv-IUC-5-Gm-JOpkXLV-ofryD-QfeC-BG0Rop6-dt-AWn-OSz3-aDtu-Mn-0i2zD-DtZ6J-KRcrDWf-JBGkL-8YH-r1e-QH-9UC-UD-v4eBa5-FiComs8T-vUaM-VBe9vt-uF-RAej-Ph-2F36-GIbf15-jsUIU5-BCzE59pO-Nm-KoOB3S-hDMTetT-a6n-9pZv-laku-UVRGcBw1-1TVPUpB-cX7iM9CZ-CKdi-mE-3UdNytr-fn7-oXTGuii-u50w5ZW-rX3nOyo-7dPX-AkJ-5ETpY-A8ZdzZN0-1OfU-VS2Ll0b-73IoyIX-75gi-lcEDg8C-r4-8sDe9-iX2LD-5ocS-xKMFUv-9gSM-9eef-qq6Tt0o-Kohf9-4uEwJTNr-qIpWM9nC-KfuC-c6kes-G5-Avl-Hi9Q-qw-yGsA-52LVw9bd-mGp0Ph-2nVDCgW-ZhUmZ-BGRa-hiXTE-IC96-0gSo4y57-ska-QD-lDW25-1pFU8Sb-io-VE03u-VP-fd25M6Z-wn-dLKI-IfZJRgoG-IYFD-ffQz2MX-P-Iscy4-fpEi-x5TPorU6-tO-ghUB2J8M-36-akWQ-vvuYL5-Fcr4-u2wtYQX-ls-DDE4M0-Tq2eeyhp-TlSzDR-rKvuUn-s1YkiOD-ZEwqEx-b9o-CAaIbHV-eG1bM1-CgvTN-88UN3Rp-zR1I28iG-jl5EIn-6J-15-Sj-x8-u8A-woFQg-fWL3xI-95CXnN-9fb-9-gVeY-FLgJXyw-fmdz1-qBP7-NHeXPi-IOa0qgmX-RLm1z2-2OfENrAP-stPQNWY-5e0-huVDAC-mS-wdPxwcEC-K89GlYW7-T1JMs3Xk-0Tj6Y-iO-MOEBc-2iihoOl8-hIZGM8J-5D8-rwCOvR-xMWB6nb-9Y2aTuHO-tDc0q-Sy7q-i4O-qKdnyJgN-DIHWb-Er-4Bbn5-iO-5cds-3d-y2xta-wNfer-EVwgpgXD-YR-k0XJ-XQHF-ZA4NBnCZ-KkZvH-DDfLxb-nyxZDr-tnKipllT-Z9Mlc-d6b9l-J3-v7-ho-CNoykRQ-TS-rcr-jaL6-O6KE-cOLGjTS4-g-2jDwxHw-uK1Lv-aMZUf-ESjik1T-Flz-iTRAIK-xR-DZg-8YdKejJ-r3Q-OZPOYc-e9UsRxH-goeglL-O1-LY-4YRy9K76-ZkO-z18acjbw-li7E-F6iXOwM-5LG7RQ-q1C7gC-NJ-nB-aKadx85S-YK8a8Bub-vZG-NuQUF-5vb4C-dYCTc-6yPBTNp9-PtT-bxd7iO3P-ffeS1kE-SgH-bBwepr-KK4-0Xao-Pr0-HX-H9YV-J-YtLAOFV-BxWcDu2-XbYJk-PtOwhP8l-h2vW-4E-jLZgcgc-NqLEOm-GxZMg-fFi5-IQL-Yx2-WnUn-WQB-KcISjxv-bo-xHersUo-oTY2009r-Zi-oBv-ZC0nZ-Ul-eCJp-u-pcIAa-nJbROo-7T9va-g5-y4I-rT-Ny-hPadUYL-gt1iT-C4csR-t3EY5aw-coFB0yJ-SniV0C6o-II-q8gDJnGa-BsEQqZU-g7E-ue3QrX-aCuq5-gOdlv-L01vR-copP-wj1-M648pHi0-2Wu7v-3tc-rg-baeI-bgq-z-D5-fCyKcb-hvxGi-Ex4QfgT-BvkF1Gt-wu-cyh-6fgAMgB-Ny77wiTF-7pQ-q2Bej-bSr-7s-ny-uMTuut-6X-FHazx-1H-FSYCS5-HG-6pME-c9-mc-bcju99r-CGB76M73-8vDndDBY-f6hV-jJMH0-cbDHp-mzK4iL-tGYpxz-yznB-WKsMaP-t4D-ia2-g9K-J7jLV-D7O-9cRL5g-KtFJrRI-r5-dWjz-X2Zte-uH3-DcEH0-Xl3xWJJ5-vXn-0PNFy-b2Z2aCZQ-qv8LZQ-E0rlJ9b-mzuRmY-3Mc-m7ZeFN-e-DqjtXBcR-KkcRw8-VsoaDEn-CPt-ok9jTzJ-S5-IjUX-lUjjo-um2T-l5UI9S20-dIvYCXQ-W99XNaHK-C22EYEG-cgpv-ZSkjXK-Ao-Fr4-W4r-xdHPjA-8JZ-xZALCi70-3npr5-sc1FgGWN-2t9-tx-I3Ce0F-jl3MRe25-3a-wnR-oRoeF-eDKZzJDG-DEA6aA-cO5D2fxY-PQC6So-STCjwr-70-edKpaV-XAoVuNn-YnK-bbA-DfSs-GQWYNsUL-mL-7XUrv-2OGhLJYM-qFLO5We-zo-lS-FprNf3-riIVHUB-kTMfyW-G22iONya-bD-YsbMyC-z43-MiY-hd7xGIQ-AE-Lsvl-y1rj0gJh-XaUmF-poht-CR-cPW-D5-41X-3T-RYu-CkrGF3Q-m1-b7fSA4i-dOrrZ-O3VuIm-J15-k-St-5RsAzonf-7HfAQPhI-fxQd-jD-O5vDL40-K0w1-ZlHP-RUGZHd-eU-zk-AkSjTw-kYMZRQhw-91huON-HCMg-nk-WsG-e3lu4YFa-pV-qng3R8S-gXsu-zp-LQu-KHMbU53-CbQ-Fb-vzh-PXS-2u6j-3NktEp-aWyGKY0g-8etcqxO-1m4I-UIUgtw64-0BR5iCW-g36U0ypG-dJHq0gq-8l-Cfr6b5x-7xU-2tE-dLr38P-77omre-3Fu6n9-dLrwTXf-xZ3-iqqaw-L9Kl-CVyDTvJM-mjW-iQHr-meu8O1vN-xxcDumA-EqnXBE4-H2VO2-vzLtqPEz-37P-OCm9-i3pwfS-o7H9-qT-WSui-ahXn-CnrCsZc-oMtyH-0aItA5S-f4I93d-SyfvDb9-9rq-utu-W9y1p7kR-Ue-eQHlwO-7F-MU23LLf-ETt-OHA-Kq7UAeV-lR9N2-r5t5pP-zNXs-cnHUwN-GxNFcFKR-TWDti-sVj-K-3y2Cptec-szTNr8m-eUUzYFmx-5YE2s-DFj-LwlTbl-xUAX-KM-2EF-PFwakR-oAKxr-I2qAV-9ji-zMhu-8DFDk1p-66-kW-lr-MqBMdc-kj-PNq-n22N1-YTFvJmWF-6lMj-TxxyP4yJ-edsqhrx-63-6s4uY3-kS3k9H7-smkXGu-bSvc-igN9ryDo-rjnU9V-FybNW-Bu3JMN-jH-jqN94zd-rhRt-FjP6E-AQIQxW-vi0am-SP9-JQUWXsw-IngdkFK-MK-ie-cKX-QNC-3yrJDZ-jBZ452k-V0-oOBbi-Bsip-TgU6Nco-T7-udV1HnMP-oXOf2Wlm-cht4I0-9LWzWo-70DLY-90eiv-TdLTlz-e-OJkpQUb6-xsAF-cugkB-GW-xLsbrR-4yw-6J8X-9Yj2Kil-2NQJsI0-fB0MLF-AYS1Y-mQ-kGmo-hfu-cpYzQSV7-r25r-Ws2GJtJ-yAA7TVLZ-TFYxncrO-Lxh-kas-9Wr-VQGSWYwR-p-72okuq7-PSXO-4U0U-AZp7i-UIw-Map5l-zp-HfSsN-mLUJ-Srz4-sAo2-RUk-HExZh-LJ-43-rMm-yqlb-F6c-p04-6A7Gbwx-VCr-0hwG2-x3-peA-fui9-4L210tf-Jp5-Nk-RM-WTo2Gb-KroOJQP-wxOKd-dK-W3AT51P-ObAs-7Jw3-rPKt-VUjp2Db-ZGfo9-X86f-pzdq-88v-zU7oaNcZ-jhY2K-WDI-tJ3hkNh0-5yr-VxJjC-GwkdF-EI2UFv-TmfJ-FqeKOYyz-PO-zAWQn3H-WORKcNzO-04J3Up-Qc-qw-I6A-ex252HxQ-CU2D-Ro5hG-jniHE-qH-ShRMG-eghh0E-PZ6cqg-GP2a-iK5-MrH4zr-uTwV-dTq-fBz-ByoC2C-i0q-KZaG-BpKy8-lCRDHv-mmR1q-QWJxJ-dE0-5usVW-rHu-Vn7jqK-3Y-duIqiz-D2M0iar-Ez-PdtgXe-VmVMARAW-xlrO-KBCkLo-a14x61l-hbGtZ-6pYJvm-ocCYLd-4T-ea-w-HlT-OGTmwT5A-Lit-kYtLVjo-uV-RLniKMjr-dI-E8h-gIwMrT-Gm69l7q-663k-dud-8zeF-4j7BdO-v1It-Um5kZw-tpDE5L-Sydgk-xxcgeQI-pArjzu2j-b3MVl-4upqcR98-X8-NJXV9Aa-8guja6Vj-w8T3fq-0hNy-UAwRzK-6N-Rtoe6qv-bXR3kL-HhZNLeQQ-GCXjq-pI-neUOeAIR-l-dRX-LuwPGX-5XqRCwy-nlLl-biITU-e6D-jjo-IW-nFh4f-hL8NF6-Ep0o2M-2W-tJf-MtsWPJW-O-0DfQwZ8-XMc6EL-WTkapZEJ-8F67oy-yb-VCE-TuUTPvHN-u0Jd-Nx-4OZ4x5-gkm-rTV-SyEBriY-F3wr-MHs-C-hZtjy-8l12-MLO-ogx6A0-DZKE3-sv-wi-po-4S9-KloR9U-fJh-QM-fjz-pnsIO62-euw5J57b-rQeJiKe-jwG-C43M-t82Q-1PNd-ITWbC-L3spej-bczv4DhT-24-I8G-qo1-lBvA7e7k-i9N3L-jT-PDu-7fP57j6-6BC-evcITcZJ-LfhG8-5380-k0eSF8-XAVzCppS-nJ4-UVU2dzDo-KT5TXXxc-jCf-t0b-LSeTGG2m-oysEhig-NDj-MX9s5q-InO8qmpO-XpGJb285-W4rVfVX-PIB2z-aUdT-XfME-FHEMjHaa-kB-mzgRfhC-hbK-aE5vtkN3-CRc-Tdze3Jk-xjRwTR2-8c9Fqfi-sJKyJxc-1ZTy0KA1-9Qdaqg-D11-SpncP-SZ-mkVG0TaM-7qYNVubb-FZtS-QeL-rX-oY-PTf5-b3CH8P-NW-zWJbU98-L3-sRnWtr-rGJVGBs-rDtniP-0IlDPAFO-84lJ8EkB-udAIt-SAv-1hR-oY-BK54Cfcw-4HSYVU-9-fgAl-UT-d8H-KPE9-bB-Mqx2t35p-RxBSc-WCG-wBei-4Ofp-Wvj8I2Ls-bQLwgC5k-1Mf0-qFWU1R1-Xxi-Duzx-8V-h3A-rZabLg0V-hhaoV-C3-AlNyQF-RVcPe-NeUp-lP92-Pmiu7Hv-yrlJ0-U2vT-4HLNz-VTI-5m-CcLCLqk-vwvL-Pt-zPf8-Ww0b-lUG0-8UR-hxLL-Ffjz-UWxQ-zzY-I9-ykV-GJFSCSH9-yxBOb5vD-TpwDx5-K6ve8su-oSy1Imqx-Acq8nth-tRB-BWU-i60R-bsEoIs-4deoxD3-mY-KKi-2tUZ17a-c5ekkhA-YpmGFO-Uz7G-RXFDTm2m-4UKqgt-WKSs9-PH-jGr6lyqi-ois6KeHa-LlKmTl-9YwlTM-6QpQdpB-MlgYXsyP-lb-GaAH1fYo-L9rN-Jxdg-QRm-GF7g6w-TI4QV-0B-T-DVuV-4bET-mXts3xCC-pcuR7zn-pHwWYZu-woTGsQ-FeAaP-ptPY-RGmfg-OqWKX-UKfPF9h-gzq6SH-ZRWXfun-nbkBC-01bhDvp-1v2-MExMgvAA-iA-4aSvVW-TEPjk-eSwGQc-3SL-x4dP-He0-Frn5BH-IVR-mIaN7Q-4DA1kD-rVd-OIe-mKVemO-2v97Z-28l-Bnf926-QdT1XWC-pYthCff4-jfRE-SZNujBT7-GewKEE4-PyLPRYMs-Jo2Q-DHxtIvQJ-Xk1-EBxsmNS-I3-Gtw82-MJ-hhQ-58k-Qu-Ye-Skod4PPH-SA6BxaL-pWDJRPv-eAVI-0QUF-CreUiua9-Bbm-mF-CqeE-8sQ-NAzsA-5F5Os-bVZw-hRWj-p8SF-Rkj-iGOX-a6Nipeg-8icAJR2-wI0rrgkL-3teIWDi-alWq3L5-Yf-5slK-i8a9tZ-TQ4-KLF72-NF-CT-ZnIdx-o5gzaU-qNqa5S-5T-lqxROiQQ-dBIhA-b-h3z4w6v-ub7YrLc-STcYY0R0-Nc-XrIBPohN-cW-1u7xXT-u9s2Ir1-sJ0r-jym1G-B2w10ht-S9ANrmi-QpV3-Cr-NX-lRLSQSq2-La44c-6KUa-cMqqzEB8-rgW-6kU-yj-ajjcsOsk-20-z6fz-ujEPvD-t-24b-4W-sCVf6y43-GrGDKl4x-RXY-oX3Uz-Rdi0-p5dRy-Td-GSqw-lzcC-gST-ZxCh-kqT3cTR-IpbMd-eCcnTe-M2jU-w2G3H0-SUfC-dmbi-a3-aDyDz1-ln-3MvK8FT-aa-dpJO-b2mapjHL-DGPLr-OSemt9-GqO-rG-zs3fI9Xt-sPg-vDoB6R-qz3XF61-AMgta-Ma2-Zdr6i-g4x7-gJYIrri-Arhb-5K2KVn-cIN73g-vJs-d5c-aOjjWtoV-njgvp-wrtzO-ytf6-x6DkD-5h-S41GqGA-NNc80d-QsBdHiV-O3OQsSRC-xERiDY6r-Tx-yI19G3c-JR9dnZo-cLzx-nP-VVb-V6pPyFFV-IfZdlHaO-TfS-VJa-bm6H9-GUTs5pj-y-eI-Tr-JXz-2L7-JjQqlV-dD-bqqW33-J-RY9rBIQS-JtY4-X5i6C-v9lsf-7YOSTsm-yp-wEjG0hR-ekg-jAVJYiQ-YGK-hYdrsO-5Qnvxmw-zNqh-QdcIgV-6iSc9y-hm2P-CAY-7ek-DRuR4jXv-GjOLD2eF-gst-IPKtv-HG41-YKQUktt-S8n3S8md-C7Fd8O-YS6-T65B-YOJRi-RU5u2-IbS-8pM-aPGJi0-O3JnTEI-LCNqb5f-3Po-qoxNK-J3qP9cK-3M5Cj0i-tHdWme-t4-iR7F5T5G-eQE-AvrzzcBh-Fw-XaXC-hTec-5oOlmW4-pabuY5Z-9qxqUVq-Osj-Rlw1ZlAq-SbKzmi-w2VK-qJfL9Hq-FE8pAMP-zF35-9RCO-kjLA1dFN-TZRCUs-is3FVFeU-wh-NklD5DK-0g-DnYf-qHl-sIk-HFO3wh-2o4Ty2w-gMNSl9F0-XnT-QhCCszB-HwP1BT8j-Xgo0vAS-1qvLJCW-8Z1u5V1-cjwJ-zC-3SZEl-f5LNY-G8mO-WBc-lPuj-KEdSzcd-3-H0-v4B-9C-iOQhwM-V7-YDlf0w-qCnEr-50iS-81QM-BERzN-AgCKB9b-YDWv-7WuAsrXf-1sF-LI1GCB1x-IDxg1-6L74-ZFmag-Y9C-pnoDaaOl-xh-Kmprj-DkOAGjv-nZ-Ass-Qyrt-thUKGi-bae-2Y2TFF-k6K4oBG-APqB1qm-tA9y-LH0S-nIln-ZbckqOb-c-SUn-E4y05-R2tw-Vr7-jl-2n2991W-LcTX-RfZbiK-wbmM4-TL7aas-wuaV-4xs-9RLG-DM-tyNsl-sf3Ke-4YtBoe-WRzUkTZ-iW-5Df-mO7wB0t-jRHit0-aO-EY1f3LrB-l4TKS-ldUn-jf7FHK-Xy5ITTzn-tVCVK8-Ru-uOJK-1J-8XDw-btCpel-IeE-8M-Z3Wyklgt-Op-4mZnK-X6-sOQSZqS-x2qW-5NyY4IQD-mRRs6TK0-C9CzbBM-Omhv-wzwR-ZSMNh-cpRgMv-hyRx-0wQh7AAQ-Gi-gYoRw1d-xxrdA1-KXejU7c1-JJo9x-kfHh-Q5x-ps-c8UyUevm-kb-lJdP88U5-iYzJHYf-cO1Q-jaee4v-K5hfYTN-q0bO-3VA1A-xkR-XN45C9-yeJ-cY0YjRk-fS-BgGKF-cY-zsXmY8-nu-0Y1SG4jW-X2Yzs-rs5TTaSF-WHKs-b0GhBI-sk2RpdS-F0Cx-fAJ3n-0rQVFnV-Z-eY5Saam2-a9gEf-ux-vCLWcL4-B7c7hkjI-2n6TZp1m-j4GWNbbp-Adk3BA-OQQiev-CGCtHl-aSf-Znu2QrCS-MCOBkN-tU-k-yJ5s1K-893gHhJ-BLjNl-l63QmI-AW-TEo3Q102-Ht7n5p-Su-rcL-harTzhG-yO9KE718-PQ03v5gT-469gQFr-p42Jewy8-wbRD-HyfU64G-H3k-4iq-QlX3OCUB-BabLA-06K8W-LYjve-sNQndxew-v6xV6DD-q5m-V7pJUN-5A-3yo9A-Cqah0z-bWxH-lD8VnVVG-jUjb-Qxg1GFI-pyo-Ig-hBy9u-Q3h5-e86agFj-iK919-6WVuwRp6-ZL-WG3tS7u-ub-b0y4e8c-qUO-Qi3OxdW-r0d5Z-5kyLW-rzE2eze-bDX1w-zWyVMO-Xr7D-VVRio-Bw-XaX6oQ-5Y1O33-RlLtRB-pJl-p8o-xaQmIL-iL-UpVuOw-sJbYU-GDE-rv5nQ-FS6-IDobQ-jhC-bLb8bEg-DecqnvL-ZaR7P-4-Xz7Qvs2-4g-mJTLGrnR-UK-e0u-jGrH-sENXM-2a2BMo-HS0XSgM5-QKwscbL-s7AO-wqv45Y-cD-xXdd-qF-1nkKsff6-jpuR-ETDQ-m2w4O-6RY-37nAwf-E9WRq0V-8n93s-h2V4BGkz-w35QHC-tVygdWZr-EJ3-hlTPME-1ez4-3rGY-Adg-JDARQ9O-1HA-U33QA9-9s25NFdO-XYexonfD-VR-xnUI14-0QjOI-CDR4QKC-kQmvydG-dW-Tec-Ji1da5-RKMAl5cE-imfcZAf-ugEr-SA42ZPB-y5-ZP0-qfN3mPiX-5Wr6-cJ4QVk1-bo-Cp-7pKQA-s7kp-3UzJfl3-Ux2pZK-mXo-kut68Y-86pcU-5nYUobh-nZXO1VSK-e8dBL-xrbMCxxN-14CH-4F3Dqj5-4Q6qec3I-a0Cc-Ff1-GDvyo-K2r5-kY5Ojok-d62H-QLzZpy5r-IqS-Qn-JstyzZW-tChV2g-EWDRh-gmwkO-to3-qR9a-Ji1-355A6wid-S4624ROr-TS7bhSc-eG2-93j-b06LV3B-8t3BjgP-XzkN-0S1-c-aYMRwiN-rPEnc-8X-PGxqwp-N8dXNr-d-0a85t-B2l-M7CYBo-DqivnG-yHXQCvoi-SQhqI-E0-eB-ikI-6uslU-8s1Zfei-xgdLeWH-cU3W4Lws-cm84EDF-Gjr-X2Na-cCVkNO0-f3O8KhS-uOaiD-ZTd2uQid-5Igzjr8-yad-08i-3YJ2-in5LK-wqtSH-pAStSzZN-KdNhr-Xblbk-12M1owI9-JjcfZAec-E3jM-sUYliV-QcHxZJ-wqr8w-4nm-81TDwB-dy-AKBwh8-fAZlNlo-Jl6x-fhb-F9-8VbUYH-zI-ssLM9p-Gm0N-RkFUP7t-NaHqT-XVnSQ-USiF-ox7lu0d-aVdy-OLmN-dA-OW9hvy-GOKL-vkoE-u0i5o8Q5-SLR4B23-pnCTWlD-Gi2xNzFw-xm-4jW08-Hzz2QO-QrLCJVr-r2-VXn-kSl-pJxUVnD-pIe-UZXVK-5a05ckM-vq0Kf2x0-JMe9-8QCi-sJ8dQE-SS-xmf-MyVz-0sQY7vE-TxPY-5a-sDE5LZ-0xV6-tRWSI-IR1nvxD-n-zk5TE-Vd3-ui-jFSw-qw-SGiX-vhVF-PP-Fg1Tt8A-P2B-l5Ew-TX-WLY-VwYYj-ms8gC5rb-HyyyKeQU-rauc-7w7tFAS-b3DvKP-ERwREfQ-1sxNbEMr-QSirkWD-bRU-fQtps-CfkT-uC9eCz-qSGq2LO-nwHL-pD7hLz-isIdq-MPODg-PcT8AEW-BUc2dLZD-v2NPwGM-odJTl-iyN6OaK-rGfj-T6ax-XV-2Zm-KPX-Kg-EH-y8fft5-g9jS-HB-Ax-NG3t-1D90uI2S-D9J0-EICquYz-9BY9hIdk-tN-kjk-NVSHZ-MSzLO-fRHMm2-B-KHA6lWOU-HD2EYid-Xl5-iHr9kfun-aCKMCm-4aKL-3N-J5-rm9i90-s3gI104d-2hWe-hGLJMWf-VV-zj9xOr82-CN5-JyPn-yqIWhvI-P9hamwr-9ykL-mSu4-tsbe-8JzFDpo-Bfb2hL3k-Hgl-HXNGOT-9b0l-2xy-psw-dbeqS-9CCAJl-bH5F-gLUZm-w4A-HAu-FwL-GOzGb5D-2sYgUW-um-NxnMfnI-m4dxrR1-NmYJMJy-RlrvO9AD-Z4-k7um-l4D-j2-F7i-cL8sDR7R-WzspBJ-RCG1-xR3-NS0z-WGz-MEMmGM5V-g3QL1wO-ZLnpx8w-x1MT-KNjMkfX-Z4J-9ItR3zMX-RRfw1k-At-dJKVsjtQ-H5-2l7yPd-nUGFwQ-o6HN1J4-0ia-1lan8-5nX9BnA-8AE5M-ZWeTk-H-BWO5dbN-W60re-DVH8mh3-Sz-npKu-5a85K4b-ezoyb-HvS-ibqVv-NS-Ad5MKQH-Nd1zsh-23zqFP-jBi-18RSO-Ml82Mxp-cEqFD-mctuDGdp-ifZmpLId-yh1CiygX-g9x-FObCzFHl-dvS-vsUr-A7rpdgN-HwZEGuWb-ejwE5Fp-PsB-hRH-Y0QYZyh-eM-ogr25-Xy-CPKc0-McarR1-8y9cMC-7lUk-lXrcQNC-jE7X-BB6m7-nKdcvGfH-HpvJ1-jNq-b4hESVCC-NjPd-qkE-bTy7sOD-HKr-xiI-tZQfX246-t280eL-yaaa-MJWM0CDc-7nHWTM-ayPgr-zIvg-UAN42JC-RIx-rwmucr9-Pnb7mYtz-5oiXP-D-cV-MQjykNj-sKOxj2-9YSoOtbQ-4UY-2R2-Qbe-LTtekiFt-uEl-eQD03wDT-4e4tDfzK-EpcByf-PKA-IXFSq-86MLpIx-NqmLHvR8-HJFGda3-pPPfMjM-Z8Pi0-eDJMZnxo-Kt-CagE-670R-rtW8J-lQ3KgTN-Jcl0EDf-FdxVNk-zw-86-60we-F8-VhTa-xWMEtFvq-7S0hM-5Q-C8-AZvFdplU-JraI8-Qwx-Wc5-dQri5-vgxe-8ootHF-uSl-obB8DCse-a5fezMf-nt-BmG84-pJFO4eGu-YVw487Pm-TSLWNnG-bLSOzNFh-4zNu-Edf1A-Bz-N1njfxuL-8DFly2-Dkif-Xi-gWKnI-ppK-Gby9rk-5RZ-klv-b3QIm6-564NOpGd-Kf-yFfC-LXb-va8YCQdS-8M8w-EH1g-uVXAqJXc-ncQsz-Bf-7juI-a6-Twqr0-Nh4d9-WaU-Zl-XNl-31V6KD4-fzEm-pcOaqTa-88Ga39D-Ok-LSaG2kXy-uHEZsK-UwDphP-XH-2j-gtj3a6vc-Tm01-3j99Wy-qw32FzpO-FaLLy2-Qhi-mEsN-x-oQS-4z-oQ-jc-pzI-vx-No-GbTu-Y-Q8-QLo5x6zQ-95k-QK-qS-fXY-6hmV-X8IPT-JAlkXQ-B7TG0LP-OgsAXb-QbVWde-LCdN0-U1-Gu8-u-Z-T6I-ZI5-9Com3-ZPI5Vlkj-qLScSB-ERXim-r-H7Um21om-3JTNH-musuB4-DxxEPE0-M9pqpJA-xkJAcU-SpD0-kTHtxQi-vPVnY-T0Q-E9WyYTP1-sz9hWIX-isL74-edb3RfQS-rfhAY0-b-PjJLHG-VSDLBmvP-a-4NypWo4-QL7dOHA-4SVIGZ-6f-yttbfFmx-aTz-TX68zsr-QGSs0W-NPoz2AtF-GY14Xp18-DMhPYk-u1P6ur-urSTId8-g-mlgFjmyh-0Ko-MTHjFk-7qIcaHUm-psAU-5In-BytYjyX-y-EQ7mBW-rnodj-L-7O8ooU-vSrtB-ZJOw4ciT-N':",
+              "budget": {
+                "id": "string",
+                "description": "string",
+                "amount": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "project": "string",
+                "projectID": "string",
+                "uri": "string"
+              },
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.608Z",
+                  "dateModified": "2023-06-29T08:19:09.608Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab"
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "type": "preProcurement",
+                  "description": "string",
+                  "code": "string",
+                  "dueDate": "2023-06-29T08:19:09.608Z",
+                  "dateMet": "2023-06-29T08:19:09.608Z",
+                  "dateModified": "2023-06-29T08:19:09.608Z",
+                  "status": "scheduled"
+                }
+              ]
+            },
+            "tender": {
+              "id": "string",
+              "title": "string",
+              "description": "string",
+              "status": "planning",
+              "procuringEntity": {
+                "name": "string",
+                "id": "string"
+              },
+              "items": [
+                {
+                  "id": "string",
+                  "description": "string",
+                  "classification": {
+                    "scheme": "CPV",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                  },
+                  "additionalClassifications": [
+                    {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    }
+                  ],
+                  "quantity": 0,
+                  "unit": {
+                    "scheme": "UNCEFACT",
+                    "id": "*****NEEDS FIXING*****",
+                    "name": "string",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "uri": "string"
+                  }
+                }
+              ],
+              "value": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "minValue": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "procurementMethod": "open",
+              "procurementMethodDetails": "string",
+              "procurementMethodRationale": "string",
+              "mainProcurementCategory": "goods",
+              "additionalProcurementCategories": "goods",
+              "awardCriteria": "costOnly",
+              "awardCriteriaDetails": "string",
+              "submissionMethod": [
+                "electronicSubmission"
+              ],
+              "submissionMethodDetails": "string",
+              "tenderPeriod": {
+                "startDate": "2023-06-29T08:19:09.608Z",
+                "endDate": "2023-06-29T08:19:09.608Z",
+                "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                "durationInDays": 0
+              },
+              "enquiryPeriod": {
+                "startDate": "2023-06-29T08:19:09.608Z",
+                "endDate": "2023-06-29T08:19:09.608Z",
+                "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                "durationInDays": 0
+              },
+              "hasEnquiries": true,
+              "eligibilityCriteria": "string",
+              "awardPeriod": {
+                "startDate": "2023-06-29T08:19:09.608Z",
+                "endDate": "2023-06-29T08:19:09.608Z",
+                "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                "durationInDays": 0
+              },
+              "contractPeriod": {
+                "startDate": "2023-06-29T08:19:09.608Z",
+                "endDate": "2023-06-29T08:19:09.608Z",
+                "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                "durationInDays": 0
+              },
+              "numberOfTenderers": 0,
+              "tenderers": [
+                {
+                  "name": "string",
+                  "id": "string"
+                }
+              ],
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.608Z",
+                  "dateModified": "2023-06-29T08:19:09.608Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab"
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "type": "preProcurement",
+                  "description": "string",
+                  "code": "string",
+                  "dueDate": "2023-06-29T08:19:09.608Z",
+                  "dateMet": "2023-06-29T08:19:09.608Z",
+                  "dateModified": "2023-06-29T08:19:09.608Z",
+                  "status": "scheduled"
+                }
+              ],
+              "amendments": [
+                {
+                  "date": "2023-06-29T08:19:09.608Z",
+                  "rationale": "string",
+                  "id": "string",
+                  "description": "string",
+                  "amendsReleaseID": "string",
+                  "releaseID": "string"
+                }
+              ]
+            },
+            "awards": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "status": "costOnly",
+                "date": "2023-06-29T08:19:09.608Z",
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "suppliers": [
+                  {
+                    "name": "string",
+                    "id": "string"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    },
+                    "additionalClassifications": [
+                      {
+                        "scheme": "CPV",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                      }
+                    ],
+                    "quantity": 0,
+                    "unit": {
+                      "scheme": "UNCEFACT",
+                      "id": "*****NEEDS FIXING*****",
+                      "name": "string",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "uri": "string"
+                    }
+                  }
+                ],
+                "contractPeriod": {
+                  "startDate": "2023-06-29T08:19:09.608Z",
+                  "endDate": "2023-06-29T08:19:09.608Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                  "durationInDays": 0
+                },
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.608Z",
+                    "dateModified": "2023-06-29T08:19:09.608Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab"
+                  }
+                ],
+                "amendments": [
+                  {
+                    "date": "2023-06-29T08:19:09.608Z",
+                    "rationale": "string",
+                    "id": "string",
+                    "description": "string",
+                    "amendsReleaseID": "string",
+                    "releaseID": "string"
+                  }
+                ]
+              }
+            ],
+            "contracts": [
+              {
+                "id": "string",
+                "awardID": "string",
+                "title": "string",
+                "description": "string",
+                "status": "pending",
+                "period": {
+                  "startDate": "2023-06-29T08:19:09.608Z",
+                  "endDate": "2023-06-29T08:19:09.608Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.608Z",
+                  "durationInDays": 0
+                },
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "items": [
+                  {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    },
+                    "additionalClassifications": [
+                      {
+                        "scheme": "CPV",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                      }
+                    ],
+                    "quantity": 0,
+                    "unit": {
+                      "scheme": "UNCEFACT",
+                      "id": "*****NEEDS FIXING*****",
+                      "name": "string",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "uri": "string"
+                    }
+                  }
+                ],
+                "dateSigned": "2023-06-29T08:19:09.608Z",
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.608Z",
+                    "dateModified": "2023-06-29T08:19:09.608Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab"
+                  }
+                ],
+                "implementation": {
+                  "transactions": [
+                    {
+                      "id": "string",
+                      "source": "string",
+                      "date": "2023-06-29T08:19:09.608Z",
+                      "value": {
+                        "amount": 0,
+                        "currency": "ADP"
+                      },
+                      "payer": {
+                        "name": "string",
+                        "id": "string"
+                      },
+                      "payee": {
+                        "name": "string",
+                        "id": "string"
+                      },
+                      "uri": "string"
+                    }
+                  ],
+                  "milestones": [
+                    {
+                      "id": "string",
+                      "title": "string",
+                      "type": "preProcurement",
+                      "description": "string",
+                      "code": "string",
+                      "dueDate": "2023-06-29T08:19:09.608Z",
+                      "dateMet": "2023-06-29T08:19:09.608Z",
+                      "dateModified": "2023-06-29T08:19:09.608Z",
+                      "status": "scheduled"
+                    }
+                  ],
+                  "documents": [
+                    {
+                      "id": "string",
+                      "documentType": "plannedProcurementNotice",
+                      "title": "string",
+                      "description": "string",
+                      "url": "string",
+                      "datePublished": "2023-06-29T08:19:09.608Z",
+                      "dateModified": "2023-06-29T08:19:09.608Z",
+                      "format": "application/1d-interleaved-parityfec",
+                      "language": "ab"
+                    }
+                  ]
+                },
+                "relatedProcesses": [
+                  {
+                    "id": "string",
+                    "relationship": "framework",
+                    "title": "string",
+                    "scheme": "ocid",
+                    "identifier": "string",
+                    "uri": "string"
+                  }
+                ],
+                "milestones": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "type": "preProcurement",
+                    "description": "string",
+                    "code": "string",
+                    "dueDate": "2023-06-29T08:19:09.608Z",
+                    "dateMet": "2023-06-29T08:19:09.608Z",
+                    "dateModified": "2023-06-29T08:19:09.608Z",
+                    "status": "scheduled"
+                  }
+                ],
+                "amendments": [
+                  {
+                    "date": "2023-06-29T08:19:09.608Z",
+                    "rationale": "string",
+                    "id": "string",
+                    "description": "string",
+                    "amendsReleaseID": "string",
+                    "releaseID": "string"
+                  }
+                ]
+              }
+            ],
+            "language": "en",
+            "relatedProcesses": [
+              {
+                "id": "string",
+                "relationship": "framework",
+                "title": "string",
+                "scheme": "ocid",
+                "identifier": "string",
+                "uri": "string"
+              }
+            ],
+            "url": "https://www.crowncommercial.gov.uk/package/record/release"
+          }
+        ],
+        "compiledRelease": {
+          "ocid": "string",
+          "id": "string",
+          "date": "2023-06-29T08:19:09.608Z",
+          "tag": "planning",
+          "initiationType": "tender",
+          "parties": [
+            {
+              "name": "string",
+              "id": "GB-COH-05684804",
+              "identifier": {
+                "scheme": "GB-COH",
+                "id": "abc1234",
+                "legalName": "string",
+                "uri": "string"
+              },
+              "additionalIdentifiers": [
+                {
+                  "scheme": "GB-COH",
+                  "id": "abc1234",
+                  "legalName": "string",
+                  "uri": "string"
+                }
+              ],
+              "address": {
+                "streetAddress": "string",
+                "locality": "string",
+                "region": "string",
+                "postalCode": "string",
+                "countryName": "string",
+                "countryCode": "AD"
+              },
+              "contactPoint": {
+                "name": "string",
+                "email": "string",
+                "telephone": "string",
+                "faxNumber": "string",
+                "url": "string"
+              },
+              "roles": [
+                "buyer"
+              ],
+              "details": {
+                "scale": "micro",
+                "creationDate": "DD/MM/YY",
+                "countryCode": "UK",
+                "companyType": "Type of company",
+                "is_vcse": 1,
+                "status": "Organisation status",
+                "active": 1,
+                "organisationId": "string",
+                "isSme": true,
+                "rightToBuy": true,
+                "tradingName": "string"
+              }
+            }
+          ],
+          "buyer": {
+            "name": "string",
+            "id": "GB-COH-05684804"
+          },
+          "planning": {
+            "rationale": "'rationale_x-r-Lx':",
+            "budget": {
+              "id": "string",
+              "description": "string",
+              "amount": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "project": "string",
+              "projectID": "string",
+              "uri": "string",
+              "finance": {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "financingParty": {
+                  "name": "string",
+                  "id": "GB-COH-05684804"
+                },
+                "financeType": "institutional",
+                "financeCategory": "equity",
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "period": {
+                  "startDate": "2023-06-29T08:19:09.609Z",
+                  "endDate": "2023-06-29T08:19:09.609Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                  "durationInDays": 0
+                },
+                "interestRate": {
+                  "base": "string",
+                  "margin": 0,
+                  "fixed": true,
+                  "notes": "string"
+                },
+                "repaymentFrequency": 0,
+                "stepInRights": true,
+                "exchangeRateGuarantee": true,
+                "relatedLots": [
+                  "string"
+                ]
+              }
+            },
+            "documents": [
+              {
+                "id": "string",
+                "documentType": "plannedProcurementNotice",
+                "title": "string",
+                "description": "string",
+                "url": "string",
+                "datePublished": "2023-06-29T08:19:09.609Z",
+                "dateModified": "2023-06-29T08:19:09.609Z",
+                "format": "application/1d-interleaved-parityfec",
+                "language": "ab",
+                "relatedLots": [
+                  "string"
+                ]
+              }
+            ],
+            "milestones": [
+              {
+                "id": "string",
+                "title": "string",
+                "type": "preProcurement",
+                "description": "string",
+                "code": "string",
+                "dueDate": "2023-06-29T08:19:09.609Z",
+                "dateMet": "2023-06-29T08:19:09.609Z",
+                "dateModified": "2023-06-29T08:19:09.609Z",
+                "status": "scheduled",
+                "relatedLots": [
+                  "string"
+                ]
+              }
+            ]
+          },
+          "tender": {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "status": "planning",
+            "procuringEntity": {
+              "name": "string",
+              "id": "GB-COH-05684804"
+            },
+            "items": [
+              {
+                "id": "string",
+                "description": "string",
+                "classification": {
+                  "scheme": "CPV",
+                  "id": "string",
+                  "description": "string",
+                  "uri": "string"
+                },
+                "additionalClassifications": [
+                  {
+                    "scheme": "CPV",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                  }
+                ],
+                "quantity": 0,
+                "unit": {
+                  "scheme": "UNCEFACT",
+                  "id": "*****NEEDS FIXING*****",
+                  "name": "string",
+                  "value": {
+                    "amount": 0,
+                    "currency": "ADP"
+                  },
+                  "uri": "string"
+                },
+                "relatedLot": "string",
+                "deliveryLocation": {
+                  "description": "string",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                      0,
+                      [
+                        0,
+                        [
+                          0
+                        ]
+                      ],
+                      0,
+                      [
+                        0,
+                        [
+                          0
+                        ]
+                      ]
+                    ]
+                  },
+                  "gazetteer": {
+                    "scheme": "NUTS",
+                    "identifiers": [
+                      "string"
+                    ]
+                  },
+                  "uri": "string"
+                },
+                "deliveryAddress": {
+                  "streetAddress": "string",
+                  "locality": "string",
+                  "region": "string",
+                  "postalCode": "string",
+                  "countryName": "string",
+                  "countryCode": "AD"
+                }
+              }
+            ],
+            "value": {
+              "amount": 0,
+              "currency": "ADP"
+            },
+            "minValue": {
+              "amount": 0,
+              "currency": "ADP"
+            },
+            "procurementMethod": "open",
+            "procurementMethodDetails": "string",
+            "procurementMethodRationale": "string",
+            "mainProcurementCategory": "goods",
+            "additionalProcurementCategories": "goods",
+            "awardCriteria": "costOnly",
+            "awardCriteriaDetails": "string",
+            "submissionMethod": [
+              "electronicSubmission"
+            ],
+            "submissionMethodDetails": "string",
+            "tenderPeriod": {
+              "startDate": "2023-06-29T08:19:09.609Z",
+              "endDate": "2023-06-29T08:19:09.609Z",
+              "maxExtentDate": "2023-06-29T08:19:09.609Z",
+              "durationInDays": 0
+            },
+            "enquiryPeriod": {
+              "startDate": "2023-06-29T08:19:09.609Z",
+              "endDate": "2023-06-29T08:19:09.609Z",
+              "maxExtentDate": "2023-06-29T08:19:09.609Z",
+              "durationInDays": 0
+            },
+            "hasEnquiries": true,
+            "eligibilityCriteria": "string",
+            "awardPeriod": {
+              "startDate": "2023-06-29T08:19:09.609Z",
+              "endDate": "2023-06-29T08:19:09.609Z",
+              "maxExtentDate": "2023-06-29T08:19:09.609Z",
+              "durationInDays": 0
+            },
+            "contractPeriod": {
+              "startDate": "2023-06-29T08:19:09.609Z",
+              "endDate": "2023-06-29T08:19:09.609Z",
+              "maxExtentDate": "2023-06-29T08:19:09.609Z",
+              "durationInDays": 0
+            },
+            "numberOfTenderers": 0,
+            "tenderers": [
+              {
+                "name": "string",
+                "id": "GB-COH-05684804"
+              }
+            ],
+            "documents": [
+              {
+                "id": "string",
+                "documentType": "plannedProcurementNotice",
+                "title": "string",
+                "description": "string",
+                "url": "string",
+                "datePublished": "2023-06-29T08:19:09.609Z",
+                "dateModified": "2023-06-29T08:19:09.609Z",
+                "format": "application/1d-interleaved-parityfec",
+                "language": "ab",
+                "relatedLots": [
+                  "string"
+                ]
+              }
+            ],
+            "milestones": [
+              {
+                "id": "string",
+                "title": "string",
+                "type": "preProcurement",
+                "description": "string",
+                "code": "string",
+                "dueDate": "2023-06-29T08:19:09.609Z",
+                "dateMet": "2023-06-29T08:19:09.609Z",
+                "dateModified": "2023-06-29T08:19:09.609Z",
+                "status": "scheduled",
+                "relatedLots": [
+                  "string"
+                ]
+              }
+            ],
+            "amendments": [
+              {
+                "date": "2023-06-29T08:19:09.609Z",
+                "rationale": "string",
+                "id": "string",
+                "description": "string",
+                "amendsReleaseID": "string",
+                "releaseID": "string"
+              }
+            ],
+            "competitive": true,
+            "lots": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "status": "planning",
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "contractPeriod": {
+                  "startDate": "2023-06-29T08:19:09.609Z",
+                  "endDate": "2023-06-29T08:19:09.609Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                  "durationInDays": 0
+                },
+                "selectionCriteria": {
+                  "criteria": [
+                    {
+                      "type": "technical",
+                      "description": "string",
+                      "minimum": "string"
+                    }
+                  ],
+                  "description": "string"
+                },
+                "techniques": {
+                  "hasFrameworkAgreement": true,
+                  "frameworkAgreement": {
+                    "minimumParticipants": 0,
+                    "maximumParticipants": 0,
+                    "method": "withReopeningCompetition",
+                    "periodRationale": "string",
+                    "buyerCategories": "string",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "period": {
+                      "startDate": "2023-06-29T08:19:09.609Z",
+                      "endDate": "2023-06-29T08:19:09.609Z",
+                      "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                      "durationInDays": 0
+                    },
+                    "description": "string"
+                  },
+                  "hasDynamicPurchasingSystem": true,
+                  "dynamicPurchasingSystem": {
+                    "type": "open",
+                    "status": "pending"
+                  },
+                  "hasElectronicAuction": true,
+                  "electronicAuction": {
+                    "url": "string",
+                    "description": "string"
+                  }
+                },
+                "awardCriteria": {
+                  "weightingDescription": "string",
+                  "orderRationale": "string",
+                  "criteria": [
+                    {
+                      "type": "price",
+                      "name": "string",
+                      "description": "string",
+                      "numbers": [
+                        {
+                          "number": 0,
+                          "weight": "percentageExact",
+                          "fixed": "total",
+                          "threshold": "minimumScore"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "lotDetails": {
+              "maximumLotsBidPerSupplier": 0,
+              "maximumLotsAwardedPerSupplier": 0,
+              "awardCriteriaDetails": "string"
+            },
+            "lotGroups": {
+              "id": "string",
+              "relatedLots": [
+                "string"
+              ],
+              "optionToCombine": true,
+              "maximumValue": {
+                "amount": 0,
+                "currency": "ADP"
+              }
+            },
+            "enquiries": [
+              {
+                "id": "string",
+                "date": "2023-06-29T08:19:09.609Z",
+                "author": {
+                  "name": "string",
+                  "id": "GB-COH-05684804"
+                },
+                "title": "string",
+                "description": "string",
+                "answer": "string",
+                "dateAnswered": "2023-06-29T08:19:09.609Z",
+                "relatedItem": "string",
+                "relatedLot": "string",
+                "threadID": "string"
+              }
+            ],
+            "criteria": [
+              {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "source": "tenderer",
+                "relatesTo": "tenderer",
+                "relatedItem": "string",
+                "requirementGroups": [
+                  {
+                    "id": "string",
+                    "description": "string",
+                    "requirements": [
+                      {
+                        "id": "string",
+                        "title": "string",
+                        "description": "string",
+                        "dataType": "string",
+                        "pattern": "string",
+                        "expectedValue": {
+                          "amount": 0,
+                          "currency": "ADP"
+                        },
+                        "minValue": {
+                          "amount": 0,
+                          "currency": "ADP"
+                        },
+                        "maxValue": {
+                          "amount": 0,
+                          "currency": "ADP"
+                        },
+                        "period": {
+                          "startDate": "2023-06-29T08:19:09.609Z",
+                          "endDate": "2023-06-29T08:19:09.609Z",
+                          "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                          "durationInDays": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "selectionCriteria": {
+              "criteria": [
+                {
+                  "type": "technical",
+                  "description": "string",
+                  "minimum": "string"
+                }
+              ],
+              "description": "string"
+            },
+            "techniques": {
+              "hasFrameworkAgreement": true,
+              "frameworkAgreement": {
+                "minimumParticipants": 0,
+                "maximumParticipants": 0,
+                "method": "withReopeningCompetition",
+                "periodRationale": "string",
+                "buyerCategories": "string",
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "period": {
+                  "startDate": "2023-06-29T08:19:09.609Z",
+                  "endDate": "2023-06-29T08:19:09.609Z",
+                  "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                  "durationInDays": 0
+                },
+                "description": "string"
+              },
+              "hasDynamicPurchasingSystem": true,
+              "dynamicPurchasingSystem": {
+                "type": "open",
+                "status": "pending"
+              },
+              "hasElectronicAuction": true,
+              "electronicAuction": {
+                "url": "string",
+                "description": "string"
+              }
+            }
+          },
+          "awards": [
+            {
+              "id": "string",
+              "title": "string",
+              "description": "string",
+              "status": "costOnly",
+              "date": "2023-06-29T08:19:09.609Z",
+              "value": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "suppliers": [
+                {
+                  "name": "string",
+                  "id": "GB-COH-05684804"
+                }
+              ],
+              "items": [
+                {
+                  "id": "string",
+                  "description": "string",
+                  "classification": {
+                    "scheme": "CPV",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                  },
+                  "additionalClassifications": [
+                    {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    }
+                  ],
+                  "quantity": 0,
+                  "unit": {
+                    "scheme": "UNCEFACT",
+                    "id": "*****NEEDS FIXING*****",
+                    "name": "string",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "uri": "string"
+                  },
+                  "relatedLot": "string",
+                  "deliveryLocation": {
+                    "description": "string",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        0,
+                        [
+                          0,
+                          [
+                            0
+                          ]
+                        ],
+                        0,
+                        [
+                          0,
+                          [
+                            0
+                          ]
+                        ]
+                      ]
+                    },
+                    "gazetteer": {
+                      "scheme": "NUTS",
+                      "identifiers": [
+                        "string"
+                      ]
+                    },
+                    "uri": "string"
+                  },
+                  "deliveryAddress": {
+                    "streetAddress": "string",
+                    "locality": "string",
+                    "region": "string",
+                    "postalCode": "string",
+                    "countryName": "string",
+                    "countryCode": "AD"
+                  }
+                }
+              ],
+              "contractPeriod": {
+                "startDate": "2023-06-29T08:19:09.609Z",
+                "endDate": "2023-06-29T08:19:09.609Z",
+                "maxExtentDate": "2023-06-29T08:19:09.609Z",
+                "durationInDays": 0
+              },
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.610Z",
+                  "dateModified": "2023-06-29T08:19:09.610Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab",
+                  "relatedLots": [
+                    "string"
+                  ]
+                }
+              ],
+              "amendments": [
+                {
+                  "date": "2023-06-29T08:19:09.610Z",
+                  "rationale": "string",
+                  "id": "string",
+                  "description": "string",
+                  "amendsReleaseID": "string",
+                  "releaseID": "string"
+                }
+              ],
+              "relatedLots": [
+                "string"
+              ],
+              "requirementResponses": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "description": "string",
+                  "value": {
+                    "amount": 0,
+                    "currency": "ADP"
+                  },
+                  "period": {
+                    "startDate": "2023-06-29T08:19:09.610Z",
+                    "endDate": "2023-06-29T08:19:09.610Z",
+                    "maxExtentDate": "2023-06-29T08:19:09.610Z",
+                    "durationInDays": 0
+                  },
+                  "requirement": {
+                    "id": "string",
+                    "title": "string"
+                  },
+                  "relatedTenderer": {
+                    "name": "string",
+                    "id": "GB-COH-05684804"
+                  }
+                }
+              ],
+              "relatedBid": "string"
+            }
+          ],
+          "contracts": [
+            {
+              "id": "string",
+              "awardID": "string",
+              "title": "string",
+              "description": "string",
+              "status": "pending",
+              "period": {
+                "startDate": "2023-06-29T08:19:09.610Z",
+                "endDate": "2023-06-29T08:19:09.610Z",
+                "maxExtentDate": "2023-06-29T08:19:09.610Z",
+                "durationInDays": 0
+              },
+              "value": {
+                "amount": 0,
+                "currency": "ADP"
+              },
+              "items": [
+                {
+                  "id": "string",
+                  "description": "string",
+                  "classification": {
+                    "scheme": "CPV",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                  },
+                  "additionalClassifications": [
+                    {
+                      "scheme": "CPV",
+                      "id": "string",
+                      "description": "string",
+                      "uri": "string"
+                    }
+                  ],
+                  "quantity": 0,
+                  "unit": {
+                    "scheme": "UNCEFACT",
+                    "id": "*****NEEDS FIXING*****",
+                    "name": "string",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "uri": "string"
+                  },
+                  "relatedLot": "string",
+                  "deliveryLocation": {
+                    "description": "string",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        0,
+                        [
+                          0,
+                          [
+                            0
+                          ]
+                        ],
+                        0,
+                        [
+                          0,
+                          [
+                            0
+                          ]
+                        ]
+                      ]
+                    },
+                    "gazetteer": {
+                      "scheme": "NUTS",
+                      "identifiers": [
+                        "string"
+                      ]
+                    },
+                    "uri": "string"
+                  },
+                  "deliveryAddress": {
+                    "streetAddress": "string",
+                    "locality": "string",
+                    "region": "string",
+                    "postalCode": "string",
+                    "countryName": "string",
+                    "countryCode": "AD"
+                  }
+                }
+              ],
+              "dateSigned": "2023-06-29T08:19:09.610Z",
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": "plannedProcurementNotice",
+                  "title": "string",
+                  "description": "string",
+                  "url": "string",
+                  "datePublished": "2023-06-29T08:19:09.610Z",
+                  "dateModified": "2023-06-29T08:19:09.610Z",
+                  "format": "application/1d-interleaved-parityfec",
+                  "language": "ab",
+                  "relatedLots": [
+                    "string"
+                  ]
+                }
+              ],
+              "implementation": {
+                "transactions": [
+                  {
+                    "id": "string",
+                    "source": "string",
+                    "date": "2023-06-29T08:19:09.610Z",
+                    "value": {
+                      "amount": 0,
+                      "currency": "ADP"
+                    },
+                    "payer": {
+                      "name": "string",
+                      "id": "GB-COH-05684804"
+                    },
+                    "payee": {
+                      "name": "string",
+                      "id": "GB-COH-05684804"
+                    },
+                    "uri": "string"
+                  }
+                ],
+                "milestones": [
+                  {
+                    "id": "string",
+                    "title": "string",
+                    "type": "preProcurement",
+                    "description": "string",
+                    "code": "string",
+                    "dueDate": "2023-06-29T08:19:09.610Z",
+                    "dateMet": "2023-06-29T08:19:09.610Z",
+                    "dateModified": "2023-06-29T08:19:09.610Z",
+                    "status": "scheduled",
+                    "relatedLots": [
+                      "string"
+                    ]
+                  }
+                ],
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.610Z",
+                    "dateModified": "2023-06-29T08:19:09.610Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab",
+                    "relatedLots": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "relatedProcesses": [
+                {
+                  "id": "string",
+                  "relationship": "framework",
+                  "title": "string",
+                  "scheme": "ocid",
+                  "identifier": "string",
+                  "uri": "string"
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "type": "preProcurement",
+                  "description": "string",
+                  "code": "string",
+                  "dueDate": "2023-06-29T08:19:09.610Z",
+                  "dateMet": "2023-06-29T08:19:09.610Z",
+                  "dateModified": "2023-06-29T08:19:09.610Z",
+                  "status": "scheduled",
+                  "relatedLots": [
+                    "string"
+                  ]
+                }
+              ],
+              "amendments": [
+                {
+                  "date": "2023-06-29T08:19:09.610Z",
+                  "rationale": "string",
+                  "id": "string",
+                  "description": "string",
+                  "amendsReleaseID": "string",
+                  "releaseID": "string"
+                }
+              ],
+              "finance": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "description": "string",
+                  "financingParty": {
+                    "name": "string",
+                    "id": "string"
+                  },
+                  "financeType": "institutional",
+                  "financeCategory": "equity",
+                  "value": {
+                    "amount": 0,
+                    "currency": "ADP"
+                  },
+                  "period": {
+                    "startDate": "2023-06-29T08:19:09.610Z",
+                    "endDate": "2023-06-29T08:19:09.610Z",
+                    "maxExtentDate": "2023-06-29T08:19:09.610Z",
+                    "durationInDays": 0
+                  },
+                  "interestRate": {
+                    "base": "string",
+                    "margin": 0,
+                    "fixed": true,
+                    "notes": "string"
+                  },
+                  "repaymentFrequency": 0,
+                  "stepInRights": true,
+                  "exchangeRateGuarantee": true
+                }
+              ],
+              "requirementResponses": [
+                {
+                  "id": "string",
+                  "title": "string",
+                  "description": "string",
+                  "value": "string",
+                  "period": {
+                    "startDate": "2023-06-29T08:19:09.610Z",
+                    "endDate": "2023-06-29T08:19:09.610Z",
+                    "maxExtentDate": "2023-06-29T08:19:09.610Z",
+                    "durationInDays": 0
+                  },
+                  "requirement": {
+                    "id": "string",
+                    "title": "string"
+                  },
+                  "relatedTenderer": {
+                    "name": "string",
+                    "id": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "language": "en",
+          "relatedProcesses": [
+            {
+              "id": "string",
+              "relationship": "framework",
+              "title": "string",
+              "scheme": "ocid",
+              "identifier": "string",
+              "uri": "string"
+            }
+          ],
+          "links": {
+            "next": "string",
+            "prev": "string"
+          },
+          "bids": {
+            "statistics": [
+              {
+                "id": "string",
+                "measure": "string",
+                "date": "2023-06-29T08:19:09.610Z",
+                "value": 0,
+                "valueGross": 0,
+                "currency": "ADP",
+                "notes": "string",
+                "relatedLot": "string"
+              }
+            ],
+            "details": [
+              {
+                "id": "string",
+                "date": "2023-06-29T08:19:09.610Z",
+                "status": "planning",
+                "tenderers": [
+                  {
+                    "name": "string",
+                    "id": "string"
+                  }
+                ],
+                "value": {
+                  "amount": 0,
+                  "currency": "ADP"
+                },
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": "plannedProcurementNotice",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "2023-06-29T08:19:09.610Z",
+                    "dateModified": "2023-06-29T08:19:09.610Z",
+                    "format": "application/1d-interleaved-parityfec",
+                    "language": "ab"
+                  }
+                ]
+              }
+            ]
+          },
+          "title": "string",
+          "description": "string"
+        },
+        "versionedRelease": {
+          "initiationType": [
+            {
+              "value": "tender"
+            }
+          ],
+          "parties": [
+            {
+              "name": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "id": "string",
+              "identifier": {
+                "scheme": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "id": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "legalName": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "uri": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "additionalIdentifiers": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": [
+                    {
+                      "scheme": "string",
+                      "id": "string",
+                      "legalName": "string",
+                      "uri": "string"
+                    }
+                  ],
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "address": {
+                "streetAddress": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "locality": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "region": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "postalCode": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "countryName": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "contactPoint": {
+                "name": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "email": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "telephone": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "faxNumber": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "url": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "roles": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "details": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            }
+          ],
+          "buyer": {
+            "name": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "additionalIdentifiers": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ]
+          },
+          "planning": {
+            "rationale": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "budget": {
+              "id": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "description": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "amount": {
+                "amount": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "currency": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "project": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "projectID": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "uri": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "source": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "documents": [
+              {
+                "id": "string",
+                "documentType": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "title": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "url": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "datePublished": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.610Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateModified": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.610Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "format": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "language": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "milestones": [
+              {
+                "id": "string",
+                "title": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "type": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "code": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dueDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.610Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateMet": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.610Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateModified": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.610Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "status": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "tender": {
+            "id": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "title": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "description": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "status": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.610Z",
+                "releaseID": "string",
+                "value": "planning",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "procuringEntity": {
+              "name": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "id": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "additionalIdentifiers": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.610Z",
+                  "releaseID": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "items": [
+              {
+                "id": "string",
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "classification": {
+                  "scheme": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.610Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "id": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.610Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.610Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "uri": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.610Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                },
+                "additionalClassifications": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.610Z",
+                    "releaseID": "string",
+                    "value": [
+                      {
+                        "scheme": "string",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                      }
+                    ],
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "quantity": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "unit": {
+                  "scheme": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "id": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "name": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "value": {
+                    "amount": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": 0,
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "currency": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  },
+                  "uri": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "value": {
+              "amount": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "currency": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "minValue": {
+              "amount": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "currency": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "procurementMethod": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "procurementMethodDetails": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "procurementMethodRationale": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "mainProcurementCategory": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "additionalProcurementCategories": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "awardCriteria": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "awardCriteriaDetails": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "submissionMethod": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": {},
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "submissionMethodDetails": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "tenderPeriod": {
+              "startDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "endDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "maxExtentDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "durationInDays": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "enquiryPeriod": {
+              "startDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "endDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "maxExtentDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "durationInDays": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "hasEnquiries": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": true,
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "eligibilityCriteria": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": "string",
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "awardPeriod": {
+              "startDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "endDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "maxExtentDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "durationInDays": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "contractPeriod": {
+              "startDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "endDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "maxExtentDate": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "durationInDays": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": 0,
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            },
+            "numberOfTenderers": [
+              {
+                "releaseDate": "2023-06-29T08:19:09.611Z",
+                "releaseID": "string",
+                "value": 0,
+                "releaseTag": [
+                  "string"
+                ]
+              }
+            ],
+            "tenderers": [
+              {
+                "name": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "id": "string",
+                "additionalIdentifiers": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "documents": [
+              {
+                "id": "string",
+                "documentType": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "title": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "url": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "datePublished": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateModified": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "format": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "language": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "milestones": [
+              {
+                "id": "string",
+                "title": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "type": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "code": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dueDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateMet": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "dateModified": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "status": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "amendments": [
+              {
+                "date": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "rationale": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "id": "string",
+                "description": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "amendsReleaseID": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "releaseID": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "string",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "awards": [
+            {
+              "id": "string",
+              "title": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "description": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "status": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "pending",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "date": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.611Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "value": {
+                "amount": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "currency": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "suppliers": [
+                {
+                  "name": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "id": "string",
+                  "additionalIdentifiers": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "items": [
+                {
+                  "id": "string",
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "classification": {
+                    "scheme": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "id": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "description": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "uri": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  },
+                  "additionalClassifications": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": [
+                        {
+                          "scheme": "string",
+                          "id": "string",
+                          "description": "string",
+                          "uri": "string"
+                        }
+                      ],
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "quantity": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": 0,
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "unit": {
+                    "scheme": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "id": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "name": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "value": {
+                      "amount": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.611Z",
+                          "releaseID": "string",
+                          "value": 0,
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "currency": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.611Z",
+                          "releaseID": "string",
+                          "value": {},
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ]
+                    },
+                    "uri": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "contractPeriod": {
+                "startDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "endDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "maxExtentDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "durationInDays": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "title": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "url": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "datePublished": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.611Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "dateModified": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.611Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "format": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "language": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "amendments": [
+                {
+                  "date": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.611Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "rationale": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "id": "string",
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "amendsReleaseID": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "releaseID": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "contracts": [
+            {
+              "id": "string",
+              "awardID": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "title": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "description": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "status": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.611Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "period": {
+                "startDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "endDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "maxExtentDate": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": "2023-06-29T08:19:09.611Z",
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "durationInDays": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "value": {
+                "amount": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": 0,
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ],
+                "currency": [
+                  {
+                    "releaseDate": "2023-06-29T08:19:09.611Z",
+                    "releaseID": "string",
+                    "value": {},
+                    "releaseTag": [
+                      "string"
+                    ]
+                  }
+                ]
+              },
+              "items": [
+                {
+                  "id": "string",
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "classification": {
+                    "scheme": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "id": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "description": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "uri": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  },
+                  "additionalClassifications": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": [
+                        {
+                          "scheme": "string",
+                          "id": "string",
+                          "description": "string",
+                          "uri": "string"
+                        }
+                      ],
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "quantity": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.611Z",
+                      "releaseID": "string",
+                      "value": 0,
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "unit": {
+                    "scheme": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "id": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "name": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.611Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "value": {
+                      "amount": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": 0,
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "currency": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": {},
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ]
+                    },
+                    "uri": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "dateSigned": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": "2023-06-29T08:19:09.612Z",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "documents": [
+                {
+                  "id": "string",
+                  "documentType": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "title": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "url": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "datePublished": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "dateModified": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "format": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "language": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "implementation": {
+                "transactions": [
+                  {
+                    "id": "string",
+                    "source": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "date": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "value": {
+                      "amount": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": 0,
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "currency": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": {},
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ]
+                    },
+                    "payer": {
+                      "name": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": "string",
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "id": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": {},
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "additionalIdentifiers": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ]
+                    },
+                    "payee": {
+                      "name": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": "string",
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "id": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "value": {},
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ],
+                      "additionalIdentifiers": [
+                        {
+                          "releaseDate": "2023-06-29T08:19:09.612Z",
+                          "releaseID": "string",
+                          "releaseTag": [
+                            "string"
+                          ]
+                        }
+                      ]
+                    },
+                    "uri": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "milestones": [
+                  {
+                    "id": "string",
+                    "title": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "type": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "description": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "code": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "dueDate": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "dateMet": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "dateModified": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "status": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "documents": [
+                  {
+                    "id": "string",
+                    "documentType": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": {},
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "title": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "description": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "url": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "datePublished": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "dateModified": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "2023-06-29T08:19:09.612Z",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "format": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ],
+                    "language": [
+                      {
+                        "releaseDate": "2023-06-29T08:19:09.612Z",
+                        "releaseID": "string",
+                        "value": "string",
+                        "releaseTag": [
+                          "string"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "relatedProcesses": [
+                {
+                  "id": "string",
+                  "relationship": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "title": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "scheme": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "identifier": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "uri": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "milestones": [
+                {
+                  "id": "string",
+                  "title": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "type": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "code": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "dueDate": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "dateMet": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "dateModified": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "status": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": {},
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "amendments": [
+                {
+                  "date": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "2023-06-29T08:19:09.612Z",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "rationale": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "id": "string",
+                  "description": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "amendsReleaseID": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ],
+                  "releaseID": [
+                    {
+                      "releaseDate": "2023-06-29T08:19:09.612Z",
+                      "releaseID": "string",
+                      "value": "string",
+                      "releaseTag": [
+                        "string"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "language": [
+            {
+              "releaseDate": "2023-06-29T08:19:09.612Z",
+              "releaseID": "string",
+              "value": "string",
+              "releaseTag": [
+                "string"
+              ]
+            }
+          ],
+          "relatedProcesses": [
+            {
+              "id": "string",
+              "relationship": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "title": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "scheme": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": {},
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "identifier": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ],
+              "uri": [
+                {
+                  "releaseDate": "2023-06-29T08:19:09.612Z",
+                  "releaseID": "string",
+                  "value": "string",
+                  "releaseTag": [
+                    "string"
+                  ]
+                }
+              ]
+            }
+          ],
+          "ocid": "string"
+        }
+      }
+    ]
+  }
