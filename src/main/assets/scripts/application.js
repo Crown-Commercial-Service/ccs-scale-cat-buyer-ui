@@ -1585,7 +1585,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
     window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
 
    // document.getElementById('searchResultsContainer').innerHTML = '';
-    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+   // document.getElementById('mainLotandcategoryContainer').innerHTML = '';
     document.getElementById('paginationContainer').innerHTML = '';
     const baseAPIUrl = '/opportunities/search-api';
     let slist = document.querySelector('.govuk-grid-sresult-right');
@@ -1597,6 +1597,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
+      console.log('result',result)
       let totalResults =  result.search_data.totalResults;
       $('#totalRecords').html(totalResults);
        slist.classList.remove('loadingres');
