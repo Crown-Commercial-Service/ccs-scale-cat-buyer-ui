@@ -1,8 +1,8 @@
-type EndPoints = {
-  login: string
-  callback: string
-  logout: string
-  logoutCallback: string
+enum EndPoints {
+  LOGIN = '/security/authorize',
+  LOGIN_CALLBACK = '/receiver',
+  LOGOUT = '/security/log-out',
+  LOGOUT_CALLBACK = '/logout'
 };
 
 type LogInParams = {

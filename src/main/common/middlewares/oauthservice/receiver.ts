@@ -1,15 +1,15 @@
-//@ts-nocheck
-import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance';
-import * as express from 'express';
-import qs from 'qs';
+import { NextFunction, Request, Response } from 'express';
 import { Query } from '../../util/operators/query';
 import config from 'config';
 import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
 import { LoggTracer } from '../../logtracer/tracer';
 import * as jwtDecoder from 'jsonwebtoken';
-
 import { Logger } from '@hmcts/nodejs-logging';
+import { ppg } from 'main/services/publicProcurementGateway';
+import { AuthCredentials, GrantType } from 'main/services/types/publicProcurementGateway/oAuth/api';
+import { FetchError } from 'main/services/helpers/errors';
+
 const logger = Logger.getLogger('receiver-middleware');
 
 /**
@@ -20,36 +20,28 @@ const logger = Logger.getLogger('receiver-middleware');
  * @param next
  */
 export const CREDENTAILS_FETCH_RECEIVER = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   const { code, state } = req.query;
   if (Query.isUndefined(code)) {
     res.redirect(ErrorView.notfound);
   } else {
-    const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
-    //@ Create the authentication credetial to to allow the re-direct
-    let auth_credentails: any = {
-      code: code,
-      client_id: process.env.AUTH_SERVER_CLIENT_ID,
-      client_secret: process.env.AUTH_SERVER_CLIENT_SECRET,
-      grant_type: config.get('authenticationService.access_granttype'),
+    //@ Grant Authorization with the token to re-direct to the callback page
+    const authCredentails: AuthCredentials = {
+      grant_type: GrantType.AUTHORIZATION_CODE,
+      code: code as string,
       redirect_uri: process.env.CAT_URL + '/receiver',
     };
-    auth_credentails = qs.stringify(auth_credentails);
-    //@ Grant Authorization with the token to re-direct to the callback page
 
     try {
-      const PostAuthCrendetails = await Oauth_Instance.Instance.post(Oauth_check_endpoint, auth_credentails);
-      const data = PostAuthCrendetails?.data;
-      const containedData = data;
+      const containedData = (await ppg.api.oAuth.postRefreshToken(authCredentails)).unwrap();
       const { access_token, session_state, refresh_token } = containedData;
 
-      const AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
-      const check_token_validation = await AuthCheck_Instance.post('');
-      const auth_status_check = check_token_validation?.['data'];
-      if (auth_status_check) {
+      const authStatusCheck = (await ppg.api.oAuth.postValidateToken(access_token)).unwrap();
+
+      if (authStatusCheck) {
         let cookieExpiryTime = Number(config.get('Session.time'));
         cookieExpiryTime = cookieExpiryTime * 60 * 1000; //milliseconds
         const timeforcookies = cookieExpiryTime;
@@ -96,7 +88,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         res.redirect('/oauth/logout');
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error instanceof FetchError && error.status === 401) {
         LoggTracer.errorLogger(
           res,
           error,
