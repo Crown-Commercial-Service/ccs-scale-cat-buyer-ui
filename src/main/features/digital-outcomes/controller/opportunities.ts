@@ -148,9 +148,32 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
   try {
-    console.log('procdata', procdata);
+    let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
+
+    let fetch_dynamic_api_data = procdata.records[0].compiledRelease.tender.criteria;
+    fetch_dynamic_api_data.forEach((value) => {
+      if (value.id == 'Criterion 1') {
+        timeline = value;
+      } else if (value.id == 'Criterion 2') {
+        assessmentCriteria = value;
+      } else if (value.id == 'Criterion 3') {
+        contextRequirements = value;
+        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a, b) =>
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+        );
+      }
+    });
+
+    //console.log('contextRequirementsGroups', contextRequirementsGroups);
+    // if(contextRequirements){
+    //  ContextGroups =contextRequirements?.requirementGroups
+    // }
+    // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+    const display_fetch_data = {
+      context_data: contextRequirementsGroups,
+    };
     console.log(req.params.id);
-    res.render('opportunitiesReview');
+    res.render('opportunitiesReview', display_fetch_data);
   } catch (error) {}
 };
 
