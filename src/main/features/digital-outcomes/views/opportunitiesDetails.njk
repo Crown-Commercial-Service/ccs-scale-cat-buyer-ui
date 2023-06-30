@@ -34,6 +34,7 @@
   ]
 }) }}
         {%endif %}
+        {%if (tenderer.status !="open")%}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters">
                 <div class="govuk-!-padding-4 banner-warning govuk-!-margin-bottom-8">
@@ -42,6 +43,8 @@
                 </div>
             </div>
         </div>
+        {%endif%}
+
         <div class="govuk-grid-row ccs-page-section">
             <div class="govuk-grid-column-full">
                 <span class="govuk-caption-xl">The NHS providers within the Dorset Integrated Care System (ICS)</span>
@@ -144,6 +147,7 @@
                 </dl>
             </div>
         </div>
+         {%if (tenderer.status !="open")%}
         <div class="govuk-grid-row ccs-page-section">
             <div class="govuk-grid-column-full">
                 <h2 class="govuk-heading-m govuk-!-margin-bottom-3">3. Award summary</h2>
@@ -167,6 +171,7 @@
            <p class="govuk-body">{{awardDate}} </p> 
     </div>
 </div>
+{%endif%}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="govuk-button-group">

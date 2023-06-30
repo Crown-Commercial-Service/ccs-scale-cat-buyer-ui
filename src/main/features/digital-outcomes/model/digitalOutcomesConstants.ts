@@ -8,5 +8,5 @@ export enum DIGITALOUTCOMES_PATHS {
   GET_OPPORTUNITIES_API = '/opportunities/search-api',
 
   //Review & Recommendation
-  GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = '/digital-outcomes-and-specialists/reviewRecommendation/',
+  GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = '/digital-outcomes-and-specialists/reviewRecommendation/:id',
 }
