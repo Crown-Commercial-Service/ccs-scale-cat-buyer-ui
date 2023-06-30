@@ -2,6 +2,8 @@ import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 //import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
+import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
+
 import moment from 'moment-business-days';
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
@@ -146,20 +148,46 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
   try {
+    let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
+
+    let fetch_dynamic_api_data = procdata.records[0].compiledRelease.tender.criteria;
+    fetch_dynamic_api_data.forEach((value) => {
+      if (value.id == 'Criterion 1') {
+        timeline = value;
+      } else if (value.id == 'Criterion 2') {
+        assessmentCriteria = value;
+      } else if (value.id == 'Criterion 3') {
+        contextRequirements = value;
+        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a, b) =>
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+        );
+      }
+    });
+
+    //console.log('contextRequirementsGroups', contextRequirementsGroups);
+    // if(contextRequirements){
+    //  ContextGroups =contextRequirements?.requirementGroups
+    // }
+    // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+    const display_fetch_data = {
+      context_data: contextRequirementsGroups,
+    };
     console.log(req.params.id);
-    res.render('opportunitiesReview');
+    res.render('opportunitiesReview', display_fetch_data);
   } catch (error) {}
 };
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
     //tenderers
+    const { projectId } = req.query;
     const display_fetch_data = {
       tenderer: sampleJson.records[0].compiledRelease.tender,
       tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
       parties: sampleJson.records[0].compiledRelease.parties[0],
       awards: sampleJson.records[0].compiledRelease.awards[0],
       awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      projectId: projectId,
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
