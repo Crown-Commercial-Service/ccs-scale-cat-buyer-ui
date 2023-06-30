@@ -1063,7 +1063,7 @@
           "id": "string",
           "title": "string",
           "description": "string",
-          "status": "open",
+          "status": "opens",
           "procuringEntity": {
             "name": "string",
             "id": "GB-COH-05684804"

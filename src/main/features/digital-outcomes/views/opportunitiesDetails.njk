@@ -158,8 +158,17 @@
             </div>
             <div class="govuk-grid-column-full">
                 <p class="govuk-body govuk-!-font-weight-bold">Address:</p>
-                <p class="govuk-body">
-                    ---</p>
+               
+
+                <p class="govuk-body">{{parties.address.streetAddress}}</p>
+                <p class="govuk-body">{{parties.address.locality}}</p>
+                <p class="govuk-body">{{parties.address.region}}</p>
+                <p class="govuk-body">{{parties.address.postalCode}}</p>
+                <p class="govuk-body">{{parties.address.countryName}}</p>
+                <p class="govuk-body">{{parties.address.countryCode}}</p>
+                
+              
+
     </div>
     <div class="govuk-grid-column-full">
         <p class="govuk-body govuk-!-font-weight-bold">Website:</p>
@@ -169,6 +178,8 @@
         <p class="govuk-body govuk-!-font-weight-bold">Awarded date:</p>
         {# <p class="govuk-body">01/05/2023 <span class="govuk-body-color-warning text-strikethrough">04:47</span></p> #}
            <p class="govuk-body">{{awardDate}} </p> 
+          
+
     </div>
 </div>
 {%endif%}
