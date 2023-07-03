@@ -34,7 +34,7 @@
   ]
 }) }}
         {%endif %}
-        {%if (tenderer.status !="open")%}
+        {%if (tenderer.status !="open" and tenderer.status =="closed")%}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters">
                 <div class="govuk-!-padding-4 banner-warning govuk-!-margin-bottom-8">
