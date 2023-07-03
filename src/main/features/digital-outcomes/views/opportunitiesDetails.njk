@@ -156,10 +156,11 @@
                 <p class="govuk-body govuk-!-font-weight-bold govuk-!-font-size-24">{{awards.suppliers[0].name}}</p>
                 {# <p class="govuk-body govuk-body-color-warning text-strikethrough">US-DUNS-500191747</p> #}
             </div>
+           
             <div class="govuk-grid-column-full">
                 <p class="govuk-body govuk-!-font-weight-bold">Address:</p>
                
-
+ {%if (parties.address)%}
                 <p class="govuk-body">{{parties.address.streetAddress}}</p>
                 <p class="govuk-body">{{parties.address.locality}}</p>
                 <p class="govuk-body">{{parties.address.region}}</p>
@@ -167,12 +168,15 @@
                 <p class="govuk-body">{{parties.address.countryName}}</p>
                 <p class="govuk-body">{{parties.address.countryCode}}</p>
                 
-              
+                {%endif%}
 
     </div>
+      
     <div class="govuk-grid-column-full">
         <p class="govuk-body govuk-!-font-weight-bold">Website:</p>
+         {%if (arties.contactPoint.url)%}
         <p class="govuk-body"><a href="https://www.capita.com/" class="govuk-link">{{parties.contactPoint.url}}</a></p>
+    {%endif%}
     </div>
     <div class="govuk-grid-column-full">
         <p class="govuk-body govuk-!-font-weight-bold">Awarded date:</p>
