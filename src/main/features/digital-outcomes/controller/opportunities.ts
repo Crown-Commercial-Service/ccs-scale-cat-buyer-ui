@@ -186,7 +186,8 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
       parties: sampleJson.records[0].compiledRelease.parties[0],
       awards: sampleJson.records[0].compiledRelease.awards[0],
-      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),      ocid: sampleJson.records[0].ocid,
+      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      ocid: sampleJson.records[0].ocid,
       projectId: projectId,
     };
     res.render('opportunitiesDetails', display_fetch_data);
