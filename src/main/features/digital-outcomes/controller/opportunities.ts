@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
-//import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
 import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
 
@@ -9,6 +8,7 @@ import moment from 'moment-business-days';
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
     const { lot, status, q } = req.query;
+    const NoOfRecordsPerPage = 2;
     const usingObjectAssign = Object.assign([], status);
     let statusArray: any = [];
     const FilterQuery: any = [];
@@ -97,27 +97,72 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
         keyword: 'string',
         lots: [
           {
-            id: 0,
-            text: 'string',
+            id: 1,
+            text: 'Digital outcomes',
             selected: true,
+            count: 3108,
+          },
+          {
+            id: 2,
+            text: 'Digital specialists',
+            selected: true,
+            count: 2239,
+          },
+          {
+            id: 3,
+            text: 'User research participants',
+            selected: true,
+            count: 118,
           },
         ],
         filters: [
           {
             id: 0,
-            text: 'string',
+            text: 'Digital specialists',
             selected: true,
+            count: 3108,
           },
         ],
       },
       links: {
-        next: 'string',
-        prev: 'string',
-        self: 'string',
-        last: 'string',
-        first: 'string',
+        next: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
+        prev: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
+        last: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
+        self: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
+
+        first: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
       },
     };
+    let totalpages =
+      response_data.totalResults > NoOfRecordsPerPage ? response_data.totalResults / NoOfRecordsPerPage : 1;
+    let NextPagedata, PrevPagedata, currentPageData, lastPageData;
+    if (response_data?.links?.next != '') {
+      NextPagedata = response_data?.links?.next.substring(response_data?.links?.next.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(NextPagedata);
+      const params = Object.fromEntries(urlParams);
+      NextPagedata = params.page;
+    }
+    if (response_data?.links?.prev != '') {
+      PrevPagedata = response_data?.links?.prev.substring(response_data?.links?.prev.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(PrevPagedata);
+      const params = Object.fromEntries(urlParams);
+      PrevPagedata = params.page;
+    }
+
+    if (response_data?.links?.self != '') {
+      currentPageData = response_data?.links?.self.substring(response_data?.links?.self.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(currentPageData);
+      const params = Object.fromEntries(urlParams);
+      currentPageData = params.page;
+    }
+
+    if (response_data?.links?.last != '') {
+      lastPageData = response_data?.links?.last.substring(response_data?.links?.last.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(lastPageData);
+      const params = Object.fromEntries(urlParams);
+      lastPageData = params.page;
+    }
+
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -130,23 +175,25 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: 'page=2',
-      PrvePageUrl: '',
-      noOfPages: 1413,
-      CurrentPageNumber: 1,
+      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
+      noOfPages: totalpages,
+      CurrentPageNumber: parseInt(currentPageData),
+      LastPageNumber: parseInt(lastPageData),
     };
-
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
       njkDatas,
       clearFilterURL: clearFilterURL,
+      currentLot: lot,
     };
-
     res.render('opportunities', display_fetch_data);
   } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
+  const { projectId } = req.query;
+
   try {
     let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
 
@@ -164,7 +211,6 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       }
     });
 
-    //console.log('contextRequirementsGroups', contextRequirementsGroups);
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
@@ -172,7 +218,6 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
     };
-    console.log(req.params.id);
     res.render('opportunitiesReview', display_fetch_data);
   } catch (error) {}
 };
@@ -195,6 +240,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
   const { lot, status, q } = req.query;
+  const NoOfRecordsPerPage = 2;
   const usingObjectAssign = Object.assign([], status);
   // const reqUrl = req.url;
   let statusArray: any = [];
@@ -284,18 +330,21 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         lots: [
           {
             id: 1,
-            text: 'Digital Outcomes (3108)',
+            text: 'Digital Outcomes',
             selected: true,
+            count: 3108,
           },
           {
             id: 2,
-            text: 'Digital Specialists (2239)',
+            text: 'Digital Specialists',
             selected: false,
+            count: 2239,
           },
           {
             id: 3,
-            text: 'User Research Participants (118)',
+            text: 'User Research Participants',
             selected: false,
+            count: 118,
           },
         ],
         filters: [
@@ -307,13 +356,42 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         ],
       },
       links: {
-        next: 'string',
-        prev: 'string',
-        self: 'string',
-        last: 'string',
-        first: 'string',
+        next: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
+        prev: '',
+        last: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
+        self: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
+        first: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
       },
     };
+
+    let totalpages =
+      response_data.totalResults > NoOfRecordsPerPage ? response_data.totalResults / NoOfRecordsPerPage : 1;
+    let NextPagedata, PrevPagedata, currentPageData, lastPageData;
+    if (response_data?.links?.next) {
+      NextPagedata = response_data?.links?.next.substring(response_data?.links?.next.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(NextPagedata);
+      const params = Object.fromEntries(urlParams);
+      NextPagedata = params.page;
+    }
+    if (response_data?.links?.prev) {
+      PrevPagedata = response_data?.links?.prev.substring(response_data?.links?.prev.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(PrevPagedata);
+      const params = Object.fromEntries(urlParams);
+      PrevPagedata = params.page;
+    }
+    if (response_data?.links?.self) {
+      currentPageData = response_data?.links?.self.substring(response_data?.links?.self.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(currentPageData);
+      const params = Object.fromEntries(urlParams);
+      currentPageData = params.page;
+    }
+
+    if (response_data?.links?.last != '') {
+      lastPageData = response_data?.links?.last.substring(response_data?.links?.last.indexOf('?') + 1);
+      const urlParams = new URLSearchParams(lastPageData);
+      const params = Object.fromEntries(urlParams);
+      lastPageData = params.page;
+    }
 
     let njkDatas = {
       currentLot: lot,
@@ -327,16 +405,18 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: 'page=2',
-      PrvePageUrl: '',
-      noOfPages: 1413,
-      CurrentPageNumber: 1,
+      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
+      noOfPages: totalpages,
+      CurrentPageNumber: parseInt(currentPageData),
+      LastPageNumber: parseInt(lastPageData),
     };
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
       njkDatas,
       clearFilterURL: clearFilterURL,
+      currentLot: lot,
     };
     res.json(display_fetch_data);
 
