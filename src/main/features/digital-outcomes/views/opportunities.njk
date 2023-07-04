@@ -76,17 +76,18 @@
           <div class="govuk-grid-column-full govuk-list-filter-category"  id="mainLotandcategoryContainer">
             <strong>All lots</strong>
             <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
-              {% for lotwithcount in njkDatas.lotInfos.lots %}
-                {% set lotName = njkDatas.currentLot %}
-                {% set lotNameCheck = lotwithcount.slug %}
+
+              {% for lotwithcount in search_data.searchCriteria.lots %}
+                {% set lotName = currentLot %}
+                {% set lotNameCheck = lotwithcount.text.replace(' ','-').toLowerCase() %}
                 <li>
-                  {%if(lotwithcount.sno == 2)%}
-                    <a data-name="lot" data-value={{lotwithcount.slug}} class="govuk-link clickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</a>
+                  {%if(lotwithcount.id == 2)%}
+                    <a data-name="lot" data-value={{lotNameCheck}} class="govuk-link clickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
                     {%else%}
                     {%if(lotName == lotNameCheck)%}
-                      <li data-name="lot" data-value={{lotwithcount.slug}} class="clickCategory" >{{lotwithcount.key | title }}  ({{lotwithcount.count}})</li>
+                      <li data-name="lot" data-value={{lotNameCheck}} class="clickCategory" >{{lotwithcount.text | title }}  ({{lotwithcount.count}})</li>
                       {%else%}
-                      <a data-name="lot" data-value={{lotwithcount.slug}} class="govuk-link clickCategory" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</a>
+                      <a data-name="lot" data-value={{lotNameCheck}} class="govuk-link clickCategory" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
                       {%endif%}
                       {%endif%}
                     </li>
@@ -419,100 +420,114 @@
             <div class="govuk-grid-column-full">
               <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
               <div class="govuk-grid-column-one-half">
-                <p class="govuk-body govuk-!-margin-0">
-                  <a href="/g-cloud/search?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
-                    <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                      <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                    </svg>
+                {% if (njkDatas.PrvePageUrl != '') %}
+                  {% if (njkDatas.CurrentPageNumber != 1) %}
+                    <p class="govuk-body govuk-!-margin-0">
+                      <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
+                        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                        </svg>
             Previous Page</a>
-                </p>
-                <p class="govuk-body govuk-!-margin-0">
-                  <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">1 of 183</a>
-                </p>
+                    </p>
+                    <p class="govuk-body govuk-!-margin-0">
+                      <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">{{njkDatas.CurrentPageNumber}} of {{njkDatas.noOfPages}}</a>
+                    </p>
+                  {% endif %}
+                {% endif %}
               </div>
-              <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                <p class="govuk-body govuk-!-margin-0">
-                  <a href="/g-cloud/search?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
-                    <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                      <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-                    </svg>
-            Next Page</a>
-                </p>
-                <p class="govuk-body govuk-!-margin-0">
-                  <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
-            1 of 183
-          </a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="paginationContainer">
-            {% if (data.meta.total > 0) %}
-              <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                  <!--Place For Pagination-->
-                  <div class="govuk-grid-column-one-half">
-                    <div>
-              &nbsp;
-              {% if (njkDatas.PrvePageUrl != '') %}
-                        {% if (njkDatas.CurrentPageNumber != 1) %}
-                          <p class="govuk-body govuk-!-margin-0">
-                            <a href="/g-cloud/search?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
-                              <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                              </svg>
-                        Previous Page</a>
-                          </p>
-                          <p class="govuk-body govuk-!-margin-0">
-                            <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
-                          </p>
-                        {% endif %}
-                      {% endif %}
-                    </div>
-                  </div>
-
-                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                    <div>
-            &nbsp;
-            {% if (njkDatas.NextPageUrl != '') %}
-                        <p class="govuk-body govuk-!-margin-0">
-                          <a href="/g-cloud/search?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
-                            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-                            </svg>
-                  Next Page</a>
-                        </p>
-                      {% endif %}
+              {% if (njkDatas.CurrentPageNumber != 1) %}
+                <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                  {%else%}
+                  <div class="govuk-grid-column-one-half ">
+                  {% endif %}
+                  {% if (njkDatas.NextPageUrl != '') %}
+                    {% if(njkDatas.LastPageNumber != njkDatas.CurrentPageNumber)%}
                       <p class="govuk-body govuk-!-margin-0">
-                        <label class="govuk-!-font-size-16">
-                          {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
-                            {{njkDatas.CurrentPageNumber}} of 1
-                   {% else %}
-                            {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
-                          {% endif %}
-                        </label>
+                        <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationUrlClass">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                          </svg>
+            Next Page</a>
                       </p>
-                    </div>
-                  </div>
 
+                      <p class="govuk-body govuk-!-margin-0">
+                        <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
+                          {{njkDatas.CurrentPageNumber}} of {{njkDatas.noOfPages}}
+                        </a>
+                      </p>
+                    {% endif %}
+                  {% endif %}
                 </div>
               </div>
-            {% endif %}
-          </div>
+            </div>
+            <div id="paginationContainer">
+              {% if (data.meta.total > 0) %}
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-full">
+                    <!--Place For Pagination-->
+                    <div class="govuk-grid-column-one-half">
+                      <div>
+              &nbsp;
+              {% if (njkDatas.PrvePageUrl != '') %}
+                          {% if (njkDatas.CurrentPageNumber != 1) %}
+                            <p class="govuk-body govuk-!-margin-0">
+                              <a href="/g-cloud/search?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                  <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                </svg>
+                        Previous Page</a>
+                            </p>
+                            <p class="govuk-body govuk-!-margin-0">
+                              <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
+                            </p>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    </div>
 
-          <div id="rightSidefooterCotainer">
-            {% if (data.meta.total < 1) %}
-              <h3 class="govuk-heading-m">Improve your search results by:</h3>
-              <ul class="govuk-list govuk-!-margin-top-0">
-                <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
-            </li>choosing a different category</li><br>
-        </li>double-checking your spelling</li><br>
-    </li>using fewer keywords</li><br>
-</li>searching for something less specific, you can refine your results later</li><br>
+                    <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                      <div>
+            &nbsp;
+            {% if (njkDatas.NextPageUrl != '') %}
+                          <p class="govuk-body govuk-!-margin-0">
+                            <a href="/g-cloud/search?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
+                              <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                              </svg>
+                  Next Page</a>
+                          </p>
+                        {% endif %}
+                        <p class="govuk-body govuk-!-margin-0">
+                          <label class="govuk-!-font-size-16">
+                            {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
+                              {{njkDatas.CurrentPageNumber}} of 1
+                   {% else %}
+                              {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
+                            {% endif %}
+                          </label>
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+
+            <div id="rightSidefooterCotainer">
+              {% if (data.meta.total < 1) %}
+                <h3 class="govuk-heading-m">Improve your search results by:</h3>
+                <ul class="govuk-list govuk-!-margin-top-0">
+                  <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
+              </li>choosing a different category</li><br>
+          </li>double-checking your spelling</li><br>
+      </li>using fewer keywords</li><br>
+  </li>searching for something less specific, you can refine your results later</li><br>
 </ul>
 </ul>
 {% endif %}
 </div>
 </div>
 </div>
-</div></main> {% endblock %}
+</div>
+</main>{% endblock %}
