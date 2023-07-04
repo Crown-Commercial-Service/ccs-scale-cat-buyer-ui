@@ -179,14 +179,14 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    //tenderers
     const { projectId } = req.query;
+
     const display_fetch_data = {
       tenderer: sampleJson.records[0].compiledRelease.tender,
       tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
       parties: sampleJson.records[0].compiledRelease.parties[0],
       awards: sampleJson.records[0].compiledRelease.awards[0],
-      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),      ocid: sampleJson.records[0].ocid,
       projectId: projectId,
     };
     res.render('opportunitiesDetails', display_fetch_data);
