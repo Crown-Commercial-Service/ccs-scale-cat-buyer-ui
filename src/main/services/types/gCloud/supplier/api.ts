@@ -14,12 +14,17 @@ type GCloudFilter = {
   label: string
   name: string
   value: string
+  count?: string | number
 }
 
 type GCloudFilters = {
   [key: string]: {
     [key: string]: {
-      filters: GCloudFilter[]
+      filters: Array<GCloudFilter & {
+        children?: GCloudFilter[]
+        childrenssts?: boolean
+        childrens?: GCloudFilter[]
+      }>
       label: string
       slug: string
     }

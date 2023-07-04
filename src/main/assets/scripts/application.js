@@ -1226,7 +1226,7 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
     let slist = document.querySelector('.govuk-grid-sresult-right');
     slist.classList.add('loadingres')
     $('#criteriasavebtn').prop('disabled', true);
-    const baseAPIUrl = '/g-cloud/search-api';
+    const baseAPIUrl = '/g-cloud/search';
     $.ajax({
       url: `${baseAPIUrl}${finalTriggerUrl}`,
       type: "GET",
@@ -1537,7 +1537,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       document.getElementById('searchResultsContainer').innerHTML = '';
       document.getElementById('mainLotandcategoryContainer').innerHTML = '';
       document.getElementById('paginationContainer').innerHTML = '';
-      const baseAPIUrl = '/g-cloud/search-api';
+      const baseAPIUrl = '/g-cloud/search';
       let slist = document.querySelector('#searchResultsContainer');
       slist.classList.add('loadingres')
       $('#criteriasavebtn').prop('disabled', true);
