@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { app } from 'main/app';
 
 import { CHOOSE_AGREEMENT_PATHS } from '../../main/features/agreement/model/agreementConstants';
-import { DASHBOARD_PATHS } from '../../main/features/dashboard/model/dashboardConstants';
+import { DashboardPaths } from '../../main/features/dashboard/model/dashboardConstants';
 import { PROCUREMENT_PATHS } from '../../main/features/procurement/model/procurement';
 import { RFI_PATHS } from '../../main/features/rfi/model/rficonstant';
 import { EOI_PATHS } from './../../main/features/eoi/model/eoiconstant';
@@ -78,7 +78,7 @@ describe('Accessibility', () => {
   checkPaths(CHOOSE_AGREEMENT_PATHS.CHOOSE_AGREEMENT);
   checkPaths(CHOOSE_AGREEMENT_PATHS.LOT_BEFORE_START_PAGE);
   checkPaths(CHOOSE_AGREEMENT_PATHS.SELECTED_AGREEMENT);
-  checkPaths(DASHBOARD_PATHS.DASHBOARD);
+  checkPaths(DashboardPaths.DASHBOARD);
   checkPaths(PROCUREMENT_PATHS.PROCUREMENT);
   checkPaths(RFI_PATHS.GET_ADD_COLLABORATOR);
   checkPaths(RFI_PATHS.GET_LEAD_PROCUEMENT);
