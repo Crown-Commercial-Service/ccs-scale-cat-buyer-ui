@@ -1,5 +1,5 @@
-import * as express from 'express';
-import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance';
+import { Request, Response, NextFunction } from 'express';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  *
@@ -8,27 +8,21 @@ import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance';
  * @param res
  * @param next
  */
-export const NO_AUTH = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const { SESSION_ID } = req.cookies;
-  if (SESSION_ID === undefined) {
-    next();
-  } else {
-    const access_token = SESSION_ID;
-    const AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
-    const check_token_validation = AuthCheck_Instance.post('');
-    check_token_validation
-      .then((data): any => {
-        const auth_status_check = data?.data;
-        if (auth_status_check) {
-          const isAuthicated = {
-            session: true,
-          };
-          res.locals.Session = isAuthicated;
-          next();
-        } else {
-          next();
-        }
-      })
-      .catch((err) => next());
+export const NO_AUTH = async (req: Request, res: Response, next: NextFunction) => {
+  const { SESSION_ID: accessToken } = req.cookies;
+  if (accessToken !== undefined) {
+    try {
+      const authStatusCheck = (await ppg.api.oAuth.postValidateToken(accessToken)).unwrap();
+
+      if (authStatusCheck) {
+        const isAuthicated = {
+          session: true,
+        };
+        res.locals.Session = isAuthicated;
+      }
+    } catch (error) {
+      // Do nothing with the error
+    }
   }
+  next();
 };
