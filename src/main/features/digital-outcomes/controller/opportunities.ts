@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
 import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 import moment from 'moment-business-days';
 
@@ -63,7 +64,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           agreement: 'Digital Outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: 'awarded',
+          subStatus: 'not-yet-awarded',
           description:
             'The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC.',
         },
@@ -76,7 +77,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           agreement: 'Digital outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: ' awaiting outcome',
+          subStatus: 'awarded',
           description: 'VR Dev in Service Now',
         },
         {
@@ -88,7 +89,20 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           agreement: 'Digital outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: ' awarded',
+          subStatus: 'before-the-deadline-passes',
+          description:
+            'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
+        },
+        {
+          projectId: 123459,
+          projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          location: 'South East England',
+          budgetRange: '1000-2000',
+          agreement: 'Digital outcomes',
+          lot: 'Lot 1',
+          status: 'Closed',
+          subStatus: 'after-the-deadline-passes',
           description:
             'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
         },
@@ -224,16 +238,33 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId } = req.query;
+    const { projectId, status, subStatus } = req.query;
+
+    const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+
+    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    let getOppertunities = getOppertunitiesData.data;
+    console.log(
+      'getOppertunities.records[0].compiledRelease.tenderPeriod.endDate',
+      getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate
+    );
 
     const display_fetch_data = {
-      tenderer: sampleJson.records[0].compiledRelease.tender,
-      tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
-      parties: sampleJson.records[0].compiledRelease.parties[0],
-      awards: sampleJson.records[0].compiledRelease.awards[0],
-      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
-      ocid: sampleJson.records[0].ocid,
+      buyer: getOppertunities.records[0].compiledRelease.buyer,
+      tenderer: getOppertunities.records[0].compiledRelease.tender,
+      tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
+      parties: getOppertunities.records[0].compiledRelease.parties[0],
+      awards: getOppertunities.records[0].compiledRelease.awards[0],
+      awardDate: moment(getOppertunities.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      //endDate: moment(getOppertunities.records[0].compiledRelease.tenderPeriod.endDate).format('dddd DD MMMM YYYY'),
+      endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
+        'dddd DD MMMM YYYY'
+      ),
+
+      //ocid: sampleJson.records[0].ocid,
       projectId: projectId,
+      status: status,
+      subStatus: subStatus,
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
@@ -296,7 +327,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           agreement: 'Digital Outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: 'awarded',
+          subStatus: 'not-yet-awarded',
           description:
             'The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC.',
         },
@@ -309,7 +340,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           agreement: 'Digital outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: ' awaiting outcome',
+          subStatus: 'awarded',
           description: 'VR Dev in Service Now',
         },
         {
@@ -321,7 +352,20 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           agreement: 'Digital outcomes',
           lot: 'Lot 1',
           status: 'Closed',
-          subStatus: ' awarded',
+          subStatus: 'before-the-deadline-passes',
+          description:
+            'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
+        },
+        {
+          projectId: 123459,
+          projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          location: 'South East England',
+          budgetRange: '1000-2000',
+          agreement: 'Digital outcomes',
+          lot: 'Lot 1',
+          status: 'Closed',
+          subStatus: 'after-the-deadline-passes',
           description:
             'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
         },
