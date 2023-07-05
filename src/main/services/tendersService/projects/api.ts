@@ -8,7 +8,7 @@ import { Project } from '@common/middlewares/models/tendersService/project';
 const getProjects = async (accessToken: string, queryParams?: { [key: string]: string }): Promise<FetchResult<Project[]>> => {
   return genericFecthGet<Project[]>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.PROJECTS,
       queryParams: queryParams
     },

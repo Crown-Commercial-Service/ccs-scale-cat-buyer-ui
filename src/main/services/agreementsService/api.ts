@@ -5,7 +5,7 @@ import { FetchResult } from '../types/helpers/api';
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { AgreementDetail } from '@common/middlewares/models/agreement-detail';
 
-const baseURL: string = process.env.AGREEMENTS_SERVICE_API_URL;
+const baseURL = () => process.env.AGREEMENTS_SERVICE_API_URL;
 
 const headers = {
   'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ const agreementServiceCacheLength = 3600;
 const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementDetail>> => {
   return genericFecthGet<AgreementDetail>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.AGREEMENT,
       params: { agreementId }
     },
@@ -38,7 +38,7 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
 const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDetail[]>> => {
   return genericFecthGet<LotDetail[]>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOTS,
       params: { agreementId }
     },
@@ -58,7 +58,7 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
 const getAgreementLot = async (agreementId: string, lotId: string): Promise<FetchResult<LotDetail>> => {
   return genericFecthGet<LotDetail>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT,
       params: { agreementId, lotId }
     },
@@ -78,7 +78,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
 const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Promise<FetchResult<LotSupplier[]>> => {
   return genericFecthGet<LotSupplier[]>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
       params: { agreementId, lotId }
     },
@@ -98,7 +98,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
 const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Promise<FetchResult<AgreementLotEventType[]>> => {
   return genericFecthGet<AgreementLotEventType[]>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
       params: { agreementId, lotId }
     },
