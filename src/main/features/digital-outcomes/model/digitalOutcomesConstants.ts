@@ -4,7 +4,7 @@ export enum DIGITALOUTCOMES_PATHS {
    */
   //@ All of the Path related DOS
   GET_OPPORTUNITIES = '/digital-outcomes-and-specialists/opportunities',
-  GET_OPPORTUNITIES_DETAILS = '/digital-outcomes-and-specialists/opportunities/details',
+  GET_OPPORTUNITIES_DETAILS = '/digital-outcomes-and-specialists/opportunitiesDetails',
   GET_OPPORTUNITIES_API = '/opportunities/search-api',
 
   //Review & Recommendation

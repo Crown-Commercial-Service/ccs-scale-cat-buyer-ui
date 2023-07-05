@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
 import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
-
 import moment from 'moment-business-days';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
@@ -42,7 +42,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       totalResults: 4,
       results: [
         {
-          projectId: 123456,
+          projectId: 21737,
           projectName: 'Security Architect April 2023 - April 2024',
           buyerName: 'Department of Work & Pensions',
           location: 'North East England',
@@ -192,40 +192,55 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
   } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
+  console.log('inside opportunities');
   const { projectId } = req.query;
-
+  console.log('projectId', projectId);
   try {
     let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
+    const baseServiceURL: any = `/tenders/projects/${projectId}`;
+    const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
 
-    let fetch_dynamic_api_data = procdata.records[0].compiledRelease.tender.criteria;
-    fetch_dynamic_api_data.forEach((value) => {
+    // const fetch_dynamic_service_api = await TenderApi.Instance(SESSION_ID).get(baseServiceURL);
+    const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
+
+    let fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
+    fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
       } else if (value.id == 'Criterion 2') {
         assessmentCriteria = value;
       } else if (value.id == 'Criterion 3') {
         contextRequirements = value;
-        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a, b) =>
+        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a: any, b: any) =>
           parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
         );
       }
     });
+    console.log('contextRequirementsGroups', contextRequirementsGroups);
 
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
     // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+    let Pattern = JSON.parse(
+      '[{"value":"North East England","select":false,"text":null,"tableDefinition":null},{"value":"North West England","select":false,"text":null,"tableDefinition":null},{"value":"Yorkshire and the Humber","select":false,"text":null,"tableDefinition":null},{"value":"East Midlands","select":true,"text":null,"tableDefinition":null},{"value":"West Midlands","select":true,"text":null,"tableDefinition":null},{"value":"East of England","select":false,"text":null,"tableDefinition":null},{"value":"London","select":false,"text":null,"tableDefinition":null},{"value":"South East England","select":false,"text":null,"tableDefinition":null},{"value":"South West England","select":false,"text":null,"tableDefinition":null},{"value":"Scotland","select":false,"text":null,"tableDefinition":null},{"value":"Wales","select":false,"text":null,"tableDefinition":null},{"value":"Northern Ireland","select":false,"text":null,"tableDefinition":null},{"value":"International (outside the UK)","select":false,"text":null,"tableDefinition":null}]'
+    );
+
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
+      Pattern: Pattern,
     };
+    console.log('display_fetch_data', display_fetch_data);
     res.render('opportunitiesReview', display_fetch_data);
-  } catch (error) {}
+  } catch (error) {
+    console.log('error in opportunities', error);
+  }
 };
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
     const { projectId } = req.query;
-
+    console.log('projectId in details data', projectId);
     const display_fetch_data = {
       tenderer: sampleJson.records[0].compiledRelease.tender,
       tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
