@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
 import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 import moment from 'moment-business-days';
 
@@ -225,14 +226,23 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
     const { projectId } = req.query;
+    console.log(
+      'sampleJson.records[0].compiledRelease.tender',
+      JSON.stringify(sampleJson.records[0].compiledRelease.title)
+    );
+
+    const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+
+    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    let getOppertunities = getOppertunitiesData.data;
 
     const display_fetch_data = {
-      tenderer: sampleJson.records[0].compiledRelease.tender,
-      tenderers: sampleJson.records[0].compiledRelease.tender.tenderers,
-      parties: sampleJson.records[0].compiledRelease.parties[0],
-      awards: sampleJson.records[0].compiledRelease.awards[0],
-      awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
-      ocid: sampleJson.records[0].ocid,
+      tenderer: getOppertunities.records[0].compiledRelease.tender,
+      tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
+      parties: getOppertunities.records[0].compiledRelease.parties[0],
+      awards: getOppertunities.records[0].compiledRelease.awards[0],
+      awardDate: moment(getOppertunities.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      //ocid: sampleJson.records[0].ocid,
       projectId: projectId,
     };
     res.render('opportunitiesDetails', display_fetch_data);
