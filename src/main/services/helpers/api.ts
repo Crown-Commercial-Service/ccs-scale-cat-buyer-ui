@@ -1,8 +1,11 @@
-import { BaseFetchResult, CacheOptions, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from '../types/helpers/api';
+import { BaseFetchResult, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from '../types/helpers/api';
+import { CacheOptions } from '../types/helpers/cache';
+import { LoggerOptions } from '../types/helpers/performanceLogger';
 import { FormatURLParams } from '../types/helpers/url';
+import { getCachedData, setCachedData } from './chache';
 import { FetchError, FetchTimeoutError } from './errors';
+import { getPerformanceLogger } from './performanceLogger';
 import { formatURL } from './url';
-import { createRedisClient } from 'main/setup/redis/client';
 
 /**
  * If the result status is 'error' it will throw an exception,
@@ -46,31 +49,6 @@ const fetchWithOptionalTimeout = async (fetchOptions: FetchRequestInit, urlParam
   return response;
 };
 
-const getCachedData = async <T>(key: string): Promise<T | null> => {
-  const client = createRedisClient();
-
-  await client.connect();
-
-  const dataString = await client.get(key);
-  const data = dataString ? JSON.parse(dataString) : dataString;
-
-  await client.disconnect();
-
-  return data;
-};
-
-const setCachedData = async <T>(data: T, cacheOptions: CacheOptions): Promise<void> => {
-  const client = createRedisClient();
-
-  await client.connect();
-
-  await client.set(cacheOptions.key, JSON.stringify(data), {
-    EX: cacheOptions.seconds
-  });
-
-  await client.disconnect();
-};
-
 /**
  * Makes a call with the NODE Fetch API and
  * retuns an FetchResultOK if there are no errors,
@@ -80,12 +58,16 @@ const setCachedData = async <T>(data: T, cacheOptions: CacheOptions): Promise<vo
  * @param timeout 
  * @returns 
  */
-const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: FormatURLParams, cacheOptions?: CacheOptions, timeout?: number): Promise<FetchResult<T>> => {
+const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: FormatURLParams, cacheOptions?: CacheOptions, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
   let result: BaseFetchResult<T>;
+
+  const performanceLogger = getPerformanceLogger(loggerOptions);
 
   try {
     let responseData: T;
 
+    performanceLogger.startTimer();
+ 
     if (cacheOptions) {
       responseData = await getCachedData(cacheOptions.key);
     }
@@ -107,6 +89,8 @@ const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: Format
         await setCachedData(responseData, cacheOptions);
       }
     }
+
+    performanceLogger.endTimerAndLogResult();
 
     result = {
       status: FetchResultStatus.OK,
@@ -132,7 +116,7 @@ const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: Format
  * @param timeout 
  * @returns 
  */
-const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, cacheOptions?: CacheOptions, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, cacheOptions?: CacheOptions, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
   return genericFetch<T>(
     {
       method: HTTPMethod.GET,
@@ -140,6 +124,7 @@ const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: s
     },
     urlParams,
     cacheOptions,
+    loggerOptions,
     timeout
   );
 };
@@ -152,7 +137,7 @@ const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: s
  * @param timeout 
  * @returns 
  */
-const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, data?: { [key: string]: string }, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, data?: { [key: string]: string }, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
   return genericFetch<T>(
     {
       method: HTTPMethod.POST,
@@ -161,6 +146,7 @@ const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: 
     },
     urlParams,
     undefined,
+    loggerOptions,
     timeout
   );
 };

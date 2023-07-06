@@ -1,12 +1,12 @@
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
-import { AgreementAPI } from '@common/util/fetch/agreementservice/agreementsApiInstance';
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 //import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
 import { SupplierDetails, DocumentTemplate, SupplierAddress } from '../model/supplierDetailsModel';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 
 export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -53,9 +53,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       //CAS-INFO-LOG
       LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
 
-      //agreements/{agreement-id}/lots/{lot-id}/suppliers
-      const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`;
-      const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
+      const supplierDataList = (await agreementsService.api.getAgreementLotSuppliers(agreement_id, lotId)).unwrap();
 
       const documentTemplateDataList: DocumentTemplate[] = [];
       const documentTemplateData = {} as DocumentTemplate;
@@ -130,7 +128,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
           supplierDetailsObj.supplierAddress = {} as SupplierAddress; // supplierFiltedData != null ? supplierFiltedData.address : "";
           supplierDetailsObj.supplierAddress =
             supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0
-              ? supplierFiltedData.address
+              ? supplierFiltedData[0].address
               : ({} as SupplierAddress);
           supplierDetailsObj.supplierContactName =
             supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0

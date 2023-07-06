@@ -1,12 +1,12 @@
-import { DASHBOARD, POST_DASHBOARD, VIEW_DASHBOARD } from './dashboard';
+import { renderDashboard } from './dashboard';
 /**
  * @BaseController
  * @Provider
  *
  * @description Provides as Base for all Controller
  */
-export const DASHBOARD_CONTROLLER = {
-  DASHBOARD,
-  POST_DASHBOARD,
-  VIEW_DASHBOARD,
+const dashboardController = {
+  renderDashboard
 };
+
+export { dashboardController };

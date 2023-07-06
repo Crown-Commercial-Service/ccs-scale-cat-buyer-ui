@@ -1,3 +1,5 @@
+import { SupplierAddress } from 'main/features/event-management/model/supplierDetailsModel';
+
 /**
  *
  * @export
@@ -22,6 +24,12 @@ export interface LotSupplier {
    * @memberof LotSupplier
    */
   lotContacts?: any;
+  /**
+   *
+   * @type {SupplierAddress}
+   * @memberof LotSupplier
+   */
+  address?: SupplierAddress
 }
 
 /**

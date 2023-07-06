@@ -5,6 +5,7 @@ import { FetchError, FetchTimeoutError } from 'main/services/helpers/errors';
 import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/types/helpers/api';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'test/utils/mocks/redis';
 import { Interceptable, MockAgent, setGlobalDispatcher } from 'undici';
+import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'test/utils/mocks/performanceLogger';
 
 type GenericData = {
   ok: boolean
@@ -47,7 +48,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
 
         mockPool.intercept({
           path: '/test/test-1234',
@@ -58,7 +59,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']]
+            params: { testId: 'test-1234' }
           },
           headers
         ) as FetchResultOK<GenericData>;
@@ -92,7 +93,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id and query params', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
         const queryParams = {
           myParam: 'myParam'
         };
@@ -106,7 +107,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']],
+            params: { testId: 'test-1234' },
             queryParams: queryParams
           },
           headers
@@ -188,6 +189,67 @@ describe('fecth helpers', () => {
           expect(genericFecthGetResult.data).to.eql({ ok: true });
 
           assertRedisCallsWithCache(mockRedisClientSpy, 'my_cache_key');
+        });
+      });
+
+      describe('and we consider logger options', () => {
+        const mock = Sinon.createSandbox();
+        const path = '/test';
+
+        afterEach(() => {
+          mock.restore();
+        });
+
+        it('calls the logger when it has logger options', async () => {
+          const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+            name: 'generic fetch',
+            message: 'This is the generic fetch message'
+          });
+
+          mockPool.intercept({
+            path: path,
+            headers: headers
+          }).reply(200, { ok: true });
+
+          const genericFecthGetResult = await genericFecthGet(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers,
+            undefined,
+            {
+              name: 'generic fetch',
+              message: 'This is the generic fetch message'
+            }
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthGetResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthGetResult.data).to.eql({ ok: true });
+
+          assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
+        });
+
+        it('calls the logger when it has no logger options', async () => {
+          const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, undefined);
+
+          mockPool.intercept({
+            path: path,
+            headers: headers
+          }).reply(200, { ok: true });
+
+          const genericFecthGetResult = await genericFecthGet(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthGetResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthGetResult.data).to.eql({ ok: true });
+
+          assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
         });
       });
     });
@@ -272,6 +334,7 @@ describe('fecth helpers', () => {
           },
           headers,
           undefined,
+          undefined,
           10
         ) as FetchResultError;
 
@@ -314,7 +377,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
 
         mockPool.intercept({
           method: 'POST',
@@ -327,7 +390,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']]
+            params: { testId: 'test-1234' }
           },
           headers,
           body
@@ -365,7 +428,7 @@ describe('fecth helpers', () => {
       });
 
       it('calls get with the formatted URL and the provided headers when there is an id and query params', async () => {
-        const path = '/test/:test-id';
+        const path = '/test/:testId';
         const queryParams = {
           myParam: 'myParam'
         };
@@ -381,7 +444,7 @@ describe('fecth helpers', () => {
           {
             baseURL: baseURL,
             path: path,
-            params: [[':test-id', 'test-1234']],
+            params: { testId: 'test-1234' },
             queryParams: queryParams
           },
           headers,
@@ -412,6 +475,72 @@ describe('fecth helpers', () => {
         );
 
         expect(genericFecthPostResult.unwrap()).to.eql({ ok: true });
+      });
+
+      describe('and we consider logger options', () => {
+        const mock = Sinon.createSandbox();
+        const path = '/test';
+
+        afterEach(() => {
+          mock.restore();
+        });
+
+        it('calls the logger when it has logger options', async () => {
+          const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, {
+            name: 'generic fetch',
+            message: 'This is the generic fetch message'
+          });
+
+          mockPool.intercept({
+            method: 'POST',
+            path: path,
+            headers: headers,
+            body: JSON.stringify(body)
+          }).reply(200, { ok: true });
+
+          const genericFecthPostResult = await genericFecthPost(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers,
+            body,
+            {
+              name: 'generic fetch',
+              message: 'This is the generic fetch message'
+            }
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthPostResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthPostResult.data).to.eql({ ok: true });
+
+          assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
+        });
+
+        it('calls the logger when it has no logger options', async () => {
+          const mockedPerformanceLoggerSpy = creatPerformanceLoggerMockSpy(mock, undefined);
+
+          mockPool.intercept({
+            method: 'POST',
+            path: path,
+            headers: headers,
+            body: JSON.stringify(body)
+          }).reply(200, { ok: true });
+
+          const genericFecthPostResult = await genericFecthPost(
+            {
+              baseURL: baseURL,
+              path: path
+            },
+            headers,
+            body
+          ) as FetchResultOK<GenericData>;
+
+          expect(genericFecthPostResult.status).to.eq(FetchResultStatus.OK);
+          expect(genericFecthPostResult.data).to.eql({ ok: true });
+
+          assertPerformanceLoggerCalls(mockedPerformanceLoggerSpy);
+        });
       });
     });
 
@@ -506,6 +635,7 @@ describe('fecth helpers', () => {
           },
           headers,
           body,
+          undefined,
           10
         ) as FetchResultError;
 

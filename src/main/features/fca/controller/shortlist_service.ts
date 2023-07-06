@@ -3,12 +3,12 @@ import * as fcaShortlistServiceScreenContent from '../../../resources/content/fc
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 //import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { GetLotSuppliersScore } from '../../shared/supplierServiceScore';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
 import { Parser } from 'json2csv';
+import { agreementsService } from 'main/services/agreementsService';
 
 // import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
@@ -334,8 +334,8 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
     }
 
     if (download != undefined) {
-      const BaseURLSupplierContact = `agreements/${req.session.agreement_id}/lots/${req.session.lotId}/suppliers`;
-      const { data: retrieveSupplierContactDetails } = await AgreementAPI.Instance(null).get(BaseURLSupplierContact);
+      const retrieveSupplierContactDetails = (await agreementsService.api.getAgreementLotSuppliers(req.session.agreement_id, req.session.lotId)).unwrap();
+      
       const JsonData: any = [];
       let contactSupplierDetails;
 
