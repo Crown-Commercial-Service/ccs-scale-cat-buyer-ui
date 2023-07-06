@@ -1,0 +1,83 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'QA ' %}
+{% block breadCrumb %}
+	
+
+  
+
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Digital Outcomes opportunities",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Dorset ICS Integration and Interoperability Review & Recommendation",
+      "href": "/event/management?id="
+    },
+     {
+      "text": "Clarifications: Dorset ICS Integration and Interoperability Review & Recommendation",
+      "href": ""
+    }
+  
+  ]
+    }) }}
+       
+{% endblock %}
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <div class="govuk-grid-row govuk-!-padding-bottom-7">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                      {%if(isSupplierQA == true)%}	
+                         <strong>Clarifications: Dorset ICS Integration and Interoperability Review & Recommendation </strong>	
+                    {%else%}	
+                    <strong>Questions and Clarifications</strong>	
+                    {%endif%}	
+                </h1>	
+                	{# {% include "includes/project_header.njk" %}	 #}
+            </div>
+        </div>
+
+        <div class="govuk-grid-row ccs-page-section">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-m">
+                  Questions and Clarifications
+                </h2>
+
+                {# <p class="govuk-body">{{data.info}}</p> #}
+            </div>
+            <div class="govuk-grid-column-full">
+                <p class="govuk-body">
+                    Below is a list of the <strong>{{ QAs.length }}</strong> questions and clarifications relating to this opportunity.
+                </p>
+            </div>
+        </div>
+        {% set q=1 %}
+        {% for QA in QAs %}
+        <div class="govuk-grid-row ccs-page-section-without-margin">
+            <div class="govuk-grid-column-full">
+                <h3>{{q+". "}}{{QA.question}}</h3>
+                <p class="govuk-body">
+                    {{QA.answer}}
+                </p>
+                <p class="govuk-body">
+                    {% if QA.lastUpdated%}	
+                    {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>	
+                    {% else %}	
+                     {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.created | dateddmmyyyy }}</strong>	
+                     {% endif %}
+                </p>
+            </div>
+        </div>
+        {% set q=q+1 %}
+        {% endfor %}
+          <p class="govuk-body-margin-top">	
+            {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>	 #}
+            <a href="/digital-outcomes-and-specialists/reviewRecommendation??projectId={{projectId}}" class="govuk-link govuk-link--no-visited-state">Return to Dorset ICS Integration and Interoperability Review & Recommendation</a>	
+        </p>
+    </main>
+{% endblock %}

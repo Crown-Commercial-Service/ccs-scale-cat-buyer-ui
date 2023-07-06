@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
-import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
+//import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
 import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import * as inboxData from '../../../resources/content/event-management/qa.json';
 
 import moment from 'moment-business-days';
 
@@ -244,10 +245,6 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
     let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
     let getOppertunities = getOppertunitiesData.data;
-    console.log(
-      'getOppertunities.records[0].compiledRelease.tenderPeriod.endDate',
-      getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate
-    );
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
@@ -268,6 +265,72 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
+};
+
+export const GET_OPPORTUNITIES_QA = async (req: express.Request, res: express.Response) => {
+  let appendData: any;
+  let eventIds: any;
+  let projectIds: any;
+  let isSupplierQA = false;
+  let projectId;
+  console.log('test1');
+  try {
+    if (req.query.id != undefined) {
+      eventIds = req.query.id;
+      projectIds = req.query.prId;
+      isSupplierQA = true;
+      projectId = req.query.prId;
+    } else {
+      eventIds = req.session.eventId;
+      projectIds = req.session.projectId;
+      projectId = req.session.projectId;
+      isSupplierQA = false;
+      res.locals.agreement_header = req.session.agreement_header;
+    }
+    console.log('test2');
+    const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
+    const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
+    const data = inboxData;
+
+    const response = fetchData.data;
+    console.log('test3');
+    const projectName = response.projectName;
+    const agreementName = response.agreementName;
+    const agreementId_session = response.agreementId;
+    const agreementLotName = response.lotName;
+    const lotid = response.lotId;
+    console.log('test3');
+    res.locals.agreement_header = {
+      projectName: projectName,
+      projectId,
+      agreementName,
+      agreementIdSession: agreementId_session,
+      agreementLotName,
+      lotid,
+    };
+    console.log('4');
+    appendData = {
+      data,
+      projectId: projectId,
+      QAs: fetchData.data.QandA.length > 0 ? fetchData.data.QandA : [],
+      eventId: eventIds,
+      eventType: req.session.eventManagement_eventType,
+      eventName: projectName,
+      isSupplierQA,
+    };
+
+    res.render('viewQAList', appendData);
+  } catch (error) {
+    if (error.response.status === 401) {
+      res.redirect('/401');
+    } else if (error.response.status === 404) {
+      res.redirect('/401');
+    } else {
+      console.log('error ***************');
+      console.log(error);
+      res.redirect('/401');
+    }
+  }
 };
 
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {

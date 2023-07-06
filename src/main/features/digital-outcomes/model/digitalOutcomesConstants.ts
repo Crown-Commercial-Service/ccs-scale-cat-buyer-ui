@@ -9,4 +9,6 @@ export enum DIGITALOUTCOMES_PATHS {
 
   //Review & Recommendation
   GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = '/digital-outcomes-and-specialists/reviewRecommendation',
+  //questions-and-clarifications
+  GET_OPPORTUNITIES_QA = '/digital-outcomes-and-specialists/questions-and-Clarifications',
 }
