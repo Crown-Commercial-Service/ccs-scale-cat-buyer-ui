@@ -192,9 +192,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
   } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
-  console.log('inside opportunities');
-  const { projectId } = req.query;
-  console.log('projectId', projectId);
+  const { projectId, lot } = req.query;
   try {
     let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
     const baseServiceURL: any = `/tenders/projects/${projectId}`;
@@ -214,9 +212,16 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a: any, b: any) =>
           parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
         );
+        contextRequirementsGroups.map((value: any) => {
+          value.requirements.forEach((val: any) => {
+            if (val['pattern']) {
+              console.log('val', val);
+              val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+            }
+          });
+        });
       }
     });
-    console.log('contextRequirementsGroups', contextRequirementsGroups);
 
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
@@ -229,8 +234,9 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
       Pattern: Pattern,
+      currentLot: lot,
     };
-    console.log('display_fetch_data', display_fetch_data);
+
     res.render('opportunitiesReview', display_fetch_data);
   } catch (error) {
     console.log('error in opportunities', error);
@@ -239,7 +245,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId } = req.query;
+    const { projectId, lot } = req.query;
     console.log('projectId in details data', projectId);
     const display_fetch_data = {
       tenderer: sampleJson.records[0].compiledRelease.tender,
@@ -249,6 +255,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       awardDate: moment(sampleJson.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
       ocid: sampleJson.records[0].ocid,
       projectId: projectId,
+      currentLot: lot,
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
