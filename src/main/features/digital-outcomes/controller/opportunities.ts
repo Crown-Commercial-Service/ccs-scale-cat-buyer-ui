@@ -36,21 +36,21 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
 
-    //   const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
+    const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
 
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    //const fetch_dynamic_api = await TenderApi.Instance().get(baseURL);
+    const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = {
       totalResults: 4,
       results: [
         {
-          projectId: 123456,
+          projectId: 22111,
           projectName: 'Security Architect April 2023 - April 2024',
           buyerName: 'Department of Work & Pensions',
           location: 'North East England',
           budgetRange: '1000-5000',
           agreement: 'Digital Outcomes',
-          lot: 'Lot 1',
+          lot: 'Lot 3',
           status: 'open',
           subStatus: 'awaiting outcome',
           description:
@@ -207,39 +207,70 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
   } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
-  const { projectId } = req.query;
-
+  const { projectId, lot } = req.query;
   try {
-    let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
+    let contextRequirements, contextRequirementsGroups, assessmentCriteria, assessmentCriteriaGroups, timeline;
+    const baseServiceURL: any = `/tenders/projects/${projectId}`;
+    const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
 
-    let fetch_dynamic_api_data = procdata.records[0].compiledRelease.tender.criteria;
-    fetch_dynamic_api_data.forEach((value) => {
+    // const fetch_dynamic_service_api = await TenderApi.Instance(SESSION_ID).get(baseServiceURL);
+    const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
+
+    let fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
+    fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
       } else if (value.id == 'Criterion 2') {
         assessmentCriteria = value;
-      } else if (value.id == 'Criterion 3') {
-        contextRequirements = value;
-        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a, b) =>
+
+        assessmentCriteriaGroups = assessmentCriteria?.requirementGroups?.sort((a: any, b: any) =>
           parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
         );
+        assessmentCriteriaGroups.map((value: any) => {
+          value.requirements.forEach((val: any) => {
+            if (val['pattern']) {
+              console.log('val', val);
+              val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+            }
+          });
+        });
+      } else if (value.id == 'Criterion 3') {
+        contextRequirements = value;
+        contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a: any, b: any) =>
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+        );
+        contextRequirementsGroups.map((value: any) => {
+          value.requirements.forEach((val: any) => {
+            if (val['pattern']) {
+              val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+            }
+          });
+        });
       }
     });
-
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
     // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+    // let Pattern = JSON.parse(
+    //   '[{"value":"North East England","select":false,"text":null,"tableDefinition":null},{"value":"North West England","select":false,"text":null,"tableDefinition":null},{"value":"Yorkshire and the Humber","select":false,"text":null,"tableDefinition":null},{"value":"East Midlands","select":true,"text":null,"tableDefinition":null},{"value":"West Midlands","select":true,"text":null,"tableDefinition":null},{"value":"East of England","select":false,"text":null,"tableDefinition":null},{"value":"London","select":false,"text":null,"tableDefinition":null},{"value":"South East England","select":false,"text":null,"tableDefinition":null},{"value":"South West England","select":false,"text":null,"tableDefinition":null},{"value":"Scotland","select":false,"text":null,"tableDefinition":null},{"value":"Wales","select":false,"text":null,"tableDefinition":null},{"value":"Northern Ireland","select":false,"text":null,"tableDefinition":null},{"value":"International (outside the UK)","select":false,"text":null,"tableDefinition":null}]'
+    // );
+
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
+      assessment_Criteria: assessmentCriteriaGroups,
+      currentLot: lot,
     };
+
     res.render('opportunitiesReview', display_fetch_data);
-  } catch (error) {}
+  } catch (error) {
+    console.log('error in opportunities', error);
+  }
 };
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId, status, subStatus } = req.query;
+    const { projectId, status, subStatus, lot } = req.query;
 
     const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
 
@@ -262,6 +293,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       projectId: projectId,
       status: status,
       subStatus: subStatus,
+      currentLot: lot,
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}

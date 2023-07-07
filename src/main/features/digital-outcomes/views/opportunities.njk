@@ -375,9 +375,8 @@
                 <ul class="govuk-list govuk-supplier-list" id="contentHead">
                   {% for form in search_data.results %}
                     <li class="app-search-result">
-                      <h2 class="govuk-heading-s govuk-!-margin-bottom-1"> 
-       
-                        <a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{form.projectId}}&status={{form.status}}&subStatus={{form.subStatus}}">{{form.projectName}}</a>
+                      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+                        <a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{form.projectId}}&lot={{form.lot}}&status={{form.status}}&subStatus={{form.subStatus}}">{{form.projectName}}</a>
                       </h2>
                       <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
                         {{form.buyerName}}
