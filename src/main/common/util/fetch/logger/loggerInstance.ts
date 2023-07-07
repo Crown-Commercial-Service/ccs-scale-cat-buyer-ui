@@ -8,7 +8,7 @@ export class LoggerInstance {
   /**
    * @AxiosInstance
    */
-  static Instance: axios.AxiosInstance = axios.default.create({
+  static Instance: () => axios.AxiosInstance = () => axios.default.create({
     baseURL: config.get('logger.baseURL'),
     headers: {
       'Content-Type': 'application/json',

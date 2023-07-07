@@ -4,11 +4,6 @@
   "security": {
     "referrerPolicy": "origin"
   },
-  "featureDir": [
-    { "path": "/routes/**/*.+(ts|js)" },
-    { "path": "/features/**/path.ts" },
-    { "path": "/errors/path.ts" }
-  ],
   "PORT": "3000",
   "Session": {
     "time": "600"

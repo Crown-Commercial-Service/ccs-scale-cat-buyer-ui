@@ -11,23 +11,31 @@ import { join as pathJoin } from 'path';
 import { CsrfProtection } from './modules/csrf';
 import { setupRequestSecurity } from './setup/requestSecurity';
 import { setupResLocalsMiddleware } from './setup/responseLocals';
-import { glob } from 'glob';
 import { setLogitEnvVariables } from './setup/logit';
 import { setRollbarEnvVariables, initRollbar } from './setup/rollbar';
 import { uncaughtExceptionHandler } from './setup/handlers/uncaughtException';
 import { unhandledRejectionHandler } from './setup/handlers/unhandledRejection';
 import { routeExceptionHandler } from './setup/handlers/routeException';
 import { redisSession } from './setup/redis/session';
+import { setupErrorRoutes } from './setup/routes/setupErrorRoutes';
+import { setupFeatureRoutes } from './setup/routes/setupFeatureRoutes';
+import { setupHomeRoutes } from './setup/routes/setupHomeRoutes';
+
+const logger = Logger.getLogger('app');
+
+logger.info('Initialising the application');
 
 const app = express();
 
 const environment = process.env.NODE_ENV || 'development';
 const isDevEnvironment = environment === 'development';
-const logger = Logger.getLogger('app');
 
-app.locals.ENV = environment;
+const SERVER_PORT: number = config.get('PORT');
+const port = parseInt(process.env.PORT, 10) || SERVER_PORT;
 
 // Set environment variables for the local environment
+logger.info('Setting application environment variables');
+
 setLocalEnvVariables();
 setLogitEnvVariables();
 setRollbarEnvVariables();
@@ -39,17 +47,25 @@ process.env.PACKAGES_NAME = 'CCS Scale CAS Buyer UI';
 process.env.PACKAGES_PROJECT = 'cas-buyer-frontend';
 
 // Connect to redis
+logger.info('Connecting to redis');
+
 redisSession()
   .then((redisSessionMiddlewear) => {
     app.use(redisSessionMiddlewear);
 
     // Init Nunjucks (template framework)
+    logger.info('Initialising Nunjucks');
+
     initNunjucks(app, isDevEnvironment);
 
     // Init Helmet (sets HTTP response headers)
+    logger.info('Initialising Helmet');
+
     initHelmet(app, config.get('security'));
 
     // Set app configurations
+    logger.info('Initialising application configurations');
+
     app.use(Express.accessLogger());
     app.use(favicon(pathJoin(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
     app.use(express.json({ limit: '500mb' }));
@@ -58,41 +74,58 @@ redisSession()
     app.use(cookieParser());
     app.use(fileUpload());
 
-    if (environment !== 'mocha') {
-      new CsrfProtection().enableFor(app);
-    }
+    new CsrfProtection().enableFor(app);
 
     setupRequestSecurity(app);
     setupResLocalsMiddleware(app, environment);
 
     app.enable('trust proxy');
 
-    // Dynamically import the application routes
-    const featureRoutes: Array<{ path: string }> = config.get('featureDir');
-    const CurrentOs: string = process.platform;
-    const CurrentOsOutput = CurrentOs === 'win32' ? { windowsPathsNoEscape: true } : {};
-    featureRoutes?.forEach((route: { path: string }) => {
-      glob
-        .sync(__dirname + route?.path, CurrentOsOutput)
-        .map((filename: string) => require(filename))
-        .forEach((route: any) => route.default(app));
-    });
+    // Import app routes
+    logger.info('Adding application routes');
+
+    setupHomeRoutes(app);
+    setupFeatureRoutes(app);
+    setupErrorRoutes(app);
 
     // Setup rollbar and exception handling
+    logger.info('Initialising Rollbar');
+
     const rollbar = initRollbar();
 
     if (rollbar) {
       app.use(rollbar.errorHandler());
     }
 
+    logger.info('Initialising exception handlers');
+
     uncaughtExceptionHandler(logger);
     unhandledRejectionHandler(logger);
     routeExceptionHandler(app, logger);
+
+    logger.info('Preparing to materialise');
+
+    if (isDevEnvironment) {
+      app.listen(port, () => {
+        logger.info(`Application started: https://localhost:${port}`);
+      });
+    } else {
+      const server = app.listen(port, () => {
+        logger.info(`Application started: http://localhost:${port}`);
+      });
+    
+      server.keepAliveTimeout = 60 * 100_000;
+      server.headersTimeout = 61 * 100_000;
+      server.requestTimeout = 61 * 100_000;
+    
+      server.on('connection', (socket) => {
+        logger.info('A new connection was made by a client.');
+        socket.setTimeout(30 * 100_000);
+      });
+    }
   })
   .catch((reason) => {
     logger.error(reason);
 
     throw reason;
   });
-
-export { app };
