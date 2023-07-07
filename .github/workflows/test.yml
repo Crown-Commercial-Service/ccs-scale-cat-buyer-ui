@@ -1,0 +1,33 @@
+name: Run application unit tests
+
+on:
+  - pull_request
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependancies
+        run: npm ci
+
+      - name: Check code quality
+        run: npm run lint
+
+      - name: Check code transpiles
+        run: npm run type-check
+
+      - name: Run tests
+        run: npm test
