@@ -26,7 +26,6 @@
         "watch-assets": "gulp watchAssets"
     },
     "dependencies": {
-        "@hmcts/info-provider": "^1.1.0",
         "@hmcts/nodejs-healthcheck": "^1.8.0",
         "@hmcts/nodejs-logging": "^4.0.0",
         "@nubz/gds-validation": "^2.4.0",

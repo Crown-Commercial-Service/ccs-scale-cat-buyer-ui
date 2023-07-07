@@ -1,8 +1,7 @@
 import { genericFecthGet } from 'main/services/helpers/api';
 import { EndPoints, GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
 import { FetchResult } from 'main/services/types/helpers/api';
-
-const baseURL = () => process.env.GCLOUD_SEARCH_API_URL;
+import { baseURL } from './helpers';
 
 const headers = () => ({
   'Content-Type': 'application/json',
