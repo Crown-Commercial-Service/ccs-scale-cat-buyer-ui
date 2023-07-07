@@ -34,21 +34,21 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
 
-    //   const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
+    const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
 
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    //const fetch_dynamic_api = await TenderApi.Instance().get(baseURL);
+    const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = {
       totalResults: 4,
       results: [
         {
-          projectId: 21737,
+          projectId: 22111,
           projectName: 'Security Architect April 2023 - April 2024',
           buyerName: 'Department of Work & Pensions',
           location: 'North East England',
           budgetRange: '1000-5000',
           agreement: 'Digital Outcomes',
-          lot: 'Lot 1',
+          lot: 'Lot 3',
           status: 'open',
           subStatus: 'awaiting outcome',
           description:
@@ -194,7 +194,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
   const { projectId, lot } = req.query;
   try {
-    let contextRequirements, contextRequirementsGroups, assessmentCriteria, timeline;
+    let contextRequirements, contextRequirementsGroups, assessmentCriteria, assessmentCriteriaGroups, timeline;
     const baseServiceURL: any = `/tenders/projects/${projectId}`;
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
 
@@ -207,6 +207,18 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         timeline = value;
       } else if (value.id == 'Criterion 2') {
         assessmentCriteria = value;
+
+        assessmentCriteriaGroups = assessmentCriteria?.requirementGroups?.sort((a: any, b: any) =>
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+        );
+        assessmentCriteriaGroups.map((value: any) => {
+          value.requirements.forEach((val: any) => {
+            if (val['pattern']) {
+              console.log('val', val);
+              val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+            }
+          });
+        });
       } else if (value.id == 'Criterion 3') {
         contextRequirements = value;
         contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a: any, b: any) =>
@@ -215,25 +227,23 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         contextRequirementsGroups.map((value: any) => {
           value.requirements.forEach((val: any) => {
             if (val['pattern']) {
-              console.log('val', val);
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
             }
           });
         });
       }
     });
-
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
     // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-    let Pattern = JSON.parse(
-      '[{"value":"North East England","select":false,"text":null,"tableDefinition":null},{"value":"North West England","select":false,"text":null,"tableDefinition":null},{"value":"Yorkshire and the Humber","select":false,"text":null,"tableDefinition":null},{"value":"East Midlands","select":true,"text":null,"tableDefinition":null},{"value":"West Midlands","select":true,"text":null,"tableDefinition":null},{"value":"East of England","select":false,"text":null,"tableDefinition":null},{"value":"London","select":false,"text":null,"tableDefinition":null},{"value":"South East England","select":false,"text":null,"tableDefinition":null},{"value":"South West England","select":false,"text":null,"tableDefinition":null},{"value":"Scotland","select":false,"text":null,"tableDefinition":null},{"value":"Wales","select":false,"text":null,"tableDefinition":null},{"value":"Northern Ireland","select":false,"text":null,"tableDefinition":null},{"value":"International (outside the UK)","select":false,"text":null,"tableDefinition":null}]'
-    );
+    // let Pattern = JSON.parse(
+    //   '[{"value":"North East England","select":false,"text":null,"tableDefinition":null},{"value":"North West England","select":false,"text":null,"tableDefinition":null},{"value":"Yorkshire and the Humber","select":false,"text":null,"tableDefinition":null},{"value":"East Midlands","select":true,"text":null,"tableDefinition":null},{"value":"West Midlands","select":true,"text":null,"tableDefinition":null},{"value":"East of England","select":false,"text":null,"tableDefinition":null},{"value":"London","select":false,"text":null,"tableDefinition":null},{"value":"South East England","select":false,"text":null,"tableDefinition":null},{"value":"South West England","select":false,"text":null,"tableDefinition":null},{"value":"Scotland","select":false,"text":null,"tableDefinition":null},{"value":"Wales","select":false,"text":null,"tableDefinition":null},{"value":"Northern Ireland","select":false,"text":null,"tableDefinition":null},{"value":"International (outside the UK)","select":false,"text":null,"tableDefinition":null}]'
+    // );
 
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
-      Pattern: Pattern,
+      assessment_Criteria: assessmentCriteriaGroups,
       currentLot: lot,
     };
 
