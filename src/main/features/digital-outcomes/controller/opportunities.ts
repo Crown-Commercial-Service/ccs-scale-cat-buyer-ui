@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
 //import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
-import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
+//import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import * as inboxData from '../../../resources/content/event-management/qa.json';
 
@@ -36,10 +36,10 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
 
-    const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
+    //const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
 
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
+    //const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = {
       totalResults: 4,
       results: [
@@ -57,7 +57,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
             'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
         },
         {
-          projectId: 123457,
+          projectId: 22133,
           projectName: 'Dorset ICS Integration and Interoperability Review & Recommendation',
           buyerName: 'The NHS providers within the Dorset Integrated Care System (ICS)',
           location: 'South West England',
@@ -70,7 +70,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
             'The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC.',
         },
         {
-          projectId: 123458,
+          projectId: 21955,
           projectName: 'VR Dev',
           buyerName: 'Department for Work and Pensions',
           location: 'Off-site',
@@ -82,7 +82,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           description: 'VR Dev in Service Now',
         },
         {
-          projectId: 123459,
+          projectId: 22124,
           projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
           buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
           location: 'South East England',
@@ -95,7 +95,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
             'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
         },
         {
-          projectId: 123459,
+          projectId: 22111,
           projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
           buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
           location: 'South East England',
@@ -104,6 +104,19 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           lot: 'Lot 1',
           status: 'Closed',
           subStatus: 'after-the-deadline-passes',
+          description:
+            'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
+        },
+        {
+          projectId: 21737,
+          projectName: 'AWARDS',
+          buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          location: 'South East England',
+          budgetRange: '1000-2000',
+          agreement: 'Digital outcomes',
+          lot: 'Lot 1',
+          status: 'Closed',
+          subStatus: 'awarded',
           description:
             'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
         },
@@ -272,29 +285,55 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
   try {
     const { projectId, status, subStatus, lot } = req.query;
 
-    const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+    //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+    //let projectIds = '22111';
+    //let projectIds = '21737';
+
+    const eventTypeURL = `/tenders/projects/${projectId}`;
 
     let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
-    let getOppertunities = getOppertunitiesData.data;
+    let getOppertunities = getOppertunitiesData?.data;
+    let awards: any = '';
+    let awardDate = '';
+    let awardsupplierId = '';
+    let part;
+    let award_matched_selector = [];
+    if (getOppertunities.records[0].compiledRelease?.awards) {
+      awards = getOppertunities.records[0].compiledRelease?.awards[0];
+      awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
+      awardsupplierId = awards.suppliers[0].id;
+      part = getOppertunities.records[0].compiledRelease.parties;
+      //GB-COH-02299747
+
+      award_matched_selector = part?.filter((agroupitem: any) => {
+        //console.log('agroupitem?.id', agroupitem?.id);
+        return agroupitem?.id === awardsupplierId;
+      });
+
+      award_matched_selector = award_matched_selector[0];
+    }
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
       tenderer: getOppertunities.records[0].compiledRelease.tender,
       tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
-      parties: getOppertunities.records[0].compiledRelease.parties[0],
-      awards: getOppertunities.records[0].compiledRelease.awards[0],
-      awardDate: moment(getOppertunities.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      //parties: getOppertunities.records[0].compiledRelease.parties[0],
+      parties: award_matched_selector,
+
+      awards: awards,
+      awardDate: awardDate,
       //endDate: moment(getOppertunities.records[0].compiledRelease.tenderPeriod.endDate).format('dddd DD MMMM YYYY'),
       endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
         'dddd DD MMMM YYYY'
       ),
 
-      //ocid: sampleJson.records[0].ocid,
+      ocid: getOppertunities.records[0].compiledRelease.ocid,
       projectId: projectId,
       status: status,
       subStatus: subStatus,
       currentLot: lot,
     };
+
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
 };
@@ -305,7 +344,7 @@ export const GET_OPPORTUNITIES_QA = async (req: express.Request, res: express.Re
   let projectIds: any;
   let isSupplierQA = false;
   let projectId;
-  console.log('test1');
+
   try {
     if (req.query.id != undefined) {
       eventIds = req.query.id;
@@ -319,35 +358,30 @@ export const GET_OPPORTUNITIES_QA = async (req: express.Request, res: express.Re
       isSupplierQA = false;
       res.locals.agreement_header = req.session.agreement_header;
     }
-    console.log('test2');
-    const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
-    const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
+
+    //const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
+    //const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
     const data = inboxData;
 
-    const response = fetchData.data;
-    console.log('test3');
-    const projectName = response.projectName;
-    const agreementName = response.agreementName;
-    const agreementId_session = response.agreementId;
-    const agreementLotName = response.lotName;
-    const lotid = response.lotId;
-    console.log('test3');
-    res.locals.agreement_header = {
-      projectName: projectName,
-      projectId,
-      agreementName,
-      agreementIdSession: agreementId_session,
-      agreementLotName,
-      lotid,
-    };
-    console.log('4');
+    const eventTypeURL = `/tenders/projects/${projectIds}`;
+
+    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    let getOppertunities = getOppertunitiesData?.data;
+
     appendData = {
+      tender: getOppertunities.records[0].compiledRelease.tender,
+      lot: getOppertunities.records[0].compiledRelease.tender.lots[0].id,
       data,
       projectId: projectId,
-      QAs: fetchData.data.QandA.length > 0 ? fetchData.data.QandA : [],
+      //QAs: fetchData.data.QandA.length > 0 ? fetchData.data.QandA : [],
+      QAs:
+        getOppertunities.records[0].compiledRelease.tender.enquiries.length > 0
+          ? getOppertunities.records[0].compiledRelease.tender.enquiries
+          : [],
+
       eventId: eventIds,
       eventType: req.session.eventManagement_eventType,
-      eventName: projectName,
+      //  eventName: projectName,
       isSupplierQA,
     };
 
