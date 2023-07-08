@@ -275,29 +275,55 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
   try {
     const { projectId, status, subStatus, lot } = req.query;
 
-    const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+    //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
+    //let projectIds = '22111';
+    //let projectIds = '21737';
+
+    const eventTypeURL = `/tenders/projects/${projectId}`;
 
     let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
-    let getOppertunities = getOppertunitiesData.data;
+    let getOppertunities = getOppertunitiesData?.data;
+    let awards: any = '';
+    let awardDate = '';
+    let awardsupplierId = '';
+    let part;
+    let award_matched_selector = [];
+    if (getOppertunities.records[0].compiledRelease?.awards) {
+      awards = getOppertunities.records[0].compiledRelease?.awards[0];
+      awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
+      awardsupplierId = awards.suppliers[0].id;
+      part = getOppertunities.records[0].compiledRelease.parties;
+      //GB-COH-02299747
+
+      award_matched_selector = part?.filter((agroupitem: any) => {
+        //console.log('agroupitem?.id', agroupitem?.id);
+        return agroupitem?.id === awardsupplierId;
+      });
+
+      award_matched_selector = award_matched_selector[0];
+    }
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
       tenderer: getOppertunities.records[0].compiledRelease.tender,
       tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
-      parties: getOppertunities.records[0].compiledRelease.parties[0],
-      awards: getOppertunities.records[0].compiledRelease.awards[0],
-      awardDate: moment(getOppertunities.records[0].compiledRelease.awards[0].date).format('DD/MM/YYYY'),
+      //parties: getOppertunities.records[0].compiledRelease.parties[0],
+      parties: award_matched_selector,
+
+      awards: awards,
+      awardDate: awardDate,
       //endDate: moment(getOppertunities.records[0].compiledRelease.tenderPeriod.endDate).format('dddd DD MMMM YYYY'),
       endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
         'dddd DD MMMM YYYY'
       ),
 
-      //ocid: sampleJson.records[0].ocid,
+      ocid: getOppertunities.records[0].compiledRelease.ocid,
       projectId: projectId,
       status: status,
       subStatus: subStatus,
       currentLot: lot,
     };
+
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {}
 };
@@ -321,31 +347,30 @@ export const GET_OPPORTUNITIES_QA = async (req: express.Request, res: express.Re
       isSupplierQA = false;
       res.locals.agreement_header = req.session.agreement_header;
     }
-    const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
-    const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
+
+    //const baseURL = `/tenders/supplier/projects/${projectIds}/events/${eventIds}/q-and-a`;
+    //const fetchData = await TenderApi.InstanceSupplierQA().get(baseURL);
     const data = inboxData;
 
-    const response = fetchData.data;
-    const projectName = response.projectName;
-    const agreementName = response.agreementName;
-    const agreementId_session = response.agreementId;
-    const agreementLotName = response.lotName;
-    const lotid = response.lotId;
-    res.locals.agreement_header = {
-      projectName: projectName,
-      projectId,
-      agreementName,
-      agreementIdSession: agreementId_session,
-      agreementLotName,
-      lotid,
-    };
+    const eventTypeURL = `/tenders/projects/${projectIds}`;
+
+    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    let getOppertunities = getOppertunitiesData?.data;
+
     appendData = {
+      tender: getOppertunities.records[0].compiledRelease.tender,
+      lot: getOppertunities.records[0].compiledRelease.tender.lots[0].id,
       data,
       projectId: projectId,
-      QAs: fetchData.data.QandA.length > 0 ? fetchData.data.QandA : [],
+      //QAs: fetchData.data.QandA.length > 0 ? fetchData.data.QandA : [],
+      QAs:
+        getOppertunities.records[0].compiledRelease.tender.enquiries.length > 0
+          ? getOppertunities.records[0].compiledRelease.tender.enquiries
+          : [],
+
       eventId: eventIds,
       eventType: req.session.eventManagement_eventType,
-      eventName: projectName,
+      //  eventName: projectName,
       isSupplierQA,
     };
 

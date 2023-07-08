@@ -6,20 +6,19 @@
 {% block breadCrumb %}
 	
 
-  
 
     {{ CCSBreadcrumbs({
         items:[
     {
       "text": "Digital Outcomes opportunities",
-      "href": "/dashboard"
+      "href": "/digital-outcomes-and-specialists/opportunities"
     },
     {
-      "text": "Dorset ICS Integration and Interoperability Review & Recommendation",
-      "href": "/event/management?id="
+      "text": tender.title,
+      "href": "/digital-outcomes-and-specialists/reviewRecommendation?projectId="+projectId+"&lot="+lot+"&status=Closed&subStatus=awarded"
     },
      {
-      "text": "Clarifications: Dorset ICS Integration and Interoperability Review & Recommendation",
+      "text": "Clarifications:"+tender.title,
       "href": ""
     }
   
@@ -33,7 +32,7 @@
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
                       {%if(isSupplierQA == true)%}	
-                         <strong>Clarifications: Dorset ICS Integration and Interoperability Review & Recommendation </strong>	
+                         <strong>Clarifications: {{tender.title}} </strong>	
                     {%else%}	
                     <strong>Questions and Clarifications</strong>	
                     {%endif%}	
@@ -60,15 +59,15 @@
         {% for QA in QAs %}
         <div class="govuk-grid-row ccs-page-section-without-margin">
             <div class="govuk-grid-column-full">
-                <h3>{{q+". "}}{{QA.question}}</h3>
+                <h3>{{q+". "}}{{QA.title}}</h3>
                 <p class="govuk-body">
                     {{QA.answer}}
                 </p>
                 <p class="govuk-body">
                     {% if QA.lastUpdated%}	
-                    {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>	
+                    {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.dateAnswered | dateddmmyyyy }}</strong>	
                     {% else %}	
-                     {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.created | dateddmmyyyy }}</strong>	
+                     {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.dateAnswered | dateddmmyyyy }}</strong>	
                      {% endif %}
                 </p>
             </div>
@@ -77,7 +76,8 @@
         {% endfor %}
           <p class="govuk-body-margin-top">	
             {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>	 #}
-            <a href="/digital-outcomes-and-specialists/reviewRecommendation??projectId={{projectId}}" class="govuk-link govuk-link--no-visited-state">Return to Dorset ICS Integration and Interoperability Review & Recommendation</a>	
+         <a href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{projectId}}&lot={{lot}}&status=Closed&subStatus=awarded" class="govuk-link govuk-link--no-visited-state">Return to {{tender.title}}</a>	
+
         </p>
     </main>
 {% endblock %}
