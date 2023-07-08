@@ -107,6 +107,19 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           description:
             'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
         },
+        {
+          projectId: 21737,
+          projectName: 'AWARDS',
+          buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
+          location: 'South East England',
+          budgetRange: '1000-2000',
+          agreement: 'Digital outcomes',
+          lot: 'Lot 1',
+          status: 'Closed',
+          subStatus: 'awarded',
+          description:
+            'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
+        },
       ],
       searchCriteria: {
         keyword: 'string',
@@ -280,18 +293,35 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
     let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
     let getOppertunities = getOppertunitiesData?.data;
-    let awards = '';
+    let awards: any = '';
+    let awardDate = '';
+    let awardsupplierId = '';
+    let part;
+    let award_matched_selector = [];
     if (getOppertunities.records[0].compiledRelease?.awards) {
       awards = getOppertunities.records[0].compiledRelease?.awards[0];
+      awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
+      awardsupplierId = awards.suppliers[0].id;
+      part = getOppertunities.records[0].compiledRelease.parties;
+      //GB-COH-02299747
+
+      award_matched_selector = part?.filter((agroupitem: any) => {
+        //console.log('agroupitem?.id', agroupitem?.id);
+        return agroupitem?.id === awardsupplierId;
+      });
+
+      award_matched_selector = award_matched_selector[0];
     }
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
       tenderer: getOppertunities.records[0].compiledRelease.tender,
       tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
-      parties: getOppertunities.records[0].compiledRelease.parties[0],
+      //parties: getOppertunities.records[0].compiledRelease.parties[0],
+      parties: award_matched_selector,
+
       awards: awards,
-      // awardDate: moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY'),
+      awardDate: awardDate,
       //endDate: moment(getOppertunities.records[0].compiledRelease.tenderPeriod.endDate).format('dddd DD MMMM YYYY'),
       endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
         'dddd DD MMMM YYYY'
