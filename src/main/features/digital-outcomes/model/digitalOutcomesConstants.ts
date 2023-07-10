@@ -12,4 +12,5 @@ export enum DIGITALOUTCOMES_PATHS {
   //questions-and-clarifications
   GET_OPPORTUNITIES_QA = '/digital-outcomes-and-specialists/questions-and-Clarifications',
   OPPORTUNITIES_DOWNLOAD = '/opportunities/download',
+  OPPORTUNITY_DETAILS_DOWNLOAD = '/digital-outcomes-and-specialists/downloadDetails',
 }
