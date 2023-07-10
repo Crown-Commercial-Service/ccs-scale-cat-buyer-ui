@@ -1,8 +1,7 @@
 import { genericFecthGet } from 'main/services/helpers/api';
 import { EndPoints, GCloudFilters, GCloudFilterQueryParams } from 'main/services/types/gCloud/supplier/api';
 import { FetchResult } from 'main/services/types/helpers/api';
-
-const baseURL = () => process.env.GCLOUD_SUPPLIER_API_URL;
+import { baseURL } from './helpers';
 
 // GET /g-cloud-filters
 const getGCloudFilters = async (lot: string, serviceCategories: string, parentCategory: string): Promise<FetchResult<GCloudFilters>> => {

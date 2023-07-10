@@ -4,8 +4,7 @@ import { EndPoints, AgreementLotEventType } from '../types/agreementsService/api
 import { FetchResult } from '../types/helpers/api';
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { AgreementDetail } from '@common/middlewares/models/agreement-detail';
-
-const baseURL = () => process.env.AGREEMENTS_SERVICE_API_URL;
+import { baseURL } from './helpers';
 
 const headers = {
   'Content-Type': 'application/json'

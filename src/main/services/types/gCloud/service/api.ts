@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/_status',
   SERVICE = '/services/:serviceId',
   SUPPLIER = '/suppliers/:supplierId',
   SUPPLIER_FRAMEWORK = '/suppliers/:supplierId/frameworks/g-cloud-13'
