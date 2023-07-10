@@ -73,7 +73,6 @@ $restrictEnter.on("keydown keypress", function() {
        
          
         }).fail((res) => {
-          console.log(res);
           window.location.href = window.location.origin +`/dashboard?closeStatus=false`;
 
         })
@@ -866,6 +865,7 @@ document.querySelectorAll(".clickCategory").forEach(function (event) {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
+    
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
@@ -1294,7 +1294,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
       window.location.href = `${baseUrl}${searchQueryUrl}`;
     });
   });
-
+  document.querySelectorAll(".paginationOppUrlClass").forEach(el => {
+    el.addEventListener('click', function (e) {
+      let searchQueryUrl = "";
+      let searchValue = document.getElementsByClassName("oppurtunities_search"); //$('.g13_search').val();
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+      let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
+          }
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
+      window.location.href = `${baseUrl}${searchQueryUrl}`;
+    });
+  });
+  
   const removeErrorFieldsEoiTerms = () => {
     $('.govuk-error-message').remove();
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
@@ -1597,7 +1621,6 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-      console.log('result',result)
       let totalResults =  result.search_data.totalResults;
       $('#totalRecords').html(totalResults);
        slist.classList.remove('loadingres');
@@ -1619,6 +1642,49 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</li>';
      });
       document.getElementById('contentHead').innerHTML = mainLothtml;
+      var paginationHtml = ''
+      paginationHtml += '<div class="govuk-grid-row">';
+      paginationHtml += '<div class="govuk-grid-column-full">';
+      paginationHtml += '<div class="govuk-grid-column-one-half">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.PrvePageUrl != '') {
+        if (result.njkDatas.CurrentPageNumber != 1) {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Previous Page</a>';
+          paginationHtml += '</p>';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+        }
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+
+      paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.NextPageUrl != '') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+        paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+        paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+        paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+        paginationHtml += '</svg>';
+        paginationHtml += 'Next Page</a>';
+        paginationHtml += '</p>';
+      }
+      if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+      } else {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      document.getElementById('paginationContainer').innerHTML = paginationHtml;
 
       // $('#criteriasavebtn').prop('disabled', false);
       // $('#criteriasavebtn').removeClass('govuk-button--disabled');
