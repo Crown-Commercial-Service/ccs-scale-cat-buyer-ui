@@ -46,13 +46,13 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     //   totalResults: 4,
     //   results: [
     //     {
-    //       projectId: 22111,
+    //       projectId: 22147,
     //       projectName: 'Security Architect April 2023 - April 2024',
     //       buyerName: 'Department of Work & Pensions',
     //       location: 'North East England',
     //       budgetRange: '1000-5000',
     //       agreement: 'Digital Outcomes',
-    //       lot: 'Lot 3',
+    //       lot: '3',
     //       status: 'open',
     //       subStatus: 'awaiting outcome',
     //       description:
@@ -208,13 +208,22 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       clearFilterURL: clearFilterURL,
       currentLot: lot,
     };
+    console.log('currentLot', lot);
     res.render('opportunities', display_fetch_data);
   } catch (error) {}
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
   const { projectId, lot } = req.query;
   try {
-    let contextRequirements, contextRequirementsGroups, assessmentCriteria, assessmentCriteriaGroups, timeline;
+    let contextRequirements,
+      contextRequirementsGroups,
+      assessmentCriteria,
+      assessmentCriteriaGroups,
+      timeline,
+      timelineQuestionGroups;
+    let howWillScore: any = [];
+    let assessmentquestions: any = [];
+
     const baseServiceURL: any = `/tenders/projects/${projectId}`;
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
 
@@ -225,6 +234,14 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
+        timelineQuestionGroups = timeline?.requirementGroups[0].requirements.sort((a: any, b: any) =>
+          parseInt(a.id?.replace('Question ', '')) < parseInt(b.id?.replace('Question ', '')) ? -1 : 1
+        );
+        timelineQuestionGroups.map((value: any) => {
+          if (value['pattern']) {
+            value.pattern = value.pattern ? JSON.parse(value.pattern) : [];
+          }
+        });
       } else if (value.id == 'Criterion 2') {
         assessmentCriteria = value;
 
@@ -232,9 +249,59 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
         );
         assessmentCriteriaGroups.map((value: any) => {
+          let descVal: any, weightageVal: any;
           value.requirements.forEach((val: any) => {
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+              if (value.id == 'Group 11') {
+                let rowVal = val.pattern[0].tableDefinition.titles.rows;
+                let dataVal = val.pattern[0].tableDefinition.data;
+                rowVal.forEach((rowvalue: any) => {
+                  dataVal.forEach((dataval: any) => {
+                    if (rowvalue.id == dataval.row) {
+                      let scorevalue = {
+                        level: rowvalue.name,
+                        score: dataval.cols[0],
+                        description: dataval.cols[1],
+                      };
+                      howWillScore.push(scorevalue);
+                    }
+                  });
+                });
+              }
+              if (
+                value.id == 'Group 5' ||
+                value.id == 'Group 6' ||
+                value.id == 'Group 7' ||
+                (lot == '3' && value.id == 'Group 8') ||
+                (lot == '1' && value.id == 'Group 8') ||
+                (lot == '1' && value.id == 'Group 9')
+              ) {
+                let questionvalue;
+                let questiondatas: any = [];
+                if (val.id == 'Question 1') {
+                  descVal = val.pattern;
+                }
+                if (val.id == 'Question 2') {
+                  weightageVal = val.pattern;
+                }
+
+                if (descVal != undefined && weightageVal != undefined) {
+                  descVal.forEach((des: any, i: number) => {
+                    questionvalue = {
+                      description: descVal[i].value,
+                      weightage: weightageVal[i].value,
+                    };
+                    questiondatas.push(questionvalue);
+                  });
+
+                  let questiondata = {
+                    groupId: value.id,
+                    data: questiondatas,
+                  };
+                  assessmentquestions.push(questiondata);
+                }
+              }
             }
           });
         });
@@ -252,6 +319,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         });
       }
     });
+    //  console.log('assessmentquestions', JSON.stringify(assessmentquestions));
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
@@ -262,6 +330,9 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
       assessment_Criteria: assessmentCriteriaGroups,
+      assessmentquestions_data: assessmentquestions,
+      timeline_data: timelineQuestionGroups,
+      howWillScore_data: howWillScore,
       currentLot: lot,
     };
 
@@ -434,7 +505,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       filters: FilterQuery,
     };
     const searchKeywordsQuery: any = q;
-
+    //console.log('filter url', btoa(JSON.stringify(finalquery)));
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
