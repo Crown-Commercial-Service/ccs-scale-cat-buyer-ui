@@ -16,6 +16,7 @@
         "lint:frontend": "eslint --ext .js src/main/assets/scripts/**",
         "lint:frontend:fix": "eslint --ext .js --fix src/main/assets/scripts/**",
         "test": "env-cmd -f config/.env.test mocha \"src/spec/**/*.spec.ts\" --reporter-options reportFilename=all,inlineAssets=true,reportTitle=CAS-buyer-frontend-tests-all",
+        "test:wip": "env-cmd -f config/.env.test mocha",
         "test:a11y": "mocha \"src/test/a11y/**/*.test.ts\" --timeout 60000 --reporter-options reportFilename=a11y,inlineAssets=true,reportTitle=CAS-buyer-frontend-a11y",
         "test:routes": "mocha \"src/test/routes/**/*.test.ts\" --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CAS-buyer-frontend-routes",
         "test:coverage": "nyc --reporter=html npm test",
