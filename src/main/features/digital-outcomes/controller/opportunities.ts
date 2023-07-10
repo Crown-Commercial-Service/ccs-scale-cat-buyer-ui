@@ -303,6 +303,19 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       award_matched_selector = award_matched_selector[0];
     }
 
+    let bids = getOppertunities.records[0].compiledRelease.bids;
+
+    let supplierSummeryCount = bids.map((item: any) => {
+      let result: any[] = [];
+      //   const newItem = item;
+      item.statistics.map((sta: any) => {
+        let measure = sta.measure;
+        let value = sta.value;
+        result[measure] = value;
+      });
+      return result;
+    });
+
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
       tenderer: getOppertunities.records[0].compiledRelease.tender,
@@ -316,7 +329,9 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
         'dddd DD MMMM YYYY'
       ),
-
+      supplierSummeryCount: supplierSummeryCount,
+      suppliersResponded: supplierSummeryCount[0]['suppliersResponded'],
+      suppliersNotResponded: supplierSummeryCount[0]['suppliersNotResponded'],
       ocid: getOppertunities.records[0].compiledRelease.ocid,
       projectId: projectId,
       status: status,
