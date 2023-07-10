@@ -61,7 +61,7 @@ redisSession()
     // Init Helmet (sets HTTP response headers)
     logger.info('Initialising Helmet');
 
-    initHelmet(app, config.get('security'));
+    initHelmet(app);
 
     // Set app configurations
     logger.info('Initialising application configurations');
