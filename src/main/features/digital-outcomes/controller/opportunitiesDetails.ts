@@ -21,14 +21,22 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     let tenderer = getOppertunities.records[0].compiledRelease.tender;
     let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
     let tenderStatus = tenderer.status;
+
     tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
     let currentDate = new Date();
     // 8 > 5
 
-    if (tenderStatus == 'active' && tenderPeriodDeadlineDate >= currentDate) {
-      subStatus = 'open';
-    } else if (tenderPeriodDeadlineDate >= currentDate) {
-      subStatus = 'not-yet-awarded';
+    if (tenderStatus == 'active') {
+      if (currentDate <= tenderPeriodDeadlineDate) {
+        subStatus = 'open';
+      } else {
+        subStatus = 'not-yet-awarded';
+      }
+    } else if (tenderStatus == 'complete') {
+      subStatus = 'awarded';
+    } else if (tenderStatus == 'cancelled' || tenderStatus == 'unsuccessful' || tenderStatus == 'withdrawn') {
+      subStatus = 'before-the-deadline-passes';
+    } else {
     }
 
     let awards: any = '';
@@ -97,6 +105,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       projectId: projectId,
       status: status,
       subStatus: subStatus,
+      tenderStatus: tenderStatus,
       currentLot: lot,
     };
 
