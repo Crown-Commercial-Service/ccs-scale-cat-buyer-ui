@@ -177,7 +177,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-
+    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -190,7 +190,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
       PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
@@ -205,7 +205,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       clearFilterURL: clearFilterURL,
       currentLot: lot,
     };
-    console.log('currentLot', lot);
     res.render('opportunities', display_fetch_data);
   } catch (error) {
     console.log('error in opportunities', error);
@@ -537,6 +536,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
+    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -549,7 +549,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
       PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
