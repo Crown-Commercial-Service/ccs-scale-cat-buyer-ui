@@ -13,15 +13,62 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const usingObjectAssign = Object.assign([], status);
     let statusArray: any = [];
     const FilterQuery: any = [];
-    usingObjectAssign.forEach((val, i) => {
+    let checkedOpen = '';
+    let checkedClose = '';
+    let pageUrl = '';
+    // const url = req.originalUrl.toString();
+    // console.log('url', url.indexOf('?'));
+    // if (url.indexOf('?') != -1) {
+    //   pageUrl = url.substring(url.indexOf('?') + 1);
+    // }
+
+    // usingObjectAssign.forEach((val, i) => {
+    //   let options = {
+    //     id: i,
+    //     text: val,
+    //     selected: true,
+    //     count: 0,
+    //   };
+    //   console
+    //   statusArray.push(options);
+    // });
+
+    if (Array.isArray(status)) {
+      usingObjectAssign.forEach((val, i) => {
+        let options = {
+          id: i,
+          text: val,
+          selected: true,
+          count: 2,
+        };
+        statusArray.push(options);
+        if (val == 'open') {
+          checkedOpen = 'checked';
+          pageUrl = `&status=${val}`;
+        }
+        if (val == 'closed') {
+          checkedClose = 'checked';
+          pageUrl += `&status=${val}`;
+        }
+      });
+    } else {
       let options = {
-        id: i,
-        text: val,
+        id: 1,
+        text: status,
         selected: true,
-        count: 0,
+        count: 1,
       };
       statusArray.push(options);
-    });
+      if (status == 'open') {
+        checkedOpen = 'checked';
+        pageUrl = `&status=${status}`;
+      }
+      if (status == 'closed') {
+        checkedClose = 'checked';
+        pageUrl = `&status=${status}`;
+      }
+    }
+    const statusPageQuery = status != undefined ? pageUrl : '';
     let querydata = {
       name: 'status',
       options: statusArray,
@@ -32,11 +79,13 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     };
     const searchKeywordsQuery: any = q;
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
+    //const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
+    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities`;
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
     // let response_data = {
@@ -177,7 +226,8 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -190,8 +240,14 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
-      PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
+      NextPageUrl:
+        NextPagedata == undefined
+          ? ''
+          : `page=${parseInt(NextPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+      PrvePageUrl:
+        PrevPagedata == undefined
+          ? ''
+          : `page=${parseInt(PrevPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
       LastPageNumber: parseInt(lastPageData),
@@ -204,6 +260,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       njkDatas,
       clearFilterURL: clearFilterURL,
       currentLot: lot,
+      status: status,
+      checkedOpen,
+      checkedClose,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
@@ -343,6 +402,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
   const { lot, status, q, page } = req.query;
   const NoOfRecordsPerPage = 20;
+  let pageUrl = '';
   try {
     const usingObjectAssign = Object.assign([], status);
     // const reqUrl = req.url;
@@ -358,6 +418,12 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           count: 2,
         };
         statusArray.push(options);
+        if (val == 'open') {
+          pageUrl = `&status=${val}`;
+        }
+        if (val == 'closed') {
+          pageUrl += `&status=${val}`;
+        }
       });
     } else {
       let options = {
@@ -367,6 +433,12 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         count: 1,
       };
       statusArray.push(options);
+      if (status == 'open') {
+        pageUrl = `&status=${status}`;
+      }
+      if (status == 'closed') {
+        pageUrl = `&status=${status}`;
+      }
     }
     // usingObjectAssign.forEach((val, i) => {
     //   let options = {
@@ -385,14 +457,18 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     let finalquery = {
       filters: FilterQuery,
     };
+    const statusPageQuery = status != undefined ? pageUrl : '';
     const searchKeywordsQuery: any = q;
     //console.log('filter url', btoa(JSON.stringify(finalquery)));
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
+    // const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
+    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities`;
+
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
 
@@ -537,6 +613,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -549,8 +626,14 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
-      PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
+      NextPageUrl:
+        NextPagedata == undefined
+          ? ''
+          : `page=${parseInt(NextPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+      PrvePageUrl:
+        PrevPagedata == undefined
+          ? ''
+          : `page=${parseInt(PrevPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
       LastPageNumber: parseInt(lastPageData),
