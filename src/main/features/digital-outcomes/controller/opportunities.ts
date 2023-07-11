@@ -32,7 +32,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     };
     const searchKeywordsQuery: any = q;
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
+    const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
@@ -177,7 +177,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-
+    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -190,7 +190,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
       PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
@@ -205,9 +205,10 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       clearFilterURL: clearFilterURL,
       currentLot: lot,
     };
-    console.log('currentLot', lot);
     res.render('opportunities', display_fetch_data);
-  } catch (error) {}
+  } catch (error) {
+    console.log('error in opportunities', error);
+  }
 };
 export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: express.Response) => {
   const { projectId, lot } = req.query;
@@ -251,8 +252,8 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
               if (value.id == 'Group 11') {
-                let rowVal = val.pattern[0].tableDefinition.titles.rows;
-                let dataVal = val.pattern[0].tableDefinition.data;
+                let rowVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.titles.rows : [];
+                let dataVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.data : [];
                 rowVal.forEach((rowvalue: any) => {
                   dataVal.forEach((dataval: any) => {
                     if (rowvalue.id == dataval.row) {
@@ -387,7 +388,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const searchKeywordsQuery: any = q;
     //console.log('filter url', btoa(JSON.stringify(finalquery)));
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
+    const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
@@ -535,6 +536,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
+    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -547,7 +549,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       haveLot: false,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
-      NextPageUrl: NextPagedata == undefined ? '' : `page=${parseInt(NextPagedata)}`,
+      NextPageUrl: NextPagedata == undefined ? '' : nextPageUrl,
       PrvePageUrl: PrevPagedata == undefined ? '' : `page=${parseInt(PrevPagedata)}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
