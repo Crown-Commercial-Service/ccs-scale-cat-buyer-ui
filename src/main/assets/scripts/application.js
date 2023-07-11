@@ -865,11 +865,20 @@ document.querySelectorAll(".clickCategory").forEach(function (event) {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
-    
+      console.log("document.location.search",document.location.search);
+      
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
+   
+    urlObj=[];
+    console.log("baseUrl",baseUrl);
+    console.log("urlObj",urlObj);
+    //return false;
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+    console.log("baseUrl",baseUrl);
+    console.log("finalTriggerUrl",finalTriggerUrl);
+    
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
@@ -1012,6 +1021,9 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         type: "GET",
         contentType: "application/json",
       }).done(function (result) {
+        
+        console.log("result",result);
+
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
         slist.classList.remove('loadingres');
@@ -1019,7 +1031,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         $.each(result.search_data.results, function (key, val) {
           mainLothtml +='<li class="app-search-result">';
           mainLothtml +='<h2 class="govuk-heading-s govuk-!-margin-bottom-1">';
-          mainLothtml +='<a class="govuk-link" href="">' + val.projectName + '</a>';
+          mainLothtml +='<a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId='+val.projectId+'&lot='+val.lot+'&status='+val.status+'&subStatus=">' + val.projectName + '</a>';
           mainLothtml +='</h2>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
           mainLothtml +='</p>';
