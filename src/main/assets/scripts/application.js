@@ -865,19 +865,15 @@ document.querySelectorAll(".clickCategory").forEach(function (event) {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
-      console.log("document.location.search",document.location.search);
       
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
    
     urlObj=[];
-    console.log("baseUrl",baseUrl);
-    console.log("urlObj",urlObj);
+   
     //return false;
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
-    console.log("baseUrl",baseUrl);
-    console.log("finalTriggerUrl",finalTriggerUrl);
     
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });

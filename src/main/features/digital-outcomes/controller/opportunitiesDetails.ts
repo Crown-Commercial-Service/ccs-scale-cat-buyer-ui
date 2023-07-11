@@ -23,10 +23,6 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     let tenderStatus = tenderer.status;
     tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
     let currentDate = new Date();
-
-    console.log('tenderPeriodDeadlineDate', new Date(tenderPeriodDeadlineDate));
-    console.log('LESSTHENNNNNNNNNNNNNNNNNNN', tenderStatus);
-    console.log('currentDate', currentDate);
     // 8 > 5
 
     if (tenderStatus == 'active' && tenderPeriodDeadlineDate >= currentDate) {
@@ -68,7 +64,6 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       award_matched_selector = award_matched_selector[0];
     }
 
-    console.log('subStatus', subStatus);
     let bids = getOppertunities.records[0].compiledRelease.bids;
 
     let supplierSummeryCount = bids.map((item: any) => {
