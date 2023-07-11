@@ -6,7 +6,7 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId, status, subStatus, lot } = req.query;
+    let { projectId, status, subStatus, lot } = req.query;
 
     //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
     //let projectIds = '22111';
@@ -18,11 +18,29 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     let getOppertunities = getOppertunitiesData?.data;
     let ocid = getOppertunities.records[0].compiledRelease.ocid;
 
+    let tenderer = getOppertunities.records[0].compiledRelease.tender;
+    let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
+    let tenderStatus = tenderer.status;
+    tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
+    let currentDate = new Date();
+
+    console.log('tenderPeriodDeadlineDate', new Date(tenderPeriodDeadlineDate));
+    console.log('LESSTHENNNNNNNNNNNNNNNNNNN', tenderStatus);
+    console.log('currentDate', currentDate);
+    // 8 > 5
+
+    if (tenderStatus == 'active' && tenderPeriodDeadlineDate >= currentDate) {
+      subStatus = 'open';
+    } else if (tenderPeriodDeadlineDate >= currentDate) {
+      subStatus = 'not-yet-awarded';
+    }
+
     let awards: any = '';
     let awardDate = '';
     let part;
     let award_matched_selector = [];
     if (getOppertunities.records[0].compiledRelease?.awards) {
+      subStatus = 'awarded';
       awards = getOppertunities.records[0].compiledRelease?.awards[0];
       awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
 
@@ -50,6 +68,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       award_matched_selector = award_matched_selector[0];
     }
 
+    console.log('subStatus', subStatus);
     let bids = getOppertunities.records[0].compiledRelease.bids;
 
     let supplierSummeryCount = bids.map((item: any) => {
@@ -65,7 +84,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
-      tenderer: getOppertunities.records[0].compiledRelease.tender,
+      tenderer: tenderer,
       tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
       //parties: getOppertunities.records[0].compiledRelease.parties[0],
       parties: award_matched_selector,
