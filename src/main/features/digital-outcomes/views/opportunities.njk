@@ -471,7 +471,7 @@
                       </li>
                     {% endfor %}
                   </ul>
-                  <div class="app-search-result-nodata">
+                  {# <div class="app-search-result-nodata">
                     <p class="govuk-body">Improve your search results by:</p>
                     <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4" id="">
                       <li>
@@ -490,7 +490,8 @@
                         <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1">searching for something less specific, you can refine your results later</p>
                       </li>
                     </ul>
-                  </div>
+
+                  </div> #}
 
                 </div>
               </div>
@@ -594,10 +595,10 @@
                   </div>
                 {% endif %}
               </div>
-
-              <div id="rightSidefooterCotainer">
-                {% if (search_data.results.length == 0) %}
-                  <h3 class="govuk-heading-m">Improve your search results by:</h3>
+    
+              <div id="rightSidefooterCotainer" class="hidefoot">
+                {% if (search_data.totalResults == 0) %}
+      <h3 class="govuk-heading-m">Improve your search results by:</h3>
                   <ul class="govuk-list govuk-!-margin-top-0">
                     <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
                 </li>choosing a different category</li><br>
