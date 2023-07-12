@@ -29,8 +29,8 @@ export const GET_OPPORTUNITIES_QA = async (req: express.Request, res: express.Re
 
     const eventTypeURL = `/tenders/projects/${projectIds}?group=qa`;
 
-    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
-    let getOppertunities = getOppertunitiesData?.data;
+    const getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    const getOppertunities = getOppertunitiesData?.data;
 
     appendData = {
       tender: getOppertunities.records[0].compiledRelease.tender,

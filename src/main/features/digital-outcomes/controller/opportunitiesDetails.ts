@@ -6,7 +6,7 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    let { projectId, status, subStatus, lot } = req.query;
+    const { projectId, status, lot } = req.query;
 
     //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
     //let projectIds = '22111';
@@ -14,16 +14,16 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
     const eventTypeURL = `/tenders/projects/${projectId}`;
 
-    let getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
-    let getOppertunities = getOppertunitiesData?.data;
-    let ocid = getOppertunities.records[0].compiledRelease.ocid;
+    const getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
+    const getOppertunities = getOppertunitiesData?.data;
+    const ocid = getOppertunities.records[0].compiledRelease.ocid;
 
-    let tenderer = getOppertunities.records[0].compiledRelease.tender;
+    const tenderer = getOppertunities.records[0].compiledRelease.tender;
     let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
-    let tenderStatus = tenderer.status;
+    const tenderStatus = tenderer.status;
 
     tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
-    let currentDate = new Date();
+    const currentDate = new Date();
     // 8 > 5
 
     let cancellationDate: any = '';
@@ -32,6 +32,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       cancellationDate = new Date(cancellationDate);
     }
 
+    let subStatus;
     if (tenderStatus == 'active') {
       if (currentDate <= tenderPeriodDeadlineDate) {
         subStatus = 'open';
@@ -44,7 +45,6 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       subStatus = 'before-the-deadline-passes';
     } else if (cancellationDate > tenderPeriodDeadlineDate) {
       subStatus = 'after-the-deadline-passes';
-    } else {
     }
 
     let awards: any = '';
@@ -58,17 +58,17 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
       const identifierField: (string | number)[] = [];
       if (awards.suppliers[0]?.identifier) {
-        let identifierscheme = awards.suppliers[0]?.identifier?.scheme.replace('XI', 'US');
-        let identifierschemeId = awards.suppliers[0].identifier.id;
-        let sidentifierField = identifierscheme + '-' + identifierschemeId;
+        const identifierscheme = awards.suppliers[0]?.identifier?.scheme.replace('XI', 'US');
+        const identifierschemeId = awards.suppliers[0].identifier.id;
+        const sidentifierField = identifierscheme + '-' + identifierschemeId;
         identifierField.push(sidentifierField);
       }
       if (awards.suppliers[0]?.additionalIdentifiers) {
         awards.suppliers[0]?.additionalIdentifiers.map((additionalIdenti: any) => {
           if (additionalIdenti.scheme) {
-            let additionalidentifierscheme = additionalIdenti.scheme.replace('XI', 'US');
-            let aaditionalidentifierschemeId = additionalIdenti.id;
-            let additioanlsidentifierField = additionalidentifierscheme + '-' + aaditionalidentifierschemeId;
+            const additionalidentifierscheme = additionalIdenti.scheme.replace('XI', 'US');
+            const aaditionalidentifierschemeId = additionalIdenti.id;
+            const additioanlsidentifierField = additionalidentifierscheme + '-' + aaditionalidentifierschemeId;
             identifierField.push(additioanlsidentifierField);
           }
         });
@@ -82,14 +82,14 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       award_matched_selector = award_matched_selector[0];
     }
 
-    let bids = getOppertunities.records[0].compiledRelease.bids;
+    const bids = getOppertunities.records[0].compiledRelease.bids;
 
-    let supplierSummeryCount = bids.map((item: any) => {
-      let result: any[] = [];
+    const supplierSummeryCount = bids.map((item: any) => {
+      const result: any[] = [];
       //   const newItem = item;
       item.statistics.map((sta: any) => {
-        let measure = sta.measure;
-        let value = sta.value;
+        const measure = sta.measure;
+        const value = sta.value;
         result[measure] = value;
       });
       return result;
@@ -120,7 +120,9 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     };
 
     res.render('opportunitiesDetails', display_fetch_data);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const OPPORTUNITY_DETAILS_DOWNLOAD = async (req: express.Request, res: express.Response) => {
