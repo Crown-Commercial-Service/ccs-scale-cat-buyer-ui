@@ -228,12 +228,12 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
+
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
         lots: [
           { key: 'Digital outcomes', count: 3108, slug: '1', sno: 1 },
-          { key: 'Digital specialists', count: 2239, slug: 'digital-specialists', sno: 2 },
           { key: 'User research participants', count: 118, slug: '3', sno: 3 },
         ],
       },
@@ -263,6 +263,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       status: status,
       checkedOpen,
       checkedClose,
+      lot,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
@@ -280,6 +281,12 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       timelineQuestionGroups;
     let howWillScore: any = [];
     let assessmentquestions: any = [];
+    let indicativedurationYear = '';
+    let indicativedurationMonth = '';
+    let indicativedurationDay = '';
+    let extentionindicativedurationYear = '';
+    let extentionindicativedurationMonth = '';
+    let extentionindicativedurationDay = '';
 
     const baseServiceURL: any = `/tenders/projects/${projectId}`;
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
@@ -311,7 +318,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           value.requirements.forEach((val: any) => {
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
-              if (value.id == 'Group 11') {
+              if ((value.id == 'Group 11' && lot == '3') || (value.id == 'Group 13' && lot == '1')) {
                 let rowVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.titles.rows : [];
                 let dataVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.data : [];
                 rowVal.forEach((rowvalue: any) => {
@@ -372,6 +379,27 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           value.requirements.forEach((val: any) => {
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
+              if (value.id == 'Group 18' && lot == '1') {
+                if (val.id == 'Question 12') {
+                  let contractValue = val.pattern?.[0]?.value;
+                  if (contractValue != undefined) {
+                    indicativedurationYear = contractValue?.substring(1)?.split('Y')?.[0] + ' years';
+                    indicativedurationMonth = contractValue?.substring(1)?.split('Y')?.[1]?.split('M')?.[0] + ' months';
+                    indicativedurationDay =
+                      contractValue?.substring(1)?.split('Y')?.[1]?.split('M')?.[1].replace('D', '') + ' days';
+                  }
+                }
+                if (val.id == 'Question 13') {
+                  let extensionValue = val.pattern?.[0]?.value;
+                  if (extensionValue != undefined) {
+                    extentionindicativedurationYear = extensionValue?.substring(1)?.split('Y')?.[0] + ' years';
+                    extentionindicativedurationMonth =
+                      extensionValue?.substring(1)?.split('Y')?.[1]?.split('M')?.[0] + ' months';
+                    extentionindicativedurationDay =
+                      extensionValue?.substring(1)?.split('Y')?.[1]?.split('M')?.[1].replace('D', '') + ' days';
+                  }
+                }
+              }
             }
           });
         });
@@ -392,6 +420,25 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       timeline_data: timelineQuestionGroups,
       howWillScore_data: howWillScore,
       currentLot: lot,
+      indicativedurationYear:
+        indicativedurationYear != undefined && indicativedurationYear != null ? indicativedurationYear : null,
+      indicativedurationMonth:
+        indicativedurationMonth != undefined && indicativedurationMonth != null ? indicativedurationMonth : null,
+      indicativedurationDay:
+        indicativedurationDay != undefined && indicativedurationDay != null ? indicativedurationDay : null,
+
+      extentionindicativedurationYear:
+        extentionindicativedurationYear != undefined && extentionindicativedurationYear != null
+          ? extentionindicativedurationYear
+          : null,
+      extentionindicativedurationMonth:
+        extentionindicativedurationMonth != undefined && extentionindicativedurationMonth != null
+          ? extentionindicativedurationMonth
+          : null,
+      extentionindicativedurationDay:
+        extentionindicativedurationDay != undefined && extentionindicativedurationDay != null
+          ? extentionindicativedurationDay
+          : null,
       tenderer: tenderer,
       projectId: projectId,
     };
@@ -615,7 +662,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-    let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    // let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
     let njkDatas = {
       currentLot: lot,
@@ -684,6 +731,7 @@ export const OPPORTUNITIES_DOWNLOAD = async (req: express.Request, res: express.
       res.send(fileData);
     }
   } catch (error) {
+    console.log('error', error);
     // LoggTracer.errorLogger(
     //   res,
     //   error,
