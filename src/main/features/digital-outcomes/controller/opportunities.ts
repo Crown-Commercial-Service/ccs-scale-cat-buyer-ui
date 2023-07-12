@@ -732,7 +732,7 @@ export const OPPORTUNITIES_DOWNLOAD = async (req: express.Request, res: express.
 
   try {
     if (download != undefined) {
-      const FileDownloadURL = `/tenders/projects/download`;
+      const FileDownloadURL = '/tenders/projects/download';
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance_Public().get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
