@@ -709,7 +709,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       PreviousPageNumber: parseInt(PrevPagedata),
       NextPageNumber: parseInt(NextPagedata),
     };
-    console.log('search_data', JSON.stringify(response_data));
+
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
