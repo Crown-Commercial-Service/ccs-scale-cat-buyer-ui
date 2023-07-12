@@ -228,10 +228,10 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
-    let titletxt = 'in All lots';
+    let titletxt = 'All lots';
     response_data.searchCriteria.lots.forEach((value: any) => {
       if (value.selected == true) {
-        titletxt = ' in ' + value.text;
+        titletxt = value.text;
       }
       if (q != undefined) {
         titletxt = ' containing ' + q + ' ' + titletxt;
@@ -674,10 +674,10 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     // let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
-    let titletxt = 'in All lots';
+    let titletxt = 'All lots';
     response_data.searchCriteria.lots.forEach((value: any) => {
       if (value.selected == true) {
-        titletxt = ' in ' + value.text;
+        titletxt = value.text;
       }
       if (q != undefined) {
         titletxt = ' containing ' + q + '' + titletxt;
