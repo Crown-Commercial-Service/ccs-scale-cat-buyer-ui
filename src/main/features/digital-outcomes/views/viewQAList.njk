@@ -15,7 +15,7 @@
     },
     {
       "text": tender.title,
-      "href": "/digital-outcomes-and-specialists/reviewRecommendation?projectId="+projectId+"&lot="+lot+"&status=Closed&subStatus=awarded"
+      "href": "/digital-outcomes-and-specialists/reviewRecommendation?projectId="+projectId+"&lot="+lot+"&status=&subStatus="
     },
      {
       "text": "Clarifications:"+tender.title,
@@ -76,7 +76,7 @@
         {% endfor %}
           <p class="govuk-body-margin-top">	
             {# <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>	 #}
-         <a href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{projectId}}&lot={{lot}}&status=Closed&subStatus=awarded" class="govuk-link govuk-link--no-visited-state">Return to {{tender.title}}</a>	
+         <a href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{projectId}}&lot={{lot}}&status=&subStatus=" class="govuk-link govuk-link--no-visited-state">Return to {{tender.title}}</a>	
 
         </p>
     </main>
