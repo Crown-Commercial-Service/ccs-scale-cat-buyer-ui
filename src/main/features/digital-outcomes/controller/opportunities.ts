@@ -88,116 +88,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
-    // let response_data = {
-    //   totalResults: 4,
-    //   results: [
-    //     {
-    //       projectId: 22147,
-    //       projectName: 'Security Architect April 2023 - April 2024',
-    //       buyerName: 'Department of Work & Pensions',
-    //       location: 'North East England',
-    //       budgetRange: '1000-5000',
-    //       agreement: 'Digital Outcomes',
-    //       lot: '3',
-    //       status: 'open',
-    //       subStatus: 'awaiting outcome',
-    //       description:
-    //         'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
-    //     },
-    //     {
-    //       projectId: 123457,
-    //       projectName: 'Dorset ICS Integration and Interoperability Review & Recommendation',
-    //       buyerName: 'The NHS providers within the Dorset Integrated Care System (ICS)',
-    //       location: 'South West England',
-    //       budgetRange: '1000-7000',
-    //       agreement: 'Digital Outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'not-yet-awarded',
-    //       description:
-    //         'The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC.',
-    //     },
-    //     {
-    //       projectId: 123458,
-    //       projectName: 'VR Dev',
-    //       buyerName: 'Department for Work and Pensions',
-    //       location: 'Off-site',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'awarded',
-    //       description: 'VR Dev in Service Now',
-    //     },
-    //     {
-    //       projectId: 123459,
-    //       projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       location: 'South East England',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'before-the-deadline-passes',
-    //       description:
-    //         'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
-    //     },
-    //     {
-    //       projectId: 123459,
-    //       projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       location: 'South East England',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'after-the-deadline-passes',
-    //       description:
-    //         'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
-    //     },
-    //   ],
-    //   searchCriteria: {
-    //     keyword: 'string',
-    //     lots: [
-    //       {
-    //         id: 1,
-    //         text: 'Digital outcomes',
-    //         selected: true,
-    //         count: 3108,
-    //       },
-    //       {
-    //         id: 2,
-    //         text: 'Digital specialists',
-    //         selected: true,
-    //         count: 2239,
-    //       },
-    //       {
-    //         id: 3,
-    //         text: 'User research participants',
-    //         selected: true,
-    //         count: 118,
-    //       },
-    //     ],
-    //     filters: [
-    //       {
-    //         id: 0,
-    //         text: 'Digital specialists',
-    //         selected: true,
-    //         count: 3108,
-    //       },
-    //     ],
-    //   },
-    //   links: {
-    //     next: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
-    //     prev: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
-    //     last: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
-    //     self: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
 
-    //     first: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
-    //   },
-    // };
-    // let totalpages =
-    //   response_data.totalResults > NoOfRecordsPerPage ? response_data.totalResults / NoOfRecordsPerPage : 1;
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
     if (response_data?.links?.next != '') {
       NextPagedata = response_data?.links?.next.substring(response_data?.links?.next.indexOf('?') + 1);
@@ -228,16 +119,17 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
+
     let titletxt = 'All lots';
     response_data.searchCriteria.lots.forEach((value: any) => {
       if (value.selected == true) {
         titletxt = value.text;
       }
-      if (q != undefined) {
-        titletxt = ' containing ' + q + ' ' + titletxt;
-      }
     });
-    console.log('titletxt', titletxt);
+    // if (q != undefined) {
+    //   titletxt = ' containing ' + q + ' ' + titletxt;
+    // }
+    // console.log('titletxt', titletxt);
     const njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -274,6 +166,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       checkedClose,
       lot,
       titletxt,
+      searchdata: q,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
@@ -532,120 +425,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
 
-    // const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    // const statusQuery = status != undefined ? `&filters=${JSON.stringify(finalquery)}` : '';
-    // const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
-
-    // // const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}`;
-    // const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-
-    // const response_data = {
-    //   totalResults: 4,
-    //   results: [
-    //     {
-    //       projectId: 123456,
-    //       projectName: 'Security Architect April 2023 - April 2024',
-    //       buyerName: 'Department of Work & Pensions',
-    //       location: 'North East England',
-    //       budgetRange: '1000-5000',
-    //       agreement: 'Digital Outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'open',
-    //       subStatus: 'awaiting outcome',
-    //       description:
-    //         'Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.',
-    //     },
-    //     {
-    //       projectId: 123457,
-    //       projectName: 'Dorset ICS Integration and Interoperability Review & Recommendation',
-    //       buyerName: 'The NHS providers within the Dorset Integrated Care System (ICS)',
-    //       location: 'South West England',
-    //       budgetRange: '1000-7000',
-    //       agreement: 'Digital Outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'not-yet-awarded',
-    //       description:
-    //         'The Objectives of the Engagement are to review the current integration and interoperability landscape within NHS Dorset and propose a target architecture that would be required to realise the strategic digital objectives of the ICS, with a priority focus on the active ICS PAS/EPR programme across DCH, UHD, DHC.',
-    //     },
-    //     {
-    //       projectId: 123458,
-    //       projectName: 'VR Dev',
-    //       buyerName: 'Department for Work and Pensions',
-    //       location: 'Off-site',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'awarded',
-    //       description: 'VR Dev in Service Now',
-    //     },
-    //     {
-    //       projectId: 123459,
-    //       projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       location: 'South East England',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'before-the-deadline-passes',
-    //       description:
-    //         'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
-    //     },
-    //     {
-    //       projectId: 123459,
-    //       projectName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       buyerName: 'ISO 27001 surveillance audit and gap analysis for the VMD',
-    //       location: 'South East England',
-    //       budgetRange: '1000-2000',
-    //       agreement: 'Digital outcomes',
-    //       lot: 'Lot 1',
-    //       status: 'Closed',
-    //       subStatus: 'after-the-deadline-passes',
-    //       description:
-    //         'Qualified and certified ISO 27001 Lead auditor to review and measure the VMD IT activity in line with the ISO 27001 standard. Identify gaps and highlight specific actions to assist in transition from 2013 version to the 2022 version of the standard.',
-    //     },
-    //   ],
-    //   searchCriteria: {
-    //     keyword: 'string',
-    //     lots: [
-    //       {
-    //         id: 1,
-    //         text: 'Digital Outcomes',
-    //         selected: true,
-    //         count: 3108,
-    //       },
-    //       {
-    //         id: 2,
-    //         text: 'Digital Specialists',
-    //         selected: false,
-    //         count: 2239,
-    //       },
-    //       {
-    //         id: 3,
-    //         text: 'User Research Participants',
-    //         selected: false,
-    //         count: 118,
-    //       },
-    //     ],
-    //     filters: [
-    //       {
-    //         id: 0,
-    //         text: 'string',
-    //         selected: true,
-    //       },
-    //     ],
-    //   },
-    //   links: {
-    //     next: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
-    //     prev: '',
-    //     last: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=2&page-size=20',
-    //     self: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
-    //     first: '/tenders/projects/search?agreement-id=RM1043.8&keyword=test&page=1&page-size=20',
-    //   },
-    // };
-
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
     if (response_data?.links?.next) {
       NextPagedata = response_data?.links?.next.substring(response_data?.links?.next.indexOf('?') + 1);
@@ -679,10 +458,11 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       if (value.selected == true) {
         titletxt = value.text;
       }
-      if (q != undefined) {
-        titletxt = ' containing ' + q + '' + titletxt;
-      }
     });
+    // if (q != undefined) {
+    //   titletxt = ' containing ' + q + '' + titletxt;
+    // }
+    console.log('titletxt in search api', titletxt);
     let njkDatas = {
       currentLot: lot,
       lotInfos: {
@@ -716,6 +496,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       clearFilterURL: clearFilterURL,
       currentLot: lot,
       titletxt,
+      searchdata: q,
     };
     res.json(display_fetch_data);
 
