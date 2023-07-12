@@ -30,6 +30,7 @@ const initNunjucks = (app: Application, isDev: boolean): void => {
     path.join(__dirname, '..', '..', 'features', 'fca', 'views'),
     path.join(__dirname, '..', '..', 'features', 'da', 'views'),
     path.join(__dirname, '..', '..', 'features', 'g-cloud', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'digital-outcomes', 'views'),
   ];
 
   app.set('view engine', 'njk');
