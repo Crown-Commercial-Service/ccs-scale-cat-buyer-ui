@@ -286,6 +286,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 
     // const fetch_dynamic_service_api = await TenderApi.Instance(SESSION_ID).get(baseServiceURL);
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
+    let tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
 
     let fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     fetch_dynamic_api_data.forEach((value: any) => {
@@ -391,6 +392,8 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       timeline_data: timelineQuestionGroups,
       howWillScore_data: howWillScore,
       currentLot: lot,
+      tenderer: tenderer,
+      projectId: projectId,
     };
 
     res.render('opportunitiesReview', display_fetch_data);
