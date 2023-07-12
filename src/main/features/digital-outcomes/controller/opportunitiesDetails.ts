@@ -26,6 +26,12 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     let currentDate = new Date();
     // 8 > 5
 
+    let cancellationDate: any = '';
+    if (getOppertunities.nonOCDS) {
+      cancellationDate = getOppertunities?.nonOCDS.tender.cancellationDate;
+      cancellationDate = new Date(cancellationDate);
+    }
+
     if (tenderStatus == 'active') {
       if (currentDate <= tenderPeriodDeadlineDate) {
         subStatus = 'open';
@@ -34,8 +40,10 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       }
     } else if (tenderStatus == 'complete') {
       subStatus = 'awarded';
-    } else if (tenderStatus == 'cancelled' || tenderStatus == 'unsuccessful' || tenderStatus == 'withdrawn') {
+    } else if (cancellationDate < tenderPeriodDeadlineDate) {
       subStatus = 'before-the-deadline-passes';
+    } else if (cancellationDate > tenderPeriodDeadlineDate) {
+      subStatus = 'after-the-deadline-passes';
     } else {
     }
 
@@ -49,20 +57,22 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
 
       const identifierField: (string | number)[] = [];
-      let identifierscheme = awards.suppliers[0]?.identifier?.scheme.replace('XI', 'US');
-      let identifierschemeId = awards.suppliers[0].identifier.id;
-      let sidentifierField = identifierscheme + '-' + identifierschemeId;
-      identifierField.push(sidentifierField);
-
-      awards.suppliers[0]?.additionalIdentifiers.map((additionalIdenti: any) => {
-        if (additionalIdenti.scheme) {
-          let additionalidentifierscheme = additionalIdenti.scheme.replace('XI', 'US');
-          let aaditionalidentifierschemeId = additionalIdenti.id;
-          let additioanlsidentifierField = additionalidentifierscheme + '-' + aaditionalidentifierschemeId;
-          identifierField.push(additioanlsidentifierField);
-        }
-      });
-
+      if (awards.suppliers[0]?.identifier) {
+        let identifierscheme = awards.suppliers[0]?.identifier?.scheme.replace('XI', 'US');
+        let identifierschemeId = awards.suppliers[0].identifier.id;
+        let sidentifierField = identifierscheme + '-' + identifierschemeId;
+        identifierField.push(sidentifierField);
+      }
+      if (awards.suppliers[0]?.additionalIdentifiers) {
+        awards.suppliers[0]?.additionalIdentifiers.map((additionalIdenti: any) => {
+          if (additionalIdenti.scheme) {
+            let additionalidentifierscheme = additionalIdenti.scheme.replace('XI', 'US');
+            let aaditionalidentifierschemeId = additionalIdenti.id;
+            let additioanlsidentifierField = additionalidentifierscheme + '-' + aaditionalidentifierschemeId;
+            identifierField.push(additioanlsidentifierField);
+          }
+        });
+      }
       part = getOppertunities.records[0].compiledRelease.parties;
       //GB-COH-02299747
       award_matched_selector = part?.filter((agroupitem: any) => {
