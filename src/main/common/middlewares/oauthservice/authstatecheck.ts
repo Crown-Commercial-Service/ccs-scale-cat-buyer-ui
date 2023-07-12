@@ -57,14 +57,18 @@ export const AUTH: express.Handler = async (
           if (!isAuthorized) {
             res.redirect('/401');
           } else {
-            const user_email = decoded.payload.sub;
-            const UserProfile_Instance = Oauth_Instance.TokenWithApiKeyInstance(
-              process.env.CONCLAVE_WRAPPER_API_KEY,
-              user_email
-            );
-            const userProfile = await UserProfile_Instance.get('');
-            res.locals.user_firstName = userProfile.data['firstName'];
-            res.locals.user_email = user_email;
+            try {
+              const user_email = decoded.payload.sub;
+              const UserProfile_Instance = Oauth_Instance.TokenWithApiKeyInstance(
+                process.env.CONCLAVE_WRAPPER_API_KEY,
+                user_email
+              );
+              const userProfile = await UserProfile_Instance.get('');
+              res.locals.user_firstName = userProfile.data['firstName'];
+              res.locals.user_email = user_email;
+            } catch (err) {
+              res.locals.user_firstName = 'User';
+            }
             const redis_access_token = req.session['access_token'];
             if (redis_access_token === access_token) {
               const sessionExtendedTime: Date = new Date();
