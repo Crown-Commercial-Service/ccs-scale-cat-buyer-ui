@@ -817,14 +817,12 @@ function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
 
   let overValue = overUrl.value;
   let overType = overUrl.type;
-
   if (queryObj.length > 0) {
     if (overType == 'unchecked') {
       let compareVal = overValue;
       let compareName = overName;
       let finalObj = [];
       queryObj.find((el) => {
-
         if (el.value != compareVal || el.key != compareName) {
           finalObj.push(el);
         }
@@ -838,10 +836,10 @@ function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
       if (i == 0) {
         if (key != '') {
           outQueryUrl += `?${key}=${value}`;
-        }
+           }
       } else {
         outQueryUrl += `&${key}=${value}`;
-      }
+        }
       if (i == queryObj.length - 1) {
         if (overType == 'checked' || overType == 'categoryClicked') {
           if (key != '') {
@@ -853,14 +851,15 @@ function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
       }
     });
   } else {
-    if (overValue != '') {
+     if (overValue != '') {
       outQueryUrl += `?${overName}=${overValue}`;
-    }
+      }
   }
 
   return outQueryUrl;
 }
 document.querySelectorAll(".clickCategory").forEach(function (event) {
+  
   event.addEventListener('click', function () {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
@@ -876,6 +875,21 @@ document.querySelectorAll(".clickCategory").forEach(function (event) {
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
+  });
+});
+
+document.querySelectorAll(".oppclickCategory").forEach(function (event) {
+  
+  event.addEventListener('click', function () {
+    let eventFilterType = 'categoryClicked';
+    let filterName = this.getAttribute("data-name");
+    let filterValue = this.getAttribute("data-value");
+    let urlParams = removeURLParameter(document.location.search, filterName);
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
 
@@ -965,13 +979,11 @@ function removeURLParameter(url, parameter) {
 
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
-  event.addEventListener('change', function (event) {
-    
+    event.addEventListener('change', function (event) {
      // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
       let filterValue = this.getAttribute('value');//$(this).attr("value");
-      
       let opencloseCheckLength = $('.opencloseCheckLength:checked').length
       let locationlengthcheck = $('.locationlengthcheck:checked').length
       
@@ -1006,7 +1018,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
   
       // document.getElementById('searchResultsContainer').innerHTML = '';
       // document.getElementById('newmainLotandcategoryContainer').innerHTML = '';
-      document.getElementById('paginationContainer').innerHTML = '';
+     document.getElementById('paginationContainer').innerHTML = '';
       let slist = document.querySelector('.govuk-grid-sresult-right');
       slist.classList.add('loadingres')
       $('#criteriasavebtn').prop('disabled', true);
@@ -1035,13 +1047,58 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: ' + val.status + '</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ val.subStatus + '</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
           mainLothtml +='</p>';
           mainLothtml +='</li>';
       });
 
           document.getElementById('contentHead').innerHTML = mainLothtml;
+
+          var paginationHtml = ''
+      paginationHtml += '<div class="govuk-grid-row">';
+      paginationHtml += '<div class="govuk-grid-column-full">';
+      paginationHtml += '<div class="govuk-grid-column-one-half">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.PrvePageUrl != '') {
+        if (result.njkDatas.CurrentPageNumber != 1) {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Previous Page</a>';
+          paginationHtml += '</p>';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+        }
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+
+      paginationHtml += '<div class="">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.NextPageUrl != '') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+        paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+        paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+        paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+        paginationHtml += '</svg>';
+        paginationHtml += 'Next Page</a>';
+        paginationHtml += '</p>';
+      }
+      if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+      } else {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      document.getElementById('paginationContainer').innerHTML = paginationHtml;
+
 
 
       });
@@ -1080,7 +1137,6 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-
       $('#criteriasavebtn').prop('disabled', false);
       $('#criteriasavebtn').removeClass('govuk-button--disabled');
       $("#clearfilter").attr("href", result.clearFilterURL);
@@ -1208,7 +1264,7 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
         paginationHtml += '</div>';
         paginationHtml += '</div>';
 
-        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
         paginationHtml += '<div>';
         paginationHtml += '&nbsp;';
         if (result.njkDatas.NextPageUrl != '') {
@@ -1629,6 +1685,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
+
       let totalResults =  result.search_data.totalResults;
       $('#totalRecords').html(totalResults);
        slist.classList.remove('loadingres');
@@ -1644,7 +1701,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Closed: ' + val.status + '</p>';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+ val.subStatus + '</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
          mainLothtml +='</p>';
          mainLothtml +='</li>';
@@ -1671,7 +1728,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
       paginationHtml += '</div>';
       paginationHtml += '</div>';
 
-      paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+      paginationHtml += '<div class="">';
       paginationHtml += '<div>';
       paginationHtml += '&nbsp;';
       if (result.njkDatas.NextPageUrl != '') {
@@ -1946,16 +2003,19 @@ document.addEventListener('readystatechange', event => {
   if (event.target.readyState === "complete") {
     let queryParamObj = parseQueryG13(document.location.search);
     queryParamObj = tune(queryParamObj);
-
     queryParamObj.forEach((el, i) => {
-      console.log(el);
       //Search
       if (el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
+      if (el.key === 'q') { $('.oppurtunities_search').val(decodeURIComponent(el.value)); }
+
       $('.g13Check').each(function () {
         if ($(this).attr('name') == el.key && $(this).val() == el.value) {
           $(this).attr("checked", "checked");
         }
       });
+
+      
+      
     });
     // total results
     var totalResult = $('#totalResult').attr('data-value');
