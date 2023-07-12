@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/_status',
   SERVICES_SEARCH = '/services/search',
   SERVICES_AGGREGATIONS = '/services/aggregations'
 }

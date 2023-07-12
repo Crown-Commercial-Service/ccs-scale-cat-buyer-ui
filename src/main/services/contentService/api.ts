@@ -2,8 +2,8 @@ import config from 'config';
 import { genericFecthGet } from '../helpers/api';
 import { FetchResult } from '../types/helpers/api';
 import { ContentServiceMenu, EndPoints } from '../types/contentService/api';
+import { baseURL } from './helpers';
 
-const baseURL: string = config.get('contentService.BASEURL');
 const timeout = Number(config.get('settings.fetch-timelimit'));
 
 // GET /wp-json/wp-api-menus/v2/menus/:menu-id

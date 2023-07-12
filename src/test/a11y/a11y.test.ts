@@ -1,3 +1,4 @@
+//@ts-nocheck
 /* Allow chai assertions which don't end in a function call, e.g. expect(thing).to.be.undefined */
 
 import supertest from 'supertest';
