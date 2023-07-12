@@ -77,7 +77,7 @@
             <strong>All lots</strong>
             <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
 
-              {% for lotwithcount in search_data.searchCriteria.lots %}
+              {% for lotwithcount in search_data.searchCriteria.lots%}
                 {% set lotName = currentLot %}
                 {% set lotNameCheck = lotwithcount.text.replace(' ','-').toLowerCase() %}
                 <li>
@@ -365,7 +365,9 @@
               <div class="govuk-grid-column-full">
                 <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
                   <b class="govuk-!-font-size-48">
+
                     <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>All lots</b></span></p>
+
             </div>
           </div>
 
@@ -456,7 +458,7 @@
 
                         <p class="govuk-body govuk-!-margin-0">
                           <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
-                         Page {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
+                            {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
                           </a>
                         </p>
                       {% endif %}
@@ -519,7 +521,7 @@
               </div>
 
               <div id="rightSidefooterCotainer">
-                {% if (data.meta.total < 1) %}
+                {% if (data.search_data.totalResults < 1) %}
                   <h3 class="govuk-heading-m">Improve your search results by:</h3>
                   <ul class="govuk-list govuk-!-margin-top-0">
                     <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
