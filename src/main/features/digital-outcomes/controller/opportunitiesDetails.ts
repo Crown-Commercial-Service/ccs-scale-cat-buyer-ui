@@ -6,7 +6,7 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId, status, subStatus, lot } = req.query;
+    let { projectId, status, subStatus, lot } = req.query;
 
     //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
     //let projectIds = '22111';
@@ -18,11 +18,33 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     let getOppertunities = getOppertunitiesData?.data;
     let ocid = getOppertunities.records[0].compiledRelease.ocid;
 
+    let tenderer = getOppertunities.records[0].compiledRelease.tender;
+    let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
+    let tenderStatus = tenderer.status;
+
+    tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
+    let currentDate = new Date();
+    // 8 > 5
+
+    if (tenderStatus == 'active') {
+      if (currentDate <= tenderPeriodDeadlineDate) {
+        subStatus = 'open';
+      } else {
+        subStatus = 'not-yet-awarded';
+      }
+    } else if (tenderStatus == 'complete') {
+      subStatus = 'awarded';
+    } else if (tenderStatus == 'cancelled' || tenderStatus == 'unsuccessful' || tenderStatus == 'withdrawn') {
+      subStatus = 'before-the-deadline-passes';
+    } else {
+    }
+
     let awards: any = '';
     let awardDate = '';
     let part;
     let award_matched_selector = [];
     if (getOppertunities.records[0].compiledRelease?.awards) {
+      subStatus = 'awarded';
       awards = getOppertunities.records[0].compiledRelease?.awards[0];
       awardDate = moment(getOppertunities.records[0].compiledRelease?.awards[0]?.date).format('DD/MM/YYYY');
 
@@ -65,7 +87,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
 
     const display_fetch_data = {
       buyer: getOppertunities.records[0].compiledRelease.buyer,
-      tenderer: getOppertunities.records[0].compiledRelease.tender,
+      tenderer: tenderer,
       tenderers: getOppertunities.records[0].compiledRelease.tender.tenderers,
       //parties: getOppertunities.records[0].compiledRelease.parties[0],
       parties: award_matched_selector,
@@ -83,6 +105,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       projectId: projectId,
       status: status,
       subStatus: subStatus,
+      tenderStatus: tenderStatus,
       currentLot: lot,
     };
 
