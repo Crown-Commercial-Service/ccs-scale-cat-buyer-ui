@@ -12,6 +12,7 @@ import gCloudRoutes from '../../features/g-cloud/path';
 import procurementRoutes from '../../features/procurement/path';
 import requirementRoutes from '../../features/requirements/path';
 import rfiRoutes from '../../features/rfi/path';
+import oppertunitiesRoute from '../../features/digital-outcomes/path';
 
 const setupFeatureRoutes = (app: Application) => {
   agreementRoutes(app);
@@ -26,6 +27,7 @@ const setupFeatureRoutes = (app: Application) => {
   procurementRoutes(app);
   requirementRoutes(app);
   rfiRoutes(app);
+  oppertunitiesRoute(app);
 };
 
 export { setupFeatureRoutes };
