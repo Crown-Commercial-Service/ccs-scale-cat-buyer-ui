@@ -1047,8 +1047,13 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ val.subStatus + '</p>';
+          if(val.subStatus != undefined)
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ val.subStatus + '</p>';
+          else
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ '</p>';
+          if(val.description != undefined){
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+          }
           mainLothtml +='</p>';
           mainLothtml +='</li>';
       });
@@ -1701,8 +1706,13 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+ val.subStatus + '</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+         if(val.subStatus != undefined)
+            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+ val.subStatus + '</p>';
+         else  
+           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+  '</p>';
+           if(val.description != undefined){
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+           }
          mainLothtml +='</p>';
          mainLothtml +='</li>';
      });
