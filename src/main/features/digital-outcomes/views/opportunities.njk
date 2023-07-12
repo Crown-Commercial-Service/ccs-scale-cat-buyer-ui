@@ -74,7 +74,9 @@
     </div>
         <div class="govuk-grid-row govuk-!-margin-top-4">
           <div class="govuk-grid-column-full govuk-list-filter-category"  id="mainLotandcategoryContainer">
-           <a class="" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong> </a>
+            <a class="" href="/digital-outcomes-and-specialists/opportunities">
+              <strong>All lots</strong>
+            </a>
             <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
 
               {% for lotwithcount in search_data.searchCriteria.lots%}
@@ -366,7 +368,7 @@
                 <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
                   <b class="govuk-!-font-size-48">
 
-                    <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>All lots</b></span></p>
+                    <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>{{titletxt}}</b></span></p>
 
             </div>
           </div>
