@@ -11,7 +11,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const { lot, status, q, page } = req.query;
     const NoOfRecordsPerPage = 20;
     const usingObjectAssign = Object.assign([], status);
-    let statusArray: any = [];
+    const statusArray: any = [];
     const FilterQuery: any = [];
     let checkedOpen = '';
     let checkedClose = '';
@@ -52,7 +52,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
         }
       });
     } else {
-      let options = {
+      const options = {
         id: 1,
         text: status,
         selected: true,
@@ -69,12 +69,12 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       }
     }
     const statusPageQuery = status != undefined ? pageUrl : '';
-    let querydata = {
+    const querydata = {
       name: 'status',
       options: statusArray,
     };
     FilterQuery.push(querydata);
-    let finalquery = {
+    const finalquery = {
       filters: FilterQuery,
     };
     const searchKeywordsQuery: any = q;
@@ -85,9 +85,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     //const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities`;
+    const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
-    let response_data = fetch_dynamic_api?.data;
+    const response_data = fetch_dynamic_api?.data;
     // let response_data = {
     //   totalResults: 4,
     //   results: [
@@ -225,7 +225,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       const params = Object.fromEntries(urlParams);
       lastPageData = params.page;
     }
-    let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
+    const totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
     //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
     let titletxt = 'in All lots';
@@ -238,7 +238,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       }
     });
     console.log('titletxt', titletxt);
-    let njkDatas = {
+    const njkDatas = {
       currentLot: lot,
       lotInfos: {
         lots: [
@@ -289,8 +289,8 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       assessmentCriteriaGroups,
       timeline,
       timelineQuestionGroups;
-    let howWillScore: any = [];
-    let assessmentquestions: any = [];
+    const howWillScore: any = [];
+    const assessmentquestions: any = [];
     let indicativedurationYear = '';
     let indicativedurationMonth = '';
     let indicativedurationDay = '';
@@ -303,9 +303,9 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 
     // const fetch_dynamic_service_api = await TenderApi.Instance(SESSION_ID).get(baseServiceURL);
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
-    let tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
+    const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
 
-    let fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
+    const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
@@ -329,8 +329,8 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
               if ((value.id == 'Group 11' && lot == '3') || (value.id == 'Group 13' && lot == '1')) {
-                let rowVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.titles.rows : [];
-                let dataVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.data : [];
+                const rowVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.titles.rows : [];
+                const dataVal = val.pattern[0].tableDefinition ? val.pattern[0].tableDefinition.data : [];
                 rowVal.forEach((rowvalue: any) => {
                   dataVal.forEach((dataval: any) => {
                     if (rowvalue.id == dataval.row) {
@@ -527,7 +527,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     // const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities`;
+    const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
