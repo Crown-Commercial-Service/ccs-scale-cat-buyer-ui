@@ -1094,7 +1094,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         paginationHtml += '</p>';
       }
       if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
-        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
       } else {
         paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
       }
@@ -1693,6 +1693,26 @@ if (document.querySelector(".oppurtunities_search_click")) {
 
       let totalResults =  result.search_data.totalResults;
       $('#totalRecords').html(totalResults);
+      console.log("totalResults",totalResults);
+      $('.hidefoot').hide();
+      var footLothtml = '';
+      if(totalResults==0){
+      
+        $('.hidefoot').show();
+        footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+        footLothtml +='<ul class="govuk-list govuk-!-margin-top-0">';
+        footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>';
+        footLothtml +=' </li>choosing a different category</li><br>';
+        footLothtml +=' </li>double-checking your spelling</li><br>';
+        footLothtml +='</li>using fewer keywords</li><br>';
+        footLothtml +='</li>searching for something less specific, you can refine your results later</li><br>';
+        footLothtml +='</ul>';
+        footLothtml +='</ul>';
+        $('.hidefoot').html(footLothtml);
+      }
+          
+            
+
        slist.classList.remove('loadingres');
        var mainLothtml = '';
        $.each(result.search_data.results, function (key, val) {
@@ -1751,7 +1771,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
         paginationHtml += '</p>';
       }
       if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
-        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+        // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
       } else {
         paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
       }
