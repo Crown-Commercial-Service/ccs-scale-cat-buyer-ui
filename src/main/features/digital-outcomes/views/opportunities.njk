@@ -172,90 +172,24 @@
                               <div class="govuk-form-group">
                                 <fieldset class="govuk-fieldset">
                                   <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location1" type="checkbox" id="search-filter3" value="location1" disabled>
+                            
+                            {% for location in locations %}
+                                {%set locationId=location.replaceAll(' ','-')%}
+
+                                    {%set ischecked=''%}
+                                {% if locationFilter !=undefined and location in locationFilter %}
+                                  {%set ischecked='checked'%}
+                                {% endif %}
+
+
+                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                                      <input class="govuk-checkboxes__input locationId oppertunitiescheck locationlengthcheck" name="location" type="checkbox" id="{{locationId}}" value="{{location}}" {{ischecked}} disabled>
                                       <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
-                              Scotland
+                              {{location}}
                             </label>
                                     </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              ScotlandNorth East England
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              North West England
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Yorkshire and the Humber
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              East Midlands
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              West Midlands
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              East of England
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              London
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              South East England
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              South West England
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Wales
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Northern Ireland
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              International (outside the UK)
-                            </label>
-                                    </div>
-                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Off-site
-                            </label>
-                                    </div>
+                                     {% endfor %}
+
                                   </div>
                                 </fieldset>
                               </div>
@@ -440,12 +374,20 @@
             </div>
             <div class="govuk-grid-column-two-thirds govuk-grid-sresult-right" >
 
-              <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                  <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
-                    <b class="govuk-!-font-size-48">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full">
+                <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5" id="totalRecordsNew">
+                  <b class="govuk-!-font-size-48">
+                      
+                   {%if(qtext != '')%}
+                      <span id="totalRecords">{{search_data.totalResults}}</span></b> results found containing <b>{{qtext}}</b> in <b>{{titletxt}}</b>
+                        {%else%}
+                 <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>{{titletxt}}</b>
+                       {%endif%}
 
-                      <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>{{titletxt}}</b></span></p>
+
+                  
+                    </p>
 
               </div>
             </div>
