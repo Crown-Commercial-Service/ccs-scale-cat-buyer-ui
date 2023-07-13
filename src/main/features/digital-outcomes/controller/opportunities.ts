@@ -77,6 +77,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const finalquery = {
       filters: FilterQuery,
     };
+
     const searchKeywordsQuery: any = q;
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
@@ -88,7 +89,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
-
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
     if (response_data?.links?.next != '') {
       NextPagedata = response_data?.links?.next.substring(response_data?.links?.next.indexOf('?') + 1);
@@ -132,13 +132,27 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     // console.log('titletxt', titletxt);
     const njkDatas = {
       currentLot: lot,
+      lotDetails: [
+        {
+          id: 1,
+          text: 'Digital outcomes',
+          selected: false,
+          count: 606,
+        },
+        {
+          id: 3,
+          text: 'User research participants',
+          selected: false,
+          count: 405,
+        },
+      ],
       lotInfos: {
         lots: [
           { key: 'Digital outcomes', count: 3108, slug: '1', sno: 1 },
           { key: 'User research participants', count: 118, slug: '3', sno: 3 },
         ],
       },
-      haveLot: false,
+      haveLot: lot == undefined ? false : true,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
       NextPageUrl:
@@ -155,6 +169,21 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       PreviousPageNumber: parseInt(PrevPagedata),
       NextPageNumber: parseInt(NextPagedata),
     };
+
+    let lotDetails;
+    if (q == undefined && status == undefined && lot == undefined && page == undefined) {
+      lotDetails = response_data.searchCriteria.lots;
+      njkDatas.lotDetails = lotDetails;
+    }
+    if (q != undefined || status != undefined || lot != undefined || page != undefined) {
+      njkDatas.lotDetails.map((value: any) => {
+        response_data.searchCriteria.lots.forEach((res: any) => {
+          if (res.id == value.id) {
+            value.count = res.count;
+          }
+        });
+      });
+    }
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -465,6 +494,20 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     console.log('titletxt in search api', titletxt);
     let njkDatas = {
       currentLot: lot,
+      lotDetails: [
+        {
+          id: 1,
+          text: 'Digital outcomes',
+          selected: false,
+          count: 606,
+        },
+        {
+          id: 3,
+          text: 'User research participants',
+          selected: false,
+          count: 405,
+        },
+      ],
       lotInfos: {
         lots: [
           { key: 'Digital outcomes', count: 3108, slug: '1', sno: 1 },
@@ -472,7 +515,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           { key: 'User research participants', count: 118, slug: '3', sno: 3 },
         ],
       },
-      haveLot: false,
+      haveLot: lot == undefined ? false : true,
       choosedLot: 'All Categories',
       haveserviceCategory: false,
       NextPageUrl:
@@ -489,6 +532,21 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       PreviousPageNumber: parseInt(PrevPagedata),
       NextPageNumber: parseInt(NextPagedata),
     };
+
+    let lotDetails;
+    if (q == undefined && status == undefined && lot == undefined && page == undefined) {
+      lotDetails = response_data.searchCriteria.lots;
+      njkDatas.lotDetails = lotDetails;
+    }
+    if (q != undefined || status != undefined || lot != undefined || page != undefined) {
+      njkDatas.lotDetails.map((value: any) => {
+        response_data.searchCriteria.lots.forEach((res: any) => {
+          if (res.id == value.id) {
+            value.count = res.count;
+          }
+        });
+      });
+    }
 
     const display_fetch_data = {
       file_data: fileData,
