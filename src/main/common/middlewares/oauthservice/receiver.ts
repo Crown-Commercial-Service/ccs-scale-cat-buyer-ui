@@ -4,11 +4,11 @@ import config from 'config';
 import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
 import { LoggTracer } from '../../logtracer/tracer';
-import * as jwtDecoder from 'jsonwebtoken';
 import { Logger } from '@hmcts/nodejs-logging';
 import { ppg } from 'main/services/publicProcurementGateway';
 import { AuthCredentials, GrantType } from 'main/services/types/publicProcurementGateway/oAuth/api';
 import { FetchError } from 'main/services/helpers/errors';
+import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
 
 const logger = Logger.getLogger('receiver-middleware');
 
@@ -53,7 +53,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
           maxAge: Number(timeforcookies),
           httpOnly: true,
         });
-        const userSessionInformation = jwtDecoder.decode(access_token, { complete: true });
+        const userSessionInformation = TokenDecoder.getJwtPayload(access_token);
         req.session['isAuthenticated'] = true;
         req.session['refresh_token'] = refresh_token;
         req.session['access_token'] = access_token;
