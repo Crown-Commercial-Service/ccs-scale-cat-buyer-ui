@@ -155,6 +155,13 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       PreviousPageNumber: parseInt(PrevPagedata),
       NextPageNumber: parseInt(NextPagedata),
     };
+
+    let qtext: any = '';
+    if (q != undefined) {
+      qtext = q;
+    }
+    console.log('qtext', qtext);
+
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -167,6 +174,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       lot,
       titletxt,
       searchdata: q,
+      qtext: qtext,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {

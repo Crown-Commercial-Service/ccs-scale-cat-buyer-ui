@@ -7,31 +7,31 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
     const { projectId, status, lot } = req.query;
-
+    console.log('test1');
     //const eventTypeURL = 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/21737';
     //let projectIds = '22111';
     //let projectIds = '21737';
 
     const eventTypeURL = `/tenders/projects/${projectId}`;
-
+    console.log('test2');
     const getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
     const getOppertunities = getOppertunitiesData?.data;
     const ocid = getOppertunities.records[0].compiledRelease.ocid;
-
+    console.log('test3');
     const tenderer = getOppertunities.records[0].compiledRelease.tender;
     let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
     const tenderStatus = tenderer.status;
-
+    console.log('test4');
     tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
     const currentDate = new Date();
     // 8 > 5
-
+    console.log('test5');
     let cancellationDate: any = '';
     if (getOppertunities.nonOCDS) {
       cancellationDate = getOppertunities?.nonOCDS.tender.cancellationDate;
       cancellationDate = new Date(cancellationDate);
     }
-
+    console.log('test6');
     let subStatus;
     if (tenderStatus == 'active') {
       if (currentDate <= tenderPeriodDeadlineDate) {
@@ -46,6 +46,8 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
     } else if (cancellationDate > tenderPeriodDeadlineDate) {
       subStatus = 'after-the-deadline-passes';
     }
+    console.log('test7');
+    console.log('subStatus', subStatus);
 
     let awards: any = '';
     let awardDate = '';

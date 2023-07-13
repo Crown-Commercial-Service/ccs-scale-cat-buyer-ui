@@ -980,6 +980,7 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
     event.addEventListener('change', function (event) {
+      console.log("insideCheckFilter")
      // /g-cloud/search
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
@@ -1034,6 +1035,30 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
 
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
+      
+       console.log("totalResultsFILTER",totalResults);
+          
+          $('.hidefoot').hide();
+          var footLothtml = '';
+          if(totalResults==0){
+          
+            $('.hidefoot').show();
+            footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+            footLothtml +='<ul class="govuk-list govuk-!-margin-top-0">';
+            footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>';
+            footLothtml +=' </li>choosing a different category</li><br>';
+            footLothtml +=' </li>double-checking your spelling</li><br>';
+            footLothtml +='</li>using fewer keywords</li><br>';
+            footLothtml +='</li>searching for something less specific, you can refine your results later</li><br>';
+            footLothtml +='</ul>';
+            footLothtml +='</ul>';
+            $('.hidefoot').html(footLothtml);
+          }
+          
+
+
+
+
         slist.classList.remove('loadingres');
         var mainLothtml = '';
         $.each(result.search_data.results, function (key, val) {
@@ -1645,6 +1670,7 @@ if (Searchinput) {
 if (document.querySelector(".oppurtunities_search_click")) {
 
   document.querySelector(".oppurtunities_search_click").addEventListener('click', function () {
+    console.log("InsideSearch")
     removeErrorFieldsEoiTerms();
     let searchQueryUrl = "";
    // document.getElementById('searchQuery').value = window.location.search;
@@ -1690,9 +1716,20 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-
+console.log("1212")
+      console.log("result",result);
       let totalResults =  result.search_data.totalResults;
-      $('#totalRecords').html(totalResults);
+      let titletxt =  result.titletxt;
+      let searchdata = result.searchdata;
+      let searchKey ="";
+      if(searchdata !='' && searchdata !=undefined){
+        console.log("insideKeySearch")
+        searchKey='containing <b>'+searchdata+'</b>'; 
+      }
+      //$('#totalRecords').html(totalResults);
+      
+       $('#totalRecordsNew').html('<b class="govuk-!-font-size-48"><span id="totalRecords">'+totalResults+'</span></b> results found '+searchKey+' in <b>'+titletxt+'</b>');
+      
       console.log("totalResults",totalResults);
       $('.hidefoot').hide();
       var footLothtml = '';

@@ -437,10 +437,18 @@
 
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
-                <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">
+                <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5" id="totalRecordsNew">
                   <b class="govuk-!-font-size-48">
+                      
+                   {%if(qtext != '')%}
+                      <span id="totalRecords">{{search_data.totalResults}}</span></b> results found containing <b>{{qtext}}</b> in <b>{{titletxt}}</b>
+                        {%else%}
+                 <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>{{titletxt}}</b>
+                       {%endif%}
 
-                    <span id="totalRecords">{{search_data.totalResults}}</span></b> results found in <b>{{titletxt}}</b></span></p>
+
+                  
+                    </p>
 
             </div>
           </div>
