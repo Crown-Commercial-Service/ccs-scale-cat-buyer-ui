@@ -73,29 +73,34 @@
       Choose a lot
     </div>
         <div class="govuk-grid-row govuk-!-margin-top-4">
-          <div class="govuk-grid-column-full govuk-list-filter-category"  id="mainLotandcategoryContainer">
-            <a class="" href="/digital-outcomes-and-specialists/opportunities">
+          <div class="govuk-grid-column-full govuk-list-filter-lots"  id="mainLotandcategoryContainer">
+            {% if (njkDatas.haveLot) %}
+              <a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities">
+                <strong>All lots</strong>
+              </a>
+              {%else%}
               <strong>All lots</strong>
-            </a>
-            <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
+              {%endif%}
+              <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3" id="newmainLotandcategoryContainer">
+                {% for lotwithcount in njkDatas.lotDetails%}
 
-              {% for lotwithcount in search_data.searchCriteria.lots%}
-                {% set lotName = currentLot %}
-                {% set lotNameCheck = lotwithcount.text.replace(' ','-').toLowerCase() %}
-                <li>
-                  {%if(lotwithcount.id == 2)%}
-                    <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
-                    {%else%}
-                    {%if(lotName == lotwithcount.id)%}
-                      <li data-name="lot" data-value={{lotwithcount.id}} class="oppclickCategory" >{{lotwithcount.text | title }}  ({{lotwithcount.count}})</li>
+                  {% set lotName = currentLot %}
+                  {# {% set lotNameCheck = lotwithcount.text.replace(' ','-').toLowerCase() %} #}
+                  <li>
+                    {%if(lotwithcount.id == 2)%}
+                      <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
                       {%else%}
-                      <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
-                      {%endif%}
-                      {%endif%}
-                    </li>
-                  {% endfor %}
-                </ul>
-                {# <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
+                      {%if(lotName == lotwithcount.id)%}
+                        <li data-name="lot" data-value={{lotwithcount.id}} class="oppclickCategory" >{{lotwithcount.text | title }}  ({{lotwithcount.count}})</li>
+                        {%else%}
+                        <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
+                        {%endif%}
+                        {%endif%}
+                      </li>
+                    {% endfor %}
+                  </ul>
+
+                  {# <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">
           <li>
             <a class="govuk-link clickCategory" href="">Digital outcomes (3108)</a>
           </li>
@@ -106,183 +111,107 @@
             <a class="govuk-link clickCategory"  href="">User research participants (118)</a>
           </li>
         </ul> #}
+                </div>
               </div>
-            </div>
-            <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
-              <div class="govuk-grid-column-full">
-                <div class="govuk-filter-search govuk-filter-search-custom">
-                  <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-half">
-                      <strong>Apply filters</strong>
+              <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
+                <div class="govuk-grid-column-full">
+                  <div class="govuk-filter-search govuk-filter-search-custom">
+                    <div class="govuk-grid-row">
+                      <div class="govuk-grid-column-one-half">
+                        <strong>Apply filters</strong>
+                      </div>
+                      <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                        <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-14" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
+                      </div>
                     </div>
-                    <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                      <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-14" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
-                    </div>
-                  </div>
-                  <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                      <div class="govuk-accordion govuk-!-margin-bottom-2 govuk-!-margin-left-3" data-module="govuk-accordion" id="accordion-default">
+                    <div class="govuk-grid-row">
+                      <div class="govuk-grid-column-full">
+                        <div class="govuk-accordion govuk-!-margin-bottom-2 govuk-!-margin-left-3" data-module="govuk-accordion" id="accordion-default">
 
-                        <div class="govuk-accordion__section ">
-                          <div class="govuk-accordion__section-header">
-                            <h2 class="govuk-accordion__section-heading">
-                              <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-1">
+                          <div class="govuk-accordion__section ">
+                            <div class="govuk-accordion__section-header">
+                              <h2 class="govuk-accordion__section-heading">
+                                <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-1">
                         Status
                       </span>
-                            </h2>
-                          </div>
-                          <small class="govuk-!-margin-left-5 hide opencloseCount">1 selected</small>
-                          <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
-                            <div class="govuk-form-group">
-                              <fieldset class="govuk-fieldset">
-                                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter1" value="open" {{checkedOpen}}>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter1">
+                              </h2>
+                            </div>
+                            <small class="govuk-!-margin-left-5 hide opencloseCount">1 selected</small>
+                            <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                              <div class="govuk-form-group">
+                                <fieldset class="govuk-fieldset">
+                                  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                                      <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter1" value="open" {{checkedOpen}}>
+                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter1">
                               Open
                             </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter2" value="closed" {{checkedClose}}>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter2">
+                                    </div>
+                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                                      <input class="govuk-checkboxes__input oppertunitiescheck opencloseCheckLength" name=status type="checkbox" id="search-filter2" value="closed" {{checkedClose}}>
+                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter2">
                               Closed
                             </label>
+                                    </div>
                                   </div>
-                                </div>
-                              </fieldset>
+                                </fieldset>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="govuk-accordion__section govuk-accordion__section_disabled">
-                          <div class="govuk-accordion__section-header">
-                            <h2 class="govuk-accordion__section-heading">
+                          <div class="govuk-accordion__section govuk-accordion__section_disabled">
+                            <div class="govuk-accordion__section-header">
+                              <h2 class="govuk-accordion__section-heading">
 
-                              <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
+                                <span class="govuk-accordion__section-button govuk-!-font-size-16 govuk-!-font-weight-regular" id="accordion-default-heading-2">
                         Location
                       </span>
-                            </h2>
-                          </div>
-                          <small class="govuk-!-margin-left-5 hide locationCount">1 selected</small>
-                          <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-                            <div class="govuk-form-group">
-                              <fieldset class="govuk-fieldset">
-                                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location1" type="checkbox" id="search-filter3" value="location1" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
+                              </h2>
+                            </div>
+                            <small class="govuk-!-margin-left-5 hide locationCount">1 selected</small>
+                            <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+                              <div class="govuk-form-group">
+                                <fieldset class="govuk-fieldset">
+                                  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                    
+                                    <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                                      <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location1" type="checkbox" id="search-filter3" value="location1" disabled>
+                                      <label class="govuk-label govuk-checkboxes__label" for="search-filter3">
                               Scotland
                             </label>
+                                    </div>
+                                    
                                   </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              ScotlandNorth East England
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              North West England
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Yorkshire and the Humber
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              East Midlands
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              West Midlands
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              East of England
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              London
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              South East England
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              South West England
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Wales
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Northern Ireland
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              International (outside the UK)
-                            </label>
-                                  </div>
-                                  <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
-                                    <input class="govuk-checkboxes__input oppertunitiescheck locationlengthcheck" name="location2" type="checkbox" id="search-filter4" value="location2" disabled>
-                                    <label class="govuk-label govuk-checkboxes__label" for="search-filter4">
-                              Off-site
-                            </label>
-                                  </div>
-                                </div>
-                              </fieldset>
+                                </fieldset>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                      <h3 class="govuk-heading-s">Opportunity data</h3>
-                      <div class="govuk-download-csv-p">
-                        <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
-                      </div>
-                      <div class="govuk-download-csv">
-                        <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
-                        <span>
-                          <a href="/opportunities/download?download=1" class="govuk-link govuk-!-font-size-19">Download data</a>
-                          <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-1">CSV</p>
-                        </span>
-                      </div>
-                      <div class="govuk-download-csv-p">
-                        <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a>
-                        </p>
-                        <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
+                    <div class="govuk-grid-row">
+                      <div class="govuk-grid-column-full">
+                        <h3 class="govuk-heading-s">Opportunity data</h3>
+                        <div class="govuk-download-csv-p">
+                          <p class="govuk-body">Download data buyers have provided about closed opportunities. Some data may be missing.</p>
+                        </div>
+                        <div class="govuk-download-csv">
+                          <img src="{{ assetPath | default('/assets') }}/images/csv-icon.png" alt="CSV" class="govuk-!-margin-right-2"></img>
+                          <span>
+                            <a href="/opportunities/download?download=1" class="govuk-link govuk-!-font-size-19">Download data</a>
+                            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-1">CSV</p>
+                          </span>
+                        </div>
+                        <div class="govuk-download-csv-p">
+                          <p class="govuk-body govuk-!-font-size-14">If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:info@crowncommercial.gov.uk" class="govuk-link">info@crowncommercial.gov.uk.</a>
+                          </p>
+                          <p class="govuk-body govuk-!-font-size-14">Please tell us what format you need. It will help us if you say what assistive technology you use.</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="govuk-grid-row govuk-!-margin-top-4">
+              <!-- <div class="govuk-grid-row govuk-!-margin-top-4">
       <div class="govuk-grid-column-full govuk-list-filter-category" id="mainLotandcategoryContainer">
         {% if(njkDatas.haveLot) %}
           <a class="govuk-link govuk-link-filter-main" href="/dos/search">All lots</a>
@@ -365,7 +294,7 @@
         {% endif %}
       </div>
     </div> -->
-            <!-- <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
+              <!-- <div class="govuk-grid-row govuk-!-margin-top-2 govuk-!-padding-right-3">
       <div class="govuk-grid-column-full">
         <div class="govuk-filter-search">
           <div class="govuk-grid-row">
@@ -432,8 +361,8 @@
     </div>
   </div> -->
 
-          </div>
-          <div class="govuk-grid-column-two-thirds govuk-grid-sresult-right" >
+            </div>
+            <div class="govuk-grid-column-two-thirds govuk-grid-sresult-right" >
 
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
@@ -450,36 +379,41 @@
                   
                     </p>
 
+              </div>
             </div>
-          </div>
 
-          <div id="">
-            <div class="govuk-grid-row">
-              <div class="govuk-grid-column-full">
-                <ul class="govuk-list govuk-supplier-list" id="contentHead">
-                  {% for form in search_data.results %}
-                    <li class="app-search-result">
-                      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
-                        <a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{form.projectId}}&lot={{form.lot}}&status={{form.status}}&subStatus={{form.subStatus}}">{{form.projectName}}</a>
-                      </h2>
-                      <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-                        {{form.buyerName}}
-                      </p>
-                      <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
-                        {{form.location}}
-                      </p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.agreement}}</p>
-                      <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status}} : {{form.subStatus}}</p>
-                      {%if(form.description != 'undefined')%}
-                        <p class="govuk-body govuk-!-font-size-16">
-                          {{form.description}}
+            <div id="">
+              <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                  <ul class="govuk-list govuk-supplier-list" id="contentHead">
+                    {% for form in search_data.results %}
+                      <li class="app-search-result">
+                        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+                          <a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId={{form.projectId}}&lot={{form.lot}}&status={{form.status}}&subStatus={{form.subStatus}}">{{form.projectName}}</a>
+                        </h2>
+                        <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+                          {{form.buyerName}}
                         </p>
-                        {%endif%}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                  {# <div class="app-search-result-nodata">
+                        <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
+                          {{form.location}}
+                        </p>
+                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
+                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.agreement}}</p>
+                        {%if(form.subStatus == 'open')%}
+                          <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
+                          {%else%}
+                          <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status | capitalize}} : {{form.subStatus}}</p>
+
+                          {%endif%}
+                          {%if(form.description != 'undefined')%}
+                            <p class="govuk-body govuk-!-font-size-16">
+                              {{form.description}}
+                            </p>
+                            {%endif%}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                      {# <div class="app-search-result-nodata">
                     <p class="govuk-body">Improve your search results by:</p>
                     <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4" id="">
                       <li>
@@ -501,120 +435,120 @@
 
                   </div> #}
 
-                </div>
-              </div>
-            </div>
-            <div class="govuk-grid-row" id="paginationContainer">
-              <div class="govuk-grid-column-full">
-                {# <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"> #}
-                <div class="govuk-grid-column-one-half">
-                  {% if (njkDatas.PrvePageUrl != '') %}
-                    {% if (njkDatas.CurrentPageNumber != 1) %}
-                      <p class="govuk-body govuk-!-margin-0">
-                        <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
-                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                          </svg>
-            Previous Page</a>
-                      </p>
-                      <p class="govuk-body govuk-!-margin-0">
-                        <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">{{njkDatas.PreviousPageNumber}} of {{njkDatas.noOfPages}}</a>
-                      </p>
-                    {% endif %}
-                  {% endif %}
-                </div>
-
-                {% if (njkDatas.CurrentPageNumber !== 1) %}
-                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                    {%else%}
-                    <div class="govuk-grid-column-one-half ">
-                    {% endif %}
-
-                    {% if (njkDatas.NextPageUrl !== '') %}
-                      {% if(njkDatas.LastPageNumber !== njkDatas.CurrentPageNumber)%}
-                        <p class="govuk-body govuk-!-margin-0">
-                          <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
-                            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-                            </svg>
-            Next Page</a>
-                        </p>
-
-                        <p class="govuk-body govuk-!-margin-0">
-                          <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
-                            {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
-                          </a>
-                        </p>
-                      {% endif %}
-                    {% endif %}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div id="paginationContainer11">
-                {% if (data.meta.total > 0) %}
-                  <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                      <!--Place For Pagination-->
-                      <div class="govuk-grid-column-one-half">
-                        <div>
-              &nbsp;
-              {% if (njkDatas.PrvePageUrl != '') %}
-                            {% if (njkDatas.CurrentPageNumber != 1) %}
-                              <p class="govuk-body govuk-!-margin-0">
-                                <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
-                                  <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                    <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                                  </svg>
-                        Previous Page</a>
-                              </p>
-                              <p class="govuk-body govuk-!-margin-0">
-                                <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
-                              </p>
-                            {% endif %}
-                          {% endif %}
-                        </div>
-                      </div>
+                <div class="govuk-grid-row" id="paginationContainer">
+                  <div class="govuk-grid-column-full">
+                    {# <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"> #}
+                    <div class="govuk-grid-column-one-half">
+                      {% if (njkDatas.PrvePageUrl != '') %}
+                        {% if (njkDatas.CurrentPageNumber != 1) %}
+                          <p class="govuk-body govuk-!-margin-0">
+                            <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
+                              <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                              </svg>
+            Previous Page</a>
+                          </p>
+                          <p class="govuk-body govuk-!-margin-0">
+                            <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">{{njkDatas.PreviousPageNumber}} of {{njkDatas.noOfPages}}</a>
+                          </p>
+                        {% endif %}
+                      {% endif %}
+                    </div>
 
+                    {% if (njkDatas.CurrentPageNumber !== 1) %}
                       <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                        <div>
-            &nbsp;
-            {% if (njkDatas.NextPageUrl != '') %}
+                        {%else%}
+                        <div class="govuk-grid-column-one-half ">
+                        {% endif %}
+
+                        {% if (njkDatas.NextPageUrl !== '') %}
+                          {% if(njkDatas.LastPageNumber !== njkDatas.CurrentPageNumber)%}
                             <p class="govuk-body govuk-!-margin-0">
-                              <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
+                              <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
                                 <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
                                   <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
                                 </svg>
-                  Next Page </a>
+            Next Page</a>
+                            </p>
+
+                            <p class="govuk-body govuk-!-margin-0">
+                              <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
+                                {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
+                              </a>
                             </p>
                           {% endif %}
-                          <p class="govuk-body govuk-!-margin-0">
-                            <label class="govuk-!-font-size-16">
-                              {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
-                                {{njkDatas.CurrentPageNumber}} of 1
-                   {% else %}
-                                {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
-                              {% endif %}
-                            </label>
-                          </p>
-                        </div>
+                        {% endif %}
                       </div>
-
                     </div>
                   </div>
-                {% endif %}
-              </div>
-    
-              <div id="rightSidefooterCotainer" class="hidefoot">
-                {% if (search_data.totalResults == 0) %}
-      <h3 class="govuk-heading-m">Improve your search results by:</h3>
-                  <ul class="govuk-list govuk-!-margin-top-0">
-                    <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
-                </li>choosing a different category</li><br>
-            </li>double-checking your spelling</li><br>
-        </li>using fewer keywords</li><br>
-    </li>searching for something less specific, you can refine your results later</li><br>
-</ul>
-</ul>
+                  <div id="paginationContainer11">
+                    {% if (data.meta.total > 0) %}
+                      <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                          <!--Place For Pagination-->
+                          <div class="govuk-grid-column-one-half">
+                            <div>
+              &nbsp;
+              {% if (njkDatas.PrvePageUrl != '') %}
+                                {% if (njkDatas.CurrentPageNumber != 1) %}
+                                  <p class="govuk-body govuk-!-margin-0">
+                                    <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
+                                      <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                        <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                      </svg>
+                        Previous Page</a>
+                                  </p>
+                                  <p class="govuk-body govuk-!-margin-0">
+                                    <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
+                                  </p>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                            <div>
+            &nbsp;
+            {% if (njkDatas.NextPageUrl != '') %}
+                                <p class="govuk-body govuk-!-margin-0">
+                                  <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
+                                    <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                      <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                    </svg>
+                  Next Page </a>
+                                </p>
+                              {% endif %}
+                              <p class="govuk-body govuk-!-margin-0">
+                                <label class="govuk-!-font-size-16">
+                                  {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
+                                    {{njkDatas.CurrentPageNumber}} of 1
+                   {% else %}
+                                    {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
+                                  {% endif %}
+                                </label>
+                              </p>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <div id="rightSidefooterCotainer" class="hidefoot">
+                    {% if (search_data.totalResults == 0) %}
+                      <h3 class="govuk-heading-m">Improve your search results by:</h3>
+                      <ul class="govuk-list govuk-!-margin-top-0">
+                        <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
+                    </li>choosing a different category</li><br>
+                </li>double-checking your spelling</li><br>
+            </li>using fewer keywords</li><br>
+        </li>searching for something less specific, you can refine your results later</li><br>
+    </ul>
+  </ul>
 {% endif %}
 </div>
 </div>
