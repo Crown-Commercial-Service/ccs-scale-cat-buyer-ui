@@ -466,8 +466,8 @@
                           {{form.location}}
                         </p>
                         <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
-                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.agreement}}</p>
-                        {%if(form.subStatus == 'open')%}
+                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
+                        {%if(form.status == 'open')%}
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
                           {%else%}
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status | capitalize}} : {{form.subStatus}}</p>

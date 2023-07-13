@@ -877,11 +877,8 @@ document.querySelectorAll(".clickCategory").forEach(function (event) {
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
-
-document.querySelectorAll(".oppclickCategory").forEach(function (event) {
-  
-  event.addEventListener('click', function () {
-    let eventFilterType = 'categoryClicked';
+$(document).on('click','.oppclickCategory',function(event){
+  let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
     let urlParams = removeURLParameter(document.location.search, filterName);
@@ -890,8 +887,23 @@ document.querySelectorAll(".oppclickCategory").forEach(function (event) {
     let baseUrl = window.location.href.split('?')[0];
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
      window.location.href = `${baseUrl}${finalTriggerUrl}`;
-  });
-});
+})
+// document.querySelectorAll(".oppclickCategory").forEach(function (event) {
+//   console.log('inside click category')
+//   event.addEventListener('click', function () {
+//     let eventFilterType = 'categoryClicked';
+//     let filterName = this.getAttribute("data-name");
+//     let filterValue = this.getAttribute("data-value");
+//     let urlParams = removeURLParameter(document.location.search, filterName);
+//     let urlObj = parseQueryG13(urlParams);
+//     urlObj = tune(urlObj);
+//     console.log('urlObj',urlObj)
+//     let baseUrl = window.location.href.split('?')[0];
+//     console.log('baseUrl',baseUrl)
+//     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+//      window.location.href = `${baseUrl}${finalTriggerUrl}`;
+//   });
+// });
 
 if (document.querySelectorAll('.serviceCategory')) {
   document.querySelectorAll(".serviceCategory").forEach(function (event) {
@@ -1030,11 +1042,33 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         contentType: "application/json",
       }).done(function (result) {
         
-        console.log("result",result);
 
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
         slist.classList.remove('loadingres');
+        var Lothtml = '';
+      if (result.njkDatas.haveLot == false) {
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+      } else {
+        Lothtml += '<strong>All lots</strong>'
+      }
+        Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+        result.njkDatas.lotDetails.forEach(lotwithcount => {
+         if(result.njkDatas.currentLot == lotwithcount.id){
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
+          }
+          else
+          {
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
+          }
+                    
+           })
+       
+        Lothtml += '</ul>'
+      
+      // console.log('Lothtml',Lothtml)
+      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;     
+
         var mainLothtml = '';
         $.each(result.search_data.results, function (key, val) {
           mainLothtml +='<li class="app-search-result">';
@@ -1678,7 +1712,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
     window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
 
    // document.getElementById('searchResultsContainer').innerHTML = '';
-   // document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
     document.getElementById('paginationContainer').innerHTML = '';
     const baseAPIUrl = '/opportunities/search-api';
     let slist = document.querySelector('.govuk-grid-sresult-right');
@@ -1690,10 +1724,8 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-
       let totalResults =  result.search_data.totalResults;
       $('#totalRecords').html(totalResults);
-      console.log("totalResults",totalResults);
       $('.hidefoot').hide();
       var footLothtml = '';
       if(totalResults==0){
@@ -1710,9 +1742,36 @@ if (document.querySelector(".oppurtunities_search_click")) {
         footLothtml +='</ul>';
         $('.hidefoot').html(footLothtml);
       }
+       
+      var Lothtml = '';
+      if (result.njkDatas.haveLot == false) {
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+      } else {
+        Lothtml += '<strong>All lots</strong>'
+      }
+        Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+        // result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+        //   Lothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+        // })
+        result.njkDatas.lotDetails.forEach(lotwithcount => {
+          // Lothtml += '<li>';
+          if(result.njkDatas.currentLot == lotwithcount.id){
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
+          }
+          else
+          {
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
+          }
+           // Lothtml += '</li>';
           
-            
-
+           })
+       
+        Lothtml += '</ul>'
+      
+      // console.log('Lothtml',Lothtml)
+      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;     
+    
+       
        slist.classList.remove('loadingres');
        var mainLothtml = '';
        $.each(result.search_data.results, function (key, val) {
