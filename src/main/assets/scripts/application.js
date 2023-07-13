@@ -980,7 +980,6 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
     event.addEventListener('change', function (event) {
-      console.log("insideCheckFilter")
       
 
       let eventFilterType;
@@ -1005,14 +1004,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         $('.locationCount').html(locationlengthcheck+' selected');
       }
 
-      $('.locationId').each(function () {
-       console.log(this.checked); 
-
-        let sThisVal = (this.checked ? $(this).val() : "");
-        if(sThisVal!=''){
-            console.log("sThisVal",sThisVal);
-        }
-   });
+   
       
 
       if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
@@ -1042,13 +1034,10 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         contentType: "application/json",
       }).done(function (result) {
         
-        console.log("result",result);
 
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
       
-       console.log("totalResultsFILTER",totalResults);
-          
           $('.hidefoot').hide();
           var footLothtml = '';
           if(totalResults==0){
@@ -1681,7 +1670,7 @@ if (Searchinput) {
 if (document.querySelector(".oppurtunities_search_click")) {
 
   document.querySelector(".oppurtunities_search_click").addEventListener('click', function () {
-    console.log("InsideSearch")
+ 
     removeErrorFieldsEoiTerms();
     let searchQueryUrl = "";
    // document.getElementById('searchQuery').value = window.location.search;
@@ -1727,21 +1716,20 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-console.log("1212")
-      console.log("result",result);
+
       let totalResults =  result.search_data.totalResults;
       let titletxt =  result.titletxt;
       let searchdata = result.searchdata;
       let searchKey ="";
       if(searchdata !='' && searchdata !=undefined){
-        console.log("insideKeySearch")
+       
         searchKey='containing <b>'+searchdata+'</b>'; 
       }
       //$('#totalRecords').html(totalResults);
       
        $('#totalRecordsNew').html('<b class="govuk-!-font-size-48"><span id="totalRecords">'+totalResults+'</span></b> results found '+searchKey+' in <b>'+titletxt+'</b>');
       
-      console.log("totalResults",totalResults);
+  
       $('.hidefoot').hide();
       var footLothtml = '';
       if(totalResults==0){

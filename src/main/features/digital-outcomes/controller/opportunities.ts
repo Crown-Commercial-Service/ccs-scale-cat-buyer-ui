@@ -516,8 +516,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       filters: FilterQuery,
     };
 
-    console.log('finalquery', JSON.stringify(finalquery));
-
     const statusPageQuery = status != undefined ? pageUrl : '';
     const searchKeywordsQuery: any = q;
     //console.log('filter url', btoa(JSON.stringify(finalquery)));
