@@ -47,8 +47,6 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       subStatus = 'after-the-deadline-passes';
     }
 
-    console.log('subStatus', subStatus);
-
     let awards: any = '';
     let awardDate = '';
     let part;

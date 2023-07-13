@@ -162,6 +162,23 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     }
     console.log('qtext', qtext);
 
+    const location = [
+      'Scotland',
+      'ScotlandNorth East England',
+      'North West England',
+      'Yorkshire and the Humber',
+      'East Midlands',
+      'West Midlands',
+      'East of England',
+      'London',
+      'South East England',
+      'South West England',
+      'Wales',
+      'Northern Ireland',
+      'International (outside the UK)',
+      'Off-site',
+    ];
+
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -175,6 +192,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       titletxt,
       searchdata: q,
       qtext: qtext,
+      location: location,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
