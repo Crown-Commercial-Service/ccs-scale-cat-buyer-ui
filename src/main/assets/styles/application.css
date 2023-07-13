@@ -5161,6 +5161,9 @@ display: inline-block;
   font-size: 1.1875rem;
   display: block;
 }
+.govuk-list-filter-lots strong {
+  font-size: 1.1875rem;
+}
 .govuk-filter-search .govuk-accordion__open-all {
   display: none;
 }

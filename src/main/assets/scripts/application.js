@@ -1046,11 +1046,11 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
           mainLothtml +='</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-          if(val.subStatus != undefined)
-              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ val.subStatus + '</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
+          if(val.subStatus != undefined && val.subStatus == 'closed' )
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+ ' : '+ val.subStatus + '</p>';
           else
-              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +val.status+ ' : '+ '</p>';
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
           if(val.description != undefined){
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
           }
@@ -1725,11 +1725,11 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
          mainLothtml +='</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.agreement + '</p>';
-         if(val.subStatus != undefined)
-            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+ val.subStatus + '</p>';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
+         if(val.subStatus != undefined && val.subStatus == 'closed' )
+            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +' : '+ val.subStatus + '</p>';
          else  
-           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ val.status +' : '+  '</p>';
+           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +  '</p>';
            if(val.description != undefined){
               mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
            }
