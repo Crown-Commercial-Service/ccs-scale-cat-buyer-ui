@@ -1,5 +1,5 @@
 import { Handler, Request, Response, NextFunction } from 'express';
-import { decode, Jwt } from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import { TokenDecoder } from '../../tokendecoder/tokendecoder';
 import { LoggTracer } from '../../logtracer/tracer';
 import config from 'config';
@@ -34,8 +34,8 @@ export const AUTH: Handler = async (
     res.redirect('/oauth/login');
   } else {
     //Session ID
-    const decoded = decode(req.session['access_token'], { complete: true });
-    await PERFORM_REFRESH_TOKEN(req, res, decoded);
+    const decodedPayload = TokenDecoder.getJwtPayload(req.session['access_token']);
+    await PERFORM_REFRESH_TOKEN(req, res, decodedPayload);
 
     const access_token = req.session['access_token'];
     const authStatusCheck = (await ppg.api.oAuth.postValidateToken(access_token)).unwrap();
@@ -49,12 +49,12 @@ export const AUTH: Handler = async (
         res.locals.accountUrl = process.env['AUTH_IDENTITY_BASE_URL'];
         // get the decoded payload ignoring signature, no secretOrPrivateKey needed
 
-        const rolesOfUser = decoded?.payload?.roles;
+        const rolesOfUser = decodedPayload.roles;
         const isAuthorized = rolesOfUser?.includes('CAT_USER');
         if (!isAuthorized) {
           res.redirect('/401');
         } else {
-          const userEmail = decoded.payload.sub;
+          const userEmail = decodedPayload.sub;
           const userProfile = (await ppg.api.organisation.getUserProfiles(userEmail)).unwrap();
 
           res.locals.user_firstName = userProfile['firstName'];
@@ -102,8 +102,8 @@ export const AUTH: Handler = async (
   }
 };
 
-const PERFORM_REFRESH_TOKEN = async (req: Request, res: Response, decodedToken: Jwt) => {
-  const expiryTimestamp = decodedToken?.payload?.exp;
+const PERFORM_REFRESH_TOKEN = async (req: Request, res: Response, decodedPayload: JwtPayload) => {
+  const expiryTimestamp = decodedPayload.exp;
   const today = new Date();
   const endDate = new Date(expiryTimestamp * 1000);
   const minutes = Math.floor((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
