@@ -15,11 +15,11 @@ import moment from 'moment-business-days';
 import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { sortObject } from '../../../common/util/operators/sortObject';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -1999,9 +1999,8 @@ const RFP_REVIEW_RENDER_TEST = async (
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
       const organizationID = req.session.user.payload.ciiOrgId;
-      const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-      const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-      const name = getOrganizationDetails.data?.identifier?.legalName;
+      const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+      const name = getOrganizationDetails.identifier?.legalName;
       const buyingorg1 = name;
 
       //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -3627,9 +3626,8 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
     const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data?.identifier?.legalName;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
 
     //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -4528,9 +4526,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
     const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data?.identifier?.legalName;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
 
     //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;

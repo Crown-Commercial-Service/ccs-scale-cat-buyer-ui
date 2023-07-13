@@ -2,7 +2,6 @@
 import * as express from 'express';
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/question';
@@ -16,6 +15,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  * @Controller
@@ -49,9 +49,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
     const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data.identifier.legalName;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier.legalName;
     const organizationName = name;
 
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
