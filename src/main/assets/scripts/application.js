@@ -981,7 +981,8 @@ function removeURLParameter(url, parameter) {
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
     event.addEventListener('change', function (event) {
       console.log("insideCheckFilter")
-     // /g-cloud/search
+      
+
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
       let filterValue = this.getAttribute('value');//$(this).attr("value");
@@ -1003,6 +1004,16 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         $(".locationCount").removeClass("hide");
         $('.locationCount').html(locationlengthcheck+' selected');
       }
+
+      $('.locationId').each(function () {
+       console.log(this.checked); 
+
+        let sThisVal = (this.checked ? $(this).val() : "");
+        if(sThisVal!=''){
+            console.log("sThisVal",sThisVal);
+        }
+   });
+      
 
       if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
     

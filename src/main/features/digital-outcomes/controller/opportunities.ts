@@ -8,7 +8,14 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
-    const { lot, status, q, page } = req.query;
+    const { lot, status, q, page, location } = req.query;
+
+    //const queryParameters = req.query;
+
+    // const queryUrl = Object.keys(queryParameters)
+    //   .map((key) => `${key}=${queryParameters[key]}`)
+    //   .join('&');
+
     const NoOfRecordsPerPage = 20;
     const usingObjectAssign = Object.assign([], status);
     const statusArray: any = [];
@@ -175,7 +182,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       qtext = q;
     }
 
-    const location = [
+    const locations = [
       'Scotland',
       'ScotlandNorth East England',
       'North West England',
@@ -219,7 +226,8 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       titletxt,
       searchdata: q,
       qtext: qtext,
-      location: location,
+      locations: locations,
+      locationFilter: location,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
@@ -406,14 +414,50 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 };
 
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
-  const { lot, status, q, page } = req.query;
+  const { lot, status, q, page, location } = req.query;
+
   const NoOfRecordsPerPage = 20;
   let pageUrl = '';
   try {
     const usingObjectAssign = Object.assign([], status);
+    const usingObjectAssignLocation = Object.assign([], location);
     // const reqUrl = req.url;
     let statusArray: any = [];
     const FilterQuery: any = [];
+    let locationArray: any = [];
+
+    //Location
+    if (Array.isArray(location)) {
+      usingObjectAssignLocation.forEach((val, i) => {
+        let options = {
+          id: i,
+          text: val,
+          selected: true,
+          count: 2,
+        };
+        locationArray.push(options);
+        // if (val == 'open') {
+        //   pageUrl = `&status=${val}`;
+        // }
+        // if (val == 'closed') {
+        //   pageUrl += `&status=${val}`;
+        // }
+      });
+    } else {
+      let options = {
+        id: 1,
+        text: location,
+        selected: true,
+        count: 1,
+      };
+      locationArray.push(options);
+      // if (status == 'open') {
+      //   pageUrl = `&status=${status}`;
+      // }
+      // if (status == 'closed') {
+      //   pageUrl = `&status=${status}`;
+      // }
+    }
 
     if (Array.isArray(status)) {
       usingObjectAssign.forEach((val, i) => {
@@ -455,20 +499,37 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     //   };
     //   statusArray.push(options);
     // });
+    let locationdata = {
+      name: 'location',
+      options: locationArray,
+    };
+    console.log('locationdata', locationdata);
+
     let querydata = {
       name: 'status',
       options: statusArray,
     };
     FilterQuery.push(querydata);
+    //FilterQuery.push(locationdata);
+
     let finalquery = {
       filters: FilterQuery,
     };
+
+    console.log('finalquery', JSON.stringify(finalquery));
+
     const statusPageQuery = status != undefined ? pageUrl : '';
     const searchKeywordsQuery: any = q;
     //console.log('filter url', btoa(JSON.stringify(finalquery)));
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+
+    // let statusQuery = '';
+    // if (status != undefined || location != undefined) {
+    //   statusQuery = `&filters=${btoa(JSON.stringify(finalquery))}`;
+    // }
     const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
+
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
@@ -476,6 +537,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
+
     let response_data = fetch_dynamic_api?.data;
 
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
@@ -515,7 +577,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     // if (q != undefined) {
     //   titletxt = ' containing ' + q + '' + titletxt;
     // }
-    console.log('titletxt in search api', titletxt);
+
     let njkDatas = {
       currentLot: lot,
       lotDetails: [
