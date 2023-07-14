@@ -1756,7 +1756,6 @@ if (document.querySelector(".oppurtunities_search_click")) {
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-      console.log("result",result);
       let totalResults =  result.search_data.totalResults;
       let titletxt =  result.titletxt;
       let searchdata = result.searchdata;
