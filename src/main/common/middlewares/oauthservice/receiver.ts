@@ -19,11 +19,7 @@ const logger = Logger.getLogger('receiver-middleware');
  * @param res
  * @param next
  */
-export const CREDENTAILS_FETCH_RECEIVER = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const CREDENTAILS_FETCH_RECEIVER = async (req: Request, res: Response, next: NextFunction) => {
   const { code, state } = req.query;
   if (Query.isUndefined(code)) {
     res.redirect(ErrorView.notfound);
@@ -54,6 +50,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
           httpOnly: true,
         });
         const userSessionInformation = TokenDecoder.getJwtPayload(access_token);
+        console.log('userSessionInformation ****************', userSessionInformation);
         req.session['isAuthenticated'] = true;
         req.session['refresh_token'] = refresh_token;
         req.session['access_token'] = access_token;
