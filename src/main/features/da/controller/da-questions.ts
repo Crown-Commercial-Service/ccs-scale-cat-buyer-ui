@@ -45,7 +45,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(heading_fetch_dynamic_api, logConstant.fetchedQuestions, req);
-    const organizationID = req.session.user.payload.ciiOrgId;
+    const organizationID = req.session.user.ciiOrgId;
     const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
 
     //CAS-INFO-LOG
@@ -300,15 +300,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     LoggTracer.infoLogger(null, logConstant.questionPage, req);
     res.render('daw-question', data);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -974,17 +966,17 @@ const isDateOlder = (date1: any, date2: any) => {
 const mapTitle = (groupId) => {
   let title = '';
   switch (groupId) {
-  case 'Group 4':
-    title = 'techinical';
-    break;
-  case 'Group 5':
-    title = 'cultural';
-    break;
-  case 'Group 6':
-    title = 'social value';
-    break;
-  default:
-    return '';
+    case 'Group 4':
+      title = 'techinical';
+      break;
+    case 'Group 5':
+      title = 'cultural';
+      break;
+    case 'Group 6':
+      title = 'social value';
+      break;
+    default:
+      return '';
   }
   return title;
 };
@@ -992,63 +984,63 @@ const mapTitle = (groupId) => {
 function changeTitle(title) {
   let text = '';
   switch (title) {
-  case 'Learn about adding context and requirements':
-    text = 'Learn more about adding context and requirements';
-    break;
-  case 'Terms and acronyms':
-    text = 'Terms and acronyms';
-    break;
-  case 'Background and context to your requirement':
-    text = 'Background to your procurement';
-    break;
-  case 'Problem to solve/impact of not completing deliverables and outcome':
-    text = 'The business problem you need to solve';
-    break;
-  case 'Key Users':
-    text = 'The people who will use your product or service';
-    break;
-  case 'Work Completed to date':
-    text = 'Work done so far';
-    break;
-  case 'Current phase of the project':
-    text = 'Which phase the project is currently in';
-    break;
-  case 'Phase resource is required for':
-    text = 'Which phase(s) of the project you need resource for';
-    break;
-  case 'Duration of work/resource required for':
-    text = 'The expected duration of the project';
-    break;
-  case 'The buying organisation':
-    text = 'Who the buying organisation is';
-    break;
-  case 'Market engagement to date':
-    text = 'Describe any market engagement you\'ve done';
-    break;
-  case 'New, replacement or expanded services or products':
-    text = 'Choose if this a new, replacement or expanded service or product';
-    break;
-  case 'Is there an incumbent supplier?':
-    text = 'Tell us if there is an existing supplier';
-    break;
-  case 'Management information and reporting':
-    text = 'Management information and reporting';
-    break;
-  case 'Define your service levels and KPIs':
-    text = 'Define your service levels and KPIs';
-    break;
-  case 'Incentives and exit strategy':
-    text = 'Detail any performance incentives and exit strategies';
-    break;
-  case 'How the supplier is going to deliver within the budget constraints':
-    text = 'Contract values and how suppliers will meet the project needs within this budget';
-    break;
-  case 'Set your project budget':
-    text = 'Set your project budget';
-    break;
-  case 'Enter your project requirements':
-    text = 'Enter your project requirements';
-    break;
+    case 'Learn about adding context and requirements':
+      text = 'Learn more about adding context and requirements';
+      break;
+    case 'Terms and acronyms':
+      text = 'Terms and acronyms';
+      break;
+    case 'Background and context to your requirement':
+      text = 'Background to your procurement';
+      break;
+    case 'Problem to solve/impact of not completing deliverables and outcome':
+      text = 'The business problem you need to solve';
+      break;
+    case 'Key Users':
+      text = 'The people who will use your product or service';
+      break;
+    case 'Work Completed to date':
+      text = 'Work done so far';
+      break;
+    case 'Current phase of the project':
+      text = 'Which phase the project is currently in';
+      break;
+    case 'Phase resource is required for':
+      text = 'Which phase(s) of the project you need resource for';
+      break;
+    case 'Duration of work/resource required for':
+      text = 'The expected duration of the project';
+      break;
+    case 'The buying organisation':
+      text = 'Who the buying organisation is';
+      break;
+    case 'Market engagement to date':
+      text = 'Describe any market engagement you have done';
+      break;
+    case 'New, replacement or expanded services or products':
+      text = 'Choose if this a new, replacement or expanded service or product';
+      break;
+    case 'Is there an incumbent supplier?':
+      text = 'Tell us if there is an existing supplier';
+      break;
+    case 'Management information and reporting':
+      text = 'Management information and reporting';
+      break;
+    case 'Define your service levels and KPIs':
+      text = 'Define your service levels and KPIs';
+      break;
+    case 'Incentives and exit strategy':
+      text = 'Detail any performance incentives and exit strategies';
+      break;
+    case 'How the supplier is going to deliver within the budget constraints':
+      text = 'Contract values and how suppliers will meet the project needs within this budget';
+      break;
+    case 'Set your project budget':
+      text = 'Set your project budget';
+      break;
+    case 'Enter your project requirements':
+      text = 'Enter your project requirements';
+      break;
   }
   return text;
 }

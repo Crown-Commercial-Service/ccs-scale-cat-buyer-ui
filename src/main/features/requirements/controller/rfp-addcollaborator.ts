@@ -22,13 +22,15 @@ import { ppg } from 'main/services/publicProcurementGateway';
  */
 export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const organization_id = req.session.user.payload.ciiOrgId;
+  const organization_id = req.session.user.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
   const { rfp_collaborators: userParam } = req.query;
   try {
-    const organisation_user_data = (await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])).unwrap();
+    const organisation_user_data = (
+      await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])
+    ).unwrap();
 
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.getUserDetails, req);
@@ -36,7 +38,9 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     const { pageCount } = organisation_user_data;
     const allUserStorge = [];
     for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_data_loop = (await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], { currentPage: a })).unwrap();
+      const organisation_user_data_loop = (
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], { currentPage: a })
+      ).unwrap();
 
       const { userList } = organisation_user_data_loop ?? {};
       allUserStorge.push(...userList);
