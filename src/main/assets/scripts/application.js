@@ -1064,14 +1064,32 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
             footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
             footLothtml +='</ul>';
             $('.hidefoot').html(footLothtml);
+            
+            var Lothtml = '';
+            if (result.njkDatas.haveLot == false) {
+              Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+            } else {
+              Lothtml += '<strong>All lots</strong>'
+            }
+              Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+              result.njkDatas.lotDetails.forEach(lotwithcount => {
+               if(result.njkDatas.currentLot == lotwithcount.id){
+                  Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="" ><b>'+ titleCase(lotwithcount.text) + ' (0)</b></li>';
+                }
+                else
+                {
+                  Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="">' + titleCase(lotwithcount.text) + ' (0)</li>';
+                }
+                          
+                 })
+             
+              Lothtml += '</ul>'
+            
+            // console.log('Lothtml',Lothtml)
+            document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
           }
-          
-
-
-
-
-        slist.classList.remove('loadingres');
-        var Lothtml = '';
+          else{
+            var Lothtml = '';
       if (result.njkDatas.haveLot == false) {
         Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
       } else {
@@ -1080,11 +1098,11 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
         result.njkDatas.lotDetails.forEach(lotwithcount => {
          if(result.njkDatas.currentLot == lotwithcount.id){
-            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory govuk-link--no-visited-state govuk-!-font-weight-bold" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
           }
           else
           {
-            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory govuk-link--no-visited-state" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
           }
                     
            })
@@ -1093,6 +1111,13 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       
       // console.log('Lothtml',Lothtml)
       document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;     
+          }
+
+
+
+
+        slist.classList.remove('loadingres');
+        
 
         var mainLothtml = '';
         $.each(result.search_data.results, function (key, val) {
@@ -1782,8 +1807,35 @@ if (document.querySelector(".oppurtunities_search_click")) {
         footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
         footLothtml +='</ul>';
         $('.hidefoot').html(footLothtml);
+        var Lothtml = '';
+        if (result.njkDatas.haveLot == false) {
+          Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+        } else {
+          Lothtml += '<strong>All lots</strong>'
+        }
+          Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+          // result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+          //   Lothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          // })
+          result.njkDatas.lotDetails.forEach(lotwithcount => {
+            // Lothtml += '<li>';
+            if(result.njkDatas.currentLot == lotwithcount.id){
+              Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="" ><b>'+ titleCase(lotwithcount.text) + ' (0)</b></li>';
+            }
+            else
+            {
+              Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="">' + titleCase(lotwithcount.text) + ' (0)</li>';
+            }
+             // Lothtml += '</li>';
+            
+             })
+         
+          Lothtml += '</ul>'
+        
+        // console.log('Lothtml',Lothtml)
+        document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml; 
       }
-       
+       else{
       var Lothtml = '';
       if (result.njkDatas.haveLot == false) {
         Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
@@ -1797,11 +1849,11 @@ if (document.querySelector(".oppurtunities_search_click")) {
         result.njkDatas.lotDetails.forEach(lotwithcount => {
           // Lothtml += '<li>';
           if(result.njkDatas.currentLot == lotwithcount.id){
-            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory govuk-link--no-visited-state govuk-!-font-weight-bold" >'+ titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</li>';
           }
           else
           {
-            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory govuk-link--no-visited-state" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ( ' + lotwithcount.count + ')</a></li>';
           }
            // Lothtml += '</li>';
           
@@ -1810,7 +1862,8 @@ if (document.querySelector(".oppurtunities_search_click")) {
         Lothtml += '</ul>'
       
       // console.log('Lothtml',Lothtml)
-      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;     
+      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
+       }   
     
        
        slist.classList.remove('loadingres');

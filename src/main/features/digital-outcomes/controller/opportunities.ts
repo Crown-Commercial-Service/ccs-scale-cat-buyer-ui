@@ -206,13 +206,19 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
-      njkDatas.lotDetails.map((value: any) => {
-        response_data.searchCriteria.lots.forEach((res: any) => {
-          if (res.id == value.id) {
-            value.count = res.count;
-          }
+      if (response_data.totalResults != 0) {
+        njkDatas.lotDetails.map((value: any) => {
+          response_data.searchCriteria.lots.forEach((res: any) => {
+            if (res.id == value.id) {
+              value.count = res.count;
+            }
+          });
         });
-      });
+      } else {
+        njkDatas.lotDetails.map((value: any) => {
+          value.count = 0;
+        });
+      }
     }
     const display_fetch_data = {
       file_data: fileData,
@@ -537,7 +543,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
-
     let response_data = fetch_dynamic_api?.data;
 
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;

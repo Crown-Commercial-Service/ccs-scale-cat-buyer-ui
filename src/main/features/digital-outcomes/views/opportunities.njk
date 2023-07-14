@@ -78,7 +78,7 @@
         <div class="govuk-grid-row govuk-!-margin-top-4">
           <div class="govuk-grid-column-full govuk-list-filter-lots"  id="mainLotandcategoryContainer">
             {% if (njkDatas.haveLot) %}
-              <a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities">
+              <a class="govuk-link govuk-link--no-visited-state govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities">
                 <strong>All lots</strong>
               </a>
               {%else%}
@@ -94,9 +94,9 @@
                       <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory link-disabled" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
                       {%else%}
                       {%if(lotName == lotwithcount.id)%}
-                        <li data-name="lot" data-value={{lotwithcount.id}} class="oppclickCategory" >{{lotwithcount.text | title }}  ({{lotwithcount.count}})</li>
+                        <li data-name="lot" data-value={{lotwithcount.id}} class="oppclickCategory govuk-link--no-visited-state govuk-!-font-weight-bold" href="javascript:void(0)">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</li>
                         {%else%}
-                        <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory" style="cursor: pointer !important;">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
+                        <a data-name="lot" data-value={{lotwithcount.id}} class="govuk-link oppclickCategory govuk-link--no-visited-state" style="cursor: pointer !important;" href="javascript:void(0)">{{lotwithcount.text | title }}  ({{lotwithcount.count}})</a>
                         {%endif%}
                         {%endif%}
                       </li>

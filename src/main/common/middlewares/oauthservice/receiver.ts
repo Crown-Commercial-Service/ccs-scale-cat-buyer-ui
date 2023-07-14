@@ -50,7 +50,6 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: Request, res: Response, ne
           httpOnly: true,
         });
         const userSessionInformation = TokenDecoder.getJwtPayload(access_token);
-        console.log('userSessionInformation ****************', userSessionInformation);
         req.session['isAuthenticated'] = true;
         req.session['refresh_token'] = refresh_token;
         req.session['access_token'] = access_token;
