@@ -1081,8 +1081,13 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
-          if(val.subStatus != undefined && val.subStatus == 'closed' )
-              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+ ' : '+ val.subStatus + '</p>';
+          if(val.status != undefined && val.status == 'closed' ){
+              if(val.subStatus != undefined)
+                  mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+ ' : '+ val.subStatus + '</p>';
+              else
+                  mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
+ 
+          }
           else
               mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
           if(val.description != undefined){
@@ -1785,8 +1790,12 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
-         if(val.subStatus != undefined && val.subStatus == 'closed' )
+         if(val.status != undefined && val.status == 'closed' ){
+          if(val.subStatus != undefined)
             mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +' : '+ val.subStatus + '</p>';
+          else
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) + '</p>';  
+         }   
          else  
            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +  '</p>';
            if(val.description != undefined){
