@@ -129,15 +129,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     res.render('questions', data);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -260,15 +252,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              LoggTracer.errorLogger(
-                res,
-                error,
-                null,
-                null,
-                null,
-                null,
-                false
-              );
+              LoggTracer.errorLogger(res, error, null, null, null, null, false);
             }
           } else if (questionType === 'KeyValuePairtrue') {
             let { term, value } = req.body;
@@ -314,15 +298,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              LoggTracer.errorLogger(
-                res,
-                error,
-                null,
-                null,
-                null,
-                null,
-                false
-              );
+              LoggTracer.errorLogger(res, error, null, null, null, null, false);
             }
           } else {
             const question_array_check: boolean = Array.isArray(question_id);
@@ -366,15 +342,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     req
                   );
                 } catch (error) {
-                  LoggTracer.errorLogger(
-                    res,
-                    error,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false
-                  );
+                  LoggTracer.errorLogger(res, error, null, null, null, null, false);
                 }
               }
             } else {
@@ -503,15 +471,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   );
                 }
               } catch (error) {
-                LoggTracer.errorLogger(
-                  res,
-                  error,
-                  null,
-                  null,
-                  null,
-                  null,
-                  false
-                );
+                LoggTracer.errorLogger(res, error, null, null, null, null, false);
               }
             }
           }
