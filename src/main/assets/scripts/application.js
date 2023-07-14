@@ -1833,7 +1833,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
          
           Lothtml += '</ul>'
         
-         console.log('Lothtml2222',Lothtml)
+        
         document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml; 
       }
        else{
@@ -1863,7 +1863,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
        
         Lothtml += '</ul>'
       
-       console.log('Lothtml111',Lothtml)
+       
       document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
        }   
     
