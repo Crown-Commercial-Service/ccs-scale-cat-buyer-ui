@@ -1142,7 +1142,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           else
               mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
           if(val.description != undefined){
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext">' + val.description + '';
           }
           mainLothtml +='</p>';
           mainLothtml +='</li>';
@@ -1890,7 +1890,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
          else  
            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +  '</p>';
            if(val.description != undefined){
-              mainLothtml +='<p class="govuk-body govuk-!-font-size-16">' + val.description + '';
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext">' + val.description + '';
            }
          mainLothtml +='</p>';
          mainLothtml +='</li>';
