@@ -62,7 +62,7 @@ export const RFI_REVIEW_HELPER = async (
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
 
-      const organizationID = req.session.user.payload.ciiOrgId;
+      const organizationID = req.session.user.ciiOrgId;
       const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
       const name = getOrganizationDetails.identifier.legalName;
       const organizationName = name;
@@ -261,8 +261,8 @@ export const RFI_REVIEW_HELPER = async (
         a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
           ? -1
           : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-            ? 1
-            : 0
+          ? 1
+          : 0
       );
       const supplierLength = supplierList.length;
       // supplier filtered list end
@@ -318,15 +318,7 @@ export const RFI_REVIEW_HELPER = async (
 
       res.render('review', appendData);
     } catch (error) {
-      LoggTracer.errorLogger(
-        res,
-        error,
-        null,
-        null,
-        null,
-        null,
-        false
-      );
+      LoggTracer.errorLogger(res, error, null, null, null, null, false);
     }
   }
 };
