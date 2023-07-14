@@ -8,7 +8,7 @@ const INPUT_DATE_FORMAT = 'D M YYYY';
 const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY';
 const DATE_FORMAT_HHMMDDMMYYYY = 'HH:mm / DD/MM/YYYY';
 const DATE_FORMAT_DD_MM_YYYY = 'DD-MM-YYYY';
-
+const DATE_FORMAT_DDMMYYYYHHMM = 'DD/MM/YYYY HH:mm';
 class DateFormater {
   static formatDate(value: Moment): string {
     return value.format(DATE_FORMAT);
@@ -28,6 +28,10 @@ class DateFormater {
 
   static formatDateHHMMDDMMYYYY(value: Moment): string {
     return value.utc().format(DATE_FORMAT_HHMMDDMMYYYY);
+  }
+
+  static formatDateDDMMYYYYHHMM(value: Moment): string {
+    return value.utc().format(DATE_FORMAT_DDMMYYYYHHMM);
   }
 
   static formatDateDD_MM_YYYY(value: Moment): string {
