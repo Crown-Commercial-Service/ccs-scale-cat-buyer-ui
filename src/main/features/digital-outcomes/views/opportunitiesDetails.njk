@@ -64,7 +64,17 @@
                     <span class="govuk-caption-xl">{{buyer.identifier.legalName}}</span>
                     <h1 class="govuk-heading-l">{{tenderer.title}}</h1>
                     <div class="project-overview govuk-!-margin-bottom-3">
-                        <p class="govuk-body">{{tenderer.description}}</p>
+
+                         {%if (subStatus=="open")%}
+                        {# <p class="govuk-body">{{tenderer.description}}</p> #}
+                        <p class="govuk-body">Get a deeper understanding of this opportunity by reviewing its requirements, evaluation criteria and answers to supplier questions.</p>
+            <p class="govuk-body">When the opportunity is awarded this page will display the award summary, including the selected supplier and award date.</p>
+                    {%elseif(subStatus=="not-yet-awarded" or subStatus=="awarded")%}
+                        <p class="govuk-body">Get a deeper understanding of this opportunity by reviewing its requirements, evaluation criteria and answers to supplier questions.</p>
+            <p class="govuk-body">View the award summary, including the selected supplier and award date.</p>
+                    {%elseif(subStatus=="before-the-deadline-passes" or subStatus=="after-the-deadline-passes")%}
+                     <p class="govuk-body">Get a deeper understanding of this opportunity by reviewing its requirements, evaluation criteria and answers to supplier questions.</p>
+                    {%endif%}
                         {# <p class="govuk-body">Get a deeper understanding of this opportunity by reviewing its requirements, evaluation criteria and answers to supplier questions.</p>
             <p class="govuk-body">When the opportunity is awarded this page will display the award summary, including the selected supplier and award date.</p> #}
                     </div>

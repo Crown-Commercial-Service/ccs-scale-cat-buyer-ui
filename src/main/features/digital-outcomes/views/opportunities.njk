@@ -32,13 +32,14 @@
     }
   ]
 }) }}
-    {%endif %}
+    {%endif %} 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
+        <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
           <strong>Digital Outcomes opportunities</strong>
-          <p class="govuk-body">View buyer requirements for digital outcomes and user research participants.</p>
         </h1>
+         <p class="govuk-body">View buyer requirements for digital outcomes and user research participants.</p>
+          <p class="govuk-body govuk-hint">Please note that all updates (projects, status changes) will be applied over night GMT time. </p>
       </div>
     </div>
 
@@ -550,13 +551,13 @@
                     <div id="rightSidefooterCotainer" class="hidefoot">
                       {% if (search_data.totalResults == 0) %}
                         <h3 class="govuk-heading-m">Improve your search results by:</h3>
-                        <ul class="govuk-list govuk-!-margin-top-0">
-                          <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>
-                      </li>choosing a different category</li><br>
-                  </li>double-checking your spelling</li><br>
-              </li>using fewer keywords</li><br>
-          </li>searching for something less specific, you can refine your results later</li><br>
-      </ul>
+                      
+                          <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>
+                      <li>choosing a different category</li>
+                  <li>double-checking your spelling</li>
+              <li>using fewer keywords</li>
+          <li>searching for something less specific, you can refine your results later</li>
+      
     </ul>
   {% endif %}
 </div>
