@@ -992,7 +992,8 @@ function removeURLParameter(url, parameter) {
 
 document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
     event.addEventListener('change', function (event) {
-     // /g-cloud/search
+      
+
       let eventFilterType;
       let filterName = this.getAttribute('name');//$(this).attr("name");
       let filterValue = this.getAttribute('value');//$(this).attr("value");
@@ -1014,6 +1015,9 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         $(".locationCount").removeClass("hide");
         $('.locationCount').html(locationlengthcheck+' selected');
       }
+
+   
+      
 
       if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
     
@@ -1045,6 +1049,28 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
 
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
+      
+          $('.hidefoot').hide();
+          var footLothtml = '';
+          if(totalResults==0){
+          
+            $('.hidefoot').show();
+            footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+            footLothtml +='<ul class="govuk-list govuk-!-margin-top-0">';
+            footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2"></li>removing filters</li><br>';
+            footLothtml +=' </li>choosing a different category</li><br>';
+            footLothtml +=' </li>double-checking your spelling</li><br>';
+            footLothtml +='</li>using fewer keywords</li><br>';
+            footLothtml +='</li>searching for something less specific, you can refine your results later</li><br>';
+            footLothtml +='</ul>';
+            footLothtml +='</ul>';
+            $('.hidefoot').html(footLothtml);
+          }
+          
+
+
+
+
         slist.classList.remove('loadingres');
         var Lothtml = '';
       if (result.njkDatas.haveLot == false) {
@@ -1684,6 +1710,7 @@ if (Searchinput) {
 if (document.querySelector(".oppurtunities_search_click")) {
 
   document.querySelector(".oppurtunities_search_click").addEventListener('click', function () {
+ 
     removeErrorFieldsEoiTerms();
     let searchQueryUrl = "";
    // document.getElementById('searchQuery').value = window.location.search;
@@ -1730,7 +1757,18 @@ if (document.querySelector(".oppurtunities_search_click")) {
       contentType: "application/json",
     }).done(function (result) {
       let totalResults =  result.search_data.totalResults;
-      $('#totalRecords').html(totalResults);
+      let titletxt =  result.titletxt;
+      let searchdata = result.searchdata;
+      let searchKey ="";
+      if(searchdata !='' && searchdata !=undefined){
+       
+        searchKey='containing <b>'+searchdata+'</b>'; 
+      }
+      //$('#totalRecords').html(totalResults);
+      
+       $('#totalRecordsNew').html('<b class="govuk-!-font-size-48"><span id="totalRecords">'+totalResults+'</span></b> results found '+searchKey+' in <b>'+titletxt+'</b>');
+      
+  
       $('.hidefoot').hide();
       var footLothtml = '';
       if(totalResults==0){
