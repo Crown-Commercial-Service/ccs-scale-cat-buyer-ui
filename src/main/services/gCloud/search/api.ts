@@ -2,6 +2,7 @@ import { genericFecthGet } from 'main/services/helpers/api';
 import { EndPoints, GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
 import { FetchResult } from 'main/services/types/helpers/api';
 import { baseURL } from './helpers';
+import { QueryParams } from 'main/services/types/helpers/url';
 
 const headers = () => ({
   'Content-Type': 'application/json',
@@ -13,7 +14,7 @@ const endPointWithIndex = (path: string) => {
 };
 
 // GET /:g-cloud-index/services/search
-const getServicesSearch = async (queryParams?: { [key: string]: string }): Promise<FetchResult<GCloudServiceSearch>> => {
+const getServicesSearch = async (queryParams?: QueryParams): Promise<FetchResult<GCloudServiceSearch>> => {
   return genericFecthGet<GCloudServiceSearch>(
     {
       baseURL: baseURL(),
@@ -25,7 +26,7 @@ const getServicesSearch = async (queryParams?: { [key: string]: string }): Promi
 };
 
 // GET /:g-cloud-index/services/aggregations
-const getServicesAggregations = async (queryParams?: { [key: string]: string }): Promise<FetchResult<GCloudServiceAggregations>> => {
+const getServicesAggregations = async (queryParams?: QueryParams): Promise<FetchResult<GCloudServiceAggregations>> => {
   return genericFecthGet<GCloudServiceAggregations>(
     {
       baseURL: baseURL(),

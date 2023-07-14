@@ -33,7 +33,7 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
     const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_data_loop = (
-        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], { currentPage: a })
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
       ).unwrap();
 
       const { userList } = organisation_user_data_loop ?? {};

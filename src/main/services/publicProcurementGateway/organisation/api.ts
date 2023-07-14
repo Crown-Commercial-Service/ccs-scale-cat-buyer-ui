@@ -10,20 +10,21 @@ const headers = () => ({
 });
 
 // GET /organisation-profiles/:organisation-id
-const getOrganisation = async (organisationId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<Organisation>> => {
+const getOrganisation = async (organisationId: string): Promise<FetchResult<Organisation>> => {
   return genericFecthGet<Organisation>(
     {
       baseURL: baseURL(),
       path: EndPoints.ORGANISATION,
       params: { organisationId },
-      queryParams: queryParams
     },
     headers()
   );
 };
 
 // GET /organisation-profiles/:organisation-id/users
-const getOrganisationUsers = async (organisationId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<OrganisationUsers>> => {
+const getOrganisationUsers = async (organisationId: string, currentPage?: number): Promise<FetchResult<OrganisationUsers>> => {
+  const queryParams = currentPage !== undefined ? { currentPage: String(currentPage) } : undefined;
+
   return genericFecthGet<OrganisationUsers>(
     {
       baseURL: baseURL(),
@@ -36,14 +37,13 @@ const getOrganisationUsers = async (organisationId: string, queryParams?: { [key
 };
 
 // GET /user-profiles
-const getUserProfiles = async (userId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<UserProfile>> => {
+const getUserProfiles = async (userId: string): Promise<FetchResult<UserProfile>> => {
   return genericFecthGet<UserProfile>(
     {
       baseURL: baseURL(),
       path: EndPoints.USER_PROFILES,
       queryParams: {
         'user-Id': userId,
-        ...queryParams
       }
     },
     headers()

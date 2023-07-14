@@ -86,28 +86,17 @@ Run all the test case:
 $ npm test
 ```
 
-Run the routes test case:
-
-```bash
-$ npm run test:routes
-```
-
-Run the unit test case:
-
-```bash
-$ npm run test:unit
-```
-
 Run the accessibility test case:
+
+**NOTE:** currently not enabled
 
 ```bash
 $ npm run test:a11y
 ```
+
 Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
 
 ### Test coverage
-
-**NOTE:** due to a memory issue, the cause of which is currently unknown, this script does not yet work
 
 We use [Instanbul nyc](https://github.com/istanbuljs/nyc).
 

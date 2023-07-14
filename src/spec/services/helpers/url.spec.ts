@@ -23,14 +23,34 @@ describe('URL helpers', () => {
       expect(formatURL({ baseURL, path, params: { userId: 'user-1234' } })).to.eq('http://example.com/test/:testId/user/user-1234');
     });
 
-    it('adds the query parameters', () => {
-      const path = '/test';
-      const queryParams = {
-        test: 'test',
-        myParam: 'myParam'
-      };
+    describe('when considering query params', () => {
+      it('adds the query parameters when the params are a string', () => {
+        const path = '/test';
+        const queryParams = 'test=test&myParam';
 
-      expect(formatURL({ baseURL, path, queryParams })).to.eq('http://example.com/test?test=test&myParam=myParam');
+        expect(formatURL({ baseURL, path, queryParams })).to.eq('http://example.com/test?test=test&myParam=');
+      });
+
+      it('adds the query parameters when the params are a record', () => {
+        const path = '/test';
+        const queryParams = {
+          test: 'test',
+          myParam: 'myParam'
+        };
+  
+        expect(formatURL({ baseURL, path, queryParams })).to.eq('http://example.com/test?test=test&myParam=myParam');
+      });
+
+      it('adds the query parameters when the params are an array of array', () => {
+        const path = '/test';
+        const queryParams = [
+          ['test', 'test'],
+          ['myParam', 'myParam'],
+          ['myParam', 'myOtherParam']
+        ];
+
+        expect(formatURL({ baseURL, path, queryParams })).to.eq('http://example.com/test?test=test&myParam=myParam&myParam=myOtherParam');
+      });
     });
 
     it('works when all params are passed', () => {
@@ -71,6 +91,36 @@ describe('URL helpers', () => {
       };
 
       expect(formatRelativeURL({ path, queryParams })).to.eq('/test?test=test&myParam=myParam');
+    });
+
+    describe('when considering query params', () => {
+      it('adds the query parameters when the params are a string', () => {
+        const path = '/test';
+        const queryParams = 'test=test&myParam';
+
+        expect(formatRelativeURL({ path, queryParams })).to.eq('/test?test=test&myParam=');
+      });
+
+      it('adds the query parameters when the params are a record', () => {
+        const path = '/test';
+        const queryParams = {
+          test: 'test',
+          myParam: 'myParam'
+        };
+  
+        expect(formatRelativeURL({ path, queryParams })).to.eq('/test?test=test&myParam=myParam');
+      });
+
+      it('adds the query parameters when the params are an array of array', () => {
+        const path = '/test';
+        const queryParams = [
+          ['test', 'test'],
+          ['myParam', 'myParam'],
+          ['myParam', 'myOtherParam']
+        ];
+
+        expect(formatRelativeURL({ path, queryParams })).to.eq('/test?test=test&myParam=myParam&myParam=myOtherParam');
+      });
     });
 
     it('works when all params are passed', () => {
