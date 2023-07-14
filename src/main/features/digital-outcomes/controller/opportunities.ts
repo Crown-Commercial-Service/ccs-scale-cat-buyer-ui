@@ -209,8 +209,16 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       if (response_data.totalResults != 0) {
         njkDatas.lotDetails.map((value: any) => {
           response_data.searchCriteria.lots.forEach((res: any) => {
-            if (res.id == value.id) {
-              value.count = res.count;
+            if (response_data.searchCriteria.lots.length == 1) {
+              if (res.id == value.id) {
+                value.count = res.count;
+              } else if (res.id != value.id) {
+                value.count = 0;
+              }
+            } else {
+              if (res.id == value.id) {
+                value.count = res.count;
+              }
             }
           });
         });
@@ -632,8 +640,16 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
       njkDatas.lotDetails.map((value: any) => {
         response_data.searchCriteria.lots.forEach((res: any) => {
-          if (res.id == value.id) {
-            value.count = res.count;
+          if (response_data.searchCriteria.lots.length == 1) {
+            if (res.id == value.id) {
+              value.count = res.count;
+            } else if (res.id != value.id) {
+              value.count = 0;
+            }
+          } else {
+            if (res.id == value.id) {
+              value.count = res.count;
+            }
           }
         });
       });
