@@ -28,7 +28,6 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
   const { agreement_id, proc_id, event_id, section } = req.query;
   let { id, group_id } = req.query;
   const lotId = req.session?.lotId;
-
   try {
     if (agreement_id != 'RM1043.8' && agreement_id != 'RM1557.13') {
       //XBN00121
@@ -1374,7 +1373,7 @@ function changeTitle(title) {
       text = 'Who the buying organisation is';
       break;
     case 'Market engagement to date':
-      text = "Describe any market engagement you've done";
+      text = 'Describe any market engagement you have done';
       break;
     case 'New, replacement or expanded services or products':
       text = 'Choose if this a new, replacement or expanded service or product';
