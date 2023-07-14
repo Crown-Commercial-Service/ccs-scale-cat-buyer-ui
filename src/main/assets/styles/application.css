@@ -3061,7 +3061,9 @@ p + .govuk-heading-s,
   margin-bottom: 5px;
   font-weight: 400;
 }
-
+.wraptext {
+  word-wrap: break-word;
+}
 @media (min-width: 40.0625em) {
   .govuk-summary-list__key {
     width: 30%;
