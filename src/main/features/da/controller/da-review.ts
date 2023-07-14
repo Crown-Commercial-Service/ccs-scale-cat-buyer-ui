@@ -675,7 +675,7 @@ const DA_REVIEW_RENDER_TEST = async (
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    const organizationID = req.session.user.payload.ciiOrgId;
+    const organizationID = req.session.user.ciiOrgId;
     const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
     const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
@@ -1105,15 +1105,7 @@ const DA_REVIEW_RENDER_TEST = async (
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -1394,14 +1386,6 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };

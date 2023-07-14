@@ -1886,7 +1886,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
       paginationHtml += '</div>';
       paginationHtml += '</div>';
       document.getElementById('paginationContainer').innerHTML = paginationHtml;
-
+      $("#clearfilter").attr("href", result.clearFilterURL);
       // $('#criteriasavebtn').prop('disabled', false);
       // $('#criteriasavebtn').removeClass('govuk-button--disabled');
       // $("#clearfilter").attr("href", result.clearFilterURL);

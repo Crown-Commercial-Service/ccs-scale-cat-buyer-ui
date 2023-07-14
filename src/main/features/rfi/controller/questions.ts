@@ -41,7 +41,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
-    const organizationID = req.session.user.payload.ciiOrgId;
+    const organizationID = req.session.user.ciiOrgId;
     const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
     const name = getOrganizationDetails.identifier.legalName;
     const organizationName = name;

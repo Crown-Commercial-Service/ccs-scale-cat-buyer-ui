@@ -92,8 +92,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
-    //const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
+    const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
+    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
+    //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
@@ -531,8 +532,9 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
-    // const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery}${statusQuery}${lotsQuery}`;
-    const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
+    const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
+    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
+    //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
 
