@@ -48,7 +48,7 @@
         "ccs-frontend-kit": "^1.1.4",
         "config": "^3.3.9",
         "connect-redis": "^7.1.0",
-        "cookie-parser": "^1.4.5",
+        "cookie-parser": "^1.4.6",
         "cookies": "^0.8.0",
         "csurf": "^1.11.0",
         "del": "^7.0.0",
