@@ -41,7 +41,7 @@
         "@types/json2csv": "^5.0.3",
         "@types/jsonwebtoken": "^9.0.2",
         "@types/node": "^18.16.0",
-        "@types/nunjucks": "^3.2.2",
+        "@types/nunjucks": "^3.2.3",
         "@types/require-directory": "^2.1.2",
         "@types/serve-favicon": "^2.5.3",
         "axios": "^0.21.4",
