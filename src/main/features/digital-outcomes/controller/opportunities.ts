@@ -260,6 +260,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       timelineQuestionGroups;
     const howWillScore: any = [];
     const assessmentquestions: any = [];
+    const contextGroup9Questions: any = [];
     let indicativedurationYear = '';
     let indicativedurationMonth = '';
     let indicativedurationDay = '';
@@ -355,6 +356,8 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
         );
         contextRequirementsGroups.map((value: any) => {
+          let usertypeVal: any, definitionVal: any;
+
           value.requirements.forEach((val: any) => {
             if (val['pattern']) {
               val.pattern = val.pattern ? JSON.parse(val.pattern) : [];
@@ -379,12 +382,37 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
                   }
                 }
               }
+              if (value.id == 'Group 9' && lot == '1') {
+                let questionvalue;
+                let questiondatas: any = [];
+                if (val.id == 'Question 1') {
+                  usertypeVal = val.pattern;
+                }
+                if (val.id == 'Question 2') {
+                  definitionVal = val.pattern;
+                }
+
+                if (usertypeVal != undefined && definitionVal != undefined) {
+                  usertypeVal.forEach((des: any, i: number) => {
+                    questionvalue = {
+                      usertype: usertypeVal[i].value,
+                      description: definitionVal[i].value,
+                    };
+                    questiondatas.push(questionvalue);
+                  });
+
+                  let questiondata = {
+                    groupId: value.id,
+                    data: questiondatas,
+                  };
+                  contextGroup9Questions.push(questiondata);
+                }
+              }
             }
           });
         });
       }
     });
-    //  console.log('assessmentquestions', JSON.stringify(assessmentquestions));
     // if(contextRequirements){
     //  ContextGroups =contextRequirements?.requirementGroups
     // }
@@ -396,6 +424,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       context_data: contextRequirementsGroups,
       assessment_Criteria: assessmentCriteriaGroups,
       assessmentquestions_data: assessmentquestions,
+      contextGroup9Questions_data: contextGroup9Questions,
       timeline_data: timelineQuestionGroups,
       howWillScore_data: howWillScore,
       currentLot: lot,
