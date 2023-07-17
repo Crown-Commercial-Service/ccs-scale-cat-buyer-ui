@@ -15,11 +15,7 @@ import { AuthCredentials, GrantType } from 'main/services/types/publicProcuremen
  * @param next123
  *
  */
-export const AUTH: Handler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const AUTH: Handler = async (req: Request, res: Response, next: NextFunction) => {
   const { SESSION_ID, state } = req.cookies;
   const requestURL = req.url;
 
@@ -111,7 +107,7 @@ const PERFORM_REFRESH_TOKEN = async (req: Request, res: Response, decodedPayload
     //@ Grant Authorization with the token to re-direct to the callback page
     const authCredentails: AuthCredentials = {
       grant_type: GrantType.REFRESH_TOKEN,
-      refresh_token: req.session.refresh_token
+      refresh_token: req.session.refresh_token,
     };
 
     try {
