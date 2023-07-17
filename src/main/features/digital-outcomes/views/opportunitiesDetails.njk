@@ -199,9 +199,9 @@
 
                         <div class="govuk-grid-column-full">
                             <p class="govuk-body govuk-!-font-weight-bold">Website:</p>
-                            {%if (arties.contactPoint.url)%}
+                            {%if (parties.contactPoint.url)%}
                                 <p class="govuk-body">
-                                    <a href="https://www.capita.com/" class="govuk-link">{{parties.contactPoint.url}}</a>
+                                    <a href="{{parties.contactPoint.url}}" class="govuk-link">{{parties.contactPoint.url}}</a>
                                 </p>
                                 {%endif%}
                             </div>
