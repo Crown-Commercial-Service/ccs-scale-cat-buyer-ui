@@ -18,12 +18,7 @@ describe('Organisation API helpers', () => {
   const restHandlers = [
     rest.get(`${baseURL}/organisation-profiles/${orgId}`, (req, res, ctx) => {
       if (matchHeaders(req, headers)) {
-        if(matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json({ identifier: { legalName: 'myOrgNoParam' } }));
-        }
-        if (matchQueryParams(req, '?my_param=myParam')) {
-          return res(ctx.status(200), ctx.json({ identifier: { legalName: 'myOrg' } }));
-        }
+        return res(ctx.status(200), ctx.json({ identifier: { legalName: 'myOrgNoParam' } }));
       }
 
       return res(ctx.status(400));
@@ -33,7 +28,7 @@ describe('Organisation API helpers', () => {
         if(matchQueryParams(req, '')) {
           return res(ctx.status(200), ctx.json({ pageCount: 1, userList: [{ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] }));
         }
-        if (matchQueryParams(req, '?my_param=myParam')) {
+        if (matchQueryParams(req, '?currentPage=12')) {
           return res(ctx.status(200), ctx.json({ pageCount: 1, userList: [{ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] }));
         }
       }
@@ -42,12 +37,7 @@ describe('Organisation API helpers', () => {
     }),
     rest.get(`${baseURL}/user-profiles`, (req, res, ctx) => {
       if (matchHeaders(req, headers)) {
-        if(matchQueryParams(req, `?user-Id=${userId}`)) {
-          return res(ctx.status(200), ctx.json({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }));
-        }
-        if (matchQueryParams(req, `?user-Id=${userId}&my_param=myParam`)) {
-          return res(ctx.status(200), ctx.json({ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }));
-        }
+        return res(ctx.status(200), ctx.json({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }));
       }
 
       return res(ctx.status(400));
@@ -69,13 +59,6 @@ describe('Organisation API helpers', () => {
       expect(findOrganisationResult.status).to.eq(FetchResultStatus.OK);
       expect(findOrganisationResult.data).to.eql({ identifier: { legalName: 'myOrgNoParam' } });
     });
-
-    it('calls the get organisation endpoint with the correct url, headers and query params', async () => {
-      const findOrganisationResult = await organisationAPI.getOrganisation(orgId, { my_param: 'myParam' }) as FetchResultOK<Organisation>;
-
-      expect(findOrganisationResult.status).to.eq(FetchResultStatus.OK);
-      expect(findOrganisationResult.data).to.eql({ identifier: { legalName: 'myOrg' } });
-    });
   });
 
   describe('getOrganisationUsers', () => {
@@ -87,7 +70,7 @@ describe('Organisation API helpers', () => {
     });
 
     it('calls the get organisation users endpoint with the correct url, headers and query params', async () => {
-      const getOrganisationUsersResult = await organisationAPI.getOrganisationUsers(orgId, { my_param: 'myParam' }) as FetchResultOK<OrganisationUsers>;
+      const getOrganisationUsersResult = await organisationAPI.getOrganisationUsers(orgId, 12) as FetchResultOK<OrganisationUsers>;
 
       expect(getOrganisationUsersResult.status).to.eq(FetchResultStatus.OK);
       expect(getOrganisationUsersResult.data).to.eql({ pageCount: 1, userList: [{ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] });
@@ -100,13 +83,6 @@ describe('Organisation API helpers', () => {
 
       expect(findUserProfileResult.status).to.eq(FetchResultStatus.OK);
       expect(findUserProfileResult.data).to.eql({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' });
-    });
-
-    it('calls the get user profile endpoint with the correct url, headers and query params', async () => {
-      const findUserProfileResult = await organisationAPI.getUserProfiles(userId, { my_param: 'myParam' }) as FetchResultOK<UserProfile>;
-
-      expect(findUserProfileResult.status).to.eq(FetchResultStatus.OK);
-      expect(findUserProfileResult.data).to.eql({ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' });
     });
   });
 });
