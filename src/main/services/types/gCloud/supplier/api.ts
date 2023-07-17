@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/_status',
   FILTERS = '/g-cloud-filters'
 }
 

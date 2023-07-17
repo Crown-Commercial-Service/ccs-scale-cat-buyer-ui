@@ -8,7 +8,7 @@ import { Event } from '@common/middlewares/models/tendersService/event';
 const getEvents = async (accessToken: string, projectId: string): Promise<FetchResult<Event[]>> => {
   return genericFecthGet<Event[]>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.EVENTS,
       params: { projectId }
     },

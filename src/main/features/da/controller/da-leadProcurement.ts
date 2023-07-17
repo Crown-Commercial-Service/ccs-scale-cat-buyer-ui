@@ -1,13 +1,13 @@
 //@ts-nocheck
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const organization_id = req.session.user.payload.ciiOrgId;
+  const organization_id = req.session.user.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
   const { projectId, isJaggaerError } = req.session;
@@ -21,20 +21,20 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
     //CAS-INFO-LOG
     LoggTracer.infoLogger(usersTemp, logConstant.userDetailFetch, req);
     usersTemp = usersTemp.data;
-    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    let dataRaw = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    const organisation_user_data = (
+      await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])
+    ).unwrap();
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(dataRaw, logConstant.collaboratorDetailFetch, req);
+    LoggTracer.infoLogger(organisation_user_data, logConstant.collaboratorDetailFetch, req);
 
-    dataRaw = dataRaw.data;
-    const { pageCount } = dataRaw;
+    const { pageCount } = organisation_user_data;
     const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop
-      );
-      const { userList } = organisation_user_data_loop?.data ?? {};
+      const organisation_user_data_loop = (
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], { currentPage: a })
+      ).unwrap();
+
+      const { userList } = organisation_user_data_loop ?? {};
       usersRaw.push(...userList);
     }
 

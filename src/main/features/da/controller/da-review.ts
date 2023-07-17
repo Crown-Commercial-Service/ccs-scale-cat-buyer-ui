@@ -15,10 +15,10 @@ import momentnew from 'moment';
 import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -675,10 +675,9 @@ const DA_REVIEW_RENDER_TEST = async (
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data?.identifier?.legalName;
+    const organizationID = req.session.user.ciiOrgId;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
 
     //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -1106,15 +1105,7 @@ const DA_REVIEW_RENDER_TEST = async (
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -1395,14 +1386,6 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };

@@ -37,7 +37,7 @@ export class LoggTracer {
       time: new Date(),
     };
     if (process.env.LOGIT_API_KEY != '') {
-      await LoggerInstance.Instance.post('', LogMessage);
+      await LoggerInstance.Instance().post('', LogMessage);
     }
   };
 

@@ -2,7 +2,6 @@
 import * as express from 'express';
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/questions';
@@ -17,6 +16,7 @@ import moment from 'moment';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  * @Controller
@@ -42,7 +42,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     //Lot Supplier Count  --> CurrentLotSupplierCount
     let CurrentLotSupplierCount = null;
     if (agreement_id == 'RM1043.8') {
-      const retrieveAgreementSuppliers = (await agreementsService.api.getAgreementLotSuppliers(agreement_id, req.session?.lotId)).unwrap();
+      const retrieveAgreementSuppliers = (
+        await agreementsService.api.getAgreementLotSuppliers(agreement_id, req.session?.lotId)
+      ).unwrap();
       CurrentLotSupplierCount = retrieveAgreementSuppliers.length;
     }
 
@@ -60,12 +62,11 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+    const organizationID = req.session.user.ciiOrgId;
     //Gettin organization details
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
 
-    const name = getOrganizationDetails.data.identifier.legalName;
+    const name = getOrganizationDetails.identifier.legalName;
     const organizationName = name;
 
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
@@ -341,15 +342,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     LoggTracer.infoLogger(null, data.rfpTitle, req);
     res.render('rfp-question-assessment', data);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -868,15 +861,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   }
                 }
               } catch (error) {
-                LoggTracer.errorLogger(
-                  res,
-                  error,
-                  null,
-                  null,
-                  null,
-                  null,
-                  false
-                );
+                LoggTracer.errorLogger(res, error, null, null, null, null, false);
               }
             }
           }
@@ -908,15 +893,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
       res.redirect('/error');
     }
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -1044,54 +1021,54 @@ const isDateOlder = (date1: any, date2: any) => {
 const mapTitle = (groupId, agreement_id, lotId) => {
   let title = '';
   switch (groupId) {
-  case 'Group 4':
-    title = 'technical';
-    break;
-  case 'Group 5':
-    if (agreement_id == 'RM1043.8') {
-      title = 'essential skills and experience';
-    } else {
-      title = 'cultural';
-    }
-    break;
-  case 'Group 6':
-    if (agreement_id == 'RM1043.8') {
-      title = 'nice-to-have skills and experience';
-    } else {
-      title = 'social value';
-    }
-    break;
-  case 'Group 7':
-    if (agreement_id == 'RM1043.8') {
-      title = 'technical questions';
-    } else {
-      title = '';
-    }
-    break;
-  case 'Group 8':
-    if (agreement_id == 'RM1043.8') {
-      if (lotId == 3) {
-        title = 'social value questions';
+    case 'Group 4':
+      title = 'technical';
+      break;
+    case 'Group 5':
+      if (agreement_id == 'RM1043.8') {
+        title = 'essential skills and experience';
       } else {
-        title = 'cultural fit';
+        title = 'cultural';
       }
-    } else {
-      title = '';
-    }
-    break;
-  case 'Group 9':
-    if (agreement_id == 'RM1043.8') {
-      if (lotId == 3) {
+      break;
+    case 'Group 6':
+      if (agreement_id == 'RM1043.8') {
+        title = 'nice-to-have skills and experience';
+      } else {
+        title = 'social value';
+      }
+      break;
+    case 'Group 7':
+      if (agreement_id == 'RM1043.8') {
+        title = 'technical questions';
+      } else {
         title = '';
-      } else {
-        title = 'social value questions';
       }
-    } else {
-      title = '';
-    }
-    break;
-  default:
-    return '';
+      break;
+    case 'Group 8':
+      if (agreement_id == 'RM1043.8') {
+        if (lotId == 3) {
+          title = 'social value questions';
+        } else {
+          title = 'cultural fit';
+        }
+      } else {
+        title = '';
+      }
+      break;
+    case 'Group 9':
+      if (agreement_id == 'RM1043.8') {
+        if (lotId == 3) {
+          title = '';
+        } else {
+          title = 'social value questions';
+        }
+      } else {
+        title = '';
+      }
+      break;
+    default:
+      return '';
   }
   return title;
 };

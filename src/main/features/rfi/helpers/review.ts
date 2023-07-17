@@ -10,12 +10,12 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { reverse } from 'dns';
 import common from 'mocha/lib/interfaces/common';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 export const RFI_REVIEW_HELPER = async (
   req: express.Request,
@@ -62,10 +62,9 @@ export const RFI_REVIEW_HELPER = async (
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
 
-      const organizationID = req.session.user.payload.ciiOrgId;
-      const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-      const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-      const name = getOrganizationDetails.data.identifier.legalName;
+      const organizationID = req.session.user.ciiOrgId;
+      const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+      const name = getOrganizationDetails.identifier.legalName;
       const organizationName = name;
 
       //CAS-INFO-LOG
@@ -195,11 +194,6 @@ export const RFI_REVIEW_HELPER = async (
                 //DSP
                 for (let i = 0; i < tempGroup4.answer.length; i++) {
                   if (tempGroup4.answer[i].question === 'Name of the organisation doing the procurement') {
-                    // const organizationID = req.session.user.payload.ciiOrgId;
-                    // const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-                    // const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-                    // const name = getOrganizationDetails.data.identifier.legalName;
-                    // const organizationName = name;
                     tempGroup4.answer[i].values = [
                       {
                         value: organizationName,
@@ -267,8 +261,8 @@ export const RFI_REVIEW_HELPER = async (
         a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
           ? -1
           : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-            ? 1
-            : 0
+          ? 1
+          : 0
       );
       const supplierLength = supplierList.length;
       // supplier filtered list end
@@ -324,15 +318,7 @@ export const RFI_REVIEW_HELPER = async (
 
       res.render('review', appendData);
     } catch (error) {
-      LoggTracer.errorLogger(
-        res,
-        error,
-        null,
-        null,
-        null,
-        null,
-        false
-      );
+      LoggTracer.errorLogger(res, error, null, null, null, null, false);
     }
   }
 };

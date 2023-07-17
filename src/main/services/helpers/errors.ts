@@ -1,8 +1,12 @@
 import { HTTPMethod } from '../types/helpers/api';
 
 class FetchError extends Error {
+  public status: number;
+
   constructor(method: HTTPMethod, url: string, status: number) {
     super(`The call ${method} ${url} returned an unexpected status: ${status}`);
+
+    this.status = status;
   }
 }
 

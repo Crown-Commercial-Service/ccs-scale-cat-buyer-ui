@@ -1,0 +1,91 @@
+{% extends "template.njk" %}
+
+
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Digital Outcomes opportunitiest | Contract Award Service' %}
+
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Digital Outcomes opportunities",
+            "href": ""
+        },
+        {
+            "text": "Dorset ICS Integration and Interoperability Review & Recommendation",
+            "href": "#"
+        },
+        {
+            "text": "Details: Dorset ICS Integration and Interoperability Review & Recommendation",
+            "href": "#"
+        }
+    ]
+      }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if(error) %}
+    
+    {{ CCSErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: error
+        }
+      ]
+    }) }}
+    {%endif %}
+
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Clarifications: Dorset ICS Integration and Interoperability Review & Recommendation</h1>
+    </div>
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-6">Questions and clarifications</h2>
+        <p class="govuk-body">            
+            Below is a list of the 4 questions and clarifications relating to this opportunity.
+        </p>
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body"><strong>1. Figam?</strong></p>
+        <p class="govuk-body">No Figma</p>
+        <p class="govuk-body">Last Updated : <strong>26/04/2023</strong></p>                        
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body"><strong>2. Figam?</strong></p>
+        <p class="govuk-body">No FigJam</p>
+        <p class="govuk-body">Last Updated : <strong>26/04/2023</strong></p>                        
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body"><strong>3. Figam?</strong></p>
+        <p class="govuk-body">Yes</p>
+        <p class="govuk-body">Last Updated : <strong>26/04/2023</strong></p>                        
+    </div>
+</div>
+<div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body"><strong>4. FigJam?</strong></p>
+        <p class="govuk-body">Yes FigJam</p>
+        <p class="govuk-body">Last Updated : <strong>26/04/2023</strong></p>                        
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-button-group">
+            <a class="govuk-link" href="#">Return to Dorset ICS Integration and Interoperability Review & Recommendation</a>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock %}

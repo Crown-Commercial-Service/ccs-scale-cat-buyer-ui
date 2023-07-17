@@ -67,7 +67,7 @@ const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: Format
     let responseData: T;
 
     performanceLogger.startTimer();
- 
+
     if (cacheOptions) {
       responseData = await getCachedData(cacheOptions.key);
     }
@@ -137,12 +137,14 @@ const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: s
  * @param timeout 
  * @returns 
  */
-const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, data?: { [key: string]: string }, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, data?: { [key: string]: string } | string, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
+  const body = typeof data === 'string' ? data : JSON.stringify(data ?? {});
+
   return genericFetch<T>(
     {
       method: HTTPMethod.POST,
       headers: headers,
-      body: JSON.stringify(data ?? {})
+      body: body
     },
     urlParams,
     undefined,

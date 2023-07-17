@@ -11,6 +11,7 @@ import {
   dateFilterDDMMYYYY,
   dateFilterHHMMDDMMYYYY,
   dateFilterDD_MM_YYYY,
+  dateFilterDDMMYYYYHHMM,
 } from './filters/dateFilter';
 import { stringFilter } from './filters/stringFilter';
 import { jsonFilter, jsontoStringFilter } from './filters/jsonFilter';
@@ -30,6 +31,7 @@ const initNunjucks = (app: Application, isDev: boolean): void => {
     path.join(__dirname, '..', '..', 'features', 'fca', 'views'),
     path.join(__dirname, '..', '..', 'features', 'da', 'views'),
     path.join(__dirname, '..', '..', 'features', 'g-cloud', 'views'),
+    path.join(__dirname, '..', '..', 'features', 'digital-outcomes', 'views'),
   ];
 
   app.set('view engine', 'njk');
@@ -56,6 +58,7 @@ const initNunjucks = (app: Application, isDev: boolean): void => {
   nunjucksEnv.addFilter('dateddmmyyyy', dateFilterDDMMYYYY);
   nunjucksEnv.addFilter('timedateddmmyyyy', dateFilterHHMMDDMMYYYY);
   nunjucksEnv.addFilter('datedd_mm_yyyy', dateFilterDD_MM_YYYY);
+  nunjucksEnv.addFilter('datedd_mm_yyyyhhmm', dateFilterDDMMYYYYHHMM);
 
   // Middleware to expose the request path to the response locals
   app.use((req: Request, res: Response, next: NextFunction) => {
