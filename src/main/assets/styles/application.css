@@ -158,7 +158,10 @@
   padding-left: 0;
   list-style-type: none;
 }
-
+.link-disabled
+{
+  cursor:none
+}
 @media print {
   .govuk-list {
     font-family: sans-serif;
