@@ -47,11 +47,23 @@
         </div>
         {%endif%}
 
-        {%if (subStatus=="before-the-deadline-passes" or subStatus=="after-the-deadline-passes")%}
+        {%if (subStatus=="before-the-deadline-passes")%}
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-three-quarters">
                     <div class="govuk-!-padding-4 banner-warning govuk-!-margin-bottom-8">
-                        <h2 class="govuk-heading-m govuk-!-margin-bottom-4">This opportunity was {{tenderStatus}}
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-4">This opportunity was withdrawn
+                        </h2>
+                        <p class="govuk-body govuk-!-margin-bottom-0">This opportunity is not open for applications. </p>
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+
+    {%if (subStatus=="after-the-deadline-passes")%}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-three-quarters">
+                    <div class="govuk-!-padding-4 banner-warning govuk-!-margin-bottom-8">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-4">This opportunity was cancelled
                         </h2>
                         <p class="govuk-body govuk-!-margin-bottom-0">This opportunity is not open for applications. </p>
                     </div>
