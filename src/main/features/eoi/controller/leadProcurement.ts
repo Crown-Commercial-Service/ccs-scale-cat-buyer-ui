@@ -51,7 +51,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       if (leaderFound) {
         leader = leaderFound.OCDS.id;
       } else {
-        const { sub: defaultLeader } = req.session.user.payload;
+        const { sub: defaultLeader } = req.session.user;
         leader = defaultLeader;
       }
       const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
