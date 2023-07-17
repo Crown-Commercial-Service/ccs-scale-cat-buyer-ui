@@ -56,7 +56,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
     const allUserStorge = [];
     for (let a = 1; a <= pageCount; a++) {
       const organisation_user_data_loop = (
-        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], { currentPage: a })
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
       ).unwrap();
 
       const { userList } = organisation_user_data_loop ?? {};
