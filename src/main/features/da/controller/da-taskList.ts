@@ -212,14 +212,15 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
     res.render('daw-taskList', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Service - status failed - DA TaskList Page',
-      true
-    );
+    console.log('error', error);
+    // LoggTracer.errorLogger(
+    //   res,
+    //   error,
+    //   `${req.headers.host}${req.originalUrl}`,
+    //   null,
+    //   TokenDecoder.decoder(SESSION_ID),
+    //   'Service - status failed - DA TaskList Page',
+    //   true
+    // );
   }
 };

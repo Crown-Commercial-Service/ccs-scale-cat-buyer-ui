@@ -53,7 +53,7 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     collaboratorData = collaboratorData.data;
     const userData: any = collaboratorData;
     const leadUser = userData?.filter((leaduser: any) => leaduser?.nonOCDS.projectOwner === true)[0];
-    const userIsLead = leadUser?.OCDS.id === req.session.user.payload.sub;
+    const userIsLead = leadUser?.OCDS.id === req.session.user.sub;
     if (!Array.isArray(req.session['searched_user'])) {
       collaborator = { fullName: fullName, email: userName };
     } else {
