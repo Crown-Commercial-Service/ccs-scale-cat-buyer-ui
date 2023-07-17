@@ -41,7 +41,7 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
     } else {
       filterURL = 'g-cloud-filters';
     }
-
+    console.log('filterURL', filterURL);
     const clearFilterURL = `/g-cloud/search?${keywordsQuery}${lotsQuery}${serviceCategoriesQuery}${parentCategoryQuery}`;
 
     const { data: filterData } = await gCloudApi.supplierInstance(GCLOUD_TOKEN).get(filterURL);
@@ -120,12 +120,14 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
     req.session.searchUrl = searchUrl.replace('?', '');
     req.session.searchResultsUrl = searchResultsUrl.replace('?', '');
     const JointURL = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`;
+    console.log('JointURL', JointURL);
     let servicesList;
     try {
       servicesList = (await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL)).data;
     } catch (error) {
       servicesList = {};
     }
+    console.log('servicesList', JSON.stringify(servicesList));
 
     req.session.searchednoOfPages = Math.round(
       Number(servicesList?.meta?.total) / Number(servicesList?.meta?.results_per_page)

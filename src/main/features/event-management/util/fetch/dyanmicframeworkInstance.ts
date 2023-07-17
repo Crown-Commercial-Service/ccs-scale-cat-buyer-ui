@@ -32,4 +32,12 @@ export class DynamicFrameworkInstance {
       responseType: 'stream',
     });
   };
+
+  static file_dowload_Instance_Public = () => {
+    return axios.default.create({
+      baseURL: process.env.TENDERS_SERVICE_API_URL,
+      headers: {},
+      responseType: 'stream',
+    });
+  };
 }

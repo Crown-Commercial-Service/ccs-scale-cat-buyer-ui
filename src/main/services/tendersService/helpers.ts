@@ -1,4 +1,4 @@
-const baseURL: string = process.env.TENDERS_SERVICE_API_URL;
+const baseURL = () => process.env.TENDERS_SERVICE_API_URL;
 
 const headers = (accessToken: string) => {
   return {

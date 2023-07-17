@@ -1,13 +1,13 @@
 //@ts-nocheck
-import { OrganizationInstance } from './../util/fetch/organizationuserInstance';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const organization_id = req.session.user.payload.ciiOrgId;
+  const organization_id = req.session.user.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
   const { projectId, isJaggaerError } = req.session;
@@ -23,20 +23,21 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     //CAS-INFO-LOG
     LoggTracer.infoLogger(usersTempData, logConstant.rfigetUserDetails, req);
 
-    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    const dataRaw = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+    const organisation_user_data = (
+      await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])
+    ).unwrap();
 
     //CAS-INFO-LOG
-    LoggTracer.infoLogger(dataRaw, logConstant.rfigetUserOrgProfile, req);
+    LoggTracer.infoLogger(organisation_user_data, logConstant.rfigetUserOrgProfile, req);
 
-    const { pageCount } = dataRaw.data;
+    const { pageCount } = organisation_user_data;
     const usersRaw = [];
     for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop
-      );
-      const { userList } = organisation_user_data_loop?.data ?? {};
+      const organisation_user_data_loop = (
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
+      ).unwrap();
+
+      const { userList } = organisation_user_data_loop ?? {};
       usersRaw.push(...userList);
     }
 
@@ -51,7 +52,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       if (leaderFound) {
         leader = leaderFound.OCDS.id;
       } else {
-        const { sub: defaultLeader } = req.session.user.payload;
+        const { sub: defaultLeader } = req.session.user;
         leader = defaultLeader;
       }
       const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
