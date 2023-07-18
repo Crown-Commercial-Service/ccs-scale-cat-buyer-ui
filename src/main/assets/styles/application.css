@@ -161,7 +161,7 @@
 
 .link-disabled
 {
-  cursor:none
+  cursor:default
 }
 
 @media print {
