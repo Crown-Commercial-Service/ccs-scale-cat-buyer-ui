@@ -408,25 +408,26 @@
                           <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
                             {{form.location}}
                           </p>
-                          {%if(form.budgetRange != 'Not prepared to share details' and form.budgetRange !='')%}
-                          <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
-                          {%endif%}
-                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
-                          {%if(form.status == 'open')%}
-                            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
-                            {%else%}
-                            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status | capitalize}} : {{form.subStatus}}</p>
 
+                          {%if(form.budgetRange != 'Not prepared to share details' and form.budgetRange !='')%}
+                            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
                             {%endif%}
-                            {%if(form.description != 'undefined')%}
-                              <p class="govuk-body govuk-!-font-size-16 wraptext">
-                                {{form.description}}
-                              </p>
+                            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
+                            {%if(form.status == 'open')%}
+                              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
+                              {%else%}
+                              <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status | capitalize}} : {{form.subStatus}}</p>
+
                               {%endif%}
-                            </li>
-                          {% endfor %}
-                        </ul>
-                        {# <div class="app-search-result-nodata">
+                              {%if(form.description != 'undefined')%}
+                                <p class="govuk-body govuk-!-font-size-16 wraptext">
+                                  {{form.description}}
+                                </p>
+                                {%endif%}
+                              </li>
+                            {% endfor %}
+                          </ul>
+                          {# <div class="app-search-result-nodata">
                     <p class="govuk-body">Improve your search results by:</p>
                     <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4" id="">
                       <li>
@@ -448,128 +449,128 @@
 
                   </div> #}
 
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="govuk-grid-row" id="paginationContainer">
-                    <div class="govuk-grid-column-full">
-                      {# <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"> #}
-                      <div class="govuk-grid-column-one-half">
-                        {% if (njkDatas.PrvePageUrl != '') %}
-                          {% if (njkDatas.CurrentPageNumber != 1) %}
-                            <p class="govuk-body govuk-!-margin-0">
-                              <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
-                                <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                  <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                                </svg>
-            Previous Page</a>
-                            </p>
-                            <p class="govuk-body govuk-!-margin-0">
-                              <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">{{njkDatas.PreviousPageNumber}} of {{njkDatas.noOfPages}}</a>
-                            </p>
-                          {% endif %}
-                        {% endif %}
-                      </div>
-
-                      {% if (njkDatas.CurrentPageNumber !== 1) %}
-                        <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                          {%else%}
-                          <div class="govuk-grid-column-one-half ">
-                          {% endif %}
-
-                          {% if (njkDatas.NextPageUrl !== '') %}
-                            {% if(njkDatas.LastPageNumber !== njkDatas.CurrentPageNumber)%}
+                    <div class="govuk-grid-row" id="paginationContainer">
+                      <div class="govuk-grid-column-full">
+                        {# <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"> #}
+                        <div class="govuk-grid-column-one-half">
+                          {% if (njkDatas.PrvePageUrl != '') %}
+                            {% if (njkDatas.CurrentPageNumber != 1) %}
                               <p class="govuk-body govuk-!-margin-0">
-                                <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
-                                  <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
+                                  <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                    <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
                                   </svg>
-            Next Page</a>
+            Previous Page</a>
                               </p>
-
                               <p class="govuk-body govuk-!-margin-0">
-                                <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
-                                  {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
-                                </a>
+                                <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">{{njkDatas.PreviousPageNumber}} of {{njkDatas.noOfPages}}</a>
                               </p>
                             {% endif %}
                           {% endif %}
                         </div>
-                      </div>
-                    </div>
-                    <div id="paginationContainer11">
-                      {% if (data.meta.total > 0) %}
-                        <div class="govuk-grid-row">
-                          <div class="govuk-grid-column-full">
-                            <!--Place For Pagination-->
-                            <div class="govuk-grid-column-one-half">
-                              <div>
-              &nbsp;
-              {% if (njkDatas.PrvePageUrl != '') %}
-                                  {% if (njkDatas.CurrentPageNumber != 1) %}
-                                    <p class="govuk-body govuk-!-margin-0">
-                                      <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
-                                        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-                                        </svg>
-                        Previous Page</a>
-                                    </p>
-                                    <p class="govuk-body govuk-!-margin-0">
-                                      <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
-                                    </p>
-                                  {% endif %}
-                                {% endif %}
-                              </div>
-                            </div>
 
-                            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                              <div>
-            &nbsp;
-            {% if (njkDatas.NextPageUrl != '') %}
-                                  <p class="govuk-body govuk-!-margin-0">
-                                    <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
-                                      <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
-                                        <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-                                      </svg>
-                  Next Page </a>
-                                  </p>
-                                {% endif %}
+                        {% if (njkDatas.CurrentPageNumber !== 1) %}
+                          <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                            {%else%}
+                            <div class="govuk-grid-column-one-half ">
+                            {% endif %}
+
+                            {% if (njkDatas.NextPageUrl !== '') %}
+                              {% if(njkDatas.LastPageNumber !== njkDatas.CurrentPageNumber)%}
                                 <p class="govuk-body govuk-!-margin-0">
-                                  <label class="govuk-!-font-size-16">
-                                    {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
-                                      {{njkDatas.CurrentPageNumber}} of 1
-                   {% else %}
-                                      {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
-                                    {% endif %}
-                                  </label>
+                                  <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">
+                                    <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                      <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                    </svg>
+            Next Page</a>
                                 </p>
-                              </div>
-                            </div>
 
+                                <p class="govuk-body govuk-!-margin-0">
+                                  <a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="">
+                                    {{njkDatas.NextPageNumber}} of {{njkDatas.noOfPages}}
+                                  </a>
+                                </p>
+                              {% endif %}
+                            {% endif %}
                           </div>
                         </div>
-                      {% endif %}
-                    </div>
+                      </div>
+                      <div id="paginationContainer11">
+                        {% if (data.meta.total > 0) %}
+                          <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                              <!--Place For Pagination-->
+                              <div class="govuk-grid-column-one-half">
+                                <div>
+              &nbsp;
+              {% if (njkDatas.PrvePageUrl != '') %}
+                                    {% if (njkDatas.CurrentPageNumber != 1) %}
+                                      <p class="govuk-body govuk-!-margin-0">
+                                        <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
+                                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                          </svg>
+                        Previous Page</a>
+                                      </p>
+                                      <p class="govuk-body govuk-!-margin-0">
+                                        <label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label>
+                                      </p>
+                                    {% endif %}
+                                  {% endif %}
+                                </div>
+                              </div>
 
-                    <div id="rightSidefooterCotainer" class="hidefoot">
-                      {% if (search_data.totalResults == 0) %}
-                        <h3 class="govuk-heading-m">Improve your search results by:</h3>
+                              <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                                <div>
+            &nbsp;
+            {% if (njkDatas.NextPageUrl != '') %}
+                                    <p class="govuk-body govuk-!-margin-0">
+                                      <a href="/digital-outcomes-and-specialists/opportunities?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationOppUrlClass">
+                                        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                                          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                        </svg>
+                  Next Page </a>
+                                    </p>
+                                  {% endif %}
+                                  <p class="govuk-body govuk-!-margin-0">
+                                    <label class="govuk-!-font-size-16">
+                                      {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
+                                        {{njkDatas.CurrentPageNumber}} of 1
+                   {% else %}
+                                        {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
+                                      {% endif %}
+                                    </label>
+                                  </p>
+                                </div>
+                              </div>
 
-                        <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet">
-                          <li>removing filters</li>
-                          <li>choosing a different category</li>
-                          <li>double-checking your spelling</li>
-                          <li>using fewer keywords</li>
-                          <li>searching for something less specific, you can refine your results later</li>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
 
-                        </ul>
-                      {% endif %}
+                      <div id="rightSidefooterCotainer" class="hidefoot">
+                        {% if (search_data.totalResults == 0) %}
+                          <h3 class="govuk-heading-m">Improve your search results by:</h3>
+
+                          <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet">
+                            <li>removing filters</li>
+                            <li>choosing a different category</li>
+                            <li>double-checking your spelling</li>
+                            <li>using fewer keywords</li>
+                            <li>searching for something less specific, you can refine your results later</li>
+
+                          </ul>
+                        {% endif %}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              {% block mcf3helpSection%}
-                {{mcf3helpSection()}}
-              {% endblock %}
-            </main>
-          {% endblock %}
+                {% block mcf3helpSection%}
+                  {{mcf3helpSection()}}
+                {% endblock %}
+              </main>
+            {% endblock %}
