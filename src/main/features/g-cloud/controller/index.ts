@@ -3,7 +3,7 @@ import { POST_SAVE_YOUR_SEARCH_RESULTS, POST_SAVE_YOUR_SEARCH, GET_SAVE_YOUR_SEA
 import { GET_DOWNLOAD_YOUR_SEARCH } from './downloadYourSearch';
 import { GET_NEW_SEARCH, POST_NEW_SEARCH } from './newSearch';
 import { GET_EXPORT_RESULTS, POST_EXPORT_RESULTS } from './exportResults';
-import { GET_SEARCH, GET_SEARCH_API } from './search';
+import { GET_SEARCH } from './search';
 import { GET_SAVED_SEARCHES, DELETE_SAVED_SEARCHES } from './savedSearches';
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject';
 import {
@@ -33,7 +33,6 @@ export const gcloudController = {
   GET_SEARCH,
   GET_SAVED_SEARCHES,
   DELETE_SAVED_SEARCHES,
-  GET_SEARCH_API,
   GET_NAME_PROJECT,
   POST_NAME_PROJECT,
   GET_SAVE_YOUR_SEARCH,

@@ -5,6 +5,8 @@ declare module 'express-session' {
     user: { [key: string]: any };
     historicalEvents: Project[];
     openProjectActiveEvents: Project[];
+    searchUrlQuery: string[][]
+    searchResultsUrl: string
     [key: string]: any;
   }
 }

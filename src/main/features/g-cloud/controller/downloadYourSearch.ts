@@ -1,11 +1,11 @@
 import * as express from 'express';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { gCloudApi } from '../util/fetch/apiInstance';
 import * as downloadYourSearchData from '../../../resources/content/gcloud/downloadYourSearch.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
+import { DynamicFrameworkInstance } from 'main/features/da/util/fetch/dyanmicframeworkInstance';
 
 export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -18,7 +18,7 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
 
     if (download != undefined) {
       const downloadURL = `/assessments/${req.session.downloadassessmentID}/export/gcloud`;
-      const FetchDocuments = await gCloudApi.file_dowload_Instance(SESSION_ID).get(downloadURL, {
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(downloadURL, {
         responseType: 'arraybuffer',
       });
       //CAS-INFO-LOG

@@ -16,7 +16,6 @@ export enum GCloud_PATHS {
   GET_SEARCH = '/g-cloud/search',
   GET_SAVED_SEARCHES = '/g-cloud/saved-searches',
   DELETE_SAVED_SEARCHES = '/g-cloud/delete-saved-searches',
-  GET_SEARCH_API = '/g-cloud/search-api',
   GET_ADD_PROJECT_NAME = '/g-cloud/project-name',
   POST_ADD_PROJECT_NAME = '/g-cloud/project-name',
   GET_SERVICES = '/g-cloud/services',
