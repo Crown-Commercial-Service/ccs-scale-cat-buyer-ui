@@ -161,7 +161,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="govuk-accordion__section govuk-accordion__section_disabled">
+                          {# <div class="govuk-accordion__section govuk-accordion__section_disabled">
                             <div class="govuk-accordion__section-header">
                               <h2 class="govuk-accordion__section-heading">
 
@@ -197,6 +197,7 @@
                               </div>
                             </div>
                           </div>
+                           #}
                         </div>
                       </div>
                     </div>
@@ -407,8 +408,10 @@
                           <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
                             {{form.location}}
                           </p>
+                          {%if(form.budgetRange != 'Not prepared to share details' and form.budgetRange !='')%}
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
-                          <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
+                          {%endif%}
+                        <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
                           {%if(form.status == 'open')%}
                             <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
                             {%else%}
