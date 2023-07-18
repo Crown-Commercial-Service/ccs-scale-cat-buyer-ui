@@ -18,10 +18,8 @@ describe('G-Cloud Service API helpers', () => {
 
   const getServiceData: GCloudService = {
     serviceMadeUnavailableAuditEvent: null,
-    services: {
-      myService: true
-    }
-  };
+    services: { }
+  } as GCloudService;
   const getSupplierData: GCloudSupplier = {
     suppliers: {
       companiesHouseNumber: 'myCompaniesHouseNumber',
@@ -87,7 +85,9 @@ describe('G-Cloud Service API helpers', () => {
       },
       countersignedPath: 'myCountersignedPath',
       declaration: {
-        declaration: true
+        declaration: true,
+        modernSlaveryStatement: 'myModernSlaveryStatement',
+        modernSlaveryStatementOptional: 'myModernSlaveryStatementOptional'
       },
       frameworkFamily: 'myFrameworkFamily',
       frameworkFramework: 'myFrameworkFramework',

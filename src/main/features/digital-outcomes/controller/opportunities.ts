@@ -23,6 +23,8 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     let checkedOpen = '';
     let checkedClose = '';
     let pageUrl = '';
+    let statusLotsQuery = '';
+    let statusqry = '';
     // const url = req.originalUrl.toString();
     // console.log('url', url.indexOf('?'));
     // if (url.indexOf('?') != -1) {
@@ -57,6 +59,24 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           checkedClose = 'checked';
           pageUrl += `&status=${val}`;
         }
+        if (q != undefined) {
+          // statusqry += `&status=${status}`;
+          if (i == 0) {
+            statusqry += `&status=${val}`;
+          }
+          if (i == 1) {
+            statusqry += `&status=${val}`;
+          }
+          statusLotsQuery = status != undefined ? statusqry : '';
+        } else {
+          if (i == 0) {
+            statusqry += `status=${val}`;
+          }
+          if (i == 1) {
+            statusqry += `&status=${val}`;
+          }
+          statusLotsQuery = status != undefined ? statusqry : '';
+        }
       });
     } else {
       const options = {
@@ -73,6 +93,13 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       if (status == 'closed') {
         checkedClose = 'checked';
         pageUrl = `&status=${status}`;
+      }
+      if (q != undefined) {
+        statusqry += `&status=${status}`;
+        statusLotsQuery = status != undefined ? statusqry : '';
+      } else {
+        statusqry = `status=${status}`;
+        statusLotsQuery = status != undefined ? statusqry : '';
       }
     }
     const statusPageQuery = status != undefined ? pageUrl : '';
@@ -94,6 +121,17 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
+    //  const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${statusQuery}`;
+
+    const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    // if (q != undefined) {
+    //   statusLotsQuery = status != undefined ? `&status=${status}` : '';
+    // } else {
+    //   statusLotsQuery = status != undefined ? `status=${status}` : '';
+    // }
+    // console.log('statusLotsQuery', statusLotsQuery);
+    const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
+
     //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
@@ -228,6 +266,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
         });
       }
     }
+
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -243,6 +282,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       qtext: qtext,
       locations: locations,
       locationFilter: location,
+      AllLotsFilterURL,
     };
     res.render('opportunities', display_fetch_data);
   } catch (error) {
@@ -469,6 +509,8 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     let statusArray: any = [];
     const FilterQuery: any = [];
     let locationArray: any = [];
+    let statusqry = '';
+    let statusLotsQuery = '';
 
     //Location
     if (Array.isArray(location)) {
@@ -518,6 +560,24 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         if (val == 'closed') {
           pageUrl += `&status=${val}`;
         }
+        if (q != undefined) {
+          // statusqry += `&status=${status}`;
+          if (i == 0) {
+            statusqry += `&status=${val}`;
+          }
+          if (i == 1) {
+            statusqry += `&status=${val}`;
+          }
+          statusLotsQuery = status != undefined ? statusqry : '';
+        } else {
+          if (i == 0) {
+            statusqry += `status=${val}`;
+          }
+          if (i == 1) {
+            statusqry += `&status=${val}`;
+          }
+          statusLotsQuery = status != undefined ? statusqry : '';
+        }
       });
     } else {
       let options = {
@@ -532,6 +592,13 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       }
       if (status == 'closed') {
         pageUrl = `&status=${status}`;
+      }
+      if (q != undefined) {
+        statusqry += `&status=${status}`;
+        statusLotsQuery = status != undefined ? statusqry : '';
+      } else {
+        statusqry = `status=${status}`;
+        statusLotsQuery = status != undefined ? statusqry : '';
       }
     }
     // usingObjectAssign.forEach((val, i) => {
@@ -578,6 +645,9 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
     //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
+
+    const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
@@ -683,7 +753,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         });
       });
     }
-
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -693,6 +762,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       currentLot: lot,
       titletxt,
       searchdata: q,
+      AllLotsFilterURL,
     };
     res.json(display_fetch_data);
 

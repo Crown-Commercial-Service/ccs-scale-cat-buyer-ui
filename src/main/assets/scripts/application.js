@@ -1128,9 +1128,12 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</h2>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
           mainLothtml +='</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
           mainLothtml +='</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+          if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
+            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+          }
+
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
           if(val.status != undefined && val.status == 'closed' ){
               if(val.subStatus != undefined)
@@ -1226,7 +1229,7 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
     let slist = document.querySelector('.govuk-grid-sresult-right');
     slist.classList.add('loadingres')
     $('#criteriasavebtn').prop('disabled', true);
-    const baseAPIUrl = '/g-cloud/search-api';
+    const baseAPIUrl = '/g-cloud/search';
     $.ajax({
       url: `${baseAPIUrl}${finalTriggerUrl}`,
       type: "GET",
@@ -1537,7 +1540,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       document.getElementById('searchResultsContainer').innerHTML = '';
       document.getElementById('mainLotandcategoryContainer').innerHTML = '';
       document.getElementById('paginationContainer').innerHTML = '';
-      const baseAPIUrl = '/g-cloud/search-api';
+      const baseAPIUrl = '/g-cloud/search';
       let slist = document.querySelector('#searchResultsContainer');
       slist.classList.add('loadingres')
       $('#criteriasavebtn').prop('disabled', true);
@@ -1877,9 +1880,11 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</h2>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
          mainLothtml +='</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
          mainLothtml +='</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+         if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+        }
          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
          if(val.status != undefined && val.status == 'closed' ){
           if(val.subStatus != undefined)
