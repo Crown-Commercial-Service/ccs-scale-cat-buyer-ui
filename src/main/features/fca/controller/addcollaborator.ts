@@ -34,7 +34,8 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
         await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
       ).unwrap();
 
-      const { userList } = organisation_user_data_loop?.data ?? {};
+      //const { userList } = organisation_user_data_loop?.data ?? {};
+      const { userList } = organisation_user_data_loop ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;
