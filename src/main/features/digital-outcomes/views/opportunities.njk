@@ -32,14 +32,14 @@
     }
   ]
 }) }}
-    {%endif %} 
+    {%endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">
           <strong>Digital Outcomes opportunities</strong>
         </h1>
-         <p class="govuk-body">View buyer requirements for digital outcomes and user research participants.</p>
-          <p class="govuk-body govuk-hint">New projects and status changes will be visible after 24 hours. </p>
+        <p class="govuk-body">View buyer requirements for digital outcomes and user research participants.</p>
+        <p class="govuk-body govuk-hint">New projects and status changes will be visible after 24 hours. </p>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
         <div class="govuk-grid-row govuk-!-margin-top-4">
           <div class="govuk-grid-column-full govuk-list-filter-lots"  id="mainLotandcategoryContainer">
             {% if (njkDatas.haveLot) %}
-              <a class="govuk-link govuk-link--no-visited-state govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities">
+              <a class="govuk-link govuk-link--no-visited-state govuk-link-filter-main" href={{AllLotsFilterURL}}>
                 <strong>All lots</strong>
               </a>
               {%else%}
@@ -404,7 +404,7 @@
                           <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
                             {{form.buyerName}}
                           </p>
-                          <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
+                          <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">
                             {{form.location}}
                           </p>
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
@@ -551,21 +551,22 @@
                     <div id="rightSidefooterCotainer" class="hidefoot">
                       {% if (search_data.totalResults == 0) %}
                         <h3 class="govuk-heading-m">Improve your search results by:</h3>
-                      
-                          <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>
-                      <li>choosing a different category</li>
-                  <li>double-checking your spelling</li>
-              <li>using fewer keywords</li>
-          <li>searching for something less specific, you can refine your results later</li>
-      
-    </ul>
-  {% endif %}
-</div>
-</div>
-</div>
-</div>
-{% block mcf3helpSection%}
-{{mcf3helpSection()}}
-{% endblock %}
-</main>
-{% endblock %}
+
+                        <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet">
+                          <li>removing filters</li>
+                          <li>choosing a different category</li>
+                          <li>double-checking your spelling</li>
+                          <li>using fewer keywords</li>
+                          <li>searching for something less specific, you can refine your results later</li>
+
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% block mcf3helpSection%}
+                {{mcf3helpSection()}}
+              {% endblock %}
+            </main>
+          {% endblock %}
