@@ -7,6 +7,7 @@ enum EndPoints {
 type GCloudService = {
   links: {
     next: string
+    prev: string
   }
   meta: {
     query: { [key: string]: string }
