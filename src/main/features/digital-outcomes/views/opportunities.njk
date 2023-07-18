@@ -408,7 +408,9 @@
                           <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">
                             {{form.location}}
                           </p>
+                          {%if(form.budgetRange != 'Not prepared to share details' and form.budgetRange !='')%}
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: {{form.budgetRange}}</p>
+                          {%endif%}
                           <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.lotName}}</p>
                           {%if(form.status == 'open')%}
                             <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">{{form.status |capitalize}}</p>
