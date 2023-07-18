@@ -1128,7 +1128,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           mainLothtml +='</h2>';
           mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
           mainLothtml +='</p>';
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
           mainLothtml +='</p>';
           if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
             mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
@@ -1880,7 +1880,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
          mainLothtml +='</h2>';
          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
          mainLothtml +='</p>';
-         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold text-disabled govuk-!-margin-bottom-1">' + val.location + '';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
          mainLothtml +='</p>';
          if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
