@@ -3,9 +3,10 @@ import { FetchResult } from 'main/services/types/helpers/api';
 import { baseURL, headers } from '../helpers';
 import { EndPoints } from 'main/services/types/tendersService/projects/api';
 import { Project } from '@common/middlewares/models/tendersService/project';
+import { QueryParams } from 'main/services/types/helpers/url';
 
 // GET /tenders/projects
-const getProjects = async (accessToken: string, queryParams?: { [key: string]: string }): Promise<FetchResult<Project[]>> => {
+const getProjects = async (accessToken: string, queryParams?: QueryParams): Promise<FetchResult<Project[]>> => {
   return genericFecthGet<Project[]>(
     {
       baseURL: baseURL(),

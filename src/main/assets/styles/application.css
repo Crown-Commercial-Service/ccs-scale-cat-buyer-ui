@@ -159,6 +159,11 @@
   list-style-type: none;
 }
 
+.link-disabled
+{
+  cursor:default
+}
+
 @media print {
   .govuk-list {
     font-family: sans-serif;

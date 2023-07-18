@@ -53,11 +53,6 @@ export default function (app: Application): void {
     gcloudController.DELETE_SAVED_SEARCHES
   );
   app.get(
-    GCloud_PATHS.GET_SEARCH_API,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    gcloudController.GET_SEARCH_API
-  );
-  app.get(
     GCloud_PATHS.GET_ADD_PROJECT_NAME,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     gcloudController.GET_NAME_PROJECT
