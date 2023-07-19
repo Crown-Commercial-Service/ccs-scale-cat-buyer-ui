@@ -1067,7 +1067,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
             
             var Lothtml = '';
             if (result.njkDatas.haveLot == true) {
-              Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+              Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
             } else {
               Lothtml += '<strong>All lots</strong>'
             }
@@ -1090,9 +1090,8 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           }
           else{
             var Lothtml = '';
-            console.log("result.njkDatas.haveLot CHECKED",result.njkDatas.haveLot)
       if (result.njkDatas.haveLot == true) {
-        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
       } else {
         Lothtml += '<strong>All lots</strong>'
       }
@@ -1766,7 +1765,6 @@ if (document.querySelector(".oppurtunities_search_click")) {
         searchQueryUrl += `&${key}=${value}`;
       }
     });
-
     //url change
     const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
     window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
@@ -1813,7 +1811,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
         $('.hidefoot').html(footLothtml);
         var Lothtml = '';
         if (result.njkDatas.haveLot == true) {
-          Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+          Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
         } else {
           Lothtml += '<strong>All lots</strong>'
         }
@@ -1836,14 +1834,13 @@ if (document.querySelector(".oppurtunities_search_click")) {
          
           Lothtml += '</ul>'
         
-        
         document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml; 
       }
        else{
       var Lothtml = '';
      
       if (result.njkDatas.haveLot == true) {
-        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="/digital-outcomes-and-specialists/opportunities"> <strong>All lots</strong></a>';
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
       } else {
         Lothtml += '<strong>All lots</strong>'
       }
