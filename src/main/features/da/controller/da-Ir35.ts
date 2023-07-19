@@ -49,6 +49,7 @@ export const DA_GET_I35: express.Handler = async (req: express.Request, res: exp
     res.render('daw-ir35.njk', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -130,6 +131,7 @@ export const DA_POST_I35: express.Handler = async (req: express.Request, res: ex
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -86,6 +86,7 @@ export class PreMarketEngagementMiddleware {
         }
       } catch (error) {
         LoggTracer.errorLogger(
+          req,
           res,
           error,
           `${req.headers.host}${req.originalUrl}`,
@@ -403,6 +404,7 @@ export class PreMarketEngagementMiddleware {
           }
         } catch (err) {
           LoggTracer.errorLogger(
+            req,
             res,
             err,
             `${req.headers.host}${req.originalUrl}`,

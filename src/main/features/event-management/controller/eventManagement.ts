@@ -470,6 +470,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         } catch (error) {
           console.log('catcherr1', error);
           LoggTracer.errorLogger(
+            req,
             res,
             error,
             `${req.headers.host}${req.originalUrl}`,
@@ -802,6 +803,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   } catch (err) {
     console.log('catcherr2', err);
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -1179,6 +1181,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         }
       } catch (error) {
         LoggTracer.errorLogger(
+          req,
           res,
           error,
           `${req.headers.host}${req.originalUrl}`,
@@ -1375,6 +1378,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -1564,6 +1568,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1604,6 +1609,7 @@ export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: expr
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1645,6 +1651,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1708,6 +1715,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1763,6 +1771,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   } catch (error) {
     console.log('catcherr1', error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1823,6 +1832,7 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1875,6 +1885,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1903,6 +1914,7 @@ export const EVENT_STATE_CHANGE = async (req: express.Request, res: express.Resp
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1930,6 +1942,7 @@ export const INVITE_SUPPLIERS = async (req: express.Request, res: express.Respon
     res.redirect(redirectUrl);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -1992,6 +2005,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     res.render('selectedSuppliers', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2054,6 +2068,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     console.log(error);
 
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2074,6 +2089,7 @@ export const START_EVALUATION = async (req: express.Request, res: express.Respon
     res.redirect('/start-evaluation-redirect');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2114,6 +2130,7 @@ export const START_EVALUATION_REDIRECT = async (req: express.Request, res: expre
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

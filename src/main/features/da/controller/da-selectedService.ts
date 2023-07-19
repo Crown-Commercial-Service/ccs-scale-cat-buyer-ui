@@ -66,6 +66,7 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
     }
   } catch (e) {
     LoggTracer.errorLogger(
+      req,
       res,
       e,
       `${req.headers.host}${req.originalUrl}`,
@@ -318,6 +319,7 @@ export const DA_POST_SELECTED_SERVICE = async (req: express.Request, res: expres
           }
         } catch (err) {
           LoggTracer.errorLogger(
+            req,
             res,
             err,
             `${req.headers.host}${req.originalUrl}`,
@@ -329,6 +331,7 @@ export const DA_POST_SELECTED_SERVICE = async (req: express.Request, res: expres
         }
       } catch (error) {
         LoggTracer.errorLogger(
+          req,
           res,
           error,
           `${req.headers.host}${req.originalUrl}`,

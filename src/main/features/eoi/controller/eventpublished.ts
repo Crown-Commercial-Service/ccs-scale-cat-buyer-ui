@@ -40,6 +40,7 @@ export const GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Res
     res.render('eventPublishedEoi.njk', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

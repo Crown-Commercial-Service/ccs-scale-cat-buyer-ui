@@ -53,6 +53,7 @@ export const GET_STEPS_TO_CONTINUE = async (req: express.Request, res: express.R
     res.render('steps-to-continue', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -199,6 +200,7 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

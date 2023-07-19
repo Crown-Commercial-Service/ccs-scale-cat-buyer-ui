@@ -80,6 +80,7 @@ export const POST_BUILD_RFI = async (req: express.Request, res: express.Response
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -131,6 +131,7 @@ export const DA_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express
       res.render('daw-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

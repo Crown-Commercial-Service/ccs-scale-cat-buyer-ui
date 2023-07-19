@@ -57,6 +57,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       res.send(fileData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,
@@ -181,6 +182,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       res.render('daw-uploadAdditional', windowAppendData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,

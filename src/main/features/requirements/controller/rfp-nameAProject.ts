@@ -100,6 +100,7 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -93,6 +93,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -166,6 +167,7 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       res.redirect('/da/where-work-done');
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

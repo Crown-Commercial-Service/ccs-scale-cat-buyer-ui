@@ -86,6 +86,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: Request, res: Response, ne
     } catch (error) {
       if (error instanceof FetchError && error.status === 401) {
         LoggTracer.errorLogger(
+          req,
           res,
           error,
           `${req.headers.host}${req.originalUrl}`,
@@ -97,6 +98,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: Request, res: Response, ne
         res.redirect('/401');
       } else {
         LoggTracer.errorLogger(
+          req,
           res,
           error,
           `${req.headers.host}${req.originalUrl}`,

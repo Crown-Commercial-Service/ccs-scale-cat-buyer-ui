@@ -298,6 +298,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -489,7 +490,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                   break;
                 }
               } catch (error) {
-                LoggTracer.errorLogger(res, error, null, null, null, null, false);
+                LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
               }
             }
           }
@@ -534,6 +535,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -952,7 +954,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   res.redirect('/rfp/task-list');
                 }
               } catch (error) {
-                LoggTracer.errorLogger(res, error, null, null, null, null, false);
+                LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
               }
             }
           }
@@ -984,7 +986,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
       res.redirect('/error');
     }
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 

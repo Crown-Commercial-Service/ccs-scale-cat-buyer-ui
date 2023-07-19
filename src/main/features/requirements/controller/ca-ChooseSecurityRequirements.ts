@@ -66,6 +66,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     res.render('ca-ChooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -184,6 +185,7 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

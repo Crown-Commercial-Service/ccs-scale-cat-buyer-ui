@@ -37,6 +37,7 @@ export const FCA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respo
     res.render('fca-nextSteps.njk', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -101,6 +102,7 @@ export const FCA_POST_NEXTSTEPS = async (req: express.Request, res: express.Resp
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

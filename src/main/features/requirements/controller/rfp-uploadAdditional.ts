@@ -112,6 +112,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -192,6 +193,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.R
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -240,6 +242,7 @@ export const RFP_GET_REMOVE_ADDITIONAL_FILES: express.Handler = async (req: expr
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-additional`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

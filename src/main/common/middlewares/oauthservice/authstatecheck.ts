@@ -86,6 +86,7 @@ export const AUTH: Handler = async (req: Request, res: Response, next: NextFunct
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -118,6 +119,7 @@ const PERFORM_REFRESH_TOKEN = async (req: Request, res: Response, decodedPayload
       req.session['refresh_token'] = refresh_token;
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

@@ -78,6 +78,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             });
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               `${req.headers.host}${req.originalUrl}`,
@@ -124,6 +125,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
           res.redirect(`/${selRoute}/upload-doc`);
         } catch (error) {
           LoggTracer.errorLogger(
+            req,
             res,
             error,
             null,
@@ -162,6 +164,7 @@ export const CA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Req
     res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

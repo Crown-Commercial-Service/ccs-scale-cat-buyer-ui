@@ -111,6 +111,7 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -191,6 +192,7 @@ export const DA_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Re
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -235,6 +237,7 @@ export const DA_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (
     res.redirect('/da/upload-attachment');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

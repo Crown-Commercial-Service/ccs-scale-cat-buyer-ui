@@ -196,6 +196,7 @@ export const DA_ADD_CONTEXT = async (req: express.Request, res: express.Response
       res.render('daw-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

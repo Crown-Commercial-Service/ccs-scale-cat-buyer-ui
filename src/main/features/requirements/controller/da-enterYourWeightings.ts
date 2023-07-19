@@ -117,6 +117,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -205,6 +206,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

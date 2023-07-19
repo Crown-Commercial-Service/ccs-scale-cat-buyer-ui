@@ -166,6 +166,7 @@ export const GET_SEARCH = async (req: Request, res: Response) => {
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

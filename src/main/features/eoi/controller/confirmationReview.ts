@@ -28,6 +28,7 @@ export const GET_CONFIRMATION_REVIEW = async (req: express.Request, res: express
     res.render('eoiconfirmationReview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

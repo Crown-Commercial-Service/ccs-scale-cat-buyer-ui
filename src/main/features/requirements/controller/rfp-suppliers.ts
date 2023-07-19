@@ -271,6 +271,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -307,6 +308,7 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
     res.redirect('/rfp/response-date');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

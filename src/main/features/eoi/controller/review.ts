@@ -106,6 +106,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -398,7 +399,7 @@ const EOI_REVIEW_RENDER = async (
 
       res.render('reviewEoi', appendData);
     } catch (error) {
-      LoggTracer.errorLogger(res, error, null, null, null, null, false);
+      LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
     }
   }
 };

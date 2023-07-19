@@ -55,6 +55,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   } catch (error) {
     req.session['isValidationError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -128,6 +129,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -162,6 +162,7 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -181,6 +182,7 @@ export const DA_POST_CANCEL = async (req: express.Request, res: express.Response
     res.redirect('/dashboard');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

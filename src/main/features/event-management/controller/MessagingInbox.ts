@@ -89,6 +89,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
     res.render('MessagingInbox', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

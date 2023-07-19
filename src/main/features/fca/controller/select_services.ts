@@ -109,6 +109,7 @@ export const SELECT_SERVICES = async (req: express.Request, res: express.Respons
     res.render('select_services', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -188,6 +189,7 @@ export const POST_SELECT_SERVICES = async (req: express.Request, res: express.Re
         );
       } catch (err) {
         LoggTracer.errorLogger(
+          req,
           res,
           err,
           `${req.headers.host}${req.originalUrl}`,
@@ -204,6 +206,7 @@ export const POST_SELECT_SERVICES = async (req: express.Request, res: express.Re
       res.redirect('/fca/shortlisted/suppliers');
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

@@ -164,6 +164,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

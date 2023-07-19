@@ -130,6 +130,7 @@ export const EXPORT_SUPPLIER_FILTERING = async (req: express.Request, res: expre
     //  res.status(200).send(csv);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

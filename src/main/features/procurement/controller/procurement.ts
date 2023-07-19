@@ -34,6 +34,7 @@ const journeyOverwrite = async (SESSION_ID, eventId) => {
     return output;
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -294,6 +295,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

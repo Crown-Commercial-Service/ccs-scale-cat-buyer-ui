@@ -93,6 +93,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
   } catch (error) {
     console.log(error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

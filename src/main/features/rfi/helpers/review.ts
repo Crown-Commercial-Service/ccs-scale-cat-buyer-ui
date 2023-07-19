@@ -318,7 +318,7 @@ export const RFI_REVIEW_HELPER = async (
 
       res.render('review', appendData);
     } catch (error) {
-      LoggTracer.errorLogger(res, error, null, null, null, null, false);
+      LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
     }
   }
 };

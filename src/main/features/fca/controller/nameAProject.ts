@@ -76,6 +76,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

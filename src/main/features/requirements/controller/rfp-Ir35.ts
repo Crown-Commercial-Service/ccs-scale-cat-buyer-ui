@@ -45,6 +45,7 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
     res.render('rfp-ir35.njk', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -94,6 +95,7 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

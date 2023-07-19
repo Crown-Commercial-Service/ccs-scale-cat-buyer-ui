@@ -24,6 +24,7 @@ export const GET_RFP_CLOSE_PROJECT = async (req: express.Request, res: express.R
     res.render('rfp-closeproject.njk', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

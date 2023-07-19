@@ -134,6 +134,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
   } catch (error) {
     console.log('error', error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -154,6 +155,7 @@ export const POST_CONFIRM_SUPPLIER = async (req: express.Request, res: express.R
     res.redirect('/award-supplier?supplierId=' + supplierId);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -192,6 +194,7 @@ export const Download_SUPPLIER_RESPONCE = async (req: express.Request, res: expr
     res.send(fileData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

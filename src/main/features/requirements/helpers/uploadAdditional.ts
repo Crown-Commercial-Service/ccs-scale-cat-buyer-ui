@@ -58,6 +58,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       res.send(fileData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,
@@ -242,6 +243,7 @@ export const ADDITIONALUPLOADHELPER: express.Handler = async (
       res.render(`${selectedRoute.toLowerCase()}-uploadAdditional`, windowAppendData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,

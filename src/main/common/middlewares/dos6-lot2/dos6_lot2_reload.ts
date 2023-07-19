@@ -25,6 +25,7 @@ export class dos6LotReload {
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

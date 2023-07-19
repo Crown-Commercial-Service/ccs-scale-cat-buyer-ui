@@ -179,6 +179,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

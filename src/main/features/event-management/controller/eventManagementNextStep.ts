@@ -33,6 +33,7 @@ export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: expres
     res.render('eventManagementNextStep', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -107,6 +108,7 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

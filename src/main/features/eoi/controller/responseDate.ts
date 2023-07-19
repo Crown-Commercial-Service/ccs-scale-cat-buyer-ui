@@ -98,6 +98,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     res.redirect('/eoi/review');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -375,7 +376,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
         res.redirect('/eoi/response-date');
       } catch (error) {
-        LoggTracer.errorLogger(res, error, null, null, null, null, false);
+        LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
       }
     } else {
       const selectedErrorCause = selected_question_id; //Question 2
@@ -435,6 +436,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

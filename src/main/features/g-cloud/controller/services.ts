@@ -54,6 +54,7 @@ export const GET_SERVICES = async (req: express.Request, res: express.Response) 
     res.render('services', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

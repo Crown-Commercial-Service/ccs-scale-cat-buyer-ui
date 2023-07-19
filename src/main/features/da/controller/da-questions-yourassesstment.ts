@@ -203,7 +203,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
 
     res.render('daw-question-assessment', data);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -632,6 +632,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
                 }
               } catch (error) {
                 LoggTracer.errorLogger(
+                  req,
                   res,
                   error,
                   `${req.headers.host}${req.originalUrl}`,
@@ -672,6 +673,7 @@ export const DA_Assesstment_POST_QUESTION = async (req: express.Request, res: ex
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

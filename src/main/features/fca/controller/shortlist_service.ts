@@ -87,6 +87,7 @@ export const POST_SHORTLIST_SERVICE = async (req: express.Request, res: express.
     // }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -445,6 +446,7 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
   } catch (error) {
     console.log('catcherr', error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

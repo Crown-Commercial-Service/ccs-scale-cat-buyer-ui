@@ -304,6 +304,7 @@ export const GET_DA_SUPPLIERS = async (req: express.Request, res: express.Respon
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -367,6 +368,7 @@ export const POST_DA_SUPPLIER = async (req: express.Request, res: express.Respon
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -96,6 +96,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
     res.render('ca-review.njk', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

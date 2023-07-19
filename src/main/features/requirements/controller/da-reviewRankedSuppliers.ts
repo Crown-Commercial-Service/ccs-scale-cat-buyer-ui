@@ -279,6 +279,7 @@ export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -359,6 +360,7 @@ export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

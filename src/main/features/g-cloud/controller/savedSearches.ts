@@ -84,6 +84,7 @@ export const GET_SAVED_SEARCHES = async (req: express.Request, res: express.Resp
     res.render('savedSearches', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -114,6 +115,7 @@ export const DELETE_SAVED_SEARCHES = async (req: express.Request, res: express.R
   } catch (error) {
     res.redirect('/g-cloud/saved-searches');
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

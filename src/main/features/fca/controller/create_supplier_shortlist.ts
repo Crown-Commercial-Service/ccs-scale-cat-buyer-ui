@@ -111,6 +111,7 @@ export const CREATE_SUPPLIER_SHORTLIST = async (req: express.Request, res: expre
     res.render('create_supplier_shortlist', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

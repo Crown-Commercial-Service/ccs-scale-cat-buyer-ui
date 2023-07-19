@@ -41,6 +41,7 @@ export const RFP_GET_WORK_COMPLETED = async (req: express.Request, res: express.
     res.render('rfp-work-completed.njk', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -78,6 +79,7 @@ export const RFP_POST_WORK_COMPLETED = async (req: express.Request, res: express
     res.redirect('/rfp/task-list');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

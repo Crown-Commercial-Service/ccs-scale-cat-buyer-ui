@@ -28,6 +28,7 @@ export const CONFIRMATION_REVIEW = async (req: express.Request, res: express.Res
     res.render('confirmationReview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

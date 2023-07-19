@@ -281,6 +281,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -559,6 +560,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     } catch (error) {
       req.session['isJaggaerError'] = true;
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -571,6 +573,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

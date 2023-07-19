@@ -34,6 +34,7 @@ export const GET_UNPUBLISHED_EVENT_MANAGEMENT = async (req: express.Request, res
     res.render('rfp-unpublishedeventmanagement.njk', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

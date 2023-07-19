@@ -42,6 +42,7 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -63,6 +64,7 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
     res.redirect(`/${fca_route.toLowerCase()}/type`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

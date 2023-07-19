@@ -103,6 +103,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
     res.render('awardSupplier', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -179,6 +180,7 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

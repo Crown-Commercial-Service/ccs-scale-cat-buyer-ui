@@ -174,6 +174,7 @@ export const DOS6_STAGE2_TASK_LIST = async (req: express.Request, res: express.R
     res.render('dos6-stage2taskList', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

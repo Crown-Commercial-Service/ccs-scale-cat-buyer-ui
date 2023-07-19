@@ -92,6 +92,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, res: 
     res.render('MessagingReply', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -242,6 +243,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

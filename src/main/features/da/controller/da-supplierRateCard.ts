@@ -91,6 +91,7 @@ export const SUPPLIER_DA_RATECARD = async (req: express.Request, res: express.Re
     res.render('daw-supplier-rate-card', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

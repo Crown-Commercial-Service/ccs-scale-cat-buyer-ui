@@ -63,6 +63,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       res.send(fileData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,
@@ -213,6 +214,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,

@@ -125,6 +125,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     return appendData;
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

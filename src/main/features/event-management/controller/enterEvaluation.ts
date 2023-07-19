@@ -85,6 +85,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     });
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -133,6 +134,7 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

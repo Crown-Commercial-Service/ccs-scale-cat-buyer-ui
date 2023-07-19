@@ -35,6 +35,7 @@ export const GET_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.R
     res.render('chooseACategory', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -61,6 +62,7 @@ export const POST_CHOOSE_A_CATEGORY = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

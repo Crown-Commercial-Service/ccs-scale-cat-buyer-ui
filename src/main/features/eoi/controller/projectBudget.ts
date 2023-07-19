@@ -23,6 +23,7 @@ export const GET_EOI_PROJECT_BUDGET = async (req: express.Request, res: express.
     res.render('projectBudget', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

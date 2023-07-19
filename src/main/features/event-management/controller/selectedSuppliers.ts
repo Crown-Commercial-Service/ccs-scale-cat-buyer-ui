@@ -86,6 +86,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     res.render('selectedSuppliers', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -127,6 +128,7 @@ export const INVITE_SELECTED_SUPPLIERS_POST = async (req: express.Request, res: 
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

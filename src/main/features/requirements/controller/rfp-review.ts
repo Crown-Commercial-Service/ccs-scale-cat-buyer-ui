@@ -654,7 +654,7 @@ const RFP_REVIEW_RENDER_STAGE = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageTwo, req);
     res.render('rfp-review-stage', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 const RFP_REVIEW_RENDER_TEST = async (
@@ -2583,7 +2583,7 @@ const RFP_REVIEW_RENDER_TEST = async (
       res.render('rfp-review', appendData);
     }
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -2692,6 +2692,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       // }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -2877,7 +2878,7 @@ const RFP_REVIEW_RENDER = async (
 
     res.render('rfp-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -3970,7 +3971,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -4803,6 +4804,6 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-gcloudreview', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };

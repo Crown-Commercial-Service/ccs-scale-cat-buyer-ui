@@ -163,6 +163,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     console.log('************* Errrrr');
     console.log(error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -927,7 +928,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
         await RESPONSEDATEHELPER(req, res, true, errorItem);
       }
     } catch (error) {
-      LoggTracer.errorLogger(res, error, null, null, null, null, false);
+      LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
     }
   }
 };

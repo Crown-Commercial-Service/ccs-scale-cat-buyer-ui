@@ -18,6 +18,7 @@ export const ROUTE_TO_CREATE_SUPPLIER = async (req: express.Request, res: expres
     res.redirect('/fca/create-supplier-shortlist');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

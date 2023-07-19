@@ -89,6 +89,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     res.render('add-collaborator-fca', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -121,6 +122,7 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
     res.status(200).json(userdetailsData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -154,6 +156,7 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -180,6 +183,7 @@ export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -215,6 +219,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

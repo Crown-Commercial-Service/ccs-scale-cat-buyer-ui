@@ -64,6 +64,7 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -185,6 +186,7 @@ export const PUBLISH_DATE_MISMATCH = async (req: express.Request, res: express.R
     res.json({ warning: warning, eventType: eventType });
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

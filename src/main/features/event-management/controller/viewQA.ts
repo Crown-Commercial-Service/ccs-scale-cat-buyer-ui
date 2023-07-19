@@ -171,6 +171,7 @@ export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Res
     res.render('viewQA', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -232,6 +233,7 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
     res.render('viewQA', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

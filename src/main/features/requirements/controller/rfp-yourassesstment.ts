@@ -175,6 +175,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

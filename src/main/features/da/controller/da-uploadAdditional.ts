@@ -108,6 +108,7 @@ export const DA_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.Re
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -189,6 +190,7 @@ export const DA_POST_UPLOAD_ADDITIONAL: express.Handler = async (req: express.Re
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -236,6 +238,7 @@ export const DA_GET_REMOVE_FILES: express.Handler = async (req: express.Request,
     res.redirect(`/${selectedRoute.toLowerCase()}/da/upload-additional`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -303,6 +306,7 @@ export const DA_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (
   } catch (error) {
     console.log('catcherr', error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

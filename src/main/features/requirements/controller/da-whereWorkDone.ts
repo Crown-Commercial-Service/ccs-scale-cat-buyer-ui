@@ -48,6 +48,7 @@ export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -159,6 +160,7 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

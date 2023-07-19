@@ -27,6 +27,7 @@ export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.R
     res.render('rfp-quality_group.njk', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -68,6 +69,7 @@ export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.
     res.redirect('/rfp/ratio-quality-group');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       null,

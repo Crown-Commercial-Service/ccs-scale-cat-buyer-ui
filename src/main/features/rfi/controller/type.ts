@@ -82,6 +82,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

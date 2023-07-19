@@ -71,6 +71,7 @@ export const GET_DOWNLOAD_YOUR_SEARCH = async (req: express.Request, res: expres
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -402,6 +402,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

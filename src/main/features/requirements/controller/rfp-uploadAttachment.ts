@@ -106,6 +106,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -187,6 +188,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -233,6 +235,7 @@ export const RFP_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (
     res.redirect('/rfp/upload-attachment');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

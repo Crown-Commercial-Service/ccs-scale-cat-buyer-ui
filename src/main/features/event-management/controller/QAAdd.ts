@@ -70,6 +70,7 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
     res.render('QAAdd1stStep', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -126,6 +127,7 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
     res.render('QAAdd2ndStep', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -284,6 +286,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

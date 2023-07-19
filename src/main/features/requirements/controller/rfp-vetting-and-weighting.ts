@@ -311,6 +311,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -369,6 +370,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

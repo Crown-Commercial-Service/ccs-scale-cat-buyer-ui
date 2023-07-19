@@ -64,6 +64,7 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

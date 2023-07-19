@@ -67,6 +67,7 @@ export const EVENT_MANAGEMENT_GET_QA_Edit = async (req: express.Request, res: ex
     res.render('QAEdit', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -236,6 +237,7 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
     console.log('err', err);
 
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

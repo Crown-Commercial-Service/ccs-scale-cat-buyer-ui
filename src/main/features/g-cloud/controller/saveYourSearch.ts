@@ -63,6 +63,7 @@ export const POST_SAVE_YOUR_SEARCH_RESULTS = async (req: Request, res: Response)
     res.redirect('/g-cloud/save-your-search');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -112,6 +113,7 @@ export const GET_SAVE_YOUR_SEARCH = async (req: Request, res: Response) => {
     res.render('saveYourSearch', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -236,6 +238,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: Request, res: Response) => {
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

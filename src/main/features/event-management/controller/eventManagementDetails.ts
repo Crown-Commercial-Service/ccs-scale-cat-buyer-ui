@@ -121,6 +121,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
     console.log(err.duration);
 
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -182,6 +183,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = (req: express.Request, res:
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

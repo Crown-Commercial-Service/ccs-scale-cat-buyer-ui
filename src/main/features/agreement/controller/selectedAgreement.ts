@@ -48,6 +48,7 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
     res.redirect('/projects/create-or-choose');
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

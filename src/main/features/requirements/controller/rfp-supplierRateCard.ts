@@ -79,6 +79,7 @@ export const RFP_SUPPLIER_RATECARD = async (req: express.Request, res: express.R
     res.render('rfp-supplier-rate-card', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -111,6 +111,7 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -190,6 +191,7 @@ export const DA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -237,6 +239,7 @@ export const DA_GET_REMOVE_FILES = (express.Handler = async (req: express.Reques
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

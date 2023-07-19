@@ -86,6 +86,7 @@ export const SUPPLIER_RATECARD = async (req: express.Request, res: express.Respo
     res.render('supplier_rate_card', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -342,7 +342,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     LoggTracer.infoLogger(null, data.rfpTitle, req);
     res.render('rfp-question-assessment', data);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -861,7 +861,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   }
                 }
               } catch (error) {
-                LoggTracer.errorLogger(res, error, null, null, null, null, false);
+                LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
               }
             }
           }
@@ -893,7 +893,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
       res.redirect('/error');
     }
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 

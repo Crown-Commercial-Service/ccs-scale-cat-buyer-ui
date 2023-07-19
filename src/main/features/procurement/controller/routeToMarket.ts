@@ -29,6 +29,7 @@ export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Respons
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

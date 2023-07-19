@@ -189,6 +189,7 @@ export const RankSuppliersforDA = async (req: express.Request) => {
     return SupplierswithRanks;
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

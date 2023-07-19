@@ -28,6 +28,7 @@ export class ContentFetchMiddleware {
       FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, 'utf8', (error: any, savedContentData) => {
         if (error) {
           LoggTracer.errorLogger(
+            req,
             res,
             error,
             `${req.headers.host}${req.originalUrl}`,
@@ -55,6 +56,7 @@ export class ContentFetchMiddleware {
             (error: any) => {
               if (error) {
                 LoggTracer.errorLogger(
+                  req,
                   res,
                   error,
                   `${req.headers.host}${req.originalUrl}`,
@@ -81,6 +83,7 @@ export class ContentFetchMiddleware {
       FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, 'utf8', (error: any, savedContentData) => {
         if (error) {
           LoggTracer.errorLogger(
+            req,
             res,
             error,
             `${req.headers.host}${req.originalUrl}`,
@@ -102,6 +105,7 @@ export class ContentFetchMiddleware {
         }
       });
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

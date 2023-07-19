@@ -225,6 +225,7 @@ const getEvents = async (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -279,6 +280,7 @@ const searchEvents = async (req: Request, res: Response, next: NextFunction) => 
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

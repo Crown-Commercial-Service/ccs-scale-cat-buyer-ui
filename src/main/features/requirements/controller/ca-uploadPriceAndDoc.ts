@@ -26,6 +26,7 @@ export const CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Req
     res.render('ca-uploadPriceAndDoc', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -79,6 +80,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
     res.redirect('/ca/get-work-done');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

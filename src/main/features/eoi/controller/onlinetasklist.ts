@@ -131,6 +131,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       res.render('onlinetasklistEoi', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

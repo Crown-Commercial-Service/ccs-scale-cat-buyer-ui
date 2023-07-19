@@ -192,6 +192,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

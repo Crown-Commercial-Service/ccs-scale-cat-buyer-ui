@@ -213,6 +213,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

@@ -75,6 +75,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
     res.redirect('/event/management?id=' + eventId);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

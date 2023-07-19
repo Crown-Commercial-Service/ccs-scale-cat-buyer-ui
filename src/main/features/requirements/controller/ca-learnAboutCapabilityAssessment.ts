@@ -42,6 +42,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -62,6 +63,7 @@ export const CA_POST_LEARN = async (req: express.Request, res: express.Response)
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

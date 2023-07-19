@@ -53,6 +53,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       res.send(fileData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,
@@ -196,6 +197,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         null,

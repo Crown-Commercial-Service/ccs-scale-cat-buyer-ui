@@ -13,6 +13,7 @@ export const RFP_POST_RETAIN_SESSION = async (req: Request, res: Response) => {
     res.json({ status: true });
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

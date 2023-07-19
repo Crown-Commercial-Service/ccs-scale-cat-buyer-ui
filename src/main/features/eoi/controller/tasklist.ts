@@ -83,6 +83,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     res.render('TasklistEoi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

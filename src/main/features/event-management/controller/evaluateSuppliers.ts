@@ -206,6 +206,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       res.render('evaluateSuppliers', appendData);
     } catch (err) {
       LoggTracer.errorLogger(
+        req,
         res,
         err,
         `${req.headers.host}${req.originalUrl}`,
@@ -248,6 +249,7 @@ export const EVALUATE_SUPPLIERS_DOWNLOAD = async (req: express.Request, res: exp
     // res.redirect('/evaluate-suppliers');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -303,6 +305,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
       }
     } else {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -394,6 +397,7 @@ export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Re
     //publisheddoc?download=1
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

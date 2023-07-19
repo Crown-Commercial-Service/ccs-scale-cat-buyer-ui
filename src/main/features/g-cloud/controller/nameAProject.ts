@@ -59,6 +59,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     res.render('nameAProjectGCloud', viewData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -109,6 +110,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

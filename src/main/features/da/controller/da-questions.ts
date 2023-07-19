@@ -300,7 +300,7 @@ export const DA_GET_QUESTIONS = async (req: express.Request, res: express.Respon
     LoggTracer.infoLogger(null, logConstant.questionPage, req);
     res.render('daw-question', data);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -809,6 +809,7 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
               } catch (error) {
                 // if (error.response?.status < 500) { logger.info(error.response.data.errors[0].detail) } else { }
                 LoggTracer.errorLogger(
+                  req,
                   res,
                   error,
                   `${req.headers.host}${req.originalUrl}`,
@@ -851,6 +852,7 @@ export const DA_POST_QUESTIONS = async (req: express.Request, res: express.Respo
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

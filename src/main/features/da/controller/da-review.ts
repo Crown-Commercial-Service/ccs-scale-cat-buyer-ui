@@ -60,6 +60,7 @@ export const GET_DA_REVIEW = async (req: express.Request, res: express.Response)
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -868,6 +869,7 @@ const DA_REVIEW_RENDER_TEST = async (
       }
     } catch (err) {
       LoggTracer.errorLogger(
+        req,
         res,
         err,
         `${req.headers.host}${req.originalUrl}`,
@@ -1105,7 +1107,7 @@ const DA_REVIEW_RENDER_TEST = async (
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };
 
@@ -1223,6 +1225,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -1386,6 +1389,6 @@ const DA_REVIEW_RENDER = async (req: express.Request, res: express.Response, vie
     LoggTracer.infoLogger(null, logConstant.ReviewLog, req);
     res.render('daw-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, null, null, null, null, false);
+    LoggTracer.errorLogger(req, res, error, null, null, null, null, false);
   }
 };

@@ -61,6 +61,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SENT = async (req: express.Request, res:
     res.render('MessagingSent', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

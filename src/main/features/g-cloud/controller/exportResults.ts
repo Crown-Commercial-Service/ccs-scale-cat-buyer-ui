@@ -44,6 +44,7 @@ export const GET_EXPORT_RESULTS = async (req: express.Request, res: express.Resp
     res.render('exportResults', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -93,6 +94,7 @@ export const POST_EXPORT_RESULTS = async (req: express.Request, res: express.Res
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

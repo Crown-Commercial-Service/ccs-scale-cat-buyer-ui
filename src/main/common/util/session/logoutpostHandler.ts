@@ -6,6 +6,7 @@ import { LoggTracer } from '../../logtracer/tracer';
 export const LogoutPostHandler = (req: express.Request, res: express.Response, SESSION_ID: string, state: string) => {
   req.session.destroy(function (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

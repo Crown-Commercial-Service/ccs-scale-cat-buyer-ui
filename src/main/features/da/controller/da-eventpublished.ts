@@ -57,6 +57,7 @@ export const DA_GET_EVENT_PUBLISHED = async (req: express.Request, res: express.
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

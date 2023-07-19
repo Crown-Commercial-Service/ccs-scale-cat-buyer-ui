@@ -103,6 +103,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
               }
             } catch (error) {
               LoggTracer.errorLogger(
+                req,
                 res,
                 error,
                 `${req.headers.host}${req.originalUrl}`,
@@ -174,6 +175,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
             }
           } catch (error) {
             LoggTracer.errorLogger(
+              req,
               res,
               error,
               null,
@@ -211,6 +213,7 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
     res.redirect('/rfi/upload-doc');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

@@ -257,6 +257,7 @@ export const RFP_POST_SELECTED_SERVICE = async (req: express.Request, res: expre
       );
     } catch (err) {
       LoggTracer.errorLogger(
+        req,
         res,
         err,
         `${req.headers.host}${req.originalUrl}`,
@@ -467,6 +468,7 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
           }
         } catch (error) {
           LoggTracer.errorLogger(
+            req,
             res,
             error,
             `${req.headers.host}${req.originalUrl}`,

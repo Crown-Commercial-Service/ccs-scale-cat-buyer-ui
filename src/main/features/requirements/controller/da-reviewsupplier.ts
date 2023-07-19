@@ -86,6 +86,7 @@ export const GET_DA_REVIEW_SUPPLIER = async (req: express.Request, res: express.
     res.render('da-reviewsupplier.njk', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

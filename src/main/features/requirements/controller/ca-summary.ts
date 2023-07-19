@@ -185,6 +185,7 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

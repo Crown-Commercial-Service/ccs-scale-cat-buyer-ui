@@ -379,6 +379,7 @@ export class QuestionHelper {
     } catch (error) {
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         'questions healper class',
@@ -672,6 +673,7 @@ export class QuestionHelper {
     } catch (error) {
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         'questions healper class',

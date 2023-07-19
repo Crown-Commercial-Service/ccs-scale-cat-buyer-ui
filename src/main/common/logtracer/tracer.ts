@@ -42,6 +42,7 @@ export class LoggTracer {
   };
 
   static errorLogger = async (
+    req: express.Request,
     res: express.Response,
     error: any,
     _location: string,
@@ -50,7 +51,7 @@ export class LoggTracer {
     _error_reason: string,
     redirect?: boolean
   ): Promise<void> => {
-    rollbarLogger(error);
+    rollbarLogger(req, error);
 
     if (redirect) {
       if (!isNaN(error?.response?.status) && error?.response?.status === 401) {

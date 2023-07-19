@@ -287,6 +287,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -315,6 +316,7 @@ export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Respo
     res.redirect('/rfi/response-date');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

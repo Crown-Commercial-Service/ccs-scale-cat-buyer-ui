@@ -79,6 +79,7 @@ export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
     res.render('daw-procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -111,6 +112,7 @@ export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -141,6 +143,7 @@ export const DA_GET_USER_PROCUREMENT = async (req: express.Request, res: express
     res.json(selectedUser);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

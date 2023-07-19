@@ -43,6 +43,7 @@ export const DA_GET_LEARN_START = async (req: express.Request, res: express.Resp
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -64,6 +65,7 @@ export const DA_POST_LEARN_START = async (req: express.Request, res: express.Res
     res.redirect(`/${fca_route.toLowerCase()}/type`);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

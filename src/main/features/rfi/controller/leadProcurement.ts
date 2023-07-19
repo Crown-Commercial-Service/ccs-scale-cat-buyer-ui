@@ -84,6 +84,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     res.render('procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -121,6 +122,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -151,6 +153,7 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
     res.json(selectedUser);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

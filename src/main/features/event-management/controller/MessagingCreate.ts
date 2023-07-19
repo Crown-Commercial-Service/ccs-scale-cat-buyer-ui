@@ -107,6 +107,7 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
     res.render('MessagingCreate', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -264,6 +265,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -374,6 +376,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
     res.render('MessaginSupplierCreate', appendData);
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,
@@ -586,6 +589,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
     }
   } catch (err) {
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

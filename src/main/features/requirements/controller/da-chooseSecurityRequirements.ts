@@ -66,6 +66,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     res.render('da-chooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -187,6 +188,7 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,

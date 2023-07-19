@@ -148,6 +148,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     res.render('rfp-uploadOverview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

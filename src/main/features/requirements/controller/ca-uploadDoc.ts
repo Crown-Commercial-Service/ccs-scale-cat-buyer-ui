@@ -28,6 +28,7 @@ export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, re
     res.render('ca-uploadDocument', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -81,6 +82,7 @@ export const CA_POST_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, r
     res.redirect('/ca/get-work-done');
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

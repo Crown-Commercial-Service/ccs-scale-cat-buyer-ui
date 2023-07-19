@@ -25,6 +25,7 @@ export const GET_NEW_SEARCH = async (req: express.Request, res: express.Response
     res.render('newSearch', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -54,6 +55,7 @@ export const POST_NEW_SEARCH = async (req: express.Request, res: express.Respons
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

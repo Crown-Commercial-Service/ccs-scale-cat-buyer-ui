@@ -33,6 +33,7 @@ export const CLOSE_PROJECT = async (req: express.Request, res: express.Response)
   } catch (err) {
     console.log('error in close project', err);
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

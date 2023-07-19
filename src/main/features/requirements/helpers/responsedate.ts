@@ -2588,6 +2588,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   } catch (error) {
     console.log('**************************** helper Error');
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -2681,6 +2682,7 @@ const timelineForcePostForPublish = async (req, res, arr: any) => {
     console.log('*************** TimelineForcePublish Err');
     console.log(error);
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,

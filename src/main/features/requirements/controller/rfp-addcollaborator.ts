@@ -112,6 +112,7 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     res.render('add-collaborator-rfp', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -141,6 +142,7 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
       res.status(200).json(userdetailsData);
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -192,6 +194,7 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
       }
     } catch (error) {
       LoggTracer.errorLogger(
+        req,
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
@@ -245,6 +248,7 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
         (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
       );
       LoggTracer.errorLogger(
+        req,
         res,
         err,
         `${req.headers.host}${req.originalUrl}`,
@@ -277,6 +281,7 @@ export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Reques
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer')
     );
     LoggTracer.errorLogger(
+      req,
       res,
       err,
       `${req.headers.host}${req.originalUrl}`,

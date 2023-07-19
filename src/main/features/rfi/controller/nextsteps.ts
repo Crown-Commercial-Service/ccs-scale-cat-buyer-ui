@@ -52,6 +52,7 @@ export const RFI_GET_NEXT_STEPS = async (req: express.Request, res: express.Resp
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
@@ -94,6 +95,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
     }
   } catch (error) {
     LoggTracer.errorLogger(
+      req,
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
