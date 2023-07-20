@@ -367,8 +367,14 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
                 if (val.id == 'Question 1') {
                   descVal = val.pattern;
                 }
-                if (val.id == 'Question 2') {
-                  weightageVal = val.pattern;
+                if (lot == '1' && (value.id == 'Group 8' || value.id == 'Group 9')) {
+                  if (val.id == 'Question 4') {
+                    weightageVal = val.pattern;
+                  }
+                } else {
+                  if (val.id == 'Question 2') {
+                    weightageVal = val.pattern;
+                  }
                 }
 
                 if (descVal != undefined && weightageVal != undefined) {
