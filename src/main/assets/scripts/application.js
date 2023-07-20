@@ -1167,7 +1167,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           paginationHtml += '</svg>';
           paginationHtml += 'Previous Page</a>';
           paginationHtml += '</p>';
-          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '">' + (result.njkDatas.PreviousPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>  ';
         }
       }
       paginationHtml += '</div>';
@@ -1188,7 +1188,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
         // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
       } else {
-        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '">' + (result.njkDatas.NextPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>';
       }
       paginationHtml += '</div>';
       paginationHtml += '</div>';
@@ -1913,7 +1913,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
           paginationHtml += '</svg>';
           paginationHtml += 'Previous Page</a>';
           paginationHtml += '</p>';
-          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '">' + (result.njkDatas.PreviousPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>  ';
         }
       }
       paginationHtml += '</div>';
@@ -1934,7 +1934,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
       if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
         // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
       } else {
-        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '">' + (result.njkDatas.NextPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>';
       }
       paginationHtml += '</div>';
       paginationHtml += '</div>';
