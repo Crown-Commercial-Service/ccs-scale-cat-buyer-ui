@@ -1058,7 +1058,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
             footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
            
             footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>';
-            footLothtml +=' <li>choosing a different category</li>';
+            footLothtml +=' <li>choosing a different lot</li>';
             footLothtml +=' <li>double-checking your spelling</li>';
             footLothtml +='<li>using fewer keywords</li>';
             footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
@@ -1803,7 +1803,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
         footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
       
         footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>';
-        footLothtml +=' <li>choosing a different category</li>';
+        footLothtml +=' <li>choosing a different lot</li>';
         footLothtml +=' <li>double-checking your spelling</li>';
         footLothtml +='<li>using fewer keywords</li>';
         footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
