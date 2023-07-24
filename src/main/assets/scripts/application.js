@@ -1045,8 +1045,6 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
         type: "GET",
         contentType: "application/json",
       }).done(function (result) {
-        
-
        let totalResults =  result.search_data.totalResults;
        $('#totalRecords').html(totalResults);
       
@@ -1064,7 +1062,8 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
             footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
             footLothtml +='</ul>';
             $('.hidefoot').html(footLothtml);
-            
+          }
+            if(result.search_data.searchCriteria.lots.length == 0){
             var Lothtml = '';
             if (result.njkDatas.haveLot == true) {
               Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
@@ -1809,6 +1808,8 @@ if (document.querySelector(".oppurtunities_search_click")) {
         footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
         footLothtml +='</ul>';
         $('.hidefoot').html(footLothtml);
+      }
+      if(result.search_data.searchCriteria.lots.length == 0){
         var Lothtml = '';
         if (result.njkDatas.haveLot == true) {
           Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
