@@ -1,7 +1,5 @@
 import * as express from 'express';
 import * as fileData from '../../../resources/content/digital-outcomes/oppertunities.json';
-//import * as sampleJson from '../../../resources/content/digital-outcomes/sampleOpper.json';
-// import * as procdata from '../../../resources/content/digital-outcomes/procdetails.json';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 import { DynamicFrameworkInstance } from 'main/features/event-management/util/fetch/dyanmicframeworkInstance';
@@ -25,22 +23,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     let pageUrl = '';
     let statusLotsQuery = '';
     let statusqry = '';
-    // const url = req.originalUrl.toString();
-    // console.log('url', url.indexOf('?'));
-    // if (url.indexOf('?') != -1) {
-    //   pageUrl = url.substring(url.indexOf('?') + 1);
-    // }
-
-    // usingObjectAssign.forEach((val, i) => {
-    //   let options = {
-    //     id: i,
-    //     text: val,
-    //     selected: true,
-    //     count: 0,
-    //   };
-    //   console
-    //   statusArray.push(options);
-    // });
 
     if (Array.isArray(status)) {
       usingObjectAssign.forEach((val, i) => {
@@ -60,7 +42,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
           pageUrl += `&status=${val}`;
         }
         if (q != undefined) {
-          // statusqry += `&status=${status}`;
           if (i == 0) {
             statusqry += `&status=${val}`;
           }
@@ -111,7 +92,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const finalquery = {
       filters: FilterQuery,
     };
-
     const searchKeywordsQuery: any = q;
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
@@ -121,18 +101,8 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
-    //  const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${statusQuery}`;
-
     const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    // if (q != undefined) {
-    //   statusLotsQuery = status != undefined ? `&status=${status}` : '';
-    // } else {
-    //   statusLotsQuery = status != undefined ? `status=${status}` : '';
-    // }
-    // console.log('statusLotsQuery', statusLotsQuery);
     const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
-
-    //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
@@ -148,14 +118,12 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       const params = Object.fromEntries(urlParams);
       PrevPagedata = params.page;
     }
-
     if (response_data?.links?.self != '') {
       currentPageData = response_data?.links?.self.substring(response_data?.links?.self.indexOf('?') + 1);
       const urlParams = new URLSearchParams(currentPageData);
       const params = Object.fromEntries(urlParams);
       currentPageData = params.page;
     }
-
     if (response_data?.links?.last != '') {
       lastPageData = response_data?.links?.last.substring(response_data?.links?.last.indexOf('?') + 1);
       const urlParams = new URLSearchParams(lastPageData);
@@ -163,19 +131,13 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       lastPageData = params.page;
     }
     const totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-    //let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
-
     let titletxt = 'All lots';
     response_data.searchCriteria.lots.forEach((value: any) => {
       if (value.selected == true) {
         titletxt = value.text;
       }
     });
-    // if (q != undefined) {
-    //   titletxt = ' containing ' + q + ' ' + titletxt;
-    // }
-    // console.log('titletxt', titletxt);
     const njkDatas = {
       currentLot: lot,
       lotDetails: [
@@ -215,12 +177,10 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       PreviousPageNumber: parseInt(PrevPagedata),
       NextPageNumber: parseInt(NextPagedata),
     };
-
     let qtext: any = '';
     if (q != undefined) {
       qtext = q;
     }
-
     const locations = [
       'Scotland',
       'ScotlandNorth East England',
@@ -237,7 +197,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       'International (outside the UK)',
       'Off-site',
     ];
-
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
       lotDetails = response_data.searchCriteria.lots;
@@ -266,7 +225,6 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
         });
       }
     }
-
     const display_fetch_data = {
       file_data: fileData,
       search_data: response_data,
@@ -307,14 +265,10 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     let extentionindicativedurationYear = '';
     let extentionindicativedurationMonth = '';
     let extentionindicativedurationDay = '';
-
     const baseServiceURL: any = `/tenders/projects/${projectId}`;
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
-
-    // const fetch_dynamic_service_api = await TenderApi.Instance(SESSION_ID).get(baseServiceURL);
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
-
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
@@ -459,13 +413,6 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         });
       }
     });
-    // if(contextRequirements){
-    //  ContextGroups =contextRequirements?.requirementGroups
-    // }
-    // fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-    // let Pattern = JSON.parse(
-    //   '[{"value":"North East England","select":false,"text":null,"tableDefinition":null},{"value":"North West England","select":false,"text":null,"tableDefinition":null},{"value":"Yorkshire and the Humber","select":false,"text":null,"tableDefinition":null},{"value":"East Midlands","select":true,"text":null,"tableDefinition":null},{"value":"West Midlands","select":true,"text":null,"tableDefinition":null},{"value":"East of England","select":false,"text":null,"tableDefinition":null},{"value":"London","select":false,"text":null,"tableDefinition":null},{"value":"South East England","select":false,"text":null,"tableDefinition":null},{"value":"South West England","select":false,"text":null,"tableDefinition":null},{"value":"Scotland","select":false,"text":null,"tableDefinition":null},{"value":"Wales","select":false,"text":null,"tableDefinition":null},{"value":"Northern Ireland","select":false,"text":null,"tableDefinition":null},{"value":"International (outside the UK)","select":false,"text":null,"tableDefinition":null}]'
-    // );
     const display_fetch_data = {
       context_data: contextRequirementsGroups,
       assessment_Criteria: assessmentCriteriaGroups,
@@ -511,13 +458,11 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
   try {
     const usingObjectAssign = Object.assign([], status);
     const usingObjectAssignLocation = Object.assign([], location);
-    // const reqUrl = req.url;
     let statusArray: any = [];
     const FilterQuery: any = [];
     let locationArray: any = [];
     let statusqry = '';
     let statusLotsQuery = '';
-
     //Location
     if (Array.isArray(location)) {
       usingObjectAssignLocation.forEach((val, i) => {
@@ -528,12 +473,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           count: 2,
         };
         locationArray.push(options);
-        // if (val == 'open') {
-        //   pageUrl = `&status=${val}`;
-        // }
-        // if (val == 'closed') {
-        //   pageUrl += `&status=${val}`;
-        // }
       });
     } else {
       let options = {
@@ -543,12 +482,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         count: 1,
       };
       locationArray.push(options);
-      // if (status == 'open') {
-      //   pageUrl = `&status=${status}`;
-      // }
-      // if (status == 'closed') {
-      //   pageUrl = `&status=${status}`;
-      // }
     }
 
     if (Array.isArray(status)) {
@@ -567,7 +500,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
           pageUrl += `&status=${val}`;
         }
         if (q != undefined) {
-          // statusqry += `&status=${status}`;
           if (i == 0) {
             statusqry += `&status=${val}`;
           }
@@ -607,15 +539,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         statusLotsQuery = status != undefined ? statusqry : '';
       }
     }
-    // usingObjectAssign.forEach((val, i) => {
-    //   let options = {
-    //     id: i,
-    //     text: val,
-    //     selected: true,
-    //     count: 0,
-    //   };
-    //   statusArray.push(options);
-    // });
     let locationdata = {
       name: 'location',
       options: locationArray,
@@ -627,31 +550,20 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       options: statusArray,
     };
     FilterQuery.push(querydata);
-    //FilterQuery.push(locationdata);
-
     let finalquery = {
       filters: FilterQuery,
     };
 
     const statusPageQuery = status != undefined ? pageUrl : '';
     const searchKeywordsQuery: any = q;
-    //console.log('filter url', btoa(JSON.stringify(finalquery)));
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
-
-    // let statusQuery = '';
-    // if (status != undefined || location != undefined) {
-    //   statusQuery = `&filters=${btoa(JSON.stringify(finalquery))}`;
-    // }
     const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
-
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
-    //  const clearFilterURL = '/digital-outcomes-and-specialists/opportunities';
-
     const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
 
@@ -684,7 +596,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       lastPageData = params.page;
     }
     let totalpages = response_data.totalResults > NoOfRecordsPerPage ? parseInt(lastPageData) : 1;
-    // let nextPageUrl = `page=${parseInt(NextPagedata)}${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQuerypage = lot != undefined ? `&lot=${lot}` : '';
     let titletxt = 'All lots';
     response_data.searchCriteria.lots.forEach((value: any) => {
@@ -692,10 +603,6 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
         titletxt = value.text;
       }
     });
-    // if (q != undefined) {
-    //   titletxt = ' containing ' + q + '' + titletxt;
-    // }
-
     let njkDatas = {
       currentLot: lot,
       lotDetails: [
@@ -771,16 +678,12 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       AllLotsFilterURL,
     };
     res.json(display_fetch_data);
-
-    //res.render('opportunities', display_fetch_data);
   } catch (error) {
     console.log('error', error);
   }
 };
 
 export const OPPORTUNITIES_DOWNLOAD = async (req: express.Request, res: express.Response) => {
-  // const { projectId } = req.session;
-  // const { eventId } = req.session;
   const { download } = req.query;
 
   try {
@@ -805,14 +708,5 @@ export const OPPORTUNITIES_DOWNLOAD = async (req: express.Request, res: express.
     }
   } catch (error) {
     console.log('error', error);
-    // LoggTracer.errorLogger(
-    //   res,
-    //   error,
-    //   `${req.headers.host}${req.originalUrl}`,
-    //   null,
-    //   TokenDecoder.decoder(SESSION_ID),
-    //   'Event management - Tenders Service Api cannot be connected',
-    //   true
-    // );
   }
 };
