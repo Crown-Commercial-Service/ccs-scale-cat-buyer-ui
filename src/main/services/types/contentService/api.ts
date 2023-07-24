@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/wp-json/wp-api-menus/v2/menus',
   MENU = '/wp-json/wp-api-menus/v2/menus/:menuId'
 };
 

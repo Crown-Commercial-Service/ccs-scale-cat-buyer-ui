@@ -7,11 +7,11 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import moment from 'moment-business-days';
 import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -166,10 +166,9 @@ const EOI_REVIEW_RENDER = async (
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
 
-      const organizationID = req.session.user.payload.ciiOrgId;
-      const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-      const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-      const name = getOrganizationDetails.data.identifier.legalName;
+      const organizationID = req.session.user.ciiOrgId;
+      const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+      const name = getOrganizationDetails.identifier.legalName;
       const organizationName = name;
       //CAS-INFO-LOG
       LoggTracer.infoLogger(ReviewData, logConstant.eventDetails, req);
@@ -361,8 +360,8 @@ const EOI_REVIEW_RENDER = async (
         a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
           ? -1
           : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-            ? 1
-            : 0
+          ? 1
+          : 0
       );
       const supplierLength = supplierList.length;
       // to get suppliers count end
@@ -399,15 +398,7 @@ const EOI_REVIEW_RENDER = async (
 
       res.render('reviewEoi', appendData);
     } catch (error) {
-      LoggTracer.errorLogger(
-        res,
-        error,
-        null,
-        null,
-        null,
-        null,
-        false
-      );
+      LoggTracer.errorLogger(res, error, null, null, null, null, false);
     }
   }
 };

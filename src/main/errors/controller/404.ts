@@ -10,5 +10,5 @@ const logger = Logger.getLogger('Not found page (404)');
  */
 export const Error_404 = (req: express.Request, res: express.Response) => {
   logger.info('User landed in 404 page');
-  res.render('error/404');
+  res.status(404).render('error/404');
 };

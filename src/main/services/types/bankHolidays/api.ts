@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/bank-holidays.json',
   BANK_HOLIDAYS = '/bank-holidays.json'
 };
 
