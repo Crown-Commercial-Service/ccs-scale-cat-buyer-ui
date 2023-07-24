@@ -9,21 +9,13 @@ const headers = {
   'x-api-key': process.env.CONCLAVE_WRAPPER_API_KEY
 };
 
-const endPoints: EndPoints = {
-  organisation: '/organisation-profiles/:organisation-id',
-  organisationUsers: '/organisation-profiles/:organisation-id/users',
-  userProfiles: '/user-profiles'
-};
-
 // GET /organisation-profiles/:organisation-id
 const getOrganisation = async (organisationId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<Organisation>> => {
   return genericFecthGet<Organisation>(
     {
       baseURL: baseURL,
-      path: endPoints.organisation,
-      params: [
-        [':organisation-id', organisationId]
-      ],
+      path: EndPoints.ORGANISATION,
+      params: { organisationId },
       queryParams: queryParams
     },
     headers
@@ -35,10 +27,8 @@ const getOrganisationUsers = async (organisationId: string, queryParams?: { [key
   return genericFecthGet<OrganisationUsers>(
     {
       baseURL: baseURL,
-      path: endPoints.organisationUsers,
-      params: [
-        [':organisation-id', organisationId]
-      ],
+      path: EndPoints.ORGANISATION_USERS,
+      params: { organisationId },
       queryParams: queryParams
     },
     headers
@@ -50,7 +40,7 @@ const getUserProfiles = async (userId: string, queryParams?: { [key: string]: st
   return genericFecthGet<UserProfile>(
     {
       baseURL: baseURL,
-      path: endPoints.userProfiles,
+      path: EndPoints.USER_PROFILES,
       queryParams: {
         'user-Id': userId,
         ...queryParams

@@ -12,14 +12,19 @@ const getMenu = async (menuId: string): Promise<FetchResult<ContentServiceMenu>>
     {
       baseURL: baseURL,
       path: EndPoints.MENU,
-      params: [
-        [':menu-id', menuId]
-      ]
+      params: { menuId }
     },
     {
       'Content-Type': 'application/json',
     },
-    undefined,
+    {
+      key: `get_content_service_menu_${menuId}`,
+      seconds: 3600
+    },
+    {
+      name: 'content service',
+      message: `Feached menu from the Content service API for menu: ${menuId}`
+    },
     timeout
   );
 };

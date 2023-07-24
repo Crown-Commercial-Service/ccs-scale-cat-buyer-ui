@@ -1,17 +1,10 @@
 import { Handler, Request, Response, NextFunction } from 'express';
-import { Logger } from '@hmcts/nodejs-logging';
 import { AgreementDetail } from '../models/agreement-detail';
 import { agreementsService } from 'main/services/agreementsService';
 import { SessionData } from 'express-session';
-const logger = Logger.getLogger('agreement-details-fetch');
 
 const getAgreementDetail = async (agreementId: string): Promise<AgreementDetail> => {
-  const startTime = performance.now();
-  const agreementDetail = (await agreementsService.api.getAgreement(agreementId)).unwrap();
-
-  logger.info(`Feached agreement details from Agreement service API for ${agreementId} in ${performance.now() - startTime}ms`);
-
-  return agreementDetail;
+  return (await agreementsService.api.getAgreement(agreementId)).unwrap();;
 };
 
 const setAgreementHeader = (req: Request, res: Response, agreementDetail: AgreementDetail): void => {

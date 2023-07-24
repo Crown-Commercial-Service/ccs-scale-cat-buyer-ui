@@ -1,12 +1,12 @@
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as localContent from '../../../resources/content/event-management/event-management.json';
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { agreementsService } from 'main/services/agreementsService';
 
 export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -29,9 +29,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     LoggTracer.infoLogger(supplierdata, logConstant.getSupplierResponse, req);
 
     //agreements/{agreement-id}/lots/{lot-id}/suppliers
-    const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`;
-    const supplierDataList = await (await AgreementAPI.Instance(null).get(baseurl_Supplier))?.data;
-    console.log('log1', baseurl_Supplier);
+    const supplierDataList = (await agreementsService.api.getAgreementLotSuppliers(agreement_id, lotId)).unwrap();
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL);

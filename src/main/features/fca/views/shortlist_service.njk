@@ -80,7 +80,11 @@
       {% for value in suppliers_list -%}
       <div class="govuk-form-group ccs-page-section">
         <h3 class="govuk-heading-m">{{value.organization.name}}</h3>
-        <p>{{value.organization.name}}</p>
+        {% if value.organization.details.tradingName and value.organization.details.tradingName !== value.organization.name %}
+          <p>
+            Trading as {{ value.organization.details.tradingName }}
+          </p>
+        {% endif %}
         <p>
           <a href="/fca/supplier/ratecard?supplierId={{value.organization.id}}&supplierName={{value.organization.name}}" class="govuk-link govuk-link--no-visited-state">{{data.line17}}</a>
         </p>

@@ -1,10 +1,11 @@
-const { dest, parallel, series, src, watch } = require('gulp')
-const del = require('del')
-const livereload = require('gulp-livereload');
+import gulp from 'gulp';
+import { deleteAsync } from 'del';
+import livereload from 'gulp-livereload';
+import concat from 'gulp-concat';
+import minify from 'gulp-minify';
+import minifyCSS from 'gulp-clean-css';
 
-const concat = require('gulp-concat')
-const minify = require('gulp-minify')
-const minifyCSS = require('gulp-clean-css')
+const { dest, parallel, series, src, watch } = gulp;
 
 const packFonts = () => {
   return src(
@@ -14,8 +15,8 @@ const packFonts = () => {
       './node_modules/govuk-frontend/govuk/assets/fonts/*'
     ]
   )
-    .pipe(dest('src/main/public/assets/fonts'))
-}
+    .pipe(dest('src/main/public/assets/fonts'));
+};
 
 const packImages = () => {
   return src(
@@ -27,8 +28,8 @@ const packImages = () => {
       'src/main/assets/images/*',
     ]
   )
-    .pipe(dest('src/main/public/assets/images'))
-}
+    .pipe(dest('src/main/public/assets/images'));
+};
 
 const packSvg = () => {
   return src(
@@ -39,8 +40,8 @@ const packSvg = () => {
       'src/main/assets/svg/*',
     ]
   )
-    .pipe(dest('src/main/public/assets/svg'))
-}
+    .pipe(dest('src/main/public/assets/svg'));
+};
 
 const packFiles = () => {
   return src(
@@ -49,8 +50,8 @@ const packFiles = () => {
       'src/main/assets/files/*',
     ]
   )
-    .pipe(dest('src/main/public/assets/files'))
-}
+    .pipe(dest('src/main/public/assets/files'));
+};
 
 const packScripts = () => {
   return src(
@@ -71,8 +72,8 @@ const packScripts = () => {
   )
     .pipe(concat('bundle.js'))
     .pipe(minify())
-    .pipe(dest('src/main/public/assets/scripts'))
-}
+    .pipe(dest('src/main/public/assets/scripts'));
+};
 
 const packStyles = () => {
   return src(
@@ -84,42 +85,42 @@ const packStyles = () => {
   )
     .pipe(concat('bundle.min.css'))
     .pipe(minifyCSS())
-    .pipe(dest('src/main/public/assets/styles'))
-}
+    .pipe(dest('src/main/public/assets/styles'));
+};
 
 const cleanStatic = () => {
-  return del([
+  return deleteAsync([
     'src/main/public/assets/files/**/*',
     'src/main/public/assets/fonts/**/*',
     'src/main/public/assets/images/**/*',
     'src/main/public/assets/svg/**/*',
-  ])
-}
+  ]);
+};
 
 const cleanScripts = () => {
-  return del(['src/main/public/assets/scripts/**/*'])
-}
+  return deleteAsync(['src/main/public/assets/scripts/**/*']);
+};
 
 const cleanStyles = () => {
-  return del(['src/main/public/assets/styles/**/*'])
-}
+  return deleteAsync(['src/main/public/assets/styles/**/*']);
+};
 
 const watchScripts = () => {
   return packScripts()
-    .pipe(livereload())
-}
+    .pipe(livereload());
+};
 
 const watchStyles = () => {
   return packStyles()
-    .pipe(livereload())
-}
+    .pipe(livereload());
+};
 
 const watchAssets = () => {
   livereload.listen(
     {
       port: 45729
     }
-  )
+  );
   watch(
     [
       'src/main/assets/scripts/**/*.js'
@@ -128,7 +129,7 @@ const watchAssets = () => {
       cleanScripts,
       watchScripts
     )
-  )
+  );
   watch(
     [
       'src/main/assets/styles/**/*.css'
@@ -137,10 +138,10 @@ const watchAssets = () => {
       cleanStyles,
       watchStyles
     )
-  )
-}
+  );
+};
 
-exports.build = series(
+const build = series(
   parallel(
     cleanStatic,
     cleanScripts,
@@ -154,6 +155,7 @@ exports.build = series(
     packScripts,
     packStyles
   )
-)
-exports['watch-assets'] = watchAssets
-exports.default = exports.build
+);
+
+export default build;
+export { build, watchAssets };

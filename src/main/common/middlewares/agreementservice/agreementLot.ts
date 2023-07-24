@@ -1,23 +1,7 @@
+import config from 'config';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 import { cookies } from '../../cookies/cookies';
-import config from 'config';
-import { Logger } from '@hmcts/nodejs-logging';
-import { AgreementDetail } from '../models/agreement-detail';
-import { LotDetail } from '../models/lot-detail';
-import { LotSupplier } from '../models/lot-supplier';
-import { FetchResult } from 'main/services/types/helpers/api';
 import { agreementsService } from 'main/services/agreementsService';
-
-const logger = Logger.getLogger('agreement-lot');
-
-const getAgreementServiceResData = async <T>(result: Promise<FetchResult<T>>, logMessage: string): Promise<T> => {
-  const startTime = performance.now();
-  const resultData = (await result).unwrap();
-
-  logger.info(`${logMessage} in ${performance.now() - startTime}ms`);
-
-  return resultData;
-};
 
 /**
  *
@@ -32,11 +16,17 @@ export class AgreementLotMiddleware {
     const { SESSION_ID: accessToken } = req.cookies;
 
     try {
-      const [agreementDetail, lotDetail, lotSuppliers] = await Promise.all([
-        getAgreementServiceResData<AgreementDetail>(agreementsService.api.getAgreement(agreementId), `Feached agreement details from Agreement service API for ${agreementId}`),
-        getAgreementServiceResData<LotDetail>(agreementsService.api.getAgreementLot(agreementId, lotId), `Feached Lot detail from Agreement service API for ${agreementId}, lot: ${lotId}`),
-        getAgreementServiceResData<LotSupplier[]>(agreementsService.api.getAgreementLotSuppliers(agreementId, lotId), `Feached Lot detail suppliers from Agreement service API for ${agreementId}, lot: ${lotId}`)
+      const [agreementDetailResult, lotDetailResult, lotSuppliersResult] = await Promise.all([
+        agreementsService.api.getAgreement(agreementId),
+        agreementsService.api.getAgreementLot(agreementId, lotId),
+        agreementsService.api.getAgreementLotSuppliers(agreementId, lotId)
       ]);
+
+      const [agreementDetail, lotDetail, lotSuppliers] = [
+        agreementDetailResult.unwrap(),
+        lotDetailResult.unwrap(),
+        lotSuppliersResult.unwrap()
+      ];
 
       res.locals.agreement_lot = { ...lotDetail };
       req.session.agreementEndDate = agreementDetail.endDate;

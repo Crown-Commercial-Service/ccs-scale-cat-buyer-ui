@@ -1,3 +1,9 @@
+enum EndPoints {
+  ORGANISATION = '/organisation-profiles/:organisationId',
+  ORGANISATION_USERS = '/organisation-profiles/:organisationId/users',
+  USER_PROFILES = '/user-profiles'
+};
+
 type Organisation = {
   identifier: {
     legalName: string
@@ -15,11 +21,5 @@ type UserProfile = {
   lastName: string
   telephone: string
 }
-
-type EndPoints = {
-  organisation: string
-  organisationUsers: string
-  userProfiles: string
-};
 
 export { Organisation, OrganisationUsers, UserProfile, EndPoints };

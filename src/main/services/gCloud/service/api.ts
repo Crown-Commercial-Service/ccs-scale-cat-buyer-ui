@@ -16,9 +16,7 @@ const getService = async (serviceId: string): Promise<FetchResult<GCloudService>
     {
       baseURL: baseURL,
       path: EndPoints.SERVICE,
-      params: [
-        [':service-id', serviceId]
-      ]
+      params: { serviceId }
     },
     headers
   );
@@ -30,9 +28,7 @@ const getSupplier = async (supplierId: string): Promise<FetchResult<GCloudSuppli
     {
       baseURL: baseURL,
       path: EndPoints.SUPPLIER,
-      params: [
-        [':supplier-id', supplierId]
-      ]
+      params: { supplierId }
     },
     headers
   );
@@ -44,9 +40,7 @@ const getSupplierFramework = async (supplierId: string): Promise<FetchResult<GCl
     {
       baseURL: baseURL,
       path: EndPoints.SUPPLIER_FRAMEWORK,
-      params: [
-        [':supplier-id', supplierId]
-      ]
+      params: { supplierId }
     },
     headers
   );

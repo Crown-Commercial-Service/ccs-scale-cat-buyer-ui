@@ -1,7 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
@@ -11,13 +10,12 @@ import moment from 'moment-business-days';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
+import { bankHolidays } from 'main/services/bankHolidays';
+import { BankHolidays } from 'main/services/types/bankHolidays/api';
 
 const momentCssHolidays = async () => {
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
-  let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-  const bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
+  const bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   const holiDaysArr = [];
   for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
     const AsDate = new Date(bankHolidayEnglandWales[h].date);
@@ -186,7 +184,7 @@ function isValidQuestion(
   timeline: any,
   agreement_id: any,
   stage2_value: any,
-  bankholidaydata: any,
+  bankholidaydata: BankHolidays,
   selectedOptionList: any
 ) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
@@ -225,13 +223,9 @@ function isValidQuestion(
   // const timeliii=moment(questionNewDate12,'DD MMMM YYYY, HH:mm:ss ',
   // ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
   let bankHolidayEnglandWales;
-  //if (agreement_id=='RM1043.8') {
   if (bankholidaydata) {
-    let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-    bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-    bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+    bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   }
-  //}
   const questionInputDate = new Date(year, month, day);
 
   const bankHolidayResult = checkBankHoliday(questionInputDate, bankHolidayEnglandWales);
@@ -471,8 +465,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
 
   const { timeline, agreement_id, timlineSession } = req.session;
   const stage2_value = req.session.stage2_value;
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);

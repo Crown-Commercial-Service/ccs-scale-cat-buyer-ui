@@ -1,6 +1,5 @@
 //@ts-nocheck
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as express from 'express';
 import * as dataDSP from '../../../resources/content/procurement/ccs-procurement.json';
 import * as dataMCF3 from '../../../resources/content/procurement/mcf3_procurement.json';
@@ -12,9 +11,9 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { Procurement } from '../model/project';
 import { ccsStatusOverride } from '../../../utils/ccsStatusOverride';
 import { logConstant } from '../../../common/logtracer/logConstant';
-
 import * as journyData from '../model/tasklist.json';
 import { Logger } from '@hmcts/nodejs-logging';
+import { agreementsService } from 'main/services/agreementsService';
 const logger = Logger.getLogger('procurement');
 
 /**
@@ -51,7 +50,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   const agreementId_session = req.session.agreement_id;
 
   const lotsURL = '/tenders/projects/agreements';
-  const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let forceChangeDataJson;
   if (agreementId_session == 'RM6187') {
     //MCF3
@@ -80,12 +78,12 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     if (agreementId_session == 'RM1557.13' && lotId == 'All') {
       types = '';
     } else {
-      const typesRaw = await AgreementAPI.Instance(null).get(eventTypesURL);
+      const agreementLotEventTypes = (await agreementsService.api.getAgreementLotEventTypes(agreementId_session, lotId)).unwrap();
 
       //CAS-INFO-LOG
-      LoggTracer.infoLogger(typesRaw, logConstant.evenTypeFromAggrementLot, req);
-      const typeRawData = typesRaw.data;
-      types = typeRawData.map((typeRaw: any) => typeRaw.type);
+      LoggTracer.infoLogger(agreementLotEventTypes, logConstant.evenTypeFromAggrementLot, req);
+
+      types = agreementLotEventTypes.map((typeRaw) => typeRaw.type);
     }
     appendData = { types, lotId, ...appendData };
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);

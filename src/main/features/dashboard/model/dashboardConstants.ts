@@ -1,6 +1,7 @@
-export enum DASHBOARD_PATHS {
+enum DashboardPaths {
   //@ All of the Path related Request for dashboard
   DASHBOARD = '/dashboard',
-  POST_DASHBOARD = '/dashboard',
-  VIEW_DASHBOARD = '/viewdashboard',
+  POST_DASHBOARD = '/dashboard'
 }
+
+export { DashboardPaths };

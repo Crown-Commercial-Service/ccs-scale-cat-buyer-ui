@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { formatURL } from 'main/services/helpers/url';
+import { formatURL, formatRelativeURL } from 'main/services/helpers/url';
 
 describe('URL helpers', () => {
-  const baseURL = 'http://example.com';
-
   describe('formatURL', () => {
+    const baseURL = 'http://example.com';
+
     it('returns the base url with the path when no other params are passed', () => {
       const path = '/test';
 
@@ -12,15 +12,15 @@ describe('URL helpers', () => {
     });
 
     it('replaces the ids when id params are passed', () => {
-      const path = '/test/:test-id/user/:user-id';
+      const path = '/test/:testId/user/:userId';
 
-      expect(formatURL({ baseURL, path, params: [[':test-id', 'test-1234'], [':user-id', 'user-1234']] })).to.eq('http://example.com/test/test-1234/user/user-1234');
+      expect(formatURL({ baseURL, path, params: { testId: 'test-1234', userId: 'user-1234' } })).to.eq('http://example.com/test/test-1234/user/user-1234');
     });
 
     it('only replaces the params if they are present', () => {
-      const path = '/test/:test-id/user/:user-id';
+      const path = '/test/:testId/user/:userId';
 
-      expect(formatURL({ baseURL, path, params: [[':user-id', 'user-1234']] })).to.eq('http://example.com/test/:test-id/user/user-1234');
+      expect(formatURL({ baseURL, path, params: { userId: 'user-1234' } })).to.eq('http://example.com/test/:testId/user/user-1234');
     });
 
     it('adds the query parameters', () => {
@@ -34,13 +34,53 @@ describe('URL helpers', () => {
     });
 
     it('works when all params are passed', () => {
-      const path = '/test/:test-id/user/:user-id';
+      const path = '/test/:testId/user/:userId';
       const queryParams = {
         test: 'test',
         myParam: 'myParam'
       };
 
-      expect(formatURL({ baseURL, path, params: [[':test-id', 'test-1234'], [':user-id', 'user-1234']], queryParams })).to.eq('http://example.com/test/test-1234/user/user-1234?test=test&myParam=myParam');
+      expect(formatURL({ baseURL, path, params: { testId: 'test-1234', userId: 'user-1234' }, queryParams })).to.eq('http://example.com/test/test-1234/user/user-1234?test=test&myParam=myParam');
+    });
+  });
+
+  describe('formatRelativeURL', () => {
+    it('returns the base url with the path when no other params are passed', () => {
+      const path = '/test';
+
+      expect(formatRelativeURL({ path })).to.eq('/test');
+    });
+
+    it('replaces the ids when id params are passed', () => {
+      const path = '/test/:testId/user/:userId';
+
+      expect(formatRelativeURL({ path, params: { testId: 'test-1234', userId: 'user-1234' } })).to.eq('/test/test-1234/user/user-1234');
+    });
+
+    it('only replaces the params if they are present', () => {
+      const path = '/test/:testId/user/:userId';
+
+      expect(formatRelativeURL({ path, params: { userId: 'user-1234' } })).to.eq('/test/:testId/user/user-1234');
+    });
+
+    it('adds the query parameters', () => {
+      const path = '/test';
+      const queryParams = {
+        test: 'test',
+        myParam: 'myParam'
+      };
+
+      expect(formatRelativeURL({ path, queryParams })).to.eq('/test?test=test&myParam=myParam');
+    });
+
+    it('works when all params are passed', () => {
+      const path = '/test/:testId/user/:userId';
+      const queryParams = {
+        test: 'test',
+        myParam: 'myParam'
+      };
+
+      expect(formatRelativeURL({ path, params: { testId: 'test-1234', userId: 'user-1234' }, queryParams })).to.eq('/test/test-1234/user/user-1234?test=test&myParam=myParam');
     });
   });
 });

@@ -1,5 +1,5 @@
 enum EndPoints {
-  MENU = '/wp-json/wp-api-menus/v2/menus/:menu-id'
+  MENU = '/wp-json/wp-api-menus/v2/menus/:menuId'
 };
 
 type ContentServiceMenuItem = {

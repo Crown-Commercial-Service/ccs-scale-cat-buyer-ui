@@ -32,7 +32,7 @@
             {% if agreementId_session == 'RM6187' %}
                 <p class="govuk-body">Your opportunity will be sent to the suppliers listed below. </p>
                 <p class="govuk-body">Find more information on each supplier on the
-                <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/RM6187/suppliers" class="govuk-!-font-weight-bold">CCS website (opens in a new tab).
+                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">CCS website (opens in a new tab).
                  </a><br>
                   </p>
             {% else %}
@@ -98,9 +98,8 @@
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-9 govuk-!-margin-bottom-5">
                       <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
                       <div id="rfi_required_suppliers-item-hint" class="govuk-hint">
-                        {% if supplier.organization.identifier.legalName | length > 0 %}
-                          <label>{{supplier.organization.identifier.legalName}}</label>
-                          <br>
+                        {% if supplier.organization.details.tradingName and supplier.organization.details.tradingName !== supplier.organization.name %}
+                          Trading as {{ supplier.organization.details.tradingName }}
                         {% endif %}
                       </div>
                     </div>

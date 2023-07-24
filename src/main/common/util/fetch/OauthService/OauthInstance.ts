@@ -34,7 +34,7 @@ export class Oauth_Instance {
 
   // Added this instence to get the user-profile from concalve
   static TokenWithApiKeyInstance = (api_key: string, emailid: string): axios.AxiosInstance => {
-    const BaseURL = `${Oauth_Instance.userProfile_AuthService_BaseURL}?user-id=${emailid}`;
+    const BaseURL = `${Oauth_Instance.userProfile_AuthService_BaseURL}?user-id=${encodeURIComponent(emailid)}`;
     return axios.default.create({
       baseURL: BaseURL,
       headers: {

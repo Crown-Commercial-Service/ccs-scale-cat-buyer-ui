@@ -3,7 +3,6 @@ import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-response-date.json';
@@ -13,13 +12,11 @@ import * as GCloudData from '../../../resources/content/requirements/Gcloudrfp-r
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import { bankHolidays } from 'main/services/bankHolidays';
 
 const momentCssHolidays = async () => {
-  const basebankURL = '/bank-holidays.json';
-  const bankholidaydata = await bankholidayContentAPI.Instance(null).get(basebankURL);
-  let bankholidaydataengland = JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
-  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
-  const bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();
+  const bankHolidayEnglandWales = bankholidaydata['england-and-wales'].events;
   const holiDaysArr = [];
   for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
     const AsDate = new Date(bankHolidayEnglandWales[h].date);
