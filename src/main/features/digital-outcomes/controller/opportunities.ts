@@ -203,7 +203,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
-      if (response_data.totalResults != 0) {
+      if (response_data.searchCriteria.lots.length != 0) {
         njkDatas.lotDetails.map((value: any) => {
           response_data.searchCriteria.lots.forEach((res: any) => {
             if (response_data.searchCriteria.lots.length == 1) {
@@ -218,6 +218,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
               }
             }
           });
+          if (value.id == lot) {
+            titletxt = value.text;
+          }
         });
       } else {
         njkDatas.lotDetails.map((value: any) => {
@@ -242,6 +245,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       locationFilter: location,
       AllLotsFilterURL,
     };
+
     res.render('opportunities', display_fetch_data);
   } catch (error) {
     console.log('error in opportunities', error);
@@ -274,7 +278,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       if (value.id == 'Criterion 1') {
         timeline = value;
         timelineQuestionGroups = timeline?.requirementGroups[0].requirements.sort((a: any, b: any) =>
-          parseInt(a.id?.replace('Question ', '')) < parseInt(b.id?.replace('Question ', '')) ? -1 : 1
+          parseInt(a.id?.replace('Question ', '')) < parseInt(b.id?.replace('Question ', '')) ? -1 : 1,
         );
         timelineQuestionGroups.map((value: any) => {
           if (value['pattern']) {
@@ -285,7 +289,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
         assessmentCriteria = value;
 
         assessmentCriteriaGroups = assessmentCriteria?.requirementGroups?.sort((a: any, b: any) =>
-          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1,
         );
         assessmentCriteriaGroups.map((value: any) => {
           let descVal: any, weightageVal: any;
@@ -353,7 +357,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       } else if (value.id == 'Criterion 3') {
         contextRequirements = value;
         contextRequirementsGroups = contextRequirements?.requirementGroups?.sort((a: any, b: any) =>
-          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1
+          parseInt(a.id?.replace('Group ', '')) < parseInt(b.id?.replace('Group ', '')) ? -1 : 1,
         );
         contextRequirementsGroups.map((value: any) => {
           let usertypeVal: any, definitionVal: any;
@@ -650,21 +654,30 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
-      njkDatas.lotDetails.map((value: any) => {
-        response_data.searchCriteria.lots.forEach((res: any) => {
-          if (response_data.searchCriteria.lots.length == 1) {
-            if (res.id == value.id) {
-              value.count = res.count;
-            } else if (res.id != value.id) {
-              value.count = 0;
+      if (response_data.searchCriteria.lots.length != 0) {
+        njkDatas.lotDetails.map((value: any) => {
+          response_data.searchCriteria.lots.forEach((res: any) => {
+            if (response_data.searchCriteria.lots.length == 1) {
+              if (res.id == value.id) {
+                value.count = res.count;
+              } else if (res.id != value.id) {
+                value.count = 0;
+              }
+            } else {
+              if (res.id == value.id) {
+                value.count = res.count;
+              }
             }
-          } else {
-            if (res.id == value.id) {
-              value.count = res.count;
-            }
+          });
+          if (value.id == lot) {
+            titletxt = value.text;
           }
         });
-      });
+      } else {
+        njkDatas.lotDetails.map((value: any) => {
+          value.count = 0;
+        });
+      }
     }
     const display_fetch_data = {
       file_data: fileData,
@@ -677,6 +690,7 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       searchdata: q,
       AllLotsFilterURL,
     };
+
     res.json(display_fetch_data);
   } catch (error) {
     console.log('error', error);
