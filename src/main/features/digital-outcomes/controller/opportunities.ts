@@ -274,6 +274,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
+    const DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
@@ -446,6 +447,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           : null,
       tenderer: tenderer,
       projectId: projectId,
+      DeadLineSubDate: DeadLineSubDate,
     };
 
     res.render('opportunitiesReview', display_fetch_data);
