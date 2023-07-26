@@ -199,7 +199,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     ];
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
-      lotDetails = response_data.searchCriteria.lots;
+      lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
+          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+        );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
@@ -274,6 +276,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
+    const DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
@@ -446,6 +449,7 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
           : null,
       tenderer: tenderer,
       projectId: projectId,
+      DeadLineSubDate: DeadLineSubDate,
     };
 
     res.render('opportunitiesReview', display_fetch_data);
@@ -650,7 +654,9 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
 
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
-      lotDetails = response_data.searchCriteria.lots;
+      lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
+          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+        );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
