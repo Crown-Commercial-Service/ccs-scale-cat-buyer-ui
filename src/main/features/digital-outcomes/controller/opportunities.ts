@@ -199,7 +199,9 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     ];
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
-      lotDetails = response_data.searchCriteria.lots;
+      lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
+          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+        );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
@@ -652,7 +654,9 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
 
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
-      lotDetails = response_data.searchCriteria.lots;
+      lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
+          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+        );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
