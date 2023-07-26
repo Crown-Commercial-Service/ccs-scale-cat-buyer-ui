@@ -20,11 +20,11 @@ checks:
   method-count:
     enabled: true
     config:
-    threshold: 20
+      threshold: 20
   method-lines:
     enabled: true
     config:
-    threshold: 70
+      threshold: 70
   nested-control-flow:
     enabled: true
     config:
@@ -36,4 +36,4 @@ checks:
   similar-code:
     enabled: true
     config:
-  threshold: 68
+      threshold: 68
