@@ -374,7 +374,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
             if (agreementId_session == 'RM1043.8') {
               supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                'DD/MM/YYYY hh:mm',
+                'DD/MM/YYYY HH:mm',
               );
             } else {
               supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
@@ -422,7 +422,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             supplierDetails.supplierSignedContractDate = moment(
               scontractAwardDetail?.dateSigned,
               'YYYY-MM-DD, hh:mm a',
-            ).format('DD/MM/YYYY hh:mm');
+            ).format('DD/MM/YYYY HH:mm');
           } else {
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
           }
@@ -642,8 +642,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       }
       const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
-
-      if(supplierAwardDateTemp != undefined){
+      if(supplierAwardDateTemp != undefined && agreementId_session == 'RM1043.8'){
        const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
         'YYYY-MM-DDTHH:mm:ss',
       ) + 'Z';
@@ -672,7 +671,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
           }
 
-     //}
+     
     }
   }
 
@@ -1144,7 +1143,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
 
               if (agreementId_session == 'RM1043.8') {
                 supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                  'DD/MM/YYYY hh:mm',
+                  'DD/MM/YYYY HH:mm',
                 );
               } else {
                 supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
@@ -1190,7 +1189,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             supplierDetails.supplierSignedContractDate = moment(
               scontractAwardDetail?.dateSigned,
               'YYYY-MM-DD, hh:mm a',
-            ).format('DD/MM/YYYY hh:mm');
+            ).format('DD/MM/YYYY HH:mm');
           } else {
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
           }
@@ -1246,7 +1245,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       req.session.projectStatus = 1;
       const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
 
-      if(supplierAwardDateTemp != undefined){
+      if(supplierAwardDateTemp != undefined && agreementId_session == 'RM1043.8'){
         const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
          'YYYY-MM-DDTHH:mm:ss',
        ) + 'Z';
