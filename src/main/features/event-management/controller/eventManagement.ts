@@ -16,6 +16,8 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import momentz from 'moment-timezone';
+
 
 const checkWeekendDate = (date: Date): Date => {
   const dayOfWeek = new Date(date).getDay();
@@ -464,9 +466,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (end_date != undefined && end_date != null) {
             const day = end_date.substr(0, 10);
             const time = end_date.substr(11, 5);
-            filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
-              .add(1, 'hours')
-              .format('DD MMMM YYYY, HH:mm');
+            let value = momentz(new Date(end_date)).tz('Europe/London').isDST();
+            if (momentz(new Date(end_date)).tz('Europe/London').isDST()) {
+
+              filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+                .add(1, 'hours')
+                .format('DD MMMM YYYY, HH:mm');
+              }
+              else{
+                filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+              }
+            
           }
         } catch (error) {
           console.log('catcherr1', error);
@@ -631,7 +641,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           awardOption = 'true';
         }
       }
-     if(supplierDetails){
+      const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
+
+      if(supplierAwardDateTemp != undefined){
+       const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      ) + 'Z';
+      if (momentz(new Date(lastUpdatetemp)).tz('Europe/London').isDST()) {
+
+   
          let supplierAwardDate = supplierDetails.supplierAwardedDate;
          if(supplierAwardDate){
          const day = supplierAwardDate?.substr(0, 10);
@@ -654,7 +672,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
           }
 
-     }
+     //}
+    }
+  }
 
 
       const appendData = {
@@ -1201,10 +1221,16 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const day = end_date.substr(0, 10);
           const time = end_date.substr(11, 5);
 
-          // filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
-          filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
-            .add(1, 'hours')
-            .format('DD MMMM YYYY, HH:mm');
+          if (momentz(new Date(end_date)).tz('Europe/London').isDST()) {
+
+            filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+              .add(1, 'hours')
+              .format('DD MMMM YYYY, HH:mm');
+            }
+            else{
+              filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+            }
+          
         }
       } catch (error) {
         LoggTracer.errorLogger(
@@ -1218,33 +1244,41 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         );
       }
       req.session.projectStatus = 1;
+      const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
 
-    if(supplierDetails){
-      let supplierAwardDate = supplierDetails.supplierAwardedDate;
-      if(supplierAwardDate){
-      const day = supplierAwardDate?.substr(0, 10);
-      const time = supplierAwardDate?.substr(11, 5);
-      supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
-           .add(1, 'hours')
-           .format('DD/MM/YYYY HH:mm');
-           supplierDetails.supplierAwardedDate = supplierAwardDate;
-
-      }
-
-       let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
-       if(supplierSignedContractDate){
-       const day1 = supplierSignedContractDate.substr(0, 10);
-       const time1 = supplierSignedContractDate.substr(11, 5);
-       supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
-                 .add(1, 'hours')
-                 .format('DD/MM/YYYY HH:mm');
-        supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
-
-       }
-
-  }
-
-
+      if(supplierAwardDateTemp != undefined){
+        const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+         'YYYY-MM-DDTHH:mm:ss',
+       ) + 'Z';
+       if (momentz(new Date(lastUpdatetemp)).tz('Europe/London').isDST()) {
+ 
+    
+          let supplierAwardDate = supplierDetails.supplierAwardedDate;
+          if(supplierAwardDate){
+          const day = supplierAwardDate?.substr(0, 10);
+          const time = supplierAwardDate?.substr(11, 5);
+          supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
+               .add(1, 'hours')
+               .format('DD/MM/YYYY HH:mm');
+               supplierDetails.supplierAwardedDate = supplierAwardDate;
+ 
+          }
+ 
+           let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
+           if(supplierSignedContractDate){
+           const day1 = supplierSignedContractDate.substr(0, 10);
+           const time1 = supplierSignedContractDate.substr(11, 5);
+           supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
+                     .add(1, 'hours')
+                     .format('DD/MM/YYYY HH:mm');
+            supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
+ 
+           }
+ 
+      
+     }
+   }
+    
       const appendData = {
         agreementId_session: agreementId_session,
         projectStatus: 1,
