@@ -3,6 +3,9 @@ import * as fileData from '../../../resources/content/digital-outcomes/oppertuni
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 
 import { DynamicFrameworkInstance } from 'main/features/event-management/util/fetch/dyanmicframeworkInstance';
+import momentz from 'moment-timezone';
+import moment from 'moment-business-days';
+
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
@@ -276,7 +279,18 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
-    const DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
+    let DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
+
+    if (momentz(new Date(DeadLineSubDate)).tz('Europe/London').isDST()) {
+        const day = DeadLineSubDate.substr(0, 10);
+        const time = DeadLineSubDate.substr(11, 5);
+  
+          DeadLineSubDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+            .add(1, 'hours')
+            .format('DD/MM/YYYY hh:mm');
+          
+    }
+    
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
