@@ -631,6 +631,31 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           awardOption = 'true';
         }
       }
+     if(supplierDetails){
+         let supplierAwardDate = supplierDetails.supplierAwardedDate;
+         if(supplierAwardDate){
+         const day = supplierAwardDate?.substr(0, 10);
+         const time = supplierAwardDate?.substr(11, 5);
+         supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
+              .add(1, 'hours')
+              .format('DD/MM/YYYY HH:mm');
+              supplierDetails.supplierAwardedDate = supplierAwardDate;
+
+         }
+
+          let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
+          if(supplierSignedContractDate){
+          const day1 = supplierSignedContractDate.substr(0, 10);
+          const time1 = supplierSignedContractDate.substr(11, 5);
+          supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
+                    .add(1, 'hours')
+                    .format('DD/MM/YYYY HH:mm');
+           supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
+
+          }
+
+     }
+
 
       const appendData = {
         projectStatus: 2,
@@ -1194,6 +1219,32 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       }
       req.session.projectStatus = 1;
 
+    if(supplierDetails){
+      let supplierAwardDate = supplierDetails.supplierAwardedDate;
+      if(supplierAwardDate){
+      const day = supplierAwardDate?.substr(0, 10);
+      const time = supplierAwardDate?.substr(11, 5);
+      supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
+           .add(1, 'hours')
+           .format('DD/MM/YYYY HH:mm');
+           supplierDetails.supplierAwardedDate = supplierAwardDate;
+
+      }
+
+       let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
+       if(supplierSignedContractDate){
+       const day1 = supplierSignedContractDate.substr(0, 10);
+       const time1 = supplierSignedContractDate.substr(11, 5);
+       supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
+                 .add(1, 'hours')
+                 .format('DD/MM/YYYY HH:mm');
+        supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
+
+       }
+
+  }
+
+
       const appendData = {
         agreementId_session: agreementId_session,
         projectStatus: 1,
@@ -1215,7 +1266,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         suppliers: localData,
         unreadMessage: unreadMessage,
         showCloseProject,
-      };
+     };
 
       let redirectUrl: string;
       if (status.toLowerCase() == 'in-progress') {
