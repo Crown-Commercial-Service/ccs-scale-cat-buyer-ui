@@ -416,8 +416,10 @@ if (document.getElementById('da_projLongName') !== null)
 
 let noOfCharac = 200;
 let contents = document.querySelectorAll(".content_review_length");
+
 // if (document.getElementsByClassName('rfp_percentage_form') !== null){
 contents.forEach((content, index) => {
+  console.log("content.textContent.length",content.textContent.length);
   //If text length is less that noOfCharac... then hide the read more button
   if (content.textContent.length < noOfCharac) {
     //content.nextElementSibling.style.display = "none";
@@ -431,7 +433,54 @@ contents.forEach((content, index) => {
   }
 
 });
+
+function readMoreWithLengthOpper(){
+let noOfCharacOppertunity = 450;
+let contentsOppertunity = document.querySelectorAll(".content_review_length_oppertunity");
+
+// if (document.getElementsByClassName('rfp_percentage_form') !== null){
+  contentsOppertunity.forEach((content, index) => {
+  //If text length is less that noOfCharac... then hide the read more button
+  if (content.textContent.length < noOfCharacOppertunity) {
+    //content.nextElementSibling.style.display = "none";
+  }
+  else {
+    //let that = this;
+    let displayTextOppertunity = content.textContent.slice(0, noOfCharacOppertunity);
+    let moreText = content.textContent.slice(noOfCharacOppertunity);
+    content.innerHTML = `<div id="contentOppr-${index}">${displayTextOppertunity}<span id="dotsOppr-${index}" class="dots">...  </span><span id="moreValueOppr${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+    // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+  }
+
+});
+}
+readMoreWithLengthOpper();
 //   }
+function readMoreWithLengthOppertunity() {
+  document.querySelectorAll(".content_review_length_oppertunity").forEach(function (event) {
+    event.addEventListener('click', function (e) {
+      let targetId = e.target.id;
+      //$('#moreValue'+targetId).show();
+      let btn = document.querySelector('#contentOppr-' + targetId);
+      let HtmlBtn = $('#' + targetId).html();
+      if (HtmlBtn == 'Read more') {
+        $('#moreValueOppr' + targetId).removeClass("hide");
+        $('#' + targetId).html(" Read less");
+        $('#moreValueOppr' + targetId).show();
+        $('#dotsOppr-' + targetId).hide();
+      } 
+      if (HtmlBtn == ' Read less') {
+        $('#moreValueOppr' + targetId).addClass("hide");
+        $('#' + targetId).html("Read more");
+        $('#moreValueOppr' + targetId).hide();
+        $('#dotsOppr-' + targetId).show();
+      }
+    
+    });
+  });
+}
+readMoreWithLengthOppertunity();
+
 
 function readMoreWithLength() {
   document.querySelectorAll(".content_review_length").forEach(function (event) {
@@ -1143,7 +1192,7 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
           else
               mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
           if(val.description != undefined){
-          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext">' + val.description + '';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext content_review_length_oppertunity">' + val.description + '';
           }
           mainLothtml +='</p>';
           mainLothtml +='</li>';
@@ -1194,7 +1243,10 @@ document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
       paginationHtml += '</div>';
       paginationHtml += '</div>';
       document.getElementById('paginationContainer').innerHTML = paginationHtml;
-
+      
+      readMoreWithLengthOpper();
+      readMoreWithLengthOppertunity();
+      
 
 
       });
@@ -1867,11 +1919,11 @@ if (document.querySelector(".oppurtunities_search_click")) {
        
       document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
        }   
-    
-       
+
        slist.classList.remove('loadingres');
        var mainLothtml = '';
        $.each(result.search_data.results, function (key, val) {
+
          mainLothtml +='<li class="app-search-result">';
          mainLothtml +='<h2 class="govuk-heading-s govuk-!-margin-bottom-1">';
          mainLothtml +='<a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId='+val.projectId+'&lot='+val.lot+'&status='+val.status+'&subStatus=">' + val.projectName + '</a>';
@@ -1893,7 +1945,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
          else  
            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +  '</p>';
            if(val.description != undefined){
-              mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext">' + val.description + '';
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext content_review_length_oppertunity">' + val.description + '';
            }
          mainLothtml +='</p>';
          mainLothtml +='</li>';
@@ -1932,6 +1984,7 @@ if (document.querySelector(".oppurtunities_search_click")) {
         paginationHtml += 'Next Page</a>';
         paginationHtml += '</p>';
       }
+      
       if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
         // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
       } else {
@@ -1943,6 +1996,9 @@ if (document.querySelector(".oppurtunities_search_click")) {
       paginationHtml += '</div>';
       document.getElementById('paginationContainer').innerHTML = paginationHtml;
       $("#clearfilter").attr("href", result.clearFilterURL);
+      readMoreWithLengthOpper();
+      readMoreWithLengthOppertunity();
+      
       // $('#criteriasavebtn').prop('disabled', false);
       // $('#criteriasavebtn').removeClass('govuk-button--disabled');
       // $("#clearfilter").attr("href", result.clearFilterURL);
