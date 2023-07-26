@@ -280,14 +280,12 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     let DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
-
     if (momentz(new Date(DeadLineSubDate)).tz('Europe/London').isDST()) {
         const day = DeadLineSubDate.substr(0, 10);
         const time = DeadLineSubDate.substr(11, 5);
-  
-          DeadLineSubDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+          DeadLineSubDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm:ss')
             .add(1, 'hours')
-            .format('DD/MM/YYYY hh:mm');
+            .format('DD/MM/YYYY HH:mm');
           
     }
     
