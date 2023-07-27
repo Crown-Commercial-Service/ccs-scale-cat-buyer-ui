@@ -435,19 +435,20 @@ contents.forEach((content, index) => {
 });
 
 function readMoreWithLengthOpper(){
-let noOfCharacOppertunity = 450;
+let noOfCharacOppertunity = 500;
 let contentsOppertunity = document.querySelectorAll(".content_review_length_oppertunity");
 
 // if (document.getElementsByClassName('rfp_percentage_form') !== null){
   contentsOppertunity.forEach((content, index) => {
   //If text length is less that noOfCharac... then hide the read more button
-  if (content.textContent.length < noOfCharacOppertunity) {
+  const contentText = content.textContent.trim();
+  if (contentText.length <= noOfCharacOppertunity) {
     //content.nextElementSibling.style.display = "none";
   }
   else {
     //let that = this;
-    let displayTextOppertunity = content.textContent.slice(0, noOfCharacOppertunity);
-    let moreText = content.textContent.slice(noOfCharacOppertunity);
+    let displayTextOppertunity = contentText.slice(0, noOfCharacOppertunity);
+    let moreText = contentText.slice(noOfCharacOppertunity);
     content.innerHTML = `<div id="contentOppr-${index}">${displayTextOppertunity}<span id="dotsOppr-${index}" class="dots">...  </span><span id="moreValueOppr${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
     // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
   }
