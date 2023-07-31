@@ -1,4 +1,7 @@
+import { ServiceModel } from 'main/features/g-cloud/model/searchModel';
+
 enum EndPoints {
+  STATUS = '/_status',
   SERVICE = '/services/:serviceId',
   SUPPLIER = '/suppliers/:supplierId',
   SUPPLIER_FRAMEWORK = '/suppliers/:supplierId/frameworks/g-cloud-13'
@@ -6,9 +9,7 @@ enum EndPoints {
 
 type GCloudService = {
   serviceMadeUnavailableAuditEvent: string | null
-  services: {
-    [key: string]: boolean | number | string | string[] | object
-  }
+  services: ServiceModel
 }
 
 type GCloudSupplier = {
@@ -77,6 +78,8 @@ type GCloudSupplierFramework = {
     }
     countersignedPath: string
     declaration: {
+      modernSlaveryStatement: string
+      modernSlaveryStatementOptional: string
       [key: string]: string | boolean
     }
     frameworkFamily: string

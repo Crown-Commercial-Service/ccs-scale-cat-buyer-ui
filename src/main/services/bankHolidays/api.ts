@@ -1,9 +1,7 @@
-import config from 'config';
 import { genericFecthGet } from '../helpers/api';
 import { FetchResult } from '../types/helpers/api';
 import { BankHolidays, EndPoints } from '../types/bankHolidays/api';
-
-const baseURL: string = config.get('bankholidayservice.BASEURL');
+import { baseURL } from './helpers';
 
 // GET /bank-holidays.json
 const getBankHolidays = async (): Promise<FetchResult<BankHolidays>> => {

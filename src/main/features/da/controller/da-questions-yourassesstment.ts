@@ -2,7 +2,6 @@
 import * as express from 'express';
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/questions';
@@ -16,6 +15,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  * @Controller
@@ -40,13 +40,12 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
     //CAS-INFO-LOG
     LoggTracer.infoLogger(heading_fetch_dynamic_api, logConstant.fetchedAssesstmentsQuestions, req);
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    const organizationID = req.session.user.ciiOrgId;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
     //CAS-INFO-LOG
     LoggTracer.infoLogger(getOrganizationDetails, logConstant.collaboratorDetailFetch, req);
 
-    const name = getOrganizationDetails.data.identifier.legalName;
+    const name = getOrganizationDetails.identifier.legalName;
     const organizationName = name;
 
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
@@ -204,15 +203,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
 
     res.render('daw-question-assessment', data);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -796,17 +787,17 @@ const isDateOlder = (date1: any, date2: any) => {
 const mapTitle = (groupId) => {
   let title = '';
   switch (groupId) {
-  case 'Group 4':
-    title = 'technical';
-    break;
-  case 'Group 5':
-    title = 'cultural';
-    break;
-  case 'Group 6':
-    title = 'social value';
-    break;
-  default:
-    return '';
+    case 'Group 4':
+      title = 'technical';
+      break;
+    case 'Group 5':
+      title = 'cultural';
+      break;
+    case 'Group 6':
+      title = 'social value';
+      break;
+    default:
+      return '';
   }
   return title;
 };

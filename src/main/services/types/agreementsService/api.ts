@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/agreements',
   AGREEMENT = '/agreements/:agreementId',
   AGREEMENT_LOTS = '/agreements/:agreementId/lots',
   AGREEMENT_LOT = '/agreements/:agreementId/lots/:lotId',

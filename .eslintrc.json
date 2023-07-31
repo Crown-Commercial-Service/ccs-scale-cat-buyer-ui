@@ -32,6 +32,8 @@
     ],
     "@typescript-eslint/ban-ts-comment": [
       "off"
-    ]
+    ],
+    "prefer-const": "off",
+    "no-irregular-whitespace": "off"
   }
 }

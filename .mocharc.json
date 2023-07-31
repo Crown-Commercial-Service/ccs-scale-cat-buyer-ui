@@ -3,7 +3,8 @@
   "recursive": true,
   "require": [
     "ts-node/register",
-    "tsconfig-paths/register"
+    "tsconfig-paths/register",
+    "src/spec/support/setup.ts"
   ],
   "reporter": "mochawesome",
   "timeout": "10000"

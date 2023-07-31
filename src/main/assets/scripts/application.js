@@ -44,7 +44,7 @@ $restrictEnter.on("keydown keypress", function() {
     //  openpopGC.classList.add('showpopup')
       $(".dialog-close-projectCloseAllPopup").on('click', function(){
             openpopGC.classList.remove('showpopup');
-         });
+      });
       $(".close-dialog-close").on('click', function(){
         openpopGC.classList.remove('showpopup');
       });
@@ -73,7 +73,6 @@ $restrictEnter.on("keydown keypress", function() {
        
          
         }).fail((res) => {
-          console.log(res);
           window.location.href = window.location.origin +`/dashboard?closeStatus=false`;
 
         })
@@ -417,22 +416,72 @@ if (document.getElementById('da_projLongName') !== null)
 
 let noOfCharac = 200;
 let contents = document.querySelectorAll(".content_review_length");
+
 // if (document.getElementsByClassName('rfp_percentage_form') !== null){
 contents.forEach((content, index) => {
+  const contentTextReview = content.textContent.trim();
   //If text length is less that noOfCharac... then hide the read more button
-  if (content.textContent.length < noOfCharac) {
+  if (contentTextReview.length < noOfCharac) {
     //content.nextElementSibling.style.display = "none";
   }
   else {
     //let that = this;
-    let displayText = content.textContent.slice(0, noOfCharac);
-    let moreText = content.textContent.slice(noOfCharac);
+    let displayText = contentTextReview.slice(0, noOfCharac);
+    let moreText = contentTextReview.slice(noOfCharac);
     content.innerHTML = `<div id="content-${index}">${displayText}<span id="dots-${index}" class="dots">...  </span><span id="moreValue${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
     // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
   }
 
 });
+
+function readMoreWithLengthOpper(){
+let noOfCharacOppertunity = 500;
+let contentsOppertunity = document.querySelectorAll(".content_review_length_oppertunity");
+
+// if (document.getElementsByClassName('rfp_percentage_form') !== null){
+  contentsOppertunity.forEach((content, index) => {
+  //If text length is less that noOfCharac... then hide the read more button
+  const contentText = content.textContent.trim();
+  if (contentText.length <= noOfCharacOppertunity) {
+    //content.nextElementSibling.style.display = "none";
+  }
+  else {
+    //let that = this;
+    let displayTextOppertunity = contentText.slice(0, noOfCharacOppertunity);
+    let moreText = contentText.slice(noOfCharacOppertunity);
+    content.innerHTML = `<div id="contentOppr-${index}">${displayTextOppertunity}<span id="dotsOppr-${index}" class="dots">...  </span><span id="moreValueOppr${index}" class="hide more">${moreText}</span><a  class="read_more_btn_review" id="${index}" data-name="${index}">Read more</a> </div>`;
+    // content.innerHTML = `<div id="content-${index}">${displayText}<span class="dots">...</span><span class="hide more">${moreText}</span><button onclick="readMore(${that})">Read More</button> </div>`;
+  }
+
+});
+}
+readMoreWithLengthOpper();
 //   }
+function readMoreWithLengthOppertunity() {
+  document.querySelectorAll(".content_review_length_oppertunity").forEach(function (event) {
+    event.addEventListener('click', function (e) {
+      let targetId = e.target.id;
+      //$('#moreValue'+targetId).show();
+      let btn = document.querySelector('#contentOppr-' + targetId);
+      let HtmlBtn = $('#' + targetId).html();
+      if (HtmlBtn == 'Read more') {
+        $('#moreValueOppr' + targetId).removeClass("hide");
+        $('#' + targetId).html(" Read less");
+        $('#moreValueOppr' + targetId).show();
+        $('#dotsOppr-' + targetId).hide();
+      } 
+      if (HtmlBtn == ' Read less') {
+        $('#moreValueOppr' + targetId).addClass("hide");
+        $('#' + targetId).html("Read more");
+        $('#moreValueOppr' + targetId).hide();
+        $('#dotsOppr-' + targetId).show();
+      }
+    
+    });
+  });
+}
+readMoreWithLengthOppertunity();
+
 
 function readMoreWithLength() {
   document.querySelectorAll(".content_review_length").forEach(function (event) {
@@ -443,15 +492,17 @@ function readMoreWithLength() {
       let HtmlBtn = $('#' + targetId).html();
       if (HtmlBtn == 'Read more') {
         $('#moreValue' + targetId).removeClass("hide");
-        $('#' + targetId).html("Read less");
+        $('#' + targetId).html(" Read less");
         $('#moreValue' + targetId).show();
         $('#dots-' + targetId).hide();
-      } else {
+      } 
+      if (HtmlBtn == ' Read less') {
         $('#moreValue' + targetId).addClass("hide");
         $('#' + targetId).html("Read more");
         $('#moreValue' + targetId).hide();
         $('#dots-' + targetId).show();
       }
+      
     });
   });
 }
@@ -813,20 +864,17 @@ const tune = (obj) => {
 }
 
 function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
-
   let outQueryUrl = "";
   let overName = overUrl.name;
 
   let overValue = overUrl.value;
   let overType = overUrl.type;
-
   if (queryObj.length > 0) {
     if (overType == 'unchecked') {
       let compareVal = overValue;
       let compareName = overName;
       let finalObj = [];
       queryObj.find((el) => {
-
         if (el.value != compareVal || el.key != compareName) {
           finalObj.push(el);
         }
@@ -840,10 +888,10 @@ function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
       if (i == 0) {
         if (key != '') {
           outQueryUrl += `?${key}=${value}`;
-        }
+           }
       } else {
         outQueryUrl += `&${key}=${value}`;
-      }
+        }
       if (i == queryObj.length - 1) {
         if (overType == 'checked' || overType == 'categoryClicked') {
           if (key != '') {
@@ -855,26 +903,59 @@ function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
       }
     });
   } else {
-    if (overValue != '') {
+     if (overValue != '') {
       outQueryUrl += `?${overName}=${overValue}`;
-    }
+      }
   }
-
 
   return outQueryUrl;
 }
 document.querySelectorAll(".clickCategory").forEach(function (event) {
+  
   event.addEventListener('click', function () {
     let eventFilterType = 'categoryClicked';
     let filterName = this.getAttribute("data-name");
     let filterValue = this.getAttribute("data-value");
+      
     let urlObj = parseQueryG13(document.location.search);
     urlObj = tune(urlObj);
     let baseUrl = window.location.href.split('?')[0];
+   
+    urlObj=[];
+   
+    //return false;
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+    
     window.location.href = `${baseUrl}${finalTriggerUrl}`;
   });
 });
+$(document).on('click','.oppclickCategory',function(event){
+  let eventFilterType = 'categoryClicked';
+    let filterName = this.getAttribute("data-name");
+    let filterValue = this.getAttribute("data-value");
+    let urlParams = removeURLParameter(document.location.search, filterName);
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+     window.location.href = `${baseUrl}${finalTriggerUrl}`;
+})
+// document.querySelectorAll(".oppclickCategory").forEach(function (event) {
+//   console.log('inside click category')
+//   event.addEventListener('click', function () {
+//     let eventFilterType = 'categoryClicked';
+//     let filterName = this.getAttribute("data-name");
+//     let filterValue = this.getAttribute("data-value");
+//     let urlParams = removeURLParameter(document.location.search, filterName);
+//     let urlObj = parseQueryG13(urlParams);
+//     urlObj = tune(urlObj);
+//     console.log('urlObj',urlObj)
+//     let baseUrl = window.location.href.split('?')[0];
+//     console.log('baseUrl',baseUrl)
+//     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+//      window.location.href = `${baseUrl}${finalTriggerUrl}`;
+//   });
+// });
 
 if (document.querySelectorAll('.serviceCategory')) {
   document.querySelectorAll(".serviceCategory").forEach(function (event) {
@@ -938,6 +1019,7 @@ function titleCase(str) {
 
 function removeURLParameter(url, parameter) {
   //prefer to use l.search if you have a location/link object
+ 
   var urlparts = url.split('?');
   if (urlparts.length >= 2) {
 
@@ -959,15 +1041,234 @@ function removeURLParameter(url, parameter) {
   }
 }
 
+
+document.querySelectorAll(".oppertunitiescheck").forEach(function (event) {
+    event.addEventListener('change', function (event) {
+      
+
+      let eventFilterType;
+      let filterName = this.getAttribute('name');//$(this).attr("name");
+      let filterValue = this.getAttribute('value');//$(this).attr("value");
+      let opencloseCheckLength = $('.opencloseCheckLength:checked').length
+      let locationlengthcheck = $('.locationlengthcheck:checked').length
+      
+      $(".opencloseCount").addClass("hide");
+      $(".locationCount").addClass("hide");
+
+    
+      if(opencloseCheckLength>0){
+        
+        $(".opencloseCount").removeClass("hide");
+        $('.opencloseCount').html(opencloseCheckLength+' selected');
+      }
+
+      if(locationlengthcheck>0){
+        
+        $(".locationCount").removeClass("hide");
+        $('.locationCount').html(locationlengthcheck+' selected');
+      }
+
+   
+      
+
+      if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+    
+       let urlParams = removeURLParameter(document.location.search, 'page');
+
+      let urlObj = parseQueryG13(urlParams);
+      urlObj = tune(urlObj);
+      let baseUrl = window.location.href.split('?')[0];
+      
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
+      //url change
+      const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
+      window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${finalTriggerUrl}`);
+  
+      // document.getElementById('searchResultsContainer').innerHTML = '';
+      // document.getElementById('newmainLotandcategoryContainer').innerHTML = '';
+     document.getElementById('paginationContainer').innerHTML = '';
+      let slist = document.querySelector('.govuk-grid-sresult-right');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled', true);
+      const baseAPIUrl = '/opportunities/search-api';
+      //GET_OPPORTUNITIES_API
+      $.ajax({
+        url: `${baseAPIUrl}${finalTriggerUrl}`,
+        type: "GET",
+        contentType: "application/json",
+      }).done(function (result) {
+       let totalResults =  result.search_data.totalResults;
+       $('#totalRecords').html(totalResults);
+      
+          $('.hidefoot').hide();
+          var footLothtml = '';
+          if(totalResults==0){
+          
+            $('.hidefoot').show();
+            footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+           
+            footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>';
+            footLothtml +=' <li>choosing a different lot</li>';
+            footLothtml +=' <li>double-checking your spelling</li>';
+            footLothtml +='<li>using fewer keywords</li>';
+            footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
+            footLothtml +='</ul>';
+            $('.hidefoot').html(footLothtml);
+          }
+            if(result.search_data.searchCriteria.lots.length == 0){
+            var Lothtml = '';
+            if (result.njkDatas.haveLot == true) {
+              Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
+            } else {
+              Lothtml += '<strong>All lots</strong>'
+            }
+              Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+              result.njkDatas.lotDetails.forEach(lotwithcount => {
+               if(result.njkDatas.currentLot == lotwithcount.id){
+                  Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="" ><b>'+ titleCase(lotwithcount.text) + ' (0)</b></li>';
+                }
+                else
+                {
+                  Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="">' + titleCase(lotwithcount.text) + ' (0)</li>';
+                }
+                          
+                 })
+             
+              Lothtml += '</ul>'
+            
+            // console.log('Lothtml',Lothtml)
+            document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
+          }
+          else{
+            var Lothtml = '';
+      if (result.njkDatas.haveLot == true) {
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
+      } else {
+        Lothtml += '<strong>All lots</strong>'
+      }
+        Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+        result.njkDatas.lotDetails.forEach(lotwithcount => {
+         if(result.njkDatas.currentLot == lotwithcount.id){
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory govuk-link--no-visited-state govuk-!-font-weight-bold" >'+ titleCase(lotwithcount.text) + ' ('+lotwithcount.count+')</li>';
+          }
+          else
+          {
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory govuk-link--no-visited-state" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ('+lotwithcount.count+')</a></li>';
+          }
+                    
+           })
+       
+        Lothtml += '</ul>'
+      
+      // console.log('Lothtml',Lothtml)
+      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;     
+          }
+
+
+
+
+        slist.classList.remove('loadingres');
+        
+
+        var mainLothtml = '';
+        $.each(result.search_data.results, function (key, val) {
+          mainLothtml +='<li class="app-search-result">';
+          mainLothtml +='<h2 class="govuk-heading-s govuk-!-margin-bottom-1">';
+          mainLothtml +='<a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId='+val.projectId+'&lot='+val.lot+'&status='+val.status+'&subStatus=">' + val.projectName + '</a>';
+          mainLothtml +='</h2>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
+          mainLothtml +='</p>';
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
+          mainLothtml +='</p>';
+          if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
+            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+          }
+
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
+          if(val.status != undefined && val.status == 'closed' ){
+              if(val.subStatus != undefined)
+                  mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+ ' : '+ val.subStatus + '</p>';
+              else
+                  mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
+ 
+          }
+          else
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' +capitalize(val.status)+  '</p>';
+          if(val.description != undefined){
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext content_review_length_oppertunity">' + val.description + '';
+          }
+          mainLothtml +='</p>';
+          mainLothtml +='</li>';
+      });
+
+          document.getElementById('contentHead').innerHTML = mainLothtml;
+
+          var paginationHtml = ''
+      paginationHtml += '<div class="govuk-grid-row">';
+      paginationHtml += '<div class="govuk-grid-column-full">';
+      paginationHtml += '<div class="govuk-grid-column-one-half">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.PrvePageUrl != '') {
+        if (result.njkDatas.CurrentPageNumber != 1) {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Previous Page</a>';
+          paginationHtml += '</p>';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '">' + (result.njkDatas.PreviousPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>  ';
+        }
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+
+      paginationHtml += '<div class="">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.NextPageUrl != '') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+        paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+        paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+        paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+        paginationHtml += '</svg>';
+        paginationHtml += 'Next Page</a>';
+        paginationHtml += '</p>';
+      }
+      if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+        // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+      } else {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '">' + (result.njkDatas.NextPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>';
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      
+      readMoreWithLengthOpper();
+      readMoreWithLengthOppertunity();
+      
+
+
+      });
+    
+  });
+});
+
 document.querySelectorAll(".g13Check").forEach(function (event) {
   event.addEventListener('change', function (event) {
     let eventFilterType;
     let filterName = this.getAttribute('name');//$(this).attr("name");
     let filterValue = this.getAttribute('value');//$(this).attr("value");
     if (this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+
     let urlParams = removeURLParameter(document.location.search, 'page');
     let urlObj = parseQueryG13(urlParams);
+
     urlObj = tune(urlObj);
+    
     let baseUrl = window.location.href.split('?')[0];
     let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, { name: filterName, value: filterValue, type: eventFilterType });
     //url change
@@ -981,13 +1282,12 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
     let slist = document.querySelector('.govuk-grid-sresult-right');
     slist.classList.add('loadingres')
     $('#criteriasavebtn').prop('disabled', true);
-    const baseAPIUrl = '/g-cloud/search-api';
+    const baseAPIUrl = '/g-cloud/search';
     $.ajax({
       url: `${baseAPIUrl}${finalTriggerUrl}`,
       type: "GET",
       contentType: "application/json",
     }).done(function (result) {
-
       $('#criteriasavebtn').prop('disabled', false);
       $('#criteriasavebtn').removeClass('govuk-button--disabled');
       $("#clearfilter").attr("href", result.clearFilterURL);
@@ -1115,7 +1415,7 @@ document.querySelectorAll(".g13Check").forEach(function (event) {
         paginationHtml += '</div>';
         paginationHtml += '</div>';
 
-        paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+        paginationHtml += '<div class="govuk-grid-column-one-half">';
         paginationHtml += '<div>';
         paginationHtml += '&nbsp;';
         if (result.njkDatas.NextPageUrl != '') {
@@ -1209,7 +1509,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
       window.location.href = `${baseUrl}${searchQueryUrl}`;
     });
   });
-
+  document.querySelectorAll(".paginationOppUrlClass").forEach(el => {
+    el.addEventListener('click', function (e) {
+      let searchQueryUrl = "";
+      let searchValue = document.getElementsByClassName("oppurtunities_search"); //$('.g13_search').val();
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+      let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+      if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if (searchValue.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue) })
+      let baseUrl = window.location.href.split('?')[0];
+      urlObj.forEach((el, i) => {
+        let key = el.key;
+        let value = el.value;
+        if (i == 0) {
+          if (key != '') {
+            searchQueryUrl += `?${key}=${value}`;
+          }
+        } else {
+          searchQueryUrl += `&${key}=${value}`;
+        }
+      });
+      window.location.href = `${baseUrl}${searchQueryUrl}`;
+    });
+  });
+  
   const removeErrorFieldsEoiTerms = () => {
     $('.govuk-error-message').remove();
     $('.govuk-form-group--error').removeClass('govuk-form-group--error')
@@ -1220,6 +1544,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 
   var Searchinput = document.getElementsByClassName("g13_search")[0];
+ 
   if (Searchinput) {
     Searchinput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
@@ -1268,7 +1593,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       document.getElementById('searchResultsContainer').innerHTML = '';
       document.getElementById('mainLotandcategoryContainer').innerHTML = '';
       document.getElementById('paginationContainer').innerHTML = '';
-      const baseAPIUrl = '/g-cloud/search-api';
+      const baseAPIUrl = '/g-cloud/search';
       let slist = document.querySelector('#searchResultsContainer');
       slist.classList.add('loadingres')
       $('#criteriasavebtn').prop('disabled', true);
@@ -1450,6 +1775,409 @@ window.addEventListener('DOMContentLoaded', (event) => {
       })
     });
   }
+//Opportunities Search Starts
+
+var Searchinput = document.getElementsByClassName("oppurtunities_search")[0];
+if (Searchinput) {
+  Searchinput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.getElementsByClassName("oppurtunities_search_click")[0].click();
+    }
+  });
+}
+
+
+if (document.querySelector(".oppurtunities_search_click")) {
+
+  document.querySelector(".oppurtunities_search_click").addEventListener('click', function () {
+ 
+    removeErrorFieldsEoiTerms();
+    let searchQueryUrl = "";
+   // document.getElementById('searchQuery').value = window.location.search;
+    let searchValue = document.getElementsByClassName("oppurtunities_search");
+    let definition_field = document.getElementById("with-hint");
+    if (searchValue[0].value.length > 250) {
+      ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
+      return false;
+    }
+    let urlParams = removeURLParameter(document.location.search, 'page');
+    let urlObj = parseQueryG13(urlParams);
+    urlObj = tune(urlObj);
+    let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+    if (DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+    if (searchValue[0].value.length > 0) urlObj.unshift({ "key": "q", "value": encodeURIComponent(searchValue[0].value) })
+    let baseUrl = window.location.href.split('?')[0];
+    urlObj.forEach((el, i) => {
+      let key = el.key;
+      let value = el.value;
+      if (i == 0) {
+        if (key != '') {
+          searchQueryUrl += `?${key}=${value}`;
+        }
+      } else {
+        searchQueryUrl += `&${key}=${value}`;
+      }
+    });
+    //url change
+    const baseSearchUrl = '/digital-outcomes-and-specialists/opportunities';
+    window.history.pushState({ "html": "", "pageTitle": "" }, "", `${baseSearchUrl}${searchQueryUrl}`);
+
+   // document.getElementById('searchResultsContainer').innerHTML = '';
+    document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+    document.getElementById('paginationContainer').innerHTML = '';
+    const baseAPIUrl = '/opportunities/search-api';
+    let slist = document.querySelector('.govuk-grid-sresult-right');
+      // let slist = document.querySelector('#searchResultsContainer');
+    slist.classList.add('loadingres')
+    $('#criteriasavebtn').prop('disabled', true);
+    $.ajax({
+      url: `${baseAPIUrl}${searchQueryUrl}`,
+      type: "GET",
+      contentType: "application/json",
+    }).done(function (result) {
+      let totalResults =  result.search_data.totalResults;
+      let titletxt =  result.titletxt;
+      let searchdata = result.searchdata;
+      let searchKey ="";
+      if(searchdata !='' && searchdata !=undefined){
+       
+        searchKey='containing <b>'+searchdata+'</b>'; 
+      }
+      //$('#totalRecords').html(totalResults);
+      
+       $('#totalRecordsNew').html('<b class="govuk-!-font-size-48"><span id="totalRecords">'+totalResults+'</span></b> results found '+searchKey+' in <b>'+titletxt+'</b>');
+      
+  
+      $('.hidefoot').hide();
+      var footLothtml = '';
+      if(totalResults==0){
+      
+        $('.hidefoot').show();
+        footLothtml +='<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+      
+        footLothtml +='<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2 govuk-list--bullet"><li>removing filters</li>';
+        footLothtml +=' <li>choosing a different lot</li>';
+        footLothtml +=' <li>double-checking your spelling</li>';
+        footLothtml +='<li>using fewer keywords</li>';
+        footLothtml +='<li>searching for something less specific, you can refine your results later</li>';
+        footLothtml +='</ul>';
+        $('.hidefoot').html(footLothtml);
+      }
+      if(result.search_data.searchCriteria.lots.length == 0){
+        var Lothtml = '';
+        if (result.njkDatas.haveLot == true) {
+          Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
+        } else {
+          Lothtml += '<strong>All lots</strong>'
+        }
+          Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+          // result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+          //   Lothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+          // })
+          result.njkDatas.lotDetails.forEach(lotwithcount => {
+            // Lothtml += '<li>';
+            if(result.njkDatas.currentLot == lotwithcount.id){
+              Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="" ><b>'+ titleCase(lotwithcount.text) + ' (0)</b></li>';
+            }
+            else
+            {
+              Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="">' + titleCase(lotwithcount.text) + ' (0)</li>';
+            }
+             // Lothtml += '</li>';
+            
+             })
+         
+          Lothtml += '</ul>'
+        
+        document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml; 
+      }
+       else{
+      var Lothtml = '';
+     
+      if (result.njkDatas.haveLot == true) {
+        Lothtml = '<a class="govuk-link govuk-link-filter-main" href="'+result.AllLotsFilterURL+'"> <strong>All lots</strong></a>';
+      } else {
+        Lothtml += '<strong>All lots</strong>'
+      }
+        Lothtml += ' <ul class="govuk-list govuk-!-font-size-14 govuk-!-margin-left-3">';
+        // result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+        //   Lothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+        // })
+        result.njkDatas.lotDetails.forEach(lotwithcount => {
+          // Lothtml += '<li>';
+          if(result.njkDatas.currentLot == lotwithcount.id){
+            Lothtml +='<li data-name="lot" data-value="' + lotwithcount.id + '" class="oppclickCategory govuk-link--no-visited-state govuk-!-font-weight-bold" >'+ titleCase(lotwithcount.text) + ' ('+lotwithcount.count+')</li>';
+          }
+          else
+          {
+            Lothtml +='<li><a data-name="lot" data-value="' + lotwithcount.id + '" class="govuk-link oppclickCategory govuk-link--no-visited-state" style="cursor: pointer !important;">' + titleCase(lotwithcount.text) + ' ('+lotwithcount.count+')</a></li>';
+          }
+           // Lothtml += '</li>';
+          
+           })
+       
+        Lothtml += '</ul>'
+      
+       
+      document.getElementById('mainLotandcategoryContainer').innerHTML = Lothtml;  
+       }   
+
+       slist.classList.remove('loadingres');
+       var mainLothtml = '';
+       $.each(result.search_data.results, function (key, val) {
+
+         mainLothtml +='<li class="app-search-result">';
+         mainLothtml +='<h2 class="govuk-heading-s govuk-!-margin-bottom-1">';
+         mainLothtml +='<a class="govuk-link" href="/digital-outcomes-and-specialists/reviewRecommendation?projectId='+val.projectId+'&lot='+val.lot+'&status='+val.status+'&subStatus=">' + val.projectName + '</a>';
+         mainLothtml +='</h2>';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.buyerName + '';
+         mainLothtml +='</p>';
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-1">' + val.location + '';
+         mainLothtml +='</p>';
+         if(val.budgetRange != 'Not prepared to share details' && val.budgetRange !=''){
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">Value: ' + val.budgetRange + '</p>';
+        }
+         mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">' + val.lotName + '</p>';
+         if(val.status != undefined && val.status == 'closed' ){
+          if(val.subStatus != undefined)
+            mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +' : '+ val.subStatus + '</p>';
+          else
+          mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) + '</p>';  
+         }   
+         else  
+           mainLothtml +='<p class="govuk-body govuk-!-font-size-14 govuk-!-margin-bottom-1">'+ capitalize(val.status) +  '</p>';
+           if(val.description != undefined){
+              mainLothtml +='<p class="govuk-body govuk-!-font-size-16 wraptext content_review_length_oppertunity">' + val.description + '';
+           }
+         mainLothtml +='</p>';
+         mainLothtml +='</li>';
+     });
+      document.getElementById('contentHead').innerHTML = mainLothtml;
+      var paginationHtml = ''
+      paginationHtml += '<div class="govuk-grid-row">';
+      paginationHtml += '<div class="govuk-grid-column-full">';
+      paginationHtml += '<div class="govuk-grid-column-one-half">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.PrvePageUrl != '') {
+        if (result.njkDatas.CurrentPageNumber != 1) {
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Previous Page</a>';
+          paginationHtml += '</p>';
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.PrvePageUrl + '">' + (result.njkDatas.PreviousPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>  ';
+        }
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+
+      paginationHtml += '<div class="">';
+      paginationHtml += '<div>';
+      paginationHtml += '&nbsp;';
+      if (result.njkDatas.NextPageUrl != '') {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+        paginationHtml += '<a href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-16 paginationOppUrlClass">';
+        paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+        paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+        paginationHtml += '</svg>';
+        paginationHtml += 'Next Page</a>';
+        paginationHtml += '</p>';
+      }
+      
+      if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+        // paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+      } else {
+        paginationHtml += '<p class="govuk-body govuk-!-margin-0"><a class="govuk-link govuk-!-font-size-14 govuk-link--no-visited-state" href="/digital-outcomes-and-specialists/opportunities?' + result.njkDatas.NextPageUrl + '">' + (result.njkDatas.NextPageNumber) + ' of ' + result.njkDatas.noOfPages + '</a></p>';
+      }
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      paginationHtml += '</div>';
+      document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      $("#clearfilter").attr("href", result.clearFilterURL);
+      readMoreWithLengthOpper();
+      readMoreWithLengthOppertunity();
+      
+      // $('#criteriasavebtn').prop('disabled', false);
+      // $('#criteriasavebtn').removeClass('govuk-button--disabled');
+      // $("#clearfilter").attr("href", result.clearFilterURL);
+      // if (result.data.meta.total > 0) {
+      //   slist.classList.remove('loadingres')
+      //   getCriterianDetails(result.data.meta.total);
+      //   document.getElementById('rightSidefooterCotainer').innerHTML = '';
+
+      //   var mainLothtml = '';
+      //   if (result.njkDatas.haveLot) {
+      //     mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+      //   } else {
+      //     mainLothtml += '<strong>All Categories</strong>'
+      //     mainLothtml += '<ul class="govuk-list">'
+      //     result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+      //       mainLothtml += '<li><a data-name="lot" data-value="' + lotwithcount.slug + '" class="govuk-link clickCategory" style="cursor: pointer !important;">' + titleCase(lotwithcount.key) + ' (' + lotwithcount.count + ')</a></li>';
+      //     })
+      //     mainLothtml += '</ul>'
+      //   }
+
+      //   if (result.njkDatas.haveLot) {
+      //     mainLothtml += '<ul class="govuk-list">'
+      //     if (result.njkDatas.haveserviceCategory) {
+      //       mainLothtml += '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '">' + result.njkDatas.lotInfos.label + '</a>'
+      //     } else {
+      //       mainLothtml += '<li><strong>' + titleCase(result.njkDatas.lotInfos.label) + ' </strong></li>'
+      //     }
+      //     if (result.njkDatas.lotInfos.currentparentCategory) {
+      //       mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot=' + result.njkDatas.lotInfos.slug + '&serviceCategories=' + result.njkDatas.lotInfos.currentparentCategory + '">' + titleCase(result.njkDatas.lotInfos.currentparentCategory) + '</a></p>';
+      //     }
+
+      //     mainLothtml += '<li>';
+      //     mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+      //     mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+      //     result.njkDatas.lotInfos.subservices.forEach(subservice => {
+      //       if (subservice.childrenssts) {
+      //         if (result.njkDatas.lotInfos.currentparentCategory) {
+      //           mainLothtml += '<li>';
+      //           mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+      //           mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+      //           subservice.childrens.forEach(child => {
+      //             if (child.value == result.njkDatas.lotInfos.currentserviceCategory) {
+      //               mainLothtml += '<li><strong>' + child.label + ' (' + child.count + ')</strong></li>';
+      //             } else {
+      //               var childVal = child.value.split(' ').join('+');
+      //               mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+      //             }
+      //           });
+      //           mainLothtml += '</ul>';
+      //           mainLothtml += '</ul>';
+      //         } else {
+      //           mainLothtml += '<li>';
+      //           mainLothtml += '<strong>' + titleCase(result.njkDatas.lotInfos.currentserviceCategory) + '</strong>';
+      //           mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+      //           mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+      //           subservice.childrens.forEach(child => {
+      //             var childVal = child.value.split(' ').join('+');
+      //             mainLothtml += '<li><a class="govuk-link parentCategory" data-name="' + child.name + '" data-value="' + childVal + '">' + child.label + '(' + child.count + ')</a></li>';
+      //           });
+      //           mainLothtml += '</ul>';
+      //           mainLothtml += '</ul>';
+      //         }
+      //         mainLothtml += '</li>';
+      //       } else {
+
+      //         if (subservice.value == result.njkDatas.lotInfos.currentserviceCategory) {
+      //           mainLothtml += '<li><strong>' + subservice.label + '</strong></li>';
+      //         } else {
+      //           if (subservice.name !== 'supportMultiCloud') {
+      //             var subserviceValue = subservice.value.split(' ').join('+');
+      //             mainLothtml += '<li><a class="govuk-link serviceCategory" data-name="' + subservice.name + '" data-value="' + subserviceValue + '">' + subservice.label + '(' + subservice.count + ')</a></li>';
+      //           }
+      //         }
+      //       }
+      //     });
+      //     mainLothtml += '</ul>';
+      //     mainLothtml += '</ul>';
+      //     mainLothtml += '</li>';
+      //     mainLothtml += '</ul>';
+      //   }
+      //   document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+
+      //   var searchresultshtml = '';
+      //   searchresultshtml += '<div class="govuk-grid-row">';
+      //   searchresultshtml += '<div class="govuk-grid-column-full">';
+      //   searchresultshtml += '<ul class="govuk-list govuk-supplier-list">';
+      //   result.data.documents.forEach(element => {
+      //     searchresultshtml += '<li class="app-search-result">'
+      //       + '<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+      //       + '<a class="govuk-link" href="/g-cloud/services?id=' + element.id + '">' + element.serviceName + '</a>'
+      //       + '</h2>'
+      //       + '<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">' + element.supplierName + '</p>'
+      //       + '<p class="govuk-body govuk-!-font-size-16">' + element.serviceDescription + '</p>'
+      //       + '<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+      //       + '<li class="govuk-!-display-inline govuk-!-padding-right-4">' + element.lotName + '</li>'
+      //       + '<li class="govuk-!-display-inline">' + element.frameworkName + '</li>'
+      //       + '</ul>'
+      //       + '</li>';
+
+      //   });
+      //   searchresultshtml += '<div>';
+      //   searchresultshtml += '<div>';
+      //   searchresultshtml += '<ul>';
+      //   document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+      //   var paginationHtml = ''
+      //   paginationHtml += '<div class="govuk-grid-row">';
+      //   paginationHtml += '<div class="govuk-grid-column-full">';
+      //   paginationHtml += '<div class="govuk-grid-column-one-half">';
+      //   paginationHtml += '<div>';
+      //   paginationHtml += '&nbsp;';
+      //   if (result.njkDatas.PrvePageUrl != '') {
+      //     if (result.njkDatas.CurrentPageNumber != 1) {
+      //       paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+      //       paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.PrvePageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+      //       paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+      //       paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+      //       paginationHtml += '</svg>';
+      //       paginationHtml += 'Previous Page</a>';
+      //       paginationHtml += '</p>';
+      //       paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber - 1) + ' of ' + result.njkDatas.noOfPages + '</label></p>  ';
+      //     }
+      //   }
+      //   paginationHtml += '</div>';
+      //   paginationHtml += '</div>';
+
+      //   paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+      //   paginationHtml += '<div>';
+      //   paginationHtml += '&nbsp;';
+      //   if (result.njkDatas.NextPageUrl != '') {
+      //     paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+      //     paginationHtml += '<a href="/g-cloud/search?' + result.njkDatas.NextPageUrl + '" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+      //     paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+      //     paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+      //     paginationHtml += '</svg>';
+      //     paginationHtml += 'Next Page</a>';
+      //     paginationHtml += '</p>';
+      //   }
+      //   if (result.njkDatas.noOfPages == '0' || result.njkDatas.noOfPages == '1') {
+      //     paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of 1</label></p>';
+      //   } else {
+      //     paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">' + (result.njkDatas.CurrentPageNumber) + ' of ' + result.njkDatas.noOfPages + '</label></p>';
+      //   }
+      //   paginationHtml += '</div>';
+      //   paginationHtml += '</div>';
+      //   paginationHtml += '</div>';
+      //   paginationHtml += '</div>';
+      //   document.getElementById('paginationContainer').innerHTML = paginationHtml;
+      // } else {
+      //   $('#criteriasavebtn').prop('disabled', true);
+      //   document.getElementById('searchResultsContainer').innerHTML = '';
+      //   getCriterianDetails(0);
+      //   slist.classList.remove('loadingres')
+
+      //   document.getElementById('rightSidefooterCotainer').innerHTML = '';
+      //   var Noresulthtml = '';
+      //   Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+      //   Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+      //   Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+      //   Noresulthtml += '</li>removing filters</li><br>';
+      //   Noresulthtml += '</li>choosing a different category</li><br>';
+      //   Noresulthtml += '</li>double-checking your spelling</li><br>';
+      //   Noresulthtml += '</li>using fewer keywords</li><br>';
+      //   Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+      //   Noresulthtml += '</ul>';
+      //   Noresulthtml += '</ul>';
+      //   document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml;
+      // }
+      // loadQuerySelector();
+    }).fail((res) => {
+    })
+  });
+}
+
+//Opportunities Search Ends
+
 });
 
 
@@ -1526,16 +2254,19 @@ document.addEventListener('readystatechange', event => {
   if (event.target.readyState === "complete") {
     let queryParamObj = parseQueryG13(document.location.search);
     queryParamObj = tune(queryParamObj);
-
     queryParamObj.forEach((el, i) => {
-      console.log(el);
       //Search
       if (el.key === 'q') { $('.g13_search').val(decodeURIComponent(el.value)); }
+      if (el.key === 'q') { $('.oppurtunities_search').val(decodeURIComponent(el.value)); }
+
       $('.g13Check').each(function () {
         if ($(this).attr('name') == el.key && $(this).val() == el.value) {
           $(this).attr("checked", "checked");
         }
       });
+
+      
+      
     });
     // total results
     var totalResult = $('#totalResult').attr('data-value');
