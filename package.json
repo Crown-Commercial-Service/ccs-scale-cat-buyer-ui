@@ -89,7 +89,7 @@
         "chai": "^4.3.7",
         "cheerio": "^1.0.0-rc.12",
         "eslint": "^8.46.0",
-        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-prettier": "^8.9.0",
         "gulp": "^4.0.2",
         "gulp-clean-css": "^4.3.0",
         "gulp-concat": "^2.6.1",
