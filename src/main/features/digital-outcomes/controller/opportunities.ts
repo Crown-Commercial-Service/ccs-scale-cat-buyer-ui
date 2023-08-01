@@ -6,7 +6,6 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 import momentz from 'moment-timezone';
 import moment from 'moment-business-days';
 
-
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
     const { lot, status, q, page, location } = req.query;
@@ -97,15 +96,20 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     };
     const searchKeywordsQuery: any = q;
     const keywordsQuery = q != undefined ? `&keyword=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    const keywordsQuery1 = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+    const keywordsQuery1 = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
     const statusQuery = status != undefined ? `&filters=${btoa(JSON.stringify(finalquery))}` : '';
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
+    const clearFilterURL = `/digital-outcomes/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
     const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
+    const AllLotsFilterURL = `/digital-outcomes/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
+    let AllLotsFilterURLHover = `/digital-outcomes/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
+    if (status != undefined || q != undefined) {
+      AllLotsFilterURLHover = AllLotsFilterURLHover + '&';
+    }
+    console.log('AllLotsFilterURL &&&&&', AllLotsFilterURLHover);
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     const response_data = fetch_dynamic_api?.data;
     let NextPagedata, PrevPagedata, currentPageData, lastPageData;
@@ -203,8 +207,8 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
       lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
-          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
-        );
+        parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+      );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
@@ -249,6 +253,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       locations: locations,
       locationFilter: location,
       AllLotsFilterURL,
+      AllLotsFilterURLHover,
     };
 
     res.render('opportunities', display_fetch_data);
@@ -281,14 +286,13 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     let DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
     if (momentz(new Date(DeadLineSubDate)).tz('Europe/London').isDST()) {
-        const day = DeadLineSubDate.substr(0, 10);
-        const time = DeadLineSubDate.substr(11, 5);
-          DeadLineSubDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm:ss')
-            .add(1, 'hours')
-            .format('DD/MM/YYYY HH:mm');
-          
+      const day = DeadLineSubDate.substr(0, 10);
+      const time = DeadLineSubDate.substr(11, 5);
+      DeadLineSubDate = moment(day + '' + time, 'YYYY-MM-DD HH:mm:ss')
+        .add(1, 'hours')
+        .format('DD/MM/YYYY HH:mm');
     }
-    
+
     fetch_dynamic_api_data.forEach((value: any) => {
       if (value.id == 'Criterion 1') {
         timeline = value;
@@ -583,9 +587,9 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
     const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
-    const clearFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
+    const clearFilterURL = `/digital-outcomes/opportunities?${keywordsQuery1}${lotsQueryclearUrl}`;
     const keywordsLotsQuery = q != undefined ? `q=${encodeURIComponent(searchKeywordsQuery)}` : '';
-    const AllLotsFilterURL = `/digital-outcomes-and-specialists/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
+    const AllLotsFilterURL = `/digital-outcomes/opportunities?${keywordsLotsQuery}${statusLotsQuery}`;
 
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseURL);
     let response_data = fetch_dynamic_api?.data;
@@ -667,8 +671,8 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     let lotDetails;
     if (q == undefined && status == undefined && lot == undefined && page == undefined) {
       lotDetails = response_data.searchCriteria.lots.sort((a: any, b: any) =>
-          parseInt(a.id) < parseInt(b.id) ? -1 : 1,
-        );
+        parseInt(a.id) < parseInt(b.id) ? -1 : 1,
+      );
       njkDatas.lotDetails = lotDetails;
     }
     if (q != undefined || status != undefined || lot != undefined || page != undefined) {
