@@ -16,6 +16,8 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import momentz from 'moment-timezone';
+
 
 const checkWeekendDate = (date: Date): Date => {
   const dayOfWeek = new Date(date).getDay();
@@ -106,7 +108,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             title = element.activeEvent.title;
             end_date = element?.activeEvent?.tenderPeriod?.endDate;
           }
-        }
+        },
       );
       let supplierDataList;
       if (agreementId_session == 'RM1557.13' && lotid == 'All') {
@@ -265,13 +267,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (agreementId_session === 'RM1043.8') {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-                supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
                 : '';
           } else {
             supplierDetailsObj.responseDate =
               supplierdata.data?.responders[i]?.responseDate != undefined &&
-                supplierdata.data?.responders[i]?.responseDate != null
+              supplierdata.data?.responders[i]?.responseDate != null
                 ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
                 : '';
           }
@@ -286,9 +288,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-                supplierFiltedData.contactPoint != null &&
-                supplierFiltedData.contactPoint?.name != undefined &&
-                supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != null &&
+              supplierFiltedData.contactPoint?.name != undefined &&
+              supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -324,7 +326,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             if (sameScoreFound != undefined && sameScoreFound != null && sameScoreFound.length > 1) {
               for (let index = 0; index < sameScoreFound.length; index++) {
                 const indexNumber = supplierDetailsDataList.findIndex(
-                  (x) => x.supplierId == sameScoreFound[index].supplierId
+                  (x) => x.supplierId == sameScoreFound[index].supplierId,
                 );
                 if (indexNumber != undefined && indexNumber != null && indexNumber >= 0) {
                   supplierDetailsDataList[indexNumber].rank = '' + rankCount + '=';
@@ -372,11 +374,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
             if (agreementId_session == 'RM1043.8') {
               supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                'DD/MM/YYYY hh:mm'
+                'DD/MM/YYYY HH:mm',
               );
             } else {
               supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                'DD/MM/YYYY'
+                'DD/MM/YYYY',
               );
             }
           }
@@ -392,7 +394,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(
               bankHoliDayData['scotland']?.events,
-              bankHoliDayData['northern-ireland']?.events
+              bankHoliDayData['northern-ireland']?.events,
             );
 
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
@@ -419,8 +421,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (agreementId_session == 'RM1043.8') {
             supplierDetails.supplierSignedContractDate = moment(
               scontractAwardDetail?.dateSigned,
-              'YYYY-MM-DD, hh:mm a'
-            ).format('DD/MM/YYYY hh:mm');
+              'YYYY-MM-DD, hh:mm a',
+            ).format('DD/MM/YYYY HH:mm');
           } else {
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
           }
@@ -464,8 +466,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (end_date != undefined && end_date != null) {
             const day = end_date.substr(0, 10);
             const time = end_date.substr(11, 5);
+            let value = momentz(new Date(end_date)).tz('Europe/London').isDST();
+            if (momentz(new Date(end_date)).tz('Europe/London').isDST()) {
 
-            filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+              filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+                .add(1, 'hours')
+                .format('DD MMMM YYYY, HH:mm');
+              }
+              else{
+                filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+              }
+            
           }
         } catch (error) {
           console.log('catcherr1', error);
@@ -476,7 +487,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             null,
             TokenDecoder.decoder(SESSION_ID),
             'Event Management - Date is Invalid',
-            true
+            true,
           );
         }
       }
@@ -490,7 +501,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       //LoggTracer.infoLogger(stage2_dynamic_api, logConstant.fetchEventDetails, req);
 
       const stage2_data = stage2_dynamic_api_data?.filter(
-        (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+        (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'),
       );
       let stage2_value = 'Stage 1';
       if (stage2_data.length > 0) {
@@ -562,7 +573,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             ?.find((i) => i?.value)?.value;
 
           const stage2_data_pre = stage2_dynamic_api_data?.filter(
-            (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+            (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'),
           );
           let stage2_value_pre = 'Stage 1';
           if (stage2_data_pre.length > 0) {
@@ -582,7 +593,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
 
         supplierDetails.supplierStandStillDate = moment(standstillEndDate, 'YYYY-MM-DDTHH:mm:ss').format(
-          'DD/MM/YYYY HH:mm'
+          'DD/MM/YYYY HH:mm',
         );
         // supplierDetails.supplierStandStillDate = moment(standstillEndDate).format('DD/MM/YYYY HH:mm');
 
@@ -606,14 +617,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           parseInt(startDate1[1]) - 1,
           startDate1[0],
           startDate1[3],
-          startDate1[4]
+          startDate1[4],
         );
         const checkDate = new Date(
           currentDate1[2],
           parseInt(currentDate1[1]) - 1,
           currentDate1[0],
           currentDate1[3],
-          currentDate1[4]
+          currentDate1[4],
         );
 
         const fromDateNew = new Date(startDate1[2], parseInt(startDate1[1]) - 1, startDate1[0]);
@@ -622,7 +633,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const toDate = new Date(endDate1[2], parseInt(endDate1[1]) - 1, endDate1[0], endDate1[3], endDate1[4]);
         const lastUpdate =
           moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
-            'YYYY-MM-DDTHH:mm:ss'
+            'YYYY-MM-DDTHH:mm:ss',
           ) + 'Z';
         const newcheckDate = new Date(lastUpdate);
 
@@ -630,6 +641,40 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           awardOption = 'true';
         }
       }
+      const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
+      if(supplierAwardDateTemp != undefined && agreementId_session == 'RM1043.8'){
+       const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      ) + 'Z';
+      if (momentz(new Date(lastUpdatetemp)).tz('Europe/London').isDST()) {
+
+   
+         let supplierAwardDate = supplierDetails.supplierAwardedDate;
+         if(supplierAwardDate){
+         const day = supplierAwardDate?.substr(0, 10);
+         const time = supplierAwardDate?.substr(11, 5);
+         supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
+              .add(1, 'hours')
+              .format('DD/MM/YYYY HH:mm');
+              supplierDetails.supplierAwardedDate = supplierAwardDate;
+
+         }
+
+          let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
+          if(supplierSignedContractDate){
+          const day1 = supplierSignedContractDate.substr(0, 10);
+          const time1 = supplierSignedContractDate.substr(11, 5);
+          supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
+                    .add(1, 'hours')
+                    .format('DD/MM/YYYY HH:mm');
+           supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
+
+          }
+
+     
+    }
+  }
+
 
       const appendData = {
         projectStatus: 2,
@@ -706,7 +751,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           case 'TBD': {
             const { eventId, projectId, procurements } = req.session;
             const currentProcNum = procurements.findIndex(
-              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
+              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
             req.session.procurements[currentProcNum].started = false;
             redirectUrl = '/projects/create-or-choose';
@@ -808,7 +853,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management page',
-      true
+      true,
     );
   }
 };
@@ -871,7 +916,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             title = element.activeEvent.title;
             end_date = element?.activeEvent?.tenderPeriod?.endDate;
           }
-        }
+        },
       );
       //#endregion
 
@@ -998,7 +1043,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           //supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.responseDate =
             supplierdata.data?.responders[i]?.responseDate != undefined &&
-              supplierdata.data?.responders[i]?.responseDate != null
+            supplierdata.data?.responders[i]?.responseDate != null
               ? moment(supplierdata.data?.responders[i]?.responseDate, 'YYYY-MM-DD HH:mm').format('DD/MM/YYYY HH:mm')
               : '';
           supplierDetailsObj.score = score != undefined ? score : 0;
@@ -1012,9 +1057,9 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
                 : null;
             supplierDetailsObj.supplierContactName =
               supplierFiltedData.contactPoint != undefined &&
-                supplierFiltedData.contactPoint != null &&
-                supplierFiltedData.contactPoint?.name != undefined &&
-                supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != null &&
+              supplierFiltedData.contactPoint?.name != undefined &&
+              supplierFiltedData.contactPoint?.name != null
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
@@ -1047,7 +1092,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             if (sameScoreFound != undefined && sameScoreFound != null && sameScoreFound.length > 1) {
               for (let index = 0; index < sameScoreFound.length; index++) {
                 const indexNumber = supplierDetailsDataList.findIndex(
-                  (x) => x.supplierId == sameScoreFound[index].supplierId
+                  (x) => x.supplierId == sameScoreFound[index].supplierId,
                 );
                 if (indexNumber != undefined && indexNumber != null && indexNumber >= 0) {
                   supplierDetailsDataList[indexNumber].rank = '' + rankCount + '=';
@@ -1098,11 +1143,11 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
 
               if (agreementId_session == 'RM1043.8') {
                 supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                  'DD/MM/YYYY hh:mm'
+                  'DD/MM/YYYY HH:mm',
                 );
               } else {
                 supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a').format(
-                  'DD/MM/YYYY'
+                  'DD/MM/YYYY',
                 );
               }
             }
@@ -1119,7 +1164,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(
               bankHoliDayData['scotland']?.events,
-              bankHoliDayData['northern-ireland']?.events
+              bankHoliDayData['northern-ireland']?.events,
             );
 
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
@@ -1143,8 +1188,8 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           if (agreementId_session == 'RM1043.8') {
             supplierDetails.supplierSignedContractDate = moment(
               scontractAwardDetail?.dateSigned,
-              'YYYY-MM-DD, hh:mm a'
-            ).format('DD/MM/YYYY hh:mm');
+              'YYYY-MM-DD, hh:mm a',
+            ).format('DD/MM/YYYY HH:mm');
           } else {
             supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
           }
@@ -1175,7 +1220,16 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           const day = end_date.substr(0, 10);
           const time = end_date.substr(11, 5);
 
-          filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+          if (momentz(new Date(end_date)).tz('Europe/London').isDST()) {
+
+            filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm')
+              .add(1, 'hours')
+              .format('DD MMMM YYYY, HH:mm');
+            }
+            else{
+              filtervalues = moment(day + '' + time, 'YYYY-MM-DD HH:mm').format('DD MMMM YYYY, HH:mm');
+            }
+          
         }
       } catch (error) {
         LoggTracer.errorLogger(
@@ -1185,11 +1239,45 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           null,
           TokenDecoder.decoder(SESSION_ID),
           'Event Management - Date is Invalid',
-          true
+          true,
         );
       }
       req.session.projectStatus = 1;
+      const supplierAwardDateTemp = supplierDetails?.supplierAwardedDate;
 
+      if(supplierAwardDateTemp != undefined && agreementId_session == 'RM1043.8'){
+        const lastUpdatetemp =  moment(supplierDetails.supplierAwardedDate.toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+         'YYYY-MM-DDTHH:mm:ss',
+       ) + 'Z';
+       if (momentz(new Date(lastUpdatetemp)).tz('Europe/London').isDST()) {
+ 
+    
+          let supplierAwardDate = supplierDetails.supplierAwardedDate;
+          if(supplierAwardDate){
+          const day = supplierAwardDate?.substr(0, 10);
+          const time = supplierAwardDate?.substr(11, 5);
+          supplierAwardDate = moment(day + '' + time, 'DD/MM/YYYY HH:mm')
+               .add(1, 'hours')
+               .format('DD/MM/YYYY HH:mm');
+               supplierDetails.supplierAwardedDate = supplierAwardDate;
+ 
+          }
+ 
+           let supplierSignedContractDate = supplierDetails.supplierSignedContractDate;
+           if(supplierSignedContractDate){
+           const day1 = supplierSignedContractDate.substr(0, 10);
+           const time1 = supplierSignedContractDate.substr(11, 5);
+           supplierSignedContractDate = moment(day1 + '' + time1, 'DD/MM/YYYY HH:mm')
+                     .add(1, 'hours')
+                     .format('DD/MM/YYYY HH:mm');
+            supplierDetails.supplierSignedContractDate = supplierSignedContractDate;
+ 
+           }
+ 
+      
+     }
+   }
+    
       const appendData = {
         agreementId_session: agreementId_session,
         projectStatus: 1,
@@ -1211,7 +1299,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         suppliers: localData,
         unreadMessage: unreadMessage,
         showCloseProject,
-      };
+     };
 
       let redirectUrl: string;
       if (status.toLowerCase() == 'in-progress') {
@@ -1261,7 +1349,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           case 'TBD': {
             const { eventId, projectId, procurements } = req.session;
             const currentProcNum = procurements.findIndex(
-              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
+              (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
             req.session.procurements[currentProcNum].started = false;
             redirectUrl = '/projects/create-or-choose';
@@ -1337,7 +1425,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
 
               const stage2_data = stage2_dynamic_api_data?.filter(
                 (anItem: any) =>
-                  anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+                  anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'),
               );
 
               let stage2_value = 'Stage 1';
@@ -1381,7 +1469,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management page',
-      true
+      true,
     );
   }
 };
@@ -1404,7 +1492,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
     const stage2_dynamic_api_data = stage2_dynamic_api.data;
     const stage2_data = stage2_dynamic_api_data?.filter(
-      (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14')
+      (anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'),
     );
     if (stage2_data.length > 0) stage2_value = 'Stage 2';
   } catch (e) {
@@ -1469,7 +1557,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
             lotid = element.lotId;
             title = element.activeEvent.title;
           }
-        }
+        },
       );
       const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
       const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL);
@@ -1570,7 +1658,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1610,7 +1698,7 @@ export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: expr
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1651,7 +1739,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1714,7 +1802,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1769,7 +1857,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1829,7 +1917,7 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1881,7 +1969,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1909,7 +1997,7 @@ export const EVENT_STATE_CHANGE = async (req: express.Request, res: express.Resp
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1936,7 +2024,7 @@ export const INVITE_SUPPLIERS = async (req: express.Request, res: express.Respon
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -1998,7 +2086,7 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -2042,7 +2130,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     if (response.status == Number(HttpStatusCode.OK)) {
       req.session.selectedRoute = 'FC';
       const currentProcIndex = req.session.procurements.findIndex(
-        (proc: any) => proc.eventId === eventId && proc.procurementID === projectId
+        (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
       );
       req.session.procurements[currentProcIndex].started = false;
       req.session.dosStage = 'Stage 2';
@@ -2060,7 +2148,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Tenders Service Api cannot be connected',
-      true
+      true,
     );
   }
 };
@@ -2080,7 +2168,7 @@ export const START_EVALUATION = async (req: express.Request, res: express.Respon
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Start Evaluation Endpoit issue',
-      true
+      true,
     );
   }
 };
@@ -2120,7 +2208,7 @@ export const START_EVALUATION_REDIRECT = async (req: express.Request, res: expre
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Event management - Start Evaluation Redirect Endpoit issue',
-      true
+      true,
     );
   }
 };
