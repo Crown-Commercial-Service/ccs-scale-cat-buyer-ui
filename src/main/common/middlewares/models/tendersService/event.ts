@@ -7,7 +7,8 @@ enum EventStatus {
   EVALUATED = 'Evaluated',
   PRE_AWARD = 'Pre-award',
   AWARDED = 'Awarded',
-  ASSESSMENT = 'Assessment'
+  ASSESSMENT = 'Assessment',
+  PLANNED = 'planned',
 }
 
 enum EventTypes {
@@ -18,7 +19,7 @@ enum EventTypes {
   FCA = 'FCA',
   DAA = 'DAA',
   FC = 'FC',
-  DA = 'DA'
+  DA = 'DA',
 }
 
 enum EventDashboardStatus {
@@ -33,24 +34,24 @@ enum EventDashboardStatus {
   COMPLETE = 'COMPLETE',
   CLOSED = 'CLOSED',
   UNKNOWN = 'UNKNOWN',
-  ASSESSMENT = 'ASSESSMENT'
+  ASSESSMENT = 'ASSESSMENT',
 }
 
 interface Event {
-  id: string
-  title: string
-  eventStage: string
-  status: EventStatus
-  tenderPeriod: TenderPeriod
-  eventSupportId: string
-  eventType: EventTypes
-  dashboardStatus: EventDashboardStatus
-  lastUpdated: string
+  id: string;
+  title: string;
+  eventStage: string;
+  status: EventStatus;
+  tenderPeriod: TenderPeriod;
+  eventSupportId: string;
+  eventType: EventTypes;
+  dashboardStatus: EventDashboardStatus;
+  lastUpdated: string;
 }
 
 interface TenderPeriod {
-  startDate: string
-  endDate: string
+  startDate: string;
+  endDate: string;
 }
 
 export { Event, EventStatus, EventTypes, EventDashboardStatus };
