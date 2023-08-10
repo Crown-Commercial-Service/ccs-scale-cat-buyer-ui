@@ -337,7 +337,7 @@ describe('fecth helpers', () => {
         ) as FetchResultError;
 
         expect(genericFecthGetResult.status).to.eq(FetchResultStatus.ERROR);
-        expect(genericFecthGetResult.error).to.eql(new SyntaxError('Unexpected token > in JSON at position 0'));
+        expect(genericFecthGetResult.error).to.eql(new SyntaxError('Unexpected token \'>\', "> INVALID JSON" is not valid JSON'));
       });
 
       it('it throws the error when the result is unwrapped', async () => {
@@ -349,7 +349,7 @@ describe('fecth helpers', () => {
           headers
         );
 
-        expect(genericFecthGetResult.unwrap).to.throw(SyntaxError, 'Unexpected token > in JSON at position 0');
+        expect(genericFecthGetResult.unwrap).to.throw(SyntaxError, 'Unexpected token \'>\', "> INVALID JSON" is not valid JSON');
       });
     });
 
@@ -545,7 +545,7 @@ describe('fecth helpers', () => {
         ) as FetchResultError;
 
         expect(genericFecthPostResult.status).to.eq(FetchResultStatus.ERROR);
-        expect(genericFecthPostResult.error).to.eql(new SyntaxError('Unexpected token > in JSON at position 0'));
+        expect(genericFecthPostResult.error).to.eql(new SyntaxError('Unexpected token \'>\', "> INVALID JSON" is not valid JSON'));
       });
 
       it('it throws the error when the result is unwrapped', async () => {
@@ -558,7 +558,7 @@ describe('fecth helpers', () => {
           body
         );
 
-        expect(genericFecthPostResult.unwrap).to.throw(SyntaxError, 'Unexpected token > in JSON at position 0');
+        expect(genericFecthPostResult.unwrap).to.throw(SyntaxError, 'Unexpected token \'>\', "> INVALID JSON" is not valid JSON');
       });
     });
 
