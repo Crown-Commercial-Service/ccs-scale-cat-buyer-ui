@@ -1146,7 +1146,7 @@ const getRowDataList = (rows, data1, Agreementid?: any) => {
   });
 
   // Sort the compiled array based on the contents of the second item in its entries
-  var sortedDataRowsList = dataRowsList.sort(function(a, b) {
+  let sortedDataRowsList = dataRowsList.sort(function(a, b) {
     return b[1].text - a[1].text;
   });
 
