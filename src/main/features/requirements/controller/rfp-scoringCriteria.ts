@@ -1128,7 +1128,9 @@ const getColumnsHeaderList = (columns) => {
   });
   return list;
 };
+
 const getRowDataList = (rows, data1, Agreementid?: any) => {
+  // Variables passed to us are titles (rows), and data (data1).  Data from both needs to be brought together to form an entry
   const dataRowsList = [];
   rows?.forEach((element) => {
     element.text = element.name;
@@ -1138,15 +1140,24 @@ const getRowDataList = (rows, data1, Agreementid?: any) => {
       { classes: 'govuk-!-width-one-quarter', text: data[0].cols[0] },
       { classes: 'govuk-!-width-one-half', text: data[0].cols[1] },
     ];
+
+    //  We now have a compiled entry, where the second data item is our "number" that we want to sort by
     dataRowsList.push(innerArrObj);
   });
 
+  // Sort the compiled array based on the contents of the second item in its entries
+  var sortedDataRowsList = dataRowsList.sort(function(a, b) {
+    return b[1].text - a[1].text;
+  });
+
+  // Finally return the data, sorting it further if necessary based on the agreement
   if (Agreementid == 'RM1557.13') {
-    return dataRowsList;
+    return sortedDataRowsList;
   } else {
-    return dataRowsList.reverse();
+    return sortedDataRowsList.reverse();
   }
 };
+
 const getDataList = (id, data) => {
   const obj = data?.filter((element) => {
     if (element.row == id) {
