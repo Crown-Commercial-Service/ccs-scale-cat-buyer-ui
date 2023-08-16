@@ -14,4 +14,7 @@ export default function (app: Application): void {
 
   //@GET '/500'
   app.get(ERROR_PATHS.ROUTE_500, NO_AUTH, ERROR_CONTROLLER.Error_500);
+
+  //@GET '/500 Opportunity'
+  app.get(ERROR_PATHS.ROUTE_OPPORTUNITY_404, NO_AUTH, ERROR_CONTROLLER.Error_Opportunity_404);
 }

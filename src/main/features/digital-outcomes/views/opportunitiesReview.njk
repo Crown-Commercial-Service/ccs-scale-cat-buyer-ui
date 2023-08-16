@@ -15,7 +15,7 @@
         },
         {
             "text": tenderer.title,
-            "href": "/digital-outcomes/reviewRecommendation?projectId="+projectId+"&lot="+currentLot+"&status=&subStatus="
+            "href": "/digital-outcomes/reviewRecommendation?projectId="+projectId+"&lot="+lotInfo+"&status=&subStatus="
         },
         {
             "text": "Procurement details: "+tenderer.title,
@@ -39,7 +39,6 @@
   ]
 }) }}
         {%endif %}
-
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-l">Procurement details: {{tenderer.title}}</h1>
