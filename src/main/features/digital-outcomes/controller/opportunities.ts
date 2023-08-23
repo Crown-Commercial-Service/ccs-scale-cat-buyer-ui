@@ -101,6 +101,7 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    const keywordsPaginationQuery = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
     // const lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     let lotsQueryclearUrl = '';
     if (q != undefined) lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
@@ -175,11 +176,11 @@ export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Respo
       NextPageUrl:
         NextPagedata == undefined
           ? ''
-          : `page=${parseInt(NextPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+          : `page=${parseInt(NextPagedata)}${keywordsPaginationQuery}${lotsQuerypage}${statusPageQuery}`,
       PrvePageUrl:
         PrevPagedata == undefined
           ? ''
-          : `page=${parseInt(PrevPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+          : `page=${parseInt(PrevPagedata)}${keywordsPaginationQuery}${lotsQuerypage}${statusPageQuery}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
       LastPageNumber: parseInt(lastPageData),
@@ -285,6 +286,13 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
     const fetch_dynamic_api = await TenderApi.InstanceSupplierQA().get(baseServiceURL);
     const fetch_dynamic_service_api_data = fetch_dynamic_api?.data;
     const tenderer = fetch_dynamic_service_api_data.records[0].compiledRelease.tender;
+    const lotData = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.lots;
+    const lotInfo = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.lots[0]?.id;
+
+    let isDataAvailable = false;
+    if (lotData[0].id == lot) {
+      isDataAvailable = true;
+    }
     const fetch_dynamic_api_data = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.criteria;
     let DeadLineSubDate = fetch_dynamic_service_api_data.records[0].compiledRelease.tender.tenderPeriod.endDate;
     if (momentz(new Date(DeadLineSubDate)).tz('Europe/London').isDST()) {
@@ -468,9 +476,14 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
       tenderer: tenderer,
       projectId: projectId,
       DeadLineSubDate: DeadLineSubDate,
+      isDataAvailable: isDataAvailable,
+      lotInfo: lotInfo,
     };
-
-    res.render('opportunitiesReview', display_fetch_data);
+    if (!isDataAvailable) {
+      res.render('error/404_Opportunity');
+    } else {
+      res.render('opportunitiesReview', display_fetch_data);
+    }
   } catch (error) {
     console.log('error in opportunities', error);
   }
@@ -588,6 +601,8 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
     const lotsQuery = lot != undefined ? `&lot-id=${lot}` : '';
     const pageQuery = page != undefined ? `&page=${page}` : '';
     const baseURL = `/tenders/projects/search?agreement-id=RM1043.8${keywordsQuery}${statusQuery}${lotsQuery}${pageQuery}`;
+    const keywordsPaginationQuery = q != undefined ? `&q=${encodeURIComponent(searchKeywordsQuery)}` : '';
+
     let lotsQueryclearUrl = '';
     if (q != undefined) lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
     else lotsQueryclearUrl = lot != undefined ? `&lot=${lot}` : '';
@@ -660,11 +675,11 @@ export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.R
       NextPageUrl:
         NextPagedata == undefined
           ? ''
-          : `page=${parseInt(NextPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+          : `page=${parseInt(NextPagedata)}${keywordsPaginationQuery}${lotsQuerypage}${statusPageQuery}`,
       PrvePageUrl:
         PrevPagedata == undefined
           ? ''
-          : `page=${parseInt(PrevPagedata)}${keywordsQuery1}${lotsQuerypage}${statusPageQuery}`,
+          : `page=${parseInt(PrevPagedata)}${keywordsPaginationQuery}${lotsQuerypage}${statusPageQuery}`,
       noOfPages: totalpages,
       CurrentPageNumber: parseInt(currentPageData),
       LastPageNumber: parseInt(lastPageData),
