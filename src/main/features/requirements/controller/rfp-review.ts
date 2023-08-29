@@ -379,7 +379,7 @@ const RFP_REVIEW_RENDER_STAGE = async (
 
     const assessModel = [];
     const questionModel = [];
-    const scoringData = [];
+    let scoringData = [];
 
     const termAndAcr = [];
 
@@ -1365,7 +1365,7 @@ const RFP_REVIEW_RENDER_TEST = async (
       assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter((o) => o.selected == true);
     }
     let questionModel = [];
-    const scoringData = [];
+    let scoringData = [];
     if (agreementId_session == 'RM1043.8' && req.session.lotId == 1) {
       //question 9
 
@@ -1464,6 +1464,10 @@ const RFP_REVIEW_RENDER_TEST = async (
         scoringData.push({ name: element[0].text, points: element[1].text, def: element[2].text });
       });
     }
+
+    scoringData = scoringData.sort(function(a, b) {
+      return b.points - a.points;
+    });
 
     //question 2
     if (agreementId_session == 'RM1043.8' && (req.session.lotId == 3 || req.session.lotId == 1)) {

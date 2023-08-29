@@ -6,26 +6,28 @@ import { DynamicFrameworkInstance } from 'main/features/event-management/util/fe
 
 export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: express.Request, res: express.Response) => {
   try {
-    const { projectId, status, lot } = req.query;
+    const { projectId, status } = req.query;
     const eventTypeURL = `/tenders/projects/${projectId}`;
     const getOppertunitiesData = await TenderApi.InstanceSupplierQA().get(eventTypeURL);
     const getOppertunities = getOppertunitiesData?.data;
     const ocid = getOppertunities.records[0].compiledRelease.ocid;
     const tenderer = getOppertunities.records[0].compiledRelease.tender;
+    const lotData = getOppertunities.records[0].compiledRelease.tender.lots[0]?.id;
+
     let tenderPeriodDeadlineDate = tenderer.tenderPeriod.endDate;
     const tenderStatus = tenderer.status;
     tenderPeriodDeadlineDate = new Date(tenderPeriodDeadlineDate);
     const lastUpdate =
-    moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
-      'YYYY-MM-DDTHH:mm:ss'
-    ) + 'Z';
+      moment(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }), 'DD/MM/YYYY hh:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      ) + 'Z';
     const currentDate = new Date(lastUpdate);
-   let cancellationDate: any = '';
+    let cancellationDate: any = '';
     if (getOppertunities.nonOCDS) {
       cancellationDate = getOppertunities?.nonOCDS.tender.cancellationDate;
       cancellationDate = new Date(cancellationDate);
     }
-     let subStatus;
+    let subStatus;
     if (tenderStatus == 'active') {
       if (currentDate <= tenderPeriodDeadlineDate) {
         subStatus = 'open';
@@ -65,10 +67,11 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
         });
       }
       part = getOppertunities.records[0].compiledRelease.parties;
+
       award_matched_selector = part?.filter((agroupitem: any) => {
         return identifierField.includes(agroupitem?.id); // true
       });
-       award_matched_selector = award_matched_selector[0];
+      award_matched_selector = award_matched_selector[0];
     }
     const bids = getOppertunities.records[0].compiledRelease.bids;
     const supplierSummeryCount = bids.map((item: any) => {
@@ -88,7 +91,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       awards: awards,
       awardDate: awardDate,
       endDate: moment(getOppertunities.records[0].compiledRelease.tender.tenderPeriod.endDate).format(
-        'dddd DD MMMM YYYY'
+        'dddd DD MMMM YYYY',
       ),
       supplierSummeryCount: supplierSummeryCount,
       suppliersResponded: supplierSummeryCount[0]['suppliersResponded'],
@@ -98,7 +101,7 @@ export const GET_OPPORTUNITIES_DETAILS_REVIE_RECOMMENDATION = async (req: expres
       status: status,
       subStatus: subStatus,
       tenderStatus: tenderStatus,
-      currentLot: lot,
+      currentLot: lotData,
     };
     res.render('opportunitiesDetails', display_fetch_data);
   } catch (error) {
