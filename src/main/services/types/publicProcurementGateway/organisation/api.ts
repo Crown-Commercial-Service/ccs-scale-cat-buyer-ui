@@ -1,7 +1,7 @@
 enum EndPoints {
-  ORGANISATION = '/organisation-profiles/:organisationId',
-  ORGANISATION_USERS = '/organisation-profiles/:organisationId/users',
-  USER_PROFILES = '/user-profiles'
+  ORGANISATION = '/organisation-profile/:organisationId',
+  ORGANISATION_USERS = '/organisation-profile/:organisationId/users',
+  USER_PROFILES = '/user-profile'
 };
 
 type Organisation = {
