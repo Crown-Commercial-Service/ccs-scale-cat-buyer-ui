@@ -76,7 +76,7 @@
         "tsconfig-paths": "^4.2.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.22.17",
+        "@babel/core": "^7.22.20",
         "@babel/preset-env": "^7.22.10",
         "@types/jsdom": "^21.1.2",
         "@types/mocha": "^10.0.1",
