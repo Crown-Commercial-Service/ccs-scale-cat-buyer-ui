@@ -40,7 +40,7 @@
         "@types/helmet": "^4.0.0",
         "@types/json2csv": "^5.0.3",
         "@types/jsonwebtoken": "^9.0.2",
-        "@types/node": "^20.6.0",
+        "@types/node": "^20.6.5",
         "@types/nunjucks": "^3.2.3",
         "@types/require-directory": "^2.1.2",
         "@types/serve-favicon": "^2.5.4",
