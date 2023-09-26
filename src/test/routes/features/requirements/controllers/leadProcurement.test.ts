@@ -62,7 +62,7 @@ describe('Lead procurement', () => {
       .reply(200, { data: true });
 
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get('/user-profiles')
+      .get('/user-profile')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
@@ -101,7 +101,7 @@ describe('Lead procurement', () => {
       },
     ];
     nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${projectId}/users`).reply(200, dummyUsers);
-    nock(envs.CONCLAVE_WRAPPER_API_BASE_URL).get(`/organisation-profiles/${organizationId}/users`).reply(200, true);
+    nock(envs.CONCLAVE_WRAPPER_API_BASE_URL).get(`/organisation-profile/${organizationId}/users`).reply(200, true);
     await request(parentApp)
       .get('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
@@ -137,10 +137,10 @@ describe('Lead procurement', () => {
     };
     nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${projectId}/users`).reply(200, dummyUsers);
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get(`/organisation-profiles/${organizationId}/users`)
+      .get(`/organisation-profile/${organizationId}/users`)
       .reply(200, dummyOrgUsers);
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get(`/organisation-profiles/${organizationId}/users?currentPage=1`)
+      .get(`/organisation-profile/${organizationId}/users?currentPage=1`)
       .reply(200, dummyOrgUsers);
     await request(parentApp)
       .get(`/rfp/procurement-lead?rfp_procurement_lead=${dummyOrgUsers.userList[1].userName}`)
@@ -198,10 +198,10 @@ describe('Lead procurement', () => {
     };
     nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${projectId}/users`).reply(200, dummyUsers);
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get(`/organisation-profiles/${organizationId}/users`)
+      .get(`/organisation-profile/${organizationId}/users`)
       .reply(200, dummyOrgUsers);
     nock(envs.CONCLAVE_WRAPPER_API_BASE_URL)
-      .get(`/organisation-profiles/${organizationId}/users?currentPage=1`)
+      .get(`/organisation-profile/${organizationId}/users?currentPage=1`)
       .reply(200, dummyOrgUsers);
     await request(parentApp)
       .get(`/rfp/procurement-lead?rfp_procurement_lead=${dummyOrgUsers.userList[1].userName}`)
@@ -224,7 +224,7 @@ describe('Lead procurement', () => {
     nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${projectId}/users`).reply(500, {
       msg: 'Internal Server Error',
     });
-    nock(envs.CONCLAVE_WRAPPER_API_BASE_URL).get(`/organisation-profiles/${organizationId}/users`).reply(200, true);
+    nock(envs.CONCLAVE_WRAPPER_API_BASE_URL).get(`/organisation-profile/${organizationId}/users`).reply(200, true);
     await request(parentApp)
       .get('/rfp/procurement-lead')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
