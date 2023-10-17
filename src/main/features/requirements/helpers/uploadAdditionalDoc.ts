@@ -227,7 +227,11 @@ export const ADDITIONALUPLOADHELPER_DOC: express.Handler = async (
       //CAS-INFO-LOG
       LoggTracer.infoLogger(null, logConstant.uploadAdditionalPageLog, req);
 
-      res.render(`${selectedRoute.toLowerCase()}-uploadAdditionalDoc`, windowAppendData);
+      if (agreementId_session == 'RM1043.8') {
+        res.redirect('/rfp/upload');
+      } else {
+        res.render(`${selectedRoute.toLowerCase()}-uploadAdditionalDoc`, windowAppendData);
+      }
     } catch (error) {
       LoggTracer.errorLogger(
         res,
