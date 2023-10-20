@@ -4,8 +4,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { eventsAPI } from 'main/services/tendersService/events/api';
 import { Event } from '@common/middlewares/models/tendersService/event';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 
 describe('Tenders Service Events API helpers', () => {
@@ -31,12 +31,12 @@ describe('Tenders Service Events API helpers', () => {
   ];
 
   const restHandlers = [
-    rest.get(`${baseURL}/tenders/projects/${projectId}/events`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getEventsData));
+    http.get(`${baseURL}/tenders/projects/${projectId}/events`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getEventsData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 
