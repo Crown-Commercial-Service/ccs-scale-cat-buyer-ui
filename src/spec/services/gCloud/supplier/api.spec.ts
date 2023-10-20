@@ -3,8 +3,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { supplierAPI } from 'main/services/gCloud/supplier/api';
 import { GCloudFilters } from 'main/services/types/gCloud/supplier/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchQueryParams } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('G-Cloud Supplier API helpers', () => {
   const baseURL = process.env.GCLOUD_SUPPLIER_API_URL;
@@ -63,21 +63,21 @@ describe('G-Cloud Supplier API helpers', () => {
   };
 
   const restHandlers = [
-    rest.get(`${baseURL}/g-cloud-filters`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json(getGCloudFiltersData));
+    http.get(`${baseURL}/g-cloud-filters`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse(getGCloudFiltersData);
         }
-        if (matchQueryParams(req, '?lot=lotParams&parentCategory=parentCategoryParams')) {
-          return res(ctx.status(200), ctx.json(getGCloudFiltersSomeParamsData));
+        if (matchQueryParams(request, '?lot=lotParams&parentCategory=parentCategoryParams')) {
+          return mswJSONResponse(getGCloudFiltersSomeParamsData);
         }
-        if (matchQueryParams(req, '?lot=lotParams&serviceCategories=serviceCategoriesParams&parentCategory=parentCategoryParams')) {
-          return res(ctx.status(200), ctx.json(getGCloudFiltersAllParamsData));
+        if (matchQueryParams(request, '?lot=lotParams&serviceCategories=serviceCategoriesParams&parentCategory=parentCategoryParams')) {
+          return mswJSONResponse(getGCloudFiltersAllParamsData);
         }
       }
 
-      return res(ctx.status(400));
-    })
+      return mswEmptyResponseWithStatus(400);
+    }),
   ];
 
   const server = setupServer(...restHandlers);

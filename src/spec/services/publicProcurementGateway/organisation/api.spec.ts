@@ -3,8 +3,8 @@ import { organisationAPI } from 'main/services/publicProcurementGateway/organisa
 import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
 import { Organisation, OrganisationUsers, UserProfile } from 'main/services/types/publicProcurementGateway/organisation/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchQueryParams } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('Organisation API helpers', () => {
   const baseURL = process.env.CONCLAVE_WRAPPER_API_BASE_URL;
@@ -16,31 +16,31 @@ describe('Organisation API helpers', () => {
   const userId = 'user-1234';
 
   const restHandlers = [
-    rest.get(`${baseURL}/organisation-profiles/${orgId}`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json({ identifier: { legalName: 'myOrgNoParam' } }));
+    http.get(`${baseURL}/organisation-profiles/${orgId}`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse({ identifier: { legalName: 'myOrgNoParam' } });
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/organisation-profiles/${orgId}/users`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if(matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json({ pageCount: 1, userList: [{ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] }));
+    http.get(`${baseURL}/organisation-profiles/${orgId}/users`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if(matchQueryParams(request, '')) {
+          return mswJSONResponse({ pageCount: 1, userList: [{ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] });
         }
-        if (matchQueryParams(req, '?currentPage=12')) {
-          return res(ctx.status(200), ctx.json({ pageCount: 1, userList: [{ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] }));
+        if (matchQueryParams(request, '?currentPage=12')) {
+          return mswJSONResponse({ pageCount: 1, userList: [{ userName: 'myUsername', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] });
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/user-profiles`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }));
+    http.get(`${baseURL}/user-profiles`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' });
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 

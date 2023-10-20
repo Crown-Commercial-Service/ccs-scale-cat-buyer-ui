@@ -3,8 +3,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { serviceAPI } from 'main/services/gCloud/service/api';
 import { GCloudService, GCloudSupplier, GCloudSupplierFramework } from 'main/services/types/gCloud/service/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('G-Cloud Service API helpers', () => {
   const baseURL = process.env.GCLOUD_SERVICES_API_URL;
@@ -100,26 +100,26 @@ describe('G-Cloud Service API helpers', () => {
   };
 
   const restHandlers = [
-    rest.get(`${baseURL}/services/${serviceId}`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getServiceData));
+    http.get(`${baseURL}/services/${serviceId}`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getServiceData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/suppliers/${supplierId}`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getSupplierData));
+    http.get(`${baseURL}/suppliers/${supplierId}`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getSupplierData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/suppliers/${supplierId}/frameworks/g-cloud-13`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getSupplierFrameworkData));
+    http.get(`${baseURL}/suppliers/${supplierId}/frameworks/g-cloud-13`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getSupplierFrameworkData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 
