@@ -4,8 +4,8 @@ import { genericFecthGet, genericFecthPost } from 'main/services/helpers/api';
 import { FetchError, FetchTimeoutError } from 'main/services/helpers/errors';
 import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/types/helpers/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchJSON, matchQueryParams } from 'spec/support/mswMatchers';
+import { http, passthrough } from 'msw';
+import { matchHeaders, matchJSON, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'spec/support/mocks/redis';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 
@@ -24,95 +24,111 @@ describe('fecth helpers', () => {
   };
 
   const restHandlers = [
-    rest.get(`${baseURL}/test`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json({ ok: 'GET /test' }));
+    http.get(`${baseURL}/test`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse({ ok: 'GET /test' });
         }
-        if (matchQueryParams(req, '?myParam=myParam')) {
-          return res(ctx.status(200), ctx.json({ ok: 'GET /test?myParam=myParam' }));
-        }
-      }
-
-      return res(ctx.status(400));
-    }),
-    rest.get(`${baseURL}/test/test-1234`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json({ ok: 'GET /test/test-1234' }));
-        }
-        if (matchQueryParams(req, '?myParam=myParam')) {
-          return res(ctx.status(200), ctx.json({ ok: 'GET /test/test-1234?myParam=myParam' }));
+        if (matchQueryParams(request, '?myParam=myParam')) {
+          return mswJSONResponse({ ok: 'GET /test?myParam=myParam' });
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/teapot`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(418));
-      }
-
-      return res(ctx.status(400));
-    }),
-    rest.get(`${baseURL}/error`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.text('> INVALID JSON'));
-      }
-
-      return res(ctx.status(400));
-    }),
-    rest.get(`${baseURL}/timeout`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return req.passthrough();
-      }
-
-      return res(ctx.status(400));
-    }),
-    rest.post(`${baseURL}/test`, (req, res, ctx) => {
-      if (matchHeaders(req, headers) && matchJSON(req, body)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json({ ok: 'POST /test' }));
+    http.get(`${baseURL}/test/test-1234`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse({ ok: 'GET /test/test-1234' });
         }
-        if (matchQueryParams(req, '?myParam=myParam')) {
-          return res(ctx.status(200), ctx.json({ ok: 'POST /test?myParam=myParam' }));
+        if (matchQueryParams(request, '?myParam=myParam')) {
+          return mswJSONResponse({ ok: 'GET /test/test-1234?myParam=myParam' });
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.post(`${baseURL}/test/test-1234`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '') && matchJSON(req, body)) {
-          return res(ctx.status(200), ctx.json({ ok: 'POST /test/test-1234' }));
+    http.get(`${baseURL}/teapot`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswEmptyResponseWithStatus(418);
+      }
+
+      return mswEmptyResponseWithStatus(400);
+    }),
+    http.get(`${baseURL}/error`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return new Response(
+          '> INVALID JSON',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            status: 200
+          }
+        );
+      }
+
+      return mswEmptyResponseWithStatus(400);
+    }),
+    http.get(`${baseURL}/timeout`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return passthrough();
+      }
+
+      return mswEmptyResponseWithStatus(400);
+    }),
+    http.post(`${baseURL}/test`, ({ request }) => {
+      if (matchHeaders(request, headers) && matchJSON(request, body)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse({ ok: 'POST /test' });
         }
-        if (matchQueryParams(req, '?myParam=myParam')) {
-          return res(ctx.status(200), ctx.json({ ok: 'POST /test/test-1234?myParam=myParam' }));
+        if (matchQueryParams(request, '?myParam=myParam')) {
+          return mswJSONResponse({ ok: 'POST /test?myParam=myParam' });
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.post(`${baseURL}/not-authorised`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(403));
+    http.post(`${baseURL}/test/test-1234`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '') && matchJSON(request, body)) {
+          return mswJSONResponse({ ok: 'POST /test/test-1234' });
+        }
+        if (matchQueryParams(request, '?myParam=myParam')) {
+          return mswJSONResponse({ ok: 'POST /test/test-1234?myParam=myParam' });
+        }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.post(`${baseURL}/error`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.text('> INVALID JSON'));
+    http.post(`${baseURL}/not-authorised`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswEmptyResponseWithStatus(403);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.post(`${baseURL}/timeout`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return req.passthrough();
+    http.post(`${baseURL}/error`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return new Response(
+          '> INVALID JSON',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            status: 200
+          }
+        );
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
+    }),
+    http.post(`${baseURL}/timeout`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return passthrough();
+      }
+
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 
