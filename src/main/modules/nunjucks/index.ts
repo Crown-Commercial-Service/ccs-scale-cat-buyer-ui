@@ -1,6 +1,5 @@
 import path from 'path';
 import nunjucks from 'nunjucks';
-import i18next, { TOptionsBase, InitOptions } from 'i18next';
 import { Application, NextFunction, Request, Response } from 'express';
 import {
   dateFilter,
@@ -41,9 +40,6 @@ const initNunjucks = (app: Application, isDev: boolean): void => {
     watch: isDev,
     express: app,
   });
-
-  // Set nunjucks globals
-  nunjucksEnv.addGlobal('t', (key: string, options?: TOptionsBase & InitOptions): string => i18next.t(key, options));
 
   // Set nunjucks filters
   nunjucksEnv.addFilter('date', dateFilter);
