@@ -3,8 +3,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { searchAPI } from 'main/services/gCloud/search/api';
 import { GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchQueryParams } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('G-Cloud Search API helpers', () => {
   const baseURL = process.env.GCLOUD_SEARCH_API_URL;
@@ -46,29 +46,29 @@ describe('G-Cloud Search API helpers', () => {
   const gCloudServicesAggregationsWithParamsData = { ...gCloudServicesAggregationsData, links: { next: 'nextLink' } };
 
   const restHandlers = [
-    rest.get(`${baseURL}/g-cloud-42/services/search`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json(getServicesSearchData));
+    http.get(`${baseURL}/g-cloud-42/services/search`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse(getServicesSearchData);
         }
-        if (matchQueryParams(req, '?my_param=myParam')) {
-          return res(ctx.status(200), ctx.json(getServicesSearchWithParamsData));
+        if (matchQueryParams(request, '?my_param=myParam')) {
+          return mswJSONResponse(getServicesSearchWithParamsData);
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/g-cloud-42/services/aggregations`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json(gCloudServicesAggregationsData));
+    http.get(`${baseURL}/g-cloud-42/services/aggregations`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse(gCloudServicesAggregationsData);
         }
-        if (matchQueryParams(req, '?my_param=myParam')) {
-          return res(ctx.status(200), ctx.json(gCloudServicesAggregationsWithParamsData));
+        if (matchQueryParams(request, '?my_param=myParam')) {
+          return mswJSONResponse(gCloudServicesAggregationsWithParamsData);
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     })
   ];
 
