@@ -44,7 +44,7 @@
         "@types/nunjucks": "^3.2.3",
         "@types/require-directory": "^2.1.4",
         "@types/serve-favicon": "^2.5.4",
-        "axios": "^0.27.2",
+        "axios": "^1.6.0",
         "ccs-frontend-kit": "^1.1.4",
         "config": "^3.3.9",
         "connect-redis": "^7.1.0",
