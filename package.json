@@ -39,7 +39,7 @@
         "@types/express-session": "^1.17.7",
         "@types/helmet": "^4.0.0",
         "@types/json2csv": "^5.0.3",
-        "@types/jsonwebtoken": "^9.0.2",
+        "@types/jsonwebtoken": "^9.0.3",
         "@types/node": "^20.8.7",
         "@types/nunjucks": "^3.2.5",
         "@types/require-directory": "^2.1.4",
