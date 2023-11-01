@@ -116,7 +116,7 @@ const genericFetch = async <T>(fetchOptions: FetchRequestInit, urlParams: Format
  * @param timeout 
  * @returns 
  */
-const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, cacheOptions?: CacheOptions, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: Record<string, string>, cacheOptions?: CacheOptions, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
   return genericFetch<T>(
     {
       method: HTTPMethod.GET,
@@ -137,7 +137,7 @@ const genericFecthGet = async <T>(urlParams: FormatURLParams, headers: { [key: s
  * @param timeout 
  * @returns 
  */
-const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: { [key: string]: string }, data?: { [key: string]: string } | string, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
+const genericFecthPost = async <T>(urlParams: FormatURLParams, headers: Record<string, string>, data?: Record<string, string> | string, loggerOptions?: LoggerOptions, timeout?: number): Promise<FetchResult<T>> => {
   const body = typeof data === 'string' ? data : JSON.stringify(data ?? {});
 
   return genericFetch<T>(

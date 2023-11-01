@@ -17,7 +17,7 @@ type AuthCredentials = {
   refresh_token: string
 }
 
-type RefreshData = {
+interface RefreshData {
   access_token: string
   session_state: string
   refresh_token: string
