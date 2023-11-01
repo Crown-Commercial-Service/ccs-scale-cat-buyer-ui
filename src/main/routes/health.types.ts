@@ -1,8 +1,8 @@
-type GenericReponse = {
+interface GenericReponse {
   statusCode: number
 }
 
-type TendersServiceReponse = {
+interface TendersServiceReponse {
   serverError: boolean
 }
 
