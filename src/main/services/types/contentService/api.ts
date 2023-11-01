@@ -3,7 +3,7 @@ enum EndPoints {
   MENU = '/wp-json/wp-api-menus/v2/menus/:menuId'
 };
 
-type ContentServiceMenuItem = {
+interface ContentServiceMenuItem {
   id: number
   order: number
   parent: number
@@ -21,7 +21,7 @@ type ContentServiceMenuItem = {
   type_label: string
 }
 
-type ContentServiceMenu = {
+interface ContentServiceMenu {
   ID: number
   name: string
   slug: string

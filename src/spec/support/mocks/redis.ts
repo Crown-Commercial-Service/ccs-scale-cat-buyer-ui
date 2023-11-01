@@ -23,7 +23,7 @@ const mockRedisClient: RedisClient = {
 
     return null;
   },
-  set: async (_key: string, _value: string, _options?: { [key: string]: string }) => {
+  set: async (_key: string, _value: string, _options?: Record<string, string>) => {
     // Mocks the set function
   }
 } as any;
