@@ -5,17 +5,26 @@ import { initApp } from 'spec/support/app';
 import { setupServer } from 'msw/node';
 import { http, passthrough } from 'msw';
 import config from 'config';
-import { mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('Health routes', () => {
   const app = initApp(healthRoutes);
   const agent = request.agent(app);
 
+  const agreementServiceHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-api-key': process.env.AGREEMENTS_SERVICE_API_KEY
+  });
+
   describe('GET /health', () => {
     describe('when the endpoints are up', () => {
       const restHandlers = [
-        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, () => {
-          return mswJSONResponse({ status: 'ok' });
+        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements-service/health`, ({ request }) => {
+          if (matchHeaders(request, agreementServiceHeaders())) {
+            return mswJSONResponse({ status: 'ok' });
+          }
+
+          return mswEmptyResponseWithStatus(400);
         }),
         http.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, () => {
           return mswJSONResponse({ status: 'ok' });
@@ -92,8 +101,10 @@ describe('Health routes', () => {
 
     describe('when the endpoints are not up', () => {
       const restHandlers = [
-        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, () => {
-          return mswEmptyResponseWithStatus(503);
+        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements-service/health`, ({ request }) => {
+          if (matchHeaders(request, agreementServiceHeaders())) {
+            return mswEmptyResponseWithStatus(503);
+          }
         }),
         http.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, () => {
           return mswEmptyResponseWithStatus(503);
