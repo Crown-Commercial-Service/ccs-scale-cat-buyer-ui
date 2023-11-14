@@ -11,7 +11,7 @@ interface AgreementLotEventType {
   type: string
 }
 
-type AgreementServiceHealthResponse = {
+interface AgreementServiceHealthResponse {
   status: string
 }
 
