@@ -79,7 +79,7 @@
         "@babel/preset-env": "^7.23.3",
         "@types/jsdom": "^21.1.5",
         "@types/mocha": "^10.0.4",
-        "@types/pa11y": "^5.3.6",
+        "@types/pa11y": "^5.3.7",
         "@types/sinon": "^17.0.1",
         "@types/sinon-chai": "^3.2.12",
         "@types/supertest": "^2.0.16",
