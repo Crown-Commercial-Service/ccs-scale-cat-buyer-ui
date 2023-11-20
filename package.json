@@ -42,7 +42,7 @@
         "@types/jsonwebtoken": "^9.0.2",
         "@types/node": "^20.9.0",
         "@types/nunjucks": "^3.2.5",
-        "@types/require-directory": "^2.1.4",
+        "@types/require-directory": "^2.1.5",
         "@types/serve-favicon": "^2.5.7",
         "axios": "^0.27.2",
         "ccs-frontend-kit": "^1.1.4",
