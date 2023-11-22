@@ -60,7 +60,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT,
-      params: { agreementId, "lotId": formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
     headers(),
     {
@@ -80,7 +80,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
-      params: { agreementId, "lotId": formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
     headers(),
     {
@@ -100,7 +100,7 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
-      params: { agreementId, "lotId": formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
     headers(),
     {
@@ -127,7 +127,7 @@ const getAgreementsServiceHealth = async (): Promise<FetchResult<AgreementServic
 
 // Strip out legacy formatting from the supplied Lot ID, so that legacy projects can continue to work with the updated Agreement Service
 function formatLotIdForAgreementService (lotId: string) {
-  return lotId.replace("Lot ", "");
+  return lotId.replace('Lot ', '');
 };
 
 const agreementsServiceAPI = {
