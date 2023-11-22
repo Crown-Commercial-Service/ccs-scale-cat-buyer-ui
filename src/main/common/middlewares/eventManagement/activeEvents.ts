@@ -13,10 +13,10 @@ enum EventGroup {
   UNKNOWN,
 }
 
-type EventResult = {
+interface EventResult {
   project?: Project;
   group: EventGroup;
-};
+}
 
 const getProjectEvents = async (accessToken: string, project: Project): Promise<EventResult[]> => {
   const events = (await tendersService.api.events.getEvents(accessToken, String(project.projectId))).unwrap();

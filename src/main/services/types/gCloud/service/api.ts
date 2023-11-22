@@ -7,12 +7,12 @@ enum EndPoints {
   SUPPLIER_FRAMEWORK = '/suppliers/:supplierId/frameworks/g-cloud-13'
 }
 
-type GCloudService = {
+interface GCloudService {
   serviceMadeUnavailableAuditEvent: string | null
   services: ServiceModel
 }
 
-type GCloudSupplier = {
+interface GCloudSupplier {
   suppliers: {
     companiesHouseNumber: string
     companyDetailsConfirmed: boolean
@@ -41,15 +41,13 @@ type GCloudSupplier = {
     organisationSize: string
     registeredName: string
     registrationCountry: string
-    service_counts: {
-      [key: string]: number
-    }
+    service_counts: Record<string, number>
     tradingStatus: string
     vatNumber: string
   }
 }
 
-type GCloudSupplierFramework = {
+interface GCloudSupplierFramework {
   frameworkInterest: {
     agreedVariations: object
     agreementDetails: {

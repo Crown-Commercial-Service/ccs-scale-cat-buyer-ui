@@ -53,7 +53,7 @@ describe('Add collaborator', () => {
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get('/user-profiles')
+      .get('/user-profile')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 
@@ -92,7 +92,7 @@ describe('Add collaborator', () => {
       },
     ];
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/organisation-profiles/${organizationId}/users`)
+      .get(`/organisation-profile/${organizationId}/users`)
       .reply(200, true);
     nock(envs.TENDERS_SERVICE_API_URL).get(`/tenders/projects/${procurementId}/users`).reply(200, dummyUsers);
     await request(parentApp)
@@ -115,7 +115,7 @@ describe('Add collaborator', () => {
       telephone: 'd',
     };
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles?user-Id=${collaboratorDummy}`)
+      .get(`/user-profile?user-Id=${collaboratorDummy}`)
       .reply(200, dummyUser);
     await request(parentApp)
       .post('/rfp/get-collaborator-detail/js-enabled')
@@ -139,7 +139,7 @@ describe('Add collaborator', () => {
       lastName: 'c',
     };
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles?user-Id=${collaboratorDummy}`)
+      .get(`/user-profile?user-Id=${collaboratorDummy}`)
       .reply(200, dummyUserNoPhone);
     await request(parentApp)
       .post('/rfp/get-collaborator-detail/js-enabled')
@@ -163,7 +163,7 @@ describe('Add collaborator', () => {
       lastName: 'c',
     };
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get(`/user-profiles?user-Id=${collaboratorDummy}`)
+      .get(`/user-profile?user-Id=${collaboratorDummy}`)
       .reply(200, dummyUserNoPhone);
     await request(parentApp)
       .post('/rfp/get-collaborator-detail')

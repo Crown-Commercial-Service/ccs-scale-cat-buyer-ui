@@ -4,8 +4,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { projectsAPI } from 'main/services/tendersService/projects/api';
 import { Project } from '@common/middlewares/models/tendersService/project';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchQueryParams } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 
 describe('Tenders Service Projects API helpers', () => {
@@ -39,17 +39,17 @@ describe('Tenders Service Projects API helpers', () => {
   const getProjectsWithParamsData = { ...getProjectsData, projectName: 'myProjectName' };
 
   const restHandlers = [
-    rest.get(`${baseURL}/tenders/projects`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        if (matchQueryParams(req, '')) {
-          return res(ctx.status(200), ctx.json(getProjectsData));
+    http.get(`${baseURL}/tenders/projects`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        if (matchQueryParams(request, '')) {
+          return mswJSONResponse(getProjectsData);
         }
-        if (matchQueryParams(req, '?my_param=myParam')) {
-          return res(ctx.status(200), ctx.json(getProjectsWithParamsData));
+        if (matchQueryParams(request, '?my_param=myParam')) {
+          return mswJSONResponse(getProjectsWithParamsData);
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 
