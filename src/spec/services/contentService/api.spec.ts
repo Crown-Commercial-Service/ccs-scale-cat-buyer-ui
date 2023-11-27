@@ -6,8 +6,8 @@ import { contentServiceAPI } from 'main/services/contentService/api';
 import { FetchTimeoutError } from 'main/services/helpers/errors';
 import { ContentServiceMenu } from 'main/services/types/contentService/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders } from 'spec/support/mswMatchers';
+import { http, passthrough } from 'msw';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'spec/support/mocks/redis';
 
@@ -44,12 +44,12 @@ describe('Content service API helpers', () => {
     describe('when the request does not timeout', () => {
       describe('and no data is cached', () => {
         const restHandlers = [
-          rest.get(`${baseURL}${path}`, (req, res, ctx) => {
-            if (matchHeaders(req, headers)) {
-              return res(ctx.status(200), ctx.json(data));
+          http.get(`${baseURL}${path}`, ({ request }) => {
+            if (matchHeaders(request, headers)) {
+              return mswJSONResponse(data);
             }
       
-            return res(ctx.status(400));
+            return mswEmptyResponseWithStatus(400);
           }),
         ];
       
@@ -99,12 +99,12 @@ describe('Content service API helpers', () => {
 
     describe('when the request does timeout', () => {
       const restHandlers = [
-        rest.get(`${baseURL}${path}`, (req, res, ctx) => {
-          if (matchHeaders(req, headers)) {
-            return req.passthrough();
+        http.get(`${baseURL}${path}`, ({ request }) => {
+          if (matchHeaders(request, headers)) {
+            return passthrough();
           }
     
-          return res(ctx.status(400));
+          return mswEmptyResponseWithStatus(400);
         }),
       ];
     

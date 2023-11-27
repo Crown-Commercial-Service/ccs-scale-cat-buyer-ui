@@ -3,8 +3,8 @@ import { oAuthAPI } from 'main/services/publicProcurementGateway/oAuth/api';
 import { AuthCredentials, GrantType, RefreshData } from 'main/services/types/publicProcurementGateway/oAuth/api';
 import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders, matchQueryParams } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('OAuth API helpers', () => {
   const baseURL = process.env.AUTH_SERVER_BASE_URL;
@@ -36,28 +36,28 @@ describe('OAuth API helpers', () => {
   const postRefreshTokenRefreshData = { access_token: 'myAccessToken', session_state: 'mySessionState', refresh_token: 'myRefreshToken', type: 'refresh' };
 
   const restHandlers = [
-    rest.post(`${baseURL}/security/token`, async (req, res, ctx) => {
-      if (matchHeaders(req, { 'content-type': 'application/x-www-form-urlencoded' })) {
-        const text = await req.text();
+    http.post(`${baseURL}/security/token`, async ({ request }) => {
+      if (matchHeaders(request, { 'content-type': 'application/x-www-form-urlencoded' })) {
+        const text = await request.text();
 
         if (text === postRefreshTokenAuthText) {
-          return res(ctx.status(200), ctx.json(postRefreshTokenAuthData));
+          return mswJSONResponse(postRefreshTokenAuthData);
         }
 
         if (text === postRefreshTokenRefreshText) {
-          return res(ctx.status(200), ctx.json(postRefreshTokenRefreshData));
+          return mswJSONResponse(postRefreshTokenRefreshData);
         }
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.post(`${baseURL}/security/tokens/validation`, (req, res, ctx) => {
+    http.post(`${baseURL}/security/tokens/validation`, ({ request }) => {
       if (
-        matchHeaders(req, { 'content-type': 'application/json', authorization: `Bearer ${accessToken}` }) &&
-        matchQueryParams(req, `?client-id=${clientId}`)
-      ) return res(ctx.status(200), ctx.json(true));
+        matchHeaders(request, { 'content-type': 'application/json', authorization: `Bearer ${accessToken}` }) &&
+        matchQueryParams(request, `?client-id=${clientId}`)
+      ) return mswJSONResponse(true);
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 

@@ -3,8 +3,9 @@ import healthRoutes from 'main/routes/health';
 import request from 'supertest';
 import { initApp } from 'spec/support/app';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import { http, passthrough } from 'msw';
 import config from 'config';
+import { mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('Health routes', () => {
   const app = initApp(healthRoutes);
@@ -13,29 +14,29 @@ describe('Health routes', () => {
   describe('GET /health', () => {
     describe('when the endpoints are up', () => {
       const restHandlers = [
-        rest.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(`${config.get('contentService.BASEURL')}/wp-json/wp-api-menus/v2/menus`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${config.get('contentService.BASEURL')}/wp-json/wp-api-menus/v2/menus`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(`${process.env.GCLOUD_SEARCH_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${process.env.GCLOUD_SEARCH_API_URL}/_status`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(`${process.env.GCLOUD_SERVICES_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${process.env.GCLOUD_SERVICES_API_URL}/_status`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(`${process.env.GCLOUD_SUPPLIER_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        http.get(`${process.env.GCLOUD_SUPPLIER_API_URL}/_status`, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get(process.env.TENDERS_SERVICE_API_URL, (_req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ serverError: false }));
+        http.get(process.env.TENDERS_SERVICE_API_URL, () => {
+          return mswJSONResponse({ status: 'ok' });
         }),
-        rest.get('*/health', (req, _res, _ctx) => {
-          return req.passthrough();
+        http.get('*/health', () => {
+          return passthrough();
         }),
       ];
 
@@ -91,29 +92,29 @@ describe('Health routes', () => {
 
     describe('when the endpoints are not up', () => {
       const restHandlers = [
-        rest.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${process.env.AGREEMENTS_SERVICE_API_URL}/agreements`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${config.get('bankholidayservice.BASEURL')}/bank-holidays.json`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(`${config.get('contentService.BASEURL')}/wp-json/wp-api-menus/v2/menus`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${config.get('contentService.BASEURL')}/wp-json/wp-api-menus/v2/menus`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(`${process.env.GCLOUD_SEARCH_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${process.env.GCLOUD_SEARCH_API_URL}/_status`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(`${process.env.GCLOUD_SERVICES_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${process.env.GCLOUD_SERVICES_API_URL}/_status`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(`${process.env.GCLOUD_SUPPLIER_API_URL}/_status`, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(`${process.env.GCLOUD_SUPPLIER_API_URL}/_status`, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get(process.env.TENDERS_SERVICE_API_URL, (_req, res, ctx) => {
-          return res(ctx.status(503));
+        http.get(process.env.TENDERS_SERVICE_API_URL, () => {
+          return mswEmptyResponseWithStatus(503);
         }),
-        rest.get('*/health', (req, _res, _ctx) => {
-          return req.passthrough();
+        http.get('*/health', () => {
+          return passthrough();
         }),
       ];
 
