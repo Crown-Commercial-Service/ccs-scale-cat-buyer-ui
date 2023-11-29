@@ -54,7 +54,7 @@ describe('Status steps data filter', () => {
   });
 
   describe('.statusStepsDataFilter', () => {
-    let data: { [key: string]: any };
+    let data: Record<string, any>;
     let type: string;
     let agreementId: string;
     const steps = statusStepsData.steps;

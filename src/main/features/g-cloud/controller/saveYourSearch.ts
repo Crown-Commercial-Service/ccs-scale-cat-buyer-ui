@@ -9,7 +9,7 @@ import { gCloud } from 'main/services/gCloud';
 import { formatURL } from 'main/services/helpers/url';
 import { QueryParams } from 'main/services/types/helpers/url';
 
-type ServiceResult = {
+interface ServiceResult {
   serviceName: string
   supplier: {
     name: string

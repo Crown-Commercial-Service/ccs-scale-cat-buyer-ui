@@ -1,19 +1,20 @@
 import { LotDetail } from '@common/middlewares/models/lot-detail';
 import { genericFecthGet } from '../helpers/api';
-import { EndPoints, AgreementLotEventType } from '../types/agreementsService/api';
+import { EndPoints, AgreementLotEventType, AgreementServiceHealthResponse } from '../types/agreementsService/api';
 import { FetchResult } from '../types/helpers/api';
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { AgreementDetail } from '@common/middlewares/models/agreement-detail';
 import { baseURL } from './helpers';
 
-const headers = {
-  'Content-Type': 'application/json'
-};
+const headers = () => ({
+  'Content-Type': 'application/json',
+  'x-api-key': process.env.AGREEMENTS_SERVICE_API_KEY
+});
 
 // This data is static so we can Cache for an hour 
 const agreementServiceCacheLength = 3600;
 
-// GET /agreements/:agreement-id
+// GET /agreements-service/agreements/:agreement-id
 const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementDetail>> => {
   return genericFecthGet<AgreementDetail>(
     {
@@ -21,7 +22,7 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
       path: EndPoints.AGREEMENT,
       params: { agreementId }
     },
-    headers,
+    headers(),
     {
       key: `get_agreements_${agreementId}`,
       seconds: agreementServiceCacheLength
@@ -33,7 +34,7 @@ const getAgreement = async (agreementId: string): Promise<FetchResult<AgreementD
   );
 };
 
-// GET /agreements/:agreement-id/lots
+// GET /agreements-service/agreements/:agreement-id/lots
 const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDetail[]>> => {
   return genericFecthGet<LotDetail[]>(
     {
@@ -41,7 +42,7 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
       path: EndPoints.AGREEMENT_LOTS,
       params: { agreementId }
     },
-    headers,
+    headers(),
     {
       key: `get_agreements_${agreementId}_lots`,
       seconds: agreementServiceCacheLength
@@ -53,15 +54,15 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
   );
 };
 
-// GET /agreements/:agreement-id/lots/:lot-id
+// GET /agreements-service/agreements/:agreement-id/lots/:lot-id
 const getAgreementLot = async (agreementId: string, lotId: string): Promise<FetchResult<LotDetail>> => {
   return genericFecthGet<LotDetail>(
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT,
-      params: { agreementId, lotId }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
-    headers,
+    headers(),
     {
       key: `get_agreements_${agreementId}_lots_${lotId}`,
       seconds: agreementServiceCacheLength
@@ -73,15 +74,15 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
   );
 };
 
-// GET /agreements:agreement-id/lots/:lot-id/suppliers
+// GET /agreements-service/agreements/:agreement-id/lots/:lot-id/suppliers
 const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Promise<FetchResult<LotSupplier[]>> => {
   return genericFecthGet<LotSupplier[]>(
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
-      params: { agreementId, lotId }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
-    headers,
+    headers(),
     {
       key: `get_agreements_${agreementId}_lots_${lotId}_suppliers`,
       seconds: 900
@@ -93,15 +94,15 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
   );
 };
 
-// GET /agreements:agreement-id/lots/:lot-id/event-types
+// GET /agreements-service/agreements/:agreement-id/lots/:lot-id/event-types
 const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Promise<FetchResult<AgreementLotEventType[]>> => {
   return genericFecthGet<AgreementLotEventType[]>(
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
-      params: { agreementId, lotId }
+      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
     },
-    headers,
+    headers(),
     {
       key: `get_agreements_${agreementId}_lots_${lotId}_event_types`,
       seconds: agreementServiceCacheLength
@@ -113,12 +114,30 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
   );
 };
 
+// GET /agreements-service/health
+const getAgreementsServiceHealth = async (): Promise<FetchResult<AgreementServiceHealthResponse>> => {
+  return genericFecthGet<AgreementServiceHealthResponse>(
+    {
+      baseURL: baseURL(),
+      path: EndPoints.STATUS
+    },
+    headers()
+  );
+};
+
+// Strip out legacy formatting from the supplied Lot ID, so that legacy projects can continue to work with the updated Agreement Service
+function formatLotIdForAgreementService (lotId: string) {
+  return lotId.replace('Lot ', '');
+};
+
 const agreementsServiceAPI = {
   getAgreement,
   getAgreementLots,
   getAgreementLot,
   getAgreementLotSuppliers,
-  getAgreementLotEventTypes
+  getAgreementLotEventTypes,
+  getAgreementsServiceHealth,
+  formatLotIdForAgreementService
 };
 
 export { agreementsServiceAPI };

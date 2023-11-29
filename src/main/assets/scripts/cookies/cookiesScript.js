@@ -186,6 +186,13 @@ var docCookies = {
             // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), oneyear, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, oneyear, "/", ".crowncommercial.gov.uk");
+
+            window.dataLayer.push({
+                event: 'gtm_consent_update',
+                usage_consent: true,
+                glassbox_consent: true,
+                marketing_consent: true,
+            });
         } // this is a case when the user selected cookies on the cookie settings page â€“ the cookie_preferences array
         // will be updated with this user's choices
         else {
@@ -194,6 +201,13 @@ var docCookies = {
             docCookies.setItem("cookie_preferences", JSON.stringify(cookie_preferences), cookie_timer, "/", ".crowncommercial.gov.uk"); // Set the 'cookies_timer_reset' to prevent showing the banner again next time the user visits
             docCookies.setItem("cookies_timer_reset", JSON.stringify(true), cookie_timer, "/", ".crowncommercial.gov.uk");
             docCookies.setItem("seen_cookie_message", true, cookie_timer, "/", ".crowncommercial.gov.uk");
+
+            window.dataLayer.push({
+                event: 'gtm_consent_update',
+                usage_consent: cookie_preferences['usage'],
+                glassbox_consent: cookie_preferences['glassbox'],
+                marketing_consent: cookie_preferences['marketing'],
+            });
         }
     }
     function deleteDisabledCookies(cookie_type) {
