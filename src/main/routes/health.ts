@@ -6,7 +6,6 @@ import { bankHolidays } from 'main/services/bankHolidays';
 import { contentService } from 'main/services/contentService';
 import { gCloud } from 'main/services/gCloud';
 import { tendersService } from 'main/services/tendersService';
-import { FetchResultStatus } from 'main/services/types/helpers/api';
 
 const genericResponse = (_err: any, res: GenericReponse) => {
   if (res !== undefined) {
@@ -40,9 +39,7 @@ export default (app: Application): void => {
   const healthCheckConfig = {
     checks: {
       casBuyerUi: healthCheck.raw(() => healthCheck.up()),
-      agreementService: healthCheck.raw(async () => {
-        return (await agreementsService.api.getAgreementsServiceHealth()).status === FetchResultStatus.OK ? healthCheck.up() : healthCheck.down();
-      }),
+      agreementService: healthCheck.web(agreementsService.url.statusURL(), genericConfig),
       bankHolidays: healthCheck.web(bankHolidays.url.statusURL(), genericConfig),
       contentService: healthCheck.web(contentService.url.statusURL(), genericConfig),
       gCloudSearch: healthCheck.web(gCloud.url.search.statusURL(), digitalMarketplaceConfig),
