@@ -1,5 +1,5 @@
 //@ts-nocheck
-export const categoryFilter = (array: Array<any>, category: string, level: number) => {
+export const categoryFilter = (array: any[], category: string, level: number) => {
   const headerCategories = [];
   const RESOURCE_CAPABILITY = array.filter((levels) => {
     return levels['name'] === category;

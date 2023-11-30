@@ -1,9 +1,9 @@
-type LoggerOptions = {
+interface LoggerOptions {
   name: string
   message: string
 }
 
-type LoggerInstance = {
+interface LoggerInstance {
   info: (message: string) => void
 }
 

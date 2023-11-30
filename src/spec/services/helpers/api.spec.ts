@@ -9,7 +9,7 @@ import { matchHeaders, matchJSON, matchQueryParams, mswEmptyResponseWithStatus, 
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'spec/support/mocks/redis';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 
-type GenericData = {
+interface GenericData {
   ok: string
 }
 

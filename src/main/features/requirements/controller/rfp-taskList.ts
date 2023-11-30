@@ -236,7 +236,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     });
 
     if (agreementId_session == 'RM1043.8' && stage2_value !== undefined && stage2_value == 'Stage 2') {
-      if (firstupload == true && secondupload == true && thirdupload == true) {
+      if (firstupload == true && thirdupload == true) {
         journeySteps.forEach(function (element, i) {
           if (element.step == 86) {
             element.state = 'Completed';
@@ -264,7 +264,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
         }
       }
 
-      if (firstupload != true || secondupload != true || thirdupload != true) {
+      if (firstupload != true || thirdupload != true) {
         const timelineStatus = journeySteps.filter((el: any) => {
           if (el.step == 30 && el.state == 'Completed') return true;
           return false;

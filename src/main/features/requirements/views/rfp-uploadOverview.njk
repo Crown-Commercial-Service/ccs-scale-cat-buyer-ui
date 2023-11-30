@@ -43,20 +43,23 @@
                 <b class="govuk-heading-s">Pricing schedule</b>
                 {% endif %}
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
-                {% if agreementId_session == 'RM1043.8' %}
-                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description4}}</p>
-                {% endif %}
+
                 {% if agreementId_session != 'RM1557.13' %}
                     {% if agreementId_session == 'RM1043.8'%}
-                        <b class="govuk-heading-s">Core terms, call-off order form and schedules (terms and conditions)</b>
+                        <b class="govuk-heading-s">Core terms, call-off order form and schedules (terms and conditions) (optional)</b>
+
+                        <p class="govuk-body govuk-!-margin-bottom-5">You can upload a <a href='https://assets.crowncommercial.gov.uk/wp-content/uploads/RM1043.8_Framework-Schedule-6-Order-Form-Template-Statement-of-Work-Template-and-Call-Off-Schedules-v2.0.odt' title="Download draft order form">draft order form</a> and any new or changed terms from the ones agreed at the framework level.</p>
+                    {% else %}
+                        <p class="govuk-body govuk-!-margin-bottom-5">{{data.description2}}</p>
                     {% endif %}
-                <p class="govuk-body govuk-!-margin-bottom-5">{{data.description2}}</p>
                 {% endif %}
 
                 {% if agreementId_session == 'RM1043.8' %}
-                    <b class="govuk-heading-s">Additional documents (optional)</b>
+                    <b class="govuk-heading-s">Assessment documents</b>
                 {% endif %}
+
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description3}}</p>
+
                 {% if agreementId_session == 'RM1557.13'%}
                 <b class="govuk-heading-s">Core terms, call-off order form and schedules (terms and conditions)</b>
                 <p class="govuk-body govuk-!-margin-bottom-7">{{data.description4}}</p>
