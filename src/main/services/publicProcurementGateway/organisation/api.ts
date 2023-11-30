@@ -2,51 +2,51 @@ import { genericFecthGet } from 'main/services/helpers/api';
 import { EndPoints, Organisation, OrganisationUsers, UserProfile } from '../../types/publicProcurementGateway/organisation/api';
 import { FetchResult } from 'main/services/types/helpers/api';
 
-const baseURL: string = process.env.CONCLAVE_WRAPPER_API_BASE_URL;
+const baseURL = () => process.env.CONCLAVE_WRAPPER_API_BASE_URL;
 
-const headers = {
+const headers = () => ({
   'Content-Type': 'application/json',
   'x-api-key': process.env.CONCLAVE_WRAPPER_API_KEY
-};
+});
 
-// GET /organisation-profiles/:organisation-id
-const getOrganisation = async (organisationId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<Organisation>> => {
+// GET /organisation-profile/:organisation-id
+const getOrganisation = async (organisationId: string): Promise<FetchResult<Organisation>> => {
   return genericFecthGet<Organisation>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.ORGANISATION,
       params: { organisationId },
-      queryParams: queryParams
     },
-    headers
+    headers()
   );
 };
 
-// GET /organisation-profiles/:organisation-id/users
-const getOrganisationUsers = async (organisationId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<OrganisationUsers>> => {
+// GET /organisation-profile/:organisation-id/users
+const getOrganisationUsers = async (organisationId: string, currentPage?: number): Promise<FetchResult<OrganisationUsers>> => {
+  const queryParams = currentPage !== undefined ? { currentPage: String(currentPage) } : undefined;
+
   return genericFecthGet<OrganisationUsers>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.ORGANISATION_USERS,
       params: { organisationId },
       queryParams: queryParams
     },
-    headers
+    headers()
   );
 };
 
-// GET /user-profiles
-const getUserProfiles = async (userId: string, queryParams?: { [key: string]: string }): Promise<FetchResult<UserProfile>> => {
+// GET /user-profile
+const getUserProfiles = async (userId: string): Promise<FetchResult<UserProfile>> => {
   return genericFecthGet<UserProfile>(
     {
-      baseURL: baseURL,
+      baseURL: baseURL(),
       path: EndPoints.USER_PROFILES,
       queryParams: {
         'user-Id': userId,
-        ...queryParams
       }
     },
-    headers
+    headers()
   );
 };
 

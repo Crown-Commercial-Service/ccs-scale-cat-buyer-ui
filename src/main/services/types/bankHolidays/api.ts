@@ -1,20 +1,21 @@
 enum EndPoints {
+  STATUS = '/bank-holidays.json',
   BANK_HOLIDAYS = '/bank-holidays.json'
 };
 
-type BankHolidayEvent = {
+interface BankHolidayEvent {
   title: string
   date: string
   notes: string
   bunting: boolean
 }
 
-type BankHolidayDivision = {
+interface BankHolidayDivision {
   division: string
   events: BankHolidayEvent[]
 }
 
-type BankHolidays = {
+interface BankHolidays {
   'england-and-wales': BankHolidayDivision
   'scotland': BankHolidayDivision
   'northern-ireland': BankHolidayDivision

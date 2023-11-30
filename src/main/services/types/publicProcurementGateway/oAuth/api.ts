@@ -1,19 +1,26 @@
-type EndPoints = {
-  token: string
-  validateToken: string
+enum EndPoints {
+  TOKEN = '/security/token',
+  VALIDATE_TOKEN = '/security/tokens/validation'
 };
 
-type AuthCredentials = {
-  refresh_token?: string
-  code?: string
-  redirect_uri?: string
-  response_type?: string
+enum GrantType {
+  AUTHORIZATION_CODE = 'authorization_code',
+  REFRESH_TOKEN = 'refresh_token'
 }
 
-type RefreshData = {
+type AuthCredentials = {
+  code: string
+  grant_type: GrantType.AUTHORIZATION_CODE,
+  redirect_uri: string
+} | {
+  grant_type: GrantType.REFRESH_TOKEN
+  refresh_token: string
+}
+
+interface RefreshData {
   access_token: string
   session_state: string
   refresh_token: string
 }
 
-export { AuthCredentials, RefreshData, EndPoints };
+export { AuthCredentials, RefreshData, EndPoints, GrantType };

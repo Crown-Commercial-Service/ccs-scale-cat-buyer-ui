@@ -1,21 +1,23 @@
 enum EndPoints {
+  STATUS = '/_status',
   SERVICES_SEARCH = '/services/search',
   SERVICES_AGGREGATIONS = '/services/aggregations'
 }
 
-type GCloudService = {
+interface GCloudService {
   links: {
     next: string
+    prev: string
   }
   meta: {
-    query: { [key: string]: string }
+    query: Record<string, string>
     results_per_page: number
     took: number
     total: number
   }
 }
 
-type GCloudServiceSearchDocument = {
+interface GCloudServiceSearchDocument {
   frameworkName: string
   highlight: {
     frameworkName: [string]
@@ -44,13 +46,9 @@ type GCloudServiceSearch = GCloudService & {
   documents: GCloudServiceSearchDocument[]
 }
 
-type GCloudServiceAggregation = {
-  lot: {
-    [key: string]: number
-  }
-  serviceCategories?: {
-    [key: string]: number
-  }
+interface GCloudServiceAggregation {
+  lot: Record<string, number>
+  serviceCategories?: Record<string, number>
 }
 
 type GCloudServiceAggregations = GCloudService & {

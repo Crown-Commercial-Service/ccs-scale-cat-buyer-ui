@@ -1,48 +1,55 @@
-import * as express from 'express';
+import { Request, Response } from 'express';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { gCloudApi } from '../util/fetch/apiInstance';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourSearch.json';
-import { gCloudServiceQueryReplace } from '../util/filter/serviceQueryReplace';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
+import { gCloud } from 'main/services/gCloud';
+import { formatURL } from 'main/services/helpers/url';
+import { QueryParams } from 'main/services/types/helpers/url';
 
-async function getSearchResults(url: string, hostURL: any, result: any = []) {
-  const GCLOUD_SEARCH_API_TOKEN = process.env.GCLOUD_SEARCH_API_TOKEN;
-  const GCLOUD_INDEX = process.env.GCLOUD_INDEX;
-  const hosts = hostURL;
-  const JointURL = `${GCLOUD_INDEX}/services/search?${url}`;
-  const { data: services } = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
-  let NextPageUrl = '';
-  if (services.links.next !== undefined) {
-    NextPageUrl = services?.links?.next.substring(services?.links?.next.indexOf('?') + 1);
+interface ServiceResult {
+  serviceName: string
+  supplier: {
+    name: string
   }
-  const servicesList = services.documents;
-  const TAStorage = [];
-  for (let item = 0; item < servicesList.length; item++) {
-    const resultObject = {
-      serviceName: servicesList[item].serviceName,
-      supplier: {
-        name: servicesList[item].supplierName,
-      },
-      serviceDescription: servicesList[item].serviceDescription,
-      serviceLink: `${hosts}/g-cloud/services?id=${servicesList[item].id}`,
-    };
-    TAStorage.push(resultObject);
-  }
-  if (!result) {
-    result = TAStorage;
-  } else {
-    result.push(TAStorage);
-  }
-  if (NextPageUrl) {
-    result = await getSearchResults(NextPageUrl, hosts, result);
-  }
-  return result;
+  serviceDescription: string,
+  serviceLink: string
 }
 
-export const POST_SAVE_YOUR_SEARCH_RESULTS = async (req: express.Request, res: express.Response) => {
+const getSearchResults = async (queryParamsForSearchAPI: QueryParams, hostURL: string): Promise<ServiceResult[]> => {
+  const result: ServiceResult[] = [];
+
+  const servicesList = (await gCloud.api.search.getServicesSearch(queryParamsForSearchAPI)).unwrap();
+
+  servicesList.documents.forEach((document) => {
+    result.push({
+      serviceName: document.serviceName,
+      supplier: {
+        name: document.supplierName
+      },
+      serviceDescription: document.serviceDescription,
+      serviceLink: formatURL({
+        baseURL: hostURL,
+        path: '/g-cloud/services',
+        queryParams: {
+          id: document.id
+        }
+      })
+    });
+  });
+
+  if (servicesList.links.next !== undefined) {
+    const nextURLParams = (new URL(servicesList.links.next)).searchParams;
+
+    result.push(...await getSearchResults(nextURLParams, hostURL));
+  }
+
+  return result;
+};
+
+export const POST_SAVE_YOUR_SEARCH_RESULTS = async (req: Request, res: Response) => {
   const { SESSION_ID } = req.cookies;
   try {
     const { criteria, searchQuery } = req.body;
@@ -67,7 +74,7 @@ export const POST_SAVE_YOUR_SEARCH_RESULTS = async (req: express.Request, res: e
   }
 };
 
-export const GET_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.Response) => {
+export const GET_SAVE_YOUR_SEARCH = async (req: Request, res: Response) => {
   const { SESSION_ID } = req.cookies;
 
   try {
@@ -116,12 +123,12 @@ export const GET_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.Re
   }
 };
 
-export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.Response) => {
+export const POST_SAVE_YOUR_SEARCH = async (req: Request, res: Response) => {
   const { SESSION_ID } = req.cookies;
 
   try {
     const { criteriaData } = req.session;
-    let { searchUrl } = req.session;
+    const { searchUrlQuery, searchResultsUrl } = req.session;
     const { search_name, savesearch, saveandcontinue, saveforlater } = req.body;
     const hostURL = `${req.protocol}://${req.headers.host}`;
     const lastUpdate =
@@ -129,11 +136,8 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
         'YYYY-MM-DDTHH:mm:ss'
       ) + 'Z';
     if (savesearch !== undefined) {
-      const params = new URLSearchParams(searchUrl);
-      params.delete('filter_parentCategory');
-      const queryString = params.toString();
-      const sessionsearchUrl = queryString;
-      searchUrl = await gCloudServiceQueryReplace(searchUrl, 'filter_');
+      const queryParamsForSearchAPI = new URLSearchParams(searchUrlQuery);
+      queryParamsForSearchAPI.delete('filter_parentCategory');
       if (savesearch == 'new' && search_name !== '') {
         if (search_name.length <= 250) {
           const assessmentsBaseURL = '/assessments';
@@ -148,8 +152,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           );
           // unique search name
           if (savedDetails.length === 0) {
-            const results = await getSearchResults(sessionsearchUrl, hostURL);
-            const allServicesList = Array.prototype.concat(...results);
+            const allServicesList = await getSearchResults(queryParamsForSearchAPI, hostURL);
             if (allServicesList.length <= 0) {
               req.session['isJaggaerError'] = 'Search results not found';
               res.redirect('/g-cloud/search');
@@ -158,7 +161,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
               assessmentName: search_name,
               'external-tool-id': '14',
               status: 'active',
-              dimensionRequirements: searchUrl,
+              dimensionRequirements: searchResultsUrl,
               resultsSummary: criteriaData,
               lastUpdate: lastUpdate,
               results: allServicesList,
@@ -192,8 +195,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
       } else if (savesearch !== 'new') {
         const baseURL = `/assessments/${savesearch}/gcloud`;
         const { data: assessment } = await TenderApi.Instance(SESSION_ID).get(baseURL);
-        const results = await getSearchResults(sessionsearchUrl, hostURL);
-        const allServicesList = Array.prototype.concat(...results);
+        const allServicesList = await getSearchResults(queryParamsForSearchAPI, hostURL);
         if (allServicesList.length <= 0) {
           req.session['isJaggaerError'] = 'Search results not found';
           res.redirect('/g-cloud/search');
@@ -202,7 +204,7 @@ export const POST_SAVE_YOUR_SEARCH = async (req: express.Request, res: express.R
           assessmentName: assessment.assessmentName,
           'external-tool-id': '14',
           status: 'active',
-          dimensionRequirements: searchUrl,
+          dimensionRequirements: searchResultsUrl,
           resultsSummary: criteriaData,
           lastUpdate: lastUpdate,
           results: allServicesList,

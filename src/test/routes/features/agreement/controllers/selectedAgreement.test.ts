@@ -34,7 +34,7 @@ describe('Choose a lot agreement page', () => {
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
-      .get('/user-profiles')
+      .get('/user-profile')
       .query({ 'user-id': jwtUser })
       .reply(200, { data: true });
 

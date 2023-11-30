@@ -1,4 +1,5 @@
 enum EndPoints {
+  STATUS = '/agreements',
   AGREEMENT = '/agreements/:agreementId',
   AGREEMENT_LOTS = '/agreements/:agreementId/lots',
   AGREEMENT_LOT = '/agreements/:agreementId/lots/:lotId',
@@ -6,7 +7,7 @@ enum EndPoints {
   AGREEMENT_LOT_EVENT_TYPES = '/agreements/:agreementId/lots/:lotId/event-types'
 }
 
-type AgreementLotEventType = {
+interface AgreementLotEventType {
   type: string
 }
 

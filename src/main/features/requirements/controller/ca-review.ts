@@ -5,10 +5,10 @@ import * as CMSData from '../../../resources/content/requirements/ca-review.json
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  *
@@ -33,7 +33,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
     dimensions,
   } = req.session;
 
-  const organization_id = req.session.user.payload.ciiOrgId;
+  const organization_id = req.session.user.ciiOrgId;
   req.session['organizationId'] = organization_id;
 
   /**
@@ -48,19 +48,18 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
    */
 
   try {
-    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint
-    );
-    organisation_user_data = organisation_user_data?.data;
+    const organisation_user_data = (
+      await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])
+    ).unwrap();
+
     const { pageCount } = organisation_user_data;
     const allUserStorge = [];
     for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop
-      );
-      const { userList } = organisation_user_data_loop?.data ?? {};
+      const organisation_user_data_loop = (
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
+      ).unwrap();
+
+      const { userList } = organisation_user_data_loop ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;
@@ -73,7 +72,7 @@ export const CA_GET_review = async (req: express.Request, res: express.Response)
     const userData: any = collaboratorData;
     const projectTeam = userData;
     const leadUser = userData?.filter((leaduser: any) => leaduser?.nonOCDS.projectOwner === true)[0];
-    const userIsLead = leadUser?.OCDS.id === req.session.user.payload.sub;
+    const userIsLead = leadUser?.OCDS.id === req.session.user.sub;
     if (!Array.isArray(req.session['searched_user'])) {
       collaborator = { fullName: fullName, email: userName };
     } else {

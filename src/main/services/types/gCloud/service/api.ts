@@ -1,17 +1,18 @@
+import { ServiceModel } from 'main/features/g-cloud/model/searchModel';
+
 enum EndPoints {
+  STATUS = '/_status',
   SERVICE = '/services/:serviceId',
   SUPPLIER = '/suppliers/:supplierId',
   SUPPLIER_FRAMEWORK = '/suppliers/:supplierId/frameworks/g-cloud-13'
 }
 
-type GCloudService = {
+interface GCloudService {
   serviceMadeUnavailableAuditEvent: string | null
-  services: {
-    [key: string]: boolean | number | string | string[] | object
-  }
+  services: ServiceModel
 }
 
-type GCloudSupplier = {
+interface GCloudSupplier {
   suppliers: {
     companiesHouseNumber: string
     companyDetailsConfirmed: boolean
@@ -40,15 +41,13 @@ type GCloudSupplier = {
     organisationSize: string
     registeredName: string
     registrationCountry: string
-    service_counts: {
-      [key: string]: number
-    }
+    service_counts: Record<string, number>
     tradingStatus: string
     vatNumber: string
   }
 }
 
-type GCloudSupplierFramework = {
+interface GCloudSupplierFramework {
   frameworkInterest: {
     agreedVariations: object
     agreementDetails: {
@@ -77,6 +76,8 @@ type GCloudSupplierFramework = {
     }
     countersignedPath: string
     declaration: {
+      modernSlaveryStatement: string
+      modernSlaveryStatementOptional: string
       [key: string]: string | boolean
     }
     frameworkFamily: string

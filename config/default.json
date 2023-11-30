@@ -1,14 +1,6 @@
    
 {
   "useCSRFProtection": true,
-  "security": {
-    "referrerPolicy": "origin"
-  },
-  "featureDir": [
-    { "path": "/routes/**/*.+(ts|js)" },
-    { "path": "/features/**/path.ts" },
-    { "path": "/errors/path.ts" }
-  ],
   "PORT": "3000",
   "Session": {
     "time": "600"
@@ -24,15 +16,6 @@
   "bankholidayservice":{
     "BASEURL": "https://www.gov.uk"
   },
-  "authenticationService": {
-    "token-endpoint": "/security/token",
-    "access_granttype": "authorization_code",
-    "refresh_token": "refresh_token",
-    "token_validation_endpoint": "/security/tokens/validation",
-    "logout": "/security/log-out",
-    "logout_callback": "/logout",
-    "user_profile_endpoint": "/user-profiles"
-  },
   "logger": {
     "baseURL": "https://api.logit.io/v2"
   },
@@ -43,7 +26,8 @@
     "error": {
       "401": "error/401",
       "404": "error/404",
-      "500": "error/500"
+      "500": "error/500",
+      "404_Opportunity":"error/404_Opportunity"
     }
   },
   "cookies": {

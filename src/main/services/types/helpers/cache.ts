@@ -1,4 +1,4 @@
-type CacheOptions = {
+interface CacheOptions {
   key: string
   seconds: number
 }

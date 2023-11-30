@@ -7,5 +7,5 @@ import * as express from 'express';
  * @param res
  */
 export const Error_401 = (req: express.Request, res: express.Response) => {
-  res.render('error/401');
+  res.status(401).render('error/401');
 };

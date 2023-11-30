@@ -6,6 +6,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/stylistic",
     "prettier"
   ],
   "overrides": [],
@@ -30,8 +31,26 @@
       "error",
       "always"
     ],
+    "prefer-const": [
+      "off"
+    ],
+    "no-irregular-whitespace": [
+      "off"
+    ],
     "@typescript-eslint/ban-ts-comment": [
       "off"
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "warn"
+    ],
+    "@typescript-eslint/no-duplicate-enum-values": [
+      "warn"
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn"
+    ],
+    "@typescript-eslint/prefer-for-of": [
+      "warn"
     ]
   }
 }

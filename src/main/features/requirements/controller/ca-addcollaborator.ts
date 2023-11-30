@@ -1,13 +1,13 @@
 //@ts-nocheck
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 // RFI ADD_Collaborator
 /**
@@ -17,24 +17,23 @@ import * as cmsData from '../../../resources/content/requirements/addcollaborato
  */
 export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const organization_id = req.session.user.payload.ciiOrgId;
+  const organization_id = req.session.user.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { isJaggaerError, choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
-    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint
-    );
-    organisation_user_data = organisation_user_data?.data;
+    const organisation_user_data = (
+      await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'])
+    ).unwrap();
+
     const { pageCount } = organisation_user_data;
     const allUserStorge = [];
     for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop
-      );
-      const { userList } = organisation_user_data_loop?.data ?? {};
+      const organisation_user_data_loop = (
+        await ppg.api.organisation.getOrganisationUsers(req.session?.['organizationId'], a)
+      ).unwrap();
+
+      const { userList } = organisation_user_data_loop ?? {};
       allUserStorge.push(...userList);
     }
     let collaborator;
@@ -46,7 +45,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     collaboratorData = collaboratorData.data;
     const userData: any = collaboratorData;
     const leadUser = userData?.filter((leaduser: any) => leaduser?.nonOCDS.projectOwner === true)[0];
-    const userIsLead = leadUser?.OCDS.id === req.session.user.payload.sub;
+    const userIsLead = leadUser?.OCDS.id === req.session.user.sub;
     if (!Array.isArray(req.session['searched_user'])) {
       collaborator = { fullName: fullName, email: userName };
     } else {
@@ -101,9 +100,7 @@ export const CA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
   const { rfi_collaborators } = req['body'];
   try {
     const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
+    const userData = (await ppg.api.organisation.getUserProfiles(user_profile)).unwrap();
     const { userName, firstName, lastName, telephone } = userData;
     let userdetailsData = { userName, firstName, lastName };
 
@@ -134,9 +131,7 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
   } else {
     try {
       const user_profile = rfi_collaborators;
-      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-      const userData = organisation_user_data?.data;
+      const userData = (await ppg.api.organisation.getUserProfiles(user_profile)).unwrap();
       req.session['searched_user'] = userData;
       res.redirect('/ca/add-collaborators');
     } catch (error) {

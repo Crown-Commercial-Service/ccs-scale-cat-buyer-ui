@@ -10,12 +10,12 @@ import { EventDashboardStatus, EventStatus, EventTypes } from '../models/tenders
 enum EventGroup {
   OPEN,
   HISTORICAL,
-  UNKNOWN
+  UNKNOWN,
 }
 
-type EventResult = {
-  project?: Project,
-  group: EventGroup
+interface EventResult {
+  project?: Project;
+  group: EventGroup;
 }
 
 const getProjectEvents = async (accessToken: string, project: Project): Promise<EventResult[]> => {
@@ -24,7 +24,7 @@ const getProjectEvents = async (accessToken: string, project: Project): Promise<
   return events.map((event): EventResult => {
     if (event === undefined) {
       return {
-        group: EventGroup.UNKNOWN
+        group: EventGroup.UNKNOWN,
       };
     }
 
@@ -39,6 +39,8 @@ const getProjectEvents = async (accessToken: string, project: Project): Promise<
         case EventDashboardStatus.UNKNOWN:
           if (event.status === EventStatus.WITHDRAWN) {
             group = EventGroup.HISTORICAL;
+          } else if (event.status === EventStatus.PLANNED) {
+            group = EventGroup.OPEN;
           }
           break;
         case EventDashboardStatus.IN_PROGRESS:
@@ -82,7 +84,10 @@ const getProjectEvents = async (accessToken: string, project: Project): Promise<
           group = EventGroup.OPEN;
           event.status = EventStatus.IN_PROGRESS;
       }
-    } else if (event.status !== undefined && (event.eventType === EventTypes.PA || event.eventType === EventTypes.FCA || event.eventType === EventTypes.DAA)) {
+    } else if (
+      event.status !== undefined &&
+      (event.eventType === EventTypes.PA || event.eventType === EventTypes.FCA || event.eventType === EventTypes.DAA)
+    ) {
       switch (event.dashboardStatus) {
         case EventDashboardStatus.COMPLETE:
         case EventDashboardStatus.CLOSED:
@@ -117,6 +122,8 @@ const getProjectEvents = async (accessToken: string, project: Project): Promise<
         case EventDashboardStatus.UNKNOWN:
           if (event.status === EventStatus.WITHDRAWN) {
             group = EventGroup.HISTORICAL;
+          } else if (event.status === EventStatus.PLANNED) {
+            group = EventGroup.OPEN;
           }
           break;
         case EventDashboardStatus.IN_PROGRESS:
@@ -157,17 +164,22 @@ const getProjectEvents = async (accessToken: string, project: Project): Promise<
       group: group,
       project: {
         ...project,
-        activeEvent: event
-      }
+        activeEvent: event,
+      },
     };
   });
 };
 
-const separateOpenAndHistoricalProjects = async (projectEventsCollection: EventResult[]): Promise<[Project[], Project[]]> => {
+const separateOpenAndHistoricalProjects = async (
+  projectEventsCollection: EventResult[],
+): Promise<[Project[], Project[]]> => {
   const openProjects: Project[] = [];
   const historicalProjects: Project[] = [];
 
-  projectEventsCollection.sort((project_a, project_b) => +new Date(project_b.project.activeEvent.lastUpdated) - +new Date(project_a.project.activeEvent.lastUpdated));
+  projectEventsCollection.sort(
+    (project_a, project_b) =>
+      +new Date(project_b.project.activeEvent.lastUpdated) - +new Date(project_a.project.activeEvent.lastUpdated),
+  );
 
   projectEventsCollection.flat().forEach((eventResult) => {
     if (eventResult.group === EventGroup.OPEN) {
@@ -216,7 +228,9 @@ const getEvents = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const projects = (await tendersService.api.projects.getProjects(accessToken)).unwrap();
 
-    const projectEventsCollection = (await Promise.all(projects.map(async (project) => await getProjectEvents(accessToken, project)))).flat();
+    const projectEventsCollection = (
+      await Promise.all(projects.map(async (project) => await getProjectEvents(accessToken, project)))
+    ).flat();
 
     const [openProjects, historicalProjects] = await separateOpenAndHistoricalProjects(projectEventsCollection);
 
@@ -231,7 +245,7 @@ const getEvents = async (req: Request, res: Response, next: NextFunction) => {
       state,
       TokenDecoder.decoder(SESSION_ID),
       'Tenders API for getting the list of Active Events',
-      false
+      false,
     );
     next();
   }
@@ -248,26 +262,28 @@ const searchEvents = async (req: Request, res: Response, next: NextFunction) => 
 
     if (searchNew !== '') {
       console.log(searchNew);
-      const searchTypes = [
-        'projectName',
-        'eventId',
-        'eventSupportId'
-      ];
+      const searchTypes = ['projectName', 'eventId', 'eventSupportId'];
 
-      const projectCollections = await Promise.all(searchTypes.map(async (searchType) => {
-        const projects = (await tendersService.api.projects.getProjects(accessToken, {
-          'search-type': searchType,
-          'search-term': `*${searchNew}*`,
-          'page': '0',
-          'page-size': '20'
-        })).unwrap();
+      const projectCollections = await Promise.all(
+        searchTypes.map(async (searchType) => {
+          const projects = (
+            await tendersService.api.projects.getProjects(accessToken, {
+              'search-type': searchType,
+              'search-term': `*${searchNew}*`,
+              page: '0',
+              'page-size': '20',
+            })
+          ).unwrap();
 
-        return projects;
-      }));
+          return projects;
+        }),
+      );
 
       const projects = objectSet(projectCollections.flat(), 'projectId');
 
-      const projectEventsCollection = (await Promise.all(projects.map(async (project) => await getProjectEvents(accessToken, project)))).flat();
+      const projectEventsCollection = (
+        await Promise.all(projects.map(async (project) => await getProjectEvents(accessToken, project)))
+      ).flat();
 
       const [openProjects, historicalProjects] = await separateOpenAndHistoricalProjects(projectEventsCollection);
 
@@ -285,7 +301,7 @@ const searchEvents = async (req: Request, res: Response, next: NextFunction) => 
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Tenders API for getting the list of Active Events',
-      false
+      false,
     );
     next();
   }
@@ -300,7 +316,7 @@ const searchEvents = async (req: Request, res: Response, next: NextFunction) => 
  */
 const activeEventsMiddleware = {
   getEvents,
-  searchEvents
+  searchEvents,
 };
 
 export { activeEventsMiddleware, EventTypes };

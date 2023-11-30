@@ -15,11 +15,11 @@ import moment from 'moment-business-days';
 import momentz from 'moment-timezone';
 import { CalVetting } from '../../shared/CalVetting';
 import { CalServiceCapability } from '../../shared/CalServiceCapability';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { CalScoringCriteria } from '../../shared/CalScoringCriteria';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { sortObject } from '../../../common/util/operators/sortObject';
 import { logConstant } from '../../../common/logtracer/logConstant';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -379,7 +379,7 @@ const RFP_REVIEW_RENDER_STAGE = async (
 
     const assessModel = [];
     const questionModel = [];
-    const scoringData = [];
+    let scoringData = [];
 
     const termAndAcr = [];
 
@@ -654,15 +654,7 @@ const RFP_REVIEW_RENDER_STAGE = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublishStageTwo, req);
     res.render('rfp-review-stage', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 const RFP_REVIEW_RENDER_TEST = async (
@@ -867,8 +859,8 @@ const RFP_REVIEW_RENDER_TEST = async (
       a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
         ? -1
         : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-          ? 1
-          : 0
+        ? 1
+        : 0
     );
     const supplierLength = supplierList.length;
     // supplier filtered list end
@@ -1373,7 +1365,7 @@ const RFP_REVIEW_RENDER_TEST = async (
       assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter((o) => o.selected == true);
     }
     let questionModel = [];
-    const scoringData = [];
+    let scoringData = [];
     if (agreementId_session == 'RM1043.8' && req.session.lotId == 1) {
       //question 9
 
@@ -1472,6 +1464,10 @@ const RFP_REVIEW_RENDER_TEST = async (
         scoringData.push({ name: element[0].text, points: element[1].text, def: element[2].text });
       });
     }
+
+    scoringData = scoringData.sort(function(a, b) {
+      return b.points - a.points;
+    });
 
     //question 2
     if (agreementId_session == 'RM1043.8' && (req.session.lotId == 3 || req.session.lotId == 1)) {
@@ -1998,10 +1994,9 @@ const RFP_REVIEW_RENDER_TEST = async (
       sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-      const organizationID = req.session.user.payload.ciiOrgId;
-      const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-      const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-      const name = getOrganizationDetails.data?.identifier?.legalName;
+      const organizationID = req.session.user.ciiOrgId;
+      const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+      const name = getOrganizationDetails.identifier?.legalName;
       const buyingorg1 = name;
 
       //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -2592,15 +2587,7 @@ const RFP_REVIEW_RENDER_TEST = async (
       res.render('rfp-review', appendData);
     }
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -2894,15 +2881,7 @@ const RFP_REVIEW_RENDER = async (
 
     res.render('rfp-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -3132,8 +3111,8 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
         ? -1
         : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-          ? 1
-          : 0
+        ? 1
+        : 0
     );
     const supplierLength = supplierList.length;
     // supplier filtered list end
@@ -3626,10 +3605,9 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data?.identifier?.legalName;
+    const organizationID = req.session.user.ciiOrgId;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
 
     //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -3996,15 +3974,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -4124,8 +4094,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
       a.organization.name.replace('-', ' ').toLowerCase() < b.organization.name.replace('-', ' ').toLowerCase()
         ? -1
         : a.organization.name.replace('-', ' ').toLowerCase() > b.organization.name.replace('-', ' ').toLowerCase()
-          ? 1
-          : 0
+        ? 1
+        : 0
     );
     const supplierLength = supplierList.length;
     // supplier filtered list end
@@ -4527,10 +4497,9 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data?.identifier?.legalName;
+    const organizationID = req.session.user.ciiOrgId;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier?.legalName;
     const buyingorg1 = name;
 
     //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
@@ -4838,14 +4807,6 @@ const RFP_REVIEW_RENDER_GCLOUD = async (
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-gcloudreview', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };

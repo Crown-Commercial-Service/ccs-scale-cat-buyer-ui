@@ -1,5 +1,4 @@
 //@ts-nocheck
-// import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as A1_Template from '../../../resources/content/requirements/caTaskList-A1.json';
 import * as A1_Template_FCA from '../../../resources/content/requirements/caTaskList-A1-FCA.json';

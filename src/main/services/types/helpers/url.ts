@@ -1,14 +1,16 @@
-type FormatURLParams = {
+type QueryParams = string | string[][] | Record<string, string> | URLSearchParams
+
+interface FormatURLParams {
   baseURL: string
   path: string
-  params?: { [key: string]: string }
-  queryParams?: { [key: string]: string }
+  params?: Record<string, string>
+  queryParams?: QueryParams
 }
 
-type FormatRelativeURLParams = {
+interface FormatRelativeURLParams {
   path: string
-  params?: { [key: string]: string }
-  queryParams?: { [key: string]: string }
+  params?: Record<string, string>
+  queryParams?: QueryParams
 }
 
-export { FormatURLParams, FormatRelativeURLParams };
+export { QueryParams, FormatURLParams, FormatRelativeURLParams };

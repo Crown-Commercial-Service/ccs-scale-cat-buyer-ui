@@ -7,7 +7,6 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import * as express from 'express';
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/questions';
@@ -22,6 +21,7 @@ import moment from 'moment';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { agreementsService } from 'main/services/agreementsService';
+import { ppg } from 'main/services/publicProcurementGateway';
 
 /**
  *
@@ -84,10 +84,9 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //CAS-INFO-LOG
     LoggTracer.infoLogger(fetch_dynamic_api, logConstant.questionsGroupFetch, req);
 
-    const organizationID = req.session.user.payload.ciiOrgId;
-    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-    const name = getOrganizationDetails.data.identifier.legalName;
+    const organizationID = req.session.user.ciiOrgId;
+    const getOrganizationDetails = (await ppg.api.organisation.getOrganisation(organizationID)).unwrap();
+    const name = getOrganizationDetails.identifier.legalName;
     const organizationName = name;
 
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
@@ -490,15 +489,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                   break;
                 }
               } catch (error) {
-                LoggTracer.errorLogger(
-                  res,
-                  error,
-                  null,
-                  null,
-                  null,
-                  null,
-                  false
-                );
+                LoggTracer.errorLogger(res, error, null, null, null, null, false);
               }
             }
           }
@@ -961,15 +952,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   res.redirect('/rfp/task-list');
                 }
               } catch (error) {
-                LoggTracer.errorLogger(
-                  res,
-                  error,
-                  null,
-                  null,
-                  null,
-                  null,
-                  false
-                );
+                LoggTracer.errorLogger(res, error, null, null, null, null, false);
               }
             }
           }
@@ -1001,15 +984,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
       res.redirect('/error');
     }
   } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      null,
-      null,
-      null,
-      null,
-      false
-    );
+    LoggTracer.errorLogger(res, error, null, null, null, null, false);
   }
 };
 
@@ -1117,17 +1092,17 @@ const isDateOlder = (date1: any, date2: any) => {
 const mapTitle = (groupId) => {
   let title = '';
   switch (groupId) {
-  case 'Group 4':
-    title = 'technical';
-    break;
-  case 'Group 5':
-    title = 'cultural';
-    break;
-  case 'Group 6':
-    title = 'social value';
-    break;
-  default:
-    return '';
+    case 'Group 4':
+      title = 'technical';
+      break;
+    case 'Group 5':
+      title = 'cultural';
+      break;
+    case 'Group 6':
+      title = 'social value';
+      break;
+    default:
+      return '';
   }
   return title;
 };
@@ -1153,7 +1128,9 @@ const getColumnsHeaderList = (columns) => {
   });
   return list;
 };
+
 const getRowDataList = (rows, data1, Agreementid?: any) => {
+  // Variables passed to us are titles (rows), and data (data1).  Data from both needs to be brought together to form an entry
   const dataRowsList = [];
   rows?.forEach((element) => {
     element.text = element.name;
@@ -1163,15 +1140,24 @@ const getRowDataList = (rows, data1, Agreementid?: any) => {
       { classes: 'govuk-!-width-one-quarter', text: data[0].cols[0] },
       { classes: 'govuk-!-width-one-half', text: data[0].cols[1] },
     ];
+
+    //  We now have a compiled entry, where the second data item is our "number" that we want to sort by
     dataRowsList.push(innerArrObj);
   });
 
+  // Sort the compiled array based on the contents of the second item in its entries
+  let sortedDataRowsList = dataRowsList.sort(function(a, b) {
+    return b[1].text - a[1].text;
+  });
+
+  // Finally return the data, sorting it further if necessary based on the agreement
   if (Agreementid == 'RM1557.13') {
-    return dataRowsList;
+    return sortedDataRowsList;
   } else {
-    return dataRowsList.reverse();
+    return sortedDataRowsList.reverse();
   }
 };
+
 const getDataList = (id, data) => {
   const obj = data?.filter((element) => {
     if (element.row == id) {

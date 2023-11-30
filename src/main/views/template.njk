@@ -62,7 +62,15 @@
 
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
     <!-- GLASSBOX SCRIPT -->
-    <script type="text/javascript" id="_cls_injector"> var script = document.createElement('script'); script.id = "_cls_detector"; script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js"; script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report"); document.head.appendChild(script);  </script>
+    <script type="text/javascript" id="_cls_injector">
+      var script = document.createElement('script');
+      script.id = "_cls_detector";
+      script.src = "https://cdn2.gbqofs.com/crown-comm/p/detector-dom.min.js";
+      script.setAttribute("data-clsconfig", "reportURI=https://report.crown-comm.gbqofs.io/reporting/9b255ae9-73b0-4a79-d907-c3c35f8e23b0/cls_report");
+      document
+        .head
+        .appendChild(script);
+    </script>
     <!-- End GLASSBOX SCRIPT -->
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
@@ -104,12 +112,19 @@
 
       {% block content %}{% endblock %}
     </div>
-
     {% if Session['session'] %}
+      {{ 
+  CCSDialog({
+    title: "Your CAS session will expire soon",
+    description:"Due to inactivity, your CAS session is set to expire in 30 seconds.Click 'Continue' to extend your session. If your session expires, you'll need to log back in to resume your work.",
+    redirect:'/oauth/logout',
+    type:'sessionTimeoutPopup'
+  }) 
+}}
       {% if fcaHelperLayer %}
-          {% block mcf3helpSection%}
-            {{mcf3helpSection()}}
-          {% endblock %}
+        {% block mcf3helpSection%}
+          {{mcf3helpSection()}}
+        {% endblock %}
       {% else %}
         {% block helpSection%}
           {{helpSection()}}
@@ -128,5 +143,5 @@
     {% endblock %}
 
   </body>
-  
+
 </html>

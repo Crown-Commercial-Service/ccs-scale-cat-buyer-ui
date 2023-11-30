@@ -1,4 +1,5 @@
 export interface ServiceModel {
+  supplierId: string;
   supplierName: any;
   serviceName: any;
   serviceDescription: any;
