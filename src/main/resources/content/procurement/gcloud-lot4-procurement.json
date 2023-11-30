@@ -132,11 +132,10 @@
           "status": "Complete Offline"
         }
     ],
-    "related": {
-        "title": "Related content",
-        "content": {
-            "href": "/agreement/lot?agreement_id=RM6263&lotNum=Lot%202",
-            "text": "Digital Specialists and Programmes, Lot 2: Specialists"
+    "related_content": [
+        {
+            "text": "G-Cloud 13 agreement page",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
         }
-    }
+    ]
 }

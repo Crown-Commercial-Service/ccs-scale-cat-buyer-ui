@@ -202,13 +202,13 @@
          <div class="govuk-grid-column-one-third">
             {% if (agreementId_session == 'RM1557.13') %}
                   <div class="ccs-callout-panel">
-          <h2 class="govuk-heading-m">Related content</h2>
-          <p class="govuk-body">
-            {% for item in related_content %}
-              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return true;">{{ item.text }}</a><br>
-            {% endfor %}
-          </p>
-        </div>
+                      <h2 class="govuk-heading-m">Related Content</h2>
+                      <p class="govuk-body">
+                        {% for item in related_content %}
+                          <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return true;">{{ item.text }}</a><br>
+                        {% endfor %}
+                      </p>
+                </div>
             {% else %}
                {{ CCSReleatedContent(releatedContent,'',agreementId_session,'',lotid,'') }}
             {% endif %}
