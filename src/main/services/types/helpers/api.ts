@@ -12,12 +12,12 @@ enum FetchResultStatus {
   ERROR = 1
 }
 
-type FetchResultOK<T> = {
+interface FetchResultOK<T> {
   status: FetchResultStatus.OK
   data: T
 }
 
-type FetchResultError = {
+interface FetchResultError {
   status: FetchResultStatus.ERROR
   error: any
 }

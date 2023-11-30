@@ -16,14 +16,14 @@ describe('Organisation API helpers', () => {
   const userId = 'user-1234';
 
   const restHandlers = [
-    http.get(`${baseURL}/organisation-profiles/${orgId}`, ({ request }) => {
+    http.get(`${baseURL}/organisation-profile/${orgId}`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse({ identifier: { legalName: 'myOrgNoParam' } });
       }
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/organisation-profiles/${orgId}/users`, ({ request }) => {
+    http.get(`${baseURL}/organisation-profile/${orgId}/users`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         if(matchQueryParams(request, '')) {
           return mswJSONResponse({ pageCount: 1, userList: [{ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' }] });
@@ -35,7 +35,7 @@ describe('Organisation API helpers', () => {
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/user-profiles`, ({ request }) => {
+    http.get(`${baseURL}/user-profile`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse({ userName: 'myUsernameNoParam', firstName: 'myFirstName', lastName: 'myLastName', telephone: 'myTelephone' });
       }

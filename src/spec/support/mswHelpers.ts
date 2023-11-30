@@ -16,7 +16,7 @@ const mswEmptyResponseWithStatus = (status: number): Response => {
   return new Response(null, { status: status });
 };
 
-const matchHeaders = (req: StrictRequest<DefaultBodyType>, expectedHeaders: { [key: string]: string }): boolean => {
+const matchHeaders = (req: StrictRequest<DefaultBodyType>, expectedHeaders: Record<string, string>): boolean => {
   return Object.entries(expectedHeaders).every(([key, value]) => {
     return req.headers.get(key) === value;
   });

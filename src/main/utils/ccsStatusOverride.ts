@@ -1,14 +1,14 @@
 import { TenderApi } from '../common/util/fetch/procurementService/TenderApiInstance';
 
-type JourneyEvent = {
+interface JourneyEvent {
   eventno: number;
   status: string;
-};
+}
 
-type StepData = {
+interface StepData {
   step: number;
   state: string;
-};
+}
 
 const getStepJourneyStatus = (state: string): string => {
   switch (state) {

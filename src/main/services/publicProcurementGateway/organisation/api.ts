@@ -9,7 +9,7 @@ const headers = () => ({
   'x-api-key': process.env.CONCLAVE_WRAPPER_API_KEY
 });
 
-// GET /organisation-profiles/:organisation-id
+// GET /organisation-profile/:organisation-id
 const getOrganisation = async (organisationId: string): Promise<FetchResult<Organisation>> => {
   return genericFecthGet<Organisation>(
     {
@@ -21,7 +21,7 @@ const getOrganisation = async (organisationId: string): Promise<FetchResult<Orga
   );
 };
 
-// GET /organisation-profiles/:organisation-id/users
+// GET /organisation-profile/:organisation-id/users
 const getOrganisationUsers = async (organisationId: string, currentPage?: number): Promise<FetchResult<OrganisationUsers>> => {
   const queryParams = currentPage !== undefined ? { currentPage: String(currentPage) } : undefined;
 
@@ -36,7 +36,7 @@ const getOrganisationUsers = async (organisationId: string, currentPage?: number
   );
 };
 
-// GET /user-profiles
+// GET /user-profile
 const getUserProfiles = async (userId: string): Promise<FetchResult<UserProfile>> => {
   return genericFecthGet<UserProfile>(
     {
