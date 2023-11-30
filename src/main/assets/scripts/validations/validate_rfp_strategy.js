@@ -126,7 +126,7 @@ const ccsZvalidateRfPStrategy = event => {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_g').val().length === 0) {
           if(pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
-            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter the business problem you need to solve');
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter details about the business problem');
           }else{
             fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
           }

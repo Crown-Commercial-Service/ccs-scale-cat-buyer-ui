@@ -17,7 +17,6 @@ describe('Agrements Service API helpers', () => {
   const baseURL = process.env.AGREEMENTS_SERVICE_API_URL;
   const headers = {
     'Content-Type': 'application/json',
-    'x-api-key': process.env.AGREEMENTS_SERVICE_API_KEY
   };
   const agreementId = 'agreementId-1234';
   const lotId = 'lotId-1234';
@@ -62,35 +61,35 @@ describe('Agrements Service API helpers', () => {
   const getAgreementLotEventTypesData = [{ type: 'myType' }];
 
   const restHandlers = [
-    http.get(`${baseURL}/agreements-service/agreements/${agreementId}`, ({ request }) => {
+    http.get(`${baseURL}/agreements/${agreementId}`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse(getAgreementData);
       }
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/agreements-service/agreements/${agreementId}/lots`, ({ request }) => {
+    http.get(`${baseURL}/agreements/${agreementId}/lots`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse(getAgreementLotsData);
       }
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/agreements-service/agreements/${agreementId}/lots/${lotId}`, ({ request }) => {
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse(getAgreementLotData);
       }
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/agreements-service/agreements/${agreementId}/lots/${lotId}/suppliers`, ({ request }) => {
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/suppliers`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse(getAgreementLotSuppliersData);
       }
 
       return mswEmptyResponseWithStatus(400);
     }),
-    http.get(`${baseURL}/agreements-service/agreements/${agreementId}/lots/${lotId}/event-types`, ({ request }) => {
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/event-types`, ({ request }) => {
       if (matchHeaders(request, headers)) {
         return mswJSONResponse(getAgreementLotEventTypesData);
       }
