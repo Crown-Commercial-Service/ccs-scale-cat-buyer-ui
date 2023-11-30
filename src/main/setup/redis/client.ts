@@ -3,7 +3,7 @@ import { Logger } from '@hmcts/nodejs-logging';
 
 const logger = Logger.getLogger('redis');
 
-type RedisConfig = {
+interface RedisConfig {
   credentials: {
     host?: string
     port: string

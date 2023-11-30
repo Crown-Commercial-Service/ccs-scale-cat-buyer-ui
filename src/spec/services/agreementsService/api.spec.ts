@@ -7,8 +7,8 @@ import { AgreementLotEventType } from 'main/services/types/agreementsService/api
 import { agreementsServiceAPI } from 'main/services/agreementsService/api';
 import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 import { assertRedisCalls, assertRedisCallsWithCache, creatRedisMockSpy } from 'spec/support/mocks/redis';
 import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spec/support/mocks/performanceLogger';
 
@@ -61,40 +61,40 @@ describe('Agrements Service API helpers', () => {
   const getAgreementLotEventTypesData = [{ type: 'myType' }];
 
   const restHandlers = [
-    rest.get(`${baseURL}/agreements/${agreementId}`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getAgreementData));
+    http.get(`${baseURL}/agreements/${agreementId}`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getAgreementData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/agreements/${agreementId}/lots`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getAgreementLotsData));
+    http.get(`${baseURL}/agreements/${agreementId}/lots`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getAgreementLotsData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getAgreementLotData));
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getAgreementLotData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/suppliers`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getAgreementLotSuppliersData));
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/suppliers`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getAgreementLotSuppliersData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
-    rest.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/event-types`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) {
-        return res(ctx.status(200), ctx.json(getAgreementLotEventTypesData));
+    http.get(`${baseURL}/agreements/${agreementId}/lots/${lotId}/event-types`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(getAgreementLotEventTypesData);
       }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
   

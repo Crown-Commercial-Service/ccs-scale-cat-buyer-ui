@@ -3,14 +3,20 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% if agreementId_session != 'RM6187' %}
-  {% set title = 'Enter the supplier’s final score' %}
-{% else %}
+{% if agreementId_session == 'RM6187' %}
   {% set title = 'Add your supplier evaluation' %}
+{% elseif agreementId_session == 'RM1043.8' %}
+    {% if stage2_value == 'Stage 2' %}
+        {% set title = 'Enter the supplier’s final score' %}
+    {% else %}
+        {% set title = 'Enter the supplier’s shortlisting score' %}
+    {% endif %}
+{% else %}
+    {% set title = 'Enter the supplier’s final score' %}
 {% endif %}
 
 {% if agreementId_session == 'RM1043.8' %}
-  {% set breadCrumbText = 'Enter the supplier’s final score' %}
+  {% set breadCrumbText = 'Enter the supplier’s shortlisting score' %}
 {% else %}
   {% set breadCrumbText = 'Enter your supplier Evaluation' %}
 {% endif %}
@@ -75,14 +81,14 @@
             {% if agreementId_session == 'RM6187' or agreementId_session == "RM1557.13" %}
               <p class="govuk-body">Enter your final score for this supplier. This is the quality and price score added together.</p>
             {% else %}
-              <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
+              <p class="govuk-body">Enter your final evaluation score and feedback for this supplier.</p>
               <p class="govuk-body">You should have evaluated all supplier answers and reviewed this with other evaluators before
                 entering your final score.
               </p>
             {% endif %}
           {% else %}
             {% if stage2_value == 'Stage 2' %}
-              <p class="govuk-body">Enter your final evalution score for this supplier.</p>
+              <p class="govuk-body">Enter your final evaluation score for this supplier.</p>
             {% else %}
               <p class="govuk-body">Enter your shortlisting score for this supplier.</p>
             {% endif %}

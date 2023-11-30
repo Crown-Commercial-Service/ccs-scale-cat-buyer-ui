@@ -5,6 +5,7 @@ enum EndPoints {
   LOGOUT_CALLBACK = '/logout'
 };
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type LogInParams = {
   response_type: string
   scope: string

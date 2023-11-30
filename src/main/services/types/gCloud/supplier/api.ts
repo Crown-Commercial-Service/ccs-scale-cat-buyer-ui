@@ -3,13 +3,14 @@ enum EndPoints {
   FILTERS = '/g-cloud-filters'
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type GCloudFilterQueryParams = {
   lot: string
   serviceCategories: string
   parentCategory: string
 }
 
-type GCloudFilter = {
+interface GCloudFilter {
   id: string
   label: string
   name: string
@@ -17,18 +18,14 @@ type GCloudFilter = {
   count?: string | number
 }
 
-type GCloudFilters = {
-  [key: string]: {
-    [key: string]: {
-      filters: Array<GCloudFilter & {
+type GCloudFilters = Record<string, Record<string, {
+      filters: (GCloudFilter & {
         children?: GCloudFilter[]
         childrenssts?: boolean
         childrens?: GCloudFilter[]
-      }>
+      })[]
       label: string
       slug: string
-    }
-  } 
-}
+    }>>;
 
 export { EndPoints, GCloudFilterQueryParams, GCloudFilters };

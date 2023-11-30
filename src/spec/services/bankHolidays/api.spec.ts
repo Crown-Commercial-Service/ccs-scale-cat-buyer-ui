@@ -4,8 +4,8 @@ import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/ap
 import { bankHolidaysAPI } from 'main/services/bankHolidays/api';
 import { BankHolidays } from 'main/services/types/bankHolidays/api';
 import { setupServer } from 'msw/node';
-import { rest } from 'msw';
-import { matchHeaders } from 'spec/support/mswMatchers';
+import { http } from 'msw';
+import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';
 
 describe('Bank Holidays API helpers', () => {
   const baseURL = config.get('bankholidayservice.BASEURL') as string;
@@ -40,10 +40,12 @@ describe('Bank Holidays API helpers', () => {
   };
 
   const restHandlers = [
-    rest.get(`${baseURL}/bank-holidays.json`, (req, res, ctx) => {
-      if (matchHeaders(req, headers)) return res(ctx.status(200), ctx.json(bankHolidaysData));
+    http.get(`${baseURL}/bank-holidays.json`, ({ request }) => {
+      if (matchHeaders(request, headers)) {
+        return mswJSONResponse(bankHolidaysData);
+      }
 
-      return res(ctx.status(400));
+      return mswEmptyResponseWithStatus(400);
     }),
   ];
 
