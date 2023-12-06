@@ -39,7 +39,7 @@ export const SUPPLIER_LIST = async (req: express.Request, res: express.Response)
     const releatedContentcheck = req.session.releatedContent;
     let relatedOverride;
     let agreementLotNames = req.session.agreementLotName;
-    if (releatedContentcheck == '') {
+    if (!releatedContentcheck) {
       if (req.session.agreement_id == 'RM1043.8') {
         if (lotid === '1') {
           agreementLotNames = 'Digital outcomes';

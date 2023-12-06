@@ -1,21 +1,21 @@
 enum EndPoints {
-  ORGANISATION = '/organisation-profiles/:organisationId',
-  ORGANISATION_USERS = '/organisation-profiles/:organisationId/users',
-  USER_PROFILES = '/user-profiles'
+  ORGANISATION = '/organisation-profile/:organisationId',
+  ORGANISATION_USERS = '/organisation-profile/:organisationId/users',
+  USER_PROFILES = '/user-profile'
 };
 
-type Organisation = {
+interface Organisation {
   identifier: {
     legalName: string
   }
 }
 
-type OrganisationUsers = {
+interface OrganisationUsers {
   pageCount: number
   userList: UserProfile[]
 }
 
-type UserProfile = {
+interface UserProfile {
   userName: string
   firstName: string
   lastName: string

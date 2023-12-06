@@ -141,12 +141,18 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
                   <th scope="col" class="govuk-table__header">
                       {% if (agreementId_session == 'RM1043.8') %}
-                        Supplier’s answer</th>
+                        Supplier’s answer
                       {% else %}  
                         {{data.subsection4_table_th_3}}
                       {% endif %}
                     </th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">
+                    {% if (agreementId_session == 'RM1043.8') %}
+                        Add or edit score
+                    {% else %}
+                        {{data.subsection4_table_th_4}}
+                    {% endif %}
+                  </th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_6}}</th>
                 {% endif %}
                 </tr>
