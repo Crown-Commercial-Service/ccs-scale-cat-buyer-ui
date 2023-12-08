@@ -12,8 +12,8 @@ const agreementLotSuppliersExportURL = (agreementId: string, lotId: string) => {
       agreementId,
       lotId
     }
-  })
-}
+  });
+};
 
 const agreementsServiceURL = {
   statusURL,

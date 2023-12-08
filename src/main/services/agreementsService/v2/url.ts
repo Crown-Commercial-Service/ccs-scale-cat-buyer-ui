@@ -10,11 +10,11 @@ const agreementLotSuppliersExportURL = (agreementId: string, lotId: string) => {
       agreementId,
       lotId: formatLotIdForAgreementService(lotId)
     }
-  })
-}
+  });
+};
 
 const agreementsServiceURL = {
   agreementLotSuppliersExportURL
 };
 
-export { agreementsServiceURL }
+export { agreementsServiceURL };

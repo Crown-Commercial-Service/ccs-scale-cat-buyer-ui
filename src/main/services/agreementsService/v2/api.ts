@@ -8,7 +8,7 @@ import { baseURL, formatLotIdForAgreementService } from './helpers';
 
 const headers = () => ({
   'Content-Type': 'application/json',
-  'x-api-key': process.env.AGREEMENTS_SERVICE_API_AWS_KEY
+  'x-api-key': process.env.AGREEMENTS_SERVICE_AWS_API_KEY
 });
 
 // This data is static so we can Cache for an hour 
@@ -56,7 +56,7 @@ const getAgreementLots = async (agreementId: string): Promise<FetchResult<LotDet
 
 // GET /agreements-service/agreements/:agreement-id/lots/:lot-id
 const getAgreementLot = async (agreementId: string, lotId: string): Promise<FetchResult<LotDetail>> => {
-  const formattedLotId = formatLotIdForAgreementService(lotId)
+  const formattedLotId = formatLotIdForAgreementService(lotId);
 
   return genericFecthGet<LotDetail>(
     {
@@ -78,7 +78,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
 
 // GET /agreements-service/agreements/:agreement-id/lots/:lot-id/suppliers
 const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Promise<FetchResult<LotSupplier[]>> => {
-  const formattedLotId = formatLotIdForAgreementService(lotId)
+  const formattedLotId = formatLotIdForAgreementService(lotId);
 
   return genericFecthGet<LotSupplier[]>(
     {
@@ -100,7 +100,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
 
 // GET /agreements-service/agreements/:agreement-id/lots/:lot-id/event-types
 const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Promise<FetchResult<AgreementLotEventType[]>> => {
-  const formattedLotId = formatLotIdForAgreementService(lotId)
+  const formattedLotId = formatLotIdForAgreementService(lotId);
 
   return genericFecthGet<AgreementLotEventType[]>(
     {

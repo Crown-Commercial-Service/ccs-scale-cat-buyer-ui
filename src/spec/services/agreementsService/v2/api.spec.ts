@@ -14,10 +14,10 @@ import { assertPerformanceLoggerCalls, creatPerformanceLoggerMockSpy } from 'spe
 
 
 describe('Agrements Service API helpers', () => {
-  const baseURL = process.env.AGREEMENTS_SERVICE_API_AWS_URL;
+  const baseURL = process.env.AGREEMENTS_SERVICE_AWS_API_URL;
   const headers = {
     'Content-Type': 'application/json',
-    'x-api-key': process.env.AGREEMENTS_SERVICE_API_AWS_KEY
+    'x-api-key': process.env.AGREEMENTS_SERVICE_AWS_API_KEY
   };
   const agreementId = 'agreementId-1234';
   const lotId = 'lotId-1234';
@@ -62,7 +62,7 @@ describe('Agrements Service API helpers', () => {
   const getAgreementLotEventTypesData = [{ type: 'myType' }];
   const getAgreementsServiceHealthResultData = {
     status: 'ok'
-  }
+  };
 
   const restHandlers = [
     http.get(`${baseURL}/agreements-service/agreements/${agreementId}`, ({ request }) => {
@@ -231,7 +231,7 @@ describe('Agrements Service API helpers', () => {
           assertRedisCalls(redisSpy, 'get_agreements_agreementId-1234_lots_lotId-1234', getAgreementLotData, 3600);
           assertPerformanceLoggerCalls(performanceLoggerSpy);
         });
-      })
+      });
     });
 
     describe('when data is cached', () => {
@@ -287,7 +287,7 @@ describe('Agrements Service API helpers', () => {
           assertRedisCalls(redisSpy, 'get_agreements_agreementId-1234_lots_lotId-1234_suppliers', getAgreementLotSuppliersData, 900);
           assertPerformanceLoggerCalls(performanceLoggerSpy);
         });
-      })
+      });
     });
 
     describe('when data is cached', () => {
@@ -344,7 +344,7 @@ describe('Agrements Service API helpers', () => {
           assertPerformanceLoggerCalls(performanceLoggerSpy);
         });
   
-      })
+      });
     });
 
     describe('when data is cached', () => {

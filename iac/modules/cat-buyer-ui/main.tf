@@ -128,6 +128,14 @@ data "aws_ssm_parameter" "buyer_ui_domain" {
   name = "/cat/default/buyer-ui-domain"
 }
 
+data "aws_ssm_parameter" "agreements_service_aws_domain" {
+  name = "/cat/${var.environment}/agreements-service-aws-base-url"
+}
+
+data "aws_ssm_parameter" "agreements_service_aws_api_key" {
+  name = "/cat/${var.environment}/agreements-service-api-key"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -136,6 +144,8 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
   environment = {
     TENDERS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-cat-service.${data.cloudfoundry_domain.domain.name}"
     AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.${data.cloudfoundry_domain.domain.name}"
+    AGREEMENTS_SERVICE_AWS_API_URL : data.aws_ssm_parameter.agreements_service_domain.value
+    AGREEMENTS_SERVICE_AWS_API_KEY : data.aws_ssm_parameter.agreements_service_aws_api_key.value
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
