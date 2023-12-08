@@ -5,6 +5,7 @@ import config from 'config';
 import { Parser } from 'json2csv';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+import { agreementsService } from 'main/services/agreementsService';
 
 /**
  *
@@ -28,14 +29,10 @@ export const SUPPLIER_LIST = async (req: express.Request, res: express.Response)
     let lotid = req.session.lotId;
     lotid = lotid.replace('Lot ', '');
     const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
-    const downloadSuppliers =
-      process.env['AGREEMENTS_SERVICE_API_URL'] +
-      '/agreements/' +
-      req.session.agreement_id +
-      '/lots/' +
-      lotid +
-      '/suppliers/export';
-
+    const downloadSuppliers = agreementsService.url.agreementLotSuppliersExportURL(
+      req.session.agreement_id,
+      lotid
+    );
     const releatedContentcheck = req.session.releatedContent;
     let relatedOverride;
     let agreementLotNames = req.session.agreementLotName;

@@ -1,7 +1,7 @@
 import { LotDetail } from '@common/middlewares/models/lot-detail';
-import { genericFecthGet } from '../helpers/api';
-import { EndPoints, AgreementLotEventType } from '../types/agreementsService/api';
-import { FetchResult } from '../types/helpers/api';
+import { genericFecthGet } from '../../helpers/api';
+import { EndPoints, AgreementLotEventType } from '../../types/agreementsService/v1/api';
+import { FetchResult } from '../../types/helpers/api';
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { AgreementDetail } from '@common/middlewares/models/agreement-detail';
 import { baseURL } from './helpers';
@@ -59,7 +59,7 @@ const getAgreementLot = async (agreementId: string, lotId: string): Promise<Fetc
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT,
-      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': lotId }
     },
     headers,
     {
@@ -79,7 +79,7 @@ const getAgreementLotSuppliers = async (agreementId: string, lotId: string): Pro
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_SUPPLIERS,
-      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': lotId }
     },
     headers,
     {
@@ -99,7 +99,7 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
     {
       baseURL: baseURL(),
       path: EndPoints.AGREEMENT_LOT_EVENT_TYPES,
-      params: { agreementId, 'lotId': formatLotIdForAgreementService(lotId) }
+      params: { agreementId, 'lotId': lotId }
     },
     headers,
     {
@@ -113,18 +113,12 @@ const getAgreementLotEventTypes = async (agreementId: string, lotId: string): Pr
   );
 };
 
-// Strip out legacy formatting from the supplied Lot ID, so that legacy projects can continue to work with the updated Agreement Service
-function formatLotIdForAgreementService (lotId: string) {
-  return lotId;
-};
-
 const agreementsServiceAPI = {
   getAgreement,
   getAgreementLots,
   getAgreementLot,
   getAgreementLotSuppliers,
   getAgreementLotEventTypes,
-  formatLotIdForAgreementService
 };
 
 export { agreementsServiceAPI };
