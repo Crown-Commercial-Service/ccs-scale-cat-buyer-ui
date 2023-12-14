@@ -48,14 +48,17 @@
           {% include "includes/project_header.njk" %}
  
         <div class="govuk-inset-text">
+          {% if agreement_id == 'RM6187' or agreement_id == 'RM1557.13' %}
           <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-          
-            {% if agreement_id == 'RM6187' or agreement_id == 'RM1557.13' %}
-        <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
-        {% endif %}
-            {% if agreement_id == 'RM1043.8' %}
-        <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
-        {% endif %}
+
+          <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
+          {% endif %}
+
+          {% if agreement_id == 'RM1043.8' %}
+            <p class="govuk-body govuk-!-margin-bottom-6">You can upload a <a href="https://assets.crowncommercial.gov.uk/wp-content/uploads/RM1043.8_Framework-Schedule-6-Order-Form-Template-Statement-of-Work-Template-and-Call-Off-Schedules-v2.0.odt" title="Download draft order form">draft order form</a> and any new or changed terms from the ones agreed at the framework level. This could include relevant call-off schedules, for example. Find these schedules in the ‘Documents’ section of the <a href="https://www.crowncommercial.gov.uk/agreements/RM1043.8" title="DOS 6 agreement page">DOS 6 agreement page</a>.</p>
+
+            <p class="govuk-body govuk-!-margin-bottom-0">{{data.subtitle}}</p>
+          {% endif %}
         </div>
           <br/>
           <div id="upload_doc_form">

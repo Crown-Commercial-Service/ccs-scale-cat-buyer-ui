@@ -381,14 +381,18 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
       agreement_id: agreement_id,
     };
 
-    windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true' });
-    //res.render('rfp-uploadDocument.njk', windowAppendData)
+    if (agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === 'Stage 2') {
+      res.redirect('/rfp/upload-additional');
+    } else {
+      windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true' });
+      //res.render('rfp-uploadDocument.njk', windowAppendData)
 
-    //res.render('rfp-uploadDocument',windowAppendData);
-    //req.session.uploaderrorStatus = false;
-    req.session['termsNcond'] = { IsDocumentError: true, IsFile: req.session['isTcUploaded'] ? true : false };
-    res.redirect('/rfp/upload-doc');
+      //res.render('rfp-uploadDocument',windowAppendData);
+      //req.session.uploaderrorStatus = false;
+      req.session['termsNcond'] = { IsDocumentError: true, IsFile: req.session['isTcUploaded'] ? true : false };
+      res.redirect('/rfp/upload-doc');
 
     //  }
+    }
   }
 });

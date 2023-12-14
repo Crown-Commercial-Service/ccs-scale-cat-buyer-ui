@@ -59,7 +59,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     uploadDatas.taskList[1].taskStatus = 'To do';
   } else if (agreementId_session == 'RM1043.8') {
     //dos
-    uploadDatas.taskList[1].taskStatus = 'To do';
+    uploadDatas.taskList[1].taskStatus = 'Optional';
   } else {
     uploadDatas.taskList[1].taskStatus = 'Cannot start yet';
   }
@@ -71,10 +71,6 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     uploadDatas.taskList[2].taskStatus = 'Optional';
   }
 
-  if (agreementId_session == 'RM1043.8') {
-    //DOS
-    uploadDatas.taskList[3].taskStatus = 'Optional';
-  }
   const uploadAddDoc = req.session['isuploadAdditionalDoc'];
   let firstupload = false;
   let secondupload = false;
@@ -86,7 +82,9 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     }
 
     if (uploadDatas.taskList[1].taskStatus != 'Done' && uploadDatas.taskList[0].taskStatus === 'Done') {
-      uploadDatas.taskList[1].taskStatus = 'To do';
+      if (agreementId_session != 'RM1043.8') {
+        uploadDatas.taskList[1].taskStatus = 'To do';
+      }
     }
 
     if (file.description === 'mandatorysecond') {
@@ -127,8 +125,10 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
     if (agreementId_session == 'RM1043.8' && stage2_value == 'Stage 2') {
-      if (firstupload != true && secondupload != true && thirdupload != true) {
+      if (firstupload != true && thirdupload != true) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'In progress');
+      } else {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/86`, 'Completed');
       }
     } else {
       if (agreementId_session == 'RM6187') {
