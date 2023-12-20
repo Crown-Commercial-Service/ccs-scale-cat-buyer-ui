@@ -801,7 +801,11 @@
                         <dt class="govuk-summary-list__key">
                           <h3 class="govuk-!-margin-bottom-0"><strong>Set your project budget</strong></h3>
                         </dt>
-                        <dd class="govuk-summary-list__value">&nbsp;</dd>
+                        <dd class="govuk-summary-list__value">
+                            {% if bc1 == null and bc2 == null %}
+                                <p>The contract value is not specified by the buyer</p>
+                            {% endif %}
+                        </dd>
                         <dd class="govuk-summary-list__actions">
                           {% if eventStatus != "published" and closeStatus!="CLOSED" and closeStatus!="COMPLETE" and closeStatus!="EVALUATED" and closeStatus!="AWARDED" %}
                             <a
@@ -812,6 +816,8 @@
                           {% endif %}
                         </dd>
                       </div>
+
+                      {% if bc1 or bc2 %}
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
                             {% if agreementId_session == 'RM6187' %}
@@ -844,6 +850,8 @@
                           {% endif %}
                         </dd>
                       </div>
+                      {%  endif  %}
+
                       <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
                         <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>

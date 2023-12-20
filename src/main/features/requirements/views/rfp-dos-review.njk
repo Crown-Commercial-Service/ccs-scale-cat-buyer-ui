@@ -732,72 +732,63 @@
                         {% set rows = rows+1 %}
                       {% endfor %}
                     {% endif %}
+
+
+
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
-                        
                           <h3 class="govuk-!-margin-bottom-0">
                             <strong>Set your budget</strong>
                           </h3>
                       </dt>
-                      <dd class="govuk-summary-list__value"><p>{{ budget if agreement_id !== "RM1043.8" }}</p></dd>
-                      <dd class="govuk-summary-list__actions">
-                        {% if eventStatus != "published" %}
-                          <a
+
+                        <dd class="govuk-summary-list__value">
+                            {% if budgetMaximum == '£0.00' and budgetMinimum == '£0.00' %}
+                                <p>{{ 'The contract value is not specified by the buyer' }}</p>
+                            {% endif %}
+                        </dd>
+
+                        <dd class="govuk-summary-list__actions">
+                            {% if eventStatus != "published" %}
+                                <a
                                         class="govuk-link"
                                         href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 20">
-                                        Change<span class="govuk-visually-hidden">project name</span>
-                          </a>
-                        {% endif %}
-                      </dd>
+                                    Change<span class="govuk-visually-hidden">project name</span>
+                                </a>
+                            {% endif %}
+                        </dd>
                     </div>
-                    {% if budget  %}
-                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
-                      <p>Indicative maximum</p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                          {% if (agreement_id == "RM1043.8") %}
-                               <p>{{ budgetMaximum }}</p>
-                          {% else %}
-                               <p>{{ budgetMaximum }}</p>
-                          {% endif %}
-                      {% else %}
-                          <p>{{ budgetMaximum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
 
+                    {% if budgetMaximum != '£0.00' or budgetMinimum != '£0.00' %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                    <dt class="govuk-summary-list__value">
-                      <p>Indicative minimum </p>
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      {% if budget[0] != 'No'  %}
-                        {% if budgetMinimum != ''  %}
-                        {% if (agreement_id == "RM1043.8") %}
-                               <p>{{ budgetMinimum }}</p>
-                          {% else %}
-                               <p>{{ budgetMinimum }}</p>
-                          {% endif %}
-                        {% endif %}
-                      {% else %}
-                          <p>{{ budgetMinimum }}</p>
-                      {% endif %}
-                    </dd>
-                  </div>
-                  
-                    {% if furtherInfo != ''  %}
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
-                          <p>Further information</p>
+                          <p>Indicative maximum</p>
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <p>{{ furtherInfo }} </p>
+                          <p>{{ budgetMaximum }}</p>
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        <dt class="govuk-summary-list__value">
+                          <p>Indicative minimum </p>
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <p>{{ budgetMinimum }}</p>
                         </dd>
                       </div>
+                  
+                        {% if furtherInfo != ''  %}
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value">
+                              <p>Further information</p>
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                              <p>{{ furtherInfo }} </p>
+                            </dd>
+                          </div>
+                        {% endif %}
                     {% endif %}
-                   {% endif %}
                     <div
                      class="govuk-summary-list__row govuk-summary-list__row--no-border">
                       <dt class="govuk-summary-list__key">
