@@ -68,7 +68,7 @@
         "moment-timezone": "^0.5.43",
         "nunjucks": "^3.2.4",
         "objectFitPolyfill": "^2.3.0",
-        "redis": "^4.6.11",
+        "redis": "^4.6.12",
         "rollbar": "^2.26.1",
         "serve-favicon": "^2.5.0",
         "ts-node": "^10.9.2",
