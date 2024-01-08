@@ -294,7 +294,6 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       ScrollTo,
     };
 
-    console.log(JSON.stringify(appendData))
     if (agreementId_session == 'RM1557.13' && lotId == '4') {
       res.render('gcloud_lot4-procurement', appendData);
     } else {
