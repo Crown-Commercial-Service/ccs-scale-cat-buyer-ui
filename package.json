@@ -65,7 +65,7 @@
         "jsonwebtoken": "^9.0.1",
         "moment": "^2.30.1",
         "moment-business-days": "^1.2.0",
-        "moment-timezone": "^0.5.43",
+        "moment-timezone": "^0.5.44",
         "nunjucks": "^3.2.4",
         "objectFitPolyfill": "^2.3.0",
         "redis": "^4.6.12",
