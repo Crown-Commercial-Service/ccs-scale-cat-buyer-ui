@@ -1,5 +1,6 @@
 FROM node:20-alpine
 
+RUN apk --no-cache add curl
 WORKDIR /app
 RUN chown node:node .
 USER node
