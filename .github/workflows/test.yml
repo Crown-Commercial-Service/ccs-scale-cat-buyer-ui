@@ -1,0 +1,12 @@
+name: "Run our tests"
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  run-unit-tests:
+    uses: ./.github/workflows/mocha.yml
+
+  run-docker-build:
+    uses: ./.github/workflows/docker-image.yml

@@ -12,7 +12,7 @@ const packFonts = () => {
     [
       // Fonts from packages
       './node_modules/ccs-frontend-kit/Assets/fonts/*',
-      './node_modules/govuk-frontend/govuk/assets/fonts/*'
+      './node_modules/govuk-frontend/dist/govuk/assets/fonts/*'
     ]
   )
     .pipe(dest('src/main/public/assets/fonts'));
@@ -23,7 +23,7 @@ const packImages = () => {
     [
       // Images from packages
       './node_modules/ccs-frontend-kit/Assets/images/*',
-      './node_modules/govuk-frontend/govuk/assets/images/*',
+      './node_modules/govuk-frontend/dist/govuk/assets/images/*',
       // Images from the project
       'src/main/assets/images/*',
     ]
