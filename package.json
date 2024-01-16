@@ -80,7 +80,7 @@
         "@types/jsdom": "^21.1.6",
         "@types/mocha": "^10.0.6",
         "@types/pa11y": "^5.3.7",
-        "@types/sinon": "^17.0.2",
+        "@types/sinon": "^17.0.3",
         "@types/sinon-chai": "^3.2.12",
         "@types/supertest": "^6.0.2",
         "@typescript-eslint/eslint-plugin": "^6.19.0",
