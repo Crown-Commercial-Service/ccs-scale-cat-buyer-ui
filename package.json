@@ -46,7 +46,7 @@
         "@types/serve-favicon": "^2.5.7",
         "axios": "^0.27.2",
         "ccs-frontend-kit": "^1.1.4",
-        "config": "^3.3.9",
+        "config": "^3.3.10",
         "connect-redis": "^7.1.0",
         "cookie-parser": "^1.4.6",
         "cookies": "^0.9.1",
