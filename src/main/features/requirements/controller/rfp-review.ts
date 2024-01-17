@@ -3971,7 +3971,6 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
 
-    console.log(JSON.stringify(appendData))
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
