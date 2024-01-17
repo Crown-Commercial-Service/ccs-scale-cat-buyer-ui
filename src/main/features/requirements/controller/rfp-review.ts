@@ -3895,7 +3895,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       techGroup: techGroup != undefined && techGroup != null ? techGroup : null,
       culGroup: culGroup != undefined && culGroup != null ? culGroup : null,
       socialGroup: socialGroup != undefined && socialGroup != null ? socialGroup : null,
-      tierData: tierData != undefined && tierData != null ? tierData : null,
+      tierData: tierData != undefined && tierData != null ? tierData.sort((a,b) => a.id - b.id) : null,
       termAndAcr: termAndAcr != undefined && termAndAcr != null ? termAndAcr : null,
       backgroundArr: backgroundArr != undefined && backgroundArr != null ? backgroundArr : null,
       businessProbAns: businessProbAns != undefined && businessProbAns != null ? businessProbAns : null,
@@ -3970,6 +3970,8 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
+
+    console.log(JSON.stringify(appendData))
     //CAS-INFO-LOG
     LoggTracer.infoLogger(null, logConstant.reviewAndPublish, req);
     res.render('rfp-review', appendData);
