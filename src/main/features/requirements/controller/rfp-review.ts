@@ -3895,7 +3895,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       techGroup: techGroup != undefined && techGroup != null ? techGroup : null,
       culGroup: culGroup != undefined && culGroup != null ? culGroup : null,
       socialGroup: socialGroup != undefined && socialGroup != null ? socialGroup : null,
-      tierData: tierData != undefined && tierData != null ? tierData.sort((a,b) => a.id - b.id) : null,
+      tierData: tierData != undefined && tierData != null ? tierData : null,
       termAndAcr: termAndAcr != undefined && termAndAcr != null ? termAndAcr : null,
       backgroundArr: backgroundArr != undefined && backgroundArr != null ? backgroundArr : null,
       businessProbAns: businessProbAns != undefined && businessProbAns != null ? businessProbAns : null,
