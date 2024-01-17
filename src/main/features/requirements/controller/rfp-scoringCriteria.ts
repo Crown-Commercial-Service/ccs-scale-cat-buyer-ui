@@ -418,7 +418,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
             score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
 
-            let sortedLevels = score_criteria_level.map((item, index) => ({
+            const sortedLevels = score_criteria_level.map((item, index) => ({
               score_criteria_level: item,
               score_criteria_points: score_criteria_points[index],
               score_criteria_desc: score_criteria_desc[index]
