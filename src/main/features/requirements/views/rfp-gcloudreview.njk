@@ -617,47 +617,67 @@
                                 <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
                               </div>
                       
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__key">
-                          <h3 class="govuk-!-margin-bottom-0"><strong>Your project budget</strong></h3>
-                        </dt>
-                        <dd class="govuk-summary-list__value">&nbsp;</dd>
-                        <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" %}
-                            <a
-                              class="govuk-link"
-                              href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 17">
-                              Change<span class="govuk-visually-hidden">project name</span>
-                            </a>
-                          {% endif %}
-                        </dd>
-                      </div>
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Indicative maximum</p></dt>
-                        <dd class="govuk-summary-list__value"><p>
-                          {% if bc1 | length > 0 %}
-                            {{ bc1 }}
-                          {% endif %}
-                          </p></dd>
-                      </div>
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value"><p>Indicative minimum (optional)</p></dt>
-                        <dd class="govuk-summary-list__value"><p>
-                             {% if bc2 | length > 0 %}
-                          {{ bc2 }}
-                          {% endif %}
-                          </p></dd>
-                      </div>
-
-                      {% if further_info != ''  %}
+                          {% if bc1 != '£0.00' or bc2 != '£0.00' %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value">
-                            <p>Further information</p>
-                          </dt>
-                          <dd class="govuk-summary-list__value">
-                            <p>{{ further_info }} </p>
-                          </dd>
-                        </div>
+                            <dt class="govuk-summary-list__key">
+                              <h3 class="govuk-!-margin-bottom-0"><strong>Your project budget</strong></h3>
+                            </dt>
+                            <dd class="govuk-summary-list__value">&nbsp;</dd>
+                            <dd class="govuk-summary-list__actions">
+                              {% if eventStatus != "published" %}
+                                <a
+                                  class="govuk-link"
+                                  href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 17">
+                                  Change<span class="govuk-visually-hidden">project name</span>
+                                </a>
+                              {% endif %}
+                            </dd>
+                          </div>
+
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value"><p>Indicative maximum</p></dt>
+                            <dd class="govuk-summary-list__value"><p>
+                              {% if bc1 | length > 0 %}
+                                {{ bc1 }}
+                              {% endif %}
+                              </p></dd>
+                          </div>
+
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                            <dt class="govuk-summary-list__value"><p>Indicative minimum (optional)</p></dt>
+                            <dd class="govuk-summary-list__value"><p>
+                                 {% if bc2 | length > 0 %}
+                              {{ bc2 }}
+                              {% endif %}
+                              </p></dd>
+                          </div>
+
+                          {% if further_info != ''  %}
+                            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__value">
+                                <p>Further information</p>
+                              </dt>
+                              <dd class="govuk-summary-list__value">
+                                <p>{{ further_info }} </p>
+                              </dd>
+                            </div>
+                          {% endif %}
+                      {% else %}
+                          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                              <dt class="govuk-summary-list__key">
+                                  <h3 class="govuk-!-margin-bottom-0"><strong>Your project budget</strong></h3>
+                              </dt>
+                              <dd class="govuk-summary-list__value"><p>The contract value is not specified by the buyer</p></dd>
+                              <dd class="govuk-summary-list__actions">
+                                  {% if eventStatus != "published" %}
+                                      <a
+                                              class="govuk-link"
+                                              href="/rfp/questions?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 3&group_id=Group 17">
+                                          Change<span class="govuk-visually-hidden">project name</span>
+                                      </a>
+                                  {% endif %}
+                              </dd>
+                          </div>
                       {% endif %}
 
                       <div class="govuk-summary-list__row">
