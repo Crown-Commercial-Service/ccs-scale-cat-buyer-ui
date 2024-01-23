@@ -3184,7 +3184,7 @@
                 method="post">
                   {{ csrfProtection(csrf) }}
 
-                  {% if eventStatus != "published" and customStatus != "complete" %}
+                  {% if eventStatus != "published" and customStatus != "complete"  and closeStatus != 'CLOSED' %}
                     {{ CCSCheckboxes({
       idPrefix: "rfp_publish_confirmation",
       name: "rfp_publish_confirmation",
