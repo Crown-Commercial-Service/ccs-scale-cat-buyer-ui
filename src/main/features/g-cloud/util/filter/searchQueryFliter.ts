@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import sanitizeHtml from 'sanitize-html';
 
 enum QueryParamType {
   AGGREGATIONS,
@@ -24,7 +25,9 @@ const extractQueryParamsForSearchAPI = (query: Request['query'], type: QueryPara
   Object.entries(query).forEach(([key, values]) => {
     if (skipFilter(key, type)) return;
 
-    if (key === 'q'  || key === 'page') {
+    if (key === 'q' ) {
+      queryParams.push([key, sanitizeHtml(values as string)]);
+    } else if (key === 'page') {
       queryParams.push([key, values as string]);
     } else {
       const newKey = `${prefix}${key}`;
