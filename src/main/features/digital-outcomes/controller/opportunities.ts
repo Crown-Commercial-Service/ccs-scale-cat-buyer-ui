@@ -9,10 +9,10 @@ import sanitizeHtml from 'sanitize-html';
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
-    // Sanitize Search Query
-    req.query.q = sanitizeHtml(req.query.q);
+    let { lot, status, q, page, location } = req.query;
 
-    const { lot, status, q, page, location } = req.query;
+    // Sanitize Search Query
+    q = sanitizeHtml(q as string);
 
     //const queryParameters = req.query;
 
@@ -494,10 +494,10 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 };
 
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
-  // Sanitize Search Query
-  req.query.q = sanitizeHtml(req.query.q);
+  let { lot, status, q, page, location } = req.query;
 
-  const { lot, status, q, page, location } = req.query;
+  // Sanitize Search Query
+  q = sanitizeHtml(q as string);
 
   const NoOfRecordsPerPage = 20;
   let pageUrl = '';
