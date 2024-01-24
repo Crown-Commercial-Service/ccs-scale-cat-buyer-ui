@@ -70,6 +70,7 @@
         "objectFitPolyfill": "^2.3.0",
         "redis": "^4.6.11",
         "rollbar": "^2.26.1",
+        "sanitize-html": "^2.11.0",
         "serve-favicon": "^2.5.0",
         "ts-node": "^10.9.1",
         "tsconfig-paths": "^4.2.0"
