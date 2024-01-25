@@ -8,10 +8,15 @@ import { gCloud } from 'main/services/gCloud';
 import { formatRelativeURL } from 'main/services/helpers/url';
 import { QueryParams } from 'main/services/types/helpers/url';
 import { GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
+import sanitizeHtml from 'sanitize-html';
 
 export const GET_SEARCH = async (req: Request, res: Response) => {
   const { SESSION_ID } = req.cookies;
-  const { lot, serviceCategories, parentCategory, q } = req.query;
+  let { lot, serviceCategories, parentCategory, q } = req.query;
+
+  // Sanitize Search Query
+  q = sanitizeHtml(q as string);
+
   try {
     const queryParamsForServicesAggregationsAPI = extractQueryParamsForSearchAPI(req.query, QueryParamType.AGGREGATIONS);
 
