@@ -3,6 +3,7 @@ import config from 'config';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
+import sanitizer from 'perfect-express-sanitizer';
 import { setLocalEnvVariables } from './setup/localEnvironmentVariables';
 import { Express, Logger } from '@hmcts/nodejs-logging';
 import { initNunjucks } from './modules/nunjucks';
@@ -20,9 +21,6 @@ import { redisSession } from './setup/redis/session';
 import { setupErrorRoutes } from './setup/routes/setupErrorRoutes';
 import { setupFeatureRoutes } from './setup/routes/setupFeatureRoutes';
 import { setupHomeRoutes } from './setup/routes/setupHomeRoutes';
-
-// @ts-ignore -- no types file
-import sanitizer from 'perfect-express-sanitizer';
 
 const logger = Logger.getLogger('app');
 
