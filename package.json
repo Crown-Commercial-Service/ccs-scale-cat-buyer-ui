@@ -69,6 +69,7 @@
         "moment-timezone": "^0.5.43",
         "nunjucks": "^3.2.4",
         "objectFitPolyfill": "^2.3.0",
+        "perfect-express-sanitizer": "^1.0.13",
         "redis": "^4.6.11",
         "rollbar": "^2.26.1",
         "sanitize-html": "^2.11.0",
