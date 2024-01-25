@@ -21,6 +21,9 @@ import { setupErrorRoutes } from './setup/routes/setupErrorRoutes';
 import { setupFeatureRoutes } from './setup/routes/setupFeatureRoutes';
 import { setupHomeRoutes } from './setup/routes/setupHomeRoutes';
 
+// @ts-ignore -- no types file
+import sanitizer from 'perfect-express-sanitizer';
+
 const logger = Logger.getLogger('app');
 
 logger.info('Initialising the application');
@@ -73,6 +76,15 @@ redisSession()
     app.use(express.static(pathJoin(__dirname, 'public')));
     app.use(cookieParser());
     app.use(fileUpload());
+
+
+    app.use(
+      sanitizer.clean({
+          xss: true,
+          noSql: true,
+          sql: true,
+      })
+    );
 
     new CsrfProtection().enableFor(app);
 
