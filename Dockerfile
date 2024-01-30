@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-RUN apk --no-cache add curl
+RUN apk upgrade && apk add curl && rm -rf /var/cache/apk/*
 WORKDIR /app
 RUN chown node:node .
 USER node
