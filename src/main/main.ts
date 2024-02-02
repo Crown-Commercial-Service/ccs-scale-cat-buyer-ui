@@ -81,7 +81,10 @@ redisSession()
           xss: true,
           noSql: true,
           sql: true,
-      })
+      },
+      [],
+      ['body', 'query']
+      )
     );
 
     new CsrfProtection().enableFor(app);
