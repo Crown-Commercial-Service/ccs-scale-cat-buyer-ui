@@ -43,6 +43,7 @@
         "@types/node": "^20.11.16",
         "@types/nunjucks": "^3.2.6",
         "@types/require-directory": "^2.1.6",
+        "@types/sanitize-html": "^2.9.5",
         "@types/serve-favicon": "^2.5.7",
         "axios": "^0.27.2",
         "ccs-frontend-kit": "^1.1.4",
@@ -68,8 +69,10 @@
         "moment-timezone": "^0.5.45",
         "nunjucks": "^3.2.4",
         "objectFitPolyfill": "^2.3.0",
+        "perfect-express-sanitizer": "^1.0.13",
         "redis": "^4.6.12",
         "rollbar": "^2.26.1",
+        "sanitize-html": "^2.11.0",
         "serve-favicon": "^2.5.0",
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0"
