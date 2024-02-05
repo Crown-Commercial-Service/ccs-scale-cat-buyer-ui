@@ -157,6 +157,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           }
         }
 
+        if (step.step == 1 && agreementId_session == 'RM1557.13' && lotId == '4') {
+          event.buttonDisable = false;
+        }
+
         if (step.step == 2) {
           if (agreementId_session == 'RM1043.8') {
             //DOS
@@ -167,7 +171,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
             req.session['journey_status'][2].state == 'In progress' ||
             req.session['journey_status'][1].state == 'Completed'
           ) {
-            event.buttonDisable = true;
+              event.buttonDisable = true;
           } else if (req.session.selectedRoute == 'PA' && req.session['journey_status'][0].state != 'Completed') {
             event.buttonDisable = true;
           } else {
@@ -178,8 +182,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         if (step.step == 3) {
           if (req.session['journey_status'][1].state == 'In progress') {
             event.buttonDisable = true;
+            event.status = 'Cannot start yet';
           } else if (req.session.selectedRoute == 'PA' && req.session['journey_status'][0].state != 'Completed') {
             event.buttonDisable = true;
+            event.status = 'Cannot start yet';
           } else {
             event.buttonDisable = false;
           }
@@ -287,6 +293,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       stepstocontinueDAA,
       ScrollTo,
     };
+
     if (agreementId_session == 'RM1557.13' && lotId == '4') {
       res.render('gcloud_lot4-procurement', appendData);
     } else {
