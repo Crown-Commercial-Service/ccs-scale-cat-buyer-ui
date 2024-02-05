@@ -5,10 +5,14 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { DynamicFrameworkInstance } from 'main/features/event-management/util/fetch/dyanmicframeworkInstance';
 import momentz from 'moment-timezone';
 import moment from 'moment-business-days';
+import sanitizeHtml from 'sanitize-html';
 
 export const GET_OPPORTUNITIES = async (req: express.Request, res: express.Response) => {
   try {
-    const { lot, status, q, page, location } = req.query;
+    let { lot, status, q, page, location } = req.query;
+
+    // Sanitize Search Query
+    q = sanitizeHtml(q as string);
 
     //const queryParameters = req.query;
 
@@ -490,7 +494,10 @@ export const GET_OPPORTUNITIES_DETAILS = async (req: express.Request, res: expre
 };
 
 export const GET_OPPORTUNITIES_API = async (req: express.Request, res: express.Response) => {
-  const { lot, status, q, page, location } = req.query;
+  let { lot, status, q, page, location } = req.query;
+
+  // Sanitize Search Query
+  q = sanitizeHtml(q as string);
 
   const NoOfRecordsPerPage = 20;
   let pageUrl = '';
