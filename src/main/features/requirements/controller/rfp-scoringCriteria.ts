@@ -413,12 +413,20 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             }
 
             let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
-            const TAStorage = [];
 
             score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
             score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
             score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
-            //Balwinder
+
+            const sortedLevels = score_criteria_level.map((item, index) => ({
+              score_criteria_level: item,
+              score_criteria_points: score_criteria_points[index],
+              score_criteria_desc: score_criteria_desc[index]
+            })).sort((a, b) => a.score_criteria_points - b.score_criteria_points);
+
+            score_criteria_level = sortedLevels.map((item) => item.score_criteria_level);
+            score_criteria_points = sortedLevels.map((item) => item.score_criteria_points);
+            score_criteria_desc = sortedLevels.map((item) => item.score_criteria_desc);
 
             const rows = [];
             const tableData = [];

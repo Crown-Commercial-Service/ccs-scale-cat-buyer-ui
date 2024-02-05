@@ -76,32 +76,31 @@
                      {% endif %}
                      {% if event.buttonText %}
                         {% if event.buttonDisable === true %}
-                            <a hidden={{event.buttonText}} href="/fca/supplier/list" aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                                 {{event.buttonText}}
-                              </a>
+                            <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+                                {{event.buttonText}}
+                            </button>
                         {% else %}
-                           {% if (event.eventno === 1) 
-                              or(event.eventno === 82)or(event.eventno === 81) %}
-                              
-                                 <div class="govuk-button-group">
-                                    {% if (event.status != 'DONE') %}
-                                    
-                                       <a hidden={{event.buttonText1}} href={{event.href1}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                                          {{event.buttonText1}}
-                                       </a>
-                                    {% else %}
-                                    
-                                       <a hidden={{event.buttonText2}} href={{event.href2}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                                          {{event.buttonText2}}
-                                       </a>
-                                    {% endif %}
-                                    <a class="govuk-link" rel="noopener noreferrer" href="/fca/supplier/list" aria-disabled="false"  data-module="govuk-button">
-                                       {{event.buttonText}}
-                                    </a>
-                                 </div>
-                                
-                              
+                           {% if (event.eventno === 1) %}
+                              <a hidden={{event.buttonText}} href="/fca/supplier/list" aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                {{event.buttonText}}
+                              </a>
+                           {% elif ((event.eventno === 82) or (event.eventno === 81)) %}
+                             <div class="govuk-button-group">
+                                {% if (event.status != 'DONE') %}
 
+                                   <a hidden={{event.buttonText1}} href={{event.href1}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                      {{event.buttonText1}}
+                                   </a>
+                                {% else %}
+
+                                   <a hidden={{event.buttonText2}} href={{event.href2}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                      {{event.buttonText2}}
+                                   </a>
+                                {% endif %}
+                                <a class="govuk-button" rel="noopener noreferrer" href="/fca/supplier/list" aria-disabled="false"  data-module="govuk-button">
+                                   {{event.buttonText}}
+                                </a>
+                             </div>
                            {% else %}
                               <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
                                  {{event.buttonText}}

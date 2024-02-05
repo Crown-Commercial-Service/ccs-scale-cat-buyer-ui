@@ -2305,33 +2305,34 @@ function getCriterianDetails(totalresult = 0) {
 
   let search = queryParamObj.filter(el => el.key === 'q');
   if (search.length > 0) {
-    criteriaDetails += ' containing <b>' + decodeURIComponent(search[0].value) + '</b>';
+    criteriaDetails += ' containing <b>' + sanitize(decodeURIComponent(search[0].value)) + '</b>';
   }
 
   let lot = queryParamObj.filter(el => el.key === 'lot');
   if (lot.length > 0) {
-    criteriaDetails += ' in <b>' + capitalize(lot[0].value.replace("-", " ")) + '</b>';
+    criteriaDetails += ' in <b>' + sanitize(capitalize(lot[0].value.replace("-", " "))) + '</b>';
   } else {
     criteriaDetails += ' in <b>All Categories</b>';
   }
 
   let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
   if (serviceCategories.length > 0) {
-    criteriaDetails += ' in the category <b>' + capitalize(serviceCategories[0].value.replace("+", " ")) + '</b>';
+    criteriaDetails += ' in the category <b>' + sanitize(capitalize(serviceCategories[0].value.replace("+", " "))) + '</b>';
   }
 
 
   Object.keys(criteria).forEach(key => {
     if (key !== undefined) {
-      criteriaDetails += ', where <b>' + capitalize(key) + '</b> is ';
+      criteriaDetails += ', where <b>' + sanitize(capitalize(key)) + '</b> is ';
       let values = [];
       for (let index = 0; index < criteria[key].length; index++) {
-        values.push('<b>' + capitalize(criteria[key][index].name) + '</b>');
+        values.push('<b>' + sanitize(capitalize(criteria[key][index].name)) + '</b>');
       }
       criteriaDetails += values.join(" and ");
-
     }
   });
+
+
   $('#criteriandetails').html(criteriaDetails);
   $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48', 'govuk-!-font-size-24'));
 
@@ -2342,6 +2343,11 @@ const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+const sanitize = (s) => {
+  return s.toLowerCase().includes('<script') ? '': s;
+}
+
 
 
 document.querySelectorAll(".dos_evaluate_supplier").forEach(function (event) {
