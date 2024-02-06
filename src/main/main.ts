@@ -3,6 +3,7 @@ import config from 'config';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
+import sanitizer from 'perfect-express-sanitizer';
 import { setLocalEnvVariables } from './setup/localEnvironmentVariables';
 import { Express, Logger } from '@hmcts/nodejs-logging';
 import { initNunjucks } from './modules/nunjucks';
@@ -73,6 +74,18 @@ redisSession()
     app.use(express.static(pathJoin(__dirname, 'public')));
     app.use(cookieParser());
     app.use(fileUpload());
+
+
+    app.use(
+      sanitizer.clean({
+          xss: true,
+          noSql: true,
+          sql: true,
+      },
+      [],
+      ['body', 'query']
+      )
+    );
 
     new CsrfProtection().enableFor(app);
 
