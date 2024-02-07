@@ -81,7 +81,7 @@ redisSession()
           noSql: true,
           sql: true,
       },
-      [],
+      ['/g-cloud/search'],
       ['body', 'query']
       )
     );
