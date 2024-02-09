@@ -328,7 +328,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
             errorStore.push(fieldCheck);
           }
 
-          if (target_field.value.trim() == '0'){
+          if (Number(target_field.value.trim()) == 0){
             ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
             isError = true;
             fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
@@ -377,7 +377,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
               errorStore.push(fieldCheck);
             }
 
-            if (target_field.value.trim() == '0'){
+            if (Number(target_field.value.trim()) == 0){
               ccsZaddErrorMessage(target_field, 'Success target must be greater than or equal to 1');
               isError = true;
               fieldCheck = ["rfp_term_percentage_KPI_" + x, 'Success target must be greater than or equal to 1'];
