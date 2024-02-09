@@ -79,8 +79,6 @@ redisSession()
     app.use(
       sanitizer.clean({
           xss: true,
-          noSql: true,
-          sql: true,
       },
       [],
       ['body', 'query']
