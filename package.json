@@ -70,7 +70,7 @@
         "nunjucks": "^3.2.4",
         "objectFitPolyfill": "^2.3.0",
         "perfect-express-sanitizer": "^1.0.13",
-        "redis": "^4.6.12",
+        "redis": "^4.6.13",
         "rollbar": "^2.26.1",
         "sanitize-html": "^2.11.0",
         "serve-favicon": "^2.5.0",
