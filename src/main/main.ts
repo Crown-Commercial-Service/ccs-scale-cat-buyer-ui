@@ -75,10 +75,6 @@ redisSession()
     app.use(cookieParser());
     app.use(fileUpload());
 
-
-
-    new CsrfProtection().enableFor(app);
-
     app.use(
       sanitizer.clean({
           xss: true,
@@ -87,6 +83,8 @@ redisSession()
         ['body', 'query']
       )
     );
+
+    new CsrfProtection().enableFor(app);
 
     setupRequestSecurity(app);
     setupResLocalsMiddleware(app, environment);

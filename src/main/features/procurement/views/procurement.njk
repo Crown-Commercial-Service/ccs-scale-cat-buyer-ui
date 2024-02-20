@@ -105,7 +105,7 @@
                         or((event.eventno === 3) and (loop.index0 === 2) and (('DAA' in types)or('DA' in types)))%}
                          
                            {% for subSection in subSections %}
-                             {% if lotId == "Lot 2" or stepstocontinueDAA==true %}
+                             {% if lotId == "Lot 2" or lotId == '2' or stepstocontinueDAA==true %}
                               <p class="govuk-body">{{subSection | safe }}</p>
                               {% endif %}
                            {% endfor %}
