@@ -65,7 +65,7 @@
                        {% for item in sortedItems %}
                         {% if item.number == '4' %}
                           <dt>
-                            <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">{{item.name}}</a>
+                            <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot 4: {{item.name}}</a>
                             <span>Expires: <time>{{item.endDate | dateddmmyyyy}}</time>
                             </span>
                           </dt>
@@ -79,7 +79,7 @@
                           {% endif %}
                        {% endfor %}  
                       <dt>
-                          <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId=All&agreementLotName=Find cloud hosting, software and support" class=" govuk-link govuk-link--no-visited-state">Find cloud hosting, software and support</a>
+                          <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId=All&agreementLotName=Find cloud hosting, software and support" class=" govuk-link govuk-link--no-visited-state">Lots 1-3: Find cloud hosting, software and support</a>
 
                           
                         </dt>
