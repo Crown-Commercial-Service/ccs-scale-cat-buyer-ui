@@ -75,18 +75,16 @@ redisSession()
     app.use(cookieParser());
     app.use(fileUpload());
 
+    new CsrfProtection().enableFor(app);
+
     app.use(
       sanitizer.clean({
           xss: true,
-          noSql: true,
-          sql: true,
-      },
-      [],
-      ['body', 'query']
+        },
+        ['/g-cloud/search', '/g-cloud/save-your-search'],
+        ['body', 'query']
       )
     );
-
-    new CsrfProtection().enableFor(app);
 
     setupRequestSecurity(app);
     setupResLocalsMiddleware(app, environment);
