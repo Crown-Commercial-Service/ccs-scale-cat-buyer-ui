@@ -4,7 +4,7 @@ const rollbarEnvironmentMapping = {
   local: 'local',
   dev: 'development',
   int: 'integration',
-  uat: 'integration',
+  uat: 'uat',
   nft: 'sandbox',
   pre: 'pre-production',
   prd: 'production'
