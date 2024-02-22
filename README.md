@@ -120,8 +120,7 @@ e.g. the ones verifying the state of each service it depends on.
 
 ## Deployment
 
-This application is hosted on [GOV.UK PaaS](https://www.cloud.service.gov.uk/) and we use [Travis CI](https://www.travis-ci.com/) to deploy the code.
-When your code changes are merged they will automatically be deployed to the relevant environment.
+This application is hosted on [AWS](https://aws.amazon.com/) and we use [Jenkins](https://www.jenkins.io/) to deploy the code.
 
 The environments are mapped as follows:
 
@@ -134,55 +133,12 @@ The environments are mapped as follows:
 | Pre-Production  | `release/pre-prod`  |
 | Production      | `release/prod`      |
 
-So, for example, if you merge your changes into `release/nftnew` the code changes will be deployed into the NFT environment.
+When your code changes are merged you will need to deploy the code manually.
 
-### Deploying to Sandbox
+To do this you must run the job to build the docker image for the app.
+Make sure you are targeting the right branch for the environment you wish to deploy to.
 
-The Sandbox environment, specifically Sandbox 2, does not have a "main" branch so to speak of.
-Instead, if you push a branch that matches the following regular expression:
-
-```sh
-^(feature|bugfix)\\/(CAS)-[0-9]+.*$
-```
-
-## Provisioning
-
-### Prerequisites
-
-The [Terraform CaT infra](https://github.com/Crown-Commercial-Service/ccs-scale-cat-paas-infra) and [CaT Service API](https://github.com/Crown-Commercial-Service/ccs-scale-cat-service) should have been provisioned against the target environment(s) prior to provisioning of this UI component.
-
-### Local initialisation & provisioning
-
-Terraform state for each space (environment) is persisted to a dedicated AWS account. Access keys for an account in this environment with the appropriate permissions must be obtained before provisioning any infrastructure from a local development machine. The S3 state bucket name and Dynamo DB locaking table name must also be known.
-
-1. The AWS credentials, state bucket name and DDB locking table name must be supplied during the `terraform init` operation to setup the backend. `cd` to the `iac/environments/{env}` folder corresponding to the environment you are provisioning, and execute the following command to initialise the backend:
-
-   ```
-   terraform init \
-   -backend-config="access_key=ACCESS_KEY_ID" \
-   -backend-config="secret_key=SECRET_ACCESS_KEY" \
-   -backend-config="bucket=S3_STATE_BUCKET_NAME" \
-   -backend-config="dynamodb_table=DDB_LOCK_TABLE_NAME"
-   ```
-
-   Note: some static/non-sensitive options are supplied in the `backend.tf` file. Any sensitive config supplied via command line only (this may change in the future if we can use Vault or similar).
-
-   This will ensure all Terraform state is persisted to the dedicated bucket and that concurrent builds are prevented via the DDB locking table.
-
-2. `cd` to `./iac/environments/{env}`
-
-3. We use Terraform to provision the underlying service infrastructure in a space. We will need to supply the Cloud Foundry login credentials for the user who will provision the infrastructure.
-
-   These credentials can be supplied in one of 3 ways:
-
-   - via a `secret.tfvars` file, e.g. `terraform apply -var-file="secret.tfvars"` (this file should not be committed to Git)
-   - via input variables in the terminal, e.g. `terraform apply -var="cf_username=USERNAME" -var="cf_password=PASSWORD"`
-   - via environment variables, e.g. `$ export TF_VAR_cf_username=USERNAME`
-
-   Assume one of these approaches is used in the commands below (TBD)
-
-4. Run `terraform plan` to confirm the changes look ok
-5. Run `terraform apply` to deploy to UK.Gov PaaS
+Once the image has been built, the job to deploy the code can be run which releases the code to the selected environment.
 
 ## License
 
