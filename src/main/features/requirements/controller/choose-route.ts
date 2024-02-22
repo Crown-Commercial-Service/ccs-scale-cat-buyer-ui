@@ -67,7 +67,7 @@ function updateRadioButtonOptions(
   const updateLotId = lotId.length > 1 ? lotId : lotId;
   switch (agreementId) {
     case 'RM6263':
-      if (updateLotId == 'Lot 1') {
+      if (updateLotId == 'Lot 1' || updateLotId == '1') {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
           if (types.find((element) => element == 'FC')) {
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
