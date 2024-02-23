@@ -6,7 +6,7 @@ import { ErrorView } from '../../shared/error/errorView';
 import { LoggTracer } from '../../logtracer/tracer';
 import { Logger } from '@hmcts/nodejs-logging';
 import { ppg } from 'main/services/publicProcurementGateway';
-import { AuthCredentials, GrantType } from 'main/services/types/publicProcurementGateway/oAuth/api';
+import { AuthCredentials, GrantType } from 'main/services/publicProcurementGateway/oAuth/api.types';
 import { FetchError } from 'main/services/helpers/errors';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
 

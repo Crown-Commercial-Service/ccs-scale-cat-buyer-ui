@@ -1,6 +1,6 @@
 import { genericFecthGet } from '../helpers/api';
-import { FetchResult } from '../types/helpers/api';
-import { BankHolidays, EndPoints } from '../types/bankHolidays/api';
+import { FetchResult } from '../helpers/api.types';
+import { BankHolidays, EndPoints } from './api.types';
 import { baseURL } from './helpers';
 
 // GET /bank-holidays.json

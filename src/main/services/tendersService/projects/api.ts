@@ -1,9 +1,9 @@
 import { genericFecthGet } from 'main/services/helpers/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { FetchResult } from 'main/services/helpers/api.types';
 import { baseURL, headers } from '../helpers';
-import { EndPoints } from 'main/services/types/tendersService/projects/api';
+import { EndPoints } from 'main/services/tendersService/projects/api.types';
 import { Project } from '@common/middlewares/models/tendersService/project';
-import { QueryParams } from 'main/services/types/helpers/url';
+import { QueryParams } from 'main/services/helpers/url.types';
 
 // GET /tenders/projects
 const getProjects = async (accessToken: string, queryParams?: QueryParams): Promise<FetchResult<Project[]>> => {

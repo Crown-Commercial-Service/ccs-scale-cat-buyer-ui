@@ -1,4 +1,4 @@
-import { EndPoints, LogInParams } from '../../types/publicProcurementGateway/oAuth/url';
+import { EndPoints, LogInParams } from './url.types';
 import { Request } from 'express';
 import { formatURL } from 'main/services/helpers/url';
 

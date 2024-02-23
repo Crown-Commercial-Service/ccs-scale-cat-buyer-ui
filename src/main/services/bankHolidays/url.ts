@@ -1,4 +1,4 @@
-import { EndPoints } from '../types/bankHolidays/api';
+import { EndPoints } from './api.types';
 import { baseURL } from './helpers';
 
 const statusURL = () => new URL(EndPoints.STATUS, baseURL);

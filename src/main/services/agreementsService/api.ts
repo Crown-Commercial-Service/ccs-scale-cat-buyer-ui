@@ -1,7 +1,7 @@
 import { LotDetail } from '@common/middlewares/models/lot-detail';
 import { genericFecthGet } from '../helpers/api';
-import { EndPoints, AgreementLotEventType, AgreementServiceHealthResponse } from '../types/agreementsService/api';
-import { FetchResult } from '../types/helpers/api';
+import { EndPoints, AgreementLotEventType, AgreementServiceHealthResponse } from './api.types';
+import { FetchResult } from '../helpers/api.types';
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { AgreementDetail } from '@common/middlewares/models/agreement-detail';
 import { baseURL } from './helpers';

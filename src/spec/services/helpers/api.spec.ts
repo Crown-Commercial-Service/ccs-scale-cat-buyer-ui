@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { genericFecthGet, genericFecthPost } from 'main/services/helpers/api';
 import { FetchError, FetchTimeoutError } from 'main/services/helpers/errors';
-import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/types/helpers/api';
+import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/helpers/api.types';
 import { setupServer } from 'msw/node';
 import { http, passthrough } from 'msw';
 import { matchHeaders, matchJSON, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

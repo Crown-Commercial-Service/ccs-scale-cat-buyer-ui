@@ -1,6 +1,6 @@
 import { genericFecthGet } from 'main/services/helpers/api';
-import { EndPoints, GCloudService, GCloudSupplier, GCloudSupplierFramework } from 'main/services/types/gCloud/service/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { EndPoints, GCloudService, GCloudSupplier, GCloudSupplierFramework } from 'main/services/gCloud/service/api.types';
+import { FetchResult } from 'main/services/helpers/api.types';
 import { baseURL } from './helpers';
 
 const headers = () => ({

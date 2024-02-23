@@ -1,6 +1,6 @@
-import { AuthCredentials, EndPoints, RefreshData } from '../../types/publicProcurementGateway/oAuth/api';
+import { AuthCredentials, EndPoints, RefreshData } from './api.types';
 import { genericFecthPost } from 'main/services/helpers/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { FetchResult } from 'main/services/helpers/api.types';
 
 const baseURL = () => process.env.AUTH_SERVER_BASE_URL;
 const clientId = () => process.env.AUTH_SERVER_CLIENT_ID;

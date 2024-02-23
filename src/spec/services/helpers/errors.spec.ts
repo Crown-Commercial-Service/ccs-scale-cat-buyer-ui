@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { FetchError, FetchTimeoutError } from 'main/services/helpers/errors';
-import { HTTPMethod } from 'main/services/types/helpers/api';
+import { HTTPMethod } from 'main/services/helpers/api.types';
 
 describe('Service API Errors', () => {
   describe('FetchError', () => {

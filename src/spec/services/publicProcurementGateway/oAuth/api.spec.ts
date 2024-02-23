@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { oAuthAPI } from 'main/services/publicProcurementGateway/oAuth/api';
-import { AuthCredentials, GrantType, RefreshData } from 'main/services/types/publicProcurementGateway/oAuth/api';
-import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
+import { AuthCredentials, GrantType, RefreshData } from 'main/services/publicProcurementGateway/oAuth/api.types';
+import { FetchResultOK, FetchResultStatus } from 'main/services/helpers/api.types';
 import { setupServer } from 'msw/node';
 import { http } from 'msw';
 import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

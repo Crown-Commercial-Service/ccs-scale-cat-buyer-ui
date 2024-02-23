@@ -10,7 +10,7 @@ import moment from 'moment-business-days';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { bankHolidays } from 'main/services/bankHolidays';
-import { BankHolidays } from 'main/services/types/bankHolidays/api';
+import { BankHolidays } from 'main/services/bankHolidays/api.types';
 
 export const DA_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;

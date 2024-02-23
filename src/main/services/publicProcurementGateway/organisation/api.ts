@@ -1,6 +1,6 @@
 import { genericFecthGet } from 'main/services/helpers/api';
-import { EndPoints, Organisation, OrganisationUsers, UserProfile } from '../../types/publicProcurementGateway/organisation/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { EndPoints, Organisation, OrganisationUsers, UserProfile } from './api.types';
+import { FetchResult } from 'main/services/helpers/api.types';
 
 const baseURL = () => process.env.CONCLAVE_WRAPPER_API_BASE_URL;
 

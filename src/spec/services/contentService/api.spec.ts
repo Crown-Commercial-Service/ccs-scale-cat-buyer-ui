@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import config from 'config';
-import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/types/helpers/api';
+import { FetchResultError, FetchResultOK, FetchResultStatus, HTTPMethod } from 'main/services/helpers/api.types';
 import { contentServiceAPI } from 'main/services/contentService/api';
 import { FetchTimeoutError } from 'main/services/helpers/errors';
-import { ContentServiceMenu } from 'main/services/types/contentService/api';
+import { ContentServiceMenu } from 'main/services/contentService/api.types';
 import { setupServer } from 'msw/node';
 import { http, passthrough } from 'msw';
 import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

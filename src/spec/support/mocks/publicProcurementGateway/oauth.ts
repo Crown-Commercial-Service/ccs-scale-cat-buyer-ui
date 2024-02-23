@@ -1,6 +1,6 @@
 import Sinon from 'sinon';
 import { ppg } from 'main/services/publicProcurementGateway';
-import { FetchResult, FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResult, FetchResultStatus } from 'main/services/helpers/api.types';
 
 const generateResponseMock = (isAuthenticated: boolean): Promise<FetchResult<boolean>> => {
   return new Promise((resolve) => resolve({

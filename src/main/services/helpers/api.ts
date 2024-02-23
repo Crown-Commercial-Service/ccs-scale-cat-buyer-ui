@@ -1,7 +1,7 @@
-import { BaseFetchResult, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from '../types/helpers/api';
-import { CacheOptions } from '../types/helpers/cache';
-import { LoggerOptions } from '../types/helpers/performanceLogger';
-import { FormatURLParams } from '../types/helpers/url';
+import { BaseFetchResult, FetchRequestInit, FetchResult, FetchResultStatus, HTTPMethod } from './api.types';
+import { CacheOptions } from './cache.types';
+import { LoggerOptions } from './performanceLogger.types';
+import { FormatURLParams } from './url.types';
 import { getCachedData, setCachedData } from './chache';
 import { FetchError, FetchTimeoutError } from './errors';
 import { getPerformanceLogger } from './performanceLogger';

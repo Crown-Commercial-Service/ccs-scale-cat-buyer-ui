@@ -1,7 +1,7 @@
 import config from 'config';
 import { genericFecthGet } from '../helpers/api';
-import { FetchResult } from '../types/helpers/api';
-import { ContentServiceMenu, EndPoints } from '../types/contentService/api';
+import { FetchResult } from '../helpers/api.types';
+import { ContentServiceMenu, EndPoints } from './api.types';
 import { baseURL } from './helpers';
 
 const timeout = Number(config.get('settings.fetch-timelimit'));
