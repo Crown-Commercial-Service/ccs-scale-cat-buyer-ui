@@ -39,7 +39,7 @@ const createRedisClient = () => {
     environment = process.env['NODE_ENV']?.replace(/\s+/g, '');
   }
 
-  if (environment !== 'development') {
+  if (! ['development', 'aws-native'].includes(environment)) {
     redisClientOpts.socket.tls = true;
   }
 
