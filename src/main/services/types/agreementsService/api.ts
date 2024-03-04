@@ -1,14 +1,18 @@
 enum EndPoints {
-  STATUS = '/agreements',
-  AGREEMENT = '/agreements/:agreementId',
-  AGREEMENT_LOTS = '/agreements/:agreementId/lots',
-  AGREEMENT_LOT = '/agreements/:agreementId/lots/:lotId',
-  AGREEMENT_LOT_SUPPLIERS = '/agreements/:agreementId/lots/:lotId/suppliers',
-  AGREEMENT_LOT_EVENT_TYPES = '/agreements/:agreementId/lots/:lotId/event-types'
+  STATUS = '/agreements-service/health',
+  AGREEMENT = '/agreements-service/agreements/:agreementId',
+  AGREEMENT_LOTS = '/agreements-service/agreements/:agreementId/lots',
+  AGREEMENT_LOT = '/agreements-service/agreements/:agreementId/lots/:lotId',
+  AGREEMENT_LOT_SUPPLIERS = '/agreements-service/agreements/:agreementId/lots/:lotId/suppliers',
+  AGREEMENT_LOT_EVENT_TYPES = '/agreements-service/agreements/:agreementId/lots/:lotId/event-types',
 }
 
 interface AgreementLotEventType {
   type: string
 }
 
-export { EndPoints, AgreementLotEventType };
+interface AgreementServiceHealthResponse {
+  status: string
+}
+
+export { EndPoints, AgreementLotEventType, AgreementServiceHealthResponse };
