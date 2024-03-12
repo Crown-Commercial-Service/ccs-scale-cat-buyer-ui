@@ -30,7 +30,7 @@
         "@hmcts/nodejs-logging": "^4.0.0",
         "@nubz/gds-validation": "^2.4.0",
         "@types/config": "^3.3.3",
-        "@types/cookie-parser": "^1.4.6",
+        "@types/cookie-parser": "^1.4.7",
         "@types/cookies": "^0.9.0",
         "@types/csurf": "^1.11.5",
         "@types/es6-promisify": "^6.0.4",
