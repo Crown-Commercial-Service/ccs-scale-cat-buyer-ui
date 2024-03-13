@@ -78,11 +78,9 @@ redisSession()
     app.use(
       sanitizer.clean({
           xss: true,
-          noSql: true,
-          sql: true,
-      },
-      [],
-      ['body', 'query']
+        },
+        ['/g-cloud/search', '/g-cloud/save-your-search'],
+        ['body', 'query']
       )
     );
 

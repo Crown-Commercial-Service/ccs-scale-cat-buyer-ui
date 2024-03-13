@@ -12,7 +12,7 @@
           <a class="govuk-breadcrumbs__link" href="https://www.crowncommercial.gov.uk/agreements/{{ agreement_id }}">{{ agreement.name }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item" aria-current="page">
-          {% if (agreement_id === 'RM1557.13') and (lot === 'Lot 4') %}
+          {% if (agreement_id === 'RM1557.13') and (lot === 'Lot 4' or lot === '4') %}
             {{ agreement_lot.name }}
           {% else %}
             {{ lot }}: {{ agreement_lot.name }}
@@ -25,7 +25,7 @@
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
             {% if agreement_id === 'RM1557.13' %}
-              {% if lot === 'Lot 4' %}
+              {% if lot === 'Lot 4' or lot === '4' %}
                 {{ lot }}: {{ agreement.agreementDescription }}
               {% else %}
                 {{ lot }}
@@ -42,7 +42,7 @@
           <div class="project-overview govuk-!-padding-bottom-3">
             {% set agreementName = agreement.name %}
             {% set agreementId = agreement_id %}
-            {% if agreement_id === 'RM1557.13' and lot === 'Lot 4' %}
+            {% if agreement_id === 'RM1557.13' and (lot === 'Lot 4' or lot === '4') %}
               {% set agreementName = agreement.name + ' ' + lot %}
               {% set agreementId = agreement_id + 'L4' %}
             {% endif %}
@@ -74,7 +74,7 @@
               {% endif %}
             </h2>
             {% if agreement_id === 'RM1557.13' %}
-              {% if lot === 'Lot 4' %}
+              {% if lot === 'Lot 4' or lot === '4' %}
                 <p class="govuk-body">
                   {{ data.g_cloud_desc1_lot4 }}
                 </p>
@@ -87,11 +87,11 @@
                 </p>
               {% else %}
                 <p class="govuk-body">
-                  {% if lot === 'Lot 1' %}
+                  {% if lot === 'Lot 1' or lot === '1' %}
                     {{ data.g_cloud_desc1_lot1 }}
-                  {% elif lot === 'Lot 2' %}
+                  {% elif lot === 'Lot 2' or lot === '2' %}
                     {{ data.g_cloud_desc1_lot2 }}
-                  {% elif lot === 'Lot 3' %}
+                  {% elif lot === 'Lot 3' or lot === '3' %}
                     {{ data.g_cloud_desc1_lot3 }}
                   {% endif %}
                 </p>
@@ -106,11 +106,11 @@
                 </ul>
               {% endif %}
               <p class="govuk-body">
-                {% if lot === "Lot 1" %}
+                {% if lot === "Lot 1" or lot === '1' %}
                   {{ data.line5dl1 }}
-                {% elif lot === "Lot 2" %}
+                {% elif lot === "Lot 2" or lot === '2' %}
                   {{ data.line5dl2 }}
-                {% elif lot === "Lot 3" %}
+                {% elif lot === "Lot 3" or lot === '3' %}
                   {{ data.line5dl3 }}
                 {% endif %}
               </p>
@@ -125,7 +125,7 @@
                   <span class="govuk-visually-hidden">(opens in a new window)</span>
                 </a>
               </p>
-              {% if lot !== "Lot 2" %}
+              {% if lot !== "Lot 2" and lot !== '2' %}
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"/>
               {% endif %}
             {% elif agreement_id === 'RM6187' %}
@@ -140,7 +140,8 @@
               </p>
               <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible"/>
             {% endif %}
-            {% if not (agreement_id === 'RM1043.8' and lot === 'Lot 2') %}
+
+            {% if not (agreement_id === 'RM1043.8' and (lot === 'Lot 2' or lot === '2')) %}
               <div>
                 <p class="govuk-body">{{ data.line8 }}</p>
                 <p class="govuk-body">{{ data.line9 }}</p>
@@ -164,12 +165,13 @@
               </div>
             {% endif %}
           </div>
+
           <div class="ccs-page-section" id="buyonline">
             <h2 class="govuk-heading-l">
               {{ data.line10 }}
             </h2>
             {% if agreement_id === 'RM1557.13' %}
-              {% if lot === 'Lot 4' %}
+              {% if lot === 'Lot 4' or lot === '4' %}
                 <p class="govuk-body">
                   <strong>Decide the approach and stages to your procurement. These may include:</strong>
                 </p>
@@ -206,7 +208,7 @@
                 </p>
               {% endif %}
             {% elif agreement_id === 'RM1043.8' %}
-              {% if lot === 'Lot 2' %}
+              {% if lot === 'Lot 2' or lot === '2' %}
                 <div class="govuk-inset-text">
                   Please note that this journey is not available on CAS.
                 </div>
@@ -215,15 +217,15 @@
                 <strong>Refer to the requirements template</strong>
               </p>
               <p class="govuk-body">
-                {% if lot === "Lot 1" %}
+                {% if lot === "Lot 1" or lot === '1' %}
                   The
                   <a href="{{ assetPath | default('/assets') }}/files/outcomes requirements template v1.1.ods" target="_blank">requirements template</a>
                   shows the information you’ll be asked to provide when you specify work for digital outcomes.
-                {% elif lot === "Lot 2" %}
+                {% elif lot === "Lot 2" or lot === '2' %}
                   The
                   <a href="{{ assetPath | default('/assets') }}/files/studios requirements template v1.0.ods" target="_blank">requirements template</a>
                   shows the information you’ll be asked to provide when you specify work for user research studios.
-                {% elif lot === "Lot 3" %}
+                {% elif lot === "Lot 3" or lot === '3' %}
                   The
                   <a href="{{ assetPath | default('/assets') }}/files/participants requirements template v1.0.ods" target="_blank">requirements template</a>
                   shows the information you’ll be asked to provide when you specify work for digital outcomes.
@@ -248,7 +250,7 @@
                 If you’re buying for a public sector organisation outside of central government, you must get any internal approval you
                 need.
               </p>
-              {% if lot === 'Lot 1' %}
+              {% if lot === 'Lot 1' or lot === '1' %}
                 <p>
                   You can
                   <a href="{{ assetPath | default('/assets') }}/files/RM1043.8-DOS-6-Lot-1-Average-Day-Rates-v1.2.odt" download>
@@ -257,7 +259,7 @@
                   for DDaT roles across all suppliers. This can guide you in setting your budget.
                 </p>
               {% endif %}
-              {% if lot === 'Lot 2' %}
+              {% if lot === 'Lot 2' or lot === '2' %}
                 <p class="govuk-body">
                   <strong>Write your requirements</strong>
                 </p>
@@ -305,7 +307,7 @@
               {{ data.line18 }}
             </h3>
             {% if agreement_id === 'RM1557.13' %}
-              {% if lot === 'Lot 4' %}
+              {% if lot === 'Lot 4' or lot == '4' %}
                 <ol class="govuk-list govuk-list--number-custome">
                   <li data-label="1" class="govuk-list--number-custome-list">
                     <h4 class="proc-task-list__section">
@@ -485,7 +487,7 @@
                 </ol>
               {% endif %}
             {% elif agreement_id === 'RM1043.8' %}
-              {% if lot === 'Lot 2' %}
+              {% if lot === 'Lot 2' or lot == '2' %}
                 <ol class="govuk-list govuk-list--number-custome">
                   <li data-label="1" class="govuk-list--number-custome-list">
                     <h4 class="proc-task-list__section govuk-!-margin-bottom-3">
