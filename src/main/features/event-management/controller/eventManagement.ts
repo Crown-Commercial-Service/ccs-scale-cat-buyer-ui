@@ -287,17 +287,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 ? supplierFiltedData?.address
                 : null;
             supplierDetailsObj.supplierContactName =
-              supplierFiltedData.contactPoint != undefined &&
               supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != undefined &&
+              supplierFiltedData.contactPoint?.name != null &&
+              supplierFiltedData.contactPoint?.name != undefined
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
               supplierFiltedData.contactPoint != undefined ? supplierFiltedData.contactPoint?.email : null;
             supplierDetailsObj.supplierWebsite =
               supplierFiltedData.identifier != undefined && supplierFiltedData.identifier != null
-                ? supplierFiltedData.identifier?.uri
+                ? supplierFiltedData.identifier?.uri?.includes('http') ? supplierFiltedData.identifier.uri : 'https://' + supplierFiltedData.identifier.uri
                 : null;
             supplierDetailsObj.supplierName =
               supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
