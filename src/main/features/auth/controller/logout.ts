@@ -13,7 +13,7 @@ const logger = Logger.getLogger('logout');
  */
 export const LOGOUT = (req: Request, res: Response) => {
   req.session.destroy((error) => {
-    if (error) rollbarLogger(error, logger);
+    if (error) rollbarLogger(error, 'error', logger);
   });
 
   const redirectURL = ppg.url.oAuth.login(req);
