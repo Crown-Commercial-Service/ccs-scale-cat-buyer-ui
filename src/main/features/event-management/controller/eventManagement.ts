@@ -2042,6 +2042,14 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     const lotid = req.session.lotId;
     const invite_suppliers = req.session.invite_suppliers;
     const eventId = req.session.eventId;
+    const justifications =  req.session['justifications'] || '';
+
+    const { notValid, notValidText } = req.session;
+
+    req.session['notValid'] = false;
+    req.session['notValidText'] = '';
+    req.session['justifications'] = '';
+
     // Event header
     res.locals.agreement_header = {
       projectName: project_name,
@@ -2072,6 +2080,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
       eventId,
       agreementId_session,
       lotid,
+      notValid,
+      notValidText,
+      justifications
     };
 
     //CAS-INFO-LOG
@@ -2098,7 +2109,16 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     let justifications;
     if (req.body.justification !== undefined) {
       justifications = req.body.justification;
+
+      if (req.body.justification.length > 500) {
+        req.session['notValid'] = true;
+        req.session['notValidText'] = 'Shortlisting notes should be below 500 characters.';
+        req.session['justifications'] = justifications;
+        res.redirect('/event/selected-suppliers');
+        return;
+      }
     }
+
     const justification = justifications.replace(/[\r\n]/gm, '');
     const supplierIDS = invite_suppliers.split(',');
     const uniqSuppliers = supplierIDS.filter((value: any, index: any, self: any) => {
