@@ -2121,14 +2121,14 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     });
     const supplierList = await GetLotSuppliers(req);
     const supplierData = [];
-    if (uniqSuppliers.length > 0) {
-      for (let i = 0; i < uniqSuppliers.length; i++) {
-        const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
-        if (supplierInfo != undefined) {
-          supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
-        }
+
+    uniqSuppliers.forEach((i) => {
+      const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
+      if (supplierInfo != undefined) {
+        supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
       }
-    }
+    });
+
 
     const response = await TenderApi.Instance(SESSION_ID).post(`/tenders/projects/${projectId}/events/${eventId}/suppliers`, {
       suppliers: supplierData,
