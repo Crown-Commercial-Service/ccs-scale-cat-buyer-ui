@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResultOK, FetchResultStatus } from 'main/services/helpers/api.types';
 import { searchAPI } from 'main/services/gCloud/search/api';
-import { GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
+import { GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/gCloud/search/api.types';
 import { setupServer } from 'msw/node';
 import { http } from 'msw';
 import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

@@ -6,7 +6,7 @@ import { bankHolidays } from 'main/services/bankHolidays';
 import { contentService } from 'main/services/contentService';
 import { gCloud } from 'main/services/gCloud';
 import { tendersService } from 'main/services/tendersService';
-import { FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResultStatus } from 'main/services/helpers/api.types';
 
 const genericResponse = (_err: any, res: GenericReponse) => {
   if (res !== undefined) {

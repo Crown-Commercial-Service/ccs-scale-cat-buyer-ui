@@ -6,8 +6,8 @@ import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourS
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { gCloud } from 'main/services/gCloud';
 import { formatRelativeURL } from 'main/services/helpers/url';
-import { QueryParams } from 'main/services/types/helpers/url';
-import { GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
+import { QueryParams } from 'main/services/helpers/url.types';
+import { GCloudServiceSearch } from 'main/services/gCloud/search/api.types';
 import sanitizeHtml from 'sanitize-html';
 
 export const GET_SEARCH = async (req: Request, res: Response) => {

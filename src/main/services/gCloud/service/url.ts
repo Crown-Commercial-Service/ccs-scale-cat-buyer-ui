@@ -1,4 +1,4 @@
-import { EndPoints } from 'main/services/types/gCloud/service/api';
+import { EndPoints } from 'main/services/gCloud/service/api.types';
 import { baseURL } from './helpers';
 
 const statusURL = () => new URL(EndPoints.STATUS, baseURL());

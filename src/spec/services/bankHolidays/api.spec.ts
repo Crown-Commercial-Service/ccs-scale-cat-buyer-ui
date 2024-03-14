@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import config from 'config';
-import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResultOK, FetchResultStatus } from 'main/services/helpers/api.types';
 import { bankHolidaysAPI } from 'main/services/bankHolidays/api';
-import { BankHolidays } from 'main/services/types/bankHolidays/api';
+import { BankHolidays } from 'main/services/bankHolidays/api.types';
 import { setupServer } from 'msw/node';
 import { http } from 'msw';
 import { matchHeaders, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { organisationAPI } from 'main/services/publicProcurementGateway/organisation/api';
-import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
-import { Organisation, OrganisationUsers, UserProfile } from 'main/services/types/publicProcurementGateway/organisation/api';
+import { FetchResultOK, FetchResultStatus } from 'main/services/helpers/api.types';
+import { Organisation, OrganisationUsers, UserProfile } from 'main/services/publicProcurementGateway/organisation/api.types';
 import { setupServer } from 'msw/node';
 import { http } from 'msw';
 import { matchHeaders, matchQueryParams, mswEmptyResponseWithStatus, mswJSONResponse } from 'spec/support/mswHelpers';

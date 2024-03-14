@@ -10,7 +10,7 @@ import moment from 'moment';
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { bankHolidays } from 'main/services/bankHolidays';
-import { BankHolidays } from 'main/services/types/bankHolidays/api';
+import { BankHolidays } from 'main/services/bankHolidays/api.types';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {

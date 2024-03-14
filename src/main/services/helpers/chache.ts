@@ -1,5 +1,5 @@
 import { createRedisClient } from 'main/setup/redis/client';
-import { CacheOptions } from '../types/helpers/cache';
+import { CacheOptions } from './cache.types';
 
 const getCachedData = async <T>(key: string): Promise<T | null> => {
   const client = createRedisClient();

@@ -1,4 +1,4 @@
-import { HTTPMethod } from '../types/helpers/api';
+import { HTTPMethod } from './api.types';
 
 class FetchError extends Error {
   public status: number;

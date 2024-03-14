@@ -1,4 +1,4 @@
-import { FormatURLParams, FormatRelativeURLParams } from '../types/helpers/url';
+import { FormatURLParams, FormatRelativeURLParams } from './url.types';
 
 const baseFormatURL = (options: FormatURLParams): URL => {
   const { baseURL, params, queryParams } = options;

@@ -5,7 +5,7 @@ import { LoggTracer } from '../../logtracer/tracer';
 import config from 'config';
 import { cookies } from '../../cookies/cookies';
 import { ppg } from 'main/services/publicProcurementGateway';
-import { AuthCredentials, GrantType } from 'main/services/types/publicProcurementGateway/oAuth/api';
+import { AuthCredentials, GrantType } from 'main/services/publicProcurementGateway/oAuth/api.types';
 
 /**
  *

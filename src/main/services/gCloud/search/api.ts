@@ -1,8 +1,8 @@
 import { genericFecthGet } from 'main/services/helpers/api';
-import { EndPoints, GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { EndPoints, GCloudServiceAggregations, GCloudServiceSearch } from 'main/services/gCloud/search/api.types';
+import { FetchResult } from 'main/services/helpers/api.types';
 import { baseURL } from './helpers';
-import { QueryParams } from 'main/services/types/helpers/url';
+import { QueryParams } from 'main/services/helpers/url.types';
 
 const headers = () => ({
   'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import { FetchResultOK, FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResultOK, FetchResultStatus } from 'main/services/helpers/api.types';
 import { projectsAPI } from 'main/services/tendersService/projects/api';
 import { Project } from '@common/middlewares/models/tendersService/project';
 import { setupServer } from 'msw/node';

@@ -11,7 +11,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
 import { logConstant } from '../../../common/logtracer/logConstant';
 import config from 'config';
 import { bankHolidays } from 'main/services/bankHolidays';
-import { BankHolidays } from 'main/services/types/bankHolidays/api';
+import { BankHolidays } from 'main/services/bankHolidays/api.types';
 
 const momentCssHolidays = async () => {
   const bankholidaydata = (await bankHolidays.api.getBankHolidays()).unwrap();

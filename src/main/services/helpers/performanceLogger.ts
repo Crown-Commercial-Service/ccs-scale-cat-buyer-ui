@@ -1,5 +1,5 @@
 import { Logger } from '@hmcts/nodejs-logging';
-import { LoggerInstance, LoggerOptions, PerformanceLoggerInterface } from '../types/helpers/performanceLogger';
+import { LoggerInstance, LoggerOptions, PerformanceLoggerInterface } from './performanceLogger.types';
 
 class FakePerformanceLogger implements PerformanceLoggerInterface {
   startTimer = (): void => { return undefined; };

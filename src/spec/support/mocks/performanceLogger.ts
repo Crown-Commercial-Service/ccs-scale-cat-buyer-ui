@@ -2,7 +2,7 @@ import * as performanceLogger from 'main/services/helpers/performanceLogger';
 import Sinon from 'sinon';
 import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
-import { LoggerOptions } from 'main/services/types/helpers/performanceLogger';
+import { LoggerOptions } from 'main/services/helpers/performanceLogger.types';
 
 chai.use(sinonChai);
 

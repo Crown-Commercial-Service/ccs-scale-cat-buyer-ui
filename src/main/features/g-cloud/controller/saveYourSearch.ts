@@ -7,7 +7,7 @@ import { logConstant } from '../../../common/logtracer/logConstant';
 import moment from 'moment-business-days';
 import { gCloud } from 'main/services/gCloud';
 import { formatURL } from 'main/services/helpers/url';
-import { QueryParams } from 'main/services/types/helpers/url';
+import { QueryParams } from 'main/services/helpers/url.types';
 
 interface ServiceResult {
   serviceName: string

@@ -1,6 +1,6 @@
 import { genericFecthGet } from 'main/services/helpers/api';
-import { EndPoints, GCloudFilters, GCloudFilterQueryParams } from 'main/services/types/gCloud/supplier/api';
-import { FetchResult } from 'main/services/types/helpers/api';
+import { EndPoints, GCloudFilters, GCloudFilterQueryParams } from 'main/services/gCloud/supplier/api.types';
+import { FetchResult } from 'main/services/helpers/api.types';
 import { baseURL } from './helpers';
 
 // GET /g-cloud-filters

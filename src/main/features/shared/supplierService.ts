@@ -1,7 +1,7 @@
 import { LotSupplier } from '@common/middlewares/models/lot-supplier';
 import { Request } from 'express';
 import { agreementsService } from 'main/services/agreementsService';
-import { FetchResultStatus } from 'main/services/types/helpers/api';
+import { FetchResultStatus } from 'main/services/helpers/api.types';
 
 export const GetLotSuppliers = async (req: Request): Promise<LotSupplier[]> => {
   const { agreement_id, lotId } = req.session;

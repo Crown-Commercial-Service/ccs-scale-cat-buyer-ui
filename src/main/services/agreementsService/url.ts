@@ -1,4 +1,4 @@
-import { EndPoints } from '../types/agreementsService/api';
+import { EndPoints } from './api.types';
 import { baseURL } from './helpers';
 
 const statusURL = () => new URL(EndPoints.STATUS, baseURL());
