@@ -2130,8 +2130,7 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       }
     }
 
-    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-    const response = await TenderApi.Instance(SESSION_ID).post(BASEURL, {
+    const response = await TenderApi.Instance(SESSION_ID).post(`/tenders/projects/${projectId}/events/${eventId}/suppliers`, {
       suppliers: supplierData,
       justification: justification,
       overwriteSuppliers: true,
@@ -2151,8 +2150,6 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       res.redirect('/event/management?id=' + eventId);
     }
   } catch (error) {
-    console.log(error);
-
     LoggTracer.errorLogger(
       res,
       error,
