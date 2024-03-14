@@ -2106,20 +2106,15 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies;
   try {
     const { eventId, projectId, invite_suppliers } = req.session;
-    let justifications;
-    if (req.body.justification !== undefined) {
-      justifications = req.body.justification;
-
-      if (req.body.justification.length > 500) {
-        req.session['notValid'] = true;
-        req.session['notValidText'] = 'Shortlisting notes should be below 500 characters.';
-        req.session['justifications'] = justifications;
-        res.redirect('/event/selected-suppliers');
-        return;
-      }
+    if (req.body.justification != undefined && req.body.justification.length > 500) {
+      req.session['notValid'] = true;
+      req.session['notValidText'] = 'Shortlisting notes should be below 500 characters.';
+      req.session['justifications'] = req.body.justification;
+      res.redirect('/event/selected-suppliers');
+      return;
     }
 
-    const justification = justifications.replace(/[\r\n]/gm, '');
+    const justification = req.body.justification.replace(/[\r\n]/gm, '');
     const supplierIDS = invite_suppliers.split(',');
     const uniqSuppliers = supplierIDS.filter((value: any, index: any, self: any) => {
       return self.indexOf(value) === index;
@@ -2135,16 +2130,13 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       }
     }
 
-    const supplierBody = {
+    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
+    const response = await TenderApi.Instance(SESSION_ID).post(BASEURL, {
       suppliers: supplierData,
       justification: justification,
       overwriteSuppliers: true,
-    };
+    });
 
-    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-    const response = await TenderApi.Instance(SESSION_ID).post(BASEURL, supplierBody);
-
-    //CAS-INFO-LOG
     LoggTracer.infoLogger(response, logConstant.inviteSelectedSuppliers, req);
 
     if (response.status == Number(HttpStatusCode.OK)) {
