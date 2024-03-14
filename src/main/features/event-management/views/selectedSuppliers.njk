@@ -28,13 +28,13 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-{% if(error) %}
+{% if(notValid) %}
 
 {{ CCSErrorSummary({
   titleText: "There is a problem",
   errorList: [
     {
-      text: "You must fill all the fields."
+      text: notValidText
     }
   ]
 }) }}
@@ -90,12 +90,12 @@
                             hint: {
                              text: "You may want to include notes about the shortlisting of suppliers "
                             },
-                            
+                            value: justifications,
                             id: "justification",
                             name: "justification",
                             spellcheck: true,
                             classes: "messagesendcount",
-                            maxlength: "5000"
+                            maxlength: 500
                         })
                       }}
                       
