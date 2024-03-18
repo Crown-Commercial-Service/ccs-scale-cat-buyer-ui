@@ -287,17 +287,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 ? supplierFiltedData?.address
                 : null;
             supplierDetailsObj.supplierContactName =
-              supplierFiltedData.contactPoint != undefined &&
               supplierFiltedData.contactPoint != null &&
-              supplierFiltedData.contactPoint?.name != undefined &&
-              supplierFiltedData.contactPoint?.name != null
+              supplierFiltedData.contactPoint != undefined &&
+              supplierFiltedData.contactPoint?.name != null &&
+              supplierFiltedData.contactPoint?.name != undefined
                 ? supplierFiltedData.contactPoint?.name
                 : null;
             supplierDetailsObj.supplierContactEmail =
               supplierFiltedData.contactPoint != undefined ? supplierFiltedData.contactPoint?.email : null;
             supplierDetailsObj.supplierWebsite =
               supplierFiltedData.identifier != undefined && supplierFiltedData.identifier != null
-                ? supplierFiltedData.identifier?.uri
+                ? supplierFiltedData.identifier?.uri?.includes('http') ? supplierFiltedData.identifier.uri : 'https://' + supplierFiltedData.identifier.uri
                 : null;
             supplierDetailsObj.supplierName =
               supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
@@ -2042,6 +2042,14 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
     const lotid = req.session.lotId;
     const invite_suppliers = req.session.invite_suppliers;
     const eventId = req.session.eventId;
+    const justifications =  req.session['justifications'] || '';
+
+    const { notValid, notValidText } = req.session;
+
+    req.session['notValid'] = false;
+    req.session['notValidText'] = '';
+    req.session['justifications'] = '';
+
     // Event header
     res.locals.agreement_header = {
       projectName: project_name,
@@ -2072,6 +2080,9 @@ export const INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: expre
       eventId,
       agreementId_session,
       lotid,
+      notValid,
+      notValidText,
+      justifications
     };
 
     //CAS-INFO-LOG
@@ -2095,36 +2106,36 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies;
   try {
     const { eventId, projectId, invite_suppliers } = req.session;
-    let justifications;
-    if (req.body.justification !== undefined) {
-      justifications = req.body.justification;
+    if (req.body.justification != undefined && req.body.justification.length > 500) {
+      req.session['notValid'] = true;
+      req.session['notValidText'] = 'Shortlisting notes should be below 500 characters.';
+      req.session['justifications'] = req.body.justification;
+      res.redirect('/event/selected-suppliers');
+      return;
     }
-    const justification = justifications.replace(/[\r\n]/gm, '');
+
+    const justification = req.body.justification.replace(/[\r\n]/gm, '');
     const supplierIDS = invite_suppliers.split(',');
     const uniqSuppliers = supplierIDS.filter((value: any, index: any, self: any) => {
       return self.indexOf(value) === index;
     });
     const supplierList = await GetLotSuppliers(req);
     const supplierData = [];
-    if (uniqSuppliers.length > 0) {
-      for (let i = 0; i < uniqSuppliers.length; i++) {
-        const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
-        if (supplierInfo != undefined) {
-          supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
-        }
-      }
-    }
 
-    const supplierBody = {
+    uniqSuppliers.forEach((i) => {
+      const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
+      if (supplierInfo != undefined) {
+        supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
+      }
+    });
+
+
+    const response = await TenderApi.Instance(SESSION_ID).post(`/tenders/projects/${projectId}/events/${eventId}/suppliers`, {
       suppliers: supplierData,
       justification: justification,
       overwriteSuppliers: true,
-    };
+    });
 
-    const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-    const response = await TenderApi.Instance(SESSION_ID).post(BASEURL, supplierBody);
-
-    //CAS-INFO-LOG
     LoggTracer.infoLogger(response, logConstant.inviteSelectedSuppliers, req);
 
     if (response.status == Number(HttpStatusCode.OK)) {
@@ -2139,8 +2150,6 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
       res.redirect('/event/management?id=' + eventId);
     }
   } catch (error) {
-    console.log(error);
-
     LoggTracer.errorLogger(
       res,
       error,
