@@ -2123,9 +2123,9 @@ export const SAVE_INVITE_SELECTED_SUPPLIERS = async (req: express.Request, res: 
     const supplierData = [];
 
     uniqSuppliers.forEach((i) => {
-      const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i].trim())?.[0];
+      const supplierInfo = supplierList.filter((s: any) => s.organization.id == uniqSuppliers[i]?.trim())?.[0];
       if (supplierInfo != undefined) {
-        supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i].trim() });
+        supplierData.push({ name: supplierInfo.organization.name, id: uniqSuppliers[i]?.trim() });
       }
     });
 
