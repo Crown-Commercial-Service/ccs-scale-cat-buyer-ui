@@ -3,12 +3,17 @@ import { Logger } from '@hmcts/nodejs-logging';
 
 const defaultLogger = Logger.getLogger('app');
 
-const rollbarLogger = (error: any, logger: any = defaultLogger): void => {
+const rollbarLogger = (error: any, type = 'error', logger: any = defaultLogger, ): void => {
   const rollbar = initRollbar();
 
-  logger.error(error.stack || error);
+  if (type === 'error') {
+    logger.error(error.stack || error);
 
-  if (rollbar) rollbar.error(error);
+    if (rollbar) rollbar.error(error);
+  } else if (type === 'info') {
+    if (rollbar) rollbar.info(error.message, error);
+  }
 };
+
 
 export { rollbarLogger };
