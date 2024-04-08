@@ -1,4 +1,3 @@
-import { LoggerInstance } from '../../common/util/fetch/logger/loggerInstance';
 import * as express from 'express';
 import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
@@ -27,8 +26,8 @@ export class LoggTracer {
       pageUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
       statusCode: dataSet?.status != undefined ? dataSet?.status : null,
       message: message,
-      baseUrl: dataSet?.config?.baseURL,
-      api: dataSet?.config?.url,
+      baseUrl: dataSet?.config?.baseURL + '/',
+      url: dataSet?.config?.url,
       method: dataSet?.config?.method,
       body: body,
       startTime: dataSet?.config?.metadata?.startTime != undefined ? dataSet?.config?.metadata?.startTime : null,
@@ -36,9 +35,8 @@ export class LoggTracer {
       duration: dataSet?.duration != undefined ? dataSet?.duration : null,
       time: new Date(),
     };
-    if (process.env.LOGIT_API_KEY != '') {
-      await LoggerInstance.Instance().post('', LogMessage);
-    }
+
+    rollbarLogger(LogMessage,  'info');
   };
 
   static errorLogger = async (
