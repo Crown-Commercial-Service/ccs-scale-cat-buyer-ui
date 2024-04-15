@@ -420,7 +420,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
 
             const sortedLevels = score_criteria_level.map((item, index) => ({
               score_criteria_level: item,
-              score_criteria_points: score_criteria_points[index],
+              score_criteria_points: Number(score_criteria_points[index]),
               score_criteria_desc: score_criteria_desc[index]
             })).sort((a, b) => a.score_criteria_points - b.score_criteria_points);
 
