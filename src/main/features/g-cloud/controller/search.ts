@@ -6,7 +6,6 @@ import * as saveYourSearchData from '../../../resources/content/gcloud/saveYourS
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { gCloud } from 'main/services/gCloud';
 import { formatRelativeURL } from 'main/services/helpers/url';
-import { QueryParams } from 'main/services/types/helpers/url';
 import { GCloudServiceSearch } from 'main/services/types/gCloud/search/api';
 import sanitizeHtml from 'sanitize-html';
 
@@ -28,18 +27,8 @@ export const GET_SEARCH = async (req: Request, res: Response) => {
 
     const countsObject = Object.assign({}, servicesAggregations.aggregations.lot, servicesAggregations.aggregations.serviceCategories);
 
-    const clearFilterQueryParams: QueryParams = {
-      q,
-      lot,
-      serviceCategories,
-      parentCategory
-    } as QueryParams;
-
-    Object.keys(clearFilterQueryParams).forEach((key: keyof typeof clearFilterQueryParams) => clearFilterQueryParams[key] === undefined && delete clearFilterQueryParams[key]);
-
     const clearFilterURL = formatRelativeURL({
       path: '/g-cloud/search',
-      queryParams: clearFilterQueryParams
     });
 
     const filterData = (await gCloud.api.supplier.getGCloudFilters(lot as string, serviceCategories as string, parentCategory as string)).unwrap();
