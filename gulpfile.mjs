@@ -13,7 +13,9 @@ const packFonts = () => {
       // Fonts from packages
       './node_modules/ccs-frontend-kit/Assets/fonts/*',
       './node_modules/govuk-frontend/dist/govuk/assets/fonts/*'
-    ]
+    ], {
+          encoding: false
+      }
   )
     .pipe(dest('src/main/public/assets/fonts'));
 };
@@ -26,7 +28,9 @@ const packImages = () => {
       './node_modules/govuk-frontend/dist/govuk/assets/images/*',
       // Images from the project
       'src/main/assets/images/*',
-    ]
+    ], {
+        encoding: false
+      }
   )
     .pipe(dest('src/main/public/assets/images'));
 };
@@ -38,7 +42,9 @@ const packSvg = () => {
       './node_modules/ccs-frontend-kit/Assets/svg/*',
       // SVG from the project
       'src/main/assets/svg/*',
-    ]
+    ], {
+          encoding: false
+      }
   )
     .pipe(dest('src/main/public/assets/svg'));
 };
@@ -48,7 +54,9 @@ const packFiles = () => {
     [
       // Files from the project
       'src/main/assets/files/*',
-    ]
+    ], {
+          encoding: false
+      }
   )
     .pipe(dest('src/main/public/assets/files'));
 };
@@ -68,7 +76,9 @@ const packScripts = () => {
       'src/main/assets/scripts/session/*.js',
       'src/main/assets/scripts/validations/*.js',
       'src/main/assets/scripts/application.js'
-    ]
+    ], {
+          encoding: false
+      }
   )
     .pipe(concat('bundle.js'))
     .pipe(minify())
@@ -81,7 +91,9 @@ const packStyles = () => {
       'src/main/assets/styles/application.css',
       'src/main/assets/styles/custom.css',
       'src/main/assets/styles/govuk_fac_style.css'
-    ]
+    ], {
+          encoding: false
+      }
   )
     .pipe(concat('bundle.min.css'))
     .pipe(minifyCSS())
