@@ -308,7 +308,7 @@ const EOI_REVIEW_RENDER = async (
         const time = data.substr(11, 5);
         if (i == 0) {
           expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
-            'DD MMMM YYYY'
+            'DD MMMM YYYY, HH:mm'
           );
         } else {
           expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
