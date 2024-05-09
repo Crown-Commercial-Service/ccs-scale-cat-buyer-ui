@@ -306,15 +306,9 @@ const EOI_REVIEW_RENDER = async (
         const data = expected_eoi_keydates[0].answer[i].values[0].value;
         const day = data.substr(0, 10);
         const time = data.substr(11, 5);
-        if (i == 0) {
-          expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
-            'DD MMMM YYYY'
-          );
-        } else {
           expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
             'DD MMMM YYYY, HH:mm'
           );
-        }
       }
 
       //  for (const tmp of eoi_data) {
