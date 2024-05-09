@@ -299,7 +299,7 @@ const EOI_REVIEW_RENDER = async (
       const expected_eoi_keydates = EOI_DATA_TIMELINE_DATES;
 
       expected_eoi_keydates[0].answer
-        .sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
+        .sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1));
 
       for (let i = 0; i < expected_eoi_keydates[0].answer.length; i++) {
         const data = expected_eoi_keydates[0].answer[i].values[0].value;
