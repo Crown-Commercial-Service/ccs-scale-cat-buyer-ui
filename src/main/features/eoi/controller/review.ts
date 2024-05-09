@@ -300,14 +300,13 @@ const EOI_REVIEW_RENDER = async (
 
       expected_eoi_keydates[0].answer
         .sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
-        .shift();
 
       for (let i = 0; i < expected_eoi_keydates[0].answer.length; i++) {
         const data = expected_eoi_keydates[0].answer[i].values[0].value;
         const day = data.substr(0, 10);
         const time = data.substr(11, 5);
           expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
-            'DD MMMM YYYY, HH:mm'
+            i === 0 ? 'DD MMMM YYYY' : 'DD MMMM YYYY, HH:mm'
           );
       }
 
