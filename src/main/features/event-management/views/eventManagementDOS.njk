@@ -558,6 +558,15 @@
                               </div>
                             </div>
 
+                        {% if (status == 'CLOSED' and supplierSummary.responded !=0) %}
+                            <h2 class="govuk-heading-m">5. Contact Unsuccessful Suppliers</h2>
+
+                            <p class="govuk-body">You will need to contact the unsuccessful suppliers.</p>
+
+                            <a class="govuk-link" href="/supplier-contact-information?download=1">Download Supplier Contact Info</a>
+
+                        {% endif %}
+
                           
                           {#<div class="govuk-grid-row ccs-page-section">#}
                           <div>
