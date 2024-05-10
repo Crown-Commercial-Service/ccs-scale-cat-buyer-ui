@@ -558,12 +558,12 @@
                               </div>
                             </div>
 
-                        {% if (status == 'CLOSED' and supplierSummary.responded !=0) %}
+                        {% if (status == 'CLOSED' and supplierSummary.responded !=0 and agreement_header['agreementIdSession'] == 'RM1043.8') %}
                             <h2 class="govuk-heading-m">5. Contact Unsuccessful Suppliers</h2>
 
                             <p class="govuk-body">You will need to contact the unsuccessful suppliers.</p>
 
-                            <a class="govuk-link" href="/supplier-contact-information?download=1">Download Supplier Contact Info</a>
+                            <a class="govuk-link" href="/supplier-contact-information?download=1">Supplier Contact Information</a>
 
                         {% endif %}
 

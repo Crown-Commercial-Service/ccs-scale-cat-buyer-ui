@@ -38,7 +38,7 @@ export const SUPPLIER_CONTACT_INFORMATION = async (req: express.Request, res: ex
                     SCORE: scoreData?.score || '',
                     INVITED_TO_STAGE_2: Boolean(invitedToStage2)
                 };
-            }).sort((a: any, b: any) => b.INVITED_TO_STAGE_2 - a.INVITED_TO_STAGE_2);
+            }).filter((supplier: any) => !supplier.INVITED_TO_STAGE_2);
 
             const csv = stringify(combinedList, {
                 header: true,
@@ -47,7 +47,6 @@ export const SUPPLIER_CONTACT_INFORMATION = async (req: express.Request, res: ex
                     {key: 'US_DUNS', header: 'US_DUNS'},
                     {key: 'CONTACT_EMAIL', header: 'CONTACT_EMAIL'},
                     {key: 'SCORE', header: 'SCORE'},
-                    {key: 'INVITED_TO_STAGE_2', header: 'INVITED_TO_STAGE_2'}
                 ],
                 cast: {
                     number: function (value) {
