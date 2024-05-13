@@ -1475,7 +1475,7 @@
                 <dd class="govuk-summary-list__value">
                   <p> 
                   {%if rfp_clarification_date !=undefined and rfp_clarification_date !=null and rfp_clarification_date !='' and rfp_clarification_date !='Invalid dateZ'%}  
-                  {{rfp_clarification_date | dateddmmyyyy}}
+                  {{rfp_clarification_date}}
                   {%endif%}
                   </p>
                 </dd>
@@ -1485,7 +1485,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !='' %}
-                      {{ rfp_clarification_period_end | dateddmmyyyy }}
+                      {{ rfp_clarification_period_end }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1495,7 +1495,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='') %}
-                      {{ deadline_period_for_clarification_period | dateddmmyyyy }}
+                      {{ deadline_period_for_clarification_period }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1505,7 +1505,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !='' %}
-                      {{ supplier_period_for_clarification_period | dateddmmyyyy }}
+                      {{ supplier_period_for_clarification_period }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1516,7 +1516,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_clarification_period !=undefined and supplier_dealine_for_clarification_period !=null and supplier_dealine_for_clarification_period  !='' %}
-                      {{ supplier_dealine_for_clarification_period | dateddmmyyyy }}
+                      {{ supplier_dealine_for_clarification_period }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1527,7 +1527,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !='' %}
-                      {{ supplier_dealine_evaluation_to_start | dateddmmyyyy }}
+                      {{ supplier_dealine_evaluation_to_start }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1540,7 +1540,7 @@
                   <dd class="govuk-summary-list__value">
                     <p>
                       {% if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !='' %}
-                        {{ supplier_dealine_expect_the_bidders | dateddmmyyyy }}
+                        {{ supplier_dealine_expect_the_bidders }}
                       {% else %}
                         Not included
                       {% endif %}
@@ -1555,7 +1555,7 @@
                   <dd class="govuk-summary-list__value">
                     <p>
                       {% if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !='' %}
-                        {{ supplier_dealine_for_pre_award | dateddmmyyyy }}
+                        {{ supplier_dealine_for_pre_award }}
                       {% else %}
                         Not included
                       {% endif %}
@@ -1570,7 +1570,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !='' %}
-                      {{ supplier_dealine_for_expect_to_award | dateddmmyyyy }}
+                      {{ supplier_dealine_for_expect_to_award }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1580,7 +1580,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !='' %}
-                      {{ supplier_dealine_sign_contract | dateddmmyyyy }}
+                      {{ supplier_dealine_sign_contract }}
                     {% endif %}
                   </p>
                 </dd>
@@ -1590,7 +1590,7 @@
                 <dd class="govuk-summary-list__value">
                   <p>
                     {% if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !='' %}
-                      {{ supplier_dealine_for_work_to_commence | dateddmmyyyy }}
+                      {{ supplier_dealine_for_work_to_commence }}
                     {% endif %}
                   </p>
                 </dd>
