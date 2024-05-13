@@ -3823,46 +3823,45 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (
       supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
       //rfp_clarification_date,
       rfp_clarification_date:
-        rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
+        rfp_clarification_date != undefined && rfp_clarification_date != null ? moment(rfp_clarification_date).format('DD MMMM YYYY') : null,
       rfp_clarification_period_end:
         rfp_clarification_period_end != undefined && rfp_clarification_period_end != null
-          ? rfp_clarification_period_end
-          : null,
+          ? moment(rfp_clarification_period_end).format('DD MMMM YYYY, HH:mm')          : null,
       deadline_period_for_clarification_period:
         deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null
-          ? deadline_period_for_clarification_period
+          ? moment(deadline_period_for_clarification_period).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_period_for_clarification_period:
         supplier_period_for_clarification_period != undefined && supplier_period_for_clarification_period != null
-          ? supplier_period_for_clarification_period
+          ? moment(supplier_period_for_clarification_period).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_for_clarification_period:
         supplier_dealine_for_clarification_period != undefined && supplier_dealine_for_clarification_period != null
-          ? supplier_dealine_for_clarification_period
+          ? moment(supplier_dealine_for_clarification_period).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_evaluation_to_start:
         supplier_dealine_evaluation_to_start != undefined && supplier_dealine_evaluation_to_start != null
-          ? supplier_dealine_evaluation_to_start
+          ? moment(supplier_dealine_evaluation_to_start).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_expect_the_bidders:
         supplier_dealine_expect_the_bidders != undefined && supplier_dealine_expect_the_bidders != null
-          ? supplier_dealine_expect_the_bidders
+          ? moment(supplier_dealine_expect_the_bidders).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_for_pre_award:
         supplier_dealine_for_pre_award != undefined && supplier_dealine_for_pre_award != null
-          ? supplier_dealine_for_pre_award
+          ? moment(supplier_dealine_for_pre_award).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_for_expect_to_award:
         supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null
-          ? supplier_dealine_for_expect_to_award
+          ? moment(supplier_dealine_for_expect_to_award).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_sign_contract:
         supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null
-          ? supplier_dealine_sign_contract
+          ? moment(supplier_dealine_sign_contract).format('DD MMMM YYYY, HH:mm')
           : null,
       supplier_dealine_for_work_to_commence:
         supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null
-          ? supplier_dealine_for_work_to_commence
+          ? moment(supplier_dealine_for_work_to_commence).format('DD MMMM YYYY, HH:mm')
           : null,
       resourceQuntityCount:
         resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
