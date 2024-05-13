@@ -12,6 +12,7 @@ import momentz from 'moment-timezone';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { logConstant } from '../../../common/logtracer/logConstant';
 import { ppg } from 'main/services/publicProcurementGateway';
+import {operations} from '@utils/operations/operations';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -298,23 +299,15 @@ const EOI_REVIEW_RENDER = async (
 
       const expected_eoi_keydates = EOI_DATA_TIMELINE_DATES;
 
-      expected_eoi_keydates[0].answer
-        .sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
-        .shift();
+      operations.sortByFirstWord(expected_eoi_keydates[0].answer);
 
       for (let i = 0; i < expected_eoi_keydates[0].answer.length; i++) {
         const data = expected_eoi_keydates[0].answer[i].values[0].value;
         const day = data.substr(0, 10);
         const time = data.substr(11, 5);
-        if (i == 0) {
           expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
-            'DD MMMM YYYY'
+            i === 0 ? 'DD MMMM YYYY' : 'DD MMMM YYYY, HH:mm'
           );
-        } else {
-          expected_eoi_keydates[0].answer[i].values[0].value = moment(day + ' ' + time, 'YYYY-MM-DD HH:mm').format(
-            'DD MMMM YYYY, HH:mm'
-          );
-        }
       }
 
       //  for (const tmp of eoi_data) {
