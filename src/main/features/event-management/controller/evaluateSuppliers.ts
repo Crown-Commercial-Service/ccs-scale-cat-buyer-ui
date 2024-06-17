@@ -155,6 +155,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       let checkcount = 0;
       let ConfirmFlag = false;
       let CountConfirmFlag = false;
+      let ZeroEdited = false;
       //count of completionstatus="yes" == count of responders
       for (let k = 0; k < supplierName.length; k++) {
         if (supplierName[k].completionStatus == 'Yes' && supplierName[k].responseState == 'Submitted') {
@@ -165,6 +166,9 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       }
       if (count == submittedCount) {
         ConfirmFlag = true;
+      }
+      if (count === 0) {
+        ZeroEdited = true;
       }
       if (count >= 1) {
         CountConfirmFlag = true;
@@ -189,6 +193,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         lotid,
         ConfirmFlag,
         CountConfirmFlag,
+        ZeroEdited,
         checkcount,
         ScoresAndFeedbackURLdata,
         data: eventManagementData,
