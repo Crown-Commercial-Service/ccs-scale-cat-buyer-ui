@@ -17,11 +17,9 @@
         <input type="hidden" id="eventid_popup"> 
 
         {% endif %}
-        {% if(params.type == 'supplierConfirmAllPopup' or params.type == 'checksupplierConfirmAllPopup') %}
-          {% if not params.scored %}
-            <a href="/evaluate-confirm" id="redirect-button-{{params.type}}" class="dialog-close-{{params.type}} button dialog-button govuk-button govuk-link govuk-link--no-visited-state">Continue</a>
-          {% endif %}
-        {% elseif(params.type == 'sessionTimeoutPopup') %}
+        {% if(params.type == 'supplierConfirmAllPopup'  or params.type == 'checksupplierConfirmAllPopup') %}
+        <a href="/evaluate-confirm" id="redirect-button-{{params.type}}" class="dialog-close-{{params.type}} button dialog-button govuk-button govuk-link govuk-link--no-visited-state">Continue</a>
+       {% elseif(params.type == 'sessionTimeoutPopup') %}
         <a href="#" id="redirect-button-{{params.type}}" class="dialog-close-{{params.type}} button dialog-button govuk-button govuk-link govuk-link--no-visited-state">Continue</a>
        {% elseif(params.type == 'projectCloseAllPopup') %}
         <a href="#" id="redirect-button-{{params.type}}" class="dialog-close-{{params.type}} button dialog-button govuk-button govuk-link govuk-link--no-visited-state">Continue</a>
