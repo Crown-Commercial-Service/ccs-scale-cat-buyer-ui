@@ -314,29 +314,21 @@
 }}
 {% endif %}
 {% if (agreementId_session == 'RM1043.8') %}
+       {{ 
     {% if ZeroEdited %}
+  CCSDialog({
         {% set popTitle = "No suppliers scored" %}
+    title: popTitle,
         {% set popDescription = "You must give a score to at least one of the suppliers. Please click 'Return' to edit your scores." %}
+    description:popDescription,
         {{
+    redirect:'#',
             CCSDialog({
+    type:'checksupplierConfirmAllPopup'
                 title: popTitle,
+  }) 
                 description:popDescription,
-                redirect:'#',
-                type:'checksupplierConfirmAllPopup',
-                scored:true
-            })
-        }}
-    {% else %}
-        {{
-            CCSDialog({
-                title: popTitle,
-                description:popDescription,
-                redirect:'#',
-                type:'checksupplierConfirmAllPopup',
-                scored:false
-            })
-        }}
-    {% endif %}
+}}
 {% endif %}
 {# Popup End #}
 
