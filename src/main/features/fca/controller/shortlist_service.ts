@@ -166,6 +166,12 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
     const resultScoreSupplierIds = resultScoreSupplier.map((value: any) => value.supplier.id);
     /*patch */
     const MatchedSupplierIDS: any = [];
+
+    console.log('here-> 080824.i');
+    console.log(421, supplierIDSData['supplierIDS']);
+    console.log(422, resultScoreSupplierIds);
+    console.log('end-> 080824.i');
+
     for (let i = 0; i < resultScoreSupplierIds.length; i++) {
       if (supplierIDSData['supplierIDS'].includes(resultScoreSupplierIds[i]))
         MatchedSupplierIDS.push(resultScoreSupplierIds[i]);
@@ -193,6 +199,11 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
           ? 1
           : 0
     );
+
+    console.log('here-> 080824.ii');
+    console.log(423, supplierList);
+    console.log('end-> 080824.ii');
+
     const supplierLength = supplierList.length;
     const supplierPostIds = supplierList.map((value: any) => value.organization.id);
     if (supplierPostIds.length > 0) {
@@ -200,6 +211,10 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
     } else {
       req.session['PAShortlistedSuppliers'] = [];
     }
+
+    console.log('here-> 080824.iii');
+    console.log(424, supplierPostIds);
+    console.log('end-> 080824.iii');
 
     //Step 80 Is that completed
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
