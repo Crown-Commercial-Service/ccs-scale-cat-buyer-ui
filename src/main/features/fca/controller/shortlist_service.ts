@@ -162,6 +162,11 @@ export const SHORTLIST_SERVICE = async (req: express.Request, res: express.Respo
     const maxResult = weightGet * lengthGet;
     const scoreArray = supplierScoreList.scores;
     const resultScoreSupplier = scoreArray.filter((el: any) => el.total == maxResult);
+    console.log('here-> 080824.0');
+    console.log(418, JSON.stringify(supplierScoreList).trim());
+    console.log(419, scoreArray.toString().trim());
+    console.log(420, resultScoreSupplier.toString().trim());
+    console.log('end-> 080824.0');
     //const resultScoreSupplier=scoreArray;
     const resultScoreSupplierIds = resultScoreSupplier.map((value: any) => value.supplier.id);
     /*patch */
