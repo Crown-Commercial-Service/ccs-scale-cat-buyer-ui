@@ -26,7 +26,7 @@
         "watch-assets": "gulp watchAssets"
     },
     "dependencies": {
-        "@hmcts/nodejs-healthcheck": "^1.8.5",
+        "@hmcts/nodejs-healthcheck": "^1.8.6",
         "@hmcts/nodejs-logging": "^4.0.0",
         "@nubz/gds-validation": "^2.4.0",
         "@types/config": "^3.3.4",
@@ -59,7 +59,7 @@
         "express": "^4.19.2",
         "express-fileupload": "^1.5.0",
         "express-session": "^1.18.0",
-        "form-data": "^4.0.0",
+        "form-data": "^4.0.4",
         "govuk-frontend": "^5.2.0",
         "helmet": "^7.1.0",
         "jquery": "^3.7.1",
