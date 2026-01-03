@@ -26,7 +26,7 @@
         "watch-assets": "gulp watchAssets"
     },
     "dependencies": {
-        "@hmcts/nodejs-healthcheck": "^1.8.5",
+        "@hmcts/nodejs-healthcheck": "^1.8.6",
         "@hmcts/nodejs-logging": "^4.0.0",
         "@nubz/gds-validation": "^2.4.0",
         "@types/config": "^3.3.4",
@@ -56,7 +56,7 @@
         "del": "^7.1.0",
         "dotenv": "^16.4.5",
         "exceljs": "^4.4.0",
-        "express": "^4.19.2",
+        "express": "^4.22.0",
         "express-fileupload": "^1.5.0",
         "express-session": "^1.18.0",
         "form-data": "^4.0.0",
